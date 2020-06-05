@@ -66,6 +66,6 @@ public class MainFragment extends BaseContainerFragment implements ClickUtils.On
 
     @Override
     public void onExit() {
-        XUtil.get().exitApp();
+        XUtil.exitApp();
     }
 }

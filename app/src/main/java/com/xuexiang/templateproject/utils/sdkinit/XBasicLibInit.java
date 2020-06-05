@@ -66,7 +66,6 @@ public final class XBasicLibInit {
      * 初始化XUtil工具类
      */
     private static void initXUtil(Application application) {
-        XUtil.init(application);
         XUtil.debug(MyApp.isDebug());
     }
 
