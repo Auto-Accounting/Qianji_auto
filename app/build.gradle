@@ -13,7 +13,7 @@ android {
         minSdkVersion 17
         targetSdkVersion build_versions.target_sdk
         versionCode 29
-        versionName "1.5.1b4"
+        versionName "1.5.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true

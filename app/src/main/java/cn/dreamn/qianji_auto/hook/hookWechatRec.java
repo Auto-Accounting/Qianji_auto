@@ -51,7 +51,7 @@ public class hookWechatRec implements IXposedHookLoadPackage {
         }
 
         //微信支付渠道确定的支付
-       // hookPay(lpparam);
+        hookPay(lpparam);
     }
     /**
      * hookLog
