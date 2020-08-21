@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--侧边栏-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/main_tab"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_state"
+            android:icon="@drawable/ic_set"
+            android:title="@string/menu_state" />
+
+    </group>
+
+    <group
+        android:id="@+id/other"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_set"
+            android:checkable="false"
+            android:icon="@drawable/ic_set"
+            android:title="@string/menu_settings" />
+
+        <item
+            android:id="@+id/nav_map"
+            android:checkable="false"
+            android:icon="@drawable/ic_map"
+            android:title="@string/menu_map" />
+
+        <item
+            android:id="@+id/nav_learn"
+            android:checkable="false"
+            android:icon="@drawable/ic_learn"
+            android:title="@string/menu_learn" />
+        <item
+            android:id="@+id/nav_log"
+            android:checkable="false"
+            android:icon="@drawable/ic_log"
+            android:title="@string/menu_log" />
+    </group>
+
+    <group
+        android:id="@+id/setting"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_help"
+            android:checkable="false"
+            android:icon="@drawable/ic_help"
+            android:title="@string/menu_help" />
+        <item
+            android:id="@+id/nav_about"
+            android:checkable="false"
+            android:icon="@drawable/ic_about"
+            android:title="@string/menu_about" />
+    </group>
+
+
+</menu>

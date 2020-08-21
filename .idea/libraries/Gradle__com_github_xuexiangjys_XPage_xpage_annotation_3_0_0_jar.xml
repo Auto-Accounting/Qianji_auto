@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.xuexiangjys.XPage:xpage-annotation:3.0.0@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.xuexiangjys.XPage/xpage-annotation/3.0.0/ed61b66c43910f8abdb118d9e9d4e7ff6bc886ec/xpage-annotation-3.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.xuexiangjys.XPage/xpage-annotation/3.0.0/dd9ee8519f1314af7d9c38bab6130982ecefc7cf/xpage-annotation-3.0.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.xuexiangjys.XPage/xpage-annotation/3.0.0/4321baf5952da8207b953b7e5ba44747053b7d72/xpage-annotation-3.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

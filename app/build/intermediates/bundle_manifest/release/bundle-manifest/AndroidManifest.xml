@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cn.dreamn.qianji_auto"
+    android:versionCode="28"
+    android:versionName="1.5.1b3" >
+
+    <uses-sdk
+        android:minSdkVersion="17"
+        android:targetSdkVersion="28" />
+
+    <!-- 手机存储 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- 进程杀死 -->
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" /> <!-- 文件读写权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 网络权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <application
+        android:name="cn.dreamn.qianji_auto.MyApp"
+        android:allowBackup="false"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:windowSoftInputMode="adjustPan|stateHidden" >
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="借助于第三方app的自动记账接口，实现对第三方app自动记账" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="30" />
+
+        <activity
+            android:name="cn.dreamn.qianji_auto.activity.MainActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- fragment的页面容器 -->
+        <activity
+            android:name="cn.dreamn.qianji_auto.core.BaseActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <!-- applink的中转页面 -->
+        <activity
+            android:name="cn.dreamn.qianji_auto.core.XPageTransferActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+
+        <!-- 屏幕自适应设计图 -->
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="360" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="640" />
+
+        <provider
+            android:name="me.jessyan.autosize.InitProvider"
+            android:authorities="cn.dreamn.qianji_auto.autosize-init-provider"
+            android:exported="false"
+            android:multiprocess="true" />
+
+        <activity
+            android:name="com.xuexiang.xutil.system.PermissionUtils$PermissionActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/XUtil_Activity_Translucent"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider4Utils"
+            android:authorities="cn.dreamn.qianji_auto.xutil.provider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/xutil_provider_paths" />
+        </provider>
+
+        <activity
+            android:name="com.xuexiang.xui.widget.imageview.preview.ui.PreviewActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.xuexiang.xui.widget.imageview.preview.ui.VideoPlayerActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.xuexiang.xaop.util.PermissionUtils$PermissionActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AOP_Activity_Translucent"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+
+        <service android:name="com.xuexiang.xupdate.service.DownloadService" />
+
+        <provider
+            android:name="com.xuexiang.xupdate.utils.UpdateFileProvider"
+            android:authorities="cn.dreamn.qianji_auto.updateFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/update_file_paths" />
+        </provider>
+
+        <activity
+            android:name="com.xuexiang.xupdate.widget.UpdateDialogActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+            android:theme="@style/XUpdate_DialogTheme" />
+    </application>
+
+</manifest>

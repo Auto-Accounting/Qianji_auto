@@ -1,0 +1,125 @@
+apply plugin: 'com.android.application'
+//打包时，记得设置true启用
+if (isNeedPackage.toBoolean() && isUseBooster.toBoolean()) {
+    apply plugin: 'com.didiglobal.booster'
+}
+
+android {
+    compileSdkVersion build_versions.target_sdk
+    buildToolsVersion build_versions.build_tools
+
+    defaultConfig {
+        applicationId "cn.dreamn.qianji_auto"
+        minSdkVersion 17
+        targetSdkVersion build_versions.target_sdk
+        versionCode 29
+        versionName "1.5.1b4"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]
+            }
+        }
+    }
+
+    signingConfigs {
+        if (isNeedPackage.toBoolean()) {
+            release {
+                storeFile file(app_release.storeFile)
+                storePassword app_release.storePassword
+                keyAlias app_release.keyAlias
+                keyPassword app_release.keyPassword
+            }
+        }
+
+        debug {
+            storeFile file("/Users/ankio/Documents/Sync/SourceCode/Andriod/key/mykey")
+            storePassword "01150929xgj"
+            keyAlias "dreamn"
+            keyPassword "01150929xgj"
+        }
+    }
+
+    buildTypes {
+        release {
+
+            if (isNeedPackage.toBoolean()) {
+                signingConfig signingConfigs.release
+
+                Properties properties = new Properties()
+                properties.load(project.rootProject.file('local.properties').newDataInputStream())
+                def appID = properties.getProperty("APP_ID_UMENG")
+                if (appID != null) {
+                    buildConfigField "String", "APP_ID_UMENG", appID
+                } else {
+                    buildConfigField "String", "APP_ID_UMENG", '""'
+                }
+            } else {
+                signingConfig signingConfigs.debug
+                buildConfigField "String", "APP_ID_UMENG", '""'
+            }
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+
+            signingConfig signingConfigs.debug
+            buildConfigField "String", "APP_ID_UMENG", '""'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation deps.junit
+    androidTestImplementation deps.runner
+    androidTestImplementation deps.espresso.core
+
+    //分包
+    implementation deps.androidx.multidex
+
+    implementation 'com.alibaba.android:vlayout:1.2.36'
+    //下拉刷新
+    implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-header:1.1.5'
+    implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-layout:1.1.5'
+
+    //腾讯的键值对存储mmkv
+    implementation 'com.tencent:mmkv:1.0.22'
+    //屏幕适配AutoSize
+    implementation 'me.jessyan:autosize:1.1.2'
+
+
+
+
+
+    compileOnly 'de.robv.android.xposed:api:82'
+    compileOnly 'de.robv.android.xposed:api:82:sources'
+
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.guava:guava:29.0-jre'
+    implementation 'com.alibaba:fastjson:1.2.72'
+
+
+    implementation 'org.jdom:jdom:1.1.3'
+    //列表侧滑菜单
+    implementation 'com.yanzhenjie.recyclerview:support:1.3.2'
+}
+//自动添加X-Library依赖
+apply from: 'x-library.gradle'
+
+
+

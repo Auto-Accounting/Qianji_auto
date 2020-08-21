@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.xuexiangjys.XRouter:xrouter-runtime:1.0.1@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e39776290489658d573524a52140a615/jetified-xrouter-runtime-1.0.1/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e39776290489658d573524a52140a615/jetified-xrouter-runtime-1.0.1/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e39776290489658d573524a52140a615/jetified-xrouter-runtime-1.0.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e39776290489658d573524a52140a615/jetified-xrouter-runtime-1.0.1/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.xuexiangjys.XRouter/xrouter-runtime/1.0.1/4b8c66f9f1ae3c92db298cd12c222289dd963c42/xrouter-runtime-1.0.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.xuexiangjys.XRouter/xrouter-runtime/1.0.1/9502409a06b197cb8b42f46c91a4a39505530c0b/xrouter-runtime-1.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

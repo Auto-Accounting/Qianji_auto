@@ -1,0 +1,27 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    apply from: './versions.gradle'
+    addRepos(repositories) //增加代码仓库
+    dependencies {
+        classpath deps.android_gradle_plugin
+        classpath deps.android_maven_gradle_plugin
+
+
+     
+        if (isNeedPackage.toBoolean() && isUseBooster.toBoolean()) {
+            classpath deps.booster.gradle_plugin
+            classpath deps.booster.task_all
+            classpath deps.booster.transform_all
+        }
+    }
+}
+
+allprojects {
+    addRepos(repositories)
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+

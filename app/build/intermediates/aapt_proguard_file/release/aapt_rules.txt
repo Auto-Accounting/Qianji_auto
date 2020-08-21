@@ -1,0 +1,335 @@
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:25
+-keep class androidx.core.app.CoreComponentFactory { <init>(); }
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:92
+-keep class androidx.core.content.FileProvider4Utils { <init>(); }
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:25
+-keep class cn.dreamn.qianji_auto.MyApp { <init>(); }
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:47
+-keep class cn.dreamn.qianji_auto.activity.MainActivity { <init>(); }
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:60
+-keep class cn.dreamn.qianji_auto.core.BaseActivity { <init>(); }
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:66
+-keep class cn.dreamn.qianji_auto.core.XPageTransferActivity { <init>(); }
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:108
+-keep class com.xuexiang.xaop.util.PermissionUtils$PermissionActivity { <init>(); }
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:102
+-keep class com.xuexiang.xui.widget.imageview.preview.ui.PreviewActivity { <init>(); }
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:105
+-keep class com.xuexiang.xui.widget.imageview.preview.ui.VideoPlayerActivity { <init>(); }
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:114
+-keep class com.xuexiang.xupdate.service.DownloadService { <init>(); }
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:116
+-keep class com.xuexiang.xupdate.utils.UpdateFileProvider { <init>(); }
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:126
+-keep class com.xuexiang.xupdate.widget.UpdateDialogActivity { <init>(); }
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:86
+-keep class com.xuexiang.xutil.system.PermissionUtils$PermissionActivity { <init>(); }
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/release/AndroidManifest.xml:80
+-keep class me.jessyan.autosize.InitProvider { <init>(); }
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_alert_dialog_button_bar_material.xml:43
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_alert_dialog_material.xml:52
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_alert_dialog_title_material.xml:57
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_alert_dialog.xml:51
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_alert_dialog_actions.xml:45
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_alert_dialog_title.xml:41
+-keep class android.widget.Space { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_select_dialog_material.xml:23
+-keep class androidx.appcompat.app.AlertController$RecycleListView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_action_menu_item_layout.xml:17
+-keep class androidx.appcompat.view.menu.ActionMenuItemView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_expanded_menu_layout.xml:17
+-keep class androidx.appcompat.view.menu.ExpandedMenuView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_cascading_menu_item_layout.xml:20
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_list_menu_item_layout.xml:17
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_popup_menu_item_layout.xml:17
+-keep class androidx.appcompat.view.menu.ListMenuItemView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_screen_toolbar.xml:27
+-keep class androidx.appcompat.widget.ActionBarContainer { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_action_mode_bar.xml:19
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_screen_toolbar.xml:43
+-keep class androidx.appcompat.widget.ActionBarContextView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_screen_toolbar.xml:17
+-keep class androidx.appcompat.widget.ActionBarOverlayLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_action_menu_layout.xml:17
+-keep class androidx.appcompat.widget.ActionMenuView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_activity_chooser_view.xml:19
+-keep class androidx.appcompat.widget.ActivityChooserView$InnerLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_alert_dialog_material.xml:18
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_alert_dialog.xml:17
+-keep class androidx.appcompat.widget.AlertDialogLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_listitem_multichoice.xml:17
+-keep class androidx.appcompat.widget.AppCompatCheckBox { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_multiline_edittext.xml:9
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_search_view.xml:49
+-keep class androidx.appcompat.widget.AppCompatEditText { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_search_view.xml:44
+-keep class androidx.appcompat.widget.AppCompatImageButton { <init>(...); }
+
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_about.xml:36
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/gcv_layout_image.xml:6
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_preference_custom.xml:14
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_simplelist_item.xml:33
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_stub_titleframe.xml:14
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_stub_titleframe_lesspadding.xml:14
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/msv_layout_empty_view.xml:11
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/msv_layout_error_view.xml:11
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/msv_layout_no_network_view.xml:11
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/preview_fragment_image_photo.xml:24
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_adapter_listview_simple_item.xml:15
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_adapter_simple_guide.xml:6
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_adapter_simple_image.xml:7
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_bottom_sheet_grid_item.xml:14
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_bottom_sheet_grid_item_subscript.xml:2
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_bottom_sheet_list_item.xml:11
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_bottom_sheet_list_item_mark.xml:2
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_common_list_item.xml:22
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_common_list_item_tip_new.xml:17
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_cookie.xml:31
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_crop_image_view.xml:22
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_edit_spinner.xml:14
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_expand_child_item.xml:27
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_expand_group_item.xml:27
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_photo_editor_image.xml:24
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_photo_editor_text.xml:43
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_popup.xml:14
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_search_view_suggest_item.xml:33
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_stateful_template.xml:21
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_xtoast.xml:12
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/res/layout/xupdate_dialog_app.xml:31
+-keep class androidx.appcompat.widget.AppCompatImageView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_listitem_singlechoice.xml:17
+-keep class androidx.appcompat.widget.AppCompatRadioButton { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_alert_dialog_button_bar_material.xml:26
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_alert_dialog_actions.xml:26
+-keep class androidx.appcompat.widget.ButtonBarLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_screen_content_include.xml:19
+-keep class androidx.appcompat.widget.ContentFrameLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_alert_dialog_title_material.xml:45
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_alert_dialog_title.xml:36
+-keep class androidx.appcompat.widget.DialogTitle { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_screen_simple_overlay_action_mode.xml:23
+-keep class androidx.appcompat.widget.FitWindowsFrameLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_dialog_title_material.xml:22
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_screen_simple.xml:17
+-keep class androidx.appcompat.widget.FitWindowsLinearLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_search_view.xml:75
+-keep class androidx.appcompat.widget.SearchView$SearchAutoComplete { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_screen_toolbar.xml:36
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/layout_main_content.xml:14
+-keep class androidx.appcompat.widget.Toolbar { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_screen_simple.xml:25
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_screen_simple_overlay_action_mode.xml:32
+-keep class androidx.appcompat.widget.ViewStubCompat { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/design_bottom_sheet_dialog.xml:26
+-keep class androidx.coordinatorlayout.widget.CoordinatorLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/69abfcb7c1943595184a8b14a287fa34/appcompat-1.1.0/res/layout/abc_alert_dialog_material.xml:41
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_about.xml:25
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_settings.xml:12
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_state.xml:11
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_alert_dialog.xml:40
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/res/layout/xupdate_dialog_app.xml:38
+-keep class androidx.core.widget.NestedScrollView { <init>(...); }
+
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/activity_main.xml:4
+-keep class androidx.drawerlayout.widget.DrawerLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_dialog_list.xml:56
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_dialog_list_check.xml:56
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_calendar_horizontal.xml:29
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_calendar_months.xml:18
+-keep class androidx.recyclerview.widget.RecyclerView { <init>(...); }
+
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_learn.xml:18
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_log.xml:18
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_map.xml:18
+-keep class androidx.swiperefreshlayout.widget.SwipeRefreshLayout { <init>(...); }
+
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/layout_main_content.xml:25
+-keep class androidx.viewpager.widget.ViewPager { <init>(...); }
+
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/layout_main_content.xml:8
+-keep class com.google.android.material.appbar.AppBarLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/test_toolbar.xml:16
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/test_toolbar_custom_background.xml:16
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/test_toolbar_elevation.xml:16
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/test_toolbar_surface.xml:16
+-keep class com.google.android.material.appbar.MaterialToolbar { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_calendar_month_navigation.xml:32
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_picker_header_fullscreen.xml:36
+-keep class com.google.android.material.button.MaterialButton { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/test_action_chip.xml:17
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/test_reflow_chipgroup.xml:25
+-keep class com.google.android.material.chip.Chip { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/test_reflow_chipgroup.xml:19
+-keep class com.google.android.material.chip.ChipGroup { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_calendar_month.xml:18
+-keep class com.google.android.material.datepicker.MaterialCalendarGridView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/design_bottom_navigation_item.xml:27
+-keep class com.google.android.material.internal.BaselineLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/design_text_input_end_icon.xml:18
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/design_text_input_start_icon.xml:18
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_picker_header_toggle.xml:18
+-keep class com.google.android.material.internal.CheckableImageButton { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/design_navigation_item.xml:17
+-keep class com.google.android.material.internal.NavigationMenuItemView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/design_navigation_menu.xml:17
+-keep class com.google.android.material.internal.NavigationMenuView { <init>(...); }
+
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/activity_main.xml:19
+-keep class com.google.android.material.navigation.NavigationView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/design_layout_snackbar.xml:18
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_layout_snackbar.xml:18
+-keep class com.google.android.material.snackbar.Snackbar$SnackbarLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/design_layout_snackbar_include.xml:18
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_layout_snackbar_include.xml:18
+-keep class com.google.android.material.snackbar.SnackbarContentLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_picker_text_input_date.xml:31
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_picker_text_input_date_range.xml:32
+-keep class com.google.android.material.textfield.TextInputEditText { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_picker_text_input_date.xml:26
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/mtrl_picker_text_input_date_range.xml:26
+-keep class com.google.android.material.textfield.TextInputLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/text_view_with_line_height_from_appearance.xml:17
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/text_view_with_line_height_from_layout.xml:17
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/text_view_with_line_height_from_style.xml:17
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/text_view_with_theme_line_height.xml:17
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/7096db67f62f517624285824609b4570/material-1.1.0/res/layout/text_view_without_line_height.xml:17
+-keep class com.google.android.material.textview.MaterialTextView { <init>(...); }
+
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_about.xml:23
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_settings.xml:10
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_state.xml:9
+-keep class com.scwang.smartrefresh.layout.SmartRefreshLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_include_titlebar.xml:2
+-keep class com.xuexiang.xui.widget.actionbar.TitleBar { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_stateful_template.xml:36
+-keep class com.xuexiang.xui.widget.alpha.XUIAlphaButton { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_adapter_simple_guide.xml:12
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_bottom_sheet_grid.xml:54
+-keep class com.xuexiang.xui.widget.alpha.XUIAlphaTextView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_activity_guide.xml:6
+-keep class com.xuexiang.xui.widget.banner.widget.banner.SimpleGuideBanner { <init>(...); }
+
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/include_head_view_banner.xml:2
+-keep class com.xuexiang.xui.widget.banner.widget.banner.SimpleImageBanner { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_bottom_sheet_grid_item.xml:2
+-keep class com.xuexiang.xui.widget.dialog.bottomsheet.BottomSheetItemView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_stub_actionbuttons.xml:22
+-keep class com.xuexiang.xui.widget.dialog.materialdialog.internal.MDButton { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_dialog_basic.xml:18
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_dialog_basic_check.xml:18
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_dialog_custom.xml:18
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_dialog_input.xml:18
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_dialog_input_check.xml:18
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_dialog_list.xml:18
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_dialog_list_check.xml:18
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_dialog_progress.xml:18
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_dialog_progress_indeterminate.xml:18
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/md_layout_dialog_progress_indeterminate_horizontal.xml:18
+-keep class com.xuexiang.xui.widget.dialog.materialdialog.internal.MDRootLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_verify_code.xml:17
+-keep class com.xuexiang.xui.widget.edittext.verify.PwdEditText { <init>(...); }
+
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_about.xml:58
+-keep class com.xuexiang.xui.widget.grouplist.XUIGroupListView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_crop_image_view.xml:30
+-keep class com.xuexiang.xui.widget.imageview.crop.CropOverlayView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/preview_activity_image_photo.xml:26
+-keep class com.xuexiang.xui.widget.imageview.preview.view.BezierBannerView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/preview_activity_image_photo.xml:8
+-keep class com.xuexiang.xui.widget.imageview.preview.view.PhotoViewPager { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/preview_fragment_image_photo.xml:9
+-keep class com.xuexiang.xui.widget.imageview.preview.view.SmoothImageView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_picker_view_options.xml:34
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_picker_view_options_dialog.xml:37
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_picker_view_time.xml:36
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_picker_view_time_dialog.xml:38
+-keep class com.xuexiang.xui.widget.picker.wheelview.WheelView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_loading_view.xml:22
+-keep class com.xuexiang.xui.widget.progress.loading.ARCLoadingView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_dialog_loading_mini.xml:14
+-keep class com.xuexiang.xui.widget.progress.loading.MiniLoadingView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/msv_layout_loading_view.xml:9
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/preview_fragment_image_photo.xml:15
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/xui_layout_stateful_template.xml:14
+-keep class com.xuexiang.xui.widget.progress.materialprogressbar.MaterialProgressBar { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/res/layout/marqueen_layout_notice_item.xml:2
+-keep class com.xuexiang.xui.widget.textview.AutoMoveTextView { <init>(...); }
+
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_learn.xml:10
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_log.xml:10
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_map.xml:10
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_settings.xml:29
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_state.xml:19
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/map_list.xml:10
+-keep class com.xuexiang.xui.widget.textview.supertextview.SuperTextView { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/res/layout/xupdate_dialog_app.xml:99
+-keep class com.xuexiang.xupdate.widget.NumberProgressBar { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/98a3ac6f2cbb6ba3634f1a92f4dbe7c6/jetified-support-1.3.2/res/layout/support_recycler_view_item.xml:17
+-keep class com.yanzhenjie.recyclerview.SwipeMenuLayout { <init>(...); }
+
+# Referenced at /Users/ankio/.gradle/caches/transforms-2/files-2.1/98a3ac6f2cbb6ba3634f1a92f4dbe7c6/jetified-support-1.3.2/res/layout/support_recycler_view_item.xml:26
+-keep class com.yanzhenjie.recyclerview.SwipeMenuView { <init>(...); }
+
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_learn.xml:23
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_log.xml:23
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_map.xml:23
+-keep class com.yanzhenjie.recyclerview.SwipeRecyclerView { <init>(...); }
+

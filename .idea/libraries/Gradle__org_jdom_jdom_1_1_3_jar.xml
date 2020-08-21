@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: org.jdom:jdom:1.1.3@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jdom/jdom/1.1.3/8bdfeb39fa929c35f5e4f0b02d34350db39a1efc/jdom-1.1.3.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jdom/jdom/1.1.3/adef4cfe550c6bb4bd4e983fe5d9a6d3bb1b8ec7/jdom-1.1.3-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jdom/jdom/1.1.3/b8b961a9f20d1faf160681c49f773a66b87efd63/jdom-1.1.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

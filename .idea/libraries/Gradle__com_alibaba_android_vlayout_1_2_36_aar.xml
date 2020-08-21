@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="Gradle: com.alibaba.android:vlayout:1.2.36@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d4107e1669fba0103158afe006a2512a/jetified-vlayout-1.2.36/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d4107e1669fba0103158afe006a2512a/jetified-vlayout-1.2.36/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d4107e1669fba0103158afe006a2512a/jetified-vlayout-1.2.36/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d4107e1669fba0103158afe006a2512a/jetified-vlayout-1.2.36/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.alibaba.android/vlayout/1.2.36/79889ced5f27efdb14d4761fc8f4f67728f590e6/vlayout-1.2.36-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.alibaba.android/vlayout/1.2.36/3aea9d7df824f04b1ac9ff886f7760412a3e4135/vlayout-1.2.36-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

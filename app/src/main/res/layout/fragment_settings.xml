@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout style="@style/PullDownStyle">
+
+        <androidx.core.widget.NestedScrollView style="@style/ScrollViewStyle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:textColor="@color/cardview_dark_background"
+                    android:text="自动记账开关"
+                    tools:ignore="PrivateResource" />
+
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/set_pay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+
+                    app:sLeftTopTextString="支出全自动记账"
+                    app:sLeftTopTextSize="18dp"
+                    app:sLeftBottomTextString="记账不再需要手动选择分类"
+                    app:sLeftBottomTextSize="15dp"
+                    app:sLeftBottomTextColor="@color/xui_config_color_gray_5"
+                    app:sLeftViewGravity="left_center"
+                    app:sRightViewType="switchBtn"
+                    app:sSwitchIsChecked="true"
+                    app:sThumbResource="@drawable/thumb"
+                    app:sTrackResource="@drawable/track" />
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/set_earn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    app:sLeftTopTextString="收入全自动记账"
+                    app:sLeftTopTextSize="18dp"
+                    app:sLeftBottomTextString="关闭则点击通知处理收款信息"
+                    app:sLeftBottomTextSize="15dp"
+                    app:sLeftBottomTextColor="@color/xui_config_color_gray_5"
+                    app:sLeftViewGravity="left_center"
+                    app:sRightViewType="switchBtn"
+                    app:sSwitchIsChecked="true"
+                    app:sThumbResource="@drawable/thumb"
+                    app:sTrackResource="@drawable/track" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:textColor="@color/cardview_dark_background"
+                    android:text="自动记账账本配置"
+                    tools:ignore="PrivateResource" />
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/set_bookname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    app:sCenterTopTextString=""
+                    app:sCenterTopTextSize="18dp"
+                    app:sCenterTopTextColor="@color/xui_config_color_edittext_input_text"
+                    app:sCenterBottomTextString="钱迹免费用户请使用【默认账本】"
+                    app:sCenterBottomTextSize="15dp"
+                    app:sCenterBottomTextColor="@color/xui_config_color_gray_5"
+                   />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:textColor="@color/cardview_dark_background"
+                    android:text="自动收款分类映射"
+                    tools:ignore="PrivateResource" />
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/set_alipay_qr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    app:sLeftTextString="支付宝 - 二维码收款"
+                    app:sLeftTextSize="18dp"
+                    app:sLeftTextColor="@color/xui_config_color_edittext_input_text"
+                    app:sRightTextString=""
+                    app:sRightTextSize="18dp"
+                    app:sRightTextColor="@color/xui_config_color_gray_5"
+                    />
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/set_alipay_friend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    app:sLeftTextString="支付宝 - 转账收款"
+                    app:sLeftTextSize="18dp"
+                    app:sLeftTextColor="@color/xui_config_color_edittext_input_text"
+                    app:sRightTextString=""
+                    app:sRightTextSize="18dp"
+                    app:sRightTextColor="@color/xui_config_color_gray_5"
+                    />
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/set_alipay_refund"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    app:sLeftTextString="支付宝 - 退款到账"
+                    app:sLeftTextSize="18dp"
+                    app:sLeftTextColor="@color/xui_config_color_edittext_input_text"
+                    app:sRightTextString=""
+                    app:sRightTextSize="18dp"
+                    app:sRightTextColor="@color/xui_config_color_gray_5"
+                    />
+
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/set_alipay_ant"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    app:sLeftTextString="支付宝 - 余额宝收益"
+                    app:sLeftTextSize="18dp"
+                    app:sLeftTextColor="@color/xui_config_color_edittext_input_text"
+                    app:sRightTextString=""
+                    app:sRightTextSize="18dp"
+                    app:sRightTextColor="@color/xui_config_color_gray_5"
+                    />
+
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/set_alipay_money"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    app:sLeftTextString="支付宝 - 余利宝收益"
+                    app:sLeftTextSize="18dp"
+                    app:sLeftTextColor="@color/xui_config_color_edittext_input_text"
+                    app:sRightTextString=""
+                    app:sRightTextSize="18dp"
+                    app:sRightTextColor="@color/xui_config_color_gray_5"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="6dp"
+                    android:textColor="@color/cardview_dark_background"
+                    android:text="自动记账备注格式"
+                    tools:ignore="PrivateResource" />
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/set_remark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    app:sCenterTopTextString=""
+                    app:sCenterTopTextSize="18dp"
+                    app:sCenterTopTextColor="@color/xui_config_color_edittext_input_text"
+                    app:sCenterBottomTextString="支持：[交易对象] 、 [说明]"
+                    app:sCenterBottomTextSize="15dp"
+                    app:sCenterBottomTextColor="@color/xui_config_color_gray_5"
+                    />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+</LinearLayout>

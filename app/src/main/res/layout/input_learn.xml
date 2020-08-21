@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="商户名称/商品详情包含以下关键词（商品详情优先级高）" />
+
+    <EditText
+        android:id="@+id/map_from"
+        style="@style/EditText.Normal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="钱迹中对应分类名称" />
+
+    <EditText
+        android:id="@+id/map_to"
+        style="@style/EditText.Normal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:autofillHints="" />
+
+</LinearLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/learn_error"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        app:sDividerLineType="both"
+        app:sLeftTextString="这里空空的..." />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/learn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.yanzhenjie.recyclerview.SwipeRecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            tools:listitem="@android:layout/simple_list_item_2" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</LinearLayout>

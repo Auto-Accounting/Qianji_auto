@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.xuexiangjys.XRouter:xrouter-annotation:1.0.1@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.xuexiangjys.XRouter/xrouter-annotation/1.0.1/c5d7911bc5181cd8b3db022b8d160cc5e8fd6901/xrouter-annotation-1.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.xuexiangjys.XRouter/xrouter-annotation/1.0.1/8ab2324bf8df70d72fd2631c4000abb96d4b9c14/xrouter-annotation-1.0.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.xuexiangjys.XRouter/xrouter-annotation/1.0.1/a983e475d888b912b2093d15cfcd4a7bbac1f47c/xrouter-annotation-1.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

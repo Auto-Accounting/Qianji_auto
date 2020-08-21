@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.xuexiangjys.XAOP:xaop-annotation:1.0.5x@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e96a5565169dcb3ee75e1d0bdce9d9a7/jetified-xaop-annotation-1.0.5x/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e96a5565169dcb3ee75e1d0bdce9d9a7/jetified-xaop-annotation-1.0.5x/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e96a5565169dcb3ee75e1d0bdce9d9a7/jetified-xaop-annotation-1.0.5x/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e96a5565169dcb3ee75e1d0bdce9d9a7/jetified-xaop-annotation-1.0.5x/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.xuexiangjys.XAOP/xaop-annotation/1.0.5x/9850ebbe678d8436e08f968a795482a690d0d6f1/xaop-annotation-1.0.5x-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.xuexiangjys.XAOP/xaop-annotation/1.0.5x/a342c1f515bc9d9691f6d026f93b325fc8fc5748/xaop-annotation-1.0.5x-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

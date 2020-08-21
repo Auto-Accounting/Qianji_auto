@@ -1,0 +1,202 @@
+[
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/layout_input_learn.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/input_learn.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_track_normal.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/track_normal.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/xml_network_security_config.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/xml/network_security_config.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_ic_set.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/ic_set.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/layout_activity_main.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/layout_include_head_view_banner.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/include_head_view_banner.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher_foreground.png.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/layout_fragment_log.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_log.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_track.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/track.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_track_checked.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/track_checked.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/layout_fragment_about.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_about.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/layout_fragment_settings.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_settings.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_thumb_checked.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/thumb_checked.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher_foreground.png.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher_foreground.png.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_icon_arrow_right_grey.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/icon_arrow_right_grey.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_head.jpeg.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/head.jpeg"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_ic_menu_privacy.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/ic_menu_privacy.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_ic_map.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/ic_map.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-hdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/layout_map_list.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/map_list.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/layout_fragment_map.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_map.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/layout_fragment_learn.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_learn.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_ic_launcher_background.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_ic_log.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/ic_log.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/layout_include_navigation_header.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/include_navigation_header.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/layout_layout_main_content.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/layout_main_content.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_ic_learn.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/ic_learn.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_thumb_normal.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/thumb_normal.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher_foreground.png.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/layout_fragment_state.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/fragment_state.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/menu_menu_drawer.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/menu/menu_drawer.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/layout_input_map.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/input_map.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_ic_help.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/ic_help.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_thumb.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/thumb.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-mdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/menu_menu_main.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/menu/menu_main.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/layout_activity_agent_web.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/layout/activity_agent_web.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/drawable_ic_about.xml.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/drawable/ic_about.xml"
+    },
+    {
+        "merged": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi_ic_launcher_foreground.png.flat",
+        "source": "/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png"
+    }
+]

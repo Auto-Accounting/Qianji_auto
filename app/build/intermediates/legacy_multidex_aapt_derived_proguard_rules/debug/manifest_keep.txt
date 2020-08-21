@@ -1,0 +1,4 @@
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/debug/AndroidManifest.xml:26
+-keep class androidx.core.app.CoreComponentFactory { <init>(); }
+# Referenced at /Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/merged_manifests/debug/AndroidManifest.xml:26
+-keep class cn.dreamn.qianji_auto.MyApp { <init>(); }

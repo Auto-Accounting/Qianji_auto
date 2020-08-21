@@ -1,0 +1,7 @@
+#Fri Aug 21 10:04:41 CST 2020
+base.0=/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/dex/release/out/classes.dex
+path.1=classes2.dex
+renamed.1=classes2.dex
+path.0=classes.dex
+renamed.0=classes.dex
+base.1=/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/build/intermediates/dex/release/out/classes2.dex

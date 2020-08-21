@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">自动记账</string>
+    <string name="app_browser_name">通用浏览器</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+
+
+    <string name="menu_state">运行状态</string>
+    <string name="menu_settings">插件设置</string>
+
+
+    <string name="about_copyright">© %1$s Dreamn All rights reserved.</string>
+    <string name="about_desc">配合第三方API接口实现记账</string>
+    <string name="about_item_homepage">关于作者</string>
+    <string name="about_item_learn">使用教程</string>
+    <string name="about_item_donation_link">捐赠作者</string>
+    <string name="about_item_add_qq_group">QQ交流群</string>
+    <string name="url_author_blog">https://dreamn.cn</string>
+    <string name="url_learn">https://www.dreamn.cn/posts/Automatic-Billing-Open-The-Right-Way/</string>
+    <string name="url_donation_link">https://pay.dreamn.cn/</string>
+    <string name="url_add_qq_group">http://qm.qq.com/cgi-bin/qm/qr?k=99zP55gaVUnw9LmpLzeci2-cXc3BXLrl</string>
+
+    <string name="lab_yes">是</string>
+    <string name="lab_no">否</string>
+    <string name="lab_open_third_app">是否允许页面打开第三方应用?</string>
+
+    <!-- 隐私政策弹窗   -->
+    <string name="lab_exit_app">退出应用</string>
+    <string name="lab_agree">我已知晓</string>
+    <string name="title_reminder">隐私提醒</string>
+    <string name="menu_map">资产映射</string>
+    <string name="menu_learn">语义识别</string>
+    <string name="menu_log">日志查询</string>
+    <string name="menu_help">使用帮助</string>
+    <string name="menu_about">关于</string>
+
+
+</resources>

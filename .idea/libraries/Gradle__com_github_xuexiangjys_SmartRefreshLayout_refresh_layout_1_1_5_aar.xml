@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.xuexiangjys.SmartRefreshLayout:refresh-layout:1.1.5@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e1ba47db995209de9095da503eb984c1/jetified-refresh-layout-1.1.5/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e1ba47db995209de9095da503eb984c1/jetified-refresh-layout-1.1.5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/e1ba47db995209de9095da503eb984c1/jetified-refresh-layout-1.1.5/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.xuexiangjys.SmartRefreshLayout/refresh-layout/1.1.5/94d1c339221e9776714a3aef8b0e277390f8b9b7/refresh-layout-1.1.5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.xuexiangjys.SmartRefreshLayout/refresh-layout/1.1.5/f9085453c80c4267f607deafedf28a276fde994f/refresh-layout-1.1.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

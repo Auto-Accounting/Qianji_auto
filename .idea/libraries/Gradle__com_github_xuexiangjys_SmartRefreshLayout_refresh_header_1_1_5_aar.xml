@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.xuexiangjys.SmartRefreshLayout:refresh-header:1.1.5@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/452b57e98d71cb9282d8c92c2432d79e/jetified-refresh-header-1.1.5/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/452b57e98d71cb9282d8c92c2432d79e/jetified-refresh-header-1.1.5/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/452b57e98d71cb9282d8c92c2432d79e/jetified-refresh-header-1.1.5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/452b57e98d71cb9282d8c92c2432d79e/jetified-refresh-header-1.1.5/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.xuexiangjys.SmartRefreshLayout/refresh-header/1.1.5/3ddb2621594f6ed144ca141a455e85b4c3df8c5e/refresh-header-1.1.5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.xuexiangjys.SmartRefreshLayout/refresh-header/1.1.5/9aacc995c29880aa1bbc492c84bc4b00dc283699/refresh-header-1.1.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

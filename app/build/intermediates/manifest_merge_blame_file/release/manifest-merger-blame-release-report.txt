@@ -1,0 +1,244 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="cn.dreamn.qianji_auto"
+4    android:versionCode="28"
+5    android:versionName="1.5.1b3" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="17"
+8-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="28" />
+9-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml
+10
+11    <!-- 手机存储 -->
+12    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+12-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:7:5-80
+12-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:7:22-78
+13
+14    <!-- 进程杀死 -->
+15    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" /> <!-- 文件读写权限 -->
+15-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:10:5-84
+15-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:10:22-81
+16    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 网络权限 -->
+16-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:12:5-80
+16-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:12:22-77
+17    <uses-permission android:name="android.permission.INTERNET" />
+17-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:15:5-67
+17-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:15:22-64
+18    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+18-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:16:5-76
+18-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:16:22-73
+19    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+19-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:17:5-76
+19-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:17:22-73
+20    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+20-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:18:5-79
+20-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:18:22-76
+21    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+21-->[com.github.xuexiangjys:XHttp2:2.0.0] /Users/ankio/.gradle/caches/transforms-2/files-2.1/836aa0645de004d2f6c2cb12bdc1247a/jetified-XHttp2-2.0.0/AndroidManifest.xml:11:5-13:47
+21-->[com.github.xuexiangjys:XHttp2:2.0.0] /Users/ankio/.gradle/caches/transforms-2/files-2.1/836aa0645de004d2f6c2cb12bdc1247a/jetified-XHttp2-2.0.0/AndroidManifest.xml:12:9-68
+22    <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
+22-->[com.github.xuexiangjys:XUpdate:2.0.1] /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/AndroidManifest.xml:12:5-14:47
+22-->[com.github.xuexiangjys:XUpdate:2.0.1] /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/AndroidManifest.xml:13:9-59
+23    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+23-->[com.github.xuexiangjys:XUpdate:2.0.1] /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/AndroidManifest.xml:17:5-83
+23-->[com.github.xuexiangjys:XUpdate:2.0.1] /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/AndroidManifest.xml:17:22-80
+24
+25    <application
+25-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:9:5-66:19
+26        android:name="cn.dreamn.qianji_auto.MyApp"
+26-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:10:9-51
+27        android:allowBackup="false"
+27-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:11:9-36
+28        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+28-->[androidx.core:core:1.1.0] /Users/ankio/.gradle/caches/transforms-2/files-2.1/b7741e15b76a86935cd0756e9c315105/core-1.1.0/AndroidManifest.xml:24:18-86
+29        android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+29-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:12:9-79
+30        android:icon="@mipmap/ic_launcher"
+30-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:13:9-43
+31        android:label="@string/app_name"
+31-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:14:9-41
+32        android:networkSecurityConfig="@xml/network_security_config"
+32-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:15:9-69
+33        android:roundIcon="@mipmap/ic_launcher_round"
+33-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:16:9-54
+34        android:supportsRtl="true"
+34-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:17:9-35
+35        android:theme="@style/AppTheme"
+35-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:18:9-40
+36        android:windowSoftInputMode="adjustPan|stateHidden" >
+36-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:19:9-60
+37        <meta-data
+37-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:23:9-25:36
+38            android:name="xposedmodule"
+38-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:24:13-40
+39            android:value="true" />
+39-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:25:13-33
+40        <meta-data
+40-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:26:9-28:62
+41            android:name="xposeddescription"
+41-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:27:13-45
+42            android:value="借助于第三方app的自动记账接口，实现对第三方app自动记账" />
+42-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:28:13-59
+43        <meta-data
+43-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:29:9-31:34
+44            android:name="xposedminversion"
+44-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:30:13-44
+45            android:value="30" />
+45-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:31:13-31
+46
+47        <activity
+47-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:33:9-42:20
+48            android:name="cn.dreamn.qianji_auto.activity.MainActivity"
+48-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:34:13-71
+49            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+49-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:35:13-83
+50            android:screenOrientation="portrait"
+50-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:36:13-49
+51            android:windowSoftInputMode="adjustPan|stateHidden" >
+51-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:37:13-64
+52            <intent-filter>
+52-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:38:13-41:29
+53                <action android:name="android.intent.action.MAIN" />
+53-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:39:17-69
+53-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:39:25-66
+54
+55                <category android:name="android.intent.category.LAUNCHER" />
+55-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:40:17-77
+55-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:40:27-74
+56            </intent-filter>
+57        </activity>
+58
+59        <!-- fragment的页面容器 -->
+60        <activity
+60-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:46:9-50:67
+61            android:name="cn.dreamn.qianji_auto.core.BaseActivity"
+61-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:47:13-67
+62            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+62-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:48:13-83
+63            android:screenOrientation="portrait"
+63-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:49:13-49
+64            android:windowSoftInputMode="adjustPan|stateHidden" />
+64-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:50:13-64
+65        <!-- applink的中转页面 -->
+66        <activity
+66-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:52:9-56:67
+67            android:name="cn.dreamn.qianji_auto.core.XPageTransferActivity"
+67-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:53:13-76
+68            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+68-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:54:13-83
+69            android:screenOrientation="portrait"
+69-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:55:13-49
+70            android:windowSoftInputMode="adjustPan|stateHidden" />
+70-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:56:13-64
+71
+72        <!-- 屏幕自适应设计图 -->
+73        <meta-data
+73-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:59:9-61:35
+74            android:name="design_width_in_dp"
+74-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:60:13-46
+75            android:value="360" />
+75-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:61:13-32
+76        <meta-data
+76-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:62:9-64:35
+77            android:name="design_height_in_dp"
+77-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:63:13-47
+78            android:value="640" />
+78-->/Users/ankio/Documents/Sync/SourceCode/Andriod/TemplateAppProject-master/app/src/main/AndroidManifest.xml:64:13-32
+79
+80        <provider
+80-->[me.jessyan:autosize:1.1.2] /Users/ankio/.gradle/caches/transforms-2/files-2.1/b134c5a0550ab9393f220fbf003259d6/jetified-autosize-1.1.2/AndroidManifest.xml:12:9-16:43
+81            android:name="me.jessyan.autosize.InitProvider"
+81-->[me.jessyan:autosize:1.1.2] /Users/ankio/.gradle/caches/transforms-2/files-2.1/b134c5a0550ab9393f220fbf003259d6/jetified-autosize-1.1.2/AndroidManifest.xml:13:13-60
+82            android:authorities="cn.dreamn.qianji_auto.autosize-init-provider"
+82-->[me.jessyan:autosize:1.1.2] /Users/ankio/.gradle/caches/transforms-2/files-2.1/b134c5a0550ab9393f220fbf003259d6/jetified-autosize-1.1.2/AndroidManifest.xml:14:13-74
+83            android:exported="false"
+83-->[me.jessyan:autosize:1.1.2] /Users/ankio/.gradle/caches/transforms-2/files-2.1/b134c5a0550ab9393f220fbf003259d6/jetified-autosize-1.1.2/AndroidManifest.xml:15:13-37
+84            android:multiprocess="true" />
+84-->[me.jessyan:autosize:1.1.2] /Users/ankio/.gradle/caches/transforms-2/files-2.1/b134c5a0550ab9393f220fbf003259d6/jetified-autosize-1.1.2/AndroidManifest.xml:16:13-40
+85
+86        <activity
+86-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:21:9-25:75
+87            android:name="com.xuexiang.xutil.system.PermissionUtils$PermissionActivity"
+87-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:22:13-88
+88            android:configChanges="orientation|keyboardHidden|screenSize"
+88-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:23:13-74
+89            android:theme="@style/XUtil_Activity_Translucent"
+89-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:24:13-62
+90            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+90-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:25:13-72
+91
+92        <provider
+92-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:27:9-35:20
+93            android:name="androidx.core.content.FileProvider4Utils"
+93-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:28:13-68
+94            android:authorities="cn.dreamn.qianji_auto.xutil.provider"
+94-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:29:13-66
+95            android:exported="false"
+95-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:30:13-37
+96            android:grantUriPermissions="true" >
+96-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:31:13-47
+97            <meta-data
+97-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:32:13-34:64
+98                android:name="android.support.FILE_PROVIDER_PATHS"
+98-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:33:17-67
+99                android:resource="@xml/xutil_provider_paths" />
+99-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:34:17-61
+100        </provider>
+101
+102        <activity
+102-->[com.github.xuexiangjys:XUI:1.1.4] /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/AndroidManifest.xml:10:9-12:75
+103            android:name="com.xuexiang.xui.widget.imageview.preview.ui.PreviewActivity"
+103-->[com.github.xuexiangjys:XUI:1.1.4] /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/AndroidManifest.xml:11:13-88
+104            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+104-->[com.github.xuexiangjys:XUI:1.1.4] /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/AndroidManifest.xml:12:13-72
+105        <activity
+105-->[com.github.xuexiangjys:XUI:1.1.4] /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/AndroidManifest.xml:13:9-15:75
+106            android:name="com.xuexiang.xui.widget.imageview.preview.ui.VideoPlayerActivity"
+106-->[com.github.xuexiangjys:XUI:1.1.4] /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/AndroidManifest.xml:14:13-92
+107            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+107-->[com.github.xuexiangjys:XUI:1.1.4] /Users/ankio/.gradle/caches/transforms-2/files-2.1/06ecfffb54ca25e81d1599f937fd67fc/jetified-XUI-1.1.4/AndroidManifest.xml:15:13-72
+108        <activity
+108-->[com.github.xuexiangjys.XAOP:xaop-runtime:1.0.5x] /Users/ankio/.gradle/caches/transforms-2/files-2.1/918936ef462930dca4ee8c7675c31d2d/jetified-xaop-runtime-1.0.5x/AndroidManifest.xml:15:9-19:75
+109            android:name="com.xuexiang.xaop.util.PermissionUtils$PermissionActivity"
+109-->[com.github.xuexiangjys.XAOP:xaop-runtime:1.0.5x] /Users/ankio/.gradle/caches/transforms-2/files-2.1/918936ef462930dca4ee8c7675c31d2d/jetified-xaop-runtime-1.0.5x/AndroidManifest.xml:16:13-85
+110            android:configChanges="orientation|keyboardHidden|screenSize"
+110-->[com.github.xuexiangjys.XAOP:xaop-runtime:1.0.5x] /Users/ankio/.gradle/caches/transforms-2/files-2.1/918936ef462930dca4ee8c7675c31d2d/jetified-xaop-runtime-1.0.5x/AndroidManifest.xml:17:13-74
+111            android:theme="@style/AOP_Activity_Translucent"
+111-->[com.github.xuexiangjys.XAOP:xaop-runtime:1.0.5x] /Users/ankio/.gradle/caches/transforms-2/files-2.1/918936ef462930dca4ee8c7675c31d2d/jetified-xaop-runtime-1.0.5x/AndroidManifest.xml:18:13-60
+112            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+112-->[com.github.xuexiangjys.XAOP:xaop-runtime:1.0.5x] /Users/ankio/.gradle/caches/transforms-2/files-2.1/918936ef462930dca4ee8c7675c31d2d/jetified-xaop-runtime-1.0.5x/AndroidManifest.xml:19:13-72
+113
+114        <service android:name="com.xuexiang.xupdate.service.DownloadService" />
+114-->[com.github.xuexiangjys:XUpdate:2.0.1] /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/AndroidManifest.xml:20:9-80
+114-->[com.github.xuexiangjys:XUpdate:2.0.1] /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/AndroidManifest.xml:20:18-77
+115
+116        <provider
+116-->[com.github.xuexiangjys:XUpdate:2.0.1] /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/AndroidManifest.xml:22:9-30:20
+117            android:name="com.xuexiang.xupdate.utils.UpdateFileProvider"
+117-->[com.github.xuexiangjys:XUpdate:2.0.1] /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/AndroidManifest.xml:23:13-73
+118            android:authorities="cn.dreamn.qianji_auto.updateFileProvider"
+118-->[com.github.xuexiangjys:XUpdate:2.0.1] /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/AndroidManifest.xml:24:13-70
+119            android:exported="false"
+119-->[com.github.xuexiangjys:XUpdate:2.0.1] /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/AndroidManifest.xml:25:13-37
+120            android:grantUriPermissions="true" >
+120-->[com.github.xuexiangjys:XUpdate:2.0.1] /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/AndroidManifest.xml:26:13-47
+121            <meta-data
+121-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:32:13-34:64
+122                android:name="android.support.FILE_PROVIDER_PATHS"
+122-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:33:17-67
+123                android:resource="@xml/update_file_paths" />
+123-->[com.github.xuexiangjys.XUtil:xutil-core:1.1.8] /Users/ankio/.gradle/caches/transforms-2/files-2.1/5eddcb5d8a8a278194674a88ab9415f8/jetified-xutil-core-1.1.8/AndroidManifest.xml:34:17-61
+124        </provider>
+125
+126        <activity
+126-->[com.github.xuexiangjys:XUpdate:2.0.1] /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/AndroidManifest.xml:32:9-35:58
+127            android:name="com.xuexiang.xupdate.widget.UpdateDialogActivity"
+127-->[com.github.xuexiangjys:XUpdate:2.0.1] /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/AndroidManifest.xml:33:13-76
+128            android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
+128-->[com.github.xuexiangjys:XUpdate:2.0.1] /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/AndroidManifest.xml:34:13-83
+129            android:theme="@style/XUpdate_DialogTheme" />
+129-->[com.github.xuexiangjys:XUpdate:2.0.1] /Users/ankio/.gradle/caches/transforms-2/files-2.1/fd0617d5160e9e64bffc1ff4ff091b0a/jetified-XUpdate-2.0.1/AndroidManifest.xml:35:13-55
+130    </application>
+131
+132</manifest>
