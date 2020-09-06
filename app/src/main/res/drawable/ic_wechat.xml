@@ -1,0 +1,26 @@
+<!--
+  ~ Copyright (C) 2020 xuexiangjys(xuexiangjys@163.com)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="160dp"
+    android:viewportWidth="1280"
+    android:viewportHeight="1024">
+  <path
+      android:pathData="M858.15,309.75C872.73,309.75 887.07,310.85 901.49,312.42 862.67,133.16 669.4,0 448.73,0 202.06,0 0,166.62 0,378.33 0,500.49 67.19,600.81 179.55,678.74L134.7,812.52 291.6,734.59C347.7,745.51 392.7,756.83 448.73,756.83 462.83,756.83 476.78,756.2 490.56,755.18 481.85,725.4 476.7,694.29 476.7,661.85 476.78,467.5 645.08,309.75 858.15,309.75L858.15,309.75ZM616.95,189.17C650.86,189.17 673.13,211.24 673.13,244.71 673.13,278.02 650.86,300.33 616.95,300.33 583.43,300.33 549.67,278.02 549.67,244.71 549.67,211.16 583.35,189.17 616.95,189.17L616.95,189.17ZM302.93,300.33C269.25,300.33 235.34,278.02 235.34,244.71 235.34,211.24 269.25,189.17 302.93,189.17 336.6,189.17 358.95,211.16 358.95,244.71 358.95,278.02 336.6,300.33 302.93,300.33L302.93,300.33ZM1267.81,656.51C1267.81,478.65 1088.26,333.71 886.6,333.71 673.05,333.71 504.98,478.73 504.98,656.51 504.98,834.83 673.13,979.3 886.6,979.3 931.29,979.3 976.37,968.22 1021.22,957.07L1144.28,1024 1110.52,912.76C1200.62,845.67 1267.81,756.83 1267.81,656.51L1267.81,656.51ZM762.83,600.81C740.56,600.81 717.98,578.81 717.98,556.35 717.98,534.19 740.56,511.88 762.83,511.88 796.9,511.88 819,534.19 819,556.35 819,578.81 796.9,600.81 762.83,600.81L762.83,600.81ZM1009.65,600.81C987.54,600.81 965.04,578.81 965.04,556.35 965.04,534.19 987.47,511.88 1009.65,511.88 1043.41,511.88 1065.83,534.19 1065.83,556.35 1065.83,578.81 1043.41,600.81 1009.65,600.81L1009.65,600.81Z"
+      android:fillColor="#333333"/>
+</vector>

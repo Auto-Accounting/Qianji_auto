@@ -1,0 +1,26 @@
+<!--
+  ~ Copyright (C) 2020 xuexiangjys(xuexiangjys@163.com)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+  <path
+      android:pathData="M978.05,571.08c-36.1,-42.67 -75.49,-16.41 -75.49,-16.41L626.87,745.03s-52.51,26.26 -131.28,16.41c-78.77,-6.56 -65.64,-62.36 -65.64,-62.36l128,-6.56s36.1,6.56 36.1,-55.79 -32.82,-55.79 -32.82,-55.79 -167.38,-3.28 -242.87,0c-75.49,3.28 -75.49,36.1 -75.49,36.1L39.38,820.51 210.05,1024l65.64,-52.51c29.54,-32.82 82.05,-32.82 82.05,-32.82s170.67,0 213.33,3.28S640,918.97 640,918.97l318.36,-252.72c3.28,-3.28 55.79,-52.51 19.69,-95.18zM246.15,436.51s36.1,-49.23 62.36,-98.46c26.26,-52.51 95.18,-65.64 95.18,-65.64s-49.23,-32.82 -98.46,-59.08C256,183.79 236.31,105.03 236.31,105.03s-13.13,29.54 -49.23,95.18c-36.1,62.36 -114.87,59.08 -114.87,59.08s55.79,36.1 98.46,62.36 75.49,114.87 75.49,114.87zM607.18,210.05c9.85,-78.77 85.33,-98.46 85.33,-98.46 -45.95,0 -98.46,-101.74 -98.46,-101.74 -9.85,88.62 -98.46,105.03 -98.46,105.03 82.05,6.56 111.59,95.18 111.59,95.18zM626.87,406.97c78.77,9.85 108.31,98.46 108.31,98.46 9.85,-78.77 85.33,-98.46 85.33,-98.46 -45.95,0 -98.46,-101.74 -98.46,-101.74 -9.85,85.33 -95.18,101.74 -95.18,101.74z"
+      android:fillColor="#333333"/>
+</vector>

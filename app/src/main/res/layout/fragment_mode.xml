@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/parent_bg"
+            >
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="15dp"
+                android:text="@string/mode_work" />
+
+            <com.xuexiang.xui.widget.button.RippleView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="?attr/xui_config_content_spacing_horizontal"
+                app:rv_type="simpleRipple"
+                app:rv_color="@color/list_text_color_normal_sub"
+                >
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="0dp"
+                    app:cardElevation="0dp"
+                    app:cardCornerRadius="10dp">
+                    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                        android:id="@+id/mode_xp"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        app:sLeftBottomTextColor="@color/list_text_color_normal"
+                        app:sLeftBottomTextSize="13sp"
+                        app:sLeftBottomTextString="@string/mode_xp_sub"
+                        app:sLeftIconHeight="35sp"
+                        app:sLeftIconMarginLeft="25dp"
+                        app:sLeftIconRes="@drawable/ic_xp"
+                        app:sLeftIconWidth="35sp"
+                        app:sLeftTopTextColor="@color/list_text_color_normal_sub"
+                        app:sLeftTopTextSize="18sp"
+                        app:sLeftTopTextString="@string/mode_xp"
+                        app:sLeftViewGravity="left_center"
+                        app:sLeftViewMarginLeft="30dp"
+                        app:sUseRipple="false"
+                        />
+
+                </androidx.cardview.widget.CardView>
+            </com.xuexiang.xui.widget.button.RippleView>
+            <com.xuexiang.xui.widget.button.RippleView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="?attr/xui_config_content_spacing_horizontal"
+                app:rv_type="simpleRipple"
+                app:rv_color="@color/list_text_color_normal_sub"
+                >
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="0dp"
+                    app:cardElevation="0dp"
+                    app:cardCornerRadius="10dp">
+                    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                        android:id="@+id/mode_default"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        app:sLeftBottomTextColor="@color/list_text_color_normal"
+                        app:sLeftBottomTextSize="13sp"
+                        app:sLeftBottomTextString="@string/mode_default_sub"
+                        app:sLeftIconHeight="35sp"
+                        app:sLeftIconMarginLeft="25dp"
+                        app:sLeftIconRes="@drawable/ic_default"
+                        app:sLeftIconWidth="35sp"
+                        app:sLeftTopTextColor="@color/list_text_color_normal_sub"
+                        app:sLeftTopTextSize="18sp"
+                        app:sLeftTopTextString="@string/mode_default"
+                        app:sLeftViewGravity="left_center"
+                        app:sLeftViewMarginLeft="30dp"
+                        app:sUseRipple="false"
+                        />
+
+                </androidx.cardview.widget.CardView>
+            </com.xuexiang.xui.widget.button.RippleView>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="15dp"
+                android:text="@string/mode_authority" />
+
+            <com.xuexiang.xui.widget.button.RippleView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="?attr/xui_config_content_spacing_horizontal"
+                app:rv_type="simpleRipple"
+                app:rv_color="@color/list_text_color_normal_sub"
+                >
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="0dp"
+                    app:cardElevation="0dp"
+                    app:cardCornerRadius="10dp">
+                    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                        android:id="@+id/mode_au_storage"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        app:sLeftBottomTextColor="@color/list_text_color_normal"
+                        app:sLeftBottomTextSize="13sp"
+                        app:sLeftBottomTextString="@string/mode_au_storage_sub"
+                        app:sLeftIconHeight="35sp"
+                        app:sLeftIconMarginLeft="25dp"
+                        app:sLeftIconRes="@drawable/ic_storage"
+                        app:sLeftIconWidth="35sp"
+                        app:sLeftTopTextColor="@color/list_text_color_normal_sub"
+                        app:sLeftTopTextSize="18sp"
+                        app:sLeftTopTextString="@string/mode_au_storage"
+                        app:sLeftViewGravity="left_center"
+                        app:sLeftViewMarginLeft="30dp"
+                        app:sUseRipple="false"
+                        />
+
+                </androidx.cardview.widget.CardView>
+            </com.xuexiang.xui.widget.button.RippleView>
+
+            <com.xuexiang.xui.widget.button.RippleView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="?attr/xui_config_content_spacing_horizontal"
+                app:rv_type="simpleRipple"
+                app:rv_color="@color/list_text_color_normal_sub"
+                >
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="0dp"
+                    app:cardElevation="0dp"
+                    app:cardCornerRadius="10dp">
+                    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                        android:id="@+id/mode_au_autostart"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        app:sLeftBottomTextColor="@color/list_text_color_normal"
+                        app:sLeftBottomTextSize="13sp"
+                        app:sLeftBottomTextString="@string/mode_au_auto_sub"
+                        app:sLeftIconHeight="35sp"
+                        app:sLeftIconMarginLeft="25dp"
+                        app:sLeftIconRes="@drawable/ic_autostart"
+                        app:sLeftIconWidth="35sp"
+                        app:sLeftTopTextColor="@color/list_text_color_normal_sub"
+                        app:sLeftTopTextSize="18sp"
+                        app:sLeftTopTextString="@string/mode_au_auto"
+                        app:sLeftViewGravity="left_center"
+                        app:sLeftViewMarginLeft="30dp"
+                        app:sUseRipple="false"
+                        />
+
+                </androidx.cardview.widget.CardView>
+            </com.xuexiang.xui.widget.button.RippleView>
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

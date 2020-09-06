@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorPrimary">#299EE3</color>
+    <color name="colorPrimaryDark">@color/parent_bg</color>
+    <color name="colorAccent">#299EE3</color>
+
+
+    <!--Toast，可自定义喜欢的颜色-->
+    <color name="toast_default_text_color" tools:ignore="PrivateResource">@color/xui_config_color_white</color>
+    <color name="toast_error_color" tools:ignore="PrivateResource">@color/xui_config_color_red</color>
+    <color name="toast_info_color" tools:ignore="PrivateResource">@color/colorAccent</color>
+    <color name="toast_success_color" tools:ignore="PrivateResource">#388E3C</color>
+    <color name="toast_warning_color" tools:ignore="PrivateResource">@color/xui_config_color_waring</color>
+    <color name="toast_normal_tint_color" tools:ignore="PrivateResource">#353A3E</color>
+
+
+    <color name="title_color" tools:ignore="PrivateResource">#000</color>
+    <color name="list_bg_success" tools:ignore="PrivateResource">#4CB050</color>
+    <color name="list_text_color_succ" tools:ignore="PrivateResource">#fff</color>
+    <color name="list_bg_err" tools:ignore="PrivateResource">#FCD758</color>
+    <color name="list_text_color_err" tools:ignore="PrivateResource">#FF0000</color>
+    <color name="list_bg_noraml" tools:ignore="PrivateResource">#fff</color>
+    <color name="list_text_color_normal" tools:ignore="PrivateResource">#666666</color>
+    <color name="list_text_color_normal_sub" tools:ignore="PrivateResource">#888888</color>
+    <color name="parent_bg" tools:ignore="PrivateResource">#fafafa</color>
+</resources>

@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">自动记账</string>
+    <string name="app_exit">再按一次退出程序</string>
+
+    <string name="frame_taichi">太极</string>
+    <string name="frame_default">默认</string>
+
+    <string name="menu_active">已激活（%s）</string>
+
+    <string name="menu_noactive">未激活（%s）</string>
+    <string name="menu_set">插件设置</string>
+    <string name="menu_set_sub">设置插件基本信息</string>
+    <string name="menu_sort">分类映射</string>
+    <string name="menu_sort_sub">设置自动收款的分类映射</string>
+    <string name="menu_cards">资产映射</string>
+    <string name="menu_cards_sub">设置钱迹中对应的资产分类</string>
+    <string name="menu_learn">语义识别</string>
+    <string name="menu_learn_sub">设置全自动记账的分类映射</string>
+    <string name="menu_book">账单列表</string>
+    <string name="menu_book_sub">最近支付的10条账单信息</string>
+    <string name="menu_log">日志查询</string>
+    <string name="menu_log_sub">出现记账失败的问题可以来看看日志</string>
+    <string name="menu_backup">备份恢复</string>
+    <string name="menu_backup_sub">恢复或者备份配置文件</string>
+    <string name="menu_about">关于</string>
+    <string name="menu_about_sub">你想知道的这里都有</string>
+    <string name="frame_unknow">未知</string>
+    <string name="page_mode">工作模式</string>
+    <string name="mode_work">插件工作模式</string>
+    <string name="mode_xp_sub">需要Xposed框架支持，更加稳定。</string>
+    <string name="mode_xp">Xposed模式</string>
+    <string name="mode_default">默认模式</string>
+    <string name="mode_default_sub">需要开启辅助功能，常驻内存。</string>
+    <string name="mode_authority">权限配置</string>
+    <string name="mode_au_storage">读写存储空间</string>
+    <string name="mode_au_storage_sub">进行数据存储与共享</string>
+    <string name="mode_au_auto_sub">用于唤起自动记账</string>
+    <string name="mode_au_auto">允许自启</string>
+
+</resources>
