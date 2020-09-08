@@ -124,7 +124,7 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
 
     private void initListen(){
         menu_status.setOnSuperTextViewClickListener(superTextView -> {
-            openNewPage(SetFragment.class);
+            openNewPage(ModeFragment.class);
         });
     }
 }

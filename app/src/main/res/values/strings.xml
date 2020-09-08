@@ -36,5 +36,22 @@
     <string name="mode_au_storage_sub">进行数据存储与共享</string>
     <string name="mode_au_auto_sub">用于唤起自动记账</string>
     <string name="mode_au_auto">允许自启</string>
+    <string name="mode_auth">您已授予该权限</string>
+    <string name="mode_msg_default">已切换为默认模式</string>
+    <string name="mode_msg_xp">已切换为Xposed模式</string>
+    <string name="set_pay_mode">支出自动记账模式</string>
+    <string name="set_pay_mode_sub">不弹出分类选择窗口</string>
+    <string name="set_pay_mode_top">全自动记账</string>
+    <string name="set_pay_mode_half_sub">弹出分类选择框进行分类选择记账</string>
+    <string name="set_pay_mode_half_top">半自动记账</string>
+    <string name="set_income_mode">收入自动记账模式</string>
+    <string name="set_income_mode_sub">不弹出分类选择窗口</string>
+    <string name="set_income_mode_top">全自动记账</string>
+    <string name="set_income_mode_half">半自动记账</string>
+    <string name="set_income_mode_half_sub">弹出通知，点击通知处理</string>
+    <string name="set_bookname_sub">钱迹免费用户请保持使用默认账本</string>
+    <string name="set_remark">备注格式</string>
+    <string name="set_remark_sub">说明包括商品信息/转账备注等</string>
+    <string name="set_bookname">记账账本</string>
 
 </resources>

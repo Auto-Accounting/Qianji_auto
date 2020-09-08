@@ -9,12 +9,13 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/parent_bg">
           <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-              android:background="@color/parent_bg"
+
               >
 
               <com.xuexiang.xui.widget.textview.supertextview.SuperTextView

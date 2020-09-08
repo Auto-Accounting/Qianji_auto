@@ -34,4 +34,21 @@
     <string name="mode_au_storage_sub">Data storage and sharing</string>
     <string name="mode_au_auto_sub">Used to evoke QianJiAuto</string>
     <string name="mode_au_auto">Allow self-start</string>
+    <string name="mode_auth">You have granted this permission</string>
+    <string name="mode_msg_xp">Switched to Xposed mode</string>
+    <string name="mode_msg_default">Switched to default mode</string>
+    <string name="set_pay_mode">Automatic accounting mode of expenditure</string>
+    <string name="set_pay_mode_sub">Do not pop up the category selection window</string>
+    <string name="set_pay_mode_top">Fully automatic accounting</string>
+    <string name="set_pay_mode_half_sub">Pop up the category selection box for category selection and accounting</string>
+    <string name="set_pay_mode_half_top">Semi-automatic accounting</string>
+    <string name="set_income_mode">Income automatic accounting mode</string>
+    <string name="set_income_mode_sub">Do not pop up the category selection window</string>
+    <string name="set_income_mode_top">Fully automatic accounting</string>
+    <string name="set_income_mode_half">Semi-automatic accounting</string>
+    <string name="set_income_mode_half_sub">Pop-up notification, click notification processing</string>
+    <string name="set_bookname">Accounting book</string>
+    <string name="set_bookname_sub">For Qianji Free users, please keep the default ledger</string>
+    <string name="set_remark">Note format</string>
+    <string name="set_remark_sub">Description includes product information/transfer notes, etc.</string>
 </resources>

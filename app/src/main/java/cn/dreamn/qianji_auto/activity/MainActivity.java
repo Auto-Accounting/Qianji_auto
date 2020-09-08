@@ -19,6 +19,8 @@ package cn.dreamn.qianji_auto.activity;
 
 import android.os.Bundle;
 
+import com.xuexiang.xui.XUI;
+
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.BaseActivity;
 import cn.dreamn.qianji_auto.fragment.MainFragment;
@@ -33,9 +35,12 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme_Custom);
         super.onCreate(savedInstanceState);
 
         openPage(MainFragment.class);
+
+
     }
 
 }

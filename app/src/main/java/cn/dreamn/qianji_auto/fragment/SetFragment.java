@@ -17,35 +17,42 @@
 
 package cn.dreamn.qianji_auto.fragment;
 
+import com.xuexiang.xpage.annotation.Page;
+import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
+
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.BaseFragment;
 import cn.dreamn.qianji_auto.utils.file.Storage;
 
-import com.xuexiang.xpage.annotation.Page;
-import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
-
-import static com.xuexiang.xui.utils.ResUtils.getColor;
-
-@Page(name = "工作模式")
+/**
+ * 这个只是一个空壳Fragment，只是用于演示而已
+ *
+ * @author xuexiang
+ * @since 2019-07-08 00:52
+ */
+@Page(name = "插件设置")
 public class SetFragment extends BaseFragment {
-
-
-    @BindView(R.id.mode_xp)
-    SuperTextView mode_xp;
-
-    @BindView(R.id.mode_default)
-    SuperTextView mode_default;
-
-    @BindView(R.id.mode_au_autostart)
-    SuperTextView mode_au_autostart;
-
-    @BindView(R.id.mode_au_storage)
-    SuperTextView mode_au_storage;
-
+    @BindView(R.id.set_pay_mode_full)
+    SuperTextView set_pay_mode_full;
+    @BindView(R.id.set_pay_mode_half)
+    SuperTextView set_pay_mode_half;
+    @BindView(R.id.set_income_mode_full)
+    SuperTextView set_income_mode_full;
+    @BindView(R.id.set_income_mode_half)
+    SuperTextView set_income_mode_half;
+    @BindView(R.id.set_bookname)
+    SuperTextView set_bookname;
+    @BindView(R.id.set_remark)
+    SuperTextView set_remark;
+    /**
+     * 布局的资源id
+     *
+     * @return
+     */
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_mode;
+        return R.layout.fragment_set;
     }
 
     /**
@@ -56,40 +63,21 @@ public class SetFragment extends BaseFragment {
         initSet();
         initListen();
     }
+
     private void initSet(){
-        String mode= Storage.type(Storage.Set).get("mode","default");
-        if(mode.equals("default")){
-            mode_default.setBackgroundColor(getColor(R.color.list_bg_success));
-            mode_default.setLeftTopTextColor(getColor(R.color.list_bg_noraml));
-            mode_default.setLeftBottomTextColor(getColor(R.color.list_bg_noraml));
-            mode_xp.setBackgroundColor(getColor(R.color.list_bg_noraml));
-            mode_xp.setLeftTopTextColor(getColor(R.color.list_text_color_normal));
-            mode_xp.setLeftBottomTextColor(getColor(R.color.list_text_color_normal_sub));
+        if(Storage.type(Storage.Set).getBoolean("pay",false)){
+
         }else{
-            mode_xp.setBackgroundColor(getColor(R.color.list_bg_success));
-            mode_xp.setLeftTopTextColor(getColor(R.color.list_bg_noraml));
-            mode_xp.setLeftBottomTextColor(getColor(R.color.list_bg_noraml));
-            mode_default.setBackgroundColor(getColor(R.color.list_bg_noraml));
-            mode_default.setLeftTopTextColor(getColor(R.color.list_text_color_normal));
-            mode_default.setLeftBottomTextColor(getColor(R.color.list_text_color_normal_sub));
+
         }
+        if(Storage.type(Storage.Set).getBoolean("income",false)){
 
+        }else{
 
+        }
     }
+
     private void initListen(){
-        mode_default.setOnSuperTextViewClickListener(superTextView -> {
-            Storage.type(Storage.Set).set("mode","default");
-            initSet();
-        });
-        mode_xp.setOnSuperTextViewClickListener(superTextView -> {
-            Storage.type(Storage.Set).set("mode","xposed");
-            initSet();
-        });
-        mode_au_autostart.setOnSuperTextViewClickListener(superTextView -> {
 
-        });
-        mode_au_storage.setOnSuperTextViewClickListener(superTextView -> {
-
-        });
     }
 }
