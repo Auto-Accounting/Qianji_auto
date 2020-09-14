@@ -16,6 +16,7 @@
 
     <color name="title_color" tools:ignore="PrivateResource">#000</color>
     <color name="list_bg_success" tools:ignore="PrivateResource">#4CB050</color>
+    <color name="list_bg_success2" tools:ignore="PrivateResource">#0099FF</color>
     <color name="list_text_color_succ" tools:ignore="PrivateResource">#fff</color>
     <color name="list_bg_err" tools:ignore="PrivateResource">#FCD758</color>
     <color name="list_text_color_err" tools:ignore="PrivateResource">#FF0000</color>

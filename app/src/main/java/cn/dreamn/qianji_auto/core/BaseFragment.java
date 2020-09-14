@@ -34,9 +34,15 @@ import com.xuexiang.xrouter.launcher.XRouter;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.actionbar.TitleUtils;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.progress.loading.IMessageLoader;
+import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import java.io.Serializable;
+
+import cn.dreamn.qianji_auto.R;
+
+import static com.xuexiang.xui.utils.ResUtils.getColor;
 
 /**
  * 基础fragment
@@ -294,6 +300,37 @@ public abstract class BaseFragment extends XPageFragment {
      */
     public String serializeObject(Object object) {
         return XRouter.getInstance().navigation(SerializationService.class).object2Json(object);
+    }
+
+
+    public void setSelectedModel(SuperTextView superTextView,Boolean isSelected){
+        if(isSelected){
+            superTextView.setBackgroundColor(getColor(R.color.list_bg_success));
+            superTextView.setLeftTopTextColor(getColor(R.color.list_bg_noraml));
+            superTextView.setLeftBottomTextColor(getColor(R.color.list_bg_noraml));
+        }else{
+            superTextView.setBackgroundColor(getColor(R.color.list_bg_noraml));
+            superTextView.setLeftTopTextColor(getColor(R.color.list_text_color_normal));
+            superTextView.setLeftBottomTextColor(getColor(R.color.list_text_color_normal_sub));
+        }
+    }
+    // 回调接口
+    public interface CallBack {
+        void onResponse(String data);
+    }
+    public void showInputDialog(String title,String tip,String def,CallBack callBack) {
+        new MaterialDialog.Builder(getContext())
+                .title(title)
+                .content(tip)
+                .input(
+                        getString(R.string.input_tip),
+                        def,
+                        false,
+                        ((dialog, input) -> {}))
+                .positiveText(getString(R.string.input_ok))
+                .negativeText(getString(R.string.set_cancel))
+                .onPositive((dialog, which) -> callBack.onResponse(dialog.getInputEditText().getText().toString()))
+                .show();
     }
 
 }

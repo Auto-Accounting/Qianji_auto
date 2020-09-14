@@ -67,21 +67,13 @@ public class ModeFragment extends BaseFragment {
     private void initSet(){
         String mode= Storage.type(Storage.Set).get("mode","default");
         if(mode.equals("default")){
-            mode_default.setBackgroundColor(getColor(R.color.list_bg_success));
-            mode_default.setLeftTopTextColor(getColor(R.color.list_bg_noraml));
-            mode_default.setLeftBottomTextColor(getColor(R.color.list_bg_noraml));
-            mode_xp.setBackgroundColor(getColor(R.color.list_bg_noraml));
-            mode_xp.setLeftTopTextColor(getColor(R.color.list_text_color_normal));
-            mode_xp.setLeftBottomTextColor(getColor(R.color.list_text_color_normal_sub));
-            SnackbarUtils.Short(getView(), getString(R.string.mode_msg_default)).info().show();
+            setSelectedModel(mode_default,true);
+            setSelectedModel(mode_xp,false);
+
         }else{
-            mode_xp.setBackgroundColor(getColor(R.color.list_bg_success));
-            mode_xp.setLeftTopTextColor(getColor(R.color.list_bg_noraml));
-            mode_xp.setLeftBottomTextColor(getColor(R.color.list_bg_noraml));
-            mode_default.setBackgroundColor(getColor(R.color.list_bg_noraml));
-            mode_default.setLeftTopTextColor(getColor(R.color.list_text_color_normal));
-            mode_default.setLeftBottomTextColor(getColor(R.color.list_text_color_normal_sub));
-            SnackbarUtils.Short(getView(), getString(R.string.mode_msg_xp)).info().show();
+            setSelectedModel(mode_default,false);
+            setSelectedModel(mode_xp,true);
+
         }
 
 
@@ -90,10 +82,12 @@ public class ModeFragment extends BaseFragment {
         mode_default.setOnSuperTextViewClickListener(superTextView -> {
             Storage.type(Storage.Set).set("mode","default");
             initSet();
+            SnackbarUtils.Long(getView(), getString(R.string.mode_msg_default)).info().show();
         });
         mode_xp.setOnSuperTextViewClickListener(superTextView -> {
             Storage.type(Storage.Set).set("mode","xposed");
             initSet();
+            SnackbarUtils.Long(getView(), getString(R.string.mode_msg_xp)).info().show();
         });
         mode_au_autostart.setOnSuperTextViewClickListener(superTextView -> {
             //设置自启权限
@@ -104,7 +98,7 @@ public class ModeFragment extends BaseFragment {
             if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }else{
-                SnackbarUtils.Short(getView(), getString(R.string.mode_auth)).info().show();
+                SnackbarUtils.Long(getView(), getString(R.string.mode_auth)).info().show();
             }
         });
     }

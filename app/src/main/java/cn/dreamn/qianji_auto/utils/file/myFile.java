@@ -6,6 +6,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.TimeZone;
+
+import cn.dreamn.qianji_auto.utils.tools.ZIP;
 
 /**
  * 文件存储读写操作
@@ -14,7 +19,8 @@ import java.io.RandomAccessFile;
 public class myFile {
     @SuppressLint("SdCardPath")
     private static String sdPath = "/sdcard/Android/data/cn.dreamn.qianji_auto/";//当前的数据路径
-
+    @SuppressLint("SdCardPath")
+    private static String backup="/sdcard/Download/QianJiAuto";//默认备份路径
     public static void write(String fileName, String string, boolean rm){
         if(rm){
             del(fileName);//写之前是否需要删除该文件
@@ -53,7 +59,7 @@ public class myFile {
     }
     //创建根目录
     private static void makeRootDirectory(String filePath) {
-        File file = null;
+        File file;
         try {
             file = new File(filePath);
             if (!file.exists()) {
@@ -85,6 +91,35 @@ public class myFile {
         }catch(Exception e){
             return "";
         }
+    }
+
+    public static void zip(String[] Files,String type){
+        makeRootDirectory(backup);
+        File[] srcfile = new File[0];
+        for (String string : Files){
+            File f=new File(sdPath+string+".json");
+            srcfile= Arrays.copyOf(srcfile, srcfile.length+1);
+            srcfile[srcfile.length-1]=f;
+
+        }
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH) + 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int minute = cal.get(Calendar.MINUTE);
+        int second = cal.get(Calendar.SECOND);
+        //压缩后的文件
+        @SuppressLint("DefaultLocale") File zipfile=new File(String.format("%s/%s%02d%02d%02d%02d%02d%02d.zip",backup, type,year,month,day,hour, minute, second));
+        ZIP.zipFiles(srcfile, zipfile);
+        //需要解压缩的文件
+
+    }
+    public static void unzip(String filePath){
+        File file=new File(filePath);
+        //解压后的目标目录
+        String dir=sdPath;
+        ZIP.unZipFiles(file, dir);
     }
 
 }

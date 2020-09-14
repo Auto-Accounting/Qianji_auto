@@ -18,12 +18,17 @@
 package cn.dreamn.qianji_auto.fragment;
 
 import com.xuexiang.xpage.annotation.Page;
+import com.xuexiang.xui.utils.SnackbarUtils;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.BaseFragment;
+import cn.dreamn.qianji_auto.utils.XToastUtils;
 import cn.dreamn.qianji_auto.utils.file.Storage;
+
+import static com.xuexiang.xui.utils.ResUtils.getColor;
 
 /**
  * 这个只是一个空壳Fragment，只是用于演示而已
@@ -66,18 +71,61 @@ public class SetFragment extends BaseFragment {
 
     private void initSet(){
         if(Storage.type(Storage.Set).getBoolean("pay",false)){
-
+            setSelectedModel(set_pay_mode_half,false);
+            setSelectedModel(set_pay_mode_full,true);
         }else{
-
+            setSelectedModel(set_pay_mode_full,false);
+            setSelectedModel(set_pay_mode_half,true);
         }
         if(Storage.type(Storage.Set).getBoolean("income",false)){
-
+            setSelectedModel(set_income_mode_half,false);
+            setSelectedModel(set_income_mode_full,true);
         }else{
-
+            setSelectedModel(set_income_mode_full,false);
+            setSelectedModel(set_income_mode_half,true);
         }
+        set_bookname.setLeftTopString(Storage.type(Storage.Set).get("bookname","默认账本"));
+        set_remark.setLeftTopString(Storage.type(Storage.Set).get("remark","[交易对象] - [说明]"));
     }
 
     private void initListen(){
+        set_pay_mode_half.setOnSuperTextViewClickListener(superTextView -> {
+            Storage.type(Storage.Set).set("pay",false);
+            initSet();
+            SnackbarUtils.Long(getView(), getString(R.string.set_msg_mode_half)).info().show();
+        });
+        set_pay_mode_full.setOnSuperTextViewClickListener(superTextView -> {
+            Storage.type(Storage.Set).set("pay",true);
+            initSet();
+            SnackbarUtils.Long(getView(), getString(R.string.set_msg_mode_full)).info().show();
+        });
+        set_income_mode_half.setOnSuperTextViewClickListener(superTextView -> {
+            Storage.type(Storage.Set).set("income",false);
+            initSet();
+            SnackbarUtils.Long(getView(), getString(R.string.set_msg_mode_half)).info().show();
+        });
+        set_income_mode_full.setOnSuperTextViewClickListener(superTextView -> {
+            Storage.type(Storage.Set).set("income",true);
+            initSet();
+            SnackbarUtils.Long(getView(), getString(R.string.set_msg_mode_full)).info().show();
+        });
+        set_bookname.setOnSuperTextViewClickListener(superTextView -> {
+            showInputDialog(getString(R.string.set_data_bookname),getString(R.string.set_data_booktip),Storage.type(Storage.Set).get("bookname","默认账本"),(str)->{
+                Storage.type(Storage.Set).set("bookname",str);
+                SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
+                initSet();
+            });
 
+        });
+
+        set_remark.setOnSuperTextViewClickListener(superTextView -> {
+            showInputDialog(getString(R.string.set_data_remark),getString(R.string.set_data_remarktip),Storage.type(Storage.Set).get("remark","[交易对象] - [说明] "),(str)->{
+                Storage.type(Storage.Set).set("remark",str);
+                SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
+                initSet();
+            });
+
+        });
     }
+
 }

@@ -17,11 +17,16 @@
 
 package cn.dreamn.qianji_auto.fragment;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.view.KeyEvent;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.BaseContainerFragment;
+
 import cn.dreamn.qianji_auto.core.BaseFragment;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
 import com.xuexiang.xpage.annotation.Page;
@@ -35,11 +40,13 @@ import com.xuexiang.xutil.common.ClickUtils;
 import cn.dreamn.qianji_auto.utils.active.core;
 import cn.dreamn.qianji_auto.utils.tools.app;
 
+import static cn.dreamn.qianji_auto.utils.file.SimpleData.init;
+
 /**
  * @author xuexiang
  * @since 2018/11/7 下午1:16
  */
-@Page(name = "", anim = CoreAnim.none)
+@Page(anim = CoreAnim.none)
 public class MainFragment extends BaseFragment implements ClickUtils.OnClick2ExitListener {
     @BindView(R.id.title)
     SuperTextView title;
@@ -75,6 +82,10 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
 
     @Override
     protected void initViews() {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+        init();
         setActive();
         initListen();
 
@@ -125,6 +136,27 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
     private void initListen(){
         menu_status.setOnSuperTextViewClickListener(superTextView -> {
             openNewPage(ModeFragment.class);
+        });
+        menu_set.setOnSuperTextViewClickListener(superTextView -> {
+            openNewPage(SetFragment.class);
+        });
+        menu_sortMap.setOnSuperTextViewClickListener(superTextView -> {
+            openNewPage(SortFragment.class);
+        });
+        menu_Map.setOnSuperTextViewClickListener(superTextView -> {
+            openNewPage(MapFragment.class);
+        });
+        menu_Learn.setOnSuperTextViewClickListener(superTextView -> {
+            openNewPage(LearnFragment.class);
+        });
+        menu_Bill.setOnSuperTextViewClickListener(superTextView -> {
+            openNewPage(BillFragment.class);
+        });
+        menu_Log.setOnSuperTextViewClickListener(superTextView -> {
+            openNewPage(LogFragment.class);
+        });
+        menu_Backup.setOnSuperTextViewClickListener(superTextView -> {
+            openNewPage(BackupFragment.class);
         });
     }
 }

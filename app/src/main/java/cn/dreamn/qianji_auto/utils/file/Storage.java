@@ -73,10 +73,36 @@ public class Storage {
         jsonObject.put(key,val);
         save();
     }
+    public void set(String key,int pos, JSONObject val){
+        if(jsonObject==null)jsonObject=new JSONObject();
+        try{
+            JSONArray jsonArray=jsonObject.getJSONArray(key);
+            if(jsonArray==null)
+                jsonArray=new JSONArray();
+            jsonArray.set(pos,val);
+            jsonObject.put(key,jsonArray);
+            save();
+        }catch (Exception ignored){
+
+        }
+    }
     public void del(String key){
         if(jsonObject==null)jsonObject=new JSONObject();
         jsonObject.remove(key);
         save();
+    }
+    public void del(String key,int pos){
+        try{
+            JSONArray jsonArray=jsonObject.getJSONArray(key);
+            if(jsonArray==null)
+                jsonArray=new JSONArray();
+            jsonArray.remove(pos);
+            jsonObject.put(key,jsonArray);
+            save();
+        }catch (Exception ignored){
+
+        }
+
     }
     public JSONObject getAll(){
         return jsonObject;

@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme_Custom);
+
         super.onCreate(savedInstanceState);
 
         openPage(MainFragment.class);
