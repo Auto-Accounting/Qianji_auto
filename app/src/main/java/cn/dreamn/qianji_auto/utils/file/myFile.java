@@ -2,6 +2,7 @@ package cn.dreamn.qianji_auto.utils.file;
 
 import android.annotation.SuppressLint;
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -11,6 +12,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 import cn.dreamn.qianji_auto.utils.tools.ZIP;
+
 
 /**
  * 文件存储读写操作
@@ -93,7 +95,7 @@ public class myFile {
         }
     }
 
-    public static void zip(String[] Files,String type){
+    public static String zip(String[] Files,String type){
         makeRootDirectory(backup);
         File[] srcfile = new File[0];
         for (String string : Files){
@@ -110,16 +112,24 @@ public class myFile {
         int minute = cal.get(Calendar.MINUTE);
         int second = cal.get(Calendar.SECOND);
         //压缩后的文件
-        @SuppressLint("DefaultLocale") File zipfile=new File(String.format("%s/%s%02d%02d%02d%02d%02d%02d.zip",backup, type,year,month,day,hour, minute, second));
+        @SuppressLint("DefaultLocale") String filename=String.format("%s/%s_%02d%02d%02d%02d%02d%02d.zip",backup, type,year,month,day,hour, minute, second);
+        File zipfile=new File(filename);
         ZIP.zipFiles(srcfile, zipfile);
-        //需要解压缩的文件
+        Log.i("配置已备份到该路径",filename);
+        return filename;
 
     }
     public static void unzip(String filePath){
+        Log.i("配置恢复文件来源",filePath);
         File file=new File(filePath);
+
         //解压后的目标目录
         String dir=sdPath;
         ZIP.unZipFiles(file, dir);
     }
+
+
+
+
 
 }

@@ -20,6 +20,7 @@ package cn.dreamn.qianji_auto.fragment;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.view.KeyEvent;
+import android.view.View;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -31,6 +32,8 @@ import cn.dreamn.qianji_auto.core.BaseFragment;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
+import com.xuexiang.xui.utils.ResUtils;
+import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.StatusBarUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.actionbar.TitleUtils;
@@ -38,9 +41,11 @@ import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 import com.xuexiang.xutil.XUtil;
 import com.xuexiang.xutil.common.ClickUtils;
 import cn.dreamn.qianji_auto.utils.active.core;
+import cn.dreamn.qianji_auto.utils.file.myFile;
 import cn.dreamn.qianji_auto.utils.tools.app;
 
 import static cn.dreamn.qianji_auto.utils.file.SimpleData.init;
+
 
 /**
  * @author xuexiang
@@ -48,8 +53,7 @@ import static cn.dreamn.qianji_auto.utils.file.SimpleData.init;
  */
 @Page(anim = CoreAnim.none)
 public class MainFragment extends BaseFragment implements ClickUtils.OnClick2ExitListener {
-    @BindView(R.id.title)
-    SuperTextView title;
+
     @BindView(R.id.status)
     SuperTextView menu_status;
     @BindView(R.id.set)
@@ -71,8 +75,6 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
 
     @Override
     protected TitleBar initTitle() {
-
-
         return null;
     }
     @Override
@@ -113,8 +115,7 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
     }
 
     private void setActive(){
-        title.setBackgroundColor(getResources().getColor(R.color.parent_bg));
-        if(core.isActive(getContext())){
+         if(core.isActive(getContext())){
             menu_status.setBackgroundColor(getResources().getColor(R.color.list_bg_success));
             menu_status.setLeftTopTextColor(getResources().getColor(R.color.list_text_color_succ));
             menu_status.setLeftBottomTextColor(getResources().getColor(R.color.list_text_color_succ));
@@ -157,6 +158,9 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
         });
         menu_Backup.setOnSuperTextViewClickListener(superTextView -> {
             openNewPage(BackupFragment.class);
+        });
+        menu_About.setOnSuperTextViewClickListener(superTextView -> {
+            openNewPage(AboutFragment.class);
         });
     }
 }

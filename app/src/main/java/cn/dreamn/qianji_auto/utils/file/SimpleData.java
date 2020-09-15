@@ -33,14 +33,14 @@ public class SimpleData {
             Storage.type(Storage.Set).set("autoPay",true);
             Storage.type(Storage.Set).set("autoIncome",true);
             Storage.type(Storage.Set).set("bookname","默认账本");
-            Storage.type(Storage.Set).set("remark","[交易对象]-[说明]");
+            Storage.type(Storage.Set).set("remark","[交易对象] - [说明]");
         }
     }
     //资产映射
     private static void initMap(){
         if(Storage.isExist(Storage.Map)){
             Storage.type(Storage.Map).set("余额宝","支付宝");
-            Storage.type(Storage.Map).set("支付宝余额","支付宝");
+            Storage.type(Storage.Map).set("余额","支付宝");
             Storage.type(Storage.Map).set("花呗支付","花呗");
             Storage.type(Storage.Map).set("京东白条","白条");
             Storage.type(Storage.Map).set("零钱","微信");

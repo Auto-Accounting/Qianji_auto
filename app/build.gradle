@@ -13,8 +13,8 @@ android {
         applicationId "cn.dreamn.qianji_auto"
         minSdkVersion 17
         targetSdkVersion build_versions.target_sdk
-        versionCode 30
-        versionName "1.6.0"
+        versionCode 31
+        versionName "1.6.1b1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -47,9 +47,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
             if (isNeedPackage.toBoolean()) {
                 signingConfig signingConfigs.release
 
@@ -112,6 +110,8 @@ dependencies {
     implementation 'com.google.guava:guava:29.0-jre'
     implementation 'com.alibaba:fastjson:1.2.72'
     implementation 'com.yanzhenjie.recyclerview:support:1.3.2'
+    implementation 'com.github.didikee:AndroidDonate:0.1.0'
+    implementation 'org.jdom:jdom:1.1.3'
 }
 
 //x-library依赖脚本

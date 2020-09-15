@@ -8,7 +8,6 @@
 
     <application
         android:name="cn.dreamn.qianji_auto.MyApp"
-        android:allowBackup="false"
         android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,7 +17,15 @@
         android:windowSoftInputMode="adjustPan|stateHidden"
         tools:ignore="LockedOrientationActivity"
         >
-
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="借助于第三方app的自动记账接口，实现对第三方app自动记账" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="30" />
         <activity
             android:name="cn.dreamn.qianji_auto.activity.MainActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"

@@ -100,11 +100,7 @@ public class BillFragment extends BaseFragment {
                     .itemsCallback((dialog, itemView, position, text) ->{
                         switch (position){
                             case 0:
-                                if(item.get(KEY_SORT)!=null|| !item.get(KEY_SORT).equals("")){
-                                    Api.Send2Qianji(getContext(),item.get(KEY_TYPE),item.get(KEY_MONEY),item.get(KEY_REMARK),item.get(KEY_ACCOUNT),item.get(KEY_SORT));
-                                }else{
-                                    Api.Send2Qianji(getContext(),item.get(KEY_TYPE),item.get(KEY_MONEY),item.get(KEY_REMARK),item.get(KEY_ACCOUNT));
-                                }
+                                Fun.browser(getContext(),Api.getQianji(item.get(KEY_TYPE),item.get(KEY_MONEY),item.get(KEY_REMARK),item.get(KEY_ACCOUNT),item.get(KEY_SORT)));
                                 break;
                             case 1:
                                 Fun.clipboard(Api.getQianji(item.get(KEY_TYPE),item.get(KEY_MONEY),item.get(KEY_REMARK),item.get(KEY_ACCOUNT),item.get(KEY_SORT)));

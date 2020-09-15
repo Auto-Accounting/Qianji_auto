@@ -38,5 +38,11 @@
         <item>@string/choose_restore</item>
     </string-array>
 
+    <string-array name="menu_values_donate">
+        <item>@string/choose_alipay</item>
+        <item>@string/choose_wechat</item>
+    </string-array>
+
+
 
 </resources>

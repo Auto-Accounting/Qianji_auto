@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.alibaba.fastjson.JSONArray;
@@ -28,9 +29,9 @@ import java.util.Objects;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.BaseFragment;
-import cn.dreamn.qianji_auto.core.BillListAdapter;
+
 import cn.dreamn.qianji_auto.core.LogListAdapter;
-import cn.dreamn.qianji_auto.utils.active.Api;
+
 import cn.dreamn.qianji_auto.utils.active.Fun;
 import cn.dreamn.qianji_auto.utils.file.Storage;
 import cn.dreamn.qianji_auto.utils.file.myFile;
@@ -126,8 +127,8 @@ public class LogFragment extends BaseFragment {
             for(int i = 0; i < logs.size(); i++){
                 Map<String, String> item = new HashMap<>();
                 JSONObject jsonObject=(JSONObject)logs.get(i);
-                item.put(KEY_SUB, jsonObject.getString(KEY_SUB));
-                item.put(KEY_TITLE, jsonObject.getString(KEY_TITLE));
+                item.put(KEY_SUB, String.format("%s  %s",jsonObject.getString("tag"),jsonObject.getString("time")));
+                item.put(KEY_TITLE, jsonObject.getString("log"));
                 data.add(item);
             }
             if(data.size()!=0){

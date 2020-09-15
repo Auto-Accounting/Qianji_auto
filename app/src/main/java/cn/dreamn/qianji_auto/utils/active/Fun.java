@@ -72,6 +72,7 @@ public class Fun {
                     .setContentTitle(title)
                     .setContentText(content)
                     .setContentIntent(resultPendingIntent)
+                    .setAutoCancel(true)
                     .build();
 
 

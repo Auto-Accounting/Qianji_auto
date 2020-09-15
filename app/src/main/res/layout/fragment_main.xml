@@ -6,7 +6,13 @@
     android:layout_height="match_parent"
     android:background="@color/parent_bg"
     >
-
+    <com.xuexiang.xui.widget.actionbar.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/xui_config_color_titlebar"
+        app:tb_barHeight="65dp"
+        app:tb_leftImageResource="@drawable/ic_null"
+        app:tb_titleText="@string/app_name" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,23 +23,6 @@
             android:orientation="vertical"
 
               >
-
-              <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
-                  android:id="@+id/title"
-                  android:layout_width="match_parent"
-                  android:layout_height="65dp"
-                  app:sCenterViewGravity="left_center"
-                  app:sDividerLineType="none"
-                  app:sLeftTextColor="@color/title_color"
-                  app:sLeftTextSize="18sp"
-                  app:sLeftTextString="@string/app_name"
-                  app:sLeftIconHeight="35sp"
-                  app:sLeftIconMarginLeft="35dp"
-                  app:sLeftIconRes="@mipmap/ic_launcher"
-                  app:sLeftIconWidth="35sp"
-                  app:sLeftViewGravity="left_center"
-                  app:sLeftViewMarginLeft="20dp"
-                  />
 
 
               <com.xuexiang.xui.widget.button.RippleView

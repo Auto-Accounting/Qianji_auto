@@ -19,20 +19,23 @@ package cn.dreamn.qianji_auto.fragment;
 
 
 import android.content.Intent;
+import android.net.Uri;
 
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
+import com.xuexiang.xutil.app.PathUtils;
 
 import java.util.Objects;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.BaseFragment;
-
 import cn.dreamn.qianji_auto.utils.file.Storage;
 import cn.dreamn.qianji_auto.utils.file.myFile;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -53,7 +56,7 @@ public class BackupFragment extends BaseFragment {
     SuperTextView bak_sort;
     @BindView(R.id.bak_learn)
     SuperTextView bak_learn;
-
+    private static final int FILE_SELECT_CODE = 0;
 
     /**
      * 布局的资源id
@@ -114,26 +117,41 @@ public class BackupFragment extends BaseFragment {
                                 default:
                                     throw new IllegalStateException("Unexpected value: " + type);
                             }
-                            myFile.zip(files,name);
-                            SnackbarUtils.Long(getView(), getString(R.string.bak_success)).info().show();
+                            name=myFile.zip(files,name);
+                            SnackbarUtils.Long(getView(), String.format(getString(R.string.bak_success),name)).info().show();
                             break;
                         case 1:
                             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                            intent.setType("*.zip");//设置类型
+                            intent.setType("*/*");
                             intent.addCategory(Intent.CATEGORY_OPENABLE);
+
                             try {
-                                // TODO 文件选择
-                                startActivityForResult(Intent.createChooser(intent, "选择文件"),
-                                        DefaultSelectorActivity.FILE_SELECT_CODEB);
-                            } catch (android.content.ActivityNotFoundException ex) {
+                                startActivityForResult( Intent.createChooser(intent, getString(R.string.bak_select)), FILE_SELECT_CODE);
+                            } catch (android.content.ActivityNotFoundException ignored) {
 
                             }
+
                             break;
                     }
 
 
                 })
                 .show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)  {
+        if (requestCode == FILE_SELECT_CODE) {
+            if (resultCode == RESULT_OK) {
+                Uri uri = data.getData();
+                assert uri != null;
+                String path = PathUtils.getFilePathByUri(getContext(), uri);
+
+                myFile.unzip(path);
+                SnackbarUtils.Long(getView(), getString(R.string.bak_success_2)).info().show();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 }

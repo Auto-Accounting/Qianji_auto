@@ -112,5 +112,23 @@
     <string name="bak_sort">备份或恢复分类映射</string>
     <string name="bak_map">备份或恢复资产映射</string>
     <string name="bak_learn">备份或恢复语义识别</string>
-    <string name="bak_success">已备份到/sdcard/Download/QianJiAuto/%s</string>
+    <string name="bak_success">已备份到%s</string>
+    <string name="bak_select">选择一个文件来恢复</string>
+    <string name="bak_success_2">配置恢复成功</string>
+
+    <string name="about_copyright">© %1$s Dreamn All rights reserved.</string>
+    <string name="about_desc">配合钱迹API接口实现记账</string>
+    <string name="about_item_homepage">关于作者</string>
+    <string name="about_item_learn">使用教程</string>
+    <string name="about_item_donation_link">捐赠作者</string>
+    <string name="about_item_add_qq_group">QQ交流群</string>
+    <string name="about_item_open_url">项目地址</string>
+    <string name="url_open_url">https://github.com/dreamncn/Qianji_auto</string>
+    <string name="url_author_blog">https://dreamn.cn</string>
+    <string name="url_learn">https://www.dreamn.cn/posts/Automatic-Billing-Open-The-Right-Way/</string>
+    <string name="url_donation_link">https://pay.dreamn.cn/</string>
+    <string name="url_add_qq_group">http://qm.qq.com/cgi-bin/qm/qr?k=99zP55gaVUnw9LmpLzeci2-cXc3BXLrl</string>
+    <string name="choose_wechat">微信打赏</string>
+    <string name="choose_alipay">支付宝打赏</string>
+    <string name="app_name_sub">钱迹</string>
 </resources>
