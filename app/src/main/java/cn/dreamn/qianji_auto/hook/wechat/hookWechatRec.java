@@ -253,7 +253,6 @@ public class hookWechatRec implements IXposedHookLoadPackage {
                 case "支付方式":payTool=value;break;
                 case "付款留言":
                 case "商品详情":
-                case "交易状态":
                     remark=value;break;
             }
         }

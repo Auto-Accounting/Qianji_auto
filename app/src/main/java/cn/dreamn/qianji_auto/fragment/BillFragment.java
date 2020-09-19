@@ -40,6 +40,7 @@ import cn.dreamn.qianji_auto.utils.file.myFile;
 
 import static cn.dreamn.qianji_auto.core.BillListAdapter.KEY_ACCOUNT;
 import static cn.dreamn.qianji_auto.core.BillListAdapter.KEY_MONEY;
+import static cn.dreamn.qianji_auto.core.BillListAdapter.KEY_POS;
 import static cn.dreamn.qianji_auto.core.BillListAdapter.KEY_REMARK;
 import static cn.dreamn.qianji_auto.core.BillListAdapter.KEY_SORT;
 import static cn.dreamn.qianji_auto.core.BillListAdapter.KEY_SUB;
@@ -165,7 +166,7 @@ public class BillFragment extends BaseFragment {
         new Handler().postDelayed(() -> {
             JSONArray bill = Storage.type(Storage.Bill).getJSONArray("bill");
             List<Map<String, String>> data = new ArrayList<>();
-            for(int i = 0; i < bill.size(); i++){
+            for(int i = bill.size()-1; i >=0; i--){
                 Map<String, String> item = new HashMap<>();
                 JSONObject jsonObject=(JSONObject)bill.get(i);
                 item.put(KEY_SUB, jsonObject.getString(KEY_SUB));
@@ -175,6 +176,7 @@ public class BillFragment extends BaseFragment {
                 item.put(KEY_ACCOUNT, jsonObject.getString(KEY_ACCOUNT));
                 item.put(KEY_REMARK, jsonObject.getString(KEY_REMARK));
                 item.put(KEY_SORT, jsonObject.getString(KEY_SORT));
+                item.put(KEY_POS, String.valueOf(i));
                 data.add(item);
             }
             if(data.size()!=0){

@@ -25,6 +25,7 @@ import com.scwang.smartrefresh.layout.adapter.SmartRecyclerAdapter;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import java.util.Map;
+import java.util.Objects;
 
 import cn.dreamn.qianji_auto.R;
 
@@ -40,6 +41,7 @@ public class LogListAdapter extends SmartRecyclerAdapter<Map<String, String>> {
 
     public static final String KEY_SUB = "sub";
     public static final String KEY_TITLE = "title";
+    public static final String KEY_POS = "pos";
     public LogListAdapter() {
         super(R.layout.map_list_2);
     }
@@ -54,7 +56,7 @@ public class LogListAdapter extends SmartRecyclerAdapter<Map<String, String>> {
         TwoLineListItem item_click = (TwoLineListItem)holder.findView(R.id.item);
         item_click.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onClick(item,position);
+                listener.onClick(item,Integer.parseInt(Objects.requireNonNull(item.get(KEY_POS))));
             }
         });
     }

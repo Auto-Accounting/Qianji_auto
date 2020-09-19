@@ -29,6 +29,7 @@ import cn.dreamn.qianji_auto.core.BaseFragment;
 import cn.dreamn.qianji_auto.core.SortListAdapter;
 import cn.dreamn.qianji_auto.utils.file.Storage;
 
+import static cn.dreamn.qianji_auto.core.BillListAdapter.KEY_POS;
 import static cn.dreamn.qianji_auto.core.SortListAdapter.KEY_TITLE;
 import static cn.dreamn.qianji_auto.core.SortListAdapter.KEY_VALUE;
 
@@ -120,6 +121,7 @@ public class MapFragment extends BaseFragment {
                 Map<String, String> item = new HashMap<>();
                 item.put(KEY_TITLE, entry.getKey());
                 item.put(KEY_VALUE, (String) entry.getValue());
+
                 data.add(item);
             }
             if(data.size()!=0){

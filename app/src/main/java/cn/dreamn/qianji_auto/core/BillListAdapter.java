@@ -26,6 +26,7 @@ import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import java.util.Map;
+import java.util.Objects;
 
 import cn.dreamn.qianji_auto.R;
 
@@ -46,6 +47,7 @@ public class BillListAdapter extends SmartRecyclerAdapter<Map<String, String>> {
     public static final String KEY_ACCOUNT = "account";
     public static final String KEY_REMARK = "remark";
     public static final String KEY_SORT = "sort";
+    public static final String KEY_POS = "pos";
     public BillListAdapter() {
         super(R.layout.map_list_2);
     }
@@ -60,7 +62,7 @@ public class BillListAdapter extends SmartRecyclerAdapter<Map<String, String>> {
         TwoLineListItem item_click = (TwoLineListItem)holder.findView(R.id.item);
         item_click.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onClick(item,position);
+                listener.onClick(item,Integer.parseInt(Objects.requireNonNull(item.get(KEY_POS))));
             }
         });
     }

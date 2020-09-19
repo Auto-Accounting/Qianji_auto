@@ -37,6 +37,7 @@ import cn.dreamn.qianji_auto.utils.file.Storage;
 import cn.dreamn.qianji_auto.utils.file.myFile;
 
 
+import static cn.dreamn.qianji_auto.core.BillListAdapter.KEY_POS;
 import static cn.dreamn.qianji_auto.core.LogListAdapter.KEY_SUB;
 import static cn.dreamn.qianji_auto.core.LogListAdapter.KEY_TITLE;
 
@@ -124,11 +125,12 @@ public class LogFragment extends BaseFragment {
         new Handler().postDelayed(() -> {
             JSONArray logs = Storage.type(Storage.Log).getJSONArray("log");
             List<Map<String, String>> data = new ArrayList<>();
-            for(int i = 0; i < logs.size(); i++){
+            for(int i = logs.size()-1; i >=0; i--){
                 Map<String, String> item = new HashMap<>();
                 JSONObject jsonObject=(JSONObject)logs.get(i);
                 item.put(KEY_SUB, String.format("%s  %s",jsonObject.getString("tag"),jsonObject.getString("time")));
                 item.put(KEY_TITLE, jsonObject.getString("log"));
+                item.put(KEY_POS, String.valueOf(i));
                 data.add(item);
             }
             if(data.size()!=0){

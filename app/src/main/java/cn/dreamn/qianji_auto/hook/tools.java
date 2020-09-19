@@ -18,6 +18,7 @@
 package cn.dreamn.qianji_auto.hook;
 
 import android.content.Context;
+import android.content.IntentFilter;
 
 import cn.dreamn.qianji_auto.utils.active.Api;
 import cn.dreamn.qianji_auto.utils.active.Bill;
@@ -25,9 +26,12 @@ import cn.dreamn.qianji_auto.utils.active.Fun;
 import cn.dreamn.qianji_auto.utils.file.Log;
 import cn.dreamn.qianji_auto.utils.file.Storage;
 
+
 import static cn.dreamn.qianji_auto.utils.active.Api.getQianji;
 
 public class tools {
+
+
     //是否自动记录支出
     public static Boolean  isAutoPay(){
         return Storage.type(Storage.Set).getBoolean("autoPay",false);
@@ -38,7 +42,13 @@ public class tools {
     }
 
     public static void sendPay2QianJi(Context context, String cost, String product, String payTool, String sort,String string){
-        if(isAutoPay()){
+        if(Float.parseFloat(cost)<0)return;
+        Log.i(string,"" +
+                " 信息："+product+
+                "\n 金额：￥"+cost+
+                "\n 支付渠道："+payTool
+        );
+        if(isAutoPay()|| !sort.equals("其它")){
             Bill.put(payTool,cost,product,string,Api.TYPE_PAY,sort);
             Api.Send2Qianji(context, Api.TYPE_PAY, cost, product, payTool,sort);
         }else{
@@ -47,13 +57,14 @@ public class tools {
         }
     }
     public static void sendGain2QianJi(Context context, String cost, String product, String payTool, String sort,String string){
+        if(Float.parseFloat(cost)<0)return;
         Log.i(string,"" +
                 " 信息："+product+
                 "\n 金额：￥"+cost+
                 "\n 收款渠道："+payTool
         );
 
-        if(isAutoIncome()){
+        if(isAutoIncome() || !sort.equals("其它")){
             Bill.put(payTool,cost,product,string,Api.TYPE_GAIN,sort);
             Api.Send2Qianji(context,Api.TYPE_GAIN,cost,product,payTool,sort);
         }else {
@@ -71,6 +82,7 @@ public class tools {
             product=product.replace("[说明]",detail);
         return product;
     }
+
 
 
 }

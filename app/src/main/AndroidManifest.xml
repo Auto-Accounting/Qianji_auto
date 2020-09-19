@@ -3,9 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="cn.dreamn.qianji_auto">
 
-    <!--进程杀死-->
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-
     <application
         android:name="cn.dreamn.qianji_auto.MyApp"
         android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
@@ -26,6 +23,7 @@
         <meta-data
             android:name="xposedminversion"
             android:value="30" />
+
         <activity
             android:name="cn.dreamn.qianji_auto.activity.MainActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"

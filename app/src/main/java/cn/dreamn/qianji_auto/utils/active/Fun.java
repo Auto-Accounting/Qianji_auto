@@ -139,6 +139,7 @@ public class Fun {
         context.startActivity(intent);
     }
 
+
     public static void clipboard(String text){
 
         ClipboardManager cm = (ClipboardManager) Objects.requireNonNull(getContext()).getSystemService(Context.CLIPBOARD_SERVICE);

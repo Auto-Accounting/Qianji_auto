@@ -70,14 +70,14 @@ public class SetFragment extends BaseFragment {
     }
 
     private void initSet(){
-        if(Storage.type(Storage.Set).getBoolean("pay",false)){
+        if(Storage.type(Storage.Set).getBoolean("autoPay",false)){
             setSelectedModel(set_pay_mode_half,false);
             setSelectedModel(set_pay_mode_full,true);
         }else{
             setSelectedModel(set_pay_mode_full,false);
             setSelectedModel(set_pay_mode_half,true);
         }
-        if(Storage.type(Storage.Set).getBoolean("income",false)){
+        if(Storage.type(Storage.Set).getBoolean("autoIncome",false)){
             setSelectedModel(set_income_mode_half,false);
             setSelectedModel(set_income_mode_full,true);
         }else{
@@ -90,22 +90,22 @@ public class SetFragment extends BaseFragment {
 
     private void initListen(){
         set_pay_mode_half.setOnSuperTextViewClickListener(superTextView -> {
-            Storage.type(Storage.Set).set("pay",false);
+            Storage.type(Storage.Set).set("autoPay",false);
             initSet();
             SnackbarUtils.Long(getView(), getString(R.string.set_msg_mode_half)).info().show();
         });
         set_pay_mode_full.setOnSuperTextViewClickListener(superTextView -> {
-            Storage.type(Storage.Set).set("pay",true);
+            Storage.type(Storage.Set).set("autoPay",true);
             initSet();
             SnackbarUtils.Long(getView(), getString(R.string.set_msg_mode_full)).info().show();
         });
         set_income_mode_half.setOnSuperTextViewClickListener(superTextView -> {
-            Storage.type(Storage.Set).set("income",false);
+            Storage.type(Storage.Set).set("autoIncome",false);
             initSet();
             SnackbarUtils.Long(getView(), getString(R.string.set_msg_mode_half)).info().show();
         });
         set_income_mode_full.setOnSuperTextViewClickListener(superTextView -> {
-            Storage.type(Storage.Set).set("income",true);
+            Storage.type(Storage.Set).set("autoIncome",true);
             initSet();
             SnackbarUtils.Long(getView(), getString(R.string.set_msg_mode_full)).info().show();
         });
