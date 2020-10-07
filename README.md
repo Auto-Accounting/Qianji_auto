@@ -40,17 +40,17 @@ git clone https://github.com/xuexiangjys/TemplateSimpleProject.git
 
 * 修改包名
 
-![](https://github.com/xuexiangjys/Resource/blob/master/img/templateproject/1.png)
+![templateproject_1.png](https://img.rruu.net/image/5f7dc0116fde9)
 
-![](https://github.com/xuexiangjys/Resource/blob/master/img/templateproject/2.png)
+![templateproject_2.png](https://img.rruu.net/image/5f7dc01368e64)
 
 * 修改applicationId
 
-![](https://github.com/xuexiangjys/Resource/blob/master/img/templateproject/3.png)
+![templateproject_3.png](https://img.rruu.net/image/5f7dc0139f92d)
 
 * 修改app_name
 
-![](https://github.com/xuexiangjys/Resource/blob/master/img/templateproject/5.png)
+![templateproject_5.png](https://img.rruu.net/image/5f7dc010d270d)
 
 ## 项目打包
 
@@ -66,10 +66,10 @@ git clone https://github.com/xuexiangjys/TemplateSimpleProject.git
 
 > 你的打赏是我维护的动力，我将会列出所有打赏人员的清单在下方作为凭证，打赏前请留下打赏项目的备注！
 
-![](https://github.com/xuexiangjys/Resource/blob/master/img/pay/alipay.jpeg) &emsp; ![](https://github.com/xuexiangjys/Resource/blob/master/img/pay/weixinpay.jpeg)
+![alipay.jpeg](https://img.rruu.net/image/5f47eeb8bcdf5) &emsp; ![weixinpay.jpeg](https://img.rruu.net/image/5f47eeb1c8a08)
 
 ## 联系方式
 
 [![](https://img.shields.io/badge/点击一键加入QQ交流群-602082750-blue.svg)](http://shang.qq.com/wpa/qunwpa?idkey=9922861ef85c19f1575aecea0e8680f60d9386080a97ed310c971ae074998887)
 
-![](https://github.com/xuexiangjys/Resource/blob/master/img/qq/qq_group.jpg)
+![winxin.jpg](https://img.rruu.net/image/5f47ee9f6b02d)
