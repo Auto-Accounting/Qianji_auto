@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 xuexiangjys(xuexiangjys@163.com)
+ * Copyright (C) 2021 xuexiangjys(xuexiangjys@163.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,13 @@
  *
  */
 
-package com.xuexiang.templateproject.fragment;
+package cn.dreamn.qianji_auto.ui.fragment;
 
 import android.view.KeyEvent;
 
-import com.xuexiang.templateproject.core.BaseContainerFragment;
-import com.xuexiang.templateproject.utils.XToastUtils;
+import cn.dreamn.qianji_auto.ui.core.BaseContainerFragment;
+import cn.dreamn.qianji_auto.utils.XToastUtils;
+
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xui.widget.actionbar.TitleBar;

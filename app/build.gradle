@@ -10,11 +10,11 @@ android {
     buildToolsVersion build_versions.build_tools
 
     defaultConfig {
-        applicationId "com.xuexiang.templateproject"
-        minSdkVersion 17
+        applicationId "cn.dreamn.qianji_auto"
+        minSdkVersion 28
         targetSdkVersion build_versions.target_sdk
-        versionCode 1
-        versionName "1.0"
+        versionCode 36
+        versionName "2.0.0b1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -95,16 +95,11 @@ dependencies {
     implementation deps.androidx.multidex
     //屏幕适配AutoSize
     implementation 'me.jessyan:autosize:1.1.2'
-    //umeng统计
-    implementation 'com.umeng.umsdk:analytics:8.0.2'
-    implementation 'com.umeng.umsdk:common:2.0.2'
+    implementation 'com.tencent:mmkv:1.0.23'
 
-    //美团多渠道打包
-    implementation 'com.meituan.android.walle:library:1.1.6'
 }
 
 //x-library依赖脚本
 apply from: 'x-library-simple.gradle'
-//walle多渠道打包
-apply from: 'multiple-channel.gradle'
+
 

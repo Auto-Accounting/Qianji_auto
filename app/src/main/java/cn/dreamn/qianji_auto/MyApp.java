@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2019 xuexiangjys(xuexiangjys@163.com)
- *
+ * Copyright (C) 2021 dreamn(dream@dreamn.cn)
+ *   
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,15 +15,17 @@
  *
  */
 
-package com.xuexiang.templateproject;
+package cn.dreamn.qianji_auto;
 
 import android.app.Application;
 import android.content.Context;
 
 import androidx.multidex.MultiDex;
 
-import com.xuexiang.templateproject.utils.sdkinit.UMengInit;
-import com.xuexiang.templateproject.utils.sdkinit.XBasicLibInit;
+import com.xuexiang.templateproject.BuildConfig;
+
+
+import cn.dreamn.qianji_auto.utils.sdkinit.XBasicLibInit;
 
 /**
  * @author xuexiang
@@ -49,11 +51,6 @@ public class MyApp extends Application {
      */
     private void initLibs() {
         XBasicLibInit.init(this);
-
-        //运营统计数据运行时不初始化
-        if (!MyApp.isDebug()) {
-            UMengInit.init(this);
-        }
     }
 
 

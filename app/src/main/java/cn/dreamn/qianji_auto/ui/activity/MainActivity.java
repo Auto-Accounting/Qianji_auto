@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 xuexiangjys(xuexiangjys@163.com)
+ * Copyright (C) 2021 xuexiangjys(xuexiangjys@163.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,12 @@
  *
  */
 
-package com.xuexiang.templateproject.activity;
+package cn.dreamn.qianji_auto.ui.activity;
 
 import android.os.Bundle;
 
-import com.xuexiang.templateproject.core.BaseActivity;
-import com.xuexiang.templateproject.fragment.MainFragment;
+import cn.dreamn.qianji_auto.ui.core.BaseActivity;
+import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
 
 /**
  * 程序入口，空壳容器
