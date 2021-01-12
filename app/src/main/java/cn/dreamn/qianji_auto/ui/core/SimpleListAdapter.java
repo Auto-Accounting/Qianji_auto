@@ -21,7 +21,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
-import com.xuexiang.templateproject.R;
+import cn.dreamn.qianji_auto.R;
 import com.xuexiang.xui.adapter.listview.BaseListAdapter;
 import com.xuexiang.xutil.common.StringUtils;
 

@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+    android:paddingBottom="20dp">
+
+    <ScrollView
+        android:id="@+id/page_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:ignore="ScrollViewCount">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:gravity="center|center_vertical"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+
+            <com.xuexiang.xui.widget.imageview.RadiusImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:src="@mipmap/ic_launcher"
+                app:riv_border_color="@color/xui_config_color_gray_6"
+                app:riv_border_width="1px"
+                app:riv_is_circle="true"
+                app:riv_selected_border_color="@color/xui_config_color_gray_4"
+                app:riv_selected_border_width="1px"
+                app:riv_selected_mask_color="@color/xui_config_color_gray_8" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:autoSizeTextType="none"
+                android:gravity="center"
+                android:text="@string/helper_title"
+                android:textColor="@color/toast_normal_tint_color"
+                android:textSize="24sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/helper_sub"
+                android:textSize="18sp" />
+
+            <com.xuexiang.xui.widget.button.ButtonView
+                android:id="@+id/helper_start"
+                style="@style/ButtonView.custom1"
+                android:text="@string/helper_go" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/page_4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:ignore="ScrollViewCount">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:gravity="center|center_vertical"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+
+            <com.xuexiang.xui.widget.imageview.RadiusImageView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:src="@drawable/logo_qianji"
+                app:riv_border_color="@color/xui_config_color_gray_6"
+                app:riv_border_width="0px"
+                app:riv_is_circle="false"
+                app:riv_selected_border_color="@color/xui_config_color_gray_4"
+                app:riv_selected_border_width="1px"
+                app:riv_selected_mask_color="@color/xui_config_color_gray_8" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:autoSizeTextType="none"
+                android:gravity="center"
+                android:text="@string/helper_qianji_book"
+                android:textColor="@color/toast_normal_tint_color"
+                android:textSize="24sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/helper_qianji_book_sub"
+                android:textSize="18sp" />
+
+            <com.xuexiang.xui.widget.button.ButtonView
+                android:id="@+id/helper_bill"
+                style="@style/ButtonView.custom1"
+                android:text="@string/helper_qianji_go" />
+
+            <com.xuexiang.xui.widget.button.ButtonView
+                android:id="@+id/helper_bill_next"
+                style="@style/ButtonView.custom1"
+                android:text="@string/helper_qianji_over" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/page_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:ignore="ScrollViewCount">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:gravity="center|center_vertical"
+            android:orientation="vertical"
+            android:visibility="visible"
+            tools:ignore="UselessParent">
+
+            <com.xuexiang.xui.widget.imageview.RadiusImageView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:src="@drawable/ic_auto"
+                app:riv_border_color="@color/xui_config_color_gray_6"
+                app:riv_border_width="0px"
+                app:riv_is_circle="false"
+                app:riv_selected_border_color="@color/xui_config_color_gray_4"
+                app:riv_selected_border_width="1px"
+                app:riv_selected_mask_color="@color/xui_config_color_gray_8" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:autoSizeTextType="none"
+                android:gravity="center"
+                android:text="@string/helper_async_qianji"
+                android:textColor="@color/toast_normal_tint_color"
+                android:textSize="24sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/helper_async_qianji_sub"
+                android:textSize="18sp" />
+
+            <com.xuexiang.xui.widget.button.ButtonView
+                android:id="@+id/helper_async"
+                style="@style/ButtonView.custom1"
+                android:text="@string/helper_async_button" />
+
+            <com.xuexiang.xui.widget.button.ButtonView
+                android:id="@+id/helper_async_next"
+                style="@style/ButtonView.custom1"
+                android:text="@string/helper_async_button_go" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/page_3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:ignore="ScrollViewCount">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:gravity="center|center_vertical"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+
+            <com.xuexiang.xui.widget.imageview.RadiusImageView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:src="@drawable/ic_plugin"
+                app:riv_border_color="@color/xui_config_color_gray_6"
+                app:riv_border_width="0px"
+                app:riv_is_circle="false"
+                app:riv_selected_border_color="@color/xui_config_color_gray_4"
+                app:riv_selected_border_width="1px"
+                app:riv_selected_mask_color="@color/xui_config_color_gray_8" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:autoSizeTextType="none"
+                android:gravity="center"
+                android:text="@string/helper_choose_title"
+                android:textColor="@color/toast_normal_tint_color"
+                android:textSize="24sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/helper_choose_sub"
+                android:textSize="18sp" />
+
+            <com.xuexiang.xui.widget.button.ButtonView
+                android:id="@+id/helper_choose_help"
+                style="@style/ButtonView.custom1"
+                android:text="@string/helper_choose_help" />
+
+            <com.xuexiang.xui.widget.button.ButtonView
+                android:id="@+id/helper_choose_xp"
+                style="@style/ButtonView.custom1"
+                android:text="@string/helper_choose_xposed" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/page_3_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        tools:ignore="ScrollViewCount">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingVertical="30dp"
+            tools:ignore="UselessParent">
+
+            <com.xuexiang.xui.widget.imageview.RadiusImageView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:src="@drawable/ic_ht"
+                app:riv_border_color="@color/xui_config_color_gray_6"
+                app:riv_border_width="0px"
+                app:riv_is_circle="false"
+                app:riv_selected_border_color="@color/xui_config_color_gray_4"
+                app:riv_selected_border_width="1px"
+                app:riv_selected_mask_color="@color/xui_config_color_gray_8" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:autoSizeTextType="none"
+                android:gravity="center"
+                android:text="@string/helper_1_title"
+                android:textColor="@color/toast_normal_tint_color"
+                android:textSize="24sp" />
+
+
+            <include layout="@layout/permission_helper"/>
+            <com.xuexiang.xui.widget.button.ButtonView
+                android:id="@+id/helper_permission_next"
+                style="@style/ButtonView.custom1"
+                android:text="@string/helper_permission_next" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/page_3_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:ignore="ScrollViewCount">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingVertical="30dp"
+            tools:ignore="UselessParent">
+
+            <com.xuexiang.xui.widget.imageview.RadiusImageView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:src="@drawable/ic_xp"
+                app:riv_border_color="@color/xui_config_color_gray_6"
+                app:riv_border_width="0px"
+                app:riv_is_circle="false"
+                app:riv_selected_border_color="@color/xui_config_color_gray_4"
+                app:riv_selected_border_width="1px"
+                app:riv_selected_mask_color="@color/xui_config_color_gray_8" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:autoSizeTextType="none"
+                android:gravity="center"
+                android:text="@string/helper_2_title"
+                android:textColor="@color/toast_normal_tint_color"
+                android:textSize="24sp" />
+            <include layout="@layout/permission_xp"/>
+
+            <com.xuexiang.xui.widget.button.ButtonView
+                android:id="@+id/helper_permission_next2"
+                style="@style/ButtonView.custom1"
+                android:text="@string/helper_permission_next" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/page_5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:ignore="ScrollViewCount">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingVertical="30dp"
+            tools:ignore="UselessParent">
+
+            <com.xuexiang.xui.widget.imageview.RadiusImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:src="@mipmap/ic_launcher"
+                app:riv_border_color="@color/xui_config_color_gray_6"
+                app:riv_border_width="1px"
+                app:riv_is_circle="true"
+                app:riv_selected_border_color="@color/xui_config_color_gray_4"
+                app:riv_selected_border_width="1px"
+                app:riv_selected_mask_color="@color/xui_config_color_gray_8" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:autoSizeTextType="none"
+                android:gravity="center"
+                android:text="@string/helper_auto_title"
+                android:textColor="@color/toast_normal_tint_color"
+                android:textSize="24sp" />
+
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/set_check"
+
+                style="@style/Item"
+                app:sLeftBottomTextString="@string/set_float_sub"
+                app:sLeftIconRes="@drawable/ic_float"
+                app:sLeftTopTextString="@string/set_float" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/set_delay"
+
+                style="@style/Item"
+                app:sLeftBottomTextString="@string/set_time_sub"
+                app:sLeftIconRes="@drawable/auto_time"
+                app:sLeftTopTextString="@string/set_time" />
+
+            <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                android:id="@+id/set_default_book"
+
+                style="@style/Item"
+                app:sLeftBottomTextString="@string/set_default_book_sub"
+                app:sLeftIconRes="@drawable/ic_book"
+                app:sLeftTopTextString="@string/set_default_book" />
+
+
+            <com.xuexiang.xui.widget.button.ButtonView
+                android:id="@+id/set_ok"
+                style="@style/ButtonView.custom1"
+                android:text="@string/set_ok" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
+

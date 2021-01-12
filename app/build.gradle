@@ -11,10 +11,10 @@ android {
 
     defaultConfig {
         applicationId "cn.dreamn.qianji_auto"
-        minSdkVersion 28
+        minSdkVersion 22
         targetSdkVersion build_versions.target_sdk
         versionCode 36
-        versionName "2.0.0b1"
+        versionName "2.0.0alpha1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -47,9 +47,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+           /* minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'*/
             if (isNeedPackage.toBoolean()) {
                 signingConfig signingConfigs.release
 
@@ -88,6 +88,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'com.eclipsesource.j2v8:j2v8:5.0.103@aar'
     testImplementation deps.junit
     androidTestImplementation deps.runner
     androidTestImplementation deps.espresso.core
@@ -96,6 +99,22 @@ dependencies {
     //屏幕适配AutoSize
     implementation 'me.jessyan:autosize:1.1.2'
     implementation 'com.tencent:mmkv:1.0.23'
+
+    implementation 'com.github.xuexiangjys:XFloatView:1.0.2'
+
+    def room_version = "2.2.6"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // optional - RxJava support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation "androidx.room:room-guava:$room_version"
+
+    // optional - Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
 
 }
 

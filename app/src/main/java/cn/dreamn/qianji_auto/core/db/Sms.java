@@ -1,0 +1,35 @@
+/*
+ * Copyright (C) 2021 dreamn(dream@dreamn.cn)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+package cn.dreamn.qianji_auto.core.db;
+
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
+public class Sms {
+    //短信处理规则
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+    /**
+     * 解析字段 发件人【xxx】 send 正文content
+     * if(sms.find("123")) contents 、not contents、indexof、endof、regular
+     * 正文需要匹配内容：备注 remark 扣款账号account 扣款尾号num 扣款 收入isPay 发生金额money
+     */
+    public String regular;//翻译后的规则
+    public boolean use=true;//是否启用该规则
+}

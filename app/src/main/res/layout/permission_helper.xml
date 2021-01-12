@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2021 dreamn(dream@dreamn.cn)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    >
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/permission_assist"
+
+        style="@style/Item"
+        app:sLeftBottomTextString="@string/permission_assist_sub"
+        app:sLeftIconRes="@drawable/ic_helper"
+        app:sLeftTopTextString="@string/permission_assist" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/permission_sms"
+
+        style="@style/Item"
+        app:sLeftBottomTextString="@string/permission_sms_sub"
+        app:sLeftIconRes="@drawable/ic_tc"
+        app:sLeftTopTextString="@string/permission_sms" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/permission_float"
+
+        style="@style/Item"
+        app:sLeftBottomTextString="@string/permission_float_sub"
+        app:sLeftIconRes="@drawable/ic_float"
+        app:sLeftTopTextString="@string/permission_float" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/permission_start"
+
+        style="@style/Item"
+        app:sLeftBottomTextString="@string/permission_start_sub"
+        app:sLeftIconRes="@drawable/ic_start"
+        app:sLeftTopTextString="@string/permission_start" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/permission_battery"
+
+        style="@style/Item"
+        app:sLeftBottomTextString="@string/permission_battery_sub"
+        app:sLeftIconRes="@drawable/ic_battery2"
+        app:sLeftTopTextString="@string/permission_battery" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/permission_lock"
+        style="@style/Item"
+        app:sLeftBottomTextString="@string/permission_lock_sub"
+        app:sLeftIconRes="@drawable/ic_lock"
+        app:sLeftTopTextString="@string/permission_lock" />
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/permission_battery_ingore"
+
+        style="@style/Item"
+        app:sLeftBottomTextString="@string/permission_battery_ingore_sub"
+        app:sLeftIconRes="@drawable/ic_battery"
+        app:sLeftTopTextString="@string/permission_battery_ingore" />
+
+    <!--  <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/permission_security"
+
+        style="@style/Item"
+        app:sLeftBottomTextString="@string/permission_security_sub"
+        app:sLeftIconRes="@drawable/ic_security"
+        app:sLeftTopTextString="@string/permission_security" />
+-->
+</LinearLayout>

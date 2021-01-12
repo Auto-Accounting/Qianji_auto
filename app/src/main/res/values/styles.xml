@@ -32,6 +32,72 @@
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <!--背景是否模糊显示-->
         <item name="android:backgroundDimEnabled">true</item>
+
     </style>
+
+    <style name="Item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="sLeftViewGravity">left_center</item>
+        <item name="android:layout_height">60sp</item>
+        <item name="android:layout_margin">5sp</item>
+        <item name="sLeftIconWidth">35sp</item>
+        <item name="sLeftIconHeight">35sp</item>
+        <item name="sLeftTopTextSize">18dp</item>
+        <item name="sLeftBottomTextSize">16dp</item>
+        <item name="sLeftTopTextColor">@color/list_text_color_normal</item>
+        <item name="sLeftBottomTextColor">@color/list_text_color_normal_sub</item>
+        <item name="sRightTextSize">?attr/xui_config_size_content_text</item>
+        <item name="sRightViewMarginRight">10dp</item>
+        <item name="sRightIconRes">@drawable/ic_right</item>
+    </style>
+
+    <style name="ButtonView.custom1">
+        <item name="textSelectedSolidColor">@color/list_bg_success2</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/list_text_color_succ</item>
+        <item name="textSolidColor">@color/buttom_bg</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_marginLeft">20sp</item>
+        <item name="android:layout_marginTop">20sp</item>
+        <item name="android:layout_marginRight">20sp</item>
+        <item name="android:layout_marginBottom">5sp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="MainListSuperText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="sLeftBottomTextColor">@color/list_text_color_succ</item>
+        <item name="sLeftBottomTextSize">13sp</item>
+        <item name="sLeftIconHeight">35sp</item>
+        <item name="sLeftIconMarginLeft">25dp</item>
+        <item name="sLeftIconWidth">35sp</item>
+        <item name="sLeftTopTextColor">@color/list_text_color_succ</item>
+        <item name="sLeftTopTextSize">18sp</item>
+        <item name="sLeftViewGravity">left_center</item>
+        <item name="sLeftViewMarginLeft">30dp</item>
+        <item name="sUseRipple">false</item>
+    </style>
+
+    <style name="MainListCardView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="MainListRippleView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">?attr/xui_config_content_spacing_horizontal</item>
+        <item name="rv_type">simpleRipple</item>
+        <item name="rv_color">@color/list_text_color_normal_sub</item>
+    </style>
+
+
 
 </resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="@string/helper_service_title"
+        android:textColor="@color/toast_info_color"
+        android:textSize="18sp" />
+
+
+    <TextView
+        android:id="@+id/input_map_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="@string/helper_service_content"
+        android:textSize="16sp"
+        tools:ignore="RtlSymmetry" />
+
+</LinearLayout>

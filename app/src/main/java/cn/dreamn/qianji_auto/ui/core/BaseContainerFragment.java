@@ -21,6 +21,7 @@ import android.content.res.Configuration;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 
 import com.xuexiang.xaop.annotation.SingleClick;
@@ -52,34 +53,12 @@ public abstract class BaseContainerFragment extends XPageContainerListFragment {
     }
 
     protected TitleBar initTitle() {
-        return TitleUtils.addTitleBarDynamic((ViewGroup) getRootView(), getPageTitle(), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popToBack();
-            }
-        });
+        return TitleUtils.addTitleBarDynamic((ViewGroup) getRootView(), getPageTitle(), v -> popToBack());
     }
 
     @Override
     protected void initData() {
-        mSimpleData = initSimpleData(mSimpleData);
 
-        List<Map<String, String>> data = new ArrayList<>();
-        for (String content : mSimpleData) {
-            Map<String, String> item = new HashMap<>();
-            int index = content.indexOf("\n");
-            if (index > 0) {
-                item.put(KEY_TITLE, String.valueOf(content.subSequence(0, index)));
-                item.put(KEY_SUB_TITLE, String.valueOf(content.subSequence(index + 1, content.length())));
-            } else {
-                item.put(KEY_TITLE, content);
-                item.put(KEY_SUB_TITLE, "");
-            }
-            data.add(item);
-        }
-
-        getListView().setAdapter(new SimpleListAdapter(getContext(), data));
-        initSimply();
     }
 
     @Override
@@ -94,7 +73,9 @@ public abstract class BaseContainerFragment extends XPageContainerListFragment {
 
     @Override
     public void onDestroyView() {
-        getListView().setOnItemClickListener(null);
+        ListView mListView=getListView();
+        if(mListView!=null)
+            mListView.setOnItemClickListener(null);
         super.onDestroyView();
     }
 

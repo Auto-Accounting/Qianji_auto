@@ -22,9 +22,11 @@ import android.content.Context;
 
 import androidx.multidex.MultiDex;
 
-import com.xuexiang.templateproject.BuildConfig;
 
+import com.tencent.mmkv.MMKV;
+import cn.dreamn.qianji_auto.BuildConfig;
 
+import cn.dreamn.qianji_auto.core.db.DbManger;
 import cn.dreamn.qianji_auto.utils.sdkinit.XBasicLibInit;
 
 /**
@@ -32,6 +34,7 @@ import cn.dreamn.qianji_auto.utils.sdkinit.XBasicLibInit;
  * @since 2018/11/7 下午1:12
  */
 public class MyApp extends Application {
+
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -51,7 +54,10 @@ public class MyApp extends Application {
      */
     private void initLibs() {
         XBasicLibInit.init(this);
+        DbManger.init(this);
+        MMKV.initialize(this);
     }
+
 
 
     /**

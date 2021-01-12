@@ -1,0 +1,26 @@
+<!--
+  ~ Copyright (C) 2021 dreamn(dream@dreamn.cn)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M555.43,941.38C535.24,952.33 520.57,957.21 507.88,957.21 495.1,957.21 480.85,952.38 460.33,941.02 117.89,751.83 119.02,648.2 123.23,262.62 123.65,224.29 124.1,183.37 124.23,139.54 177.28,123.83 234,109 293.17,95.42 357.79,80.57 429.67,70.98 506.76,66.86 653.44,83.13 765.95,104.59 887.8,139.74 888.03,189.27 888.67,235.02 889.23,277.4 894.55,664.97 895.84,757.06 555.43,941.38M956.01,276.49C955.34,227.3 954.61,173.62 954.5,114.68 954.47,99.96 944.79,86.98 930.68,82.78 794.62,41.95 673.16,18.02 511.39,0.19 509.61,-0.01 507.81,-0.03 506.03,0.03 424.02,4.26 347.38,14.46 278.21,30.33 208.62,46.31 142.26,63.99 81.05,82.84 67.07,87.14 57.49,100.1 57.49,114.74 57.49,167.79 56.94,216.63 56.47,261.89 52.24,646.91 50.66,790.98 428.03,999.48 459.15,1016.67 483.03,1023.99 507.88,1023.99 532.27,1023.99 556.76,1016.62 587.24,1000.13 963.16,796.53 961.51,675.96 956.01,276.49M741.99,291.36 L440.89,593.59 293.08,445.27C275.74,427.88 247.53,427.82 230.1,445.16 212.69,462.52 212.65,490.7 229.99,508.13L409.35,688.11C417.72,696.48 429.05,701.2 440.89,701.2 452.73,701.2 464.09,696.48 472.43,688.09L805.08,354.18C822.42,336.77 822.37,308.57 804.94,291.22 787.56,273.88 759.33,273.9 741.99,291.36"/>
+</vector>

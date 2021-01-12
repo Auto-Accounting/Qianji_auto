@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2021 dreamn(dream@dreamn.cn)
+<!--
+  ~ Copyright (C) 2020 xuexiangjys(xuexiangjys@163.com)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,9 +15,12 @@
   ~
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-</LinearLayout>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+  <path
+      android:pathData="M891.06,77.53L332.36,77.53v56.8h558.7v561.79h56.8L947.86,77.53zM76.14,223.83L76.14,946.47h722.64L798.78,223.84L76.14,223.84zM735.42,883.06L139.56,883.06L139.56,287.2h595.86v595.86z"
+      android:fillColor="#333333"/>
+</vector>
