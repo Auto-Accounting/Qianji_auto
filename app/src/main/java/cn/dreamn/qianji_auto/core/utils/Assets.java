@@ -18,10 +18,23 @@
 package cn.dreamn.qianji_auto.core.utils;
 
 import cn.dreamn.qianji_auto.core.db.Asset;
+import cn.dreamn.qianji_auto.core.db.Asset2;
 import cn.dreamn.qianji_auto.core.db.DbManger;
 
 public class Assets {
-    public static String[] getAll(){
+    public static Asset2[] getAllAccount(){
+        return DbManger.db.Asset2Dao().getAll();
+    }
+    public static String[] getAllAccountName(){
+        Asset2[] assets= DbManger.db.Asset2Dao().getAll();
+        if(assets.length<=0)return null;
+        String[] result = new String[assets.length];
+        for(int i=0;i<assets.length;i++){
+            result[i]=assets[i].name;
+        }
+        return result;
+    }
+    public static String[] getMap(){
         Asset[] assets= DbManger.db.AssetDao().getAll();
         if(assets.length<=0)return null;
         String[] result = new String[assets.length];
@@ -30,14 +43,24 @@ public class Assets {
         }
         return result;
     }
-
-    public  static void del(int id){
+    public  static void delAsset(int id){
+        DbManger.db.Asset2Dao().del(id);
+    }
+    public static void addAsset(String assetName){
+        DbManger.db.Asset2Dao().add(assetName);
+    }
+    public static void updAsset(int id,String assetName){
+        DbManger.db.Asset2Dao().update(id,assetName);
+    }
+    public  static void delMap(int id){
         DbManger.db.AssetDao().del(id);
     }
-    public static void add(String assetName,String mapName){
+    public static void addMap(String assetName,String mapName){
         DbManger.db.AssetDao().add(assetName,mapName);
     }
-
+    public static void updMap(int id,String assetName,String mapName){
+        DbManger.db.AssetDao().update(id,assetName,mapName);
+    }
     public static String getMap(String assetName){
         Asset[] assets=DbManger.db.AssetDao().get(assetName);
         //没有资产创造资产

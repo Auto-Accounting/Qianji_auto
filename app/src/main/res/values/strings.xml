@@ -130,7 +130,7 @@
     <string name="set_data_booktip">请输入需要记账的账本名称</string>
     <string name="set_success">设置成功</string>
     <string name="input_tip">请输入内容</string>
- <!--   <string name="input_ok">确认</string>-->
+    <!--   <string name="input_ok">确认</string>-->
     <string name="set_data_remark">备注格式</string>
     <string name="set_data_remarktip">支持：[交易对象] 、 [说明]</string>
     <string name="sort_alipay_sub">开启收入全自动需要配置</string>
@@ -146,7 +146,7 @@
     <string name="input_map_title">支付宝或微信的资产名称</string>
     <string name="input_map_sub">钱迹中资产名称</string>
     <string name="set_save">保存</string>
-  <!--  <string name="set_cancel">取消</string>-->
+    <!--  <string name="set_cancel">取消</string>-->
     <string name="map_change">修改资产映射</string>
     <string name="map_add_sub">添加资产</string>
     <string name="map_add">添加</string>
@@ -213,4 +213,12 @@
     <string name="set_data_timetip">单位为秒</string>
     <string name="set_check_success">已开启弹窗功能</string>
     <string name="set_check_close">已关闭弹窗功能</string>
+    <string name="err">自动记账发生异常崩溃，正在搜集错误信息，请将错误日志发送给我们以便于解决该问题。邮箱：dream@dreamn.cn  QQ群：165652170</string>
+    <string name="send">发送日志</string>
+    <string name="menu_asset_sub">管理钱迹资产</string>
+    <string name="menu_asset">资产管理</string>
+    <string name="qianji_asset">同步钱迹的资产列表</string>
+    <string name="qianji_manger">钱迹资产</string>
+    <string name="qianji_map_sub">对识别出来的资产进行映射</string>
+    <string name="qianji_map">资产映射</string>
 </resources>

@@ -19,13 +19,12 @@ package cn.dreamn.qianji_auto.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.view.KeyEvent;
+import android.view.View;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.utils.App;
 import cn.dreamn.qianji_auto.core.utils.Status;
-import cn.dreamn.qianji_auto.ui.core.BaseContainerFragment;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
@@ -47,10 +46,11 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
     SuperTextView menu_status;
     @BindView(R.id.set)
     SuperTextView menu_set;
+    @BindView(R.id.Asset)
+    SuperTextView menu_asset;
     @BindView(R.id.sortMap)
     SuperTextView menu_sortMap;
-    @BindView(R.id.Map)
-    SuperTextView menu_Map;
+
     @BindView(R.id.Learn)
     SuperTextView menu_Learn;
     @BindView(R.id.Bill)
@@ -74,6 +74,8 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
 
     }
 
+
+
     @Override
     public void onPause() {
         super.onPause();
@@ -86,10 +88,14 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
         setActive();
     }
 
+
     @Override
     protected TitleBar initTitle() {
-        return super.initTitle().setLeftClickListener(view -> ClickUtils.exitBy2Click(2000, this));
+        TitleBar titleBar = super.initTitle();
+        titleBar.disableLeftView();
+        return titleBar;
     }
+
     @SuppressLint({"DefaultLocale", "UseCompatLoadingForDrawables"})
     private void setActive(){
         if(Status.isActive(getContext())){
@@ -122,6 +128,10 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
         });
         menu_set.setOnSuperTextViewClickListener(superTextView -> {
             openNewPage(SetFragment.class);
+        });
+        menu_asset.setOnSuperTextViewClickListener(superTextView -> {
+            //资产管理
+            openNewPage(cn.dreamn.qianji_auto.ui.fragment.asset.MainFragment.class);
         });
         /*
 

@@ -17,14 +17,22 @@
 
 package cn.dreamn.qianji_auto.core.db;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import androidx.room.Dao;
+import androidx.room.Query;
 
-@Entity
-public class Asset {
-    //账户列表
-    @PrimaryKey(autoGenerate = true)
-    public int id;
-    public String name;//账户名
-    public String mapName;//映射账户名
+@Dao
+public interface Asset2Dao {
+    @Query("SELECT * FROM asset2")
+    Asset2[] getAll();
+    @Query("SELECT * FROM asset2 WHERE id=:id")
+    Asset2[] get(int id);
+    @Query("SELECT * FROM asset2 WHERE name=:name")
+    Asset2[] get(String name);
+    @Query("DELETE FROM asset2 WHERE id=:id")
+    void del(int id);
+    @Query("INSERT INTO asset2(name) values(:name)")
+    void add(String name);
+    @Query("UPDATE  asset2 SET name=:name WHERE id=:id")
+    void update(int id, String name);
 }
+

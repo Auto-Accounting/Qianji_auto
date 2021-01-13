@@ -176,7 +176,7 @@ public class AutoFloat extends XFloatView {
             });
         });
         account_book_layout.setOnClickListener(v->{
-            String[] assets = Assets.getAll();
+            String[] assets = Assets.getAllAccountName();
             if(assets==null||assets.length<=0){
                 XToastUtils.error("资产账户为空，请在资产账户设置中添加账本数据。");
                 return;
@@ -187,7 +187,7 @@ public class AutoFloat extends XFloatView {
             });
         });
         account_book2_layout.setOnClickListener(v->{
-            String[] assets = Assets.getAll();
+            String[] assets = Assets.getAllAccountName();
             if(assets==null||assets.length<=0){
                 XToastUtils.error("资产账户为空，请在资产账户设置中添加账本数据。");
                 return;

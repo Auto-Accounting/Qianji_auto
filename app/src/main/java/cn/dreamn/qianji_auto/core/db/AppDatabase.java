@@ -22,7 +22,17 @@ import androidx.room.RoomDatabase;
 
 import cn.dreamn.qianji_auto.core.utils.Assets;
 
-@Database(entities = {Log.class,Regular.class,Sms.class,Cache.class,BookName.class,Asset.class,AutoBill.class}, version = 1, exportSchema = false)
+@Database(entities = {
+        Log.class,
+        Regular.class,
+        Sms.class,
+        Cache.class,
+        BookName.class,
+        Asset.class,
+        Asset2.class,
+        AutoBill.class
+}, version = 1, exportSchema = false)
+
 public abstract class AppDatabase extends RoomDatabase {
     public abstract LogDao LogDao();
     public abstract RegularDao RegularDao();
@@ -30,6 +40,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CacheDao CacheDao();
     public abstract BookNameDao BookNameDao();
     public abstract AssetDao AssetDao();
-
+    public abstract Asset2Dao Asset2Dao();
     public abstract AutoBillDao AutoBillDao();
 }

@@ -28,6 +28,7 @@ import cn.dreamn.qianji_auto.BuildConfig;
 
 import cn.dreamn.qianji_auto.core.db.DbManger;
 import cn.dreamn.qianji_auto.utils.sdkinit.XBasicLibInit;
+import cn.dreamn.qianji_auto.utils.tools.CrashHandler;
 
 /**
  * @author xuexiang
@@ -56,6 +57,9 @@ public class MyApp extends Application {
         XBasicLibInit.init(this);
         DbManger.init(this);
         MMKV.initialize(this);
+
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
     }
 
 

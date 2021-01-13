@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-
     <!--Toast，可自定义喜欢的颜色-->
     <color name="toast_default_text_color" tools:ignore="PrivateResource">@color/xui_config_color_white</color>
     <color name="toast_error_color" tools:ignore="PrivateResource">@color/xui_config_color_red</color>

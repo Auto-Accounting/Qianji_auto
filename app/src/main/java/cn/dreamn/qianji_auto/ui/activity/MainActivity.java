@@ -24,6 +24,7 @@ import com.tencent.mmkv.MMKV;
 import cn.dreamn.qianji_auto.ui.core.BaseActivity;
 import cn.dreamn.qianji_auto.ui.fragment.HelperFragment;
 import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
+import cn.dreamn.qianji_auto.utils.tools.CrashHandler;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 /**
@@ -37,7 +38,11 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         MMKV kv=MMKV.defaultMMKV();
+
         if(kv.getBoolean("first",true)){
             Logs.d("第一次使用，加载引导页面。");
             openPage(HelperFragment.class);
