@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2020 xuexiangjys(xuexiangjys@163.com)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<resources>
+    <string-array name="menu_values">
+        <item>@string/choose_delete</item>
+        <item>@string/choose_update</item>
+    </string-array>
+    <string-array name="menu_values_bill">
+        <item>@string/choose_try</item>
+        <item>@string/choose_copy</item>
+        <item>@string/choose_change_update</item>
+        <item>@string/choose_delete</item>
+
+    </string-array>
+    <string-array name="menu_values_log">
+        <item>@string/choose_share</item>
+        <item>@string/choose_delete</item>
+    </string-array>
+
+    <string-array name="menu_values_backup">
+        <item>@string/choose_backup</item>
+        <item>@string/choose_restore</item>
+    </string-array>
+
+    <string-array name="menu_values_donate">
+        <item>@string/choose_alipay</item>
+        <item>@string/choose_wechat</item>
+    </string-array>
+
+    <string-array name="menu_values_time">
+        <item>@string/choose_time_equal</item>
+        <item>@string/choose_time_equal_big</item>
+        <item>@string/choose_time_equal_small</item>
+        <item>@string/choose_time_small</item>
+        <item>@string/choose_time_big</item>
+        <item>@string/choose_time_no_equal</item>
+    </string-array>
+
+    <string-array name="menu_values_regular">
+        <item>@string/choose_regular_contains</item>
+        <item>@string/choose_regular_equal</item>
+        <item>@string/choose_regular_startOf</item>
+        <item>@string/choose_regular_endOf</item>
+        <item>@string/choose_regular_regex</item>
+    </string-array>
+    <string-array name="menu_values_regular_type">
+        <item>@string/choose_type_null</item>
+        <item>@string/choose_type_pay</item>
+        <item>@string/choose_type_income</item>
+        <item>@string/choose_type_transfer_accounts</item>
+        <item>@string/choose_type_credit_card_payment</item>
+    </string-array>
+    <string-array name="menu_values_regular_choose">
+        <item>@string/choose_regular_and</item>
+        <item>@string/choose_regular_or</item>
+    </string-array>
+
+    <string-array name="menu_values_req">
+        <item>@string/choose_regular_del</item>
+        <item>@string/choose_regular_change</item>
+        <item>@string/choose_regular_change_js</item>
+        <item>@string/choose_regular_deny</item>
+        <item>@string/choose_regular_enable</item>
+    </string-array>
+
+    <string name="choose_share">分享</string>
+</resources>

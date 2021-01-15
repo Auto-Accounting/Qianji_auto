@@ -81,8 +81,8 @@
     <string name="menu_noactive">未激活（%s）</string>
     <string name="menu_set">插件设置</string>
     <string name="menu_set_sub">设置插件基本信息</string>
-    <string name="menu_sort">分类映射</string>
-    <string name="menu_sort_sub">设置自动收款的分类映射</string>
+    <string name="menu_sort">自动分类</string>
+    <string name="menu_sort_sub">对识别出来的账单进行自动分类</string>
     <string name="menu_cards">资产映射</string>
     <string name="menu_cards_sub">设置钱迹中对应的资产分类</string>
     <string name="menu_learn">语义识别</string>
@@ -191,7 +191,7 @@
     <string name="about_desc">配合钱迹API接口实现记账</string>
     <string name="about_item_homepage">关于作者</string>
     <string name="about_item_learn">使用教程</string>
-    <string name="about_item_donation_link">捐赠作者</string>
+    <string name="about_item_donation_link">打赏支持(支付宝)</string>
     <string name="about_item_add_qq_group">QQ交流群</string>
     <string name="about_item_open_url">项目地址</string>
     <string name="url_open_url">https://github.com/dreamncn/Qianji_auto</string>
@@ -221,4 +221,46 @@
     <string name="qianji_manger">钱迹资产</string>
     <string name="qianji_map_sub">对识别出来的资产进行映射</string>
     <string name="qianji_map">资产映射</string>
+    <string name="asset_change">修改资产</string>
+    <string name="asset_change_sub">请输入新的名称</string>
+
+    <string name="choose_time_equal"><![CDATA[=]]></string>
+    <string name="choose_time_equal_big"><![CDATA[>=]]></string>
+    <string name="choose_time_equal_small"><![CDATA[<=]]></string>
+    <string name="choose_time_small"><![CDATA[<]]></string>
+    <string name="choose_time_big"><![CDATA[>]]></string>
+    <string name="choose_time_no_equal"><![CDATA[!=]]></string>
+
+    <string name="choose_regular_contains"><![CDATA[包含]]></string>
+    <string name="choose_regular_equal"><![CDATA[全等]]></string>
+    <string name="choose_regular_startOf"><![CDATA[以…开头]]></string>
+    <string name="choose_regular_endOf"><![CDATA[以…结尾]]></string>
+    <string name="choose_regular_regex"><![CDATA[正则匹配到]]></string>
+
+    <string name="choose_regular_and"><![CDATA[且]]></string>
+    <string name="choose_regular_or"><![CDATA[或]]></string>
+
+    <string name="choose_type_null"><![CDATA[任意类型]]></string>
+    <string name="choose_type_pay"><![CDATA[支出]]></string>
+    <string name="choose_type_income"><![CDATA[收入]]></string>
+    <string name="choose_type_transfer_accounts"><![CDATA[转账]]></string>
+    <string name="choose_type_credit_card_payment"><![CDATA[信用还款]]></string>
+
+    <string name="regular_name">规则名称</string>
+    <string name="regular_time_full">时间条件满足</string>
+    <string name="time_now">当前时间</string>
+    <string name="shopNameFull">商户名称条件满足</string>
+    <string name="shopName">商户名</string>
+    <string name="shopRemarkFull">商户备注条件满足</string>
+    <string name="CategoryName">分类为</string>
+    <string name="shopRemark">商户备注</string>
+    <string name="choose_regular_del">删除</string>
+    <string name="choose_regular_change">编辑(可视化)</string>
+    <string name="choose_regular_change_js">编辑（JS）</string>
+    <string name="choose_regular_deny">禁用</string>
+    <string name="choose_regular_enable">启用</string>
+    <string name="deny_success">禁用成功</string>
+    <string name="enable_success">启用成功</string>
+    <string name="helper_tip6">开发中</string>
+    <string name="helper_tip_qianji6">该功能暂未开放，敬请期待。</string>
 </resources>

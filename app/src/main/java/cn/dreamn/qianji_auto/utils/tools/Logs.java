@@ -19,11 +19,16 @@ package cn.dreamn.qianji_auto.utils.tools;
 
 import android.annotation.SuppressLint;
 
+import com.xuexiang.xutil.data.DateUtils;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
 
 import cn.dreamn.qianji_auto.MyApp;
 import cn.dreamn.qianji_auto.core.db.DbManger;
+import cn.dreamn.qianji_auto.core.db.Log;
+import cn.dreamn.qianji_auto.core.utils.Tools;
 
 public class Logs {
 
@@ -40,27 +45,33 @@ public class Logs {
     public static void i(String msg)  {
         String defaultTag = "Qianji-Auto";
         android.util.Log.i(defaultTag, msg);
-        DbManger.db.LogDao().add(msg,getTime());
+        DbManger.db.LogDao().add(msg,"自动记账");
         DbManger.db.LogDao().deleteTimeout(timeout);
     }
     public static void i(String TAG,String msg)  {
         android.util.Log.i(TAG, msg);
-        DbManger.db.LogDao().add(msg,getTime());
+        DbManger.db.LogDao().add(msg,TAG);
         DbManger.db.LogDao().deleteTimeout(timeout);
     }
 
 
-    @SuppressLint("DefaultLocale")
+    @SuppressLint("SimpleDateFormat")
     private static String getTime(){
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH) + 1;
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
-        int minute = cal.get(Calendar.MINUTE);
-        int second = cal.get(Calendar.SECOND);
+        return Tools.getTime("yyyy-MM-dd HH:mm:ss");
 
-        return String.format("%02d:%02d:%02d", hour, minute, second);
+    }
+
+
+    public static void del(Integer pos) {
+        DbManger.db.LogDao().del(pos);
+    }
+
+    public static void delAll(){
+        DbManger.db.LogDao().delAll();
+    }
+
+    public static Log[] getAll(){
+        return DbManger.db.LogDao().loadAll();
     }
 }
 

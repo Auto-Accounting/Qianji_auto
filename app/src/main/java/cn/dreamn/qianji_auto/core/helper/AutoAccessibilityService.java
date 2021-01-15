@@ -274,7 +274,7 @@ public class AutoAccessibilityService extends AccessibilityService {
 
         super.onServiceConnected();
         isStart=true;
-        Logs.d("辅助功能已启用");
+        Logs.i("辅助功能已启用");
         ServerManger.startAutoNotify(getApplicationContext());
         ServerManger.startSms(getApplicationContext());
     }

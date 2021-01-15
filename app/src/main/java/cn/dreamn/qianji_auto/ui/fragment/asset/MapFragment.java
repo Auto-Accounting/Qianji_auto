@@ -20,13 +20,13 @@ package cn.dreamn.qianji_auto.ui.fragment.asset;
 import android.os.Handler;
 import android.view.View;
 
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.xuexiang.xpage.annotation.Page;
+import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
-import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.statelayout.StatefulLayout;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
@@ -34,17 +34,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.db.Asset2;
+import cn.dreamn.qianji_auto.core.db.Asset;
 import cn.dreamn.qianji_auto.core.utils.Assets;
-
-import cn.dreamn.qianji_auto.ui.adapter.AssetAdapter;
+import cn.dreamn.qianji_auto.ui.adapter.MapAdapter;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 
-import static cn.dreamn.qianji_auto.ui.adapter.AssetAdapter.KEY_TITLE;
-import static cn.dreamn.qianji_auto.ui.adapter.AssetAdapter.KEY_VALUE;
+import static cn.dreamn.qianji_auto.ui.adapter.MapAdapter.KEY_ID;
+import static cn.dreamn.qianji_auto.ui.adapter.MapAdapter.KEY_TITLE;
+import static cn.dreamn.qianji_auto.ui.adapter.MapAdapter.KEY_VALUE;
 
 
 @Page(name = "资产映射")
@@ -54,7 +55,7 @@ public class MapFragment extends BaseFragment {
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
 
-    private AssetAdapter mAdapter;
+    private MapAdapter mAdapter;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
     /**
@@ -73,32 +74,30 @@ public class MapFragment extends BaseFragment {
     @Override
     protected void initViews() {
         initSet();
-        initListen();
+        mAdapter.setOnItemClickListener(item-> new MaterialDialog.Builder(getContext())
+                .title(R.string.tip_options)
+                .items(R.array.menu_values)
+                .itemsCallback((dialog, itemView, position, text) ->{
+                    int id = Integer.parseInt(Objects.requireNonNull(item.get(MapAdapter.KEY_ID)));
+                    if(position==0){
+                        Assets.delMap(id);
+                        refresh();
+                    }else{
+
+                        changeMap(id,item.get(MapAdapter.KEY_TITLE));
+                    }
+
+                })
+                .show());
     }
 
     @Override
     protected TitleBar initTitle() {
         TitleBar titleBar = super.initTitle();
-        titleBar.addAction(new TitleBar.ImageAction(R.drawable.ic_async) {
-            @Override
-            public void performAction(View view) {
-
-                CookieBar.builder(getActivity())
-                        .setTitle(R.string.helper_tip3)
-                        .setMessage(R.string.helper_tip_qianji3)
-                        .setDuration(-1)
-                        .setActionColor(android.R.color.white)
-                        .setTitleColor(android.R.color.white)
-                        .setAction(R.string.helper_qianji_err, view1 -> {}).setBackgroundColor(R.color.colorPrimary).show();
-
-            }
-        });
         titleBar.addAction(new TitleBar.ImageAction(R.drawable.ic_add) {
             @Override
             public void performAction(View view) {
-
-                showInputDialog("请输入资产名称","钱迹中的资产名称","", Assets::addAsset);
-
+                changeMap(-1,"");
             }
         });
 
@@ -112,37 +111,70 @@ public class MapFragment extends BaseFragment {
     private void initSet(){
 
         WidgetUtils.initRecyclerView(recyclerView);
-
-        mAdapter = new AssetAdapter();
+        mAdapter = new MapAdapter();
         recyclerView.setAdapter(mAdapter);
 
-        mStatefulLayout.showLoading("正在加载资产");
-        loadData();
+
     }
     private void loadData() {
         new Handler().postDelayed(() -> {
-            Asset2[] asset2s=Assets.getAllAccount();
+            mStatefulLayout.showLoading("正在加载资产");
+            Asset[] asset=Assets.getAllMap();
             List<Map<String, String>> data = new ArrayList<>();
-            for (Asset2 asset2 : asset2s) {
+            for (Asset assets : asset) {
                 Map<String, String> item = new HashMap<>();
-                item.put(KEY_TITLE, asset2.name);
-                item.put(KEY_VALUE, String.valueOf(asset2.id));
+                item.put(KEY_TITLE, assets.name);
+                item.put(KEY_VALUE, assets.mapName);
+                item.put(KEY_ID, String.valueOf(assets.id));
                 data.add(item);
             }
-           if(data.size()==0) {
-               mStatefulLayout.showEmpty("没有资产信息");
-               return;
-           }
+            if(data.size()==0) {
+                mStatefulLayout.showEmpty("没有资产映射信息");
+                return;
+            }
 
             mAdapter.refresh(data);
             if (map_layout != null) {
                 map_layout.setRefreshing(false);
             }
+            mStatefulLayout.showContent();
         }, 1000);
     }
 
-    private void initListen(){
+    @Override
+    protected void initListeners() {
+        //下拉刷新
+        map_layout.setOnRefreshListener(this::loadData);
+        refresh(); //第一次进入触发自动刷新，演示效果
+    }
+    private void refresh() {
+        map_layout.setRefreshing(true);
+        loadData();
+    }
 
+    private void changeMap(int id,String def){
+        String[] assets=Assets.getAllAccountName();
+        if(assets==null){
+            SnackbarUtils.Long(getView(), "请先添加钱迹资产").info().show();
+            return;
+        }
+        showInputDialog("添加资产映射","识别出来的资产名称",def, str->{
+
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.tip_options)
+                    .items(assets)
+                    .itemsCallback((dialog, itemView, position, text) ->{
+                        if(id!=-1){
+                            Assets.updMap(id,str,text.toString());
+                        }else{
+                            Assets.addMap(str,text.toString());
+                        }
+
+                        SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
+                        refresh();
+                    })
+                    .show();
+        });
 
     }
 

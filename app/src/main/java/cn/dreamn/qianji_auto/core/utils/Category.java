@@ -17,16 +17,21 @@
 
 package cn.dreamn.qianji_auto.core.utils;
 
+import android.annotation.SuppressLint;
+
 import com.eclipsesource.v8.V8;
+import com.xuexiang.xutil.data.DateUtils;
+
+import java.text.SimpleDateFormat;
 
 import cn.dreamn.qianji_auto.core.db.DbManger;
 import cn.dreamn.qianji_auto.core.db.Regular;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 public class Category {
 
-    public String getCategory(String shopAccount, String shopRemark){
+    public static String getCategory(String shopAccount, String shopRemark, String type){
         V8 runtime = V8.createV8Runtime();
-        String result=runtime.executeStringScript(getCategoryRegularJs(shopAccount,shopRemark));
+        String result=runtime.executeStringScript(getCategoryRegularJs(shopAccount,shopRemark,type));
 
         Logs.d("Qianji_Cate","自动分类结果："+result);
         return result;
@@ -34,19 +39,30 @@ public class Category {
     }
 
     //获取所有的js
-   public String getCategoryRegularJs(String shopAccount, String shopRemark){
+   public static String getCategoryRegularJs(String shopAccount, String shopRemark, String type){
        StringBuilder regList= new StringBuilder();
        Regular[] regular = DbManger.db.RegularDao().load();
        for (Regular value : regular) {
            regList.append(value.regular);
        }
 
-       String js="function getCategory(shopName,shopMark){%s%s};getCategory('%s','%s');";
+       String js="function getCategory(shopName,shopMark,type,time){%s return '其他';} getCategory('%s','%s','%s','%s');";
 
-       return String.format(js,regList.toString()," return '其他';" ,shopAccount,shopRemark);
+       @SuppressLint("SimpleDateFormat") String time= DateUtils.getNowString(new SimpleDateFormat("HH"));
+       return String.format(js,regList.toString(),shopAccount,shopRemark,type,time);
    }
 
 
+    /**
+     * js demo
+     *  if(type==0)return "啊啊啊"
+     *     if(shopName.startsWith("王记"))return "早餐"
+     *     if(shopRemark.endsWith("迎选购"))return "主主主主"
+     *     if(shopRemark.indexOf("迎选购")!=-1)return "主12主主主"
+     *     if(shopRemark=="新老顾客欢")return "滚滚"
+     *     if((/新老/g).test(shopName))return "ddd"
+     *     return "其他"
+     */
     /**
      *js demo
      * if(title.contents("123"))//标题 contents 、not contents、indexof、endof、regular（匹配到）
@@ -55,12 +71,31 @@ public class Category {
      *      * return "okk"
      */
 
-   public void addCategory(String js){
-        DbManger.db.RegularDao().add(js);
+    public static Regular[] getAll(){
+        return DbManger.db.RegularDao().loadAll();
+    }
+
+    public static void deny(int id) {
+        DbManger.db.RegularDao().deny(id);
+    }
+    public static void enable(int id) {
+        DbManger.db.RegularDao().enable(id);
+    }
+
+    public static Regular[] getOne(int id){
+        return DbManger.db.RegularDao().getOne(id);
+    }
+
+   public static void addCategory(String js,String name,String cate,String tableList){
+        DbManger.db.RegularDao().add(js,name,cate,tableList);
    }
 
-   public void changeCategory(int id,String js){
-       DbManger.db.RegularDao().update(id,js);
+   public static void changeCategory(int id,String js,String name,String cate,String tableList){
+       DbManger.db.RegularDao().update(id,js,name,cate,tableList);
+   }
+
+   public static void del(int id){
+        DbManger.db.RegularDao().delete(id);
    }
 
 

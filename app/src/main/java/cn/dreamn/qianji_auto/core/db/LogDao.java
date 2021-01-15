@@ -23,11 +23,15 @@ import androidx.room.Query;
 
 @Dao
 public interface LogDao{
-    @Query("SELECT * FROM Log")
+    @Query("SELECT * FROM Log order by pos DESC")
     Log[] loadAll();
     @Query("DELETE FROM Log WHERE (strftime('%s','now'))- time > :timeout")
     void deleteTimeout(int timeout);
     @Query("INSERT INTO Log(time,title,sub) values(strftime('%s','now'),:title,:sub)")
     void add(String title, String sub);
+    @Query("DELETE FROM Log WHERE pos=:pos")
+    void del(Integer pos);
+    @Query("DELETE FROM Log")
+    void delAll();
 }
 

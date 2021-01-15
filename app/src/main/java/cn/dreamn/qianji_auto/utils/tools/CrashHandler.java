@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.activity.ErrorActivity;
 
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
@@ -61,7 +62,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     // 用于格式化日期,作为日志文件名的一部分
     @SuppressLint("SimpleDateFormat")
     private final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-    private String nameString;
 
     /** 保证只有一个CrashHandler实例 */
     private CrashHandler() {
@@ -199,21 +199,10 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         try {
             long timestamp = System.currentTimeMillis();
             String time = formatter.format(new Date());
+            String nameString = "error";
             String fileName = nameString + "-" + time + "-" + timestamp
                     + ".log";
-            String path = mContext.getExternalCacheDir().getPath()+"/";
-
-            Logs.d(path);
-            Logs.d(fileName);
-
-            File dir = new File(path);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-            FileOutputStream fos = new FileOutputStream(path + fileName);
-            fos.write(sb.toString().getBytes());
-            fos.close();
-            return path+fileName;
+            return Tools.writeToCache(mContext,fileName,sb.toString());
         } catch (Exception e) {
            // Log.e(TAG, "an error occured while writing file...", e);
         }

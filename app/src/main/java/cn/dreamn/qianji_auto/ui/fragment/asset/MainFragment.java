@@ -26,12 +26,7 @@ import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 
 import static com.xuexiang.xui.utils.ResUtils.getColor;
 
-/**
- * 这个只是一个空壳Fragment，只是用于演示而已
- *
- * @author xuexiang
- * @since 2019-07-08 00:52
- */
+
 @Page(name = "资产管理")
 public class MainFragment extends BaseFragment {
     @BindView(R.id.asset_manger)

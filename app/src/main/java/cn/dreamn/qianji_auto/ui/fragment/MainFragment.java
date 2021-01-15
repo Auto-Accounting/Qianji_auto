@@ -26,6 +26,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.utils.App;
 import cn.dreamn.qianji_auto.core.utils.Status;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
+import cn.dreamn.qianji_auto.ui.fragment.category.CategoryFragment;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
@@ -73,21 +74,20 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
         initListen();
 
     }
-
-
+/*
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
         setActive();
     }
+*/
 
     @Override
     public void onResume() {
         super.onResume();
         setActive();
     }
-
 
     @Override
     protected TitleBar initTitle() {
@@ -133,6 +133,9 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
             //资产管理
             openNewPage(cn.dreamn.qianji_auto.ui.fragment.asset.MainFragment.class);
         });
+        menu_sortMap.setOnSuperTextViewClickListener(superTextView -> {
+            openNewPage(CategoryFragment.class);
+        });
         /*
 
         menu_sortMap.setOnSuperTextViewClickListener(superTextView -> {
@@ -153,9 +156,13 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
         menu_Backup.setOnSuperTextViewClickListener(superTextView -> {
             openNewPage(BackupFragment.class);
         });
+        */
+        menu_Log.setOnSuperTextViewClickListener(superTextView -> {
+            openNewPage(LogFragment.class);
+        });
         menu_About.setOnSuperTextViewClickListener(superTextView -> {
             openNewPage(AboutFragment.class);
-        });*/
+        });
     }
 
     /**

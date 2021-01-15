@@ -33,6 +33,9 @@ public class Regular {
      * return "okk"
      */
     public String regular;//翻译后的规则
+    public String name;
+    public String cate;
+    public String tableList;
     public int use;//是否启用该规则
 
 }

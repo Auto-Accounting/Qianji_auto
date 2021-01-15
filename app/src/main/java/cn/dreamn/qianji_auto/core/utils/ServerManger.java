@@ -39,11 +39,12 @@ public class ServerManger {
     }
 
     public static void startAutoNotify(Context context){
+        Logs.i("通知已启动");
         context.startService(new Intent(context, AutoBillService.class));
     }
 
     public static void startSms(Context context){
-        Logs.d("启动短信监听");
+        Logs.i("短信监听已启动");
         Smses smses = new Smses(context,null);
         getContentResolver().registerContentObserver(Uri.parse("content://sms"), true,smses);
     }

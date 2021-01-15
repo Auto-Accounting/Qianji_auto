@@ -22,17 +22,21 @@ import androidx.room.Query;
 
 @Dao
 public interface RegularDao {
+    @Query("SELECT * FROM regular")
+    Regular[] loadAll();
     @Query("SELECT * FROM regular WHERE use=1")
-    public Regular[] load();
+    Regular[] load();
     @Query("DELETE FROM regular WHERE id=:id")
-    public void delete(int id);
-    @Query("INSERT INTO regular(regular,use) values(:regular,1)")
-    public void add(String regular);
-    @Query("UPDATE  regular SET regular=:regular WHERE id=:id")
-    public void update(int id,String regular);
+    void delete(int id);
+    @Query("INSERT INTO regular(regular,cate,name,tableList,use) values(:regular,:cate,:name,:tableList,1)")
+    void add(String regular,String name,String cate,String tableList);
+    @Query("UPDATE  regular SET regular=:regular,name=:name,cate=:cate,tableList=:tableList WHERE id=:id")
+    void update(int id, String regular,String name,String cate,String tableList);
     @Query("UPDATE  regular SET use=1 WHERE id=:id")
-    public void enable(int id);
+    void enable(int id);
     @Query("UPDATE  regular SET use=0 WHERE id=:id")
-    public void deny(int id);
+    void deny(int id);
+    @Query("SELECT * FROM regular WHERE id=:id")
+    Regular[] getOne(int id);
 }
 

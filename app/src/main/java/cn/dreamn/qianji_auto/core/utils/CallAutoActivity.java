@@ -28,11 +28,14 @@ import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
+import static cn.dreamn.qianji_auto.core.utils.Tools.goUrl;
+
 
 public class CallAutoActivity {
     public  static  void call(Context context,BillInfo billInfo){
         if(!billInfo.isAvaiable())return;
         AutoBills.add(billInfo);//加入账单列表
+        Logs.i("钱迹URL",billInfo.getQianJi());
         MMKV mmkv = MMKV.defaultMMKV();
         if(billInfo.getType().equals(BillInfo.TYPE_PAY)){
             if(mmkv.getBoolean("autoPay",false)){
@@ -89,13 +92,9 @@ public class CallAutoActivity {
     }
 
     public static void goQianji(Context context,BillInfo billInfo){
-        Intent intent= new Intent();
-        intent.setAction("android.intent.action.VIEW");
-        Uri content_url = Uri.parse(billInfo.getQianJi().trim());
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setData(content_url);
-        context.startActivity(intent);
+        goUrl(context,billInfo.getQianJi().trim());
     }
+
 
     public static void jump(Context context,BillInfo billInfo){
         if(getCheck()){

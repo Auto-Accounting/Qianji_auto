@@ -18,16 +18,13 @@
 package cn.dreamn.qianji_auto.ui.adapter;
 
 
-
-import cn.dreamn.qianji_auto.R;
-
 import com.scwang.smartrefresh.layout.adapter.SmartRecyclerAdapter;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
-
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
-import java.util.List;
 import java.util.Map;
+
+import cn.dreamn.qianji_auto.R;
 
 /**
  * 主副标题显示适配器
@@ -35,12 +32,12 @@ import java.util.Map;
  * @author xuexiang
  * @since 2018/12/19 上午12:19
  */
-public class AssetAdapter extends SmartRecyclerAdapter<Map<String, String>> {
+public class MapAdapter extends SmartRecyclerAdapter<Map<String, String>> {
 
     public static final String KEY_TITLE = "title";
+    public static final String KEY_VALUE = "value";
     public static final String KEY_ID = "id";
-
-    public AssetAdapter() {
+    public MapAdapter() {
         super(R.layout.map_list);
     }
 
@@ -51,7 +48,8 @@ public class AssetAdapter extends SmartRecyclerAdapter<Map<String, String>> {
     protected void onBindViewHolder(SmartViewHolder holder, Map<String, String> item, int position) {
         SuperTextView map_text = (SuperTextView)holder.findView(R.id.map_text);
         map_text.setLeftString(item.get(KEY_TITLE));
-       // map_text.setRightString(item.get(KEY_VALUE));
+        map_text.setCenterString(" -> ");
+        map_text.setRightString(item.get(KEY_VALUE));
 
         map_text.setOnClickListener(v -> {
             if (listener != null) {

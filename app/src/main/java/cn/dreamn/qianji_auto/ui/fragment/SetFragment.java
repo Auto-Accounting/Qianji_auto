@@ -28,12 +28,7 @@ import cn.dreamn.qianji_auto.core.utils.BookNames;
 import cn.dreamn.qianji_auto.core.utils.Remark;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 
-/**
- * 这个只是一个空壳Fragment，只是用于演示而已
- *
- * @author xuexiang
- * @since 2019-07-08 00:52
- */
+
 @Page(name = "插件设置")
 public class SetFragment extends BaseFragment {
     @BindView(R.id.set_pay_mode_full)
@@ -144,7 +139,7 @@ public class SetFragment extends BaseFragment {
 
         });
         set_timeout.setOnSuperTextViewClickListener(superTextView -> {
-            showInputDialog(getString(R.string.set_data_time),getString(R.string.set_data_timetip),mmkv.getString("auto_timeout", "0"),(str)->{
+            showInputDialog(getString(R.string.set_data_time),getString(R.string.set_data_timetip),mmkv.getString("auto_timeout", "10"),(str)->{
                 mmkv.encode("auto_timeout",str);
                 SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
                 initSet();

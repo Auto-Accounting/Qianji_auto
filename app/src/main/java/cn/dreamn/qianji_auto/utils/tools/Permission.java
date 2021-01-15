@@ -74,7 +74,7 @@ public class Permission {
                 context.startActivity(intent);
                 break;
             case Sms:
-                PermissionUtils.permission("android.permission.READ_SMS");
+                PermissionUtils.permission("android.permission.READ_SMS").request();
                 break;
             case Float:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

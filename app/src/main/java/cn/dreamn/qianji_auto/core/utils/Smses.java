@@ -80,8 +80,8 @@ public class Smses extends ContentObserver {
                 billInfo.setRemark(strings[0]);
                 billInfo.setShopRemark(strings[0]);
 
-                Category category = new Category();
-                billInfo.setCateName(category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark()));
+
+                billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),strings[2]));
 
                 if(billInfo.isAvaiable()){
                     CallAutoActivity.call(mcontext,billInfo);

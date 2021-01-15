@@ -18,16 +18,16 @@
 package cn.dreamn.qianji_auto.ui.adapter;
 
 
-
-import cn.dreamn.qianji_auto.R;
+import android.widget.TextView;
+import android.widget.TwoLineListItem;
 
 import com.scwang.smartrefresh.layout.adapter.SmartRecyclerAdapter;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
-import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
-
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
+import cn.dreamn.qianji_auto.R;
 
 /**
  * 主副标题显示适配器
@@ -35,27 +35,26 @@ import java.util.Map;
  * @author xuexiang
  * @since 2018/12/19 上午12:19
  */
-public class AssetAdapter extends SmartRecyclerAdapter<Map<String, String>> {
+public class LogAdapter extends SmartRecyclerAdapter<Map<String, String>> {
 
+    public static final String KEY_SUB = "sub";
     public static final String KEY_TITLE = "title";
-    public static final String KEY_ID = "id";
-
-    public AssetAdapter() {
-        super(R.layout.map_list);
+    public static final String KEY_POS = "pos";
+    public LogAdapter() {
+        super(R.layout.map_list_2);
     }
-
-
 
 
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Map<String, String> item, int position) {
-        SuperTextView map_text = (SuperTextView)holder.findView(R.id.map_text);
-        map_text.setLeftString(item.get(KEY_TITLE));
-       // map_text.setRightString(item.get(KEY_VALUE));
-
-        map_text.setOnClickListener(v -> {
+        TextView  item_top = (TextView)holder.findView(R.id.item_top);
+        item_top.setText(item.get(KEY_TITLE));
+        TextView  item_bottom = (TextView)holder.findView(R.id.item_bottom);
+        item_bottom.setText(item.get(KEY_SUB));
+        TwoLineListItem item_click = (TwoLineListItem)holder.findView(R.id.item);
+        item_click.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onClick(item);
+                listener.onClick(item,Integer.parseInt(Objects.requireNonNull(item.get(KEY_POS))));
             }
         });
     }
@@ -64,7 +63,7 @@ public class AssetAdapter extends SmartRecyclerAdapter<Map<String, String>> {
 
     //第一步 定义接口
     public interface OnItemClickListener {
-        void onClick(Map<String, String> item);
+                    void onClick(Map<String, String> item, Integer pos);
     }
 
     private OnItemClickListener listener;

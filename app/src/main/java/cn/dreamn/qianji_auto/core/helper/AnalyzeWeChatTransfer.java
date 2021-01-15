@@ -140,8 +140,7 @@ class AnalyzeWeChatTransfer {
 
         billInfo.setAccountName(Assets.getMap(billInfo.getAccountName()));
 
-        Category category = new Category();
-        billInfo.setCateName( category.getCategory(shopName,billInfo.getShopRemark()));
+        billInfo.setCateName(Category.getCategory(shopName,billInfo.getShopRemark(),BillInfo.TYPE_PAY));
         billInfo.dump();
         CallAutoActivity.call(context, billInfo);
 

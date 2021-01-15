@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.xuexiang.xui.widget.statelayout.StatefulLayout
+        android:id="@+id/ll_stateful"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bgGray"
+        app:stf_animationEnabled="true"
+        app:stf_inAnimation="@android:anim/slide_in_left"
+        app:stf_outAnimation="@android:anim/slide_out_right">
+
+        <include layout="@layout/include_list" />
+
+    </com.xuexiang.xui.widget.statelayout.StatefulLayout>
+
+
+</LinearLayout>

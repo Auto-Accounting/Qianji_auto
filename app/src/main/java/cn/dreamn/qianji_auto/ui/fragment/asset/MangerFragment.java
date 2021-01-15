@@ -17,29 +17,47 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.asset;
 
+import android.os.Handler;
 import android.view.View;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.xuexiang.xpage.annotation.Page;
+import com.xuexiang.xui.utils.SnackbarUtils;
+import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
 import com.xuexiang.xui.widget.statelayout.StatefulLayout;
-import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
+import com.yanzhenjie.recyclerview.SwipeRecyclerView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.core.db.Asset2;
 import cn.dreamn.qianji_auto.core.utils.Assets;
+import cn.dreamn.qianji_auto.ui.adapter.AssetAdapter;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 
-/**
- * 这个只是一个空壳Fragment，只是用于演示而已
- *
- * @author xuexiang
- * @since 2019-07-08 00:52
- */
-@Page(name = "资产管理")
+import static cn.dreamn.qianji_auto.ui.adapter.AssetAdapter.KEY_ID;
+import static cn.dreamn.qianji_auto.ui.adapter.AssetAdapter.KEY_TITLE;
+
+
+@Page(name = "钱迹资产")
 public class MangerFragment extends BaseFragment {
     @BindView(R.id.ll_stateful)
     StatefulLayout mStatefulLayout;
+    @BindView(R.id.map_layout)
+    SwipeRefreshLayout map_layout;
+
+    private AssetAdapter mAdapter;
+    @BindView(R.id.recycler_view)
+    SwipeRecyclerView recyclerView;
 
     /**
      * 布局的资源id
@@ -56,18 +74,29 @@ public class MangerFragment extends BaseFragment {
      */
     @Override
     protected void initViews() {
-        initSet();
-        initListen();
+        WidgetUtils.initRecyclerView(recyclerView);
+        mAdapter = new AssetAdapter();
+        recyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(item-> new MaterialDialog.Builder(getContext())
+                .title(R.string.tip_options)
+                .items(R.array.menu_values)
+                .itemsCallback((dialog, itemView, position, text) ->{
+                    int id = Integer.parseInt(Objects.requireNonNull(item.get(KEY_ID)));
+                    if(position==0){
+                        Assets.delAsset(id);
+                        refresh();
+                    }else{
+                        showInputDialog(getString(R.string.asset_change),getString(R.string.asset_change_sub),item.get(KEY_TITLE),(str)->{
+                            Assets.updAsset(id,str);
+                            SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
+                            refresh();
+                        });
+                    }
+
+                })
+                .show());
     }
 
-    private void initSet(){
-
-    }
-
-    private void initListen(){
-
-
-    }
     @Override
     protected TitleBar initTitle() {
         TitleBar titleBar = super.initTitle();
@@ -89,8 +118,9 @@ public class MangerFragment extends BaseFragment {
             @Override
             public void performAction(View view) {
 
-                showInputDialog("请输入资产名称","钱迹中的资产名称","",str->{
-                    Assets.addMap(str,str);
+                showInputDialog("请输入资产名称","钱迹中的资产名称","", str->{
+                    Assets.addAsset(str);
+                    refresh();
                 });
 
             }
@@ -100,4 +130,43 @@ public class MangerFragment extends BaseFragment {
 
 
     }
+
+
+
+
+    private void loadData() {
+        new Handler().postDelayed(() -> {
+            mStatefulLayout.showLoading("正在加载资产");
+            Asset2[] asset2s=Assets.getAllAccount();
+            List<Map<String, String>> data = new ArrayList<>();
+            for (Asset2 asset2 : asset2s) {
+                Map<String, String> item = new HashMap<>();
+                item.put(KEY_TITLE, asset2.name);
+                item.put(KEY_ID, String.valueOf(asset2.id));
+                data.add(item);
+            }
+            if(data.size()==0) {
+                mStatefulLayout.showEmpty("没有资产信息");
+                return;
+            }
+
+            mAdapter.refresh(data);
+            if (map_layout != null) {
+                map_layout.setRefreshing(false);
+            }
+            mStatefulLayout.showContent();
+        }, 1000);
+    }
+
+    @Override
+    protected void initListeners() {
+        //下拉刷新
+        map_layout.setOnRefreshListener(this::loadData);
+        refresh(); //第一次进入触发自动刷新，演示效果
+    }
+    private void refresh() {
+        map_layout.setRefreshing(true);
+        loadData();
+    }
+
 }

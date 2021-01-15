@@ -32,6 +32,7 @@ import com.xuexiang.xutil.XUtil;
 import java.io.File;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 public class ErrorActivity extends AppCompatActivity {
@@ -80,20 +81,7 @@ public class ErrorActivity extends AppCompatActivity {
         exce_send.setOnClickListener(view -> {
             Logs.d(filePath);
            // Uri uri = Uri.fromFile(new File(filePath));
-            Intent shareIntent2 = new Intent();
-            Uri uri = FileProvider.getUriForFile(this,"cn.dreamn.qianji_auto" + ".fileprovider", new File(filePath));
-           // grantUriPermission(getPackageName(),uri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            shareIntent2.putExtra(Intent.EXTRA_STREAM, uri);
-
-
-            //重点:针对7.0以上的操作
-
-            shareIntent2.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            shareIntent2.setClipData(ClipData.newRawUri(MediaStore.EXTRA_OUTPUT, uri));
-            shareIntent2.setAction(Intent.ACTION_SEND);
-           // shareIntent2.putExtra(Intent.EXTRA_STREAM, uri);
-            shareIntent2.setType("*/*");
-            startActivity(Intent.createChooser(shareIntent2, "分享到"));
+           Tools.shareFile(this,filePath);
         });
 
     }

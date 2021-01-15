@@ -43,6 +43,9 @@ public class Assets {
         }
         return result;
     }
+    public static Asset[] getAllMap(){
+        return  DbManger.db.AssetDao().getAll();
+    }
     public  static void delAsset(int id){
         DbManger.db.Asset2Dao().del(id);
     }

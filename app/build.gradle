@@ -13,8 +13,8 @@ android {
         applicationId "cn.dreamn.qianji_auto"
         minSdkVersion 22
         targetSdkVersion build_versions.target_sdk
-        versionCode 37
-        versionName "2.0.0alpha2"
+        versionCode 38
+        versionName "2.0.0alpha3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -91,7 +91,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'com.eclipsesource.j2v8:j2v8:5.0.103@aar'
-
+    implementation 'com.github.didikee:AndroidDonate:0.1.0'
     testImplementation deps.junit
     androidTestImplementation deps.runner
     androidTestImplementation deps.espresso.core
