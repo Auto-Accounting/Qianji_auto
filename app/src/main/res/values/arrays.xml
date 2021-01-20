@@ -29,7 +29,7 @@
 
     </string-array>
     <string-array name="menu_values_log">
-        <item>@string/choose_share</item>
+        <item>@string/choose_copy</item>
         <item>@string/choose_delete</item>
     </string-array>
 
@@ -79,5 +79,12 @@
         <item>@string/choose_regular_enable</item>
     </string-array>
 
-    <string name="choose_share">分享</string>
+    <string-array name="menu_values_req2">
+        <item>@string/choose_regular_del</item>
+        <item>@string/choose_regular_change</item>
+        <item>@string/choose_regular_deny</item>
+        <item>@string/choose_regular_enable</item>
+    </string-array>
+
+
 </resources>

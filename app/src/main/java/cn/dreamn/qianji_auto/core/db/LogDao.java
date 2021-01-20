@@ -27,8 +27,8 @@ public interface LogDao{
     Log[] loadAll();
     @Query("DELETE FROM Log WHERE (strftime('%s','now'))- time > :timeout")
     void deleteTimeout(int timeout);
-    @Query("INSERT INTO Log(time,title,sub) values(strftime('%s','now'),:title,:sub)")
-    void add(String title, String sub);
+    @Query("INSERT INTO Log(time,time2,title,sub) values(strftime('%s','now'),:time2,:title,:sub)")
+    void add(String title, String sub,String time2);
     @Query("DELETE FROM Log WHERE pos=:pos")
     void del(Integer pos);
     @Query("DELETE FROM Log")

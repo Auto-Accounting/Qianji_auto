@@ -66,6 +66,7 @@ public class Assets {
     }
     public static String getMap(String assetName){
         Asset[] assets=DbManger.db.AssetDao().get(assetName);
+        if(assetName.equals(""))return "";
         //没有资产创造资产
         if(assets.length<=0){
             DbManger.db.AssetDao().add(assetName,assetName);

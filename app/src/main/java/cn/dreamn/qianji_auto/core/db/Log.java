@@ -27,4 +27,5 @@ public class Log {
     public String time;//发生时间
     public String title;//标题
     public String sub;
+    public String time2;
 }

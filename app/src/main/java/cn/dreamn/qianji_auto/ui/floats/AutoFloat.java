@@ -39,6 +39,7 @@ import cn.dreamn.qianji_auto.core.utils.Assets;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.BookNames;
+import cn.dreamn.qianji_auto.core.utils.Caches;
 import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
@@ -247,7 +248,7 @@ public class AutoFloat extends XFloatView {
         auto_remark.setText(billInfo.getRemark());
         auto_category.setText(billInfo.getCateName());
         auto_book.setText(billInfo.getBookName());
-        auto_type.setText(billInfo.getTypeName(billInfo.getType()));
+        auto_type.setText(BillInfo.getTypeName(billInfo.getType()));
         auto_account.setText(billInfo.getAccountName());
         auto_account2.setText(billInfo.getAccountName2());
         auto_time.setText(billInfo.getTime());
@@ -275,5 +276,11 @@ public class AutoFloat extends XFloatView {
         inputFloat.show();
 
 
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        Caches.update("float_lock","false");
     }
 }

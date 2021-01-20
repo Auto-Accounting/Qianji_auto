@@ -48,6 +48,15 @@
         app:sLeftTopTextString="@string/permission_float" />
 
     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/permission_notification"
+
+        style="@style/Item"
+        app:sLeftBottomTextString="@string/permission_notification_sub"
+        app:sLeftIconRes="@drawable/ic_notification"
+        app:sLeftTopTextString="@string/permission_notificaiton" />
+
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
         android:id="@+id/permission_start"
 
         style="@style/Item"

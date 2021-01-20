@@ -95,7 +95,7 @@
                         app:sLeftBottomTextString="@string/qianji_map_sub"
                         app:sLeftIconHeight="35sp"
                         app:sLeftIconMarginLeft="25dp"
-                        app:sLeftIconRes="@drawable/ic_sort"
+                        app:sLeftIconRes="@drawable/ic_map"
                         app:sLeftIconWidth="35sp"
                         app:sLeftTopTextColor="@color/list_text_color_normal_sub"
                         app:sLeftTopTextSize="18sp"

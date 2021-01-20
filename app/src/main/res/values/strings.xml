@@ -56,7 +56,7 @@
     <string name="btn_save">保存</string>
     <string name="default_account">默认账户</string>
     <string name="bookname">账本</string>
-    <string name="default_cate">其他</string>
+    <string name="default_cate">其它</string>
     <string name="auto_cate">分类</string>
     <string name="auto_price">金额</string>
     <string name="auto_remark">备注</string>
@@ -88,7 +88,7 @@
     <string name="menu_learn">语义识别</string>
     <string name="menu_learn_sub">设置全自动记账的分类映射</string>
     <string name="menu_book">账单列表</string>
-    <string name="menu_book_sub">最近支付的10条账单信息</string>
+    <string name="menu_book_sub">最近支付的账单信息</string>
     <string name="menu_log">日志查询</string>
     <string name="menu_log_sub">出现记账失败的问题可以来看看日志</string>
     <string name="menu_backup">备份恢复</string>
@@ -132,7 +132,7 @@
     <string name="input_tip">请输入内容</string>
     <!--   <string name="input_ok">确认</string>-->
     <string name="set_data_remark">备注格式</string>
-    <string name="set_data_remarktip">支持：[交易对象] 、 [说明]</string>
+    <string name="set_data_remarktip">支持：[商户名] 、[商户备注]</string>
     <string name="sort_alipay_sub">开启收入全自动需要配置</string>
     <string name="sort_alipay_top">支付宝收入分类映射</string>
     <string name="sort_wechat_sub">开启收入全自动需要配置</string>
@@ -184,7 +184,7 @@
     <string name="bak_map">备份或恢复资产映射</string>
     <string name="bak_learn">备份或恢复语义识别</string>
     <string name="bak_success">已备份到%s</string>
-    <string name="bak_select">选择一个文件来恢复</string>
+    <string name="bak_select">选择.backup结尾的文件来恢复</string>
     <string name="bak_success_2">配置恢复成功</string>
 
     <string name="about_copyright">© %1$s Dreamn All rights reserved.</string>
@@ -263,4 +263,24 @@
     <string name="enable_success">启用成功</string>
     <string name="helper_tip6">开发中</string>
     <string name="helper_tip_qianji6">该功能暂未开放，敬请期待。</string>
+    <string name="menu_sms_sub">识别短信，根据扣费短信进行记账。</string>
+    <string name="menu_sms">短信识别</string>
+    <string name="choose_share">分享</string>
+    <string name="sms_regular">正则表达式</string>
+    <string name="sms_location">匹配项目所在位置</string>
+    <string name="sms_num">尾号</string>
+    <string name="sms_account">账户名</string>
+    <string name="sms_type">收支类型</string>
+    <string name="sms_money">金额</string>
+    <string name="sms_remark">备注</string>
+    <string name="notification">支付宝微信通知监听</string>
+    <string name="permission_notification_sub">监听微信支付宝收款消息</string>
+    <string name="permission_notificaiton">通知读取权限</string>
+    <string name="btn_test">测试</string>
+    <string name="choose_copy_succeed">复制成功</string>
+    <string name="cate_testName">请输入相关信息进行测试</string>
+    <string name="cate_time">当前时间</string>
+    <string name="cate_shopName">商户名称</string>
+    <string name="cate_shopRemark">商户备注</string>
+    <string name="cate_type">支付类型</string>
 </resources>

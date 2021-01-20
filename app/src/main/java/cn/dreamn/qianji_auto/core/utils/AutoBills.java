@@ -22,19 +22,21 @@ import cn.dreamn.qianji_auto.core.db.DbManger;
 
 public class AutoBills {
     public static AutoBill[] getAll(){
-        AutoBill[] autoBills= DbManger.db.AutoBillDao().getAll();
-        if(autoBills.length<=0)return null;
-        return autoBills;
+        return DbManger.db.AutoBillDao().getAll();
+
     }
 
     public  static void del(int id){
         DbManger.db.AutoBillDao().del(id);
     }
     public static void add(BillInfo billInfo){
-        DbManger.db.AutoBillDao().add(billInfo.getType(),billInfo.getMoney(),billInfo.getTime(),billInfo.getRemark(),billInfo.getCateName(),billInfo.getCateChoose()?"1":"0",billInfo.getBookName(),billInfo.getAccountName(),billInfo.getAccountName2(),billInfo.getShopAccount(),billInfo.getShopRemark());
+        DbManger.db.AutoBillDao().add(billInfo.toString(),billInfo.getType(),billInfo.getMoney(),billInfo.getTime(),billInfo.getRemark(),billInfo.getCateName(),billInfo.getCateChoose()?"1":"0",billInfo.getBookName(),billInfo.getAccountName(),billInfo.getAccountName2(),billInfo.getShopAccount(),billInfo.getShopRemark(),billInfo.getSource());
     }
     public static void update(int id,BillInfo billInfo){
-        DbManger.db.AutoBillDao().update(id,billInfo.getType(),billInfo.getMoney(),billInfo.getTime(),billInfo.getRemark(),billInfo.getCateName(),billInfo.getCateChoose()?"1":"0",billInfo.getBookName(),billInfo.getAccountName(),billInfo.getAccountName2(),billInfo.getShopAccount(),billInfo.getShopRemark());
+        DbManger.db.AutoBillDao().update(id,billInfo.toString(),billInfo.getType(),billInfo.getMoney(),billInfo.getTime(),billInfo.getRemark(),billInfo.getCateName(),billInfo.getCateChoose()?"1":"0",billInfo.getBookName(),billInfo.getAccountName(),billInfo.getAccountName2(),billInfo.getShopAccount(),billInfo.getShopRemark(),billInfo.getSource());
     }
 
+    public static void delAll() {
+        DbManger.db.AutoBillDao().delAll();
+    }
 }

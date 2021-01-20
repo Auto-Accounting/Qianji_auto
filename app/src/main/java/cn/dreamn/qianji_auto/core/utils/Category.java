@@ -30,28 +30,47 @@ import cn.dreamn.qianji_auto.utils.tools.Logs;
 public class Category {
 
     public static String getCategory(String shopAccount, String shopRemark, String type){
-        V8 runtime = V8.createV8Runtime();
-        String result=runtime.executeStringScript(getCategoryRegularJs(shopAccount,shopRemark,type));
-
-        Logs.d("Qianji_Cate","自动分类结果："+result);
-        return result;
+        try {
+            V8 runtime = V8.createV8Runtime();
+            String result = runtime.executeStringScript(getCategoryRegularJs(shopAccount, shopRemark, type));
+            Logs.d("Qianji_Cate", "自动分类结果：" + result);
+            return result;
+        }catch (Exception e){
+            Logs.i("自动分类执行出错！"+e.toString());
+            return "其他";
+        }
 
     }
 
     //获取所有的js
    public static String getCategoryRegularJs(String shopAccount, String shopRemark, String type){
+       if(shopAccount==null)shopAccount="";
+       if(shopRemark==null)shopRemark="";
        StringBuilder regList= new StringBuilder();
        Regular[] regular = DbManger.db.RegularDao().load();
        for (Regular value : regular) {
            regList.append(value.regular);
        }
 
-       String js="function getCategory(shopName,shopMark,type,time){%s return '其他';} getCategory('%s','%s','%s','%s');";
+       type=BillInfo.getTypeName(type);
 
-       @SuppressLint("SimpleDateFormat") String time= DateUtils.getNowString(new SimpleDateFormat("HH"));
+       String js="function getCategory(shopName,shopRemark,type,time){%s return '其他';} getCategory('%s','%s','%s','%s');";
+
+       String time= Tools.getTime("HH");
        return String.format(js,regList.toString(),shopAccount,shopRemark,type,time);
    }
 
+    //获取所有的js
+    public static String getOneRegularJs(String jsData,String shopAccount, String shopRemark, String type,String time){
+        if(shopAccount==null)shopAccount="";
+        if(shopRemark==null)shopRemark="";
+
+        type=BillInfo.getTypeName(type);
+
+        String js="function getCategory(shopName,shopRemark,type,time){%s return '其他';} getCategory('%s','%s','%s','%s');";
+
+        return String.format(js,jsData,shopAccount,shopRemark,type,time);
+    }
 
     /**
      * js demo

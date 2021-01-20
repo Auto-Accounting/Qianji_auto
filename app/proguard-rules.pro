@@ -130,45 +130,11 @@
     @androidx.annotation.Keep *;
 }
 
-# zxing
--dontwarn com.google.zxing.**
--keep class com.google.zxing.**{*;}
 
-#SignalR推送
--keep class microsoft.aspnet.signalr.** { *; }
 
-# 极光推送混淆
--dontoptimize
--dontpreverify
--dontwarn cn.jpush.**
--keep class cn.jpush.** { *; }
--dontwarn cn.jiguang.**
--keep class cn.jiguang.** { *; }
 
-# 数据库框架OrmLite
--keepattributes *DatabaseField*
--keepattributes *DatabaseTable*
--keepattributes *SerializedName*
--keep class com.j256.**
--keepclassmembers class com.j256.** { *; }
--keep enum com.j256.**
--keepclassmembers enum com.j256.** { *; }
--keep interface com.j256.**
--keepclassmembers interface com.j256.** { *; }
 
-#XHttp2
--keep class com.xuexiang.xhttp2.model.** { *; }
--keep class com.xuexiang.xhttp2.cache.model.** { *; }
--keep class com.xuexiang.xhttp2.cache.stategy.**{*;}
--keep class com.xuexiang.xhttp2.annotation.** { *; }
 
-#okhttp
--dontwarn com.squareup.okhttp3.**
--keep class com.squareup.okhttp3.** { *;}
--dontwarn okio.**
--dontwarn javax.annotation.Nullable
--dontwarn javax.annotation.ParametersAreNonnullByDefault
--dontwarn javax.annotation.**
 
 #如果用到Gson解析包的，直接添加下面这几行就能成功混淆，不然会报错
 -keepattributes Signature
@@ -237,30 +203,4 @@
 # 如果使用了 单类注入，即不定义接口实现 IProvider，需添加下面规则，保护实现
 -keep class * implements com.xuexiang.xrouter.facade.template.IProvider
 
-# xupdate
--keep class com.xuexiang.xupdate.entity.** { *; }
 
-# xvideo
--keep class com.xuexiang.xvideo.jniinterface.** { *; }
-
-# xipc
--keep @com.xuexiang.xipc.annotation.* class * {*;}
--keep class * {
-    @com.xuexiang.xipc.annotation.* <fields>;
-}
--keepclassmembers class * {
-    @com.xuexiang.xipc.annotation.* <methods>;
-}
-
-# umeng统计
--keep class com.umeng.** {*;}
--keepclassmembers class * {
-   public <init> (org.json.JSONObject);
-}
--keepclassmembers enum * {
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
-}
-
-# materialedittext
--keep class com.xuexiang.xui.widget.edittext.materialedittext.** { *; }

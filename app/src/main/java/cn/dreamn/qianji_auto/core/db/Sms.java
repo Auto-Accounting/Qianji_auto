@@ -25,11 +25,9 @@ public class Sms {
     //短信处理规则
     @PrimaryKey(autoGenerate = true)
     public int id;
-    /**
-     * 解析字段 发件人【xxx】 send 正文content
-     * if(sms.find("123")) contents 、not contents、indexof、endof、regular
-     * 正文需要匹配内容：备注 remark 扣款账号account 扣款尾号num 扣款 收入isPay 发生金额money
-     */
+
     public String regular;//翻译后的规则
-    public boolean use=true;//是否启用该规则
+    public String smsNum;//remark|account|type|money|num
+    public String name;//规则名
+    public int use=1;//是否启用该规则
 }

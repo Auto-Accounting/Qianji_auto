@@ -45,12 +45,12 @@ public class Logs {
     public static void i(String msg)  {
         String defaultTag = "Qianji-Auto";
         android.util.Log.i(defaultTag, msg);
-        DbManger.db.LogDao().add(msg,"自动记账");
+        DbManger.db.LogDao().add(msg,"自动记账",getTime());
         DbManger.db.LogDao().deleteTimeout(timeout);
     }
     public static void i(String TAG,String msg)  {
         android.util.Log.i(TAG, msg);
-        DbManger.db.LogDao().add(msg,TAG);
+        DbManger.db.LogDao().add(msg,TAG,getTime());
         DbManger.db.LogDao().deleteTimeout(timeout);
     }
 

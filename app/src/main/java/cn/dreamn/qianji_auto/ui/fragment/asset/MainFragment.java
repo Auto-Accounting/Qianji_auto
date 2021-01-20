@@ -24,8 +24,6 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 
-import static com.xuexiang.xui.utils.ResUtils.getColor;
-
 
 @Page(name = "资产管理")
 public class MainFragment extends BaseFragment {

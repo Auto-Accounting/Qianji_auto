@@ -32,6 +32,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
+import cn.dreamn.qianji_auto.core.utils.Caches;
 import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
@@ -150,5 +151,11 @@ public class AutoFloatTip extends XFloatView {
 
         },1000);
 
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        Caches.update("float_lock","false");
     }
 }

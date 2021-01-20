@@ -27,6 +27,7 @@ import android.widget.ScrollView;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
+import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.StatusBarUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.dialog.materialdialog.GravityEnum;
@@ -117,7 +118,7 @@ public class HelperFragment extends BaseFragment {
             R.id.permission_lock,
             R.id.permission_battery_ingore,
            // R.id.permission_security,
-
+            R.id.permission_notification,
 
             R.id.permission_float2,
             R.id.permission_start2,
@@ -193,6 +194,9 @@ public class HelperFragment extends BaseFragment {
             case R.id.permission_battery_ingore:
                 Permission.getInstance().grant(this.getContext(),Permission.BatteryIngore);
                 break;
+            case R.id.permission_notification:
+                Permission.getInstance().grant(this.getContext(),Permission.Notification);
+                break;
            /* case R.id.permission_security:
                 Permission.getInstance().grant(this.getContext(),Permission.Security);
                 break;*/
@@ -218,7 +222,16 @@ public class HelperFragment extends BaseFragment {
                 break;
             case R.id.set_delay:
                 showInputDialog("请输入延时时间","默认延时10秒，设置为0不延时。",mmkv.getString("auto_timeout","10"), (CallBack) data -> {
-                    mmkv.encode("auto_timeout",data);
+                    try{
+                        Integer.parseInt(data);
+                        mmkv.encode("auto_timeout",data);
+                    }catch (Exception e){
+                        new MaterialDialog.Builder(getContext())
+                                .title("类型错误")
+                                .content("只允许输入整数！")
+                                .positiveText(getString(R.string.input_ok))
+                                .show();
+                    }
                 });
                 break;
             case R.id.set_default_book:

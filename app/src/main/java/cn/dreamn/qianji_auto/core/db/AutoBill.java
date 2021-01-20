@@ -36,4 +36,6 @@ public class AutoBill {
     public String accountname2;//转账或者还款的转入账户
     public String shopAccount;//识别出来的收款账户
     public String shopRemark;//识别出来的备注
+    public String billInfo;//识别出来的账单数据集
+    public String source;//来源
 }

@@ -18,9 +18,13 @@
 package cn.dreamn.qianji_auto.utils.tools;
 
 import android.annotation.SuppressLint;
+import android.app.AppOpsManager;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
@@ -28,7 +32,15 @@ import android.text.TextUtils;
 
 import com.xuexiang.xaop.util.PermissionUtils;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.List;
+
 import cn.dreamn.qianji_auto.core.helper.AutoAccessibilityService;
+
+import static com.xuexiang.xutil.XUtil.getContentResolver;
+import static com.xuexiang.xutil.app.ActivityUtils.startActivity;
+import static com.xuexiang.xutil.app.AppUtils.getPackageName;
 
 
 public class Permission {
@@ -44,6 +56,9 @@ public class Permission {
     public static final int Lock=6;
     public static final int BatteryIngore=7;
     public static final int Security=8;
+    public static final int Storage=9;
+    public static final int All=10;
+    public static final int Notification=11;
 
 
     public static Permission getInstance(){
@@ -79,7 +94,9 @@ public class Permission {
             case Float:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (!Settings.canDrawOverlays(context)) {
-                        context.startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:cn.dreamn.qianji_auto")));
+                        intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:cn.dreamn.qianji_auto"));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
                     }
                 }
                 // FloatWindowPermission.getInstance().applyFloatWindowPermission(context);
@@ -112,6 +129,20 @@ public class Permission {
                         context.startActivity(intent);
                     }
                 }
+                break;
+
+            case Storage:
+                PermissionUtils.permission("android.permission.WRITE_EXTERNAL_STORAGE").request();
+                break;
+            case All:
+                List strings=PermissionUtils.getPermissions();
+                for(int i=0;i<strings.size();i++){
+                    PermissionUtils.permission(strings.get(i).toString()).request();
+                }
+                break;
+            case Notification:
+                if(!isNotificationListenersEnabled())
+                    gotoNotificationAccessSetting();
                 break;
             default:break;
         }
@@ -153,6 +184,46 @@ public class Permission {
 
         return false;
     }
+
+
+    public boolean isNotificationListenersEnabled() {
+        String pkgName = getPackageName();
+        final String flat = Settings.Secure.getString(getContentResolver(), "enabled_notification_listeners");
+        if (!TextUtils.isEmpty(flat)) {
+            final String[] names = flat.split(":");
+            for (String name : names) {
+                final ComponentName cn = ComponentName.unflattenFromString(name);
+                if (cn != null) {
+                    if (TextUtils.equals(pkgName, cn.getPackageName())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    protected void gotoNotificationAccessSetting() {
+        try {
+            Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        } catch (ActivityNotFoundException e) {//普通情况下找不到的时候需要再特殊处理找一次
+            try {
+                Intent intent = new Intent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.Settings$NotificationAccessSettingsActivity");
+                intent.setComponent(cn);
+                intent.putExtra(":settings:show_fragment", "NotificationAccessSettings");
+                startActivity(intent);
+                return;
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

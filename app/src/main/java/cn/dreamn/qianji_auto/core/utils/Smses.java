@@ -17,122 +17,95 @@
 
 package cn.dreamn.qianji_auto.core.utils;
 
-import android.content.Context;
-import android.database.ContentObserver;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Handler;
-
-import com.eclipsesource.v8.V8;
-
 import cn.dreamn.qianji_auto.core.db.DbManger;
+import cn.dreamn.qianji_auto.core.db.Regular;
 import cn.dreamn.qianji_auto.core.db.Sms;
-import cn.dreamn.qianji_auto.utils.tools.Logs;
 
-public class Smses extends ContentObserver {
-
-    Cursor cursor;
-    Context mcontext;
-    Handler mhandler;
-
-    /*
-    重写一个构造方法，因为当数据库变化时要通知程序进行下一步操作，
-    所以需要传入Handler对象*/
-    public Smses(Context context,Handler handler) {
-        super(handler);
-        mcontext = context;
-        mhandler=handler;
+public class Smses {
 
 
-    }
+    public static String getFunction(String regex,String body,String remark,String account,String type,String money,String num){
+        String js = "function getSms(body){ var remark,account,type,money,num,shopName,pattern ; %s return remark+'|'+account+'|'+type+'|'+money+'|'+num };getSms('%s');";
+        String data = "pattern= /%s/;" +
+                "      if(pattern.test(body)){" +
+                "         var array = pattern.exec(body);" +
+                "         var remarkNum='%s',accountNum='%s',typeNum='%s',moneyNum='%s',numNum='%s';"+
+                "         if(remarkNum!=0){if(!isNaN(parseInt(remarkNum)))remark=array[remarkNum];else remark=remarkNum;}" +
+                "         if(accountNum!=0){if(!isNaN(parseInt(accountNum)))account=array[accountNum];else account=accountNum;}" +
+                "         if(typeNum!=0){if(!isNaN(parseInt(typeNum)))type=array[typeNum];else type=typeNum;}" +
+                "         if(moneyNum!=0){if(!isNaN(parseInt(moneyNum)))money=array[moneyNum];else money=moneyNum;}" +
+                "         if(numNum!=0){if(!isNaN(parseInt(numNum)))num=array[numNum];else num=numNum;}" +
+                "      return remark+'|'+account+'|'+type+'|'+money+'|'+num ;" +
+                "}    ";
 
-    @Override
-    public void onChange(boolean selfChange, Uri uri) {
-        super.onChange(selfChange, uri);
-        Logs.d(uri.toString());
-        if (uri.toString().equals("content://sms/inbox-insert")) {
-            cursor = mcontext.getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
-
-            if (cursor.moveToFirst()) {
-
-//                读取短信内容
-                String body = cursor.getString(cursor.getColumnIndex("body"));
-                String data = getSms(body);
-
-                String[] strings=data.split("\\|");
-                if(strings.length!=6)return;
-                BillInfo billInfo = new BillInfo();
-                billInfo.setType(strings[2]);
-
-                String account=strings[1];
-                if(!strings[4].equals("undefined")){
-                    account=account+"("+strings[4]+")";
-                }
-
-                billInfo.setBookName(BookNames.getDefault());
-                if(!strings[5].equals("undefined")){
-                    billInfo.setShopAccount(strings[5]);
-                }else{
-                    billInfo.setShopAccount("");
-                }
-                billInfo.setAccountName(account);
-                billInfo.setTime();
-                billInfo.setRemark(strings[0]);
-                billInfo.setShopRemark(strings[0]);
-
-
-                billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),strings[2]));
-
-                if(billInfo.isAvaiable()){
-                    CallAutoActivity.call(mcontext,billInfo);
-                }
-            }
-        }
-    }
-
-
-    public String getSms(String smsBody){
-        Logs.d(smsBody);
-        Logs.d(getSmsRegularJs(smsBody));
-
-        V8 runtime = V8.createV8Runtime();
-        String result=runtime.executeStringScript(getSmsRegularJs(smsBody));
-
-        Logs.d("Qianji_Sms","短信分析结果："+result);
-        return result;
+        String data2=String.format(data,regex,remark,account,type,money,num);
+        return String.format(js, data2, body);
 
     }
-
     //获取所有的js
-    public String getSmsRegularJs(String Body){
-        StringBuilder smsList= new StringBuilder();
+    public static String getSmsRegularJs(String Body) {
+        StringBuilder smsList = new StringBuilder();
         Sms[] sms = DbManger.db.SmsDao().load();
         for (Sms value : sms) {
-            smsList.append(value.regular);
+            String[] nums = value.smsNum.split("\\|");
+            if (nums.length != 5) return null;
+
+            String data = "pattern= /%s/;" +
+                    "      if(pattern.test(body)){" +
+                    "         var array = pattern.exec(body);" +
+                    "         var remarkNum='%s',accountNum='%s',typeNum='%s',moneyNum='%s',numNum='%s';"+
+                    "         if(remarkNum!=0){if(!isNaN(parseInt(remarkNum)))remark=array[remarkNum];else remark=remarkNum;}" +
+                    "         if(accountNum!=0){if(!isNaN(parseInt(accountNum)))account=array[accountNum];else account=accountNum;}" +
+                    "         if(typeNum!=0){if(!isNaN(parseInt(typeNum)))type=array[typeNum];else type=typeNum;}" +
+                    "         if(moneyNum!=0){if(!isNaN(parseInt(moneyNum)))money=array[moneyNum];else money=moneyNum;}" +
+                    "         if(numNum!=0){if(!isNaN(parseInt(numNum)))num=array[numNum];else num=numNum;}" +
+                    "      return remark+'|'+account+'|'+type+'|'+money+'|'+num ;" +
+                    "}    ";
+
+            data = String.format(data, value.regular, nums[0], nums[1],  nums[2], nums[3], nums[4]);
+            smsList.append(data);
+
+
         }
+        String js = "function getSms(body){ var remark,account,type,money,num,shopName,pattern ; %s return remark+'|'+account+'|'+type+'|'+money+'|'+num };getSms('%s');";
 
-        // Sms 【招商银行】您账户1956于12月13日19:57银联扣款人民币20.00元（（特约）公交充值）
-
-        String js="function getSms(body){ var remark,account,type,money,num,shopName; %s return remark+'|'+account+'|'+type+'|'+money+'|'+num };getSms('%s');";
-
-        return String.format(js,smsList.toString(),Body);
+        return String.format(js, smsList.toString(), Body);
     }
-
-
     /**
-     *js demo
-     * if(title.contents("123"))//标题 contents 、not contents、indexof、endof、regular（匹配到）
-     *      * if(sub.contents("123"))//副标题
-     *      * if(time>200 && time <100)//时间 < 、>、=
-     *      * return "okk"
+     *
+     * var pattern = /(.*)向您尾号(.*)的储蓄卡银联(.*)存入人民币(.*)元,活期余额.*元。\[建设银行\]/g,
+     * 	str = '徐先生1月2日12时18分向您尾号5064的储蓄卡银联入账存入人民币10000.00元,活期余额10050.96元。[建设银行]';
+     * var array = pattern.exec(str);
+     * if(array<=0)return;
+     *
+     * function getSms(body){ var remark,account,type,money,num,shopName; %s return remark+'|'+account+'|'+type+'|'+money+'|'+num };getSms('%s');
+     *
      */
 
-    public void addSms(String js){
-        DbManger.db.SmsDao().add(js);
+    public static Sms[] getAll(){
+        return DbManger.db.SmsDao().loadAll();
     }
 
-    public void changeSms(int id,String js){
-        DbManger.db.SmsDao().update(id,js);
+    public static void deny(int id) {
+        DbManger.db.SmsDao().deny(id);
     }
+    public static void enable(int id) {
+        DbManger.db.SmsDao().enable(id);
+    }
+
+
+
+    public static void add(String regex,String name,String num){
+        DbManger.db.SmsDao().add(regex,name,num);
+    }
+
+    public static void change(int id,String regex,String name,String num){
+        DbManger.db.SmsDao().update(id,regex,name,num);
+    }
+
+    public static void del(int id){
+        DbManger.db.SmsDao().delete(id);
+    }
+
 
 }

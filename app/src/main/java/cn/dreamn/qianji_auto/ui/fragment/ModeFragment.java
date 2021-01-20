@@ -97,6 +97,7 @@ public class ModeFragment extends BaseFragment {
             R.id.permission_lock,
             R.id.permission_battery_ingore,
             // R.id.permission_security,
+            R.id.permission_notification,
             R.id.permission_float2,
             R.id.permission_start2,
 
@@ -142,6 +143,9 @@ public class ModeFragment extends BaseFragment {
                 break;
             case R.id.permission_battery_ingore:
                 Permission.getInstance().grant(this.getContext(),Permission.BatteryIngore);
+                break;
+            case R.id.permission_notification:
+                Permission.getInstance().grant(this.getContext(),Permission.Notification);
                 break;
             default:break;
         }

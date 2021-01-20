@@ -21,6 +21,8 @@ import com.tencent.mmkv.MMKV;
 
 public class Remark {
     public static String getRemark(String shopName,String shopRemark){
+        if(shopName==null)shopName="";
+        if(shopRemark==null)shopRemark="";
         return getRemarkTpl().replace("[商户名]",shopName).replace("[商户备注]",shopRemark);
     }
     public static String getRemarkTpl(){

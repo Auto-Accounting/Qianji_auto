@@ -17,13 +17,16 @@
 
 package cn.dreamn.qianji_auto.core.utils;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Handler;
 
 import cn.dreamn.qianji_auto.core.helper.AutoAccessibilityService;
 import cn.dreamn.qianji_auto.core.helper.AutoBillService;
+import cn.dreamn.qianji_auto.core.helper.AutoNotificationService;
+import cn.dreamn.qianji_auto.core.helper.SmsServer;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 import cn.dreamn.qianji_auto.utils.tools.Permission;
 
@@ -45,8 +48,15 @@ public class ServerManger {
 
     public static void startSms(Context context){
         Logs.i("短信监听已启动");
-        Smses smses = new Smses(context,null);
-        getContentResolver().registerContentObserver(Uri.parse("content://sms"), true,smses);
+        SmsServer smsServer = new SmsServer(context,null);
+        getContentResolver().registerContentObserver(Uri.parse("content://sms"), true, smsServer);
+    }
+
+    public static void startNotice(Context context){
+        Logs.i("通知监听已启动");
+        PackageManager pm = context.getPackageManager();
+        pm.setComponentEnabledSetting(new ComponentName(context, AutoNotificationService.class),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
     }
 
 }

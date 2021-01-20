@@ -67,6 +67,9 @@ public class BillInfo  {
     private String shopRemark;//识别出来的备注
 
 
+    private String source;//账单来源
+
+
     public String getType() {
         return type;
     }
@@ -112,6 +115,11 @@ public class BillInfo  {
         return this.shopRemark;
     }
 
+    public String getSource(){ return this.source;}
+
+    public void setSource(String source){
+        this.source=source;
+    }
 
     public void setType(String type) {
         this.type = type;
@@ -206,6 +214,9 @@ public class BillInfo  {
         if (shopRemark != null) {
             url += "&shopRemark=" + shopRemark;
         }
+        if(source!=null){
+            url +="&source="+source;
+        }
         return url;
     }
 
@@ -247,6 +258,8 @@ public class BillInfo  {
                 case "shopRemark":
                     billInfo.setShopRemark(value);
                     break;
+                case "source":
+                    billInfo.setSource(value);
                 default:
                     break;
             }
@@ -264,7 +277,7 @@ public class BillInfo  {
             return false;
         }
         //检查金额
-        if (this.money == null || BillTools.getMoney(this.money).equals("0")) {
+        if (this.money == null || BillTools.getMoney(this.money).equals("0")|| BillTools.getMoney(this.money).equals("0.0")|| BillTools.getMoney(this.money).equals("0.00")) {
             Logs.d("Qianji_Analyze", "金额 :" + this.money);
             return false;
         }
@@ -277,7 +290,7 @@ public class BillInfo  {
         return true;
     }
 
-    public String getTypeName(String type) {
+    public static String getTypeName(String type) {
         if (type.equals(TYPE_PAY)) return "支出";
         if (type.equals(TYPE_CREDIT_CARD_PAYMENT)) return "信用还款";
         if (type.equals(TYPE_INCOME)) return "收入";

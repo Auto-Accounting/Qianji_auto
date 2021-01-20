@@ -350,7 +350,8 @@ public abstract class BaseFragment extends XPageFragment {
                         getString(R.string.input_tip),
                         def,
                         false,
-                        ((dialog, input) -> {}))
+                        ((dialog, input) -> {})
+                )
                 .positiveText(getString(R.string.input_ok))
                 .negativeText(getString(R.string.set_cancel))
                 .onPositive((dialog, which) -> callBack.onResponse(dialog.getInputEditText().getText().toString()))

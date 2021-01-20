@@ -39,7 +39,6 @@ public class BillTools {
                     bf.append(c);
                 } else if (c == '.') {
                     if (bf.length() == 0) {
-                        continue;
                     } else if (bf.indexOf(".") != -1) {
                         break;
                     } else {
@@ -55,7 +54,7 @@ public class BillTools {
             {
                 d = Double.parseDouble(bf.toString());
             }
-            catch(Exception e)
+            catch(Exception ignored)
             {}
         }
 
@@ -85,5 +84,6 @@ public class BillTools {
             return "- ￥"+billInfo.getMoney();
         }
     }
+
 
 }

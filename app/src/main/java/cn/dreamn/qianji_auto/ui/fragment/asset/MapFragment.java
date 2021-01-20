@@ -89,6 +89,9 @@ public class MapFragment extends BaseFragment {
 
                 })
                 .show());
+        //下拉刷新
+        map_layout.setOnRefreshListener(this::loadData);
+        refresh(); //第一次进入触发自动刷新，演示效果
     }
 
     @Override
@@ -143,9 +146,7 @@ public class MapFragment extends BaseFragment {
 
     @Override
     protected void initListeners() {
-        //下拉刷新
-        map_layout.setOnRefreshListener(this::loadData);
-        refresh(); //第一次进入触发自动刷新，演示效果
+
     }
     private void refresh() {
         map_layout.setRefreshing(true);

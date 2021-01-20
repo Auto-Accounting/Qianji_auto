@@ -94,7 +94,7 @@ public class CategoryFragment extends BaseFragment {
                         Bundle params = new Bundle();
                         params.putString("id",String.valueOf(id));
                         params.putString("data",item.get(KEY_DATA));
-                        openPage(Edit.class,params);
+                        openPage(EditFragment.class,params);
                     }else if(position==2){
                         CookieBar.builder(getActivity())
                                 .setTitle(R.string.helper_tip6)
@@ -115,6 +115,9 @@ public class CategoryFragment extends BaseFragment {
 
                 })
                 .show());
+        //下拉刷新
+        map_layout.setOnRefreshListener(this::loadData);
+        refresh(); //第一次进入触发自动刷新，演示效果
     }
 
 
@@ -134,7 +137,7 @@ public class CategoryFragment extends BaseFragment {
             @Override
             public void performAction(View view) {
 
-                openPage(Edit.class,true);
+                openPage(EditFragment.class,true);
 
                 /**
                  * // 设置需要传递的参数
@@ -184,9 +187,7 @@ public class CategoryFragment extends BaseFragment {
 
     @Override
     protected void initListeners() {
-        //下拉刷新
-        map_layout.setOnRefreshListener(this::loadData);
-        refresh(); //第一次进入触发自动刷新，演示效果
+
     }
     private void refresh() {
         map_layout.setRefreshing(true);

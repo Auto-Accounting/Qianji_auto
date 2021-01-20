@@ -18,6 +18,8 @@
 package cn.dreamn.qianji_auto.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -27,15 +29,29 @@ import cn.dreamn.qianji_auto.core.utils.App;
 import cn.dreamn.qianji_auto.core.utils.Status;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.category.CategoryFragment;
+import cn.dreamn.qianji_auto.ui.fragment.sms.SmsFragment;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
+import cn.dreamn.qianji_auto.utils.tools.FileUtils;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
+import cn.dreamn.qianji_auto.utils.tools.Permission;
 
+import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
+import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 import com.xuexiang.xutil.XUtil;
+import com.xuexiang.xutil.app.PathUtils;
 import com.xuexiang.xutil.common.ClickUtils;
+import com.xuexiang.xutil.file.ZipUtils;
+
+import java.io.IOException;
+import java.util.Objects;
+
+import static android.app.Activity.RESULT_OK;
+import static com.xuexiang.xui.utils.ResUtils.getString;
 
 /**
  * @author xuexiang
@@ -52,8 +68,8 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
     @BindView(R.id.sortMap)
     SuperTextView menu_sortMap;
 
-    @BindView(R.id.Learn)
-    SuperTextView menu_Learn;
+    @BindView(R.id.Sms)
+    SuperTextView menu_Sms;
     @BindView(R.id.Bill)
     SuperTextView menu_Bill;
     @BindView(R.id.Log)
@@ -122,6 +138,7 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
 
 
 
+    @SuppressLint("SdCardPath")
     private void initListen(){
         menu_status.setOnSuperTextViewClickListener(superTextView -> {
             openNewPage(ModeFragment.class);
@@ -136,27 +153,51 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
         menu_sortMap.setOnSuperTextViewClickListener(superTextView -> {
             openNewPage(CategoryFragment.class);
         });
-        /*
-
-        menu_sortMap.setOnSuperTextViewClickListener(superTextView -> {
-            openNewPage(SortFragment.class);
-        });
-        menu_Map.setOnSuperTextViewClickListener(superTextView -> {
-            openNewPage(MapFragment.class);
-        });
-        menu_Learn.setOnSuperTextViewClickListener(superTextView -> {
-            openNewPage(LearnFragment.class);
+        menu_Sms.setOnSuperTextViewClickListener(superTextView -> {
+            openNewPage(SmsFragment.class);
         });
         menu_Bill.setOnSuperTextViewClickListener(superTextView -> {
             openNewPage(BillFragment.class);
         });
-        menu_Log.setOnSuperTextViewClickListener(superTextView -> {
-            openNewPage(LogFragment.class);
-        });
         menu_Backup.setOnSuperTextViewClickListener(superTextView -> {
-            openNewPage(BackupFragment.class);
+
+
+
+            Permission.getInstance().grant(getContext(),Permission.Storage);
+            new MaterialDialog.Builder(Objects.requireNonNull(getContext()))
+                    .title(R.string.tip_options)
+                    .items(R.array.menu_values_backup)
+                    .itemsCallback((dialog, itemView, position, text) ->{
+                        if(position==0){
+                            try {
+                                SnackbarUtils.Long(getView(), "备份中...").info().show();
+                                FileUtils.backUp(getContext());
+                                SnackbarUtils.Long(getView(), String.format(getString(R.string.bak_success),"/sdcard/Download/QianJiAuto")).info().show();
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }else{
+                           // SnackbarUtils.Long(getView(), "暂不提供该功能，选了会崩溃。").info().show();
+
+                            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                            intent.setType("*/*");
+                            intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+                            try {
+                                startActivityForResult( Intent.createChooser(intent, getString(R.string.bak_select)), 0);
+                            } catch (android.content.ActivityNotFoundException ignored) {
+
+                            }
+                        }
+
+
+                    })
+                    .show();
+          //  openNewPage(BackupFragment.class);
+
         });
-        */
+
         menu_Log.setOnSuperTextViewClickListener(superTextView -> {
             openNewPage(LogFragment.class);
         });
@@ -164,7 +205,25 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
             openNewPage(AboutFragment.class);
         });
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)  {
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                Uri uri = data.getData();
+                assert uri != null;
+                String path = PathUtils.getFilePathByUri(getContext(), uri);
 
+                String ret=FileUtils.restore(path,getContext());
+                if(ret.equals("ok")){
+                    SnackbarUtils.Long(getView(), getString(R.string.bak_success_2)).info().show();
+                    XUtil.rebootApp();
+                }
+                else  SnackbarUtils.Long(getView(), ret).info().show();
+
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
     /**
      * 菜单、返回键响应
      */

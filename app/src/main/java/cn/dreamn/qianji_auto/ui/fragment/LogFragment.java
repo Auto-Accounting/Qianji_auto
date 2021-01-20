@@ -72,8 +72,8 @@ public class LogFragment extends BaseFragment {
                     .itemsCallback((dialog, itemView, position, text) ->{
                         switch (position){
                             case 0:
-                                String filePath=Tools.writeToCache(getContext(),"tmp_log_share",item.get(KEY_TITLE));
-                                Tools.shareFile(getContext(),filePath);
+                                Tools.clipboard(getContext(),item.get(KEY_TITLE));
+                                SnackbarUtils.Long(getView(), getString(R.string.choose_copy_succeed)).info().show();
                                 break;
                             case 1:
                                 Logs.del(pos);
@@ -122,7 +122,7 @@ public class LogFragment extends BaseFragment {
             List<Map<String, String>> data = new ArrayList<>();
             for(int i = 0; i <logs.length; i++){
                 Map<String, String> item = new HashMap<>();
-                item.put(KEY_SUB, String.format("%s  %s",logs[i].sub,logs[i].time));
+                item.put(KEY_SUB, String.format("%s  %s",logs[i].sub,logs[i].time2));
                 item.put(KEY_TITLE, logs[i].title);
                 item.put(KEY_POS, String.valueOf(i));
                 data.add(item);

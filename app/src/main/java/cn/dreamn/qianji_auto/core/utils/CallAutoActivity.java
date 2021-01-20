@@ -23,10 +23,13 @@ import android.net.Uri;
 
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xutil.display.ScreenUtils;
+import com.xuexiang.xutil.tip.ToastUtils;
 
+import cn.dreamn.qianji_auto.core.db.Cache;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
+import cn.dreamn.qianji_auto.utils.tools.Permission;
 
 import static cn.dreamn.qianji_auto.core.utils.Tools.goUrl;
 
@@ -34,20 +37,37 @@ import static cn.dreamn.qianji_auto.core.utils.Tools.goUrl;
 public class CallAutoActivity {
     public  static  void call(Context context,BillInfo billInfo){
         if(!billInfo.isAvaiable())return;
+
+        MMKV mmkv = MMKV.defaultMMKV();
+        Cache cache = Caches.getOne("float_lock","0");
+        Logs.d("Qianji_check","记账检查...");
+
+
+
+        if(cache!=null && cache.cacheData.equals("true")) {
+            Logs.d("Qianji_check","记账已锁定...退出中");
+            return;
+        }
+        Logs.d("Qianji_check","检查通过...");
+        Caches.AddOrUpdate("float_lock","true");
+        Logs.d("Qianji_check","重新锁定...");
         AutoBills.add(billInfo);//加入账单列表
         Logs.i("钱迹URL",billInfo.getQianJi());
-        MMKV mmkv = MMKV.defaultMMKV();
+
         if(billInfo.getType().equals(BillInfo.TYPE_PAY)){
             if(mmkv.getBoolean("autoPay",false)){
                 goQianji(context,billInfo);
                 return;
             }
-        }else if(billInfo.getType().equals(BillInfo.TYPE_INCOME)){
+        }
+
+        if(billInfo.getType().equals(BillInfo.TYPE_INCOME)){
             if(mmkv.getBoolean("autoIncome",false)){
                 goQianji(context,billInfo);
                 return;
             }
         }
+
         if(getTimeout().equals("0")){
             jump(context,billInfo);
         }else{
@@ -76,22 +96,34 @@ public class CallAutoActivity {
     }
     //显示角标
     public static void showTip(Context context,BillInfo billInfo){
-        Logs.d("唤起自动记账面板角标");
-        AutoFloatTip autoFloatTip=new AutoFloatTip(context);
-        autoFloatTip.setData(billInfo);
-        autoFloatTip.setWindowManagerParams( ScreenUtils.getScreenWidth(),ScreenUtils.getScreenHeight()/2-100,700,150);
-        autoFloatTip.show();
+        try {
+            Logs.d("唤起自动记账面板角标");
+            AutoFloatTip autoFloatTip=new AutoFloatTip(context);
+            autoFloatTip.setData(billInfo);
+            autoFloatTip.setWindowManagerParams( ScreenUtils.getScreenWidth(),ScreenUtils.getScreenHeight()/2-100,700,200);
+            autoFloatTip.show();
+        }catch (Exception e){
+            Logs.i("请授予悬浮窗权限！");
+            ToastUtils.toast("请授予悬浮窗权限！");
+        }
     }
     //显示悬浮记账
     public static void showFloat(Context context,BillInfo billInfo){
-        Logs.d("唤起自动记账面板");
-        AutoFloat autoFloat=new AutoFloat(context);
-        autoFloat.setData(billInfo);
-        autoFloat.setWindowManagerParams(0,0, ScreenUtils.getScreenWidth(),ScreenUtils.getScreenHeight());
-        autoFloat.show();
+        try {
+            Logs.d("唤起自动记账面板");
+            AutoFloat autoFloat=new AutoFloat(context);
+            autoFloat.setData(billInfo);
+            autoFloat.setWindowManagerParams(0,0, ScreenUtils.getScreenWidth(),ScreenUtils.getScreenHeight());
+            autoFloat.show();
+        }catch (Exception e){
+            Logs.i("请授予悬浮窗权限！");
+            ToastUtils.toast("请授予悬浮窗权限！");
+        }
+
     }
 
     public static void goQianji(Context context,BillInfo billInfo){
+        Caches.update("float_lock","false");
         goUrl(context,billInfo.getQianJi().trim());
     }
 
@@ -103,5 +135,6 @@ public class CallAutoActivity {
             goQianji( context, billInfo);
         }
     }
+
 
 }

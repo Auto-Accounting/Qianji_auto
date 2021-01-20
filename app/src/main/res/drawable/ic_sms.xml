@@ -1,0 +1,26 @@
+<!--
+  ~ Copyright (C) 2021 dreamn(dream@dreamn.cn)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="136.5dp"
+    android:height="128dp"
+    android:viewportWidth="1092"
+    android:viewportHeight="1024">
+  <path
+      android:fillColor="#FF000000"
+      android:pathData="M553.71,750.93h402.09a45.38,45.38 0,0 0,45.44 -45.35L1001.24,136.37a45.51,45.51 0,0 0,-45.44 -45.35L136.47,91.02a45.38,45.38 0,0 0,-45.44 45.35v569.21a45.51,45.51 0,0 0,45.44 45.35h159.36v136.53l257.89,-136.53zM576.01,841.96L284.4,1002.84c-43.96,24.26 -79.6,3.21 -79.6,-47.01L204.8,841.96h-68.13A136.69,136.69 0,0 1,0 705.29L0,136.67A136.6,136.6 0,0 1,136.67 0h818.93a136.69,136.69 0,0 1,136.67 136.67v568.62a136.6,136.6 0,0 1,-136.67 136.67L576.01,841.96zM295.82,500.62a68.27,68.27 0,1 1,0 -136.53,68.27 68.27,0 0,1 0,136.53zM546.13,500.62a68.27,68.27 0,1 1,0 -136.53,68.27 68.27,0 0,1 0,136.53zM796.44,500.62a68.27,68.27 0,1 1,0 -136.53,68.27 68.27,0 0,1 0,136.53z"/>
+</vector>

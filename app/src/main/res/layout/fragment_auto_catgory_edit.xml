@@ -25,252 +25,240 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:drawable/screen_background_light"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
 
-            android:background="@android:drawable/screen_background_light"
+
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-
-                android:background="@drawable/rb_bg_selector"
+                android:layout_margin="16dp"
                 android:orientation="vertical"
-                android:padding="10dp">
+                >
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
                     android:text="@string/regular_name" />
 
-                <EditText
-                    android:id="@+id/regular_name"
+
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:autofillHints="分类规则名称"
-                    android:gravity="center_horizontal"
-                    android:inputType="text"
-                    android:textColor="@color/colorSwipeOne_night"
-                    tools:ignore="LabelFor" />
+                    android:gravity="center_vertical">
+
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                        android:id="@+id/regular_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="分类规则名称"
+                        android:textColor="@color/xui_config_color_edittext_textcolor" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/rb_bg_selector"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:orientation="vertical" >
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
                     android:text="@string/regular_time_full" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:gravity="center_vertical">
 
-                    <TextView
+
+                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                         android:id="@+id/regular_time1_link"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text=""
-                        android:textColor="@color/textBlue"
-                        android:textSize="20dp" />
+                        style="@style/RoundButton.Auto"
+                        android:layout_marginEnd="8dp"
+                        android:text="" />
 
-                    <EditText
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                         android:id="@+id/regular_time1"
-                        android:layout_width="165dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:autofillHints=""
-                        android:gravity="center_horizontal"
-                        android:inputType="number"
-                        android:textColor="@color/colorSwipeOne_night" />
+                        android:hint="仅可输入数字，24小时计数法"
+
+                        android:textColor="@color/xui_config_color_edittext_textcolor" />
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:gravity="center_vertical">
 
-                    <TextView
+
+                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                         android:id="@+id/regular_time2_link"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text=""
-                        android:textColor="@color/textBlue"
-                        android:textSize="20dp" />
+                        style="@style/RoundButton.Auto"
+                        android:layout_marginEnd="8dp"
+                        android:text="" />
 
-                    <EditText
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                         android:id="@+id/regular_time2"
-                        android:layout_width="165dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:autofillHints=""
-                        android:gravity="center_horizontal"
-                        android:inputType="number"
-                        android:textColor="@color/colorSwipeOne_night" />
+                        android:hint="仅可输入数字，24小时计数法"
+
+                        android:textColor="@color/xui_config_color_edittext_textcolor" />
+
                 </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/rb_bg_selector"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/shopNameFull" />
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:gravity="center_vertical">
 
-                    <TextView
+
+                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                         android:id="@+id/regular_shopName_link"
-                        android:layout_width="114dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="包含"
-                        android:textColor="@color/textBlue_autumn" />
+                        style="@style/RoundButton.Auto"
+                        android:layout_marginEnd="8dp"
+                        android:text="" />
 
-                    <EditText
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                         android:id="@+id/regular_shopName"
-                        android:layout_width="165dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:autofillHints=""
-                        android:inputType="text"
-                        android:textColor="@color/colorSwipeOne_night" />
-                </LinearLayout>
+                        android:hint=""
 
+                        android:textColor="@color/xui_config_color_edittext_textcolor" />
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/rb_bg_selector"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/shopRemarkFull" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:gravity="center_vertical">
 
-                    <TextView
+
+                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                         android:id="@+id/regular_shopRemark_link"
-                        android:layout_width="105dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="包含"
-                        android:textColor="@color/textBlue_autumn" />
+                        style="@style/RoundButton.Auto"
+                        android:layout_marginEnd="8dp"
+                        android:text="" />
 
-                    <EditText
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                         android:id="@+id/regular_shopRemark"
-                        android:layout_width="165dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/colorSwipeOne_night" />
+                        android:hint=""
+
+                        android:textColor="@color/xui_config_color_edittext_textcolor" />
+
                 </LinearLayout>
+
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/rb_bg_selector"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="消费类型条件满足" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="44dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
 
-                    <TextView
+
+                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                         android:id="@+id/regular_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="支出"
-                        android:textColor="@color/colorQQ" />
+                        style="@style/RoundButton.Auto"
+
+                        android:layout_width="match_parent"
+                        android:text="支出" />
+
 
                 </LinearLayout>
+
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/rb_bg_selector"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/CategoryName" />
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
 
-                    <EditText
+
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                         android:id="@+id/regular_sort"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="1"
-                        android:text="其他"
-                        android:textColor="@color/colorSwipeOne_night" />
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
 
+                        android:layout_weight="1"
+
+                        android:hint=""
+                        android:text="其他"
+                        android:textColor="@color/xui_config_color_edittext_textcolor" />
 
                 </LinearLayout>
 
@@ -284,17 +272,17 @@
 
                 <com.xuexiang.xui.widget.button.ButtonView
 
-                    android:id="@+id/btn_cancel"
+                    android:id="@+id/btn_test"
                     style="@style/ButtonView.custom1"
-                    android:layout_width="150dp"
-                    android:layout_height="48dp"
-                    android:text="@string/btn_cancel" />
+                    android:layout_width="120dp"
+                    android:layout_height="36dp"
+                    android:text="@string/btn_test" />
 
                 <com.xuexiang.xui.widget.button.ButtonView
                     android:id="@+id/btn_save"
                     style="@style/ButtonView.custom1"
-                    android:layout_width="150dp"
-                    android:layout_height="48dp"
+                    android:layout_width="120dp"
+                    android:layout_height="36dp"
                     android:text="@string/btn_save" />
             </LinearLayout>
         </LinearLayout>

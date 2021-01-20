@@ -22,15 +22,17 @@ import androidx.room.Query;
 
 @Dao
 public interface AutoBillDao {
-    @Query("SELECT * FROM autobill")
+    @Query("SELECT * FROM autobill order by id desc")
     AutoBill[] getAll();
     @Query("SELECT * FROM autobill WHERE id=:id")
     AutoBill[] get(int id);
     @Query("DELETE FROM autobill WHERE id=:id")
     void del(int id);
-    @Query("INSERT INTO autobill(type,money,time,remark,catename,catechoose,bookname,accountname,accountname2,shopAccount,shopRemark) values(:type,:money,:time,:remark,:catename,:catechoose,:bookname,:accountname,:accountname2,:shopAccount,:shopRemark)")
-    void add(String type,String money,String time,String remark,String catename,String catechoose,String bookname,String accountname,String accountname2,String shopAccount,String shopRemark);
-    @Query("UPDATE  autobill SET type=:type,money=:money,time=:time,remark=:remark,catename=:catename,catechoose=:catechoose,bookname=:bookname,accountname=:accountname,accountname2=:accountname2,shopAccount=:shopAccount,shopRemark=:shopRemark WHERE id=:id")
-    void update(int id, String type,String money,String time,String remark,String catename,String catechoose,String bookname,String accountname,String accountname2,String shopAccount,String shopRemark);
+    @Query("INSERT INTO autobill(billInfo,type,money,time,remark,catename,catechoose,bookname,accountname,accountname2,shopAccount,shopRemark,source) values(:billInfo,:type,:money,:time,:remark,:catename,:catechoose,:bookname,:accountname,:accountname2,:shopAccount,:shopRemark,:source)")
+    void add(String billInfo,String type,String money,String time,String remark,String catename,String catechoose,String bookname,String accountname,String accountname2,String shopAccount,String shopRemark,String source);
+    @Query("UPDATE  autobill SET billInfo=:billInfo, type=:type,money=:money,time=:time,remark=:remark,catename=:catename,catechoose=:catechoose,bookname=:bookname,accountname=:accountname,accountname2=:accountname2,shopAccount=:shopAccount,shopRemark=:shopRemark,source=:source WHERE id=:id")
+    void update(int id,String billInfo, String type,String money,String time,String remark,String catename,String catechoose,String bookname,String accountname,String accountname2,String shopAccount,String shopRemark,String source);
+    @Query("DELETE FROM autobill")
+    void delAll();
 }
 
