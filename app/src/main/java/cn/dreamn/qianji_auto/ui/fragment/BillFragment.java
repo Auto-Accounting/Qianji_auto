@@ -150,7 +150,7 @@ public class BillFragment extends BaseFragment {
 
     private void loadData() {
         new Handler().postDelayed(() -> {
-            mStatefulLayout.showLoading("正在加载账单列表");
+           // mStatefulLayout.showLoading("正在加载账单列表");
             AutoBill[] autoBills= AutoBills.getAll();
             List<Map<String, String>> data = new ArrayList<>();
             for (AutoBill autoBill : autoBills) {

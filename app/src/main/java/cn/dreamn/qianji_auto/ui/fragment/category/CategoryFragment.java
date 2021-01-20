@@ -160,7 +160,7 @@ public class CategoryFragment extends BaseFragment {
 
     private void loadData() {
         new Handler().postDelayed(() -> {
-            mStatefulLayout.showLoading("正在加载分类规则");
+           // mStatefulLayout.showLoading("正在加载分类规则");
             Regular[] regulars= Category.getAll();
             List<Map<String, String>> data = new ArrayList<>();
             for (Regular regular : regulars) {

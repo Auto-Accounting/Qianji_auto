@@ -121,7 +121,7 @@ public class MapFragment extends BaseFragment {
     }
     private void loadData() {
         new Handler().postDelayed(() -> {
-            mStatefulLayout.showLoading("正在加载资产");
+            //mStatefulLayout.showLoading("正在加载资产");
             Asset[] asset=Assets.getAllMap();
             List<Map<String, String>> data = new ArrayList<>();
             for (Asset assets : asset) {

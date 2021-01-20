@@ -146,7 +146,7 @@ public class SmsFragment extends BaseFragment {
 
     private void loadData() {
         new Handler().postDelayed(() -> {
-            mStatefulLayout.showLoading("正在加载短信识别规则");
+           // mStatefulLayout.showLoading("正在加载短信识别规则");
             Sms[] sms= Smses.getAll();
             List<Map<String, String>> data = new ArrayList<>();
             for (Sms value : sms) {

@@ -139,7 +139,7 @@ public class MangerFragment extends BaseFragment {
 
     private void loadData() {
         new Handler().postDelayed(() -> {
-            mStatefulLayout.showLoading("正在加载资产");
+            //mStatefulLayout.showLoading("正在加载资产");
             Asset2[] asset2s=Assets.getAllAccount();
             List<Map<String, String>> data = new ArrayList<>();
             for (Asset2 asset2 : asset2s) {

@@ -85,15 +85,16 @@ public class LogFragment extends BaseFragment {
                     })
                     .show();
         });
+        //下拉刷新
+        map_layout.setOnRefreshListener(this::loadData);
+        refresh(); //第一次进入触发自动刷新，演示效果
     }
 
 
 
     @Override
     protected void initListeners() {
-        //下拉刷新
-        map_layout.setOnRefreshListener(this::loadData);
-        refresh(); //第一次进入触发自动刷新，演示效果
+
     }
     @Override
     protected TitleBar initTitle() {
@@ -117,7 +118,7 @@ public class LogFragment extends BaseFragment {
 
     private void loadData() {
         new Handler().postDelayed(() -> {
-            mStatefulLayout.showLoading("正在加载日志");
+            //mStatefulLayout.showLoading("正在加载日志");
             Log[] logs=Logs.getAll();
             List<Map<String, String>> data = new ArrayList<>();
             for(int i = 0; i <logs.length; i++){
