@@ -63,7 +63,7 @@ public class AutoFloat extends XFloatView {
     private TextView auto_account;
     private TextView auto_account2;
 
-
+    private RelativeLayout parent_layout;
     private RelativeLayout account_book2_layout;
     private RelativeLayout category_layout;
     private RelativeLayout account_layout;
@@ -152,6 +152,7 @@ public class AutoFloat extends XFloatView {
         remark_layout = findViewById(R.id.remark_layout);
         time_layout = findViewById(R.id.time_layout);
         type_layout = findViewById(R.id.type_layout);
+        parent_layout=findViewById(R.id.parent_layout);
     }
 
     /**
@@ -223,6 +224,9 @@ public class AutoFloat extends XFloatView {
             this.clear();
         });
         btn_cancel.setOnClickListener(v->{
+            this.clear();
+        });
+        parent_layout.setOnClickListener(v->{
             this.clear();
         });
 

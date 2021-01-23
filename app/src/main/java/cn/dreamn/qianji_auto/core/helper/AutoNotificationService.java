@@ -18,20 +18,11 @@
 package cn.dreamn.qianji_auto.core.helper;
 
 import android.app.Notification;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
-
-import java.io.BufferedWriter;
-import java.text.SimpleDateFormat;
 
 import cn.dreamn.qianji_auto.core.utils.Assets;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
