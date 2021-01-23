@@ -17,6 +17,7 @@
 
 package cn.dreamn.qianji_auto.core.helper;
 
+
 import android.app.Notification;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
@@ -33,8 +34,7 @@ import cn.dreamn.qianji_auto.core.utils.Category;
 import cn.dreamn.qianji_auto.core.utils.Remark;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
-public class AutoNotificationService extends NotificationListenerService {
-
+public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
@@ -113,6 +113,5 @@ public class AutoNotificationService extends NotificationListenerService {
             }
         }
     }
-
 
 }

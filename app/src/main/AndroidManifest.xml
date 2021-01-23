@@ -12,7 +12,7 @@
 
     <application
         android:name=".MyApp"
-
+        android:allowBackup="true"
         android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,7 +23,6 @@
         android:windowSoftInputMode="adjustPan|stateHidden"
         tools:ignore="LockedOrientationActivity">
         <activity android:name=".ui.activity.ErrorActivity" />
-
 
         <activity
             android:name=".ui.activity.MainActivity"
@@ -40,7 +39,7 @@
             android:name=".ui.core.BaseActivity"
             android:configChanges="screenSize|keyboardHidden|orientation|keyboard"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" /> <!-- 屏幕自适应设计图 -->
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <meta-data
             android:name="design_width_in_dp"
             android:value="360" />
@@ -48,30 +47,7 @@
             android:name="design_height_in_dp"
             android:value="640" />
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="cn.dreamn.qianji_auto.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <!--元数据-->
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_provider_paths" />
-        </provider>
-
-
-        <service
-            android:name=".core.helper.AutoNotificationService"
-            android:label="@string/notification"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
-            <intent-filter>
-                <action android:name="android.service.notification.NotificationListenerService" />
-            </intent-filter>
-        </service>
-
-
         <service android:name=".core.helper.AutoBillService" />
-
         <service
             android:name=".core.helper.AutoAccessibilityService"
             android:description="@string/accessibility_service_description"
@@ -80,14 +56,31 @@
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
-
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
         </service>
 
+        <service
+            android:name=".core.helper.NotificationService"
+            android:label="@string/notification"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action  android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
 
 
-    </application>
+        <provider
+        android:name="androidx.core.content.FileProvider"
+        android:authorities="cn.dreamn.qianji_auto.fileprovider"
+        android:exported="false"
+        android:grantUriPermissions="true">
+             <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths"/>
+         </provider>
+
+</application>
 
 </manifest>

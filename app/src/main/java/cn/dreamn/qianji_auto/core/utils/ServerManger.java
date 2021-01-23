@@ -25,7 +25,7 @@ import android.net.Uri;
 
 import cn.dreamn.qianji_auto.core.helper.AutoAccessibilityService;
 import cn.dreamn.qianji_auto.core.helper.AutoBillService;
-import cn.dreamn.qianji_auto.core.helper.AutoNotificationService;
+import cn.dreamn.qianji_auto.core.helper.NotificationService;
 import cn.dreamn.qianji_auto.core.helper.SmsServer;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 import cn.dreamn.qianji_auto.utils.tools.Permission;
@@ -55,7 +55,7 @@ public class ServerManger {
     public static void startNotice(Context context){
         Logs.i("通知监听已启动");
         PackageManager pm = context.getPackageManager();
-        pm.setComponentEnabledSetting(new ComponentName(context, AutoNotificationService.class),
+        pm.setComponentEnabledSetting(new ComponentName(context, NotificationService.class),
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
     }
 

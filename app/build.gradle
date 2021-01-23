@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId "cn.dreamn.qianji_auto"
         minSdkVersion 22
-        targetSdkVersion build_versions.target_sdk
+        targetSdkVersion 30
         versionCode 43
         versionName "2.0.0alpha8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
