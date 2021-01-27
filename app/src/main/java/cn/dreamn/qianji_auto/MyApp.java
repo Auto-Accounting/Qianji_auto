@@ -22,9 +22,7 @@ import android.content.Context;
 
 import androidx.multidex.MultiDex;
 
-
 import com.tencent.mmkv.MMKV;
-import cn.dreamn.qianji_auto.BuildConfig;
 
 import cn.dreamn.qianji_auto.core.db.DbManger;
 import cn.dreamn.qianji_auto.utils.sdkinit.XBasicLibInit;

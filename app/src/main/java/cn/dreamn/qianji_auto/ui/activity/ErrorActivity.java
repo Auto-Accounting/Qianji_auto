@@ -32,6 +32,7 @@ import com.xuexiang.xutil.XUtil;
 import java.io.File;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.core.utils.Caches;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
@@ -58,6 +59,12 @@ public class ErrorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exception);
         initView();
         initListen();
+        initData();
+    }
+
+    //处理数据残留
+    private void initData() {
+        Caches.AddOrUpdate("float_lock","false");
     }
 
     private void initView(){
@@ -69,6 +76,7 @@ public class ErrorActivity extends AppCompatActivity {
         exce_title.setText("自动记账已崩溃");
         exce_text.setText(getString(R.string.err));
         Bundle bundle = getIntent().getExtras();
+
         if(bundle!=null){
             filePath=bundle.getString("fileName");
           //  exce_text.setText(filePath);

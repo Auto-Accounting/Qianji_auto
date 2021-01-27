@@ -111,17 +111,9 @@ public class ModeFragment extends BaseFragment {
                 initSet();
                 break;
             case R.id.mode_xp:
-                 CookieBar.builder(getActivity())
-                        .setTitle("暂时无法切换")
-                        .setMessage("开发中，敬请期待。")
-                        .setDuration(10000)
-                        .setActionColor(android.R.color.white)
-                        .setTitleColor(android.R.color.white)
-                        .setAction("我知道了",view1 -> {})
-                        .setBackgroundColor(R.color.colorPrimary).show();
-                /*SnackbarUtils.Long(getView(), getString(R.string.mode_msg_xp)).info().show();
+                SnackbarUtils.Long(getView(), getString(R.string.mode_msg_xp)).info().show();
                 mmkv.encode("helper_choose","xposed");
-                initSet();*/
+                initSet();
                 break;
             case R.id.permission_assist:
                 Permission.getInstance().grant(this.getContext(),Permission.Assist);

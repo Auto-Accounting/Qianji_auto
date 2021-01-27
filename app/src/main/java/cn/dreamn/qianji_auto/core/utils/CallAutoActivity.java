@@ -105,6 +105,7 @@ public class CallAutoActivity {
         }catch (Exception e){
             Logs.i("请授予悬浮窗权限！");
             ToastUtils.toast("请授予悬浮窗权限！");
+            Caches.AddOrUpdate("float_lock","false");
         }
     }
     //显示悬浮记账
@@ -118,6 +119,7 @@ public class CallAutoActivity {
         }catch (Exception e){
             Logs.i("请授予悬浮窗权限！");
             ToastUtils.toast("请授予悬浮窗权限！");
+            Caches.AddOrUpdate("float_lock","false");
         }
 
     }

@@ -47,6 +47,16 @@
             android:name="design_height_in_dp"
             android:value="640" />
 
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="借助于钱迹的自动记账接口，实现对钱迹自动记账，支持无障碍与Xposed模式" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="30" />
+
         <service android:name=".core.helper.AutoBillService" />
         <service
             android:name=".core.helper.AutoAccessibilityService"
@@ -81,6 +91,17 @@
                 android:resource="@xml/file_provider_paths"/>
          </provider>
 
-</application>
+        <receiver
+            android:name=".core.base.ReceiveBroadcast"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <!-- 自定义广播类型 -->
+                <action android:name="cn.dreamn.qianji_auto.XPOSED" />
+            </intent-filter>
+        </receiver>
+
+
+    </application>
 
 </manifest>
