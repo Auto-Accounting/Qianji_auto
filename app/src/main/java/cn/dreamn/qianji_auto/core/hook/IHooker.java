@@ -36,4 +36,12 @@ public interface IHooker {
      * @return
      */
     String getAppName();
+
+    /**
+     * 返回支持的版本列表,如果不在支持列表做出提示
+     * @return
+     */
+    String[] getAppVer();
+
+
 }

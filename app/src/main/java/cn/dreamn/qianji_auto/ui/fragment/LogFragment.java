@@ -94,7 +94,11 @@ public class LogFragment extends BaseFragment {
 
     @Override
     protected void initListeners() {
-
+        new MaterialDialog.Builder(requireContext())
+                .title("日志缓存")
+                .content("日志缓存有效期为24小时，如果有无法正常记账的情况请在24小时内反馈，24小时后日志会自动删除。")
+                .negativeText("我知道了")
+                .show();
     }
     @Override
     protected TitleBar initTitle() {

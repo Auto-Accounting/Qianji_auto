@@ -36,9 +36,9 @@ public class QianjiAuto extends HookBase {
 
     @Override
     public void hookFirst() throws Error {
-        Logi("hook 自动记账 ing！");
+
         XposedHelpers.findAndHookMethod("cn.dreamn.qianji_auto.core.utils.Status", mAppClassLoader, "xposedActive", Context.class, XC_MethodReplacement.returnConstant(true));
-        Logi("hook 自动记账 succeed！");
+
 
     }
     @Override
@@ -49,5 +49,18 @@ public class QianjiAuto extends HookBase {
     @Override
     public String getAppName() {
         return "自动记账";
+    }
+
+    @Override
+    public String[] getAppVer() {
+        return new String[]{
+                "2.0.0alpha10",
+                "2.0.0alpha11",
+                "2.0.0alpha12",
+                "2.0.0alpha13",
+                "2.0.0alpha14",
+                "2.0.0alpha15",
+                "2.0.0alpha16",
+        };
     }
 }

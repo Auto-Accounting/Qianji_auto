@@ -28,8 +28,10 @@ public class Alipay {
     public   final static String QR_COLLECTION="QR_COLLECTION";//商家服务·收款到账
     public   final static String REC_YULIBAO="REC_YULIBAO";//网商银行·余利宝
     public   final static String REC_YUEBAO="REC_YUEBAO";//蚂蚁财富·我的余额宝
+   public   final static String BIBIZAN="BIBIZAN";//余额宝-笔笔攒-单笔攒入
 
     public   final static String  RED_RECEIVED="RED_RECEIVED";//收到红包
     public  final static String CANT_UNDERSTAND="CANT_UNDERSTAND";//无法理解
 
+    public static final String TRANSFER_INTO_YUEBAO ="TRANSFER_INTO_YUEBAO" ;//余额宝自动转入
 }

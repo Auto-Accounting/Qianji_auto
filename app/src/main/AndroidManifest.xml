@@ -92,12 +92,13 @@
          </provider>
 
         <receiver
-            android:name=".core.base.ReceiveBroadcast"
+            android:name=".core.base.broadcast.ReceiveBroadcast"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <!-- 自定义广播类型 -->
                 <action android:name="cn.dreamn.qianji_auto.XPOSED" />
+                <action android:name="cn.dreamn.qianji_auto.XPOSED_LOG" />
             </intent-filter>
         </receiver>
 

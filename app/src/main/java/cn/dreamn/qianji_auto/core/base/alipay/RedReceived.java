@@ -19,22 +19,22 @@ package cn.dreamn.qianji_auto.core.base.alipay;
 
 import android.content.Context;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.dreamn.qianji_auto.core.utils.Assets;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.Category;
 import cn.dreamn.qianji_auto.core.utils.Remark;
 
-public class RedPackageRec extends Analyze {
+public class RedReceived extends Analyze {
 
-    private static RedPackageRec redPackageRec;
+    private static RedReceived redPackageRec;
 
-    public static RedPackageRec getInstance(){
+    public static RedReceived getInstance(){
         if(redPackageRec!=null)return redPackageRec;
-        redPackageRec=new RedPackageRec();
+        redPackageRec=new RedReceived();
         return redPackageRec;
     }
 
@@ -52,7 +52,7 @@ public class RedPackageRec extends Analyze {
         String shopRemark =jsonObject.getString("title");
         String money = BillTools.getMoney(jsonObject.getString("statusLine1Text"));
         String payTool = "支付宝";
-        billInfo.setAccountName(payTool);
+        billInfo.setAccountName(Assets.getMap(payTool));
         billInfo.setType(BillInfo.TYPE_INCOME);
         billInfo.setCateName(Category.getCategory(shopName,shopRemark,BillInfo.TYPE_INCOME));
         billInfo.setRemark(Remark.getRemark(shopName,shopRemark));
@@ -63,9 +63,5 @@ public class RedPackageRec extends Analyze {
         CallAutoActivity.call(context,billInfo);
     }
 
-    @Override
-    BillInfo getResult(JSONArray jsonArray, BillInfo billInfo) {
-        //红包
-        return billInfo;
-    }
+
 }

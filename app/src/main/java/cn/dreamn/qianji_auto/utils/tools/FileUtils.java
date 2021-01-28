@@ -6,6 +6,8 @@ import android.content.Context;
 import com.xuexiang.xutil.file.ZipUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -111,6 +113,24 @@ public class FileUtils {
             return "发生错误";
         }
 
+    }
+
+    public static String getAssetsData(Context context,String fileName){
+        InputStream inputStream;
+        try {
+            if(context==null)return null;
+
+            inputStream = context.getAssets().open(fileName);
+            int size = inputStream.available();
+            int len = -1;
+            byte[] bytes = new byte[size];
+            inputStream.read(bytes);
+            inputStream.close();
+            return new String(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

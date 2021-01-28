@@ -20,8 +20,13 @@ package cn.dreamn.qianji_auto.core.hook;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
+
+
+import java.util.Arrays;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -37,7 +42,7 @@ public abstract class HookBase implements IHooker {
 
     public static final String SEND_ACTION = "cn.dreamn.qianji_auto.XPOSED";
 
-
+    public static final String SEND_LOG_ACTION = "cn.dreamn.qianji_auto.XPOSED_LOG";
 
 
   protected String TAG="Qianji-Auto";
@@ -72,9 +77,14 @@ public abstract class HookBase implements IHooker {
                     Logi("hooked mHookCount 进程数 ->"+mHookCount+" mHookCountIndex 需要hook的进程ID "+mHookCountIndex);
                     if (mHookCount.equals(mHookCountIndex)) {
                         try {
-                            Logi("try hook");
+                            if(!compare()){
+                                String string="当前应用版本可能不受支持！您可以继续使用，但可能部分功能不支持。支持的版本为："+Arrays.toString(getAppVer());
+                                Toast.makeText(mContext,string,Toast.LENGTH_LONG).show();
+                                Logi(string,false);
+                            }
+                            Logi("尝试 hook "+getAppName()+" 进程",false);
                             hookFirst();
-
+                            Logi("hook "+getAppName()+" 完毕",false);
                         } catch (Error | Exception e) {
                             Logi(e.toString());
                         }
@@ -91,10 +101,7 @@ public abstract class HookBase implements IHooker {
      */
     public void send(Bundle bundle){
         Logi("广播给自动记账："+bundle.toString());
-        Intent intent = new Intent(SEND_ACTION);
-        intent.setPackage("cn.dreamn.qianji_auto");
-        intent.putExtras(bundle);
-        mContext.sendBroadcast(intent);
+        sendBroadcast(SEND_ACTION,bundle);
     }
 
     /**
@@ -109,7 +116,53 @@ public abstract class HookBase implements IHooker {
      * @param msg
      */
     public void Logi(String msg,boolean xp){
-        Logi(msg);
         if(xp)XposedBridge.log("Qianji-"+getAppName()+" -> "+msg);
+        else{
+            //发送到自动记账日志
+            Log.i("Qianji-"+getAppName(),msg);
+            Bundle bundle=new Bundle();
+            bundle.putString("tag","Qianji-"+getAppName());
+            bundle.putString("msg",msg);
+            sendBroadcast(SEND_LOG_ACTION,bundle);
+        }
     }
+
+    private void sendBroadcast(String Action,Bundle bundle){
+        Intent intent = new Intent(Action);
+        intent.setPackage("cn.dreamn.qianji_auto");
+        intent.putExtras(bundle);
+        mContext.sendBroadcast(intent,null);
+    }
+
+    /**
+     * 获取版本名
+     * @param context
+     * @return
+     */
+    private  String getVerName(Context context) {
+        String verName = "";
+        try {
+            verName = context.getPackageManager().
+                    getPackageInfo(context.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return verName;
+    }
+
+    /**
+     * 判断是否是支持版本
+     * @return
+     */
+    private boolean compare(){
+        String[] version=getAppVer();
+
+        String string=getVerName(mContext);
+        Logi("当前应用版本："+string+" 支持的版本为"+ Arrays.toString(version));
+        for (String s : version) {
+            if (s.equals(string)) return true;
+        }
+        return false;
+    }
+
 }

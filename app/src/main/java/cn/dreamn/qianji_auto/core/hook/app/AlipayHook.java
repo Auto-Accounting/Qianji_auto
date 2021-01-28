@@ -17,7 +17,6 @@
 
 package cn.dreamn.qianji_auto.core.hook.app;
 
-import android.app.AndroidAppHelper;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -25,13 +24,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.dreamn.qianji_auto.core.base.Receive;
-import cn.dreamn.qianji_auto.core.base.ReceiveBroadcast;
 import cn.dreamn.qianji_auto.core.base.alipay.Alipay;
 import cn.dreamn.qianji_auto.core.hook.HookBase;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 
 public class AlipayHook extends HookBase {
@@ -44,9 +40,11 @@ public class AlipayHook extends HookBase {
     }
     @Override
     public void hookFirst() throws Error {
+
         hookSafe();
         hookRed();
         hookReceive();
+
     }
 
     @Override
@@ -57,6 +55,13 @@ public class AlipayHook extends HookBase {
     @Override
     public String getAppName() {
         return "支付宝";
+    }
+
+    @Override
+    public String[] getAppVer() {
+        return new String[]{
+                "10.2.13.9020",
+        };
     }
 
     /**
@@ -70,7 +75,7 @@ public class AlipayHook extends HookBase {
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
                     if(param.getResult()!=null)
-                        Logi("支付宝原本监测到的安全信息："+param.getResult().toString());
+                        Logi("支付宝原本监测到的安全信息："+param.getResult().toString(),true);
                     param.setResult(null);
                     Logi( "hook 支付宝安全监测 succeed！",true);
                 }
@@ -129,7 +134,7 @@ public class AlipayHook extends HookBase {
                 super.beforeHookedMethod(param);
                 String data=param.args[0].toString();
                 data=data.substring(data.indexOf("msgData=[")+"msgData=[".length(),data.indexOf("], pushData=,"));
-                Logi( "收到消息："+data);
+                Logi( "收到消息："+data,true);
                 JSONObject jsonObject= JSON.parseObject(data);
                 if(!jsonObject.containsKey("pl"))return;
                 String str=jsonObject.getString("pl");
@@ -152,6 +157,9 @@ public class AlipayHook extends HookBase {
                         case "转账到账成功":
                             Logi( "-------转账到账成功-------");
                             bundle.putString("from", Alipay.TRANSFER_SUCCESS_ACCOUNT);break;
+                        case "余额宝-笔笔攒-单笔攒入":
+                            Logi( "-------余额宝-笔笔攒-单笔攒入-------");
+                            bundle.putString("from", Alipay.BIBIZAN);break;
                         case "付款成功":
                             Logi( "-------付款成功-------");
                             bundle.putString("from", Alipay.PAYMENT_SUCCESS);break;
@@ -164,8 +172,11 @@ public class AlipayHook extends HookBase {
                         case "收到一笔转账":
                             Logi( "-------收到一笔转账-------");
                             bundle.putString("from", Alipay.TRANSFER_RECEIVED);break;
+                        case "余额宝-自动转入":
+                            Logi( "-------余额宝自动转入------");
+                            bundle.putString("from", Alipay.TRANSFER_INTO_YUEBAO);break;
                         default:
-                            Logi( "-------未知数据结构-------");
+                            Logi( "-------未知数据结构-------",true);
                             bundle.putString("from", Alipay.CANT_UNDERSTAND);break;
                     }
                     send(bundle);
@@ -186,7 +197,7 @@ public class AlipayHook extends HookBase {
                             Logi( "-------蚂蚁财富·我的余额宝-------");
                             bundle.putString("from", Alipay.REC_YUEBAO);break;
                         default:
-                            Logi( "-------未知数据结构-------");
+                            Logi( "-------未知数据结构-------",true);
                             bundle.putString("from", Alipay.CANT_UNDERSTAND);break;
                     }
                     send(bundle);

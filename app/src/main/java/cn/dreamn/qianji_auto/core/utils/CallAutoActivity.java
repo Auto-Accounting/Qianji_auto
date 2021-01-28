@@ -35,6 +35,7 @@ import static cn.dreamn.qianji_auto.core.utils.Tools.goUrl;
 
 
 public class CallAutoActivity {
+
     public  static  void call(Context context,BillInfo billInfo){
         if(!billInfo.isAvaiable())return;
 

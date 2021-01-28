@@ -18,6 +18,7 @@
 package cn.dreamn.qianji_auto.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.KeyEvent;
@@ -48,6 +49,7 @@ import com.xuexiang.xutil.common.ClickUtils;
 import com.xuexiang.xutil.file.ZipUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
@@ -86,6 +88,7 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
 
     @Override
     protected void initViews() {
+        showUpdateLog();
         setActive();
         initListen();
 
@@ -164,7 +167,7 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
 
 
             Permission.getInstance().grant(getContext(),Permission.Storage);
-            new MaterialDialog.Builder(Objects.requireNonNull(getContext()))
+            new MaterialDialog.Builder(requireContext())
                     .title(R.string.tip_options)
                     .items(R.array.menu_values_backup)
                     .itemsCallback((dialog, itemView, position, text) ->{
@@ -243,5 +246,23 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
     @Override
     public void onExit() {
         XUtil.exitApp();
+    }
+
+
+    private void showUpdateLog(){
+        MMKV mmkv = MMKV.defaultMMKV();
+        int version=mmkv.getInt("version",0);
+        int nowVersion=App.getAppVerCode();
+        if(nowVersion>version){
+            String data=FileUtils.getAssetsData(getContext(),"update.txt");
+            if(data==null)return;
+            mmkv.encode("version",nowVersion);
+            new MaterialDialog.Builder(requireContext())
+                    .title("更新日志")
+                    .content(data)
+                    .negativeText("我知道了")
+                    .show();
+        }
+
     }
 }

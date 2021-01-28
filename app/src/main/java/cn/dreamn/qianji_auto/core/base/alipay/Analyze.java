@@ -19,7 +19,6 @@ package cn.dreamn.qianji_auto.core.base.alipay;
 
 import android.content.Context;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
@@ -42,11 +41,11 @@ class Analyze {
 
     /**
      * 从json中获取分析结果
-     * @param jsonArray jsonArray
+     * @param jsonObject jsonArray
      * @param billInfo billInfo
      * @return billInfo
      */
-    BillInfo getResult(JSONArray jsonArray, BillInfo billInfo){
+    BillInfo getResult(JSONObject jsonObject, BillInfo billInfo){
         return null;
     }
 
