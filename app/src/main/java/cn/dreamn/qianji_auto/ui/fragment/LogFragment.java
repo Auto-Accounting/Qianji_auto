@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
+import com.classic.common.MultipleStatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
@@ -40,7 +41,7 @@ public class LogFragment extends BaseFragment {
 
 
     @BindView(R.id.ll_stateful)
-    StatefulLayout mStatefulLayout;
+    MultipleStatusView mStatefulLayout;
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
 

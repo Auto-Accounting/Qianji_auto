@@ -23,13 +23,13 @@ import android.view.View;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.classic.common.MultipleStatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
-import com.xuexiang.xui.widget.statelayout.StatefulLayout;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ import static cn.dreamn.qianji_auto.ui.adapter.CateAdapter.KEY_VALUE;
 @Page(name = "自动分类")
 public class CategoryFragment extends BaseFragment {
     @BindView(R.id.ll_stateful)
-    StatefulLayout mStatefulLayout;
+    MultipleStatusView mStatefulLayout;
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
 

@@ -122,7 +122,7 @@ public class Tools {
 
 
         }else{
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"channelid1");
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"1");
             builder.setSmallIcon(R.drawable.ic_monry)
                     .setContentTitle(title)
                     .setContentText(content)

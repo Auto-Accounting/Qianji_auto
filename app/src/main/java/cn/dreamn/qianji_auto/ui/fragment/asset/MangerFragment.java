@@ -22,6 +22,7 @@ import android.view.View;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.classic.common.MultipleStatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
@@ -51,7 +52,7 @@ import static cn.dreamn.qianji_auto.ui.adapter.AssetAdapter.KEY_TITLE;
 @Page(name = "钱迹资产")
 public class MangerFragment extends BaseFragment {
     @BindView(R.id.ll_stateful)
-    StatefulLayout mStatefulLayout;
+    MultipleStatusView mStatefulLayout;
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
 

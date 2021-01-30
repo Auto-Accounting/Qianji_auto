@@ -110,12 +110,12 @@
     <string name="mode_auth">您已授予该权限</string>
     <string name="mode_msg_default">已切换为无障碍模式</string>
     <string name="mode_msg_xp">已切换为Xposed模式</string>
-    <string name="set_pay_mode">支出自动记账设置</string>
-    <string name="set_pay_mode_sub">不弹出分类选择窗口</string>
+    <string name="set_pay_mode">前台交易自动记账设置</string>
+    <string name="set_pay_mode_sub">不弹出选择面板</string>
     <string name="set_pay_mode_top">全自动记账</string>
     <string name="set_pay_mode_half_sub">弹出分类选择框进行分类选择记账</string>
     <string name="set_pay_mode_half_top">半自动记账</string>
-    <string name="set_income_mode">收入自动记账模式</string>
+    <string name="set_income_mode">后台交易自动记账模式</string>
     <string name="set_income_mode_sub">不弹出分类选择窗口</string>
     <string name="set_income_mode_top">全自动记账</string>
     <string name="set_income_mode_half">半自动记账</string>

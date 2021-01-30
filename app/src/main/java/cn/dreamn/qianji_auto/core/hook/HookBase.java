@@ -78,7 +78,8 @@ public abstract class HookBase implements IHooker {
                     if (mHookCount.equals(mHookCountIndex)) {
                         try {
                             if(!compare()){
-                                String string="当前应用版本可能不受支持！您可以继续使用，但可能部分功能不支持。支持的版本为："+Arrays.toString(getAppVer());
+                                String string=String.format("当前应用[%s]版本[%s]可能不受支持！您可以继续使用，但可能部分功能不支持。支持的版本为：%s",getAppName(),getVerName(mContext),Arrays.toString(getAppVer()));
+
                                 Toast.makeText(mContext,string,Toast.LENGTH_LONG).show();
                                 Logi(string,false);
                             }
@@ -156,7 +157,10 @@ public abstract class HookBase implements IHooker {
      */
     private boolean compare(){
         String[] version=getAppVer();
-
+        if(version==null){
+            //表示全版本支持
+            return true;
+        }
         String string=getVerName(mContext);
         Logi("当前应用版本："+string+" 支持的版本为"+ Arrays.toString(version));
         for (String s : version) {

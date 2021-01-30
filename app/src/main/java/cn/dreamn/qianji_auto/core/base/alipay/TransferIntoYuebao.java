@@ -25,7 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 import cn.dreamn.qianji_auto.core.utils.Assets;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.Category;
 import cn.dreamn.qianji_auto.core.utils.Remark;
 
@@ -62,7 +62,7 @@ public class TransferIntoYuebao extends Analyze {
         billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
         billInfo.setSource("支付宝余额宝自动转入");
-        CallAutoActivity.call(context,billInfo);
+         CallAutoActivity.call(context, billInfo);
     }
 
     @Override

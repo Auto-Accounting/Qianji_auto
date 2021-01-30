@@ -55,11 +55,12 @@ public class ErrorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initData();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exception);
         initView();
         initListen();
-        initData();
+
     }
 
     //处理数据残留

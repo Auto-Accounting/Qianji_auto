@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.classic.common.MultipleStatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
@@ -28,7 +29,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.AutoBill;
 import cn.dreamn.qianji_auto.core.utils.AutoBills;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
-import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.adapter.BillAdapter;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
@@ -52,7 +53,7 @@ public class BillFragment extends BaseFragment {
     SwipeRefreshLayout map_layout;
 
     @BindView(R.id.ll_stateful)
-    StatefulLayout mStatefulLayout;
+    MultipleStatusView mStatefulLayout;
     private BillAdapter mAdapter;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;

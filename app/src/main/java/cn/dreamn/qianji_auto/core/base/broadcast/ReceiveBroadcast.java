@@ -79,12 +79,14 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                 switch (type) {
                     case Receive.ALIPAY:
                         switch (from) {
-                            case Alipay.BIBIZAN:break;
+                            case Alipay.BIBIZAN:
+                                //笔笔攒消息
+                                break;
                             case Alipay.PAYMENT_SUCCESS:
                                 PaymentSuccess.getInstance().tryAnalyze(data, context);
                                 break;
                             case Alipay.QR_COLLECTION:
-                                PaymentSuccess.getInstance().tryAnalyze(data, context);
+                                //PaymentSuccess.getInstance().tryAnalyze(data, context);
                                 break;
                             case Alipay.REC_YUEBAO:
                                 break;

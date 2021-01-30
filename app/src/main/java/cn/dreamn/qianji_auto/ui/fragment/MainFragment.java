@@ -18,11 +18,21 @@
 package cn.dreamn.qianji_auto.ui.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.KeyEvent;
-import android.view.View;
+
+import com.tencent.mmkv.MMKV;
+import com.thl.filechooser.FileChooser;
+import com.thl.filechooser.FileInfo;
+import com.xuexiang.xpage.annotation.Page;
+import com.xuexiang.xpage.enums.CoreAnim;
+import com.xuexiang.xui.utils.SnackbarUtils;
+import com.xuexiang.xui.widget.actionbar.TitleBar;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
+import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
+import com.xuexiang.xutil.XUtil;
+import com.xuexiang.xutil.common.ClickUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
@@ -35,25 +45,6 @@ import cn.dreamn.qianji_auto.utils.XToastUtils;
 import cn.dreamn.qianji_auto.utils.tools.FileUtils;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 import cn.dreamn.qianji_auto.utils.tools.Permission;
-
-import com.tencent.mmkv.MMKV;
-import com.xuexiang.xpage.annotation.Page;
-import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xui.utils.SnackbarUtils;
-import com.xuexiang.xui.widget.actionbar.TitleBar;
-import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
-import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
-import com.xuexiang.xutil.XUtil;
-import com.xuexiang.xutil.app.PathUtils;
-import com.xuexiang.xutil.common.ClickUtils;
-import com.xuexiang.xutil.file.ZipUtils;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Objects;
-
-import static android.app.Activity.RESULT_OK;
-import static com.xuexiang.xui.utils.ResUtils.getString;
 
 /**
  * @author xuexiang
@@ -164,9 +155,7 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
         });
         menu_Backup.setOnSuperTextViewClickListener(superTextView -> {
 
-
-
-            Permission.getInstance().grant(getContext(),Permission.Storage);
+            Permission.getInstance().grant(getActivity(),Permission.Storage);
             new MaterialDialog.Builder(requireContext())
                     .title(R.string.tip_options)
                     .items(R.array.menu_values_backup)
@@ -181,17 +170,22 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
                                 e.printStackTrace();
                             }
                         }else{
-                           // SnackbarUtils.Long(getView(), "暂不提供该功能，选了会崩溃。").info().show();
+                            FileChooser fileChooser = new FileChooser(getActivity(), filePath -> {
+                                String ret=FileUtils.restore(filePath.get(0).getFilePath(),getContext());
+                                if(ret.equals("ok")){
+                                    SnackbarUtils.Long(getView(), getString(R.string.bak_success_2)).info().show();
+                                    XUtil.rebootApp();
+                                }
+                                else  SnackbarUtils.Long(getView(), ret).info().show();
+                            });
 
-                            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                            intent.setType("*/*");
-                            intent.addCategory(Intent.CATEGORY_OPENABLE);
+                            fileChooser.setTitle("请选择备份文件");
+                            fileChooser.setDoneText("确定");
 
-                            try {
-                                startActivityForResult( Intent.createChooser(intent, getString(R.string.bak_select)), 0);
-                            } catch (android.content.ActivityNotFoundException ignored) {
 
-                            }
+
+                            fileChooser.setChooseType(FileInfo.FILE_TYPE_BACKUP);
+                            fileChooser.open();
                         }
 
 
@@ -208,25 +202,7 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
             openNewPage(AboutFragment.class);
         });
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)  {
-        if (requestCode == 0) {
-            if (resultCode == RESULT_OK) {
-                Uri uri = data.getData();
-                assert uri != null;
-                String path = PathUtils.getFilePathByUri(getContext(), uri);
 
-                String ret=FileUtils.restore(path,getContext());
-                if(ret.equals("ok")){
-                    SnackbarUtils.Long(getView(), getString(R.string.bak_success_2)).info().show();
-                    XUtil.rebootApp();
-                }
-                else  SnackbarUtils.Long(getView(), ret).info().show();
-
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
     /**
      * 菜单、返回键响应
      */

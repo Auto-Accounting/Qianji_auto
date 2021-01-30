@@ -27,7 +27,7 @@ import com.eclipsesource.v8.V8;
 
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BookNames;
-import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.Category;
 import cn.dreamn.qianji_auto.core.utils.Smses;
 import cn.dreamn.qianji_auto.utils.tools.Logs;

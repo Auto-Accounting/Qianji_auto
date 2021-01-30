@@ -15,7 +15,7 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.utils;
+package cn.dreamn.qianji_auto.core.utils.Auto;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +26,10 @@ import com.xuexiang.xutil.display.ScreenUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
 
 import cn.dreamn.qianji_auto.core.db.Cache;
+import cn.dreamn.qianji_auto.core.utils.AutoBills;
+import cn.dreamn.qianji_auto.core.utils.BillInfo;
+import cn.dreamn.qianji_auto.core.utils.Caches;
+import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
@@ -36,44 +40,10 @@ import static cn.dreamn.qianji_auto.core.utils.Tools.goUrl;
 
 public class CallAutoActivity {
 
-    public  static  void call(Context context,BillInfo billInfo){
+    public  static  void call(Context context, BillInfo billInfo){
         if(!billInfo.isAvaiable())return;
 
-        MMKV mmkv = MMKV.defaultMMKV();
-        Cache cache = Caches.getOne("float_lock","0");
-        Logs.d("Qianji_check","记账检查...");
-
-
-
-        if(cache!=null && cache.cacheData.equals("true")) {
-            Logs.d("Qianji_check","记账已锁定...退出中");
-            return;
-        }
-        Logs.d("Qianji_check","检查通过...");
-        Caches.AddOrUpdate("float_lock","true");
-        Logs.d("Qianji_check","重新锁定...");
-        AutoBills.add(billInfo);//加入账单列表
-        Logs.i("钱迹URL",billInfo.getQianJi());
-
-        if(billInfo.getType().equals(BillInfo.TYPE_PAY)){
-            if(mmkv.getBoolean("autoPay",false)){
-                goQianji(context,billInfo);
-                return;
-            }
-        }
-
-        if(billInfo.getType().equals(BillInfo.TYPE_INCOME)){
-            if(mmkv.getBoolean("autoIncome",false)){
-                goQianji(context,billInfo);
-                return;
-            }
-        }
-
-        if(getTimeout().equals("0")){
-            jump(context,billInfo);
-        }else{
-            showTip(context,billInfo);
-        }
+        Tasker.add(context,billInfo);
 
     }
 
@@ -104,7 +74,7 @@ public class CallAutoActivity {
             autoFloatTip.setWindowManagerParams( ScreenUtils.getScreenWidth(),ScreenUtils.getScreenHeight()/2-100,700,200);
             autoFloatTip.show();
         }catch (Exception e){
-            Logs.i("请授予悬浮窗权限！");
+            Logs.i("请授予悬浮窗权限！"+e.toString());
             ToastUtils.toast("请授予悬浮窗权限！");
             Caches.AddOrUpdate("float_lock","false");
         }
@@ -118,7 +88,7 @@ public class CallAutoActivity {
             autoFloat.setWindowManagerParams(0,0, ScreenUtils.getScreenWidth(),ScreenUtils.getScreenHeight());
             autoFloat.show();
         }catch (Exception e){
-            Logs.i("请授予悬浮窗权限！");
+            Logs.i("请授予悬浮窗权限！"+e.toString());
             ToastUtils.toast("请授予悬浮窗权限！");
             Caches.AddOrUpdate("float_lock","false");
         }
@@ -140,4 +110,30 @@ public class CallAutoActivity {
     }
 
 
+    public static void run(Context context, BillInfo billInfo) {
+        MMKV mmkv = MMKV.defaultMMKV();
+
+
+        if(billInfo.getIsSilent()){
+            if(mmkv.getBoolean("autoIncome",false)){
+                goQianji(context,billInfo);
+                return;
+            }else{
+                //通知处理
+                Tools.sendNotify(context,"记账提醒","￥"+billInfo.getMoney()+" - "+billInfo.getRemark(),billInfo.getQianJi());
+            }
+        }else{
+            if(mmkv.getBoolean("autoPay",false)){
+                goQianji(context,billInfo);
+                return;
+            }
+        }
+
+        if(getTimeout().equals("0")){
+            jump(context,billInfo);
+        }else{
+            showTip(context,billInfo);
+        }
+
+    }
 }

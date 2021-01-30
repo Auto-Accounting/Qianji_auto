@@ -1,1 +1,3 @@
+include ':errorReport'
+include ':filechooser'
 include ':app'

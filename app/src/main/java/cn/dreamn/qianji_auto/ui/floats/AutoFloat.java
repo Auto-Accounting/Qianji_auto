@@ -18,7 +18,6 @@
 package cn.dreamn.qianji_auto.ui.floats;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Handler;
@@ -29,10 +28,7 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
-
 import com.xuexiang.xfloatview.XFloatView;
-import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.utils.Assets;
@@ -40,7 +36,7 @@ import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.BookNames;
 import cn.dreamn.qianji_auto.core.utils.Caches;
-import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 

@@ -17,23 +17,25 @@
 
 package cn.dreamn.qianji_auto.utils.tools;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.AppOpsManager;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Binder;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.text.TextUtils;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.xuexiang.xaop.util.PermissionUtils;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.core.helper.AutoAccessibilityService;
@@ -132,10 +134,14 @@ public class Permission {
                 break;
 
             case Storage:
-                PermissionUtils.permission("android.permission.WRITE_EXTERNAL_STORAGE").request();
+                //PermissionUtils.permission("android.permission.READ_EXTERNAL_STORAGE").request();
+                //PermissionUtils.permission(Manifest.permission.WRITE_EXTERNAL_STORAGE).request();
+                requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, (Activity) context);
+               // PermissionUtils.permission("android.permission.MANAGE_EXTERNAL_STORAGE").request();
                 break;
             case All:
                 List strings=PermissionUtils.getPermissions();
+                Logs.d(strings.toString());
                 for(int i=0;i<strings.size();i++){
                     PermissionUtils.permission(strings.get(i).toString()).request();
                 }
@@ -224,6 +230,17 @@ public class Permission {
         }
     }
 
+    private void requestPermission(String permission,Activity context) {
+
+        Logs.d("requestPermission");
+        if (ContextCompat.checkSelfPermission(context,
+                permission)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(context,
+                    new String[]{permission},0);
+        }
+    }
 
 
 }

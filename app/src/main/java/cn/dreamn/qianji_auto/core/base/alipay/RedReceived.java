@@ -24,7 +24,7 @@ import com.alibaba.fastjson.JSONObject;
 import cn.dreamn.qianji_auto.core.utils.Assets;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.Category;
 import cn.dreamn.qianji_auto.core.utils.Remark;
 
@@ -60,7 +60,7 @@ public class RedReceived extends Analyze {
         billInfo.setShopRemark(shopRemark);
         billInfo.setShopAccount(shopName);
         billInfo.setSource("支付宝收到红包");
-        CallAutoActivity.call(context,billInfo);
+         CallAutoActivity.call(context, billInfo);
     }
 
 

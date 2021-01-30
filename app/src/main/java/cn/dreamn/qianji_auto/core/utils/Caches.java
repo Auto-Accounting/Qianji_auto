@@ -29,6 +29,9 @@ public class Caches {
 
         return caches[0];
     }
+    public static Cache[] getType(String type){
+        return DbManger.db.CacheDao().getType(type);
+    }
     public static Cache getWithoutAnyThing(){
         Cache[] caches = DbManger.db.CacheDao().getWithoutName();
         if(caches.length<=0)return null;

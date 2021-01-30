@@ -70,6 +70,17 @@ public class BillInfo  {
     private String source;//账单来源
 
 
+    private String isSilent;//是否为静默模式
+
+    public boolean getIsSilent() {
+        return isSilent!=null&&isSilent.equals("true");
+    }
+
+
+    public void setSilent(boolean state) {
+        isSilent=state?"true":"false";
+    }
+
     public String getType() {
         return type;
     }
@@ -217,6 +228,11 @@ public class BillInfo  {
         if(source!=null){
             url +="&source="+source;
         }
+
+        if(isSilent!=null){
+            url+="&isSilent="+isSilent;
+        }
+
         return url;
     }
 
@@ -260,6 +276,10 @@ public class BillInfo  {
                     break;
                 case "source":
                     billInfo.setSource(value);
+                    break;
+                case "isSilent":
+                    billInfo.setSilent(value.equals("true"));
+                    break;
                 default:
                     break;
             }

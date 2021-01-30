@@ -86,12 +86,14 @@ android {
     }
 }
 
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'com.eclipsesource.j2v8:j2v8:5.0.103@aar'
     implementation 'com.github.didikee:AndroidDonate:0.1.0'
+    implementation project(path: ':filechooser')
     testImplementation deps.junit
     androidTestImplementation deps.runner
     androidTestImplementation deps.espresso.core
@@ -99,6 +101,8 @@ dependencies {
     implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-header:1.1.5'
     implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-layout:1.1.5'
     implementation 'com.yanzhenjie.recyclerview:support:1.3.2'
+
+    implementation 'com.classic.common:multiple-status-view:1.7'
     implementation deps.androidx.multidex
     //屏幕适配AutoSize
     implementation 'me.jessyan:autosize:1.1.2'
@@ -123,7 +127,6 @@ dependencies {
     compileOnly 'de.robv.android.xposed:api:82'
     compileOnly 'de.robv.android.xposed:api:82:sources'
     implementation 'com.alibaba:fastjson:1.2.75'
-
 }
 
 //x-library依赖脚本

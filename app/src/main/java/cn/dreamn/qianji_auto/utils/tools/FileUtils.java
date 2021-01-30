@@ -6,6 +6,8 @@ import android.content.Context;
 import com.xuexiang.xutil.file.ZipUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Calendar;
@@ -83,12 +85,9 @@ public class FileUtils {
 
     public static String restore(String filePath,Context context) {
 
-
-        Logs.i("配置恢复文件来源",filePath);
-
-
-
         try{
+            Logs.i("配置恢复文件来源",filePath);
+
             List<String> comments=ZipUtils.getComments(filePath);
 
             String comment=comments.get(0);
@@ -122,7 +121,6 @@ public class FileUtils {
 
             inputStream = context.getAssets().open(fileName);
             int size = inputStream.available();
-            int len = -1;
             byte[] bytes = new byte[size];
             inputStream.read(bytes);
             inputStream.close();
@@ -132,6 +130,7 @@ public class FileUtils {
             return null;
         }
     }
+
 
 
 
