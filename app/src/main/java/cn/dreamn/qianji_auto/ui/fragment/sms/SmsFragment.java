@@ -142,12 +142,7 @@ public class SmsFragment extends StateFragment {
             List<Map<String, String>> data = new ArrayList<>();
             for (Sms value : sms) {
                 Map<String, String> item = new HashMap<>();
-                /**
-                 *   params.putString("id",String.valueOf(id));
-                 *                         params.putString("num",item.get(KEY_NUM));
-                 *                         params.putString("regex",item.get(KEY_REGEX));
-                 *                         params.putString("title",item.get(KEY_TITLE));
-                 */
+
                 item.put(KEY_TITLE, value.name);
                 item.put(KEY_REGEX, value.regular);
                 item.put(KEY_DENY,value.use==1?"false":"true");

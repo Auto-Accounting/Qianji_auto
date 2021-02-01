@@ -25,6 +25,7 @@ import com.tencent.mmkv.MMKV;
 import com.xuexiang.xutil.display.ScreenUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
 
+import cn.dreamn.qianji_auto.core.db.AutoBill;
 import cn.dreamn.qianji_auto.core.db.Cache;
 import cn.dreamn.qianji_auto.core.utils.AutoBills;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
@@ -43,6 +44,7 @@ public class CallAutoActivity {
     public  static  void call(Context context, BillInfo billInfo){
         if(!billInfo.isAvaiable())return;
 
+        AutoBills.add(billInfo);
         Tasker.add(context,billInfo);
 
     }

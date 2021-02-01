@@ -24,21 +24,21 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.widget.Toast;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import com.xuexiang.xaop.util.PermissionUtils;
+import com.hjq.permissions.OnPermissionCallback;
+import com.hjq.permissions.XXPermissions;
 
 import java.util.List;
 
 import cn.dreamn.qianji_auto.core.helper.AutoAccessibilityService;
+import cn.dreamn.qianji_auto.utils.XToastUtils;
 
 import static com.xuexiang.xutil.XUtil.getContentResolver;
 import static com.xuexiang.xutil.app.ActivityUtils.startActivity;
@@ -68,18 +68,6 @@ public class Permission {
         return permission;
     }
 
-    /**
-     * 判断是否授权
-     * @param permission int
-     * @return boolean
-     */
-    public boolean isGranted(int permission){
-
-        return false;
-    }
-
-
-
 
     @SuppressLint("BatteryLife")
     public void grant(Context context, int permission){
@@ -91,16 +79,54 @@ public class Permission {
                 context.startActivity(intent);
                 break;
             case Sms:
-                PermissionUtils.permission("android.permission.READ_SMS").request();
+
+                XXPermissions.with(context).permission(com.hjq.permissions.Permission.READ_SMS).request(new OnPermissionCallback() {
+
+                    @Override
+                    public void onGranted(List<String> permissions, boolean all) {
+                        if (all) {
+                            XToastUtils.info("获取短信阅读权限成功");
+                        }
+                    }
+
+                    @Override
+                    public void onDenied(List<String> permissions, boolean never) {
+                        if (never) {
+                            XToastUtils.error("被永久拒绝授权，请手动授予短信阅读权限");
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.startPermissionActivity(context, permissions);
+                        } else {
+                            XToastUtils.error("获取短信阅读权限失败");
+                        }
+                    }
+                });
                 break;
             case Float:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (!Settings.canDrawOverlays(context)) {
-                        intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:cn.dreamn.qianji_auto"));
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-                    }
-                }
+                XXPermissions.with(context)
+                        // 不适配 Android 11 可以这样写
+                        //.permission(Permission.Group.STORAGE)
+                        // 适配 Android 11 需要这样写，这里无需再写 Permission.Group.STORAGE
+                        .permission(com.hjq.permissions.Permission.SYSTEM_ALERT_WINDOW)
+                        .request(new OnPermissionCallback() {
+
+                            @Override
+                            public void onGranted(List<String> permissions, boolean all) {
+                                if (all) {
+                                    XToastUtils.info("获取悬浮窗权限成功");
+                                }
+                            }
+
+                            @Override
+                            public void onDenied(List<String> permissions, boolean never) {
+                                if (never) {
+                                    XToastUtils.error("被永久拒绝授权，请手动授予悬浮窗权限");
+                                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                    XXPermissions.startPermissionActivity(context, permissions);
+                                } else {
+                                    XToastUtils.error("获取悬浮窗权限失败");
+                                }
+                            }
+                        });
                 // FloatWindowPermission.getInstance().applyFloatWindowPermission(context);
                 break;
             case Start:
@@ -134,19 +160,37 @@ public class Permission {
                 break;
 
             case Storage:
-                //PermissionUtils.permission("android.permission.READ_EXTERNAL_STORAGE").request();
-                //PermissionUtils.permission(Manifest.permission.WRITE_EXTERNAL_STORAGE).request();
-                requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, (Activity) context);
-               // PermissionUtils.permission("android.permission.MANAGE_EXTERNAL_STORAGE").request();
+                XXPermissions.with(context)
+                        // 不适配 Android 11 可以这样写
+                        //.permission(Permission.Group.STORAGE)
+                        // 适配 Android 11 需要这样写，这里无需再写 Permission.Group.STORAGE
+                        .permission(com.hjq.permissions.Permission.MANAGE_EXTERNAL_STORAGE)
+                        .request(new OnPermissionCallback() {
+
+                            @Override
+                            public void onGranted(List<String> permissions, boolean all) {
+                                if (all) {
+                                    XToastUtils.info("获取存储权限成功");
+                                }
+                            }
+
+                            @Override
+                            public void onDenied(List<String> permissions, boolean never) {
+                                if (never) {
+                                    XToastUtils.error("被永久拒绝授权，请手动授予存储权限");
+                                    // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                    XXPermissions.startPermissionActivity(context, permissions);
+                                } else {
+                                    XToastUtils.error("获取存储权限失败");
+                                }
+                            }
+                        });
                 break;
             case All:
-                List strings=PermissionUtils.getPermissions();
-                Logs.d(strings.toString());
-                for(int i=0;i<strings.size();i++){
-                    PermissionUtils.permission(strings.get(i).toString()).request();
-                }
+
                 break;
             case Notification:
+
                 if(!isNotificationListenersEnabled())
                     gotoNotificationAccessSetting();
                 break;
@@ -230,17 +274,7 @@ public class Permission {
         }
     }
 
-    private void requestPermission(String permission,Activity context) {
 
-        Logs.d("requestPermission");
-        if (ContextCompat.checkSelfPermission(context,
-                permission)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(context,
-                    new String[]{permission},0);
-        }
-    }
 
 
 }

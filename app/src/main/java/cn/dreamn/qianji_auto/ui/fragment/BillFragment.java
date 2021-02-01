@@ -30,6 +30,7 @@ import cn.dreamn.qianji_auto.core.utils.AutoBills;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.adapter.BillAdapter;
+import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 import static cn.dreamn.qianji_auto.ui.adapter.BillAdapter.KEY_ACCOUNT;
 import static cn.dreamn.qianji_auto.ui.adapter.BillAdapter.KEY_BILLINFO;
@@ -129,9 +130,19 @@ public class BillFragment extends StateFragment {
         titleBar.addAction(new TitleBar.TextAction("清空") {
             @Override
             public void performAction(View view) {
-                AutoBills.delAll();
-                refresh();
-                SnackbarUtils.Long(getView(), getString(R.string.del_success)).info().show();
+
+                new MaterialDialog.Builder(requireContext())
+                        .title("清空账单信息")
+                        .content("您确定要清除账单信息吗？")
+                        .positiveText("确定")
+                        .onPositive((dialog, which) -> {
+                            AutoBills.delAll();
+                            refresh();
+                            SnackbarUtils.Long(getView(), getString(R.string.del_success)).info().show();
+
+                        })
+                        .negativeText("取消")
+                        .show();
             }
         });
         return titleBar;

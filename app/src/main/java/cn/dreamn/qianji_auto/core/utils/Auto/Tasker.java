@@ -63,8 +63,15 @@ public class Tasker {
         CallAutoActivity.run(context, billInfo);
         new Handler().postDelayed(() -> {
             Caches.del(caches[i].cacheName);
-            int j= 1 + i;
-           update( context, caches, j);
+
+            Cache[] caches2 = Caches.getType("tasker_bill");
+            int h;
+            for(h=0;h<caches2.length;h++){
+                if(caches[i].id==caches2[h].id)break;
+            }
+
+            int j= 1 + h;
+           update( context, caches2, j);
         },10000);
 
     }

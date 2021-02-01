@@ -11,10 +11,10 @@ android {
 
     defaultConfig {
         applicationId "cn.dreamn.qianji_auto"
-        minSdkVersion 22
-        targetSdkVersion 30
-        versionCode 47
-        versionName "2.0.0alpha12"
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode 48
+        versionName "2.0.0alpha13"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -101,7 +101,7 @@ dependencies {
     implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-header:1.1.5'
     implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-layout:1.1.5'
     implementation 'com.yanzhenjie.recyclerview:support:1.3.2'
-
+    implementation 'com.hjq:xxpermissions:9.8'
     implementation deps.androidx.multidex
     //屏幕适配AutoSize
     implementation 'me.jessyan:autosize:1.1.2'

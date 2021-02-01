@@ -36,7 +36,7 @@ public interface CacheDao {
     void del(String name);
     @Query("DELETE FROM Cache")
     void deleteAll();
-    @Query("SELECT * FROM Cache WHERE  cacheType = :type")
+    @Query("SELECT * FROM Cache WHERE  cacheType = :type order by id")
     Cache[] getType(String type);
 }
 

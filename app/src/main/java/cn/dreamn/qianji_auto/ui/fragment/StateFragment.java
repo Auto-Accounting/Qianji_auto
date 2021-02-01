@@ -17,6 +17,9 @@
 
 package cn.dreamn.qianji_auto.ui.fragment;
 
+import android.annotation.SuppressLint;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -49,6 +52,17 @@ public class StateFragment extends BaseFragment {
     TextView textView_empty;
     @BindView(R.id.textView_load)
     TextView textView_load;
+    @SuppressLint("HandlerLeak")
+    private final Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:priShowContent();break;
+                case 1:priShowEmpty("空空如也");break;
+                case 2:priShowLoading("加载中");break;
+            }
+
+        }
+    };
     /**
      * 布局的资源id
      *
@@ -64,7 +78,7 @@ public class StateFragment extends BaseFragment {
      */
     @Override
     protected void initViews() {
-
+       // textView_load = findViewById(R.id.textView_load);
     }
 
 
@@ -92,17 +106,18 @@ public class StateFragment extends BaseFragment {
 
     }
 
-    protected void showEmpty(String tips){
+    private void priShowEmpty(String tips){
+
         disableAll();
         Empty.setVisibility(View.VISIBLE);
         textView_empty.setText(tips);
     }
-    protected void showContent(){
+    private void priShowContent(){
         disableAll();
         Content.setVisibility(View.VISIBLE);
     }
 
-    protected void showLoading(String tips){
+    private void priShowLoading(String tips){
         disableAll();
         Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.img_animation);
         LinearInterpolator lin = new LinearInterpolator();//设置动画匀速运动
@@ -112,10 +127,32 @@ public class StateFragment extends BaseFragment {
         textView_load.setText(tips);
     }
 
+    protected void showEmpty(String tips){
+        if(Empty==null)
+            mHandler.sendEmptyMessage(1);
+        else
+            priShowEmpty(tips);
+    }
+    protected void showContent(){
+        if(Content==null)
+            mHandler.sendEmptyMessage(0);
+        else
+            priShowContent();
+    }
+
+    protected void showLoading(String tips){
+
+        if(Loading==null)
+            mHandler.sendEmptyMessage(2);
+        else
+            priShowLoading(tips);
+    }
+
     private void disableAll(){
         Empty.setVisibility(View.GONE);
         Loading.setVisibility(View.GONE);
         Content.setVisibility(View.GONE);
     }
+
 
 }
