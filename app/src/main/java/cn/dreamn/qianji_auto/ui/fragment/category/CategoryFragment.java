@@ -23,7 +23,6 @@ import android.view.View;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.classic.common.MultipleStatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
@@ -43,7 +42,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Regular;
 import cn.dreamn.qianji_auto.core.utils.Category;
 import cn.dreamn.qianji_auto.ui.adapter.CateAdapter;
-import cn.dreamn.qianji_auto.ui.core.BaseFragment;
+import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
 
 import static cn.dreamn.qianji_auto.ui.adapter.CateAdapter.KEY_DATA;
 import static cn.dreamn.qianji_auto.ui.adapter.CateAdapter.KEY_DENY;
@@ -53,9 +52,8 @@ import static cn.dreamn.qianji_auto.ui.adapter.CateAdapter.KEY_VALUE;
 
 
 @Page(name = "自动分类")
-public class CategoryFragment extends BaseFragment {
-    @BindView(R.id.ll_stateful)
-    MultipleStatusView mStatefulLayout;
+public class CategoryFragment extends StateFragment {
+
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
 
@@ -63,15 +61,7 @@ public class CategoryFragment extends BaseFragment {
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
 
-    /**
-     * 布局的资源id
-     *
-     * @return
-     */
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_auto_catgory;
-    }
+
 
     /**
      * 初始化控件
@@ -173,7 +163,7 @@ public class CategoryFragment extends BaseFragment {
                 data.add(item);
             }
             if(data.size()==0) {
-                mStatefulLayout.showEmpty("没有任何分类规则");
+                showEmpty("没有任何分类规则");
                 return;
             }
 
@@ -181,7 +171,7 @@ public class CategoryFragment extends BaseFragment {
             if (map_layout != null) {
                 map_layout.setRefreshing(false);
             }
-            mStatefulLayout.showContent();
+            showContent();
         }, 1000);
     }
 

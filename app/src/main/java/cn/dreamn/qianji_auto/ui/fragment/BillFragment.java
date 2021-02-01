@@ -9,13 +9,11 @@ import android.widget.EditText;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.classic.common.MultipleStatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
-import com.xuexiang.xui.widget.statelayout.StatefulLayout;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
@@ -27,12 +25,11 @@ import java.util.Objects;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.AutoBill;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.AutoBills;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.adapter.BillAdapter;
-import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 
 import static cn.dreamn.qianji_auto.ui.adapter.BillAdapter.KEY_ACCOUNT;
 import static cn.dreamn.qianji_auto.ui.adapter.BillAdapter.KEY_BILLINFO;
@@ -46,14 +43,12 @@ import static cn.dreamn.qianji_auto.ui.adapter.BillAdapter.KEY_TYPE;
 
 
 @Page(name = "账单列表")
-public class BillFragment extends BaseFragment {
+public class BillFragment extends StateFragment {
 
 
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
-
-    @BindView(R.id.ll_stateful)
-    MultipleStatusView mStatefulLayout;
+    
     private BillAdapter mAdapter;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
@@ -151,7 +146,7 @@ public class BillFragment extends BaseFragment {
 
     private void loadData() {
         new Handler().postDelayed(() -> {
-           // mStatefulLayout.showLoading("正在加载账单列表");
+           // showLoading("正在加载账单列表");
             AutoBill[] autoBills= AutoBills.getAll();
             List<Map<String, String>> data = new ArrayList<>();
             for (AutoBill autoBill : autoBills) {
@@ -171,11 +166,11 @@ public class BillFragment extends BaseFragment {
                 data.add(item);
             }
             if(data.size()==0){
-                mStatefulLayout.showEmpty("没有账单信息");
+                showEmpty("没有账单信息");
                 return;
             }
 
-            mStatefulLayout.showContent();
+            showContent();
 
             mAdapter.refresh(data);
             if (map_layout != null) {

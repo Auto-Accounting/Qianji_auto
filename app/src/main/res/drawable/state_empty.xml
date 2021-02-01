@@ -1,0 +1,26 @@
+<!--
+  ~ Copyright (C) 2021 dreamn(dream@dreamn.cn)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="128dp"
+    android:height="128dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+  <path
+      android:pathData="M952.05,426.69a9.37,9.37 0,0 0,-5.98 -7.02l-305.14,-111.33a9.34,9.34 0,0 0,-9.57 1.93l-103.85,96.27 -119.67,-78a9.4,9.4 0,0 0,-8.33 -0.95L97.07,438.08a9.36,9.36 0,0 0,-1.89 16.63l119.64,77.97 -85.65,130.33a9.36,9.36 0,0 0,3.74 13.57l84.49,40.8L217.4,859.04a9.36,9.36 0,0 0,5.32 8.44l301.47,144.51c0.13,0.07 0.29,0.04 0.43,0.09a9.4,9.4 0,0 0,3.62 0.82,9.23 9.23,0 0,0 3.56,-0.8c0.15,-0.06 0.32,-0.04 0.46,-0.1l303.52,-144.51a9.36,9.36 0,0 0,5.34 -8.46L841.11,718.7l84.57,-42.19a9.37,9.37 0,0 0,3.65 -13.51l-86.76,-132.05 106.55,-95.52a9.35,9.35 0,0 0,2.94 -8.74zM528.53,662.82L247.54,530.95l280.96,-102.61 281.64,102.94 -281.61,131.53zM401.54,346.78l106.18,69.21 -280.49,102.44 -106.16,-69.18 280.47,-102.47zM230.13,543.47l284.89,133.7 -77.92,125.51 -286.42,-138.32 79.45,-120.89zM236.12,726.41l200.41,96.78a9.35,9.35 0,0 0,12.03 -3.49l70.57,-113.67 -0.26,282.64 -282.75,-135.53L236.12,726.41zM822.38,853.12L537.6,988.71l0.25,-281.3 69.63,118.1a9.36,9.36 0,0 0,12.24 3.62l202.65,-101.09v125.09h0.01zM619.18,808.48L541.82,677.28l286.55,-133.82 79.52,121.01 -288.7,144.01zM828.78,518.16L546.1,414.83l93.8,-86.93 285.1,104.02 -96.22,86.25z"
+      android:fillColor="#1296db"/>
+</vector>

@@ -6,15 +6,11 @@ import android.view.View;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-
-import com.classic.common.MultipleStatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
-import com.xuexiang.xui.widget.statelayout.StatefulLayout;
-import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
@@ -28,7 +24,6 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Log;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.adapter.LogAdapter;
-import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 import static cn.dreamn.qianji_auto.ui.adapter.LogAdapter.KEY_POS;
@@ -37,11 +32,9 @@ import static cn.dreamn.qianji_auto.ui.adapter.LogAdapter.KEY_TITLE;
 
 
 @Page(name = "日志查询")
-public class LogFragment extends BaseFragment {
+public class LogFragment extends StateFragment {
 
 
-    @BindView(R.id.ll_stateful)
-    MultipleStatusView mStatefulLayout;
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
 
@@ -53,6 +46,8 @@ public class LogFragment extends BaseFragment {
     protected int getLayoutId() {
         return R.layout.fragment_asset_map;
     }
+
+
 
     /**
      * 初始化控件
@@ -123,7 +118,7 @@ public class LogFragment extends BaseFragment {
 
     private void loadData() {
         new Handler().postDelayed(() -> {
-            //mStatefulLayout.showLoading("正在加载日志");
+            //showLoading("正在加载日志");
             Log[] logs=Logs.getAll();
             List<Map<String, String>> data = new ArrayList<>();
             for(int i = 0; i <logs.length; i++){
@@ -134,14 +129,14 @@ public class LogFragment extends BaseFragment {
                 data.add(item);
             }
             if(data.size()==0){
-                mStatefulLayout.showEmpty("没有日志信息");
+                showEmpty("没有日志信息");
                 return;
             }
             mAdapter.refresh(data);
             if (map_layout != null) {
                 map_layout.setRefreshing(false);
             }
-            mStatefulLayout.showContent();
+            showContent();
         }, 1000);
     }
 

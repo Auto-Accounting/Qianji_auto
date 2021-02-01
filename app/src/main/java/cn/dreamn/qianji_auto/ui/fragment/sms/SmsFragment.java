@@ -28,7 +28,6 @@ import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
-import com.xuexiang.xui.widget.statelayout.StatefulLayout;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
@@ -42,8 +41,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Sms;
 import cn.dreamn.qianji_auto.core.utils.Smses;
 import cn.dreamn.qianji_auto.ui.adapter.SmsAdapter;
-import cn.dreamn.qianji_auto.ui.core.BaseFragment;
-import cn.dreamn.qianji_auto.utils.tools.Logs;
+import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
 
 import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_DENY;
 import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_ID;
@@ -53,9 +51,8 @@ import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_TITLE;
 
 
 @Page(name = "短信识别")
-public class SmsFragment extends BaseFragment {
-    @BindView(R.id.ll_stateful)
-    StatefulLayout mStatefulLayout;
+public class SmsFragment extends StateFragment {
+
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
 
@@ -146,7 +143,7 @@ public class SmsFragment extends BaseFragment {
 
     private void loadData() {
         new Handler().postDelayed(() -> {
-           // mStatefulLayout.showLoading("正在加载短信识别规则");
+           // showLoading("正在加载短信识别规则");
             Sms[] sms= Smses.getAll();
             List<Map<String, String>> data = new ArrayList<>();
             for (Sms value : sms) {
@@ -165,7 +162,7 @@ public class SmsFragment extends BaseFragment {
                 data.add(item);
             }
             if(data.size()==0) {
-                mStatefulLayout.showEmpty("没有任何短信识别规则");
+                showEmpty("没有任何短信识别规则");
                 return;
             }
 
@@ -173,7 +170,7 @@ public class SmsFragment extends BaseFragment {
             if (map_layout != null) {
                 map_layout.setRefreshing(false);
             }
-            mStatefulLayout.showContent();
+            showContent();
         }, 1000);
     }
 

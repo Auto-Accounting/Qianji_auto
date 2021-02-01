@@ -46,8 +46,8 @@ public class App {
     //判断是否安装某个框架
     public static String getFrameWork(Context context){
         String farmework="xposed";//判断加载的框架
-        String[] appName={"xposed","taichi","edxposed"};
-        String[] appPackage={"de.robv.android.xposed.installer","me.weishu.exp","org.meowcat.edxposed.manager"};
+        String[] appName={"taichi","edxposed","lsposed","xposed"};
+        String[] appPackage={"me.weishu.exp","org.meowcat.edxposed.manager","io.github.lsposed.manager","de.robv.android.xposed.installer"};
 
         for (int i=0;i<appName.length;i++) {
 
@@ -58,9 +58,11 @@ public class App {
         }
 
         switch (farmework){
-            case "xposed":return "Xposed";
+
             case "taichi":return getString(R.string.frame_taichi);
             case "edxposed":return "EdXposed";
+            case "lsposed":return "LSPosed";
+            case "xposed":return "Xposed";
             default:return getString(R.string.frame_unknow);
         }
     }

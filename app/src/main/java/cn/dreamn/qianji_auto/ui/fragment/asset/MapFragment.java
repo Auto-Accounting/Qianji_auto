@@ -22,7 +22,6 @@ import android.view.View;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.classic.common.MultipleStatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
@@ -41,7 +40,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Asset;
 import cn.dreamn.qianji_auto.core.utils.Assets;
 import cn.dreamn.qianji_auto.ui.adapter.MapAdapter;
-import cn.dreamn.qianji_auto.ui.core.BaseFragment;
+import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
 
 import static cn.dreamn.qianji_auto.ui.adapter.MapAdapter.KEY_ID;
 import static cn.dreamn.qianji_auto.ui.adapter.MapAdapter.KEY_TITLE;
@@ -49,9 +48,8 @@ import static cn.dreamn.qianji_auto.ui.adapter.MapAdapter.KEY_VALUE;
 
 
 @Page(name = "资产映射")
-public class MapFragment extends BaseFragment {
-    @BindView(R.id.ll_stateful)
-    MultipleStatusView mStatefulLayout;
+public class MapFragment extends StateFragment {
+    
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
 
@@ -121,7 +119,7 @@ public class MapFragment extends BaseFragment {
     }
     private void loadData() {
         new Handler().postDelayed(() -> {
-            //mStatefulLayout.showLoading("正在加载资产");
+            //showLoading("正在加载资产");
             Asset[] asset=Assets.getAllMap();
             List<Map<String, String>> data = new ArrayList<>();
             for (Asset assets : asset) {
@@ -132,7 +130,7 @@ public class MapFragment extends BaseFragment {
                 data.add(item);
             }
             if(data.size()==0) {
-                mStatefulLayout.showEmpty("没有资产映射信息");
+                showEmpty("没有资产映射信息");
                 return;
             }
 
@@ -140,7 +138,7 @@ public class MapFragment extends BaseFragment {
             if (map_layout != null) {
                 map_layout.setRefreshing(false);
             }
-            mStatefulLayout.showContent();
+            showContent();
         }, 1000);
     }
 

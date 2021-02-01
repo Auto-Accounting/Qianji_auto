@@ -61,6 +61,10 @@
             android:name="xposedminversion"
             android:value="30" />
 
+        <meta-data
+            android:name="xposedscope"
+            android:resource="@array/xposed_scope" />
+
         <service android:name=".core.helper.AutoBillService" />
         <service
             android:name=".core.helper.AutoAccessibilityService"

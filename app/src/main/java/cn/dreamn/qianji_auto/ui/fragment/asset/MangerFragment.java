@@ -22,14 +22,12 @@ import android.view.View;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.classic.common.MultipleStatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
-import com.xuexiang.xui.widget.statelayout.StatefulLayout;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
@@ -43,16 +41,15 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Asset2;
 import cn.dreamn.qianji_auto.core.utils.Assets;
 import cn.dreamn.qianji_auto.ui.adapter.AssetAdapter;
-import cn.dreamn.qianji_auto.ui.core.BaseFragment;
+import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
 
 import static cn.dreamn.qianji_auto.ui.adapter.AssetAdapter.KEY_ID;
 import static cn.dreamn.qianji_auto.ui.adapter.AssetAdapter.KEY_TITLE;
 
 
 @Page(name = "钱迹资产")
-public class MangerFragment extends BaseFragment {
-    @BindView(R.id.ll_stateful)
-    MultipleStatusView mStatefulLayout;
+public class MangerFragment extends StateFragment {
+    
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
 
@@ -140,7 +137,7 @@ public class MangerFragment extends BaseFragment {
 
     private void loadData() {
         new Handler().postDelayed(() -> {
-            //mStatefulLayout.showLoading("正在加载资产");
+            //showLoading("正在加载资产");
             Asset2[] asset2s=Assets.getAllAccount();
             List<Map<String, String>> data = new ArrayList<>();
             for (Asset2 asset2 : asset2s) {
@@ -150,7 +147,7 @@ public class MangerFragment extends BaseFragment {
                 data.add(item);
             }
             if(data.size()==0) {
-                mStatefulLayout.showEmpty("没有资产信息");
+                showEmpty("没有资产信息");
                 return;
             }
 
@@ -158,7 +155,7 @@ public class MangerFragment extends BaseFragment {
             if (map_layout != null) {
                 map_layout.setRefreshing(false);
             }
-            mStatefulLayout.showContent();
+            showContent();
         }, 1000);
     }
 

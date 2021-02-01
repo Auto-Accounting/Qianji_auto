@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="xposed_scope" >
+    <item>cn.dreamn.qianji_auto</item>
+    <item>com.tencent.mm</item>
+    <item>com.eg.android.AlipayGphone</item>
+</string-array>
+</resources>
