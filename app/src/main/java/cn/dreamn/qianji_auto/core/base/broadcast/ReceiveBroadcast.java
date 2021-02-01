@@ -24,10 +24,15 @@ import android.os.Bundle;
 
 import cn.dreamn.qianji_auto.core.base.Receive;
 import cn.dreamn.qianji_auto.core.base.alipay.Alipay;
+import cn.dreamn.qianji_auto.core.base.alipay.BiBiZan;
+import cn.dreamn.qianji_auto.core.base.alipay.FundArrival;
 import cn.dreamn.qianji_auto.core.base.alipay.PaymentSuccess;
+import cn.dreamn.qianji_auto.core.base.alipay.QrCollection;
 import cn.dreamn.qianji_auto.core.base.alipay.RedReceived;
 import cn.dreamn.qianji_auto.core.base.alipay.TransferIntoYuebao;
 import cn.dreamn.qianji_auto.core.base.alipay.TransferReceived;
+import cn.dreamn.qianji_auto.core.base.alipay.TransferSucceed;
+import cn.dreamn.qianji_auto.core.helper.SmsServer;
 import cn.dreamn.qianji_auto.core.utils.ServerManger;
 import cn.dreamn.qianji_auto.core.utils.Status;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
@@ -81,12 +86,13 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                         switch (from) {
                             case Alipay.BIBIZAN:
                                 //笔笔攒消息
+                                BiBiZan.getInstance().tryAnalyze(data, context);
                                 break;
                             case Alipay.PAYMENT_SUCCESS:
                                 PaymentSuccess.getInstance().tryAnalyze(data, context);
                                 break;
                             case Alipay.QR_COLLECTION:
-                                //PaymentSuccess.getInstance().tryAnalyze(data, context);
+                                QrCollection.getInstance().tryAnalyze(data, context);
                                 break;
                             case Alipay.REC_YUEBAO:
                                 break;
@@ -96,17 +102,20 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                                 RedReceived.getInstance().tryAnalyze(data, context);
                                 break;
                             case Alipay.REFUND:
-                                break;
-                            case Alipay.TRANSFER_RECEIVED:
 
                                 break;
-                            case Alipay.TRANSFER_SUCCESS:
+                            case Alipay.FUNDS_ARRIVAL:
+                                FundArrival.getInstance().tryAnalyze(data, context);
+                                break;
+                            case Alipay.TRANSFER_RECEIVED:
                                 TransferReceived.getInstance().tryAnalyze(data, context);
+                                break;
+                            case Alipay.TRANSFER_SUCCESS:
+                                TransferSucceed.getInstance().tryAnalyze(data, context);
                                 break;
                             case Alipay.TRANSFER_SUCCESS_ACCOUNT:
                                 break;
                             case Alipay.TRANSFER_YUEBAO:
-                                break;
                             case Alipay.TRANSFER_INTO_YUEBAO:
                                 TransferIntoYuebao.getInstance().tryAnalyze(data, context);
                                 break;
@@ -120,6 +129,7 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                     case Receive.WECHAT:
                         break;
                     case Receive.SMS:
+                        SmsServer.readSMS(data,context);
                         break;
                     default:
                         break;

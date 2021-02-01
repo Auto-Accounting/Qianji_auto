@@ -29,7 +29,8 @@ public class Alipay {
     public   final static String REC_YULIBAO="REC_YULIBAO";//网商银行·余利宝
     public   final static String REC_YUEBAO="REC_YUEBAO";//蚂蚁财富·我的余额宝
    public   final static String BIBIZAN="BIBIZAN";//余额宝-笔笔攒-单笔攒入
-
+ public   final static String FUNDS_ARRIVAL="FUNDS_ARRIVAL";//资金到账通知
+ //arrival of funds
     public   final static String  RED_RECEIVED="RED_RECEIVED";//收到红包
     public  final static String CANT_UNDERSTAND="CANT_UNDERSTAND";//无法理解
 

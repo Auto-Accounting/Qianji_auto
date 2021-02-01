@@ -58,7 +58,7 @@ class AnalyzeWeChatTransferRec {
 
         billInfo.setType(BillInfo.TYPE_INCOME);
 
-        billInfo.setAccountName("零钱");
+        billInfo.setAccountName(Assets.getMap("零钱"));
 
 
         billInfo.setAccountName(Assets.getMap(billInfo.getAccountName()));

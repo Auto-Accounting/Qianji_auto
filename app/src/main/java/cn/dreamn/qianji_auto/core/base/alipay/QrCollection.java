@@ -23,23 +23,24 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.dreamn.qianji_auto.core.utils.Assets;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.Category;
 import cn.dreamn.qianji_auto.core.utils.Remark;
+import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 /**
- * 转账给某人
+ * 付款给某人
  */
-public class TransferReceived extends Analyze {
+public class QrCollection extends Analyze {
 
-    private static TransferReceived transferReceived;
+    private static QrCollection paymentSuccess;
 
-    public static TransferReceived getInstance(){
-        if(transferReceived!=null)return transferReceived;
-        transferReceived=new TransferReceived();
-        return transferReceived;
+    public static QrCollection getInstance(){
+        if(paymentSuccess!=null)return paymentSuccess;
+        paymentSuccess=new QrCollection();
+        return paymentSuccess;
     }
 
 
@@ -51,31 +52,22 @@ public class TransferReceived extends Analyze {
 
         BillInfo billInfo=new BillInfo();
         billInfo.setTime();
-        billInfo=getResult(jsonObject,billInfo);
+        billInfo.setMoney(BillTools.getMoney(jsonObject.getString("extra")));
 
         billInfo.setAccountName(Assets.getMap("余额"));
         billInfo.setType(BillInfo.TYPE_INCOME);
+        billInfo.setSilent(true);
         billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_INCOME));
         billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
-        billInfo.setSource("支付宝收到转账");
+        billInfo.setSource("支付宝二维码收钱成功");
         CallAutoActivity.call(context,billInfo);
     }
 
     @Override
     BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
-        billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
-        JSONArray jsonArray=jsonObject.getJSONArray("content");
-        for(int i=0;i<jsonArray.size();i++){
-            JSONObject jsonObject1=jsonArray.getJSONObject(i);
-            String name=jsonObject1.getString("title");
-            String value=jsonObject1.getString("content");
-            switch (name){
-                case "付款方：":billInfo.setShopAccount(value);break;
-                case "转账备注：":billInfo.setShopRemark(value);break;
-                default:break;
-            }
-        }
+
+
         return billInfo;
     }
 }

@@ -87,7 +87,7 @@ class AnalyzeAlipayTransfer {
         Caches.add(TAG,billInfo.toString(),BillInfo.TYPE_PAY);
 
         billInfo.setMoney(money);
-        billInfo.setAccountName(account);
+        billInfo.setAccountName(Assets.getMap(account));
 
         billInfo.setShopRemark(remark);
 

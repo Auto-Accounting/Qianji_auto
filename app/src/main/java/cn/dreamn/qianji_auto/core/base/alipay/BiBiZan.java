@@ -23,23 +23,24 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.dreamn.qianji_auto.core.utils.Assets;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.Category;
 import cn.dreamn.qianji_auto.core.utils.Remark;
+import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 /**
- * 转账给某人
+ * 笔笔攒
  */
-public class TransferReceived extends Analyze {
+public class BiBiZan extends Analyze {
 
-    private static TransferReceived transferReceived;
+    private static BiBiZan paymentSuccess;
 
-    public static TransferReceived getInstance(){
-        if(transferReceived!=null)return transferReceived;
-        transferReceived=new TransferReceived();
-        return transferReceived;
+    public static BiBiZan getInstance(){
+        if(paymentSuccess!=null)return paymentSuccess;
+        paymentSuccess=new BiBiZan();
+        return paymentSuccess;
     }
 
 
@@ -53,13 +54,15 @@ public class TransferReceived extends Analyze {
         billInfo.setTime();
         billInfo=getResult(jsonObject,billInfo);
 
-        billInfo.setAccountName(Assets.getMap("余额"));
-        billInfo.setType(BillInfo.TYPE_INCOME);
-        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_INCOME));
+        billInfo.setSilent(true);
+        billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
+        billInfo.setAccountName2(Assets.getMap("余额宝"));
+        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_TRANSFER_ACCOUNTS));
         billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
-        billInfo.setSource("支付宝收到转账");
+        billInfo.setSource("支付宝笔笔攒");
         CallAutoActivity.call(context,billInfo);
+
     }
 
     @Override
@@ -70,9 +73,12 @@ public class TransferReceived extends Analyze {
             JSONObject jsonObject1=jsonArray.getJSONObject(i);
             String name=jsonObject1.getString("title");
             String value=jsonObject1.getString("content");
+            Logs.d("name ->"+name+"  value->"+value);
             switch (name){
-                case "付款方：":billInfo.setShopAccount(value);break;
-                case "转账备注：":billInfo.setShopRemark(value);break;
+                case "付款方式：":billInfo.setAccountName(Assets.getMap(value));break;
+                case "交易对象：":billInfo.setShopAccount(value);break;
+                case "商品说明：":
+                    billInfo.setShopRemark(value);break;
                 default:break;
             }
         }

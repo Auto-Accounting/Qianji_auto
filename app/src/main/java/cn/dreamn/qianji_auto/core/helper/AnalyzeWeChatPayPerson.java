@@ -93,7 +93,7 @@ class AnalyzeWeChatPayPerson {
 
 
         billInfo.setMoney(money);
-        billInfo.setAccountName(account);
+        billInfo.setAccountName(Assets.getMap(account));
 
         Caches.update(TAG,billInfo.toString());
         Logs.d("Qianji_Analyze",billInfo.toString());

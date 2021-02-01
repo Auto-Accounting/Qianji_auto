@@ -160,6 +160,9 @@ public class AlipayHook extends HookBase {
                         case "余额宝-笔笔攒-单笔攒入":
                             Logi( "-------余额宝-笔笔攒-单笔攒入-------");
                             bundle.putString("from", Alipay.BIBIZAN);break;
+                        case "资金到账通知":
+                            Logi( "-------资金到账通知-------");
+                            bundle.putString("from", Alipay.FUNDS_ARRIVAL);break;
                         case "付款成功":
                             Logi( "-------付款成功-------");
                             bundle.putString("from", Alipay.PAYMENT_SUCCESS);break;

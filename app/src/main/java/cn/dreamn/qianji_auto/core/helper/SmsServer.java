@@ -25,6 +25,7 @@ import android.os.Handler;
 
 import com.eclipsesource.v8.V8;
 
+import cn.dreamn.qianji_auto.core.utils.Assets;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BookNames;
 import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
@@ -49,6 +50,44 @@ public class SmsServer extends ContentObserver {
 
     }
 
+    public static void readSMS(String sms,Context context){
+        String data = getSms(sms);
+
+        String[] strings=data.split("\\|");
+        if(strings.length!=5)return;
+        BillInfo billInfo = new BillInfo();
+
+        switch(strings[2]){
+            case "支出": billInfo.setType(BillInfo.TYPE_PAY);break;
+            case "收入": billInfo.setType(BillInfo.TYPE_INCOME);break;
+            case "转账": billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);break;
+            case "信用还款": billInfo.setType(BillInfo.TYPE_CREDIT_CARD_PAYMENT);break;
+        }
+
+
+
+        String account=strings[1];
+        if(!strings[4].equals("undefined")){
+            account=account+"("+strings[4]+")";
+        }
+
+        billInfo.setBookName(BookNames.getDefault());
+               /* if(!strings[5].equals("undefined")){
+                    billInfo.setShopAccount(strings[5]);
+                }else{
+                    billInfo.setShopAccount("");
+                }*/
+        billInfo.setAccountName(Assets.getMap(account));
+        billInfo.setTime();
+        billInfo.setRemark(strings[0]);
+        billInfo.setShopRemark(strings[0]);
+
+
+        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),strings[2]));
+
+        CallAutoActivity.call(context,billInfo);
+    }
+
     @Override
     public void onChange(boolean selfChange, Uri uri) {
         super.onChange(selfChange, uri);
@@ -58,50 +97,15 @@ public class SmsServer extends ContentObserver {
 
             assert cursor != null;
             if (cursor.moveToFirst()) {
-
-//                读取短信内容
                 String body = cursor.getString(cursor.getColumnIndex("body"));
-                String data = getSms(body);
-
-                String[] strings=data.split("\\|");
-                if(strings.length!=5)return;
-                BillInfo billInfo = new BillInfo();
-
-                switch(strings[2]){
-                    case "支出": billInfo.setType(BillInfo.TYPE_PAY);break;
-                    case "收入": billInfo.setType(BillInfo.TYPE_INCOME);break;
-                    case "转账": billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);break;
-                    case "信用还款": billInfo.setType(BillInfo.TYPE_CREDIT_CARD_PAYMENT);break;
-                }
-
-
-
-                String account=strings[1];
-                if(!strings[4].equals("undefined")){
-                    account=account+"("+strings[4]+")";
-                }
-
-                billInfo.setBookName(BookNames.getDefault());
-               /* if(!strings[5].equals("undefined")){
-                    billInfo.setShopAccount(strings[5]);
-                }else{
-                    billInfo.setShopAccount("");
-                }*/
-                billInfo.setAccountName(account);
-                billInfo.setTime();
-                billInfo.setRemark(strings[0]);
-                billInfo.setShopRemark(strings[0]);
-
-
-                billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),strings[2]));
-
-                CallAutoActivity.call(mcontext,billInfo);
+                readSMS(body,mcontext);
+//
             }
         }
     }
 
 
-    public String getSms(String smsBody){
+    public static String getSms(String smsBody){
 
 
        try{

@@ -109,7 +109,7 @@ class AnalyzeWeChatBills {
        String shopName = list.get(1).replace("扫二维码付款-给","");
 
         BillInfo billInfo = new BillInfo();
-        billInfo.setAccountName(list.get(9));
+        billInfo.setAccountName(Assets.getMap(list.get(9)));
         billInfo.setRemark(list.get(1));
         billInfo.setShopAccount(shopName);
         billInfo.setShopRemark(list.get(1));

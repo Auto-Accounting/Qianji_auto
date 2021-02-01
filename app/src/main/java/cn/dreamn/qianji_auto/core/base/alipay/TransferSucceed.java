@@ -23,22 +23,22 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.dreamn.qianji_auto.core.utils.Assets;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.Category;
 import cn.dreamn.qianji_auto.core.utils.Remark;
 
 /**
  * 转账给某人
  */
-public class TransferReceived extends Analyze {
+public class TransferSucceed extends Analyze {
 
-    private static TransferReceived transferReceived;
+    private static TransferSucceed transferReceived;
 
-    public static TransferReceived getInstance(){
+    public static TransferSucceed getInstance(){
         if(transferReceived!=null)return transferReceived;
-        transferReceived=new TransferReceived();
+        transferReceived=new TransferSucceed();
         return transferReceived;
     }
 
@@ -53,12 +53,12 @@ public class TransferReceived extends Analyze {
         billInfo.setTime();
         billInfo=getResult(jsonObject,billInfo);
 
-        billInfo.setAccountName(Assets.getMap("余额"));
-        billInfo.setType(BillInfo.TYPE_INCOME);
-        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_INCOME));
+
+        billInfo.setType(BillInfo.TYPE_PAY);
+        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_PAY));
         billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
-        billInfo.setSource("支付宝收到转账");
+        billInfo.setSource("支付宝转账给某人");
         CallAutoActivity.call(context,billInfo);
     }
 
@@ -71,7 +71,8 @@ public class TransferReceived extends Analyze {
             String name=jsonObject1.getString("title");
             String value=jsonObject1.getString("content");
             switch (name){
-                case "付款方：":billInfo.setShopAccount(value);break;
+                case "付款方式：":billInfo.setAccountName(Assets.getMap(value));break;
+                case "对方账户：":billInfo.setShopAccount(value);break;
                 case "转账备注：":billInfo.setShopRemark(value);break;
                 default:break;
             }

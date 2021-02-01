@@ -62,9 +62,10 @@ public class Tasker {
         BillInfo billInfo = BillInfo.parse(caches[i].cacheData);
         CallAutoActivity.run(context, billInfo);
         new Handler().postDelayed(() -> {
+            Caches.del(caches[i].cacheName);
             int j= 1 + i;
            update( context, caches, j);
-        },1000);
+        },10000);
 
     }
     /**
