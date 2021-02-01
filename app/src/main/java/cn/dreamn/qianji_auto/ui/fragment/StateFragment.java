@@ -18,6 +18,10 @@
 package cn.dreamn.qianji_auto.ui.fragment;
 
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,6 +42,8 @@ public class StateFragment extends BaseFragment {
     @BindView(R.id.Loading)
     LinearLayout Loading;
 
+    @BindView(R.id.imageView_Load)
+    ImageView imageView_Load;
 
     @BindView(R.id.textView_empty)
     TextView textView_empty;
@@ -87,14 +93,21 @@ public class StateFragment extends BaseFragment {
     }
 
     protected void showEmpty(String tips){
+        disableAll();
         Empty.setVisibility(View.VISIBLE);
         textView_empty.setText(tips);
     }
     protected void showContent(){
+        disableAll();
         Content.setVisibility(View.VISIBLE);
     }
 
     protected void showLoading(String tips){
+        disableAll();
+        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.img_animation);
+        LinearInterpolator lin = new LinearInterpolator();//设置动画匀速运动
+        animation.setInterpolator(lin);
+        imageView_Load.startAnimation(animation);
         Loading.setVisibility(View.VISIBLE);
         textView_load.setText(tips);
     }

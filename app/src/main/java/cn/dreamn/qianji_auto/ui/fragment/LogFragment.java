@@ -4,12 +4,14 @@ package cn.dreamn.qianji_auto.ui.fragment;
 import android.os.Handler;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
@@ -42,10 +44,7 @@ public class LogFragment extends StateFragment {
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_asset_map;
-    }
+
 
 
 
@@ -54,6 +53,9 @@ public class LogFragment extends StateFragment {
      */
     @Override
     protected void initViews() {
+
+        showLoading("加载中...");
+
         WidgetUtils.initRecyclerView(recyclerView);
 
         mAdapter = new LogAdapter();
@@ -103,9 +105,18 @@ public class LogFragment extends StateFragment {
         titleBar.addAction(new TitleBar.TextAction("清空") {
             @Override
             public void performAction(View view) {
-                Logs.delAll();
-                refresh();
-                SnackbarUtils.Long(getView(), getString(R.string.del_success)).info().show();
+                new MaterialDialog.Builder(requireContext())
+                        .title("清空日志")
+                        .content("您确定要清除日志信息吗？")
+                        .positiveText("确定")
+                        .onPositive((dialog, which) -> {
+                            Logs.delAll();
+                            refresh();
+                            SnackbarUtils.Long(getView(), getString(R.string.del_success)).info().show();
+                        })
+                        .negativeText("取消")
+                        .show();
+
             }
         });
         return titleBar;

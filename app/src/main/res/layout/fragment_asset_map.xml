@@ -39,7 +39,7 @@
         android:visibility="gone">
 
         <ImageView
-            android:id="@+id/imageView8"
+            android:id="@+id/imageView_Load"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/state_loading" />

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2021 dreamn(dream@dreamn.cn)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~       http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  -->
+
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <rotate
+        android:duration="5000"
+        android:fromDegrees="0"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:repeatCount="-1"
+        android:repeatMode="restart"
+        android:toDegrees="360" />
+
+    <!-- 参数的含义
+    duration：时间</span>
+    fromDegrees="0"：  从几度开始转</span>t
+    oDegrees="360" ： 旋转多少度</span>
+    pivotX="50%：旋转中心距离view的左顶点为50%距离，
+    pivotY="50%： 距离view的上边缘为50%距离
+    repeatCount="-1"：重复次数，-1为一直重复
+    repeatMode="restart"：重复模式，restart从头开始重复
+
+    -->
+
+</set>

@@ -54,16 +54,14 @@ public class BillFragment extends StateFragment {
     SwipeRecyclerView recyclerView;
 
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_asset_map;
-    }
-
     /**
      * 初始化控件
      */
     @Override
     protected void initViews() {
+
+        showLoading("加载中...");
+
         WidgetUtils.initRecyclerView(recyclerView);
 
         mAdapter = new BillAdapter();

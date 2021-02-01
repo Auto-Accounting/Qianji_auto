@@ -68,6 +68,9 @@ public class CategoryFragment extends StateFragment {
      */
     @Override
     protected void initViews() {
+
+        showLoading("加载中...");
+
         WidgetUtils.initRecyclerView(recyclerView);
         mAdapter = new CateAdapter();
         recyclerView.setAdapter(mAdapter);

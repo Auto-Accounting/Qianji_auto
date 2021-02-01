@@ -60,21 +60,15 @@ public class SmsFragment extends StateFragment {
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
 
-    /**
-     * 布局的资源id
-     *
-     * @return
-     */
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_auto_catgory;
-    }
 
     /**
      * 初始化控件
      */
     @Override
     protected void initViews() {
+
+        showLoading("加载中...");
+
         WidgetUtils.initRecyclerView(recyclerView);
         mAdapter = new SmsAdapter();
         recyclerView.setAdapter(mAdapter);

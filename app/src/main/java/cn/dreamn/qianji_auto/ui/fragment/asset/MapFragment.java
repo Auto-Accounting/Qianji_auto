@@ -56,21 +56,16 @@ public class MapFragment extends StateFragment {
     private MapAdapter mAdapter;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
-    /**
-     * 布局的资源id
-     *
-     * @return
-     */
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_asset_map;
-    }
+
 
     /**
      * 初始化控件
      */
     @Override
     protected void initViews() {
+
+        showLoading("加载中...");
+
         initSet();
         mAdapter.setOnItemClickListener(item-> new MaterialDialog.Builder(getContext())
                 .title(R.string.tip_options)
