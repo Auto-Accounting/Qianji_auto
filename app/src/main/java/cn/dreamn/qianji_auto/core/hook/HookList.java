@@ -5,6 +5,7 @@ import java.util.List;
 
 import cn.dreamn.qianji_auto.core.hook.app.AlipayHook;
 import cn.dreamn.qianji_auto.core.hook.app.QianjiAuto;
+import cn.dreamn.qianji_auto.core.hook.app.WechatHook;
 
 
 public class HookList {
@@ -23,6 +24,7 @@ public class HookList {
         mListHook.clear();
         mListHook.add(QianjiAuto.getInstance());
         mListHook.add(AlipayHook.getInstance());
+        mListHook.add(WechatHook.getInstance());
     }
 
     public List<HookBase> getmListHook() {

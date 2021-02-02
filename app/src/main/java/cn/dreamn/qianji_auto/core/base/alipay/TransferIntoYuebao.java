@@ -52,8 +52,7 @@ public class TransferIntoYuebao extends Analyze {
         BillInfo billInfo=new BillInfo();
         billInfo.setTime();
         billInfo=getResult(jsonObject,billInfo);
-
-
+        billInfo.setSilent(true);
         billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
         billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_TRANSFER_ACCOUNTS));
         //余额转入余额宝

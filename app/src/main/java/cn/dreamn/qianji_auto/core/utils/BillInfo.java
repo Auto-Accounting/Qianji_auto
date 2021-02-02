@@ -307,6 +307,9 @@ public class BillInfo  {
             return false;
         }
 
+        if( this.accountname!=null&&this.accountname.equals(this.accountname2))
+            return false;
+
         return true;
     }
 

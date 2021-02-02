@@ -128,6 +128,8 @@ public class ReceiveBroadcast extends BroadcastReceiver {
 
                         break;
                     case Receive.WECHAT:
+
+
                         break;
                     case Receive.SMS:
                         SmsServer.readSMS(data,context);
