@@ -75,7 +75,7 @@ public abstract class HookBase implements IHooker {
                     Logi("hooked 进程名 "+processName);
                     mHookCount = mHookCount + 1;
                     Logi("hooked mHookCount 进程数 ->"+mHookCount+" mHookCountIndex 需要hook的进程ID "+mHookCountIndex);
-                    if (mHookCount.equals(mHookCountIndex)) {
+                    if (mHookCountIndex==0||mHookCount.equals(mHookCountIndex)) {
                         try {
                             if(!compare()){
                                 String string=String.format("当前应用[%s]版本[%s]可能不受支持！您可以继续使用，但可能部分功能不支持。支持的版本为：%s",getAppName(),getVerName(mContext),Arrays.toString(getAppVer()));
