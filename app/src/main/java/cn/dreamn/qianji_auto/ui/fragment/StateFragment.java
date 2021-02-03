@@ -98,27 +98,27 @@ public class StateFragment extends BaseFragment {
     }
 
 
-
-
-
     @Override
     protected void initListeners() {
 
     }
 
     private void priShowEmpty(String tips){
-
+        if(Empty==null||Loading==null||Content==null)return;
         disableAll();
         Empty.setVisibility(View.VISIBLE);
         textView_empty.setText(tips);
     }
     private void priShowContent(){
+        if(Empty==null||Loading==null||Content==null)return;
         disableAll();
         Content.setVisibility(View.VISIBLE);
     }
 
     private void priShowLoading(String tips){
+        if(Empty==null||Loading==null||Content==null)return;
         disableAll();
+
         Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.img_animation);
         LinearInterpolator lin = new LinearInterpolator();//设置动画匀速运动
         animation.setInterpolator(lin);
@@ -149,6 +149,7 @@ public class StateFragment extends BaseFragment {
     }
 
     private void disableAll(){
+        if(Empty==null||Loading==null||Content==null)return;
         Empty.setVisibility(View.GONE);
         Loading.setVisibility(View.GONE);
         Content.setVisibility(View.GONE);

@@ -17,7 +17,7 @@ public class HookMain implements IXposedHookLoadPackage {
         XposedBridge.log("-------hook start---------");
         for (HookBase hookBase : HookList.getInstance().getmListHook()) {
             XposedBridge.log(packageName+"->"+processName);
-            hookBase.hook(packageName, processName, 0);
+            hookBase.hook(packageName, processName, 1);
         }
         XposedBridge.log("-------hook end---------");
     }

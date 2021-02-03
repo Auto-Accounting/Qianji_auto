@@ -78,7 +78,7 @@ public class BillInfo  {
 
 
     public void setSilent(boolean state) {
-        isSilent=state?"true":"false";
+        isSilent=(state?"true":"false");
     }
 
     public String getType() {

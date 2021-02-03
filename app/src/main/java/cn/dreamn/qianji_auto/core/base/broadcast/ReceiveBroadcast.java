@@ -33,6 +33,8 @@ import cn.dreamn.qianji_auto.core.base.alipay.Refund;
 import cn.dreamn.qianji_auto.core.base.alipay.TransferIntoYuebao;
 import cn.dreamn.qianji_auto.core.base.alipay.TransferReceived;
 import cn.dreamn.qianji_auto.core.base.alipay.TransferSucceed;
+import cn.dreamn.qianji_auto.core.base.alipay.YuEBao;
+import cn.dreamn.qianji_auto.core.base.alipay.YuLiBao;
 import cn.dreamn.qianji_auto.core.helper.SmsServer;
 import cn.dreamn.qianji_auto.core.utils.ServerManger;
 import cn.dreamn.qianji_auto.core.utils.Status;
@@ -96,8 +98,10 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                                 QrCollection.getInstance().tryAnalyze(data, context);
                                 break;
                             case Alipay.REC_YUEBAO:
+                                YuEBao.getInstance().tryAnalyze(data, context);
                                 break;
                             case Alipay.REC_YULIBAO:
+                                YuLiBao.getInstance().tryAnalyze(data, context);
                                 break;
                             case Alipay.RED_RECEIVED:
                                 RedReceived.getInstance().tryAnalyze(data, context);

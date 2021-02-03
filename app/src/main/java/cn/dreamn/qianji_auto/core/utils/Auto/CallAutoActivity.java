@@ -115,15 +115,15 @@ public class CallAutoActivity {
     public static void run(Context context, BillInfo billInfo) {
         MMKV mmkv = MMKV.defaultMMKV();
 
-
+        Logs.d(billInfo.toString());
         if(billInfo.getIsSilent()){
             if(mmkv.getBoolean("autoIncome",false)){
                 goQianji(context,billInfo);
-                return;
             }else{
                 //通知处理
                 Tools.sendNotify(context,"记账提醒","￥"+billInfo.getMoney()+" - "+billInfo.getRemark(),billInfo.getQianJi());
             }
+            return;
         }else{
             if(mmkv.getBoolean("autoPay",false)){
                 goQianji(context,billInfo);

@@ -20,6 +20,7 @@ package cn.dreamn.qianji_auto.core.hook;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -79,7 +80,6 @@ public abstract class HookBase implements IHooker {
                         try {
                             if(!compare()){
                                 String string=String.format("当前应用[%s]版本[%s]可能不受支持！您可以继续使用，但可能部分功能不支持。支持的版本为：%s",getAppName(),getVerName(mContext),Arrays.toString(getAppVer()));
-
                                 Toast.makeText(mContext,string,Toast.LENGTH_LONG).show();
                                 Logi(string,false);
                             }
@@ -156,17 +156,36 @@ public abstract class HookBase implements IHooker {
      * @return
      */
     private boolean compare(){
+
         String[] version=getAppVer();
         if(version==null){
             //表示全版本支持
             return true;
         }
+
         String string=getVerName(mContext);
+        if(readData("version_" + string).equals("true")){
+            return true;
+        }
         Logi("当前应用版本："+string+" 支持的版本为"+ Arrays.toString(version));
         for (String s : version) {
             if (s.equals(string)) return true;
         }
+        writeData("version_"+string,"true");
         return false;
     }
 
+    protected void writeData(String key,String value){
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("ankio_xp", Context.MODE_PRIVATE); //私有数据
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+
+        editor.putString(key, value);
+
+        editor.apply();//提交修改
+    }
+    protected String readData(String key){
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("ankio_xp", Context.MODE_PRIVATE); //私有数据
+        return sharedPreferences.getString(key,"false");
+    }
 }

@@ -40,17 +40,69 @@ public class WechatHook extends HookBase {
     }
     @Override
     public void hookFirst() throws Error {
-        Logi("微信hook启动");
-        XposedHelpers.findAndHookMethod("com.tencent.wcdb.database.SQLiteDatabase", mAppClassLoader, "insert", String.class, String.class, ContentValues.class, new XC_MethodHook() {
+        hookMsg2();
+        hookMsgInsertWithOnConflict();
+        hookRedpackage();
+
+
+    }
+
+    @Override
+    public String getPackPageName() {
+        return "com.tencent.mm";
+    }
+
+    @Override
+    public String getAppName() {
+        return "微信";
+    }
+
+    @Override
+    public String[] getAppVer() {
+        return new String[]{
+                "8.0.0"
+        };
+    }
+
+    private void hookMsg2(){
+        Logi("微信hook com.tencent.mm.sdk.storage.MAutoStorage",true);
+        Class<?> SQLiteDatabase = XposedHelpers.findClass("com.tencent.mm.sdk.storage.MAutoStorage", mAppClassLoader);
+        //Logi("hook住了类 com.tencent.wcdb.database.SQLiteDatabase",true);
+        XposedHelpers.findAndHookMethod(SQLiteDatabase, "insert", ContentValues.class, new XC_MethodHook() {
+
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                Logi("调用insert方法",true);
                 super.beforeHookedMethod(param);
-                Logi("微信hook before");
+
+
             }
 
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                Logi("微信hook after");
+                Logi("微信hook after",true);
+                super.afterHookedMethod(param);
+            }
+        });
+    }
+
+    private void hookMsg(){
+        Logi("微信hook启动",true);
+        Class<?> SQLiteDatabase = XposedHelpers.findClass("com.tencent.wcdb.database.SQLiteDatabase", mAppClassLoader);
+        //Logi("hook住了类 com.tencent.wcdb.database.SQLiteDatabase",true);
+        XposedHelpers.findAndHookMethod(SQLiteDatabase, "insert", String.class, String.class, ContentValues.class, new XC_MethodHook() {
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                Logi("调用insert方法",true);
+                super.beforeHookedMethod(param);
+
+
+            }
+
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                Logi("微信hook after",true);
                 super.afterHookedMethod(param);
                 try {
 
@@ -106,72 +158,41 @@ public class WechatHook extends HookBase {
                             }
                             send(bundle);
                         }catch (Exception e){
-                           // Log.i("JSON错误", e.toString());
+                            Logi("JSON错误"+e.toString(),true);
                         }
-                        /*JSONObject mmreader = msg.getJSONObject("msg").getJSONObject("appmsg").getJSONObject("mmreader");
 
-                        //全日志信息
-                        String des = msg.getJSONObject("msg").getJSONObject("appmsg").getString("des");
-                        Log.i(TAG, "进入判断字段阶段des" + des);
-                        String title = mmreader.getJSONObject("template_header").getString("title");
-                        Log.i(TAG, "选择的账单==" + title);
-                        if (title != null && !TextUtils.isEmpty(title)) {
-                            JSONObject mmreader1 = msg.getJSONObject("msg").getJSONObject("appmsg").getJSONObject("mmreader");
-                            Log.i(TAG, title + mmreader1.toString());
-                            if (title.contains("收款到账通知")) {
-                                //Log.i(TAG, "收款信息" + mmreader1.toString());
-                            } else if (title.contains("微信支付凭证")) {
-                                //Log.i(TAG, "收款信息" + mmreader1.toString());
-                            } else if (title.contains("转账到银行卡到账成功")) {
-                                //Log.i(TAG, "收款信息" + mmreader1.toString());
-                            } else if (title.contains("银行卡发起成功")) {
-                                //Log.i(TAG, "收款信息" + mmreader1.toString());
-                            }
-                        }*/
                     }
-                    /*if (type == 419430449){
-                        //微信转账给对方
-                        String contentStr = contentValues.getAsString("content");
-                        Log.i("微信转账原始数据",  contentStr);
-                        try{
-                            String xml=XmlTool.xmlToJson(null,contentStr);
-                            JSONObject msg = JSONObject.parseObject(xml);
-                            Log.i("微信转账JSON数据",  xml);
-                            JSONObject wcpayinfo = msg.getJSONObject("msg").getJSONObject("appmsg").getJSONObject("wcpayinfo");
 
-                            String cost = wcpayinfo.getString("feedesc");
-                            cost=Fun.getMoney(cost);
-                            String shopName="";
-                            String remark=wcpayinfo.getString("pay_memo");
-                            String payTool="零钱";
-
-                        }catch (Exception e){
-                            Log.i("JSON错误", e.toString());
-                        }
-                    }*/
                 } catch (Exception e) {
-                    Logi( "获取账单信息出错：" + e.getMessage());
+                    Logi( "获取账单信息出错：" + e.getMessage(),true);
                 }
             }
         });
-
-
     }
 
-    @Override
-    public String getPackPageName() {
-        return "com.tencent.mm";
-    }
+    private void hookMsgInsertWithOnConflict(){
+        Logi("微信hook insertWithOnConflict",true);
+        Class<?> SQLiteDatabase = XposedHelpers.findClass("com.tencent.wcdb.database.SQLiteDatabase", mAppClassLoader);
+        XposedHelpers.findAndHookMethod(SQLiteDatabase, "insertWithOnConflict", String.class, String.class, ContentValues.class,int.class, new XC_MethodHook() {
 
-    @Override
-    public String getAppName() {
-        return "微信";
-    }
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                super.beforeHookedMethod(param);
+                String str1=param.args[0].toString();
+                String str2=param.args[1].toString();
+                String str3=param.args[2].toString();
+                Logi("BEFORE\n[PARAM 1]"+ str1+"\n"+"[PARAM 2]"+ str2+"\n"+"[PARAM 3]"+ str3+"\n",true);
+            }
 
-    @Override
-    public String[] getAppVer() {
-        return new String[]{
-                "8.0.0"
-        };
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                super.afterHookedMethod(param);
+                String str1=param.args[0].toString();
+                String str2=param.args[1].toString();
+                String str3=param.args[2].toString();
+                Logi("AFTER\n[PARAM 1]"+ str1+"\n"+"[PARAM 2]"+ str2+"\n"+"[PARAM 3]"+ str3+"\n",true);
+            }
+        });
     }
+    private void hookRedpackage(){}
 }

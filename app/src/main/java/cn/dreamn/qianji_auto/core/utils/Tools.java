@@ -94,7 +94,7 @@ public class Tools {
         return DateUtils.getNowString(new SimpleDateFormat(format));
     }
     public static void sendNotify(Context context, String title, String content, String url){
-       // Log.i("自动记账", "发送通知");
+       Logs.d("自动记账", "发送通知");
         Notification mNotification;
         NotificationManager mNotificationManager;
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
