@@ -4,8 +4,8 @@ buildscript {
     apply from: './versions.gradle'
     addRepos(repositories) //增加代码仓库
     dependencies {
-        classpath deps.android_gradle_plugin
-        classpath deps.android_maven_gradle_plugin
+        classpath "com.android.tools.build:gradle:3.6.1"
+        classpath "com.github.dcendents:android-maven-gradle-plugin:2.0"
 
         classpath 'com.chenenyu:img-optimizer:1.2.0' // 图片压缩
         classpath 'com.novoda:bintray-release:0.9.1'

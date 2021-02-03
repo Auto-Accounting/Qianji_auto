@@ -140,7 +140,7 @@ public abstract class HookBase implements IHooker {
      * @param context
      * @return
      */
-    private  String getVerName(Context context) {
+    protected   String getVerName(Context context) {
         String verName = "";
         try {
             verName = context.getPackageManager().
