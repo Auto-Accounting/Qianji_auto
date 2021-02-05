@@ -18,10 +18,7 @@
 package cn.dreamn.qianji_auto.ui.fragment.sms;
 
 import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import com.eclipsesource.v8.V8;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.widget.button.ButtonView;
@@ -29,16 +26,16 @@ import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.edittext.MultiLineEditText;
 import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 
-import java.io.UnsupportedEncodingException;
-
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.utils.Caches;
-import cn.dreamn.qianji_auto.core.utils.Category;
-import cn.dreamn.qianji_auto.core.utils.DataUtils;
 import cn.dreamn.qianji_auto.core.utils.Smses;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
+import cn.dreamn.qianji_auto.utils.tools.JsEngine;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
+
+/*
+import com.eclipsesource.v8.V8;*/
 
 
 @Page(name = "识别规则编辑")
@@ -132,10 +129,11 @@ public class EditFragment extends BaseFragment {
 
 
                 try {
-                    V8 runtime = V8.createV8Runtime();
+                  /*  V8 runtime = V8.createV8Runtime();
 
 
-                    String result=runtime.executeStringScript(func);
+                    String result=runtime.executeStringScript(func);*/
+                    String result = JsEngine.run(func);
                     Logs.d("Qianji_Sms","短信分析结果："+result);
                     String[] strings=result.split("\\|");
                     String datas="";

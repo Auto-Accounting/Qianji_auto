@@ -13,8 +13,8 @@ android {
         applicationId "cn.dreamn.qianji_auto"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
-        versionCode 49
-        versionName "2.0.0alpha14"
+        versionCode 50
+        versionName "2.0.0pre1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -91,10 +91,11 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'com.eclipsesource.j2v8:j2v8:5.0.103@aar'
+   /* implementation 'com.eclipsesource.j2v8:j2v8:5.0.103@aar'*/
     implementation 'com.github.didikee:AndroidDonate:0.1.0'
     implementation 'com.github.smart-fun:XmlToJson:1.4.4'
     implementation project(path: ':filechooser')
+    implementation project(path: ':rhino-1.7.13')
     testImplementation deps.junit
     androidTestImplementation deps.runner
     androidTestImplementation deps.espresso.core

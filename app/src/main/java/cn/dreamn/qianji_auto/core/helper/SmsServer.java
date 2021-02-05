@@ -23,7 +23,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 
-import com.eclipsesource.v8.V8;
+/*import com.eclipsesource.v8.V8;*/
 
 import cn.dreamn.qianji_auto.core.utils.Assets;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
@@ -31,6 +31,7 @@ import cn.dreamn.qianji_auto.core.utils.BookNames;
 import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.Category;
 import cn.dreamn.qianji_auto.core.utils.Smses;
+import cn.dreamn.qianji_auto.utils.tools.JsEngine;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 public class SmsServer extends ContentObserver {
@@ -109,8 +110,9 @@ public class SmsServer extends ContentObserver {
 
 
        try{
-           V8 runtime = V8.createV8Runtime();
-           String result=runtime.executeStringScript(Smses.getSmsRegularJs(smsBody));
+         /*  V8 runtime = V8.createV8Runtime();
+           String result=runtime.executeStringScript(Smses.getSmsRegularJs(smsBody));*/
+           String result = JsEngine.run(Smses.getSmsRegularJs(smsBody));
            Logs.d("Qianji_Sms","短信分析结果："+result);
            return result;
        }catch (Exception e){

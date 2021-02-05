@@ -40,6 +40,20 @@ public class FileUtils {
         }
     }
 
+    //读取文件并返回
+    public static String get(String fileName){
+        try{
+            InputStream is = new FileInputStream(fileName);
+            int iAvail = is.available();
+            byte[] bytes = new byte[iAvail];
+            is.read(bytes);
+            is.close();
+            return new String(bytes);
+
+        }catch(Exception e){
+            return "";
+        }
+    }
 
     public static void backUp(Context context)  {
 

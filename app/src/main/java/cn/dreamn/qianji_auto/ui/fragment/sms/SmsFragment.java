@@ -23,6 +23,11 @@ import android.view.View;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
+import com.thl.filechooser.FileChooser;
+import com.thl.filechooser.FileInfo;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
@@ -39,9 +44,12 @@ import java.util.Objects;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Sms;
+import cn.dreamn.qianji_auto.core.utils.App;
 import cn.dreamn.qianji_auto.core.utils.Smses;
+import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.adapter.SmsAdapter;
 import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
+import cn.dreamn.qianji_auto.utils.tools.FileUtils;
 
 import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_DENY;
 import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_ID;
@@ -126,6 +134,93 @@ public class SmsFragment extends StateFragment {
 
             }
         });
+        titleBar.addAction(new TitleBar.ImageAction(R.drawable.ic_import) {
+            @Override
+            public void performAction(View view) {
+
+                new MaterialDialog.Builder(getContext())
+                        .title("请选择")
+                        .items(R.array.menu_values_import)
+                        .itemsCallback((dialog, itemView, position, text) ->{
+                            if(position==0){
+                                try {
+                                    int allowVersion=49;
+                                    FileChooser fileChooser = new FileChooser(getActivity(), filePath -> {
+                                        //filePath.get(0).getFilePath()
+                                        String data=FileUtils.get(filePath.get(0).getFilePath());
+                                        JSONObject jsonObject=JSONObject.parseObject(data);
+                                        int version=jsonObject.getIntValue("version");
+                                        String from=jsonObject.getString("from");
+                                        if(version<allowVersion){
+                                            SnackbarUtils.Long(getView(), "不支持该版本的配置恢复").info().show();
+                                            return;
+                                        }
+                                        if(!from.equals("SMS")){
+                                            SnackbarUtils.Long(getView(), "该文件不是有效的短信配置数据文件").info().show();
+                                            return;
+                                        }
+                                        new MaterialDialog.Builder(requireContext())
+                                                .title("恢复提醒")
+                                                .content("是否覆盖旧数据（清空所有数据不做保留）？")
+                                                .positiveText("确定")
+                                                .onPositive((dialog2, which) -> {
+                                                    Smses.clear();
+
+                                                })
+                                                .negativeText("取消")
+                                                .onAny((dialog3, which)->{
+                                            JSONArray jsonArray=jsonObject.getJSONArray("data");
+                                            for(int i=0;i<jsonArray.size();i++){
+                                                JSONObject jsonObject1=jsonArray.getJSONObject(i);
+                                                Smses.add(jsonObject1.getString("regular"),jsonObject1.getString("name"),jsonObject1.getString("smsNum"));
+                                            }
+                                            SnackbarUtils.Long(getView(), "恢复成功").info().show();
+                                            refresh();
+                                        })
+                                                .show();
+
+
+                                    });
+
+                                    fileChooser.setTitle("请选择短信配置数据文件");
+                                    fileChooser.setDoneText("确定");
+
+
+
+                                    fileChooser.setChooseType(FileInfo.FILE_TYPE_AUTOJSON);
+                                    fileChooser.open();
+
+
+                            }catch (Exception e){
+                                    SnackbarUtils.Long(getView(), "不是自动记账所支持的恢复文件，请重新选择。").info().show();
+                                }
+                            //导入
+                            }else if(position==1){
+                                //导出
+                                Sms[] sms= Smses.getAll();
+                                try {
+                                    JSONObject jsonObject = new JSONObject();
+                                    jsonObject.put("version", App.getAppVerCode());
+                                    jsonObject.put("from", "SMS");
+                                    JSONArray jsonArray=new JSONArray();
+                                    for (Sms sm : sms) {
+                                        JSONObject jsonObject1 = new JSONObject();
+                                        jsonObject1.put("name", sm.name);
+                                        jsonObject1.put("regular", sm.regular);
+                                        jsonObject1.put("smsNum", sm.smsNum);
+                                        jsonArray.add(jsonObject1);
+                                    }
+                                    jsonObject.put("data",jsonArray);
+                                    Tools.writeToCache(getContext(),"sms.autoJson",jsonObject.toJSONString());
+                                    Tools.shareFile(getContext(),getContext().getExternalCacheDir().getPath()+"/sms.autoJson");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }}).show();
+
+            }
+        });
+
 
         return titleBar;
 

@@ -36,5 +36,7 @@ public interface SmsDao {
     public void deny(int id);
     @Query("INSERT INTO sms(regular,name,smsNum,use) values(:regex,:name,:num,1)")
     void add(String regex, String name, String num);
+    @Query("DELETE FROM sms")
+    void clean();
 }
 

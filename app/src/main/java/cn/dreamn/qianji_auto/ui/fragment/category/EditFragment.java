@@ -21,9 +21,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 
-import com.eclipsesource.v8.V8;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.widget.button.ButtonView;
@@ -40,7 +38,11 @@ import cn.dreamn.qianji_auto.core.utils.Category;
 import cn.dreamn.qianji_auto.core.utils.DataUtils;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
+import cn.dreamn.qianji_auto.utils.tools.JsEngine;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
+
+/*
+import com.eclipsesource.v8.V8;*/
 
 
 
@@ -198,9 +200,11 @@ public class EditFragment extends BaseFragment {
                        Caches.AddOrUpdate("cate_shopName",cate_shopName.getEditValue());
                         Caches.AddOrUpdate("cate_shopRemark",cate_shopRemark.getEditValue());
                         try {
-                            V8 runtime = V8.createV8Runtime();
+                            /*V8 runtime = V8.createV8Runtime();
 
                             String result = runtime.executeStringScript(Category.getOneRegularJs(js,cate_shopName.getEditValue(), cate_shopRemark.getEditValue(), cate_type.getEditValue(),cate_time.getEditValue()));
+*/
+                            String result = JsEngine.run(Category.getOneRegularJs(js,cate_shopName.getEditValue(), cate_shopRemark.getEditValue(), cate_type.getEditValue(),cate_time.getEditValue()));
                             Logs.d("Qianji_Cate", "自动分类结果：" + result);
                             new MaterialDialog.Builder(getContext())
                                     .title("自动分类结果")

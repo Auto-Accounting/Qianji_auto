@@ -108,4 +108,7 @@ public class Smses {
     }
 
 
+    public static void clear() {
+        DbManger.db.SmsDao().clean();
+    }
 }

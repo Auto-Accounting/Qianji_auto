@@ -17,22 +17,21 @@
 
 package cn.dreamn.qianji_auto.core.utils;
 
-import android.annotation.SuppressLint;
-
-import com.eclipsesource.v8.V8;
-import com.xuexiang.xutil.data.DateUtils;
-
-import java.text.SimpleDateFormat;
-
 import cn.dreamn.qianji_auto.core.db.DbManger;
 import cn.dreamn.qianji_auto.core.db.Regular;
+import cn.dreamn.qianji_auto.utils.tools.JsEngine;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
+
+/*import com.eclipsesource.v8.V8;*/
 public class Category {
 
     public static String getCategory(String shopAccount, String shopRemark, String type){
         try {
-            V8 runtime = V8.createV8Runtime();
+           /* V8 runtime = V8.createV8Runtime();
             String result = runtime.executeStringScript(getCategoryRegularJs(shopAccount, shopRemark, type));
+*/
+            String result = JsEngine.run(getCategoryRegularJs(shopAccount, shopRemark, type));
+
             Logs.d("Qianji_Cate", "自动分类结果：" + result);
             return result;
         }catch (Exception e){
@@ -118,5 +117,7 @@ public class Category {
    }
 
 
-
+    public static void clear() {
+        DbManger.db.RegularDao().clean();
+    }
 }

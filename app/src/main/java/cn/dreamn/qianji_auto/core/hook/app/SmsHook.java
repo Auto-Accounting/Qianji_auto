@@ -36,8 +36,8 @@ public class SmsHook extends HookBase {
     @Override
     public void hookFirst() throws Error {
         Logi("hooked msg");
-        XposedHelpers.findAndHookMethod("com.android.internal.telephony.gsm.SmsMessage",
-                mAppClassLoader,"createFromPdu",byte[].class,
+        XposedHelpers.findAndHookMethod("com.android.internal.telephony.gsm.SmsMessage$PduParser",
+                mAppClassLoader,"getUserDataUCS2",int.class,
                 new XC_MethodHook(){
                     /**
                      * 拦截SmsMessage的内部类PduParser的getUserDataUCS2方法，该方法返回类型为String
@@ -48,21 +48,14 @@ public class SmsHook extends HookBase {
                     protected void afterHookedMethod(MethodHookParam param) {
 
                         try {
+                            String message = param.getResult().toString();
 
-                            Object smsMessage = param.getResult();
-                            if (null != smsMessage) {
-                                String from = (String) XposedHelpers.callMethod(smsMessage, "getOriginatingAddress");
-                                String msgBody = (String) XposedHelpers.callMethod(smsMessage, "getMessageBody");
-
-                                //短信识别
-                                Bundle bundle=new Bundle();
-                                bundle.putString("type", Receive.SMS);
-                                bundle.putString("data",msgBody);
-                                bundle.putString("from",Receive.SMS);
-                                send(bundle);
-
-
-                            }
+                            //短信识别
+                            Bundle bundle=new Bundle();
+                            bundle.putString("type", Receive.SMS);
+                            bundle.putString("data",message);
+                            bundle.putString("from",Receive.SMS);
+                            send(bundle);
 
 
 

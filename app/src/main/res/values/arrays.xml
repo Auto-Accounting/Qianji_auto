@@ -86,6 +86,10 @@
         <item>@string/choose_regular_deny</item>
         <item>@string/choose_regular_enable</item>
     </string-array>
+    <string-array name="menu_values_import" >
+        <item>@string/choose_input</item>
+        <item>@string/choose_output</item>
+    </string-array>
 
 
 </resources>

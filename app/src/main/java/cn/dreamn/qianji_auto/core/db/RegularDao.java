@@ -38,5 +38,7 @@ public interface RegularDao {
     void deny(int id);
     @Query("SELECT * FROM regular WHERE id=:id")
     Regular[] getOne(int id);
+    @Query("DELETE FROM regular")
+    void clean();
 }
 

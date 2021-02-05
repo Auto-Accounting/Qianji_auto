@@ -284,4 +284,6 @@
     <string name="cate_shopRemark">商户备注</string>
     <string name="cate_type">支付类型</string>
     <string name="choose_try2">发起记账请求（无视静默模式）</string>
+    <string name="choose_input">导入</string>
+    <string name="choose_output">导出</string>
 </resources>
