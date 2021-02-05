@@ -26,11 +26,18 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class SmsHook extends HookBase {
-
+    private static SmsHook alipayHook;
+    public static synchronized SmsHook getInstance() {
+        if (alipayHook == null) {
+            alipayHook = new SmsHook();
+        }
+        return alipayHook;
+    }
     @Override
     public void hookFirst() throws Error {
-        XposedHelpers.findAndHookMethod("com.android.internal.telephony.gsm"+".SmsMessage$PduParser",
-                mAppClassLoader,"getUserDataUCS2",int.class,
+        Logi("hooked msg");
+        XposedHelpers.findAndHookMethod("com.android.internal.telephony.gsm.SmsMessage",
+                mAppClassLoader,"createFromPdu",byte[].class,
                 new XC_MethodHook(){
                     /**
                      * 拦截SmsMessage的内部类PduParser的getUserDataUCS2方法，该方法返回类型为String
@@ -41,15 +48,23 @@ public class SmsHook extends HookBase {
                     protected void afterHookedMethod(MethodHookParam param) {
 
                         try {
-                            String strMms=(String) param.getResult();
-                            Logi(strMms);
 
-                          //短信识别
-                            Bundle bundle=new Bundle();
-                            bundle.putString("type", Receive.SMS);
-                            bundle.putString("data",strMms);
-                            bundle.putString("from",Receive.SMS);
-                            send(bundle);
+                            Object smsMessage = param.getResult();
+                            if (null != smsMessage) {
+                                String from = (String) XposedHelpers.callMethod(smsMessage, "getOriginatingAddress");
+                                String msgBody = (String) XposedHelpers.callMethod(smsMessage, "getMessageBody");
+
+                                //短信识别
+                                Bundle bundle=new Bundle();
+                                bundle.putString("type", Receive.SMS);
+                                bundle.putString("data",msgBody);
+                                bundle.putString("from",Receive.SMS);
+                                send(bundle);
+
+
+                            }
+
+
 
                             //return;
                         } catch (Exception e) {

@@ -48,6 +48,11 @@ public class CallAutoActivity {
         Tasker.add(context,billInfo);
 
     }
+    public  static  void callNoAdd(Context context, BillInfo billInfo){
+        if(!billInfo.isAvaiable())return;
+        Tasker.add(context,billInfo);
+
+    }
 
     public static void setTimeout(String timeout){
         MMKV mmkv = MMKV.defaultMMKV();

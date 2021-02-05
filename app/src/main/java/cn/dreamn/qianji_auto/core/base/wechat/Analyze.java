@@ -15,7 +15,7 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.base.alipay;
+package cn.dreamn.qianji_auto.core.base.wechat;
 
 import android.content.Context;
 

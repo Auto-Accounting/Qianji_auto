@@ -15,20 +15,20 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.base.alipay;
+package cn.dreamn.qianji_auto.core.base.wechat;
 
 import android.content.Context;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.dreamn.qianji_auto.core.base.wechat.Analyze;
 import cn.dreamn.qianji_auto.core.utils.Assets;
 import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.Category;
 import cn.dreamn.qianji_auto.core.utils.Remark;
-import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 /**
  * 付款给某人
@@ -52,22 +52,37 @@ public class QrCollection extends Analyze {
 
         BillInfo billInfo=new BillInfo();
         billInfo.setTime();
-        billInfo.setMoney(BillTools.getMoney(jsonObject.getString("extra")));
-        billInfo.setShopRemark(jsonObject.getString("assistMsg1"));
-        billInfo.setShopAccount( jsonObject.getString("assistName1"));
-        billInfo.setAccountName(Assets.getMap("余额"));
+        billInfo=getResult(jsonObject,billInfo);
+
+        billInfo.setAccountName(Assets.getMap("零钱"));
         billInfo.setType(BillInfo.TYPE_INCOME);
         billInfo.setSilent(true);
         billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_INCOME));
         billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
-        billInfo.setSource("支付宝二维码收钱成功");
+        billInfo.setSource("微信二维码收钱成功");
         CallAutoActivity.call(context,billInfo);
     }
 
+
     @Override
     BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
+        String money = jsonObject.getJSONObject("topline").getJSONObject("value").getString("word");
+        billInfo.setMoney(BillTools.getMoney(money));
 
+        JSONArray line=jsonObject.getJSONObject("lines").getJSONArray("line");
+        for(int i=0;i<line.size();i++){
+            JSONObject jsonObject1=line.getJSONObject(i);
+            String key=jsonObject1.getJSONObject("key").getString("word");
+            String value=jsonObject1.getJSONObject("value").getString("word");
+
+            switch (key){
+                case "付款方":billInfo.setShopAccount(value);break;
+                case "付款方备注":
+                case "汇总":
+                    billInfo.setShopRemark(value);break;
+            }
+        }
 
         return billInfo;
     }

@@ -3,6 +3,7 @@ package cn.dreamn.qianji_auto.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;
+import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -77,29 +78,22 @@ public class BillFragment extends StateFragment {
                     .title(R.string.tip_options)
                     .items(R.array.menu_values_bill)
                     .itemsCallback((dialog, itemView, position, text) ->{
-
+                        BillInfo billInfo2;
                         switch (position){
                             case 0:
                                 //前往钱迹
-                                BillInfo billInfo2=BillInfo.parse(item.get(KEY_BILLINFO));
-                                CallAutoActivity.goQianji(getContext(),billInfo2);
+                                 billInfo2=BillInfo.parse(item.get(KEY_BILLINFO));
+                              //  billInfo2.setSilent(false);
+                                CallAutoActivity.callNoAdd(getContext(),billInfo2);
                                 break;
-                            case 1:
+                            case 2:
                                 Tools.clipboard(getContext(),item.get(KEY_BILLINFO));
                                 SnackbarUtils.Long(getView(), getString(R.string.bill_clip)).info().show();
                                 break;
-                            case 2:
-                                showInputDialog(getString(R.string.bill_tip),item.get(KEY_REMARK),item.get(KEY_MONEY),item.get(KEY_ACCOUNT),item.get(KEY_SORT),(remark, money, from, sort)->{
-                                    BillInfo billInfo=BillInfo.parse(item.get(KEY_BILLINFO));
-                                    billInfo.setMoney(money);
-                                    billInfo.setAccountName(from);
-                                    billInfo.setRemark(remark);
-                                    billInfo.setCateName(sort);
-
-                                    AutoBills.update(Integer.parseInt(item.get(KEY_ID)),billInfo);
-                                    SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
-                                    refresh();
-                                });
+                            case 1:
+                                 billInfo2=BillInfo.parse(item.get(KEY_BILLINFO));
+                                 billInfo2.setSilent(false);
+                                CallAutoActivity.callNoAdd(getContext(),billInfo2);
                                 break;
                             case 3:
                                // Storage.type(Storage.Bill).del("bill",pos);
@@ -187,40 +181,6 @@ public class BillFragment extends StateFragment {
             }
         }, 1000);
     }
-
-    public interface CallBack {
-        void onResponse( String remark, String money, String from, String sort);
-    }
-
-
-    public void showInputDialog(String title, String remark, String money, String from, String sort, CallBack callBack) {
-
-        LayoutInflater factory = LayoutInflater.from(getContext());
-        @SuppressLint("InflateParams") final View textEntryView = factory.inflate(R.layout.input_map_2, null);
-        final EditText input_map_remark = textEntryView.findViewById(R.id.input_map_remark);
-        final EditText input_map_money = textEntryView.findViewById(R.id.input_map_money);
-        final EditText input_map_from = textEntryView.findViewById(R.id.input_map_from);
-        final EditText input_map_sort = textEntryView.findViewById(R.id.input_map_sort);
-
-        input_map_remark.setText(remark);
-        input_map_money.setText(money);
-        input_map_from.setText(from);
-        input_map_sort.setText(sort);
-        new MaterialDialog.Builder(getContext())
-                .customView(textEntryView, true)
-                .title(title)
-                .positiveText(getString(R.string.bill_send))
-                .onPositive((dialog, which) -> {
-                    callBack.onResponse(input_map_remark.getText().toString(),input_map_money.getText().toString(),input_map_from.getText().toString(),input_map_sort.getText().toString());
-                })
-                .negativeText(getString(R.string.set_cancel))
-                .show();
-
-
-    }
-
-
-
 
 
 }

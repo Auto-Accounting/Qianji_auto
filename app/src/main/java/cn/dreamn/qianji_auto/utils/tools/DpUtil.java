@@ -20,8 +20,6 @@ package cn.dreamn.qianji_auto.utils.tools;
 import android.content.Context;
 import android.util.DisplayMetrics;
 
-
-
 public class DpUtil {
 
     public static int dip2px(Context context, float dipValue) {

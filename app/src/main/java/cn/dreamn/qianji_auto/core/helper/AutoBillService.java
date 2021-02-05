@@ -66,9 +66,7 @@ public class AutoBillService extends Service {
         Notification.Builder builder = new Notification.Builder(getApplicationContext());
         builder.setSmallIcon(R.drawable.ic_monry);
         builder.setContent(remoteViews);
-        if (Build.VERSION.SDK_INT >= 24) {
-            builder.setCustomBigContentView(remoteViews);
-        }
+        builder.setCustomBigContentView(remoteViews);
         if (Build.VERSION.SDK_INT >= 26) {
             NotificationChannel notificationChannel = new NotificationChannel("AutoBillService", "自动记账",NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.enableLights(false);

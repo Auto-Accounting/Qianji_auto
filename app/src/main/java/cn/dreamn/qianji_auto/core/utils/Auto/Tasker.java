@@ -52,13 +52,17 @@ public class Tasker {
         Logs.d("Qianji_check","重新锁定...");
         Cache[] caches=Caches.getType("tasker_bill");
 
-        Caches.AddOrUpdate("float_lock","false");
+
         update(context,caches,0);
+
 
 
     }
     private static void update(Context context,Cache[] caches,int i){
-        if(i>=caches.length)return;
+        if(i>=caches.length) {
+            Caches.AddOrUpdate("float_lock","false");
+            return;
+        }
         BillInfo billInfo = BillInfo.parse(caches[i].cacheData);
         CallAutoActivity.run(context, billInfo);
         new Handler().postDelayed(() -> {

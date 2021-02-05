@@ -26,6 +26,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -39,17 +41,28 @@ import com.xuexiang.xutil.data.DateUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
+import static com.xuexiang.xutil.XUtil.getPackageManager;
+
 public class Tools {
-    public static void goUrl(Context context, String url){
-        Intent intent= new Intent();
-        intent.setAction("android.intent.action.VIEW");
+    public static void goUrl(Context context, String url) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
         Uri content_url = Uri.parse(url);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setData(content_url);
+        PackageManager packageManager = getPackageManager();
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent,
+                PackageManager.MATCH_DEFAULT_ONLY);
+        boolean isIntentSafe = activities.size() > 0;
+        if(!isIntentSafe){
+            Logs.i("没有应用响应该请求："+url);
+            return;
+        }
         context.startActivity(intent);
     }
 
@@ -94,16 +107,15 @@ public class Tools {
         return DateUtils.getNowString(new SimpleDateFormat(format));
     }
     public static void sendNotify(Context context, String title, String content, String url){
-       Logs.d("自动记账", "发送通知");
+       Logs.d("发送通知");
         Notification mNotification;
         NotificationManager mNotificationManager;
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
         Intent resultIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("1",
-                    "Channel1", NotificationManager.IMPORTANCE_DEFAULT);
+                    "Channel1", NotificationManager.IMPORTANCE_HIGH);
             channel.enableLights(true);
             channel.setLightColor(Color.GREEN);
             channel.setShowBadge(true);
@@ -133,7 +145,8 @@ public class Tools {
         }
 
         mNotificationManager.notify((int) (Math.random() * 1000), mNotification);
-       // Log.i("自动记账", "结束通知");
+        //mNotificationManager.g
+        Logs.i( "结束通知");
     }
 
     public static void clipboard(Context context,String text){

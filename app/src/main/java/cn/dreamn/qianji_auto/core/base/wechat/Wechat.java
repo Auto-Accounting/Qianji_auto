@@ -21,8 +21,12 @@ public class Wechat {
    public   final static String PAYMENT="PAYMENT";//微信付款成功
      public   final static String RECEIVED_QR="RECEIVED_QR";//微信收到二维码支付信息
     public   final static String PAYMENT_TRANSFER="PAYMENT_TRANSFER";//微信转账给别人
-    public   final static String PAYMENT_TRANSFER_RECEIVED="PAYMENT_TRANSFER_RECEIVED";//微信转账给别人
+    public   final static String PAYMENT_TRANSFER_REFUND="PAYMENT_REFUND";//微信转账退款到账
+    public   final static String PAYMENT_TRANSFER_RECEIVED="PAYMENT_TRANSFER_RECEIVED";//微信转账已接收
+
+    public   final static String RED_REFUND="RED_REFUND";//红包退款到账
     public   final static String RED_PACKAGE="RED_PACKAGE";//微信发红包给别人
     public   final static String RED_PACKAGE_RECEIVED="RED_PACKAGE_RECEIVED";//微信收到红包
+
     public static final String CANT_UNDERSTAND = "CANT_UNDERSTAND";
 }

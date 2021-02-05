@@ -35,6 +35,8 @@ import cn.dreamn.qianji_auto.core.base.alipay.TransferReceived;
 import cn.dreamn.qianji_auto.core.base.alipay.TransferSucceed;
 import cn.dreamn.qianji_auto.core.base.alipay.YuEBao;
 import cn.dreamn.qianji_auto.core.base.alipay.YuLiBao;
+import cn.dreamn.qianji_auto.core.base.wechat.Payment;
+import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
 import cn.dreamn.qianji_auto.core.helper.SmsServer;
 import cn.dreamn.qianji_auto.core.utils.ServerManger;
 import cn.dreamn.qianji_auto.core.utils.Status;
@@ -132,7 +134,37 @@ public class ReceiveBroadcast extends BroadcastReceiver {
 
                         break;
                     case Receive.WECHAT:
+                        switch (from) {
+                            case Wechat.PAYMENT:
+                                Payment.getInstance().tryAnalyze(data, context);
+                                break;
+                            case Wechat.RECEIVED_QR:
+                                cn.dreamn.qianji_auto.core.base.wechat.QrCollection.getInstance().tryAnalyze(data,context);
+                                break;
+                            case Wechat.PAYMENT_TRANSFER:
 
+                                break;
+                            case Wechat.PAYMENT_TRANSFER_RECEIVED:
+
+                                break;
+                            case Wechat.RED_PACKAGE:
+
+                                break;
+                            case Wechat.RED_PACKAGE_RECEIVED:
+
+                                break;
+                            case Wechat.PAYMENT_TRANSFER_REFUND:
+
+                                break;
+                            case Wechat.RED_REFUND:
+
+                                break;
+                            case Wechat.CANT_UNDERSTAND:
+
+                                break;
+                            default:
+                                break;
+                        }
 
                         break;
                     case Receive.SMS:

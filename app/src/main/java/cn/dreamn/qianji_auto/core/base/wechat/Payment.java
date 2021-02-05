@@ -15,13 +15,14 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.base.alipay;
+package cn.dreamn.qianji_auto.core.base.wechat;
 
 import android.content.Context;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.dreamn.qianji_auto.core.base.wechat.Analyze;
 import cn.dreamn.qianji_auto.core.utils.Assets;
 import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
@@ -30,16 +31,17 @@ import cn.dreamn.qianji_auto.core.utils.Category;
 import cn.dreamn.qianji_auto.core.utils.Remark;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
+
 /**
- * 付款给某人
+ * 微信支付成功
  */
-public class QrCollection extends Analyze {
+public class Payment extends Analyze {
 
-    private static QrCollection paymentSuccess;
+    private static Payment paymentSuccess;
 
-    public static QrCollection getInstance(){
+    public static Payment getInstance(){
         if(paymentSuccess!=null)return paymentSuccess;
-        paymentSuccess=new QrCollection();
+        paymentSuccess=new Payment();
         return paymentSuccess;
     }
 
@@ -52,21 +54,43 @@ public class QrCollection extends Analyze {
 
         BillInfo billInfo=new BillInfo();
         billInfo.setTime();
-        billInfo.setMoney(BillTools.getMoney(jsonObject.getString("extra")));
-        billInfo.setShopRemark(jsonObject.getString("assistMsg1"));
-        billInfo.setShopAccount( jsonObject.getString("assistName1"));
-        billInfo.setAccountName(Assets.getMap("余额"));
-        billInfo.setType(BillInfo.TYPE_INCOME);
-        billInfo.setSilent(true);
-        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_INCOME));
+        billInfo=getResult(jsonObject,billInfo);
+
+        billInfo.setType(BillInfo.TYPE_PAY);
+
+        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_PAY));
         billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
-        billInfo.setSource("支付宝二维码收钱成功");
+        billInfo.setSource("微信支付");
         CallAutoActivity.call(context,billInfo);
+
     }
+
 
     @Override
     BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
+       String money = jsonObject.getJSONObject("topline").getJSONObject("value").getString("word");
+       billInfo.setMoney(BillTools.getMoney(money));
+
+        if(jsonObject.getJSONObject("lines").size()==1){
+            JSONObject line=jsonObject.getJSONObject("lines").getJSONObject("line");
+            billInfo.setAccountName(Assets.getMap(line.getJSONObject("value").getString("word")));
+        }else{
+            JSONArray line=jsonObject.getJSONObject("lines").getJSONArray("line");
+            for(int i=0;i<line.size();i++){
+                JSONObject jsonObject1=line.getJSONObject(i);
+                String key=jsonObject1.getJSONObject("key").getString("word");
+                String value=jsonObject1.getJSONObject("value").getString("word");
+
+                switch (key){
+                    case "收款方":billInfo.setShopAccount(value);
+                    case "支付方式":billInfo.setAccountName(Assets.getMap(value));break;
+                    case "扣费项目":
+                    case "备注":
+                        billInfo.setShopRemark(value);break;
+                }
+            }
+        }
 
 
         return billInfo;
