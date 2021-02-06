@@ -51,18 +51,15 @@ public class PaymentSuccess extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-        billInfo.setTime();
+
         billInfo=getResult(jsonObject,billInfo);
 
         if(billInfo.getSource()!=null&& billInfo.getSource().equals("花呗还款")){
             billInfo.setType(BillInfo.TYPE_CREDIT_CARD_PAYMENT);
-            billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_CREDIT_CARD_PAYMENT));
-            billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
+
 
         }else{
             billInfo.setType(BillInfo.TYPE_PAY);
-            billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_PAY));
-            billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
             billInfo.setSource("支付宝付款成功");
 
@@ -80,15 +77,24 @@ public class PaymentSuccess extends Analyze {
             String name=jsonObject1.getString("title");
             String value=jsonObject1.getString("content");
             Logs.d("name ->"+name+"  value->"+value);
-            switch (name){
-                case "付款方式：":billInfo.setAccountName(Assets.getMap(value));break;
-                case "交易对象：":billInfo.setShopAccount(value);break;
+            switch (name) {
+                case "付款方式：":
+                    billInfo.setAccountName(value);
+                    break;
+                case "交易对象：":
+                    billInfo.setShopAccount(value);
+                    break;
                 case "商品说明：":
                 case "充值说明：":
                 case "还款说明：":
-                    billInfo.setShopRemark(value);break;
-                case "还款到：":billInfo.setSource("花呗还款");billInfo.setShopAccount(value);break;
-                default:break;
+                    billInfo.setShopRemark(value);
+                    break;
+                case "还款到：":
+                    billInfo.setSource("花呗还款");
+                    billInfo.setShopAccount(value);
+                    break;
+                default:
+                    break;
             }
         }
         return billInfo;

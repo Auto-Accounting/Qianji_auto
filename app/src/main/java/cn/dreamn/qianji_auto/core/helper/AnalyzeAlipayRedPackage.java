@@ -79,19 +79,14 @@ class AnalyzeAlipayRedPackage {
 
         billInfo.setMoney(money);
 
-        billInfo.setBookName(BookNames.getDefault());
-        billInfo.setTime();
-
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
         billInfo.setType(BillInfo.TYPE_PAY);
 
         if(billInfo.getAccountName()==null)
             billInfo.setAccountName("支付宝");
 
-        billInfo.setAccountName(Assets.getMap(billInfo.getAccountName()));
+        billInfo.setAccountName(billInfo.getAccountName());
         billInfo.setSource("支付宝红包捕获");
-        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_PAY));
         billInfo.dump();
         CallAutoActivity.call(applicationContext, billInfo);
 

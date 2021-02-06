@@ -50,13 +50,12 @@ public class TransferReceived extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-        billInfo.setTime();
+
         billInfo=getResult(jsonObject,billInfo);
 
-        billInfo.setAccountName(Assets.getMap("余额"));
+        billInfo.setAccountName("余额");
         billInfo.setType(BillInfo.TYPE_INCOME);
-        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_INCOME));
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
+
 
         billInfo.setSource("支付宝收到转账");
         CallAutoActivity.call(context,billInfo);

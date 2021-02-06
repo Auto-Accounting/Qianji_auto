@@ -47,21 +47,20 @@ public class BiBiZan extends Analyze {
     @Override
     public void tryAnalyze(String content, Context context) {
 
-        JSONObject jsonObject=setContent(content);
-        if(jsonObject==null)return ;
+        JSONObject jsonObject = setContent(content);
+        if (jsonObject == null) return;
 
-        BillInfo billInfo=new BillInfo();
-        billInfo.setTime();
-        billInfo=getResult(jsonObject,billInfo);
+        BillInfo billInfo = new BillInfo();
+
+        billInfo = getResult(jsonObject, billInfo);
 
         billInfo.setSilent(true);
         billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
-        billInfo.setAccountName2(Assets.getMap("余额宝"));
-        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_TRANSFER_ACCOUNTS));
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
+        billInfo.setAccountName2("余额宝");
+
 
         billInfo.setSource("支付宝笔笔攒");
-        CallAutoActivity.call(context,billInfo);
+        CallAutoActivity.call(context, billInfo);
 
     }
 
@@ -74,12 +73,18 @@ public class BiBiZan extends Analyze {
             String name=jsonObject1.getString("title");
             String value=jsonObject1.getString("content");
             Logs.d("name ->"+name+"  value->"+value);
-            switch (name){
-                case "付款方式：":billInfo.setAccountName(Assets.getMap(value));break;
-                case "交易对象：":billInfo.setShopAccount(value);break;
+            switch (name) {
+                case "付款方式：":
+                    billInfo.setAccountName(value);
+                    break;
+                case "交易对象：":
+                    billInfo.setShopAccount(value);
+                    break;
                 case "商品说明：":
-                    billInfo.setShopRemark(value);break;
-                default:break;
+                    billInfo.setShopRemark(value);
+                    break;
+                default:
+                    break;
             }
         }
         return billInfo;

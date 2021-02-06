@@ -59,21 +59,15 @@ class AnalyzeWeChatRedPackageRec {
 
         billInfo.setMoney(money);
 
-        billInfo.setBookName(BookNames.getDefault());
-        billInfo.setTime();
+
         Logs.d("Qianji_Analyze",billInfo.toString());
 
-
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
         billInfo.setType(BillInfo.TYPE_INCOME);
 
         billInfo.setAccountName("零钱");
 
-
-        billInfo.setAccountName(Assets.getMap(billInfo.getAccountName()));
         billInfo.setSource("微信红包收款捕获");
-        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_INCOME));
         billInfo.dump();
         CallAutoActivity.call(context, billInfo);
 

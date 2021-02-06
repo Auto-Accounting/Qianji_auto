@@ -52,14 +52,12 @@ public class Refund extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-        billInfo.setTime();
+
         billInfo=getResult(jsonObject,billInfo);
 
         billInfo.setShopAccount("淘宝");
         billInfo.setType(BillInfo.TYPE_INCOME);
         billInfo.setSilent(true);
-        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_INCOME));
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
         billInfo.setSource("支付宝退款到账");
         CallAutoActivity.call(context,billInfo);
@@ -76,12 +74,17 @@ public class Refund extends Analyze {
             String name=jsonObject1.getString("title");
             String value=jsonObject1.getString("content");
             Logs.d("name ->"+name+"  value->"+value);
-            switch (name){
+            switch (name) {
 
-                case "退款去向：":billInfo.setAccountName(Assets.getMap(value));break;
-                case "退款说明：":billInfo.setShopRemark(value);break;
+                case "退款去向：":
+                    billInfo.setAccountName(value);
+                    break;
+                case "退款说明：":
+                    billInfo.setShopRemark(value);
+                    break;
 
-                default:break;
+                default:
+                    break;
             }
         }
         return billInfo;

@@ -46,16 +46,14 @@ public class RedReceived extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-        billInfo.setTime();
+
         String shopName=jsonObject.getString("subtitle").replaceAll("&[a-zA-Z]{1,10};", "").replaceAll("<[^>]*>", "").replaceAll("[(/>)<]", "");
 
         String shopRemark =jsonObject.getString("title");
         String money = BillTools.getMoney(jsonObject.getString("statusLine1Text"));
         String payTool = "支付宝";
-        billInfo.setAccountName(Assets.getMap(payTool));
+        billInfo.setAccountName(payTool);
         billInfo.setType(BillInfo.TYPE_INCOME);
-        billInfo.setCateName(Category.getCategory(shopName,shopRemark,BillInfo.TYPE_INCOME));
-        billInfo.setRemark(Remark.getRemark(shopName,shopRemark));
         billInfo.setMoney(money);
         billInfo.setShopRemark(shopRemark);
         billInfo.setShopAccount(shopName);

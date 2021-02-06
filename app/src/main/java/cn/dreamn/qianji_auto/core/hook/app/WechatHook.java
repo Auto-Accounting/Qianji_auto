@@ -19,15 +19,33 @@ package cn.dreamn.qianji_auto.core.hook.app;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+
+import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.core.base.Receive;
 import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
 import cn.dreamn.qianji_auto.core.hook.HookBase;
-import cn.dreamn.qianji_auto.utils.tools.Task;
+import cn.dreamn.qianji_auto.utils.tools.DpUtil;
+import cn.dreamn.qianji_auto.utils.tools.StyleUtil;
+import cn.dreamn.qianji_auto.core.hook.Task;
+import cn.dreamn.qianji_auto.utils.tools.ViewUtil;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 import fr.arnaudguyon.xmltojsonlib.XmlToJson;
@@ -42,11 +60,16 @@ public class WechatHook extends HookBase {
     }
     @Override
     public void hookFirst() throws Error {
-       // hookMsg2();
+        // hookMsg2();
+        // Task.onMain(100, this::hookButton);
+
+        hookButton();
         hookSetting();
-        hookLog();
         hookMsg();
-        hookRedpackage();
+        //  Task.onMain(100, this::hookMsgInsertWithOnConflict);
+        //  Task.onMain(100, this::hookMsg);
+        // hookMsgInsertWithOnConflict();
+        // hookRedpackage();
 
 
     }
@@ -69,20 +92,47 @@ public class WechatHook extends HookBase {
     }
 
 
+    private void hookButton() {
+        // 微信首页添加按钮
+        String hookClass = "com.tencent.mm.ui.LauncherUI";
+        String hookMethodName = "onCreateOptionsMenu";
+        XposedHelpers.findAndHookMethod(hookClass, mAppClassLoader, hookMethodName, Menu.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                super.beforeHookedMethod(param);
+                Task.onMain(100, () -> {
+                    Menu menu = (Menu) param.args[0];
+                    menu.add(0, 230, 0, "自动记账");
+                    for (int i = 0; i < menu.size(); i++) {
+                        if (menu.getItem(i).getItemId() != 230) continue;
+                        menu.getItem(i).setOnMenuItemClickListener(item -> {
+                            Logi("listen");
+                            //启动自动记账
 
-    private void hookMsg(){
-        Logi("微信hook启动",true);
+                            Intent intent = mContext.getPackageManager().getLaunchIntentForPackage("cn.dreamn.qianji_auto");
+                            if (intent != null) {
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(intent);
+                            }
+                            return false;
+                        });
+                    }
+                });
+
+            }
+        });
+    }
+
+
+    private void hookMsg() {
+        Logi("微信hook启动", true);
         Class<?> SQLiteDatabase = XposedHelpers.findClass("com.tencent.wcdb.database.SQLiteDatabase", mAppClassLoader);
-        //Logi("hook住了类 com.tencent.wcdb.database.SQLiteDatabase",true);
         XposedHelpers.findAndHookMethod(SQLiteDatabase, "insert", String.class, String.class, ContentValues.class, new XC_MethodHook() {
 
 
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
-                super.afterHookedMethod(param);
-                Task.onMain(100, () ->  {
-                    Logi("微信hook after",true);
+                Task.onMain(() -> {
                     try {
                         ContentValues contentValues = (ContentValues) param.args[2];
                         String tableName = (String) param.args[0];
@@ -93,35 +143,46 @@ public class WechatHook extends HookBase {
                         if (null == type) {
                             return;
                         }
-
+                        String contentStr = contentValues.getAsString("content");
                         try{
                             Logi("当前Type值"+ type.toString());
-                            String contentStr = contentValues.getAsString("content");
-                            Logi("数据流数据"+contentStr);
+
                         }catch (Exception e){
                             Logi("数据流错误"+ e.toString());
                         }
 
                         if (type == 318767153) {
-                            String contentStr = contentValues.getAsString("content");
-                            Logi( "XML消息："+contentStr,true);
-                            try{
+                            Logi("微信XML消息：" + contentStr, true);
+                            contentStr = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + contentStr;
+
+                            try {
+
+
                                 XmlToJson xmlToJson = new XmlToJson.Builder(contentStr).build();
-                                String xml= xmlToJson.toString();
+                                String xml = xmlToJson.toString();
                                 JSONObject msg = JSONObject.parseObject(xml);
                                 JSONObject mmreader = msg.getJSONObject("msg").getJSONObject("appmsg").getJSONObject("mmreader");
 
                                 String title = mmreader.getJSONObject("template_header").getString("title");
                                 String display_name = mmreader.getJSONObject("template_header").getString("display_name");
                                 JSONObject jsonObject = mmreader.getJSONObject("line_content");
-                                jsonObject.put("display_name",display_name);
+                                if (jsonObject == null) {
+                                    try {
+                                        jsonObject = mmreader.getJSONObject("template_detail").getJSONObject("line_content");
+                                    } catch (Exception e) {
+                                        //没有获取到
+                                    }
+                                }
+                                if (jsonObject == null) return;
+                                jsonObject.put("display_name", display_name);
 
-                                Logi( "收到消息："+xml,true);
-                                Logi( "-------消息开始解析-------");
-                                Bundle bundle=new Bundle();
+
+                                Logi("收到消息：" + xml, true);
+                                Logi("-------消息开始解析-------");
+                                Bundle bundle = new Bundle();
                                 bundle.putString("type", Receive.WECHAT);
-                                bundle.putString("data",jsonObject.toJSONString());
-                                switch (title){
+                                bundle.putString("data", jsonObject.toJSONString());
+                                switch (title) {
                                     case "微信支付凭证":
                                         Logi( "-------微信支付凭证-------");
                                         bundle.putString("from", Wechat.PAYMENT);break;
@@ -138,13 +199,13 @@ public class WechatHook extends HookBase {
                                 }
                                 send(bundle);
                             }catch (Exception e){
-                                Logi("JSON错误"+e.toString(),true);
+                                Logi("JSON错误" + e.toString(), false);
                             }
 
                         }
 
                     } catch (Exception e) {
-                        Logi( "获取账单信息出错：" + e.getMessage(),true);
+                        Logi("获取账单信息出错：" + e.getMessage(), true);
                     }
                 });
 
@@ -152,9 +213,37 @@ public class WechatHook extends HookBase {
         });
     }
 
-    private void hookRedpackage(){}
+    private void hookMsgInsertWithOnConflict() {
+        Logi("微信hook insertWithOnConflict", true);
+        Class<?> SQLiteDatabase = XposedHelpers.findClass("com.tencent.wcdb.database.SQLiteDatabase", mAppClassLoader);
+        XposedHelpers.findAndHookMethod(SQLiteDatabase, "insertWithOnConflict", String.class, String.class, ContentValues.class, int.class, new XC_MethodHook() {
 
-    private void hookSetting(){
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+
+                String str1 = param.args[0].toString();
+                String str2 = param.args[1].toString();
+                String str3 = param.args[2].toString();
+                Logi("BEFORE\n[PARAM 1]" + str1 + "\n" + "[PARAM 2]" + str2 + "\n" + "[PARAM 3]" + str3 + "\n", true);
+                super.beforeHookedMethod(param);
+            }
+
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+
+                String str1 = param.args[0].toString();
+                String str2 = param.args[1].toString();
+                String str3 = param.args[2].toString();
+                Logi("AFTER\n[PARAM 1]" + str1 + "\n" + "[PARAM 2]" + str2 + "\n" + "[PARAM 3]" + str3 + "\n", true);
+                super.afterHookedMethod(param);
+            }
+        });
+    }
+
+    private void hookRedpackage() {
+    }
+
+    private void hookSetting() {
         XposedHelpers.findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
             protected void beforeHookedMethod(MethodHookParam param) {
                 Activity activity = (Activity) param.thisObject;
@@ -167,79 +256,95 @@ public class WechatHook extends HookBase {
 
     }
 
-    private void hookLog(){
-        XposedHelpers.findAndHookMethod("com.tencent.mars.xlog.Xlog", mAppClassLoader, "logWrite2",
-                int.class,String.class, String.class, String.class,int.class,int.class,long.class,long.class,String.class,
-                new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
-                        Task.onMain(100, () ->  {
-
-                            int logType  = (int) param.args[0];
-                            String str2  = (String) param.args[1];
-                            String str3  = (String) param.args[2];
-                            String str4 = (String) param.args[3];
-                            int num4  = (int) param.args[4];
-                            int num5  = (int) param.args[5];
-                            long long6  = (long) param.args[6];
-                            long long7  = (long) param.args[7];
-                            String str8  = (String) param.args[8];
-                            //根据值来过过滤日志级别
-                            String wechatLogType = getWechatLogType(logType);
-
-                            Logi(wechatLogType+"LogType==="+logType);
-                            Logi(wechatLogType+str2);
-                            Logi(wechatLogType+str3);
-                            Logi(wechatLogType+ str4);
-                            Logi(wechatLogType+ ""+num4);
-                            Logi(wechatLogType+ ""+num5);
-                            Logi(wechatLogType+ ""+long6);
-                            Logi(wechatLogType+ ""+long7);
-                            Logi(wechatLogType+ str8);
-                       });
-
-                        super.beforeHookedMethod(param);
-                    }
-                });
-
-    }
-    //微信日志级别
-    public static final int LEVEL_VERBOSE = 0;
-    public static final int LEVEL_DEBUG = 1;
-    public static final int LEVEL_INFO = 2;
-    public static final int LEVEL_WARNING = 3;
-    public static final int LEVEL_ERROR = 4;
-    public static final int LEVEL_FATAL = 5;
-    public static final int LEVEL_NONE = 6;
-
-    //微信日志过滤
-    public static final String LOG_VERBOSE = "LOG_VERBOSE";
-    public static final String LOG_DEBUG = "LOG_DEBUG";
-    public static final String LOG_INFO= "LOG_INFO";
-    public static final String LOG_WARNING = "LOG_WARNING";
-    public static final String LOG_ERROR = "LOG_ERROR";
-    public static final String LOG_FATAL = "LOG_FATAL";
-    public static final String LOG_NONE = "LOG_NONE ";
-
-    private String getWechatLogType(int logType) {
-        String TAG=null;
-        if(logType==LEVEL_VERBOSE){
-            TAG=LOG_VERBOSE;
-        }else if(logType==LEVEL_DEBUG){
-            TAG=LOG_DEBUG;
-        }else if(logType==LEVEL_INFO){
-            TAG=LOG_INFO;
-        }else if(logType==LEVEL_WARNING){
-            TAG=LOG_WARNING;
-        }else if(logType==LEVEL_ERROR){
-            TAG=LOG_ERROR;
-        }else if(logType==LEVEL_FATAL){
-            TAG=LOG_FATAL;
-        }else if(logType==LEVEL_NONE){
-            TAG=LOG_NONE;
+    private void doSettingsMenuInject(final Activity activity) {
+        ListView itemView = (ListView) ViewUtil.findViewByName(activity, "android", "list");
+        if (ViewUtil.findViewByText(itemView, "自动记账") != null
+                || isHeaderViewExistsFallback(itemView)) {
+            return;
         }
-        return TAG;
+
+        boolean isDarkMode = StyleUtil.isDarkMode(activity);
+
+        LinearLayout settingsItemRootLLayout = new LinearLayout(activity);
+        settingsItemRootLLayout.setOrientation(LinearLayout.VERTICAL);
+        settingsItemRootLLayout.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        settingsItemRootLLayout.setPadding(0, DpUtil.dip2px(activity, 20), 0, 0);
+
+        LinearLayout settingsItemLinearLayout = new LinearLayout(activity);
+        settingsItemLinearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        settingsItemLinearLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+
+        LinearLayout itemHlinearLayout = new LinearLayout(activity);
+        itemHlinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        itemHlinearLayout.setWeightSum(1);
+        itemHlinearLayout.setBackground(ViewUtil.genBackgroundDefaultDrawable(isDarkMode ? 0xFF191919 : Color.WHITE, isDarkMode ? 0xFF1D1D1D : 0xFFE5E5E5));
+        itemHlinearLayout.setGravity(Gravity.CENTER_VERTICAL);
+        itemHlinearLayout.setClickable(true);
+        itemHlinearLayout.setOnClickListener(view -> {
+            Intent intent = mContext.getPackageManager().getLaunchIntentForPackage("cn.dreamn.qianji_auto");
+            if (intent != null) {
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+            }
+        });
+
+        int defHPadding = DpUtil.dip2px(activity, 15);
+
+        TextView itemNameText = new TextView(activity);
+        itemNameText.setTextColor(isDarkMode ? 0xFFD3D3D3 : 0xFF353535);
+        itemNameText.setText("自动记账");
+        itemNameText.setGravity(Gravity.CENTER_VERTICAL);
+        itemNameText.setPadding(DpUtil.dip2px(activity, 16), 0, 0, 0);
+        itemNameText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, StyleUtil.TEXT_SIZE_BIG);
+
+        TextView itemSummerText = new TextView(activity);
+        StyleUtil.apply(itemSummerText);
+        itemSummerText.setText(BuildConfig.VERSION_NAME);
+        itemSummerText.setGravity(Gravity.CENTER_VERTICAL);
+        itemSummerText.setPadding(0, 0, defHPadding, 0);
+        itemSummerText.setTextColor(isDarkMode ? 0xFF656565 : 0xFF999999);
+
+
+        itemHlinearLayout.addView(itemNameText, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1));
+        itemHlinearLayout.addView(itemSummerText, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        View lineView = new View(activity);
+        lineView.setBackgroundColor(isDarkMode ? 0xFF2E2E2E : 0xFFD5D5D5);
+        settingsItemLinearLayout.addView(lineView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+        settingsItemLinearLayout.addView(itemHlinearLayout, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DpUtil.dip2px(activity, 55)));
+
+        settingsItemRootLLayout.addView(settingsItemLinearLayout);
+        settingsItemRootLLayout.setTag(BuildConfig.APPLICATION_ID);
+
+        itemView.addHeaderView(settingsItemRootLLayout);
+
     }
 
+    private boolean isHeaderViewExistsFallback(ListView listView) {
+        if (listView == null) {
+            return false;
+        }
+        if (listView.getHeaderViewsCount() <= 0) {
+            return false;
+        }
+        try {
+            Field mHeaderViewInfosField = ListView.class.getDeclaredField("mHeaderViewInfos");
+            mHeaderViewInfosField.setAccessible(true);
+            ArrayList<ListView.FixedViewInfo> mHeaderViewInfos = (ArrayList<ListView.FixedViewInfo>) mHeaderViewInfosField.get(listView);
+            if (mHeaderViewInfos != null) {
+                for (ListView.FixedViewInfo viewInfo : mHeaderViewInfos) {
+                    if (viewInfo.view == null) {
+                        continue;
+                    }
+                    // Object tag = viewInfo.view.getTag();
+
+                }
+            }
+        } catch (Exception e) {
+            Logi(e.toString(),true);
+        }
+        return false;
+    }
 }

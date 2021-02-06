@@ -51,13 +51,11 @@ public class FundArrival extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-        billInfo.setTime();
+
         billInfo=getResult(jsonObject,billInfo);
 
         billInfo.setType(BillInfo.TYPE_INCOME);
         billInfo.setSilent(true);
-        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_INCOME));
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
         billInfo.setSource("支付宝商家付款到账");
         CallAutoActivity.call(context,billInfo);
@@ -68,7 +66,7 @@ public class FundArrival extends Analyze {
     BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
         JSONArray jsonArray=jsonObject.getJSONArray("content");
-        billInfo.setAccountName(Assets.getMap("余额"));
+        billInfo.setAccountName("余额");
         for(int i=0;i<jsonArray.size();i++){
             JSONObject jsonObject1=jsonArray.getJSONObject(i);
             String name=jsonObject1.getString("title");

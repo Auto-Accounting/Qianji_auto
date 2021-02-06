@@ -49,15 +49,14 @@ public class YuLiBao extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-        billInfo.setTime();
+
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("assistMsg1")));
         billInfo.setShopAccount("余利宝");
-        billInfo.setShopRemark(jsonObject.getString("assistMsg2")+"余利宝收益");
-        billInfo.setAccountName(Assets.getMap("余利宝"));
+        billInfo.setShopRemark(jsonObject.getString("assistMsg2") + "余利宝收益");
+        billInfo.setAccountName("余利宝");
         billInfo.setType(BillInfo.TYPE_INCOME);
         billInfo.setSilent(true);
-        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_INCOME));
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
+
 
         billInfo.setSource("支付宝余额宝收益");
         CallAutoActivity.call(context,billInfo);

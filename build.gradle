@@ -4,7 +4,7 @@ buildscript {
     apply from: './versions.gradle'
     addRepos(repositories) //增加代码仓库
     dependencies {
-        classpath "com.android.tools.build:gradle:3.6.1"
+        classpath 'com.android.tools.build:gradle:4.1.1'
         classpath "com.github.dcendents:android-maven-gradle-plugin:2.0"
 
         classpath 'com.chenenyu:img-optimizer:1.2.0' // 图片压缩

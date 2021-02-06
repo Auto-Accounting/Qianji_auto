@@ -53,13 +53,11 @@ public class Payment extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-        billInfo.setTime();
+
         billInfo=getResult(jsonObject,billInfo);
 
         billInfo.setType(BillInfo.TYPE_PAY);
 
-        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_PAY));
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
         billInfo.setSource("微信支付");
         CallAutoActivity.call(context,billInfo);
@@ -69,27 +67,33 @@ public class Payment extends Analyze {
 
     @Override
     BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
-       String money = jsonObject.getJSONObject("topline").getJSONObject("value").getString("word");
-       billInfo.setMoney(BillTools.getMoney(money));
+        String money = jsonObject.getJSONObject("topline").getJSONObject("value").getString("word");
+        String shop = jsonObject.getString("display_name");
+        if (!shop.equals("")) {
+            billInfo.setShopAccount(shop);
+        }
+        billInfo.setMoney(BillTools.getMoney(money));
+        try {
+            JSONArray line = jsonObject.getJSONObject("lines").getJSONArray("line");
+            for (int i = 0; i < line.size(); i++) {
+                JSONObject jsonObject1 = line.getJSONObject(i);
+                String key = jsonObject1.getJSONObject("key").getString("word");
+                String value = jsonObject1.getJSONObject("value").getString("word");
 
-        if(jsonObject.getJSONObject("lines").size()==1){
-            JSONObject line=jsonObject.getJSONObject("lines").getJSONObject("line");
-            billInfo.setAccountName(Assets.getMap(line.getJSONObject("value").getString("word")));
-        }else{
-            JSONArray line=jsonObject.getJSONObject("lines").getJSONArray("line");
-            for(int i=0;i<line.size();i++){
-                JSONObject jsonObject1=line.getJSONObject(i);
-                String key=jsonObject1.getJSONObject("key").getString("word");
-                String value=jsonObject1.getJSONObject("value").getString("word");
-
-                switch (key){
-                    case "收款方":billInfo.setShopAccount(value);
-                    case "支付方式":billInfo.setAccountName(Assets.getMap(value));break;
+                switch (key) {
+                    case "收款方":
+                        billInfo.setShopAccount(value);
+                    case "支付方式":
+                        billInfo.setAccountName(value);
+                        break;
                     case "扣费项目":
                     case "备注":
-                        billInfo.setShopRemark(value);break;
+                        billInfo.setShopRemark(value);
+                        break;
                 }
             }
+        } catch (Exception e) {
+            Logs.i("解析json出现了错误！\n json数据：" + jsonObject.toJSONString() + "\n 错误：" + e.toString());
         }
 
 

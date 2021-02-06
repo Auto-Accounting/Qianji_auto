@@ -109,25 +109,19 @@ class AnalyzeWeChatBills {
        String shopName = list.get(1).replace("扫二维码付款-给","");
 
         BillInfo billInfo = new BillInfo();
-        billInfo.setAccountName(Assets.getMap(list.get(9)));
+        billInfo.setAccountName(list.get(9));
         billInfo.setRemark(list.get(1));
         billInfo.setShopAccount(shopName);
         billInfo.setShopRemark(list.get(1));
         billInfo.setMoney(money);
-        billInfo.setBookName(BookNames.getDefault());
-        billInfo.setTime();
 
-
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
         billInfo.setType(BillInfo.TYPE_PAY);
 
         if(billInfo.getAccountName()==null)
             billInfo.setAccountName("微信");
 
-        billInfo.setAccountName(Assets.getMap(billInfo.getAccountName()));
         billInfo.setSource("微信扫码转账账单详情捕获");
-        billInfo.setCateName(Category.getCategory(shopName,billInfo.getShopRemark(),BillInfo.TYPE_PAY));
         billInfo.dump();
         CallAutoActivity.call(context, billInfo);
 

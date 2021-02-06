@@ -53,20 +53,14 @@ class AnalyzeAlipayTransferRec {
         billInfo.setShopAccount(shopName);
         billInfo.setMoney(money);
         billInfo.setShopAccount(shopName);
-        billInfo.setBookName(BookNames.getDefault());
-        billInfo.setTime();
 
-
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
         billInfo.setType(BillInfo.TYPE_INCOME);
 
         if(billInfo.getAccountName()==null)
             billInfo.setAccountName("支付宝");
 
-        billInfo.setAccountName(Assets.getMap(billInfo.getAccountName()));
         billInfo.setSource("支付宝转账收款捕获");
-        billInfo.setCateName(Category.getCategory(shopName,billInfo.getShopRemark(),BillInfo.TYPE_INCOME));
         billInfo.dump();
         CallAutoActivity.call(context, billInfo);
 

@@ -87,7 +87,7 @@ class AnalyzeAlipayTransfer {
         Caches.add(TAG,billInfo.toString(),BillInfo.TYPE_PAY);
 
         billInfo.setMoney(money);
-        billInfo.setAccountName(Assets.getMap(account));
+        billInfo.setAccountName(account);
 
         billInfo.setShopRemark(remark);
 
@@ -97,22 +97,17 @@ class AnalyzeAlipayTransfer {
             Caches.update(TAG,billInfo.toString());
             Caches.update(AnalyzeAlipayPayPerson.TAG,billInfo.toString());
         }else if(type==1||type==2||type==3){
-            billInfo.setBookName(BookNames.getDefault());
-            billInfo.setTime();
-            billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
+
 
             billInfo.setType(BillInfo.TYPE_PAY);
 
             if(billInfo.getAccountName()==null)
                 billInfo.setAccountName("支付宝");
-
-            billInfo.setAccountName(Assets.getMap(billInfo.getAccountName()));
             if(type==3){
                 billInfo.setSource("支付宝支付账单捕获");
             }else{
                 billInfo.setSource("支付宝红包捕获");
             }
-            billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_PAY));
             billInfo.dump();
             CallAutoActivity.call(context, billInfo);
 
@@ -138,24 +133,22 @@ class AnalyzeAlipayTransfer {
 
         billInfo.setMoney(money);
         billInfo.setShopAccount(shopName);
-        billInfo.setBookName(BookNames.getDefault());
-        billInfo.setTime();
+
+
         Logs.d("Qianji_Analyze",billInfo.toString());
         if(billInfo.getShopRemark()==null){
             billInfo.setRemark("转账给"+shopName);
             billInfo.setShopRemark("转账给"+shopName);
         }
 
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
+
 
         billInfo.setType(BillInfo.TYPE_PAY);
 
         if(billInfo.getAccountName()==null)
             billInfo.setAccountName("支付宝");
 
-        billInfo.setAccountName(Assets.getMap(billInfo.getAccountName()));
         billInfo.setSource("支付宝转账捕获");
-        billInfo.setCateName(Category.getCategory(shopName,billInfo.getShopRemark(),BillInfo.TYPE_PAY));
         billInfo.dump();
         CallAutoActivity.call(context, billInfo);
 

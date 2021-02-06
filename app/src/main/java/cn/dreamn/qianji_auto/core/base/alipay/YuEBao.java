@@ -49,15 +49,14 @@ public class YuEBao extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-        billInfo.setTime();
+
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("extra")));
         billInfo.setShopAccount("余额宝");
         billInfo.setShopRemark(jsonObject.getString("assistMsg1"));
-        billInfo.setAccountName(Assets.getMap("余额宝"));
+        billInfo.setAccountName("余额宝");
         billInfo.setType(BillInfo.TYPE_INCOME);
         billInfo.setSilent(true);
-        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_INCOME));
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
+
 
         billInfo.setSource("支付宝余额宝收益");
         CallAutoActivity.call(context,billInfo);

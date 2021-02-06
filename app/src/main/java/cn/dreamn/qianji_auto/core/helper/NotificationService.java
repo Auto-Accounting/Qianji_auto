@@ -64,14 +64,11 @@ public class NotificationService extends NotificationListenerService {
                                     BillInfo billInfo = new BillInfo();
                                     billInfo.setMoney(money);
                                     billInfo.setShopRemark(content);
-                                    billInfo.setTime();
-                                    billInfo.setBookName(BookNames.getDefault());
-                                    billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
+
+
                                     billInfo.setType(BillInfo.TYPE_INCOME);
                                     billInfo.setAccountName("余额");
-                                    billInfo.setAccountName(Assets.getMap(billInfo.getAccountName()));
                                     billInfo.setSource("支付宝二维码收款捕获");
-                                    billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_PAY));
                                     billInfo.dump();
                                     CallAutoActivity.call(getApplicationContext(), billInfo);
                                 }
@@ -90,14 +87,11 @@ public class NotificationService extends NotificationListenerService {
                                     BillInfo billInfo = new BillInfo();
                                     billInfo.setMoney(money);
                                     billInfo.setShopRemark(content);
-                                    billInfo.setTime();
-                                    billInfo.setBookName(BookNames.getDefault());
-                                    billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
+
+
                                     billInfo.setType(BillInfo.TYPE_INCOME);
                                     billInfo.setAccountName("零钱");
-                                    billInfo.setAccountName(Assets.getMap(billInfo.getAccountName()));
                                     billInfo.setSource("微信二维码收款捕获");
-                                    billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),BillInfo.TYPE_PAY));
                                     billInfo.dump();
                                     CallAutoActivity.call(getApplicationContext(), billInfo);
                                 }

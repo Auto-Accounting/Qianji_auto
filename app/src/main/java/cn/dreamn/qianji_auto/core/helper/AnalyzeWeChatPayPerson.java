@@ -93,7 +93,7 @@ class AnalyzeWeChatPayPerson {
 
 
         billInfo.setMoney(money);
-        billInfo.setAccountName(Assets.getMap(account));
+        billInfo.setAccountName(account);
 
         Caches.update(TAG,billInfo.toString());
         Logs.d("Qianji_Analyze",billInfo.toString());
@@ -117,24 +117,22 @@ class AnalyzeWeChatPayPerson {
 
         billInfo.setMoney(money);
         billInfo.setShopAccount(shopName);
-        billInfo.setBookName(BookNames.getDefault());
-        billInfo.setTime();
+
+
         Logs.d("Qianji_Analyze",billInfo.toString());
         if(billInfo.getShopRemark()==null){
             billInfo.setRemark("付款给"+shopName);
             billInfo.setShopRemark("付款给"+shopName);
         }
 
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
+
 
         billInfo.setType(BillInfo.TYPE_PAY);
 
         if(billInfo.getAccountName()==null)
             billInfo.setAccountName("微信");
 
-        billInfo.setAccountName(Assets.getMap(billInfo.getAccountName()));
         billInfo.setSource("微信付款捕获");
-        billInfo.setCateName(Category.getCategory(shopName,billInfo.getShopRemark(),BillInfo.TYPE_PAY));
         billInfo.dump();
         CallAutoActivity.call(context, billInfo);
 

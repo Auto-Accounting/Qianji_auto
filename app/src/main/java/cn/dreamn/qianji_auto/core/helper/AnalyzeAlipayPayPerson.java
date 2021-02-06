@@ -54,20 +54,15 @@ class AnalyzeAlipayPayPerson {
 
         billInfo.setMoney(money);
         billInfo.setShopAccount(shopName);
-        billInfo.setBookName(BookNames.getDefault());
-        billInfo.setTime();
 
-
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
         billInfo.setType(BillInfo.TYPE_PAY);
 
         if(billInfo.getAccountName()==null)
             billInfo.setAccountName("支付宝");
 
-        billInfo.setAccountName(Assets.getMap(billInfo.getAccountName()));
+        billInfo.setAccountName(billInfo.getAccountName());
         billInfo.setSource("支付宝扫码付款捕获");
-        billInfo.setCateName(Category.getCategory(shopName,billInfo.getShopRemark(),BillInfo.TYPE_PAY));
         billInfo.dump();
         CallAutoActivity.call(context, billInfo);
 

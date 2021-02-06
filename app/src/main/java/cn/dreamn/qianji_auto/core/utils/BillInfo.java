@@ -19,8 +19,6 @@ package cn.dreamn.qianji_auto.core.utils;
 
 import android.annotation.SuppressLint;
 import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.xuexiang.xutil.data.DateUtils;
 
@@ -321,22 +319,25 @@ public class BillInfo  {
         return "支出";
     }
 
-    public void dump() {
-        Logs.d("Qianji_Analyze", "type=" + type);
-        Logs.d("Qianji_Analyze", "money=" + money);
-        Logs.d("Qianji_Analyze", "time=" + time);
-        Logs.d("Qianji_Analyze", "remark=" + remark);
-        Logs.d("Qianji_Analyze", "catename=" + catename);
-        Logs.d("Qianji_Analyze", "catechoose=" + catechoose);
-        Logs.d("Qianji_Analyze", "bookname=" + bookname);
-        Logs.d("Qianji_Analyze", "accountname=" + accountname);
-        Logs.d("Qianji_Analyze", "accountname2=" + accountname2);
-        Logs.d("Qianji_Analyze", "shopAccount=" + shopAccount);
-        Logs.d("Qianji_Analyze", "shopRemark=" + shopRemark);
-        Logs.d("Qianji_Analyze", "是否有效？" + (isAvaiable() ? "有效" : "无效"));
+    public String dump() {
+        String output = "";
+        output += String.format("类型=%s\n", getTypeName(type));
+        output += String.format("金额=%s\n", money);
+        output += String.format("时间=%s\n", time);
+        output += String.format("备注=%s\n", remark);
+        output += String.format("分类=%s\n", catename);
+        output += String.format("分类选择=%s\n", catechoose);
+        output += String.format("账本名=%s\n", bookname);
+        output += String.format("资产名1=%s\n", accountname);
+        output += String.format("资产名2=%s\n", accountname2);
+        output += String.format("商户名=%s\n", shopAccount);
+        output += String.format("商户备注=%s\n", shopRemark);
+        output += String.format("数据来源=%s\n", source);
+        output += String.format("是否静默=%s\n", getIsSilent());
+        output += "是否有效？" + (isAvaiable() ? "有效" : "无效");
+        return output;
 
     }
-
 
 
 }

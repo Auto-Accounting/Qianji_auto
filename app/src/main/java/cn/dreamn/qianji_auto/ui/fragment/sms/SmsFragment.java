@@ -80,27 +80,27 @@ public class SmsFragment extends StateFragment {
         WidgetUtils.initRecyclerView(recyclerView);
         mAdapter = new SmsAdapter();
         recyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(item-> new MaterialDialog.Builder(getContext())
+        mAdapter.setOnItemClickListener(item -> new MaterialDialog.Builder(getContext())
                 .title(item.get(KEY_TITLE))
                 .items(R.array.menu_values_req2)
-                .itemsCallback((dialog, itemView, position, text) ->{
+                .itemsCallback((dialog, itemView, position, text) -> {
                     int id = Integer.parseInt(Objects.requireNonNull(item.get(KEY_ID)));
-                    if(position==0){
+                    if (position == 0) {
                         Smses.del(id);
                         SnackbarUtils.Long(getView(), getString(R.string.del_success)).info().show();
                         refresh();
-                    }else if(position==1){
+                    } else if (position == 1) {
                         Bundle params = new Bundle();
-                        params.putString("id",String.valueOf(id));
-                        params.putString("num",item.get(KEY_NUM));
-                        params.putString("regex",item.get(KEY_REGEX));
-                        params.putString("title",item.get(KEY_TITLE));
-                        openPage(EditFragment.class,params);
-                    }else if(position==2){
+                        params.putString("id", String.valueOf(id));
+                        params.putString("num", item.get(KEY_NUM));
+                        params.putString("regex", item.get(KEY_REGEX));
+                        params.putString("title", item.get(KEY_TITLE));
+                        openPage(EditFragment.class, params);
+                    } else if (position == 2) {
                         Smses.deny(id);
                         SnackbarUtils.Long(getView(), getString(R.string.deny_success)).info().show();
                         refresh();
-                    }else if(position==3){
+                    } else if (position == 3) {
                         Smses.enable(id);
                         SnackbarUtils.Long(getView(), getString(R.string.enable_success)).info().show();
                         refresh();
@@ -112,7 +112,6 @@ public class SmsFragment extends StateFragment {
         map_layout.setOnRefreshListener(this::loadData);
         refresh(); //第一次进入触发自动刷新，演示效果
     }
-
 
 
     @Override
@@ -130,7 +129,7 @@ public class SmsFragment extends StateFragment {
             @Override
             public void performAction(View view) {
 
-                openPage(EditFragment.class,true);
+                openPage(EditFragment.class, true);
 
             }
         });
@@ -141,21 +140,21 @@ public class SmsFragment extends StateFragment {
                 new MaterialDialog.Builder(getContext())
                         .title("请选择")
                         .items(R.array.menu_values_import)
-                        .itemsCallback((dialog, itemView, position, text) ->{
-                            if(position==0){
+                        .itemsCallback((dialog, itemView, position, text) -> {
+                            if (position == 0) {
                                 try {
-                                    int allowVersion=49;
+                                    int allowVersion = 49;
                                     FileChooser fileChooser = new FileChooser(getActivity(), filePath -> {
                                         //filePath.get(0).getFilePath()
-                                        String data=FileUtils.get(filePath.get(0).getFilePath());
-                                        JSONObject jsonObject=JSONObject.parseObject(data);
-                                        int version=jsonObject.getIntValue("version");
-                                        String from=jsonObject.getString("from");
-                                        if(version<allowVersion){
+                                        String data = FileUtils.get(filePath.get(0).getFilePath());
+                                        JSONObject jsonObject = JSONObject.parseObject(data);
+                                        int version = jsonObject.getIntValue("version");
+                                        String from = jsonObject.getString("from");
+                                        if (version < allowVersion) {
                                             SnackbarUtils.Long(getView(), "不支持该版本的配置恢复").info().show();
                                             return;
                                         }
-                                        if(!from.equals("SMS")){
+                                        if (!from.equals("SMS")) {
                                             SnackbarUtils.Long(getView(), "该文件不是有效的短信配置数据文件").info().show();
                                             return;
                                         }
@@ -168,15 +167,15 @@ public class SmsFragment extends StateFragment {
 
                                                 })
                                                 .negativeText("取消")
-                                                .onAny((dialog3, which)->{
-                                            JSONArray jsonArray=jsonObject.getJSONArray("data");
-                                            for(int i=0;i<jsonArray.size();i++){
-                                                JSONObject jsonObject1=jsonArray.getJSONObject(i);
-                                                Smses.add(jsonObject1.getString("regular"),jsonObject1.getString("name"),jsonObject1.getString("smsNum"));
-                                            }
-                                            SnackbarUtils.Long(getView(), "恢复成功").info().show();
-                                            refresh();
-                                        })
+                                                .onAny((dialog3, which) -> {
+                                                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+                                                    for (int i = 0; i < jsonArray.size(); i++) {
+                                                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                                        Smses.add(jsonObject1.getString("regular"), jsonObject1.getString("name"), jsonObject1.getString("smsNum"));
+                                                    }
+                                                    SnackbarUtils.Long(getView(), "恢复成功").info().show();
+                                                    refresh();
+                                                })
                                                 .show();
 
 
@@ -184,25 +183,20 @@ public class SmsFragment extends StateFragment {
 
                                     fileChooser.setTitle("请选择短信配置数据文件");
                                     fileChooser.setDoneText("确定");
-
-
-
                                     fileChooser.setChooseType(FileInfo.FILE_TYPE_AUTOJSON);
                                     fileChooser.open();
-
-
-                            }catch (Exception e){
+                                } catch (Exception e) {
                                     SnackbarUtils.Long(getView(), "不是自动记账所支持的恢复文件，请重新选择。").info().show();
                                 }
-                            //导入
-                            }else if(position==1){
+                                //导入
+                            } else if (position == 1) {
                                 //导出
-                                Sms[] sms= Smses.getAll();
+                                Sms[] sms = Smses.getAll();
                                 try {
                                     JSONObject jsonObject = new JSONObject();
                                     jsonObject.put("version", App.getAppVerCode());
                                     jsonObject.put("from", "SMS");
-                                    JSONArray jsonArray=new JSONArray();
+                                    JSONArray jsonArray = new JSONArray();
                                     for (Sms sm : sms) {
                                         JSONObject jsonObject1 = new JSONObject();
                                         jsonObject1.put("name", sm.name);
@@ -210,13 +204,14 @@ public class SmsFragment extends StateFragment {
                                         jsonObject1.put("smsNum", sm.smsNum);
                                         jsonArray.add(jsonObject1);
                                     }
-                                    jsonObject.put("data",jsonArray);
-                                    Tools.writeToCache(getContext(),"sms.autoJson",jsonObject.toJSONString());
-                                    Tools.shareFile(getContext(),getContext().getExternalCacheDir().getPath()+"/sms.autoJson");
+                                    jsonObject.put("data", jsonArray);
+                                    Tools.writeToCache(getContext(), "sms.autoJson", jsonObject.toJSONString());
+                                    Tools.shareFile(getContext(), getContext().getExternalCacheDir().getPath() + "/sms.autoJson");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                            }}).show();
+                            }
+                        }).show();
 
             }
         });
@@ -228,24 +223,22 @@ public class SmsFragment extends StateFragment {
     }
 
 
-
-
     private void loadData() {
         new Handler().postDelayed(() -> {
-           // showLoading("正在加载短信识别规则");
-            Sms[] sms= Smses.getAll();
+            // showLoading("正在加载短信识别规则");
+            Sms[] sms = Smses.getAll();
             List<Map<String, String>> data = new ArrayList<>();
             for (Sms value : sms) {
                 Map<String, String> item = new HashMap<>();
 
                 item.put(KEY_TITLE, value.name);
                 item.put(KEY_REGEX, value.regular);
-                item.put(KEY_DENY,value.use==1?"false":"true");
+                item.put(KEY_DENY, value.use == 1 ? "false" : "true");
                 item.put(KEY_ID, String.valueOf(value.id));
                 item.put(KEY_NUM, value.smsNum);
                 data.add(item);
             }
-            if(data.size()==0) {
+            if (data.size() == 0) {
                 showEmpty("没有任何短信识别规则");
                 return;
             }
@@ -262,6 +255,7 @@ public class SmsFragment extends StateFragment {
     protected void initListeners() {
 
     }
+
     private void refresh() {
         map_layout.setRefreshing(true);
         loadData();

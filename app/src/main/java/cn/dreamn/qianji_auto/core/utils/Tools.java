@@ -115,7 +115,7 @@ public class Tools {
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("1",
-                    "Channel1", NotificationManager.IMPORTANCE_HIGH);
+                    "记账通知", NotificationManager.IMPORTANCE_HIGH);
             channel.enableLights(true);
             channel.setLightColor(Color.GREEN);
             channel.setShowBadge(true);

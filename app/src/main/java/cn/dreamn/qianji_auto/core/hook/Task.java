@@ -15,10 +15,12 @@
  *
  */
 
-package cn.dreamn.qianji_auto.utils.tools;
+package cn.dreamn.qianji_auto.core.hook;
 
 import android.os.Handler;
 import android.os.Looper;
+
+import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 
 /**

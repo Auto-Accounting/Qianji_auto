@@ -95,27 +95,24 @@ class AnalyzeWeChatRedPackage {
         }
 
         billInfo.setMoney(money);
-        billInfo.setAccountName(Assets.getMap(account));
+        billInfo.setAccountName(account);
 
         //Caches.update(TAG,billInfo.toString());
         Logs.d("Qianji_Analyze",billInfo.toString());
         Logs.d("Qianji_Analyze","捕获的金额:"+money+",捕获的资产："+account);
 
         billInfo.setMoney(money);
-        billInfo.setBookName(BookNames.getDefault());
-        billInfo.setTime();
+
+
         Logs.d("Qianji_Analyze",billInfo.toString());
 
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(),billInfo.getShopRemark()));
 
         billInfo.setType(BillInfo.TYPE_PAY);
 
         if(billInfo.getAccountName()==null)
             billInfo.setAccountName("微信");
 
-        billInfo.setAccountName(Assets.getMap(billInfo.getAccountName()));
         billInfo.setSource("微信红包捕获");
-        billInfo.setCateName(Category.getCategory(null,billInfo.getShopRemark(),BillInfo.TYPE_PAY));
         billInfo.dump();
         CallAutoActivity.call(context, billInfo);
 

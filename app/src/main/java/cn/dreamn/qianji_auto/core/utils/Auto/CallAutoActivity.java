@@ -25,11 +25,16 @@ import com.tencent.mmkv.MMKV;
 import com.xuexiang.xutil.display.ScreenUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
 
+import cn.dreamn.qianji_auto.core.db.Asset;
 import cn.dreamn.qianji_auto.core.db.AutoBill;
 import cn.dreamn.qianji_auto.core.db.Cache;
+import cn.dreamn.qianji_auto.core.utils.Assets;
 import cn.dreamn.qianji_auto.core.utils.AutoBills;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
+import cn.dreamn.qianji_auto.core.utils.BookNames;
 import cn.dreamn.qianji_auto.core.utils.Caches;
+import cn.dreamn.qianji_auto.core.utils.Category;
+import cn.dreamn.qianji_auto.core.utils.Remark;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
@@ -42,33 +47,41 @@ import static cn.dreamn.qianji_auto.core.utils.Tools.goUrl;
 public class CallAutoActivity {
 
     public  static  void call(Context context, BillInfo billInfo){
+        billInfo = replaceWithSomeThing(billInfo);
         if(!billInfo.isAvaiable())return;
-
+        Logs.i("账单获取成功，账单信息:\n" + billInfo.dump());
         AutoBills.add(billInfo);
-        Tasker.add(context,billInfo);
-
-    }
-    public  static  void callNoAdd(Context context, BillInfo billInfo){
-        if(!billInfo.isAvaiable())return;
-        Tasker.add(context,billInfo);
+        Tasker.add(context, billInfo);
 
     }
 
-    public static void setTimeout(String timeout){
-        MMKV mmkv = MMKV.defaultMMKV();
-        mmkv.encode("auto_timeout",timeout);
+    public static void callNoAdd(Context context, BillInfo billInfo) {
+        billInfo = replaceWithSomeThing(billInfo);
+        if (!billInfo.isAvaiable()) return;
+        Tasker.add(context, billInfo);
+
     }
-    public static void setCheck(boolean check){
-        MMKV mmkv = MMKV.defaultMMKV();
-        mmkv.encode("auto_check",check);
+
+    public static BillInfo replaceWithSomeThing(BillInfo billInfo) {
+
+        billInfo.setTime();//设置时间
+        billInfo.setAccountName(Assets.getMap(billInfo.getAccountName()));//设置一号资产
+        billInfo.setAccountName2(Assets.getMap(billInfo.getAccountName2()));//设置二号资产
+        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(), billInfo.getShopRemark()));//设置备注
+        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType())));//设置自动分类
+        billInfo.setBookName(BookNames.getDefault());//设置自动记账的账本名
+        return billInfo;
     }
+
+
     //角标超时
-    public static String getTimeout(){
+    public static String getTimeout() {
         MMKV mmkv = MMKV.defaultMMKV();
-        return mmkv.getString("auto_timeout","10");
+        return mmkv.getString("auto_timeout", "10");
     }
+
     //角标检查
-    public static Boolean getCheck(){
+    public static Boolean getCheck() {
         MMKV mmkv = MMKV.defaultMMKV();
         return mmkv.getBoolean("auto_check",true);
     }
@@ -120,7 +133,7 @@ public class CallAutoActivity {
     public static void run(Context context, BillInfo billInfo) {
         MMKV mmkv = MMKV.defaultMMKV();
 
-        Logs.d(billInfo.toString());
+        Logs.i("悬浮窗弹出，账单初始信息：" + billInfo.dump());
         if(billInfo.getIsSilent()){
             if(mmkv.getBoolean("autoIncome",false)){
                 goQianji(context,billInfo);

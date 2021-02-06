@@ -68,25 +68,23 @@ public class SmsServer extends ContentObserver {
 
 
         String account=strings[1];
-        if(!strings[4].equals("undefined")){
-            account=account+"("+strings[4]+")";
+        if (!strings[4].equals("undefined")) {
+            account = account + "(" + strings[4] + ")";
         }
 
-        billInfo.setBookName(BookNames.getDefault());
+
                /* if(!strings[5].equals("undefined")){
                     billInfo.setShopAccount(strings[5]);
                 }else{
                     billInfo.setShopAccount("");
                 }*/
-        billInfo.setAccountName(Assets.getMap(account));
-        billInfo.setTime();
+        billInfo.setAccountName(account);
+
         billInfo.setRemark(strings[0]);
         billInfo.setShopRemark(strings[0]);
 
 
-        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(),billInfo.getShopRemark(),strings[2]));
-
-        CallAutoActivity.call(context,billInfo);
+        CallAutoActivity.call(context, billInfo);
     }
 
     @Override
