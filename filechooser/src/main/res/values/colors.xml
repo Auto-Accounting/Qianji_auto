@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="themeColor">#3F51B5</color>
+    <color name="dividerColor">#757575</color>
+    <color name="dividerColor2">#b5b5b5</color>
+    <color name="greyLight">#e5e5e5</color>
+    <color name="white">#FFFFFF</color>
+</resources>
