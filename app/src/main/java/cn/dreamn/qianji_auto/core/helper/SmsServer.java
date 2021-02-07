@@ -54,20 +54,15 @@ public class SmsServer extends ContentObserver {
     public static void readSMS(String sms,Context context){
         String data = getSms(sms);
 
-        String[] strings=data.split("\\|");
-        if(strings.length!=5)return;
+        String[] strings = data.split("\\|");
+        if (strings.length != 5) return;
         BillInfo billInfo = new BillInfo();
 
-        switch(strings[2]){
-            case "支出": billInfo.setType(BillInfo.TYPE_PAY);break;
-            case "收入": billInfo.setType(BillInfo.TYPE_INCOME);break;
-            case "转账": billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);break;
-            case "信用还款": billInfo.setType(BillInfo.TYPE_CREDIT_CARD_PAYMENT);break;
-        }
+
+        billInfo.setType(BillInfo.getTypeId(strings[2]));
 
 
-
-        String account=strings[1];
+        String account = strings[1];
         if (!strings[4].equals("undefined")) {
             account = account + "(" + strings[4] + ")";
         }

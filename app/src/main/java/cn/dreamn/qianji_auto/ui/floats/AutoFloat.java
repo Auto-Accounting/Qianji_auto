@@ -209,9 +209,9 @@ public class AutoFloat extends XFloatView {
             });
         });
         type_layout.setOnClickListener(v->{
-            String[] strings={"支出","收入","转账","信用还款"};
+            String[] strings = {"支出", "收入", "转账", "信用还款", "报销"};
             showMenu("请选择资产账户",strings,data -> {
-                billInfo2.setType(String.valueOf(data));
+                billInfo2.setType(BillInfo.getTypeId(strings[data]));
                 this.setData(billInfo2);
             });
         });
@@ -281,6 +281,6 @@ public class AutoFloat extends XFloatView {
     @Override
     public void dismiss() {
         super.dismiss();
-        Caches.update("float_lock","false");
+        //   Caches.update("float_lock","false");
     }
 }

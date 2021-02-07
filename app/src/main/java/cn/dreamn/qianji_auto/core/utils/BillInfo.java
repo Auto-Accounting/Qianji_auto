@@ -40,7 +40,7 @@ public class BillInfo  {
     public static String TYPE_INCOME = "1";//收入
     public static String TYPE_TRANSFER_ACCOUNTS = "2";//转账
     public static String TYPE_CREDIT_CARD_PAYMENT = "3";//信用卡还款
-
+    public static String TYPE_PAYMENT_REFUND = "5";//报销
     private String money;//大于0
 
     private String time;//yyyy-MM-dd HH:mm:ss
@@ -305,10 +305,27 @@ public class BillInfo  {
             return false;
         }
 
-        if( this.accountname!=null&&this.accountname.equals(this.accountname2))
+        if (this.accountname != null && this.accountname.equals(this.accountname2))
             return false;
 
         return true;
+    }
+
+    public static String getTypeId(String type) {
+        switch (type) {
+            case "支出":
+                return BillInfo.TYPE_PAY;
+            case "收入":
+                return BillInfo.TYPE_INCOME;
+            case "转账":
+                return BillInfo.TYPE_TRANSFER_ACCOUNTS;
+            case "信用还款":
+                return BillInfo.TYPE_CREDIT_CARD_PAYMENT;
+            case "报销":
+                return BillInfo.TYPE_PAYMENT_REFUND;
+            default:
+                return BillInfo.TYPE_PAY;
+        }
     }
 
     public static String getTypeName(String type) {
@@ -316,6 +333,7 @@ public class BillInfo  {
         if (type.equals(TYPE_CREDIT_CARD_PAYMENT)) return "信用还款";
         if (type.equals(TYPE_INCOME)) return "收入";
         if (type.equals(TYPE_TRANSFER_ACCOUNTS)) return "转账";
+        if (type.equals(TYPE_PAYMENT_REFUND)) return "报销";
         return "支出";
     }
 
