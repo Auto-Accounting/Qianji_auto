@@ -42,9 +42,9 @@ import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.core.base.Receive;
 import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
 import cn.dreamn.qianji_auto.core.hook.HookBase;
+import cn.dreamn.qianji_auto.core.hook.Task;
 import cn.dreamn.qianji_auto.utils.tools.DpUtil;
 import cn.dreamn.qianji_auto.utils.tools.StyleUtil;
-import cn.dreamn.qianji_auto.core.hook.Task;
 import cn.dreamn.qianji_auto.utils.tools.ViewUtil;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
@@ -66,6 +66,8 @@ public class WechatHook extends HookBase {
         hookButton();
         hookSetting();
         hookMsg();
+        hookNickName();
+        //hookPayTools();
         //  Task.onMain(100, this::hookMsgInsertWithOnConflict);
         //  Task.onMain(100, this::hookMsg);
         // hookMsgInsertWithOnConflict();
@@ -123,6 +125,29 @@ public class WechatHook extends HookBase {
         });
     }
 
+    private void hookNickName() {
+        //获取昵称
+        XposedHelpers.findAndHookMethod("com.tencent.mm.ui.chatting.d.ad", mAppClassLoader, "setMMTitle", CharSequence.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) {
+                String UserName = param.args[0].toString();
+                writeData("userName", UserName);
+                //  Logi("微信名："+UserName);
+            }
+        });
+    }
+
+    private void hookPayTools() {
+        //TODO 获取支付方式
+        XposedHelpers.findAndHookMethod("com.tencent.kinda.framework.widget.base.KindaButtonImpl", mAppClassLoader, "setText", CharSequence.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) {
+                String setText = param.args[0].toString();
+                // writeData("setText",setText);
+                Logi("setText ：" + setText);
+            }
+        });
+    }
 
     private void hookMsg() {
         Logi("微信hook启动", true);
@@ -136,6 +161,14 @@ public class WechatHook extends HookBase {
                     try {
                         ContentValues contentValues = (ContentValues) param.args[2];
                         String tableName = (String) param.args[0];
+                        String arg = (String) param.args[1];
+
+                        Logi("----------------\n " +
+                                "arg1" + tableName + "\n" +
+                                "arg2：" + arg + "\n" + "" +
+                                "arg3：" + contentValues.toString()
+                        );
+
                         if (!tableName.equals("message") || TextUtils.isEmpty(tableName)) {
                             return;
                         }
@@ -144,16 +177,33 @@ public class WechatHook extends HookBase {
                             return;
                         }
                         String contentStr = contentValues.getAsString("content");
-                        try{
-                            Logi("当前Type值"+ type.toString());
 
-                        }catch (Exception e){
-                            Logi("数据流错误"+ e.toString());
-                        }
+                        //转账消息
+                        if (type == 419430449) {
+                            Integer isSend = contentValues.getAsInteger("isSend");
+                            if (isSend == 1) {
+                                //我发出去的转账
+                                String talker = contentValues.getAsString("talker");
+                                XmlToJson xmlToJson = new XmlToJson.Builder(contentStr).build();
+                                String xml = xmlToJson.toString();
+                                JSONObject msg = JSONObject.parseObject(xml);
 
-                        if (type == 318767153) {
+                                Logi("-------转账信息-------", true);
+                                Logi("微信JSON消息：" + xml, true);
+
+                                JSONObject wcpayinfo = msg.getJSONObject("msg").getJSONObject("appmsg").getJSONObject("wcpayinfo");
+
+                                wcpayinfo.put("talker", talker);
+                                wcpayinfo.put("nickName", readData("userName"));
+                                Bundle bundle = new Bundle();
+                                bundle.putString("type", Receive.WECHAT);
+                                bundle.putString("data", wcpayinfo.toJSONString());
+
+                                bundle.putString("from", Wechat.PAYMENT_TRANSFER);
+                                send(bundle);
+                            }
+                        } else if (type == 318767153) {
                             Logi("微信XML消息：" + contentStr, true);
-                            contentStr = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + contentStr;
 
                             try {
 
@@ -182,19 +232,28 @@ public class WechatHook extends HookBase {
                                 Bundle bundle = new Bundle();
                                 bundle.putString("type", Receive.WECHAT);
                                 bundle.putString("data", jsonObject.toJSONString());
+                                Logi(title);
                                 switch (title) {
                                     case "微信支付凭证":
-                                        Logi( "-------微信支付凭证-------");
-                                        bundle.putString("from", Wechat.PAYMENT);break;
+                                        Logi("-------微信支付凭证-------");
+                                        bundle.putString("from", Wechat.PAYMENT);
+                                        break;
                                     case "收款到账通知":
-                                        Logi( "-------收款到账通知-------");
-                                        bundle.putString("from", Wechat.RECEIVED_QR);break;
+                                        Logi("-------收款到账通知-------");
+                                        bundle.putString("from", Wechat.RECEIVED_QR);
+                                        break;
+                                    case "转账收款汇总通知":
+                                        Logi("-------转账收款汇总通知-------");
+                                        bundle.putString("from", Wechat.PAYMENT_TRANSFER_RECEIVED);
+                                        break;
                                     case "转账退款通知":
-                                        Logi( "-------转账退款通知-------");
-                                        bundle.putString("from", Wechat.PAYMENT_TRANSFER_REFUND);break;
+                                        Logi("-------转账退款通知-------");
+                                        bundle.putString("from", Wechat.PAYMENT_TRANSFER_REFUND);
+                                        break;
                                     default:
-                                        Logi( "-------未知数据结构-------",true);
-                                        bundle.putString("from", Wechat.CANT_UNDERSTAND);break;
+                                        Logi("-------未知数据结构-------", true);
+                                        bundle.putString("from", Wechat.CANT_UNDERSTAND);
+                                        break;
 
                                 }
                                 send(bundle);
@@ -212,6 +271,7 @@ public class WechatHook extends HookBase {
             }
         });
     }
+
 
     private void hookMsgInsertWithOnConflict() {
         Logi("微信hook insertWithOnConflict", true);

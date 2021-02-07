@@ -164,18 +164,23 @@ public class AlipayHook extends HookBase {
                 Bundle bundle=new Bundle();
                 bundle.putString("type",Receive.ALIPAY);
                 if(jsonObject1.getString("templateType").equals("BN")){
-                    JSONObject content=jsonObject1.getJSONObject("content");
-                    bundle.putString("data",content.toJSONString());
-                    switch (jsonObject1.getString("title")){
+                    JSONObject content = jsonObject1.getJSONObject("content");
+                    bundle.putString("data", content.toJSONString());
+                    String title = jsonObject1.getString("title");
+                    Logi(title);
+                    switch (title) {
                         case "转账收款到余额宝":
-                            Logi( "-------转账收款到余额宝-------");
-                            bundle.putString("from", Alipay.TRANSFER_YUEBAO);break;
+                            Logi("-------转账收款到余额宝-------");
+                            bundle.putString("from", Alipay.TRANSFER_YUEBAO);
+                            break;
                         case "转账到账成功":
-                            Logi( "-------转账到账成功-------");
-                            bundle.putString("from", Alipay.TRANSFER_SUCCESS_ACCOUNT);break;
+                            Logi("-------转账到账成功-------");
+                            bundle.putString("from", Alipay.TRANSFER_SUCCESS_ACCOUNT);
+                            break;
                         case "余额宝-笔笔攒-单笔攒入":
-                            Logi( "-------余额宝-笔笔攒-单笔攒入-------");
-                            bundle.putString("from", Alipay.BIBIZAN);break;
+                            Logi("-------余额宝-笔笔攒-单笔攒入-------");
+                            bundle.putString("from", Alipay.BIBIZAN);
+                            break;
                         case "资金到账通知":
                             Logi( "-------资金到账通知-------");
                             bundle.putString("from", Alipay.FUNDS_ARRIVAL);break;
@@ -199,21 +204,25 @@ public class AlipayHook extends HookBase {
                             bundle.putString("from", Alipay.CANT_UNDERSTAND);break;
                     }
                     send(bundle);
-                }else if(jsonObject1.getString("templateType").equals("S")){
-                    JSONObject content=jsonObject1.getJSONObject("extraInfo");
-                    content.put("extra",jsonObject1.getString("content"));
-                    bundle.putString("data",content.toJSONString());
-                    switch (jsonObject1.getString("title")){
+                }else if(jsonObject1.getString("templateType").equals("S")) {
+                    JSONObject content = jsonObject1.getJSONObject("extraInfo");
+                    content.put("extra", jsonObject1.getString("content"));
+                    bundle.putString("data", content.toJSONString());
+                    String title = jsonObject1.getString("title");
+                    Logi(title);
+                    switch (title) {
                         case "商家服务":
                             return;//没什么卵用
                         case "商家服务·收款到账":
-                            Logi( "-------商家服务·收款到账-------");
-                            bundle.putString("from", Alipay.QR_COLLECTION);break;
+                            Logi("-------商家服务·收款到账-------");
+                            bundle.putString("from", Alipay.QR_COLLECTION);
+                            break;
                         case "网商银行·余利宝":
-                            Logi( "-------网商银行·余利宝-------");
-                            bundle.putString("from", Alipay.REC_YULIBAO);break;
+                            Logi("-------网商银行·余利宝-------");
+                            bundle.putString("from", Alipay.REC_YULIBAO);
+                            break;
                         case "蚂蚁财富·我的余额宝":
-                            Logi( "-------蚂蚁财富·我的余额宝-------");
+                            Logi("-------蚂蚁财富·我的余额宝-------");
                             bundle.putString("from", Alipay.REC_YUEBAO);break;
                         default:
                             Logi( "-------未知数据结构-------",true);
