@@ -67,6 +67,7 @@ public class WechatHook extends HookBase {
         hookSetting();
         hookMsg();
         hookNickName();
+        hookIWhat();
         //hookPayTools();
         //  Task.onMain(100, this::hookMsgInsertWithOnConflict);
         //  Task.onMain(100, this::hookMsg);
@@ -89,7 +90,7 @@ public class WechatHook extends HookBase {
     @Override
     public String[] getAppVer() {
         return new String[]{
-                "8.0.0"
+                "8.0.0", "8.0.1", "8.0.2"
         };
     }
 
@@ -273,34 +274,54 @@ public class WechatHook extends HookBase {
     }
 
 
-    private void hookMsgInsertWithOnConflict() {
-        Logi("微信hook insertWithOnConflict", true);
-        Class<?> SQLiteDatabase = XposedHelpers.findClass("com.tencent.wcdb.database.SQLiteDatabase", mAppClassLoader);
-        XposedHelpers.findAndHookMethod(SQLiteDatabase, "insertWithOnConflict", String.class, String.class, ContentValues.class, int.class, new XC_MethodHook() {
-
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
-                String str1 = param.args[0].toString();
-                String str2 = param.args[1].toString();
-                String str3 = param.args[2].toString();
-                Logi("BEFORE\n[PARAM 1]" + str1 + "\n" + "[PARAM 2]" + str2 + "\n" + "[PARAM 3]" + str3 + "\n", true);
-                super.beforeHookedMethod(param);
-            }
-
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
-                String str1 = param.args[0].toString();
-                String str2 = param.args[1].toString();
-                String str3 = param.args[2].toString();
-                Logi("AFTER\n[PARAM 1]" + str1 + "\n" + "[PARAM 2]" + str2 + "\n" + "[PARAM 3]" + str3 + "\n", true);
-                super.afterHookedMethod(param);
-            }
-        });
+    private void hookRedpackage() {
     }
 
-    private void hookRedpackage() {
+    private void hookIWhat() {
+        Class<?> ModalFragment = XposedHelpers.findClass("com.tencent.kinda.framework.app.ModalFragment", mAppClassLoader);
+        XposedHelpers.findAndHookMethod(ModalFragment, "onStart", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                Logi("一些好玩的：Page start");
+            }
+        });
+        XposedHelpers.findAndHookMethod(ModalFragment, "onStop", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                Logi("一些好玩的：Page stop");
+            }
+        });
+        XposedHelpers.findAndHookMethod(ModalFragment, "initPage", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                Logi("一些好玩的：initPage");
+            }
+        });
+        XposedHelpers.findAndHookMethod(ModalFragment, "initOnCreate", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                Logi("一些好玩的：initOnCreate");
+            }
+        });
+        XposedHelpers.findAndHookMethod(ModalFragment, "initPageView", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                Logi("一些好玩的：initPageView");
+            }
+        });
+        Class<?> BaseFragment = XposedHelpers.findClass("com.tencent.kinda.framework.widget.base.BaseFragment", mAppClassLoader);
+        XposedHelpers.findAndHookMethod(BaseFragment, "covertPlatformData", Bundle.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                Bundle bundle = (Bundle) param.args[0];
+                if (bundle != null)
+                    Logi("一些好玩的：covertPlatformData=>" + bundle.toString());
+                else {
+                    Logi("一些好玩的：covertPlatformData=>NULL");
+                }
+                // mContext.getIntent().getBundleExtra("key_platform_data");
+            }
+        });
     }
 
     private void hookSetting() {

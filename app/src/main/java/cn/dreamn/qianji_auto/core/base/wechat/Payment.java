@@ -69,31 +69,35 @@ public class Payment extends Analyze {
     BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
         String money = jsonObject.getJSONObject("topline").getJSONObject("value").getString("word");
         String shop = jsonObject.getString("display_name");
+        billInfo.setMoney(BillTools.getMoney(money));
         if (!shop.equals("")) {
             billInfo.setShopAccount(shop);
-        }
-        billInfo.setMoney(BillTools.getMoney(money));
-        try {
-            JSONArray line = jsonObject.getJSONObject("lines").getJSONArray("line");
-            for (int i = 0; i < line.size(); i++) {
-                JSONObject jsonObject1 = line.getJSONObject(i);
-                String key = jsonObject1.getJSONObject("key").getString("word");
-                String value = jsonObject1.getJSONObject("value").getString("word");
+            String payTool = jsonObject.getJSONObject("lines").getJSONObject("line").getJSONObject("value").getString("word");
+            billInfo.setAccountName(payTool);
 
-                switch (key) {
-                    case "收款方":
-                        billInfo.setShopAccount(value);
-                    case "支付方式":
-                        billInfo.setAccountName(value);
-                        break;
-                    case "扣费项目":
-                    case "备注":
-                        billInfo.setShopRemark(value);
-                        break;
+        } else {
+            try {
+                JSONArray line = jsonObject.getJSONObject("lines").getJSONArray("line");
+                for (int i = 0; i < line.size(); i++) {
+                    JSONObject jsonObject1 = line.getJSONObject(i);
+                    String key = jsonObject1.getJSONObject("key").getString("word");
+                    String value = jsonObject1.getJSONObject("value").getString("word");
+
+                    switch (key) {
+                        case "收款方":
+                            billInfo.setShopAccount(value);
+                        case "支付方式":
+                            billInfo.setAccountName(value);
+                            break;
+                        case "扣费项目":
+                        case "备注":
+                            billInfo.setShopRemark(value);
+                            break;
+                    }
                 }
+            } catch (Exception e) {
+                Logs.i("解析json出现了错误！\n json数据：" + jsonObject.toJSONString() + "\n 错误：" + e.toString());
             }
-        } catch (Exception e) {
-            Logs.i("解析json出现了错误！\n json数据：" + jsonObject.toJSONString() + "\n 错误：" + e.toString());
         }
 
 
