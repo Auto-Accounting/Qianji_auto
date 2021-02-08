@@ -132,7 +132,8 @@ public class AlipayHook extends HookBase {
                 Bundle bundle=new Bundle();
                 bundle.putString("from",Alipay.RED_RECEIVED);
                 bundle.putString("type",Receive.ALIPAY);
-                bundle.putString("data",jsonObject2.toJSONString());
+                bundle.putString("data", jsonObject2.toJSONString());
+                bundle.putString("title", "红包");
                 send(bundle);
 
 
@@ -168,6 +169,7 @@ public class AlipayHook extends HookBase {
                     bundle.putString("data", content.toJSONString());
                     String title = jsonObject1.getString("title");
                     Logi(title);
+                    bundle.putString("title", title);
                     switch (title) {
                         case "转账收款到余额宝":
                             Logi("-------转账收款到余额宝-------");
@@ -210,6 +212,7 @@ public class AlipayHook extends HookBase {
                     bundle.putString("data", content.toJSONString());
                     String title = jsonObject1.getString("title");
                     Logi(title);
+                    bundle.putString("title", title);
                     switch (title) {
                         case "商家服务":
                             return;//没什么卵用
@@ -221,12 +224,18 @@ public class AlipayHook extends HookBase {
                             Logi("-------网商银行·余利宝-------");
                             bundle.putString("from", Alipay.REC_YULIBAO);
                             break;
+                        case "网商银行":
+                            Logi("-------网商银行-------");
+                            bundle.putString("from", Alipay.REPAYMENT);
+                            break;
                         case "蚂蚁财富·我的余额宝":
                             Logi("-------蚂蚁财富·我的余额宝-------");
-                            bundle.putString("from", Alipay.REC_YUEBAO);break;
+                            bundle.putString("from", Alipay.REC_YUEBAO);
+                            break;
                         default:
-                            Logi( "-------未知数据结构-------",true);
-                            bundle.putString("from", Alipay.CANT_UNDERSTAND);break;
+                            Logi("-------未知数据结构-------", true);
+                            bundle.putString("from", Alipay.CANT_UNDERSTAND);
+                            break;
                     }
                     send(bundle);
                 }

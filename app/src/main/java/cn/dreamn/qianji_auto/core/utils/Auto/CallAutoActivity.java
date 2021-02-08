@@ -31,6 +31,7 @@ import cn.dreamn.qianji_auto.core.db.Cache;
 import cn.dreamn.qianji_auto.core.utils.Assets;
 import cn.dreamn.qianji_auto.core.utils.AutoBills;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
+import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.BookNames;
 import cn.dreamn.qianji_auto.core.utils.Caches;
 import cn.dreamn.qianji_auto.core.utils.Category;
@@ -65,11 +66,12 @@ public class CallAutoActivity {
     public static BillInfo replaceWithSomeThing(BillInfo billInfo) {
 
         billInfo.setTime();//设置时间
-        billInfo.setAccountName(Assets.getMap(billInfo.getAccountName()));//设置一号资产
-        billInfo.setAccountName2(Assets.getMap(billInfo.getAccountName2()));//设置二号资产
+        billInfo.setAccountName(Assets.getMap(BillTools.dealPayTool(billInfo.getAccountName())));//设置一号资产
+        billInfo.setAccountName2(Assets.getMap(BillTools.dealPayTool(billInfo.getAccountName2())));//设置二号资产
         billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(), billInfo.getShopRemark()));//设置备注
         billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType())));//设置自动分类
         billInfo.setBookName(BookNames.getDefault());//设置自动记账的账本名
+
         return billInfo;
     }
 

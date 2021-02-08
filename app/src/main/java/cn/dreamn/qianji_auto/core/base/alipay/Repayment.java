@@ -15,10 +15,11 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.base.wechat;
+package cn.dreamn.qianji_auto.core.base.alipay;
 
 import android.content.Context;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
@@ -26,17 +27,16 @@ import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
-
 /**
- * 微信转账成功成功
+ * 笔笔攒
  */
-public class WechatPaymentTransfer extends Analyze {
+public class Repayment extends Analyze {
 
-    private static WechatPaymentTransfer paymentSuccess;
+    private static Repayment paymentSuccess;
 
-    public static WechatPaymentTransfer getInstance() {
+    public static Repayment getInstance() {
         if (paymentSuccess != null) return paymentSuccess;
-        paymentSuccess = new WechatPaymentTransfer();
+        paymentSuccess = new Repayment();
         return paymentSuccess;
     }
 
@@ -48,34 +48,25 @@ public class WechatPaymentTransfer extends Analyze {
         if (jsonObject == null) return;
 
         BillInfo billInfo = new BillInfo();
-        billInfo.setAccountName("零钱");
-        if (jsonObject.getIntValue("paysubtype") == 1) {
-            billInfo.setType(BillInfo.TYPE_PAY);
-            billInfo.setSource("微信转账付款");
-            if (!jsonObject.getString("payTools").equals(""))
-                billInfo.setAccountName(jsonObject.getString("payTools"));
-        } else {
-            billInfo.setType(BillInfo.TYPE_INCOME);
-            billInfo.setSource("微信转账收款");
 
-        }
+        billInfo = getResult(jsonObject, billInfo);
 
-        billInfo.setMoney(BillTools.getMoney(jsonObject.getString("feedesc")));
-
-        //抓的很准
-
-        billInfo.setShopAccount(jsonObject.getString("nickName"));
-        billInfo.setShopRemark(jsonObject.getString("pay_memo"));
+        billInfo.setType(BillInfo.TYPE_CREDIT_CARD_PAYMENT);
 
 
+        billInfo.setSource("支付宝还款");
+        if (!billInfo.getShopRemark().startsWith("还款")) return;
         CallAutoActivity.call(context, billInfo);
 
     }
 
-
     @Override
     BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
-
+        billInfo.setMoney(BillTools.getMoney(jsonObject.getString("extra")));
+        billInfo.setShopAccount("网商银行");
+        billInfo.setShopRemark(jsonObject.getString("assistMsg1"));
+        billInfo.setAccountName("支付宝");//这个不准确
+        billInfo.setAccountName2(jsonObject.getString("assistMsg2"));
 
         return billInfo;
     }

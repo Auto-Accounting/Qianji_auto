@@ -75,14 +75,34 @@ public class BillTools {
 
     public static String getCustomBill(BillInfo billInfo){
         if(billInfo.getType().equals(BillInfo.TYPE_INCOME)){
-            return "+ ￥"+billInfo.getMoney();
-        }else if(billInfo.getType().equals(BillInfo.TYPE_PAY)){
-            return "- ￥"+billInfo.getMoney();
-        }else if(billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)){
-            return "-> ￥"+billInfo.  getMoney();
-        }else{
-            return "- ￥"+billInfo.getMoney();
+            return "+ ￥" + billInfo.getMoney();
+        } else if (billInfo.getType().equals(BillInfo.TYPE_PAY)) {
+            return "- ￥" + billInfo.getMoney();
+        } else if (billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)) {
+            return "-> ￥" + billInfo.getMoney();
+        } else {
+            return "- ￥" + billInfo.getMoney();
         }
+    }
+
+    public static String dealPayTool(String payTool) {
+        //退回零钱
+        //退回支付卡(建设银行5064)
+        if (payTool == null) return payTool;
+        if (payTool.startsWith("退回")) {
+            payTool = payTool.substring(2);
+            if (payTool.startsWith("支付卡")) {
+                payTool = payTool.substring(3);
+                if (payTool.startsWith("(") && payTool.endsWith(")")) {
+                    payTool = payTool.substring(1, payTool.length() - 1);
+                    String payToolNum = payTool.substring(payTool.length() - 4);
+                    payTool = payTool.replace(payToolNum, "") + "(" + payToolNum + ")";
+                }
+            }
+        } else if (payTool.startsWith("还款到")) {
+            payTool = payTool.substring(3);
+        }
+        return payTool;
     }
 
 

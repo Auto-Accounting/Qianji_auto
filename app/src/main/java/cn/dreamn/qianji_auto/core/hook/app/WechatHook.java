@@ -36,6 +36,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import cn.dreamn.qianji_auto.BuildConfig;
@@ -62,13 +63,11 @@ public class WechatHook extends HookBase {
     public void hookFirst() throws Error {
         // hookMsg2();
         // Task.onMain(100, this::hookButton);
-
-        hookButton();
+        // hookButton();
         hookSetting();
         hookMsg();
         hookNickName();
-        hookIWhat();
-        //hookPayTools();
+        hookPayTools();
         //  Task.onMain(100, this::hookMsgInsertWithOnConflict);
         //  Task.onMain(100, this::hookMsg);
         // hookMsgInsertWithOnConflict();
@@ -133,22 +132,12 @@ public class WechatHook extends HookBase {
             protected void beforeHookedMethod(MethodHookParam param) {
                 String UserName = param.args[0].toString();
                 writeData("userName", UserName);
-                //  Logi("微信名："+UserName);
+                Logi("微信名：" + UserName);
             }
         });
     }
 
-    private void hookPayTools() {
-        //TODO 获取支付方式
-        XposedHelpers.findAndHookMethod("com.tencent.kinda.framework.widget.base.KindaButtonImpl", mAppClassLoader, "setText", CharSequence.class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) {
-                String setText = param.args[0].toString();
-                // writeData("setText",setText);
-                Logi("setText ：" + setText);
-            }
-        });
-    }
+
 
     private void hookMsg() {
         Logi("微信hook启动", true);
@@ -196,11 +185,14 @@ public class WechatHook extends HookBase {
 
                                 wcpayinfo.put("talker", talker);
                                 wcpayinfo.put("nickName", readData("userName"));
+                                wcpayinfo.put("payTools", readData("cache_wechat_paytool"));//缓存的支付方式
                                 Bundle bundle = new Bundle();
                                 bundle.putString("type", Receive.WECHAT);
                                 bundle.putString("data", wcpayinfo.toJSONString());
 
                                 bundle.putString("from", Wechat.PAYMENT_TRANSFER);
+
+
                                 send(bundle);
                             }
                         } else if (type == 318767153) {
@@ -233,6 +225,7 @@ public class WechatHook extends HookBase {
                                 Bundle bundle = new Bundle();
                                 bundle.putString("type", Receive.WECHAT);
                                 bundle.putString("data", jsonObject.toJSONString());
+                                bundle.putString("title", title);
                                 Logi(title);
                                 switch (title) {
                                     case "微信支付凭证":
@@ -247,9 +240,16 @@ public class WechatHook extends HookBase {
                                         Logi("-------转账收款汇总通知-------");
                                         bundle.putString("from", Wechat.PAYMENT_TRANSFER_RECEIVED);
                                         break;
-                                    case "转账退款通知":
-                                        Logi("-------转账退款通知-------");
+                                    case "转账退款到账通知":
+                                        Logi("-------转账退款到账通知-------");
                                         bundle.putString("from", Wechat.PAYMENT_TRANSFER_REFUND);
+                                        break;
+                                    case "红包退款到账通知":
+                                        Logi("-------红包退款到账通知-------");
+                                        bundle.putString("from", Wechat.RED_REFUND);
+                                    case "退款到账通知":
+                                        Logi("-------退款到账通知-------");
+                                        bundle.putString("from", Wechat.PAYMENT_REFUND);
                                         break;
                                     default:
                                         Logi("-------未知数据结构-------", true);
@@ -277,51 +277,41 @@ public class WechatHook extends HookBase {
     private void hookRedpackage() {
     }
 
-    private void hookIWhat() {
-        Class<?> ModalFragment = XposedHelpers.findClass("com.tencent.kinda.framework.app.ModalFragment", mAppClassLoader);
-        XposedHelpers.findAndHookMethod(ModalFragment, "onStart", new XC_MethodHook() {
+    private void hookPayTools() {
+        Logi("try hooke setRichText");
+        Class<?> MMKRichLabelView = XposedHelpers.findClass("com.tencent.kinda.framework.widget.base.MMKRichLabelView", mAppClassLoader);
+        Class<?> KTex = XposedHelpers.findClass("com.tencent.kinda.gen.KText", mAppClassLoader);
+        //com.tencent.kinda.framework.widget.base.MMKRichText
+        Class<?> MMKRichText = XposedHelpers.findClass("com.tencent.kinda.framework.widget.base.MMKRichText", mAppClassLoader);
+        XposedHelpers.findAndHookMethod(MMKRichLabelView, "setRichText", KTex, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                Logi("一些好玩的：Page start");
-            }
-        });
-        XposedHelpers.findAndHookMethod(ModalFragment, "onStop", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                Logi("一些好玩的：Page stop");
-            }
-        });
-        XposedHelpers.findAndHookMethod(ModalFragment, "initPage", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                Logi("一些好玩的：initPage");
-            }
-        });
-        XposedHelpers.findAndHookMethod(ModalFragment, "initOnCreate", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                Logi("一些好玩的：initOnCreate");
-            }
-        });
-        XposedHelpers.findAndHookMethod(ModalFragment, "initPageView", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                Logi("一些好玩的：initPageView");
-            }
-        });
-        Class<?> BaseFragment = XposedHelpers.findClass("com.tencent.kinda.framework.widget.base.BaseFragment", mAppClassLoader);
-        XposedHelpers.findAndHookMethod(BaseFragment, "covertPlatformData", Bundle.class, new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                Bundle bundle = (Bundle) param.args[0];
-                if (bundle != null)
-                    Logi("一些好玩的：covertPlatformData=>" + bundle.toString());
-                else {
-                    Logi("一些好玩的：covertPlatformData=>NULL");
+                super.afterHookedMethod(param);
+                Method get = MMKRichText.getDeclaredMethod("get");
+                if (param.args[0] == null) {
+                    Logi("arg1 is null");
+                    return;
                 }
-                // mContext.getIntent().getBundleExtra("key_platform_data");
+                String data = get.invoke(param.args[0]).toString();
+                Logi("设置数据：" + data);
+                if (data.contains("零钱") || (data.contains("卡(") && data.endsWith(")"))) {
+                    writeData("cache_wechat_paytool", data);
+                    Logi("识别的账户名：" + data);
+                } else if (data.startsWith("￥")) {
+                    //金额
+                    writeData("cache_wechat_payMoney", data);
+                } else if (data.contains("向") && data.endsWith(")转账")) {
+                    //转账人
+                    writeData("cache_wechat_payUser", data);
+                }
+            }
+
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                super.beforeHookedMethod(param);
             }
         });
+
     }
 
     private void hookSetting() {

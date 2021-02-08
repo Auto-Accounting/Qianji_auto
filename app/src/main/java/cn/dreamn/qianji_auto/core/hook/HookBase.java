@@ -131,7 +131,8 @@ public abstract class HookBase implements IHooker {
         Intent intent = new Intent(Action);
         intent.setPackage("cn.dreamn.qianji_auto");
         intent.putExtras(bundle);
-        mContext.sendBroadcast(intent,null);
+        intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        mContext.sendBroadcast(intent, null);
     }
 
     /**

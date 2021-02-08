@@ -30,6 +30,7 @@ import cn.dreamn.qianji_auto.core.base.alipay.PaymentSuccess;
 import cn.dreamn.qianji_auto.core.base.alipay.QrCollection;
 import cn.dreamn.qianji_auto.core.base.alipay.RedReceived;
 import cn.dreamn.qianji_auto.core.base.alipay.Refund;
+import cn.dreamn.qianji_auto.core.base.alipay.Repayment;
 import cn.dreamn.qianji_auto.core.base.alipay.TransferIntoYuebao;
 import cn.dreamn.qianji_auto.core.base.alipay.TransferReceived;
 import cn.dreamn.qianji_auto.core.base.alipay.TransferSucceed;
@@ -37,8 +38,11 @@ import cn.dreamn.qianji_auto.core.base.alipay.YuEBao;
 import cn.dreamn.qianji_auto.core.base.alipay.YuLiBao;
 import cn.dreamn.qianji_auto.core.base.wechat.Payment;
 import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
+import cn.dreamn.qianji_auto.core.base.wechat.WechatPaymentRefund;
 import cn.dreamn.qianji_auto.core.base.wechat.WechatPaymentTransfer;
+import cn.dreamn.qianji_auto.core.base.wechat.WechatRedRefund;
 import cn.dreamn.qianji_auto.core.base.wechat.WechatTransferReceived;
+import cn.dreamn.qianji_auto.core.base.wechat.WechatTransferRefund;
 import cn.dreamn.qianji_auto.core.helper.SmsServer;
 import cn.dreamn.qianji_auto.core.utils.ServerManger;
 import cn.dreamn.qianji_auto.core.utils.Status;
@@ -81,10 +85,13 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                 String type = extData.getString("type");
                 String from = extData.getString("from");
                 String data = extData.getString("data");
+                String title = extData.getString("title");
+                if (title == null) title = "";
                 if (from == null || data == null || type == null) return;
                 Logs.i("---------收到广播消息------- \n" +
                         "源APP: " + type + "\n" +
                         "源自类型: " + from + "\n" +
+                        "源标题: " + title + "\n" +
                         "数据: " + data + "\n" +
                         "--------------------------------  \n");
 
@@ -94,6 +101,10 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                             case Alipay.BIBIZAN:
                                 //笔笔攒消息
                                 BiBiZan.getInstance().tryAnalyze(data, context);
+                                break;
+                            case Alipay.REPAYMENT:
+                                //笔笔攒消息
+                                Repayment.getInstance().tryAnalyze(data, context);
                                 break;
                             case Alipay.PAYMENT_SUCCESS:
                                 PaymentSuccess.getInstance().tryAnalyze(data, context);
@@ -156,10 +167,14 @@ public class ReceiveBroadcast extends BroadcastReceiver {
 
                                 break;
                             case Wechat.PAYMENT_TRANSFER_REFUND:
-
+                                WechatTransferRefund.getInstance().tryAnalyze(data, context);
                                 break;
-                            case Wechat.RED_REFUND:
+                            case Wechat.PAYMENT_REFUND:
+                                WechatPaymentRefund.getInstance().tryAnalyze(data, context);
+                                break;
 
+                            case Wechat.RED_REFUND:
+                                WechatRedRefund.getInstance().tryAnalyze(data, context);
                                 break;
                             case Wechat.CANT_UNDERSTAND:
 

@@ -54,7 +54,8 @@ public class SmsHook extends HookBase {
                             Bundle bundle=new Bundle();
                             bundle.putString("type", Receive.SMS);
                             bundle.putString("data",message);
-                            bundle.putString("from",Receive.SMS);
+                            bundle.putString("from", Receive.SMS);
+                            bundle.putString("title", "SMS");
                             send(bundle);
 
 
