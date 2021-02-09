@@ -13,8 +13,8 @@ android {
         applicationId "cn.dreamn.qianji_auto"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
-        versionCode 50
-        versionName "2.0.0beta1"
+        versionCode 52
+        versionName "2.0.0beta3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true

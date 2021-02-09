@@ -49,8 +49,9 @@ public class CallAutoActivity {
 
     public  static  void call(Context context, BillInfo billInfo){
         billInfo = replaceWithSomeThing(billInfo);
+        Logs.i("账单捕获，账单信息:\n" + billInfo.dump());
         if(!billInfo.isAvaiable())return;
-        Logs.i("账单获取成功，账单信息:\n" + billInfo.dump());
+
         AutoBills.add(billInfo);
         Tasker.add(context, billInfo);
 
@@ -117,17 +118,20 @@ public class CallAutoActivity {
 
     }
 
-    public static void goQianji(Context context,BillInfo billInfo){
-        Caches.update("float_lock","false");
-        goUrl(context,billInfo.getQianJi().trim());
+    public static void goQianji(Context context,BillInfo billInfo) {
+        //  Caches.update("float_lock","false");
+        Logs.i("对钱迹发起请求 :" + billInfo.getQianJi().trim());
+        goUrl(context, billInfo.getQianJi().trim());
     }
 
 
     public static void jump(Context context,BillInfo billInfo){
         if(getCheck()){
-            showFloat(context,billInfo);
+            Logs.i("需要二次确认 -> 弹出悬浮窗");
+            showFloat(context, billInfo);
         }else{
-            goQianji( context, billInfo);
+            Logs.i("不需要二次确认 -> 直接对钱迹发起请求");
+            goQianji(context, billInfo);
         }
     }
 
@@ -135,26 +139,33 @@ public class CallAutoActivity {
     public static void run(Context context, BillInfo billInfo) {
         MMKV mmkv = MMKV.defaultMMKV();
 
-        Logs.i("悬浮窗弹出，账单初始信息：" + billInfo.dump());
+        Logs.i("记账请求发起，账单初始信息：\n" + billInfo.dump());
         if(billInfo.getIsSilent()){
+            Logs.i("账单为 后台交易");
             if(mmkv.getBoolean("autoIncome",false)){
-                goQianji(context,billInfo);
+                Logs.i("全自动模式->直接对钱迹发起请求");
+                goQianji(context, billInfo);
             }else{
+                Logs.i("半自动模式->发出记账通知");
                 //通知处理
                 Tools.sendNotify(context,"记账提醒","￥"+billInfo.getMoney()+" - "+billInfo.getRemark(),billInfo.getQianJi());
             }
             return;
         }else{
+            Logs.i("账单为 前台交易");
             if(mmkv.getBoolean("autoPay",false)){
-                goQianji(context,billInfo);
+                Logs.i("全自动模式->直接对钱迹发起请求");
+                goQianji(context, billInfo);
                 return;
             }
         }
-
+        Logs.i("半自动模式 -> 下一步");
         if(getTimeout().equals("0")){
-            jump(context,billInfo);
+            Logs.i("确认超时时间为0 直接下一步");
+            jump(context, billInfo);
         }else{
-            showTip(context,billInfo);
+            Logs.i("存在超时，弹出超时面板");
+            showTip(context, billInfo);
         }
 
     }

@@ -15,11 +15,9 @@ public class HookMain implements IXposedHookLoadPackage {
         }
         final String packageName = lpparam.packageName;
         final String processName = lpparam.processName;
-        XposedBridge.log("-------hook start---------");
+
         for (HookBase hookBase : HookList.getInstance().getmListHook()) {
-            XposedBridge.log(packageName + "->" + processName);
             hookBase.hook(packageName, processName, 2);
         }
-        XposedBridge.log("-------hook end---------");
     }
 }

@@ -107,7 +107,7 @@ public class Tools {
         return DateUtils.getNowString(new SimpleDateFormat(format));
     }
     public static void sendNotify(Context context, String title, String content, String url){
-       Logs.d("发送通知");
+       Logs.d("发送记账通知");
         Notification mNotification;
         NotificationManager mNotificationManager;
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -146,7 +146,7 @@ public class Tools {
 
         mNotificationManager.notify((int) (Math.random() * 1000), mNotification);
         //mNotificationManager.g
-        Logs.i( "结束通知");
+
     }
 
     public static void clipboard(Context context,String text){

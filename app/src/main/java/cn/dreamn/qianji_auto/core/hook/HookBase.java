@@ -39,9 +39,7 @@ public abstract class HookBase implements IHooker {
     protected Context mContext;
 
 
-
     public static final String SEND_ACTION = "cn.dreamn.qianji_auto.XPOSED";
-
     public static final String SEND_LOG_ACTION = "cn.dreamn.qianji_auto.XPOSED_LOG";
 
 
@@ -74,18 +72,17 @@ public abstract class HookBase implements IHooker {
                 if (getPackPageName().equals(processName)) {
                     Logi("hooked 进程名 "+processName);
                     mHookCount = mHookCount + 1;
-                 //   Logi("hooked mHookCount 进程数 ->"+mHookCount+" mHookCountIndex 需要hook的进程ID "+mHookCountIndex);
-                    if (mHookCountIndex==0||mHookCount.equals(mHookCountIndex)) {
-                        try {
-                            if(!compare()){
-                                String string=String.format("当前应用[%s]版本[%s]可能不受支持！您可以继续使用，但可能部分功能不支持。支持的版本为：%s",getAppName(),getVerName(mContext),Arrays.toString(getAppVer()));
-                                Toast.makeText(mContext,string,Toast.LENGTH_LONG).show();
-                                Logi(string,false);
-                            }
-                            //   Logi("尝试 hook "+getAppName()+" 进程",false);
-                            hookFirst();
-                            //    Logi("hook "+getAppName()+" 完毕",false);
-                        } catch (Error | Exception e) {
+                   if (mHookCountIndex == 0 || mHookCount.equals(mHookCountIndex)) {
+                       try {
+                           if (!compare()) {
+                               String string = String.format("当前应用[%s]版本[%s]可能不受支持！您可以继续使用，但可能部分功能不支持。支持的版本为：%s", getAppName(), getVerName(mContext), Arrays.toString(getAppVer()));
+                               Toast.makeText(mContext, string, Toast.LENGTH_LONG).show();
+                               Logi(string, false);
+                           }
+
+                           hookFirst();
+
+                       } catch (Error | Exception e) {
                             Logi(e.toString());
                         }
                     }

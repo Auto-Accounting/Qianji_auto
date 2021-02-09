@@ -52,12 +52,14 @@ public class WechatPaymentTransfer extends Analyze {
         if (jsonObject.getIntValue("paysubtype") == 1) {
             billInfo.setType(BillInfo.TYPE_PAY);
             billInfo.setSource("微信转账付款");
-            if (!jsonObject.getString("payTools").equals(""))
-                billInfo.setAccountName(jsonObject.getString("payTools"));
-        } else {
+            billInfo.setAccountName(jsonObject.getString("payTools"));
+        } else if (jsonObject.getIntValue("paysubtype") == 3) {
             billInfo.setType(BillInfo.TYPE_INCOME);
             billInfo.setSource("微信转账收款");
 
+        } else {
+            Logs.i("该转账记录无效");
+            return;
         }
 
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("feedesc")));

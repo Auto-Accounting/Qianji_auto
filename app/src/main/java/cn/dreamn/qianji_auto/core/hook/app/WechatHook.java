@@ -45,6 +45,7 @@ import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
 import cn.dreamn.qianji_auto.core.hook.HookBase;
 import cn.dreamn.qianji_auto.core.hook.Task;
 import cn.dreamn.qianji_auto.utils.tools.DpUtil;
+import cn.dreamn.qianji_auto.utils.tools.Logs;
 import cn.dreamn.qianji_auto.utils.tools.StyleUtil;
 import cn.dreamn.qianji_auto.utils.tools.ViewUtil;
 import de.robv.android.xposed.XC_MethodHook;
@@ -61,12 +62,11 @@ public class WechatHook extends HookBase {
     }
     @Override
     public void hookFirst() throws Error {
-
-        hookSetting();
-        hookMsg();
-        hookNickName();
-        hookPayTools();
-        hookRedpackage();
+        hookSetting();//添加设置
+        hookPayTools();//获取支付的一些信息
+        hookNickName();//获取用户昵称
+        hookRedpackage();//获取收红包的信息
+        hookMsg();//获取插入数据库的信息
 
 
     }
@@ -179,8 +179,16 @@ public class WechatHook extends HookBase {
                                 JSONObject wcpayinfo = msg.getJSONObject("msg").getJSONObject("appmsg").getJSONObject("wcpayinfo");
 
                                 wcpayinfo.put("talker", talker);
+                                if (readData("userName").equals("false") || readData("cache_wechat_paytool").equals("false")) {
+                                    Logi("转账消息被捕获，但无法获得有效支付信息。", false);
+                                    return;
+                                }
                                 wcpayinfo.put("nickName", readData("userName"));
                                 wcpayinfo.put("payTools", readData("cache_wechat_paytool"));//缓存的支付方式
+
+                                writeData("userName", "false");
+                                writeData("cache_wechat_paytool", "false");
+
                                 Bundle bundle = new Bundle();
                                 bundle.putString("type", Receive.WECHAT);
                                 bundle.putString("data", wcpayinfo.toJSONString());
@@ -204,11 +212,20 @@ public class WechatHook extends HookBase {
 
                                 JSONObject wcpayinfo = msg.getJSONObject("msg").getJSONObject("appmsg").getJSONObject("wcpayinfo");
 
+                                if (readData("userName").equals("false") || readData("cache_wechat_paytool").equals("false") || readData("cache_wechat_payMoney").equals("false")) {
+                                    Logi("红包消息被捕获，但无法获得有效支付信息。", false);
+                                    return;
+                                }
+
                                 wcpayinfo.put("talker", talker);
                                 wcpayinfo.put("nickName", readData("userName"));
                                 wcpayinfo.put("payTools", readData("cache_wechat_paytool"));//缓存的支付方式
 
                                 wcpayinfo.put("money", readData("cache_wechat_payMoney"));//缓存的金额
+
+                                writeData("userName", "false");
+                                writeData("cache_wechat_paytool", "false");
+                                writeData("cache_wechat_payMoney", "false");
 
                                 Bundle bundle = new Bundle();
                                 bundle.putString("type", Receive.WECHAT);
@@ -303,7 +320,6 @@ public class WechatHook extends HookBase {
     private void hookPayTools() {
         Class<?> MMKRichLabelView = XposedHelpers.findClass("com.tencent.kinda.framework.widget.base.MMKRichLabelView", mAppClassLoader);
         Class<?> KTex = XposedHelpers.findClass("com.tencent.kinda.gen.KText", mAppClassLoader);
-        //com.tencent.kinda.framework.widget.base.MMKRichText
         Class<?> MMKRichText = XposedHelpers.findClass("com.tencent.kinda.framework.widget.base.MMKRichText", mAppClassLoader);
         XposedHelpers.findAndHookMethod(MMKRichLabelView, "setRichText", KTex, new XC_MethodHook() {
             @Override
@@ -315,7 +331,7 @@ public class WechatHook extends HookBase {
                     return;
                 }
                 String data = get.invoke(param.args[0]).toString();
-                Logi("设置数据：" + data);
+                Logi("设置数据：" + data, true);
                 if (data.contains("零钱") || (data.contains("卡(") && data.endsWith(")"))) {
                     writeData("cache_wechat_paytool", data);
                     Logi("识别的账户名：" + data);
@@ -326,6 +342,7 @@ public class WechatHook extends HookBase {
                     //转账人
                     writeData("cache_wechat_payUser", data);
                 }
+
             }
 
             @Override
