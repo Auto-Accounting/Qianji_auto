@@ -71,6 +71,7 @@ public class Tasker {
             Cache[] caches2 = Caches.getType("tasker_bill");
             int h;
             for(h=0;h<caches2.length;h++){
+                Logs.d(caches[i].cacheData);
                 if(caches[i].id==caches2[h].id)break;
             }
 

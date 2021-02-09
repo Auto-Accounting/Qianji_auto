@@ -91,6 +91,7 @@ public class Payment extends Analyze {
                             break;
                         case "扣费项目":
                         case "备注":
+                        case "付款留言":
                             billInfo.setShopRemark(value);
                             break;
                     }

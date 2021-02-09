@@ -253,8 +253,9 @@ public class WechatHook extends HookBase {
                                 bundle.putString("title", title);
                                 Logi(title);
                                 switch (title) {
+                                    case "扣费凭证":
                                     case "微信支付凭证":
-                                        Logi("-------微信支付凭证-------");
+                                        Logi("-------微信支付凭证/扣费凭证-------");
                                         bundle.putString("from", Wechat.PAYMENT);
                                         break;
                                     case "收款到账通知":

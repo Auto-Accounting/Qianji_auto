@@ -240,6 +240,36 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="账单类型条件满足" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+
+                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                        android:id="@+id/regular_billtype"
+                        style="@style/RoundButton.Auto"
+
+                        android:layout_width="match_parent"
+                        android:text="任意类型" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="@string/CategoryName" />
 
 
