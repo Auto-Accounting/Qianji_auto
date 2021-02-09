@@ -45,13 +45,15 @@ public class BillInfo  {
 
     private String time;//yyyy-MM-dd HH:mm:ss
 
+
+    private String billType;//账单类型
     //以上为必传参数
 
     private String remark;//备注信息
 
     private String catename;//分类
 
-    private String catechoose="0";//type=0或1有效
+    private String catechoose = "0";//type=0或1有效
 
     private String bookname = "默认账本";//账本名称，不填写则使用默认账本
 
@@ -71,12 +73,22 @@ public class BillInfo  {
     private String isSilent;//是否为静默模式
 
     public boolean getIsSilent() {
-        return isSilent!=null&&isSilent.equals("true");
+        return isSilent != null && isSilent.equals("true");
     }
 
 
     public void setSilent(boolean state) {
-        isSilent=(state?"true":"false");
+        isSilent = (state ? "true" : "false");
+    }
+
+
+    public String getBillType() {
+        return billType;
+    }
+
+
+    public void setBillType(String type) {
+        billType = type;
     }
 
     public String getType() {
@@ -223,14 +235,16 @@ public class BillInfo  {
         if (shopRemark != null) {
             url += "&shopRemark=" + shopRemark;
         }
-        if(source!=null){
-            url +="&source="+source;
+        if (source != null) {
+            url += "&source=" + source;
         }
 
-        if(isSilent!=null){
-            url+="&isSilent="+isSilent;
+        if (isSilent != null) {
+            url += "&isSilent=" + isSilent;
         }
-
+        if (billType != null) {
+            url += "&billType=" + billType;
+        }
         return url;
     }
 
@@ -278,6 +292,8 @@ public class BillInfo  {
                 case "isSilent":
                     billInfo.setSilent(value.equals("true"));
                     break;
+                case "billType":
+                    billInfo.setBillType(value);
                 default:
                     break;
             }
@@ -339,7 +355,7 @@ public class BillInfo  {
 
     public String dump() {
         String output = "";
-        output += String.format("类型=%s\n", getTypeName(type));
+        output += String.format("消费类型=%s\n", getTypeName(type));
         output += String.format("金额=%s\n", money);
         output += String.format("时间=%s\n", time);
         output += String.format("备注=%s\n", remark);
@@ -350,6 +366,7 @@ public class BillInfo  {
         output += String.format("资产名2=%s\n", accountname2);
         output += String.format("商户名=%s\n", shopAccount);
         output += String.format("商户备注=%s\n", shopRemark);
+        output += String.format("账单类型=%s\n", billType);
         output += String.format("数据来源=%s\n", source);
         output += String.format("是否静默=%s\n", getIsSilent());
         output += "是否有效？" + (isAvaiable() ? "有效" : "无效");

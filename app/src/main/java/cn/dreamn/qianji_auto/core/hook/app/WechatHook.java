@@ -61,17 +61,12 @@ public class WechatHook extends HookBase {
     }
     @Override
     public void hookFirst() throws Error {
-        // hookMsg2();
-        // Task.onMain(100, this::hookButton);
-        // hookButton();
+
         hookSetting();
         hookMsg();
         hookNickName();
         hookPayTools();
-        //  Task.onMain(100, this::hookMsgInsertWithOnConflict);
-        //  Task.onMain(100, this::hookMsg);
-        // hookMsgInsertWithOnConflict();
-        // hookRedpackage();
+        hookRedpackage();
 
 
     }
@@ -189,12 +184,42 @@ public class WechatHook extends HookBase {
                                 Bundle bundle = new Bundle();
                                 bundle.putString("type", Receive.WECHAT);
                                 bundle.putString("data", wcpayinfo.toJSONString());
-
+                                bundle.putString("title", "微信转账");
                                 bundle.putString("from", Wechat.PAYMENT_TRANSFER);
 
 
                                 send(bundle);
                             }
+                        } else if (type == 436207665) {
+                            Integer isSend = contentValues.getAsInteger("isSend");
+                            if (isSend == 1) {
+                                //我发出去的转账
+                                String talker = contentValues.getAsString("talker");
+                                XmlToJson xmlToJson = new XmlToJson.Builder(contentStr).build();
+                                String xml = xmlToJson.toString();
+                                JSONObject msg = JSONObject.parseObject(xml);
+
+                                Logi("-------红包信息-------", true);
+                                Logi("微信JSON消息：" + xml, true);
+
+                                JSONObject wcpayinfo = msg.getJSONObject("msg").getJSONObject("appmsg").getJSONObject("wcpayinfo");
+
+                                wcpayinfo.put("talker", talker);
+                                wcpayinfo.put("nickName", readData("userName"));
+                                wcpayinfo.put("payTools", readData("cache_wechat_paytool"));//缓存的支付方式
+
+                                wcpayinfo.put("money", readData("cache_wechat_payMoney"));//缓存的金额
+
+                                Bundle bundle = new Bundle();
+                                bundle.putString("type", Receive.WECHAT);
+                                bundle.putString("data", wcpayinfo.toJSONString());
+                                bundle.putString("title", "微信红包");
+                                bundle.putString("from", Wechat.RED_PACKAGE);
+
+
+                                send(bundle);
+                            }
+
                         } else if (type == 318767153) {
                             Logi("微信XML消息：" + contentStr, true);
 
@@ -274,11 +299,7 @@ public class WechatHook extends HookBase {
     }
 
 
-    private void hookRedpackage() {
-    }
-
     private void hookPayTools() {
-        Logi("try hooke setRichText");
         Class<?> MMKRichLabelView = XposedHelpers.findClass("com.tencent.kinda.framework.widget.base.MMKRichLabelView", mAppClassLoader);
         Class<?> KTex = XposedHelpers.findClass("com.tencent.kinda.gen.KText", mAppClassLoader);
         //com.tencent.kinda.framework.widget.base.MMKRichText
@@ -311,6 +332,65 @@ public class WechatHook extends HookBase {
                 super.beforeHookedMethod(param);
             }
         });
+
+    }
+
+    private void hookRedpackage() {
+
+        Class<?> LuckyMoneyDetailUI = XposedHelpers.findClass("com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyDetailUI", mAppClassLoader);
+        Class<?> qVar = XposedHelpers.findClass("com.tencent.mm.plugin.luckymoney.model.q", mAppClassLoader);
+
+        XposedHelpers.findAndHookMethod(LuckyMoneyDetailUI, "a", qVar, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                super.beforeHookedMethod(param);
+                Logi("hooked qvar");
+                if (param.args[0] == null) {
+                    Logi("qVar = null");
+                    return;
+                }
+
+                Object object = param.args[0];
+
+               /* Field[] fields = qVar.getDeclaredFields();
+                for (Field f : fields) {
+                    f.setAccessible(true);
+                    Object obj= f.get(object);
+                    String str;
+                    if(obj==null)str="null";
+                    else str=obj.toString();
+                    Logi("属性名:" + f.getName() + " 属性值:" + str);
+                }*/
+                Field money = qVar.getDeclaredField("eht");
+                Field remark = qVar.getDeclaredField("yPK");
+                Field shopAccount = qVar.getDeclaredField("yVd");
+
+                JSONObject jsonObject = new JSONObject();
+
+                double m = Integer.parseInt(money.get(object).toString()) / 100.0d;
+
+                jsonObject.put("money", String.valueOf(m));
+
+
+                jsonObject.put("remark", remark.get(object).toString());
+                jsonObject.put("shopAccount", shopAccount.get(object).toString());
+
+                Logi("-------红包信息-------", true);
+                Logi("微信JSON消息：" + jsonObject.toJSONString(), true);
+
+
+                Bundle bundle = new Bundle();
+                bundle.putString("type", Receive.WECHAT);
+                bundle.putString("data", jsonObject.toJSONString());
+                bundle.putString("title", "微信收红包");
+                bundle.putString("from", Wechat.RED_PACKAGE_RECEIVED);
+
+
+                send(bundle);
+
+            }
+        });
+
 
     }
 

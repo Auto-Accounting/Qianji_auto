@@ -34,12 +34,15 @@ import cn.dreamn.qianji_auto.core.base.alipay.Repayment;
 import cn.dreamn.qianji_auto.core.base.alipay.TransferIntoYuebao;
 import cn.dreamn.qianji_auto.core.base.alipay.TransferReceived;
 import cn.dreamn.qianji_auto.core.base.alipay.TransferSucceed;
+import cn.dreamn.qianji_auto.core.base.alipay.TransferSucceedAccount;
 import cn.dreamn.qianji_auto.core.base.alipay.YuEBao;
 import cn.dreamn.qianji_auto.core.base.alipay.YuLiBao;
 import cn.dreamn.qianji_auto.core.base.wechat.Payment;
 import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
 import cn.dreamn.qianji_auto.core.base.wechat.WechatPaymentRefund;
 import cn.dreamn.qianji_auto.core.base.wechat.WechatPaymentTransfer;
+import cn.dreamn.qianji_auto.core.base.wechat.WechatRedPackage;
+import cn.dreamn.qianji_auto.core.base.wechat.WechatRedPackageReceived;
 import cn.dreamn.qianji_auto.core.base.wechat.WechatRedRefund;
 import cn.dreamn.qianji_auto.core.base.wechat.WechatTransferReceived;
 import cn.dreamn.qianji_auto.core.base.wechat.WechatTransferRefund;
@@ -78,8 +81,6 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                 break;
             }
             case "cn.dreamn.qianji_auto.XPOSED": {
-                Logs.d("收到消息");
-                //xp处理消息
                 Bundle extData = intent.getExtras();
                 if (extData == null) return;
                 String type = extData.getString("type");
@@ -94,7 +95,6 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                         "源标题: " + title + "\n" +
                         "数据: " + data + "\n" +
                         "--------------------------------  \n");
-
                 switch (type) {
                     case Receive.ALIPAY:
                         switch (from) {
@@ -134,6 +134,7 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                                 TransferSucceed.getInstance().tryAnalyze(data, context);
                                 break;
                             case Alipay.TRANSFER_SUCCESS_ACCOUNT:
+                                TransferSucceedAccount.getInstance().tryAnalyze(data, context);
                                 break;
                             case Alipay.TRANSFER_YUEBAO:
                             case Alipay.TRANSFER_INTO_YUEBAO:
@@ -159,12 +160,13 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                                 break;
                             case Wechat.PAYMENT_TRANSFER_RECEIVED:
                                 //  WechatTransferReceived.getInstance().tryAnalyze(data,context);
+                                // 和上面那个一样
                                 break;
                             case Wechat.RED_PACKAGE:
-
+                                WechatRedPackage.getInstance().tryAnalyze(data, context);
                                 break;
                             case Wechat.RED_PACKAGE_RECEIVED:
-
+                                WechatRedPackageReceived.getInstance().tryAnalyze(data, context);
                                 break;
                             case Wechat.PAYMENT_TRANSFER_REFUND:
                                 WechatTransferRefund.getInstance().tryAnalyze(data, context);
@@ -172,7 +174,6 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                             case Wechat.PAYMENT_REFUND:
                                 WechatPaymentRefund.getInstance().tryAnalyze(data, context);
                                 break;
-
                             case Wechat.RED_REFUND:
                                 WechatRedRefund.getInstance().tryAnalyze(data, context);
                                 break;
