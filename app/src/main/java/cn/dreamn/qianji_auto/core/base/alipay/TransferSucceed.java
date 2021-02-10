@@ -50,8 +50,8 @@ public class TransferSucceed extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-
-        billInfo=getResult(jsonObject,billInfo);
+        billInfo.setShopRemark("转账成功");
+        billInfo = getResult(jsonObject, billInfo);
 
 
         billInfo.setType(BillInfo.TYPE_PAY);

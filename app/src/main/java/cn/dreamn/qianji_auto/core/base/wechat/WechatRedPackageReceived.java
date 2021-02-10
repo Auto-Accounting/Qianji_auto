@@ -47,6 +47,7 @@ public class WechatRedPackageReceived extends Analyze {
         if (jsonObject == null) return;
 
         BillInfo billInfo = new BillInfo();
+        billInfo.setShopRemark("微信红包收入");
         billInfo.setAccountName("零钱");
         billInfo.setType(BillInfo.TYPE_INCOME);
         billInfo.setSource("微信收红包");

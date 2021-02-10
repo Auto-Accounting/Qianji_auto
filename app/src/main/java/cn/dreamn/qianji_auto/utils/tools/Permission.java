@@ -100,10 +100,30 @@ public class Permission {
                         }
                     }
                 });
+                XXPermissions.with(context).permission(com.hjq.permissions.Permission.RECEIVE_SMS).request(new OnPermissionCallback() {
+
+                    @Override
+                    public void onGranted(List<String> permissions, boolean all) {
+                        if (all) {
+                            XToastUtils.info("获取短信接收权限成功");
+                        }
+                    }
+
+                    @Override
+                    public void onDenied(List<String> permissions, boolean never) {
+                        if (never) {
+                            XToastUtils.error("被永久拒绝授权，请手动授予短信接收权限");
+                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.startPermissionActivity(context, permissions);
+                        } else {
+                            XToastUtils.error("获取短信接收权限失败");
+                        }
+                    }
+                });
                 break;
             case Float:
                 XXPermissions.with(context)
-                        
+
                         .permission(com.hjq.permissions.Permission.SYSTEM_ALERT_WINDOW)
                         .request(new OnPermissionCallback() {
 

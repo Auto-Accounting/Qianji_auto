@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" /> <!-- 忽略电池优化 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -100,9 +101,13 @@
 
         <receiver
             android:name=".core.base.broadcast.ReceiveBroadcast"
-            android:exported="true" >
-            <intent-filter>
+            android:exported="true"
+
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+
                 <!-- 自定义广播类型 -->
                 <action android:name="cn.dreamn.qianji_auto.XPOSED" />
                 <action android:name="cn.dreamn.qianji_auto.XPOSED_LOG" />

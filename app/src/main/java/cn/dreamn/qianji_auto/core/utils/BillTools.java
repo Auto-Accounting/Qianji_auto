@@ -18,6 +18,7 @@
 package cn.dreamn.qianji_auto.core.utils;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 import static com.xuexiang.xui.utils.ResUtils.getResources;
 
@@ -27,6 +28,7 @@ public class BillTools {
     }
     private static String getDoubleValue(String str)
     {
+        str = str.replace(",", "");
         double d = 0;
 
         if(str!=null && str.length()!=0)

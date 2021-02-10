@@ -53,8 +53,8 @@ public class Payment extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-
-        billInfo=getResult(jsonObject,billInfo);
+        billInfo.setShopRemark("微信支付付款成功");
+        billInfo = getResult(jsonObject, billInfo);
 
         billInfo.setType(BillInfo.TYPE_PAY);
 

@@ -117,16 +117,16 @@ public class HelperFragment extends BaseFragment {
             R.id.permission_battery,
             R.id.permission_lock,
             R.id.permission_battery_ingore,
-           // R.id.permission_security,
+            // R.id.permission_security,
             R.id.permission_notification,
 
             R.id.permission_float2,
             R.id.permission_start2,
+            R.id.permission_sms2,
 
             R.id.set_check,
             R.id.set_delay,
             R.id.set_default_book,
-
 
 
     })
@@ -169,24 +169,27 @@ public class HelperFragment extends BaseFragment {
                 break;
             case R.id.helper_choose_help:
                 //辅助功能
-                mmkv.encode("helper_choose","helper");
+                mmkv.encode("helper_choose", "helper");
                 step(page_3_1);
                 break;
 
             case R.id.permission_assist:
-                Permission.getInstance().grant(this.getContext(),Permission.Assist);
+                Permission.getInstance().grant(this.getContext(), Permission.Assist);
                 break;
             case R.id.permission_sms:
-                Permission.getInstance().grant(this.getContext(),Permission.Sms);
+            case R.id.permission_sms2:
+                Permission.getInstance().grant(this.getContext(), Permission.Sms);
                 break;
-            case R.id.permission_float: case R.id.permission_float2:
-                Permission.getInstance().grant(this.getContext(),Permission.Float);
+            case R.id.permission_float:
+            case R.id.permission_float2:
+                Permission.getInstance().grant(this.getContext(), Permission.Float);
                 break;
-            case R.id.permission_start: case R.id.permission_start2:
-                Permission.getInstance().grant(this.getContext(),Permission.Start);
+            case R.id.permission_start:
+            case R.id.permission_start2:
+                Permission.getInstance().grant(this.getContext(), Permission.Start);
                 break;
             case R.id.permission_battery:
-                Permission.getInstance().grant(this.getContext(),Permission.Battery);
+                Permission.getInstance().grant(this.getContext(), Permission.Battery);
                 break;
             case R.id.permission_lock:
                 Permission.getInstance().grant(this.getContext(),Permission.Lock);

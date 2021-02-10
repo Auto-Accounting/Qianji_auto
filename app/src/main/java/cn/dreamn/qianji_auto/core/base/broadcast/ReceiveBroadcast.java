@@ -21,6 +21,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.SmsMessage;
 
 import cn.dreamn.qianji_auto.core.base.Receive;
 import cn.dreamn.qianji_auto.core.base.alipay.Alipay;
@@ -56,10 +57,33 @@ public class ReceiveBroadcast extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         String action = intent.getAction();
         if(action==null)return;
         //开机启动
         switch (action) {
+            case "android.provider.Telephony.SMS_RECEIVED":
+
+                SmsMessage[] msgs = getMessageFromIntent(intent);
+                //提取短信内容
+                if (msgs != null && msgs.length > 0) {
+                    StringBuilder msg2 = new StringBuilder();
+                    String user = "";
+                    for (SmsMessage msg : msgs) {
+                        user = msg.getDisplayOriginatingAddress();
+                        msg2.append(msg.getDisplayMessageBody());
+                    }
+
+                    Logs.i("--------收到短信-------\n" +
+                            "发件人是：" + user +
+                            "\n------短信内容-------\n" +
+                            msg2.toString() +
+                            "\n----------------------"
+                    );
+                    SmsServer.readSMS(msg2.toString(), context);
+                }
+
+                break;
             case "android.intent.action.BOOT_COMPLETED":
                 Logs.i("开机启动检测");
                 if (!Status.getActiveMode().equals("helper")) {
@@ -70,7 +94,7 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                 ServerManger.startAccessibility(context);
                 ServerManger.startAutoNotify(context);
                 ServerManger.startNotice(context);
-                ServerManger.startSms(context);
+
                 break;
             case "cn.dreamn.qianji_auto.XPOSED_LOG": {
                 Bundle extData = intent.getExtras();
@@ -186,7 +210,7 @@ public class ReceiveBroadcast extends BroadcastReceiver {
 
                         break;
                     case Receive.SMS:
-                        SmsServer.readSMS(data,context);
+                        SmsServer.readSMS(data, context);
                         break;
                     default:
                         break;
@@ -194,6 +218,19 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                 break;
             }
         }
+    }
+
+    //从意图获取短信对象的具体方法
+    public static SmsMessage[] getMessageFromIntent(Intent intent) {
+        SmsMessage[] retmeMessage = null;
+        Bundle bundle = intent.getExtras();
+        Object[] pdus = (Object[]) bundle.get("pdus");
+        retmeMessage = new SmsMessage[pdus.length];
+        for (int i = 0; i < pdus.length; i++) {
+            byte[] bytedata = (byte[]) pdus[i];
+            retmeMessage[i] = SmsMessage.createFromPdu(bytedata);
+        }
+        return retmeMessage;
     }
 
 

@@ -51,8 +51,8 @@ public class QrCollection extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-
-        billInfo=getResult(jsonObject,billInfo);
+        billInfo.setShopRemark("微信二维码收款到账");
+        billInfo = getResult(jsonObject, billInfo);
 
         billInfo.setAccountName("零钱");
         billInfo.setType(BillInfo.TYPE_INCOME);

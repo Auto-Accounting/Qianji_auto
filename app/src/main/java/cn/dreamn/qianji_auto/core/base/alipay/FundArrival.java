@@ -51,8 +51,8 @@ public class FundArrival extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-
-        billInfo=getResult(jsonObject,billInfo);
+        billInfo.setShopRemark("商家付款");
+        billInfo = getResult(jsonObject, billInfo);
 
         billInfo.setType(BillInfo.TYPE_INCOME);
         billInfo.setSilent(true);

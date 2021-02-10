@@ -49,7 +49,7 @@ public class WechatRedRefund extends Analyze {
         if (jsonObject == null) return;
 
         BillInfo billInfo = new BillInfo();
-
+        billInfo.setShopRemark("微信红包退款");
         billInfo = getResult(jsonObject, billInfo);
 
         billInfo.setType(BillInfo.TYPE_INCOME);

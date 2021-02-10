@@ -48,6 +48,7 @@ public class WechatPaymentTransfer extends Analyze {
         if (jsonObject == null) return;
 
         BillInfo billInfo = new BillInfo();
+        billInfo.setShopRemark("微信转账");
         billInfo.setAccountName("零钱");
         if (jsonObject.getIntValue("paysubtype") == 1) {
             billInfo.setType(BillInfo.TYPE_PAY);

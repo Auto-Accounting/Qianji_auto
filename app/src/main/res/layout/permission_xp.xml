@@ -39,4 +39,11 @@
         app:sLeftIconRes="@drawable/ic_start"
         app:sLeftTopTextString="@string/permission_start" />
 
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/permission_sms2"
+
+        style="@style/Item"
+        app:sLeftBottomTextString="@string/permission_sms_sub"
+        app:sLeftIconRes="@drawable/ic_tc"
+        app:sLeftTopTextString="@string/permission_sms" />
 </LinearLayout>

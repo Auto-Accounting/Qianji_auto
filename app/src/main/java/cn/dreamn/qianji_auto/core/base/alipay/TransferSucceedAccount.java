@@ -49,11 +49,11 @@ public class TransferSucceedAccount extends Analyze {
         if (!jsonObject.getString("status").equals("余额宝转出申请提交")) return;
 
         BillInfo billInfo = new BillInfo();
-
+        billInfo.setShopRemark("余额宝转出银行卡");
         billInfo = getResult(jsonObject, billInfo);
         billInfo.setAccountName("余额宝");
 
-        billInfo.setType(BillInfo.TYPE_PAY);
+        billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
         billInfo.setShopAccount("余额宝");
         billInfo.setSource("支付余额宝转出银行卡");
         CallAutoActivity.call(context, billInfo);

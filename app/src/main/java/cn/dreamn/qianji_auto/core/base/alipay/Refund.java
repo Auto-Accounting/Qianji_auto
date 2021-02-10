@@ -52,8 +52,8 @@ public class Refund extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-
-        billInfo=getResult(jsonObject,billInfo);
+        billInfo.setShopRemark("淘宝退款");
+        billInfo = getResult(jsonObject, billInfo);
 
         billInfo.setShopAccount("淘宝");
         billInfo.setType(BillInfo.TYPE_INCOME);

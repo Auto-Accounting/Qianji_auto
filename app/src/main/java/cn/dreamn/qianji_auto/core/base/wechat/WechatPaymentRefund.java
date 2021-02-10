@@ -49,7 +49,7 @@ public class WechatPaymentRefund extends Analyze {
         if (jsonObject == null) return;
 
         BillInfo billInfo = new BillInfo();
-
+        billInfo.setShopRemark("微信支付退款");
         billInfo = getResult(jsonObject, billInfo);
 
         billInfo.setType(BillInfo.TYPE_INCOME);

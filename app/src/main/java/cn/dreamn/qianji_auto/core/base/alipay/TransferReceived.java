@@ -50,8 +50,8 @@ public class TransferReceived extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-
-        billInfo=getResult(jsonObject,billInfo);
+        billInfo.setShopRemark("转账收款");
+        billInfo = getResult(jsonObject, billInfo);
 
         billInfo.setAccountName("余额");
         billInfo.setType(BillInfo.TYPE_INCOME);

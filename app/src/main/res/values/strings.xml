@@ -65,7 +65,7 @@
     <string name="auto_book2">变动资产</string>
     <string name="accessibility_service_description">自动记账的必要权限，如果无法启动请再次关闭并重新开启。</string>
     <string name="accessibility_service_label">自动记账辅助服务</string>
-    <string name="auto_title">Tips:点击分类可选则新的分类并自动完成记账。</string>
+    <string name="auto_title">Tips:点击分类可选择新的分类并自动完成记账。</string>
     <string name="auto_time">时间</string>
     <string name="input_ok">确认</string>
     <string name="set_cancel">取消</string>

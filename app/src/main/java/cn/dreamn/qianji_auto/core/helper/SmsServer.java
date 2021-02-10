@@ -18,40 +18,20 @@
 package cn.dreamn.qianji_auto.core.helper;
 
 import android.content.Context;
-import android.database.ContentObserver;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Handler;
 
-/*import com.eclipsesource.v8.V8;*/
-
-import cn.dreamn.qianji_auto.core.utils.Assets;
-import cn.dreamn.qianji_auto.core.utils.BillInfo;
-import cn.dreamn.qianji_auto.core.utils.BookNames;
 import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
-import cn.dreamn.qianji_auto.core.utils.Category;
+import cn.dreamn.qianji_auto.core.utils.BillInfo;
+import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.Smses;
 import cn.dreamn.qianji_auto.utils.tools.JsEngine;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
-public class SmsServer extends ContentObserver {
+/*import com.eclipsesource.v8.V8;*/
 
-    Cursor cursor;
-    Context mcontext;
-    Handler mhandler;
-
-    /*
-    重写一个构造方法，因为当数据库变化时要通知程序进行下一步操作，
-    所以需要传入Handler对象*/
-    public SmsServer(Context context, Handler handler) {
-        super(handler);
-        mcontext = context;
-        mhandler=handler;
+public class SmsServer {
 
 
-    }
-
-    public static void readSMS(String sms,Context context){
+    public static void readSMS(String sms, Context context) {
         String data = getSms(sms);
 
         String[] strings = data.split("\\|");
@@ -61,8 +41,16 @@ public class SmsServer extends ContentObserver {
 
         billInfo.setType(BillInfo.getTypeId(strings[2]));
 
+        billInfo.setMoney(BillTools.getMoney(strings[3]));
 
         String account = strings[1];
+
+        billInfo.setShopAccount(strings[1]);
+
+        billInfo.setSilent(true);
+
+        billInfo.setSource("短信捕获");
+
         if (!strings[4].equals("undefined")) {
             account = account + "(" + strings[4] + ")";
         }
@@ -82,21 +70,6 @@ public class SmsServer extends ContentObserver {
         CallAutoActivity.call(context, billInfo);
     }
 
-    @Override
-    public void onChange(boolean selfChange, Uri uri) {
-        super.onChange(selfChange, uri);
-        Logs.d(uri.toString());
-        if (uri.toString().equals("content://sms/inbox-insert")) {
-            cursor = mcontext.getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
-
-            assert cursor != null;
-            if (cursor.moveToFirst()) {
-                String body = cursor.getString(cursor.getColumnIndex("body"));
-                readSMS(body,mcontext);
-//
-            }
-        }
-    }
 
 
     public static String getSms(String smsBody){

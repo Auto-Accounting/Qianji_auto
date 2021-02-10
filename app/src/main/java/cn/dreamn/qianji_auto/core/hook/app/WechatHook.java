@@ -283,8 +283,8 @@ public class WechatHook extends HookBase {
                                         Logi("-------转账收款汇总通知-------");
                                         bundle.putString("from", Wechat.PAYMENT_TRANSFER_RECEIVED);
                                         break;
-                                    case "转账退款到账通知":
-                                        Logi("-------转账退款到账通知-------");
+                                    case "转账过期退还通知":
+                                        Logi("-------转账过期退还通知-------");
                                         bundle.putString("from", Wechat.PAYMENT_TRANSFER_REFUND);
                                         break;
                                     case "红包退款到账通知":

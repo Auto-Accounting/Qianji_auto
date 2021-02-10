@@ -51,8 +51,8 @@ public class PaymentSuccess extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-
-        billInfo=getResult(jsonObject,billInfo);
+        billInfo.setShopRemark("支付宝支付");
+        billInfo = getResult(jsonObject, billInfo);
 
         if(billInfo.getSource()!=null&& billInfo.getSource().equals("花呗还款")){
             billInfo.setType(BillInfo.TYPE_CREDIT_CARD_PAYMENT);

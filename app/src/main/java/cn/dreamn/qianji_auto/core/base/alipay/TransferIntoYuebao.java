@@ -50,14 +50,12 @@ public class TransferIntoYuebao extends Analyze {
         if (jsonObject == null) return;
 
         BillInfo billInfo = new BillInfo();
-
+        billInfo.setShopRemark("余额宝自动转入");
         billInfo = getResult(jsonObject, billInfo);
         billInfo.setSilent(true);
         billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
         //余额转入余额宝
         billInfo.setAccountName2("余额宝");
-
-
         billInfo.setSource("支付宝余额宝自动转入");
         CallAutoActivity.call(context, billInfo);
     }

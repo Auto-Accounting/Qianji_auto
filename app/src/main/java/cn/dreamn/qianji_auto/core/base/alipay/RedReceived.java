@@ -46,7 +46,7 @@ public class RedReceived extends Analyze {
         if(jsonObject==null)return ;
 
         BillInfo billInfo=new BillInfo();
-
+        billInfo.setShopRemark("收红包");
         String shopName=jsonObject.getString("subtitle").replaceAll("&[a-zA-Z]{1,10};", "").replaceAll("<[^>]*>", "").replaceAll("[(/>)<]", "");
 
         String shopRemark =jsonObject.getString("title");

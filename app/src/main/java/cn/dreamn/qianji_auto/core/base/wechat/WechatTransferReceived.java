@@ -49,7 +49,7 @@ public class WechatTransferReceived extends Analyze {
         if (jsonObject == null) return;
 
         BillInfo billInfo = new BillInfo();
-
+        billInfo.setShopRemark("微信转账收款");
         billInfo = getResult(jsonObject, billInfo);
 
         billInfo.setType(BillInfo.TYPE_INCOME);

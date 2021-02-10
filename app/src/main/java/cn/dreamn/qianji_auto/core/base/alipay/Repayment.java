@@ -48,7 +48,7 @@ public class Repayment extends Analyze {
         if (jsonObject == null) return;
 
         BillInfo billInfo = new BillInfo();
-
+        billInfo.setShopRemark("支付宝还款");
         billInfo = getResult(jsonObject, billInfo);
 
         billInfo.setType(BillInfo.TYPE_CREDIT_CARD_PAYMENT);

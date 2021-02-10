@@ -279,48 +279,49 @@ public class EditFragment extends BaseFragment {
         String regularList="";
         //时间获取
         if(!regular_time1.getEditValue().equals(""))
-            regularList+=String.format("time %s %s & ",regular_time1_link.getText().toString(),regular_time1.getText().toString());
+            regularList += String.format("time %s %s && ", regular_time1_link.getText().toString(), regular_time1.getText().toString());
         if(!regular_time2.getEditValue().equals(""))
-            regularList+=String.format("time %s %s & ",regular_time2_link.getText().toString(),regular_time2.getText().toString());
+            regularList += String.format("time %s %s && ", regular_time2_link.getText().toString(), regular_time2.getText().toString());
         String shopName= regular_shopName.getEditValue();
         String shopNameLink=regular_shopName_link.getText().toString();
         if(!shopName.equals("")){
             if(shopNameLink.equals(getString(R.string.choose_regular_contains))){
-                regularList+=String.format("shopName.indexOf('%s')!=-1 & ",shopName);
+                regularList += String.format("shopName.indexOf('%s')!=-1 && ", shopName);
             }else if(shopNameLink.equals(getString(R.string.choose_regular_equal))){
-                regularList+=String.format("shopName == '%s' &",shopName);
+                regularList += String.format("shopName == '%s' &&", shopName);
             }else if(shopNameLink.equals(getString(R.string.choose_regular_startOf))){
-                regularList+=String.format("shopName.startsWith('%s') & ",shopName);
+                regularList += String.format("shopName.startsWith('%s') && ", shopName);
             }else if(shopNameLink.equals(getString(R.string.choose_regular_endOf))){
-                regularList+=String.format("shopName.endsWith('%s') & ",shopName);
+                regularList += String.format("shopName.endsWith('%s') && ", shopName);
             }else if(shopNameLink.equals(getString(R.string.choose_regular_regex))){
-                regularList+=String.format("(/%s/g).test(shopName) & ",shopName);
+                regularList += String.format("(/%s/g).test(shopName) && ", shopName);
             }
         }
         String shopRemark= regular_shopRemark.getEditValue();
         String shopRemarkLink=regular_shopRemark_link.getText().toString();
         if(!shopRemark.equals("")){
             if(shopRemarkLink.equals(getString(R.string.choose_regular_contains))){
-                regularList+=String.format("shopRemark.indexOf('%s')!=-1 & ",shopRemark);
+                regularList += String.format("shopRemark.indexOf('%s')!=-1 && ", shopRemark);
             }else if(shopRemarkLink.equals(getString(R.string.choose_regular_equal))){
-                regularList+=String.format("shopRemark == '%s' &",shopRemark);
+                regularList += String.format("shopRemark == '%s' &&", shopRemark);
             }else if(shopRemarkLink.equals(getString(R.string.choose_regular_startOf))){
-                regularList+=String.format("shopRemark.startsWith('%s') & ",shopRemark);
+                regularList += String.format("shopRemark.startsWith('%s') && ", shopRemark);
             }else if(shopRemarkLink.equals(getString(R.string.choose_regular_endOf))){
-                regularList+=String.format("shopRemark.endsWith('%s') & ",shopRemark);
+                regularList += String.format("shopRemark.endsWith('%s') && ", shopRemark);
             }else if(shopRemarkLink.equals(getString(R.string.choose_regular_regex))){
-                regularList+=String.format("(/%s/g).test(shopRemark) & ",shopRemark);
+                regularList += String.format("(/%s/g).test(shopRemark) && ", shopRemark);
             }
         }
         //获取类型
         String type=regular_type.getText().toString();
         if(!type.equals(getString(R.string.choose_type_null))){
-            regularList+=String.format("type == '%s' & ",type);
+            regularList += String.format("type == '%s' && ", type);
         }
 
-        regularList = regularList.substring(0, regularList.lastIndexOf('&'));
+        regularList = regularList.substring(0, regularList.lastIndexOf('&') - 1);
         //获取规则
         String regular = String.format("if(%s)return '%s';",regularList,sort);
+
         Logs.d(regular);
 
 

@@ -46,11 +46,6 @@ public class ServerManger {
         context.startService(new Intent(context, AutoBillService.class));
     }
 
-    public static void startSms(Context context){
-        Logs.i("短信监听已启动");
-        SmsServer smsServer = new SmsServer(context,null);
-        getContentResolver().registerContentObserver(Uri.parse("content://sms"), true, smsServer);
-    }
 
     public static void startNotice(Context context){
         Logs.i("通知监听已启动");

@@ -52,6 +52,8 @@ public class BiBiZan extends Analyze {
 
         BillInfo billInfo = new BillInfo();
 
+        billInfo.setShopRemark("笔笔攒");
+
         billInfo = getResult(jsonObject, billInfo);
 
         billInfo.setSilent(true);

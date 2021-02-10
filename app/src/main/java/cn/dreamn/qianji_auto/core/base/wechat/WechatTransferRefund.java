@@ -22,6 +22,7 @@ import android.content.Context;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import cn.dreamn.qianji_auto.core.db.Log;
 import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
@@ -49,14 +50,17 @@ public class WechatTransferRefund extends Analyze {
         if (jsonObject == null) return;
 
         BillInfo billInfo = new BillInfo();
-
+        billInfo.setShopRemark("微信转账退款");
         billInfo = getResult(jsonObject, billInfo);
 
         billInfo.setType(BillInfo.TYPE_INCOME);
 
 
         billInfo.setSource("微信转账退款");
-        if (billInfo.getShopRemark().contains("你未在24小时内")) return;
+        if (billInfo.getShopRemark().contains("你未在24小时内")) {
+            Logs.i("那是对面退款了，与你无瓜。");
+            return;
+        }
         CallAutoActivity.call(context, billInfo);
 
     }
