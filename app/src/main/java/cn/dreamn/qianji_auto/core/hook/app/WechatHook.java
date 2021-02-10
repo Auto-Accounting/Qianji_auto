@@ -302,7 +302,7 @@ public class WechatHook extends HookBase {
                                 }
                                 send(bundle);
                             }catch (Exception e){
-                                Logi("JSON错误" + e.toString(), false);
+                                Logi("JSON错误" + e.toString(), true);
                             }
 
                         }
