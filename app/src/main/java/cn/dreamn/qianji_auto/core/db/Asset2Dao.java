@@ -24,14 +24,19 @@ import androidx.room.Query;
 public interface Asset2Dao {
     @Query("SELECT * FROM asset2")
     Asset2[] getAll();
+
     @Query("SELECT * FROM asset2 WHERE id=:id")
     Asset2[] get(int id);
+
     @Query("SELECT * FROM asset2 WHERE name=:name")
     Asset2[] get(String name);
+
     @Query("DELETE FROM asset2 WHERE id=:id")
     void del(int id);
+
     @Query("INSERT INTO asset2(name) values(:name)")
     void add(String name);
+
     @Query("UPDATE  asset2 SET name=:name WHERE id=:id")
     void update(int id, String name);
 }

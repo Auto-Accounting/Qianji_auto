@@ -7,6 +7,5 @@
         android:color="@color/pieChartNone_autumn" />
     <corners
         android:bottomLeftRadius="150dp"
-        android:topLeftRadius="150dp"
-        />
+        android:topLeftRadius="150dp" />
 </shape>

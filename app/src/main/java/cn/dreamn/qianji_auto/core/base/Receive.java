@@ -18,7 +18,7 @@
 package cn.dreamn.qianji_auto.core.base;
 
 public class Receive {
-    public   final static String ALIPAY="ALIPAY";//支付宝
-    public  final static String WECHAT="WECHAT";//微信
-    public  final static String SMS="SMS";//短信
+    public final static String ALIPAY = "ALIPAY";//支付宝
+    public final static String WECHAT = "WECHAT";//微信
+    public final static String SMS = "SMS";//短信
 }

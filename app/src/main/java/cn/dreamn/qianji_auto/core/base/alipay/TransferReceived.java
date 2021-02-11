@@ -17,17 +17,12 @@
 
 package cn.dreamn.qianji_auto.core.base.alipay;
 
-import android.content.Context;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import cn.dreamn.qianji_auto.core.utils.Assets;
+import cn.dreamn.qianji_auto.core.base.Analyze;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
-import cn.dreamn.qianji_auto.core.utils.Category;
-import cn.dreamn.qianji_auto.core.utils.Remark;
 
 /**
  * 转账给某人
@@ -36,43 +31,43 @@ public class TransferReceived extends Analyze {
 
     private static TransferReceived transferReceived;
 
-    public static TransferReceived getInstance(){
-        if(transferReceived!=null)return transferReceived;
-        transferReceived=new TransferReceived();
+    public static TransferReceived getInstance() {
+        if (transferReceived != null) return transferReceived;
+        transferReceived = new TransferReceived();
         return transferReceived;
     }
 
 
     @Override
-    public void tryAnalyze(String content, Context context) {
+    public BillInfo tryAnalyze(String content, String source) {
+        BillInfo billInfo = super.tryAnalyze(content, source);
 
-        JSONObject jsonObject=setContent(content);
-        if(jsonObject==null)return ;
-
-        BillInfo billInfo=new BillInfo();
+        if (billInfo == null) return null;
         billInfo.setShopRemark("转账收款");
-        billInfo = getResult(jsonObject, billInfo);
+
 
         billInfo.setAccountName("余额");
         billInfo.setType(BillInfo.TYPE_INCOME);
-
-
-        billInfo.setSource("支付宝收到转账");
-        CallAutoActivity.call(context,billInfo);
+        return billInfo;
     }
 
     @Override
-    BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
+    public BillInfo getResult(BillInfo billInfo) {
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
-        JSONArray jsonArray=jsonObject.getJSONArray("content");
-        for(int i=0;i<jsonArray.size();i++){
-            JSONObject jsonObject1=jsonArray.getJSONObject(i);
-            String name=jsonObject1.getString("title");
-            String value=jsonObject1.getString("content");
-            switch (name){
-                case "付款方：":billInfo.setShopAccount(value);break;
-                case "转账备注：":billInfo.setShopRemark(value);break;
-                default:break;
+        JSONArray jsonArray = jsonObject.getJSONArray("content");
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+            String name = jsonObject1.getString("title");
+            String value = jsonObject1.getString("content");
+            switch (name) {
+                case "付款方：":
+                    billInfo.setShopAccount(value);
+                    break;
+                case "转账备注：":
+                    billInfo.setShopRemark(value);
+                    break;
+                default:
+                    break;
             }
         }
         return billInfo;

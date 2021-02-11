@@ -56,13 +56,20 @@ public class StateFragment extends BaseFragment {
     private final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case 0:priShowContent();break;
-                case 1:priShowEmpty("空空如也");break;
-                case 2:priShowLoading("加载中");break;
+                case 0:
+                    priShowContent();
+                    break;
+                case 1:
+                    priShowEmpty("空空如也");
+                    break;
+                case 2:
+                    priShowLoading("加载中");
+                    break;
             }
 
         }
     };
+
     /**
      * 布局的资源id
      *
@@ -78,9 +85,8 @@ public class StateFragment extends BaseFragment {
      */
     @Override
     protected void initViews() {
-       // textView_load = findViewById(R.id.textView_load);
+        // textView_load = findViewById(R.id.textView_load);
     }
-
 
 
     @Override
@@ -103,20 +109,21 @@ public class StateFragment extends BaseFragment {
 
     }
 
-    private void priShowEmpty(String tips){
-        if(Empty==null||Loading==null||Content==null)return;
+    private void priShowEmpty(String tips) {
+        if (Empty == null || Loading == null || Content == null) return;
         disableAll();
         Empty.setVisibility(View.VISIBLE);
         textView_empty.setText(tips);
     }
-    private void priShowContent(){
-        if(Empty==null||Loading==null||Content==null)return;
+
+    private void priShowContent() {
+        if (Empty == null || Loading == null || Content == null) return;
         disableAll();
         Content.setVisibility(View.VISIBLE);
     }
 
-    private void priShowLoading(String tips){
-        if(Empty==null||Loading==null||Content==null)return;
+    private void priShowLoading(String tips) {
+        if (Empty == null || Loading == null || Content == null) return;
         disableAll();
 
         Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.img_animation);
@@ -127,29 +134,30 @@ public class StateFragment extends BaseFragment {
         textView_load.setText(tips);
     }
 
-    protected void showEmpty(String tips){
-        if(Empty==null)
+    protected void showEmpty(String tips) {
+        if (Empty == null)
             mHandler.sendEmptyMessage(1);
         else
             priShowEmpty(tips);
     }
-    protected void showContent(){
-        if(Content==null)
+
+    protected void showContent() {
+        if (Content == null)
             mHandler.sendEmptyMessage(0);
         else
             priShowContent();
     }
 
-    protected void showLoading(String tips){
+    protected void showLoading(String tips) {
 
-        if(Loading==null)
+        if (Loading == null)
             mHandler.sendEmptyMessage(2);
         else
             priShowLoading(tips);
     }
 
-    private void disableAll(){
-        if(Empty==null||Loading==null||Content==null)return;
+    private void disableAll() {
+        if (Empty == null || Loading == null || Content == null) return;
         Empty.setVisibility(View.GONE);
         Loading.setVisibility(View.GONE);
         Content.setVisibility(View.GONE);

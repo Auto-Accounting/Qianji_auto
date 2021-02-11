@@ -279,7 +279,8 @@
                 android:textSize="24sp" />
 
 
-            <include layout="@layout/permission_helper"/>
+            <include layout="@layout/permission_helper" />
+
             <com.xuexiang.xui.widget.button.ButtonView
                 android:id="@+id/helper_permission_next"
                 style="@style/ButtonView.custom1"
@@ -325,7 +326,8 @@
                 android:text="@string/helper_2_title"
                 android:textColor="@color/toast_normal_tint_color"
                 android:textSize="24sp" />
-            <include layout="@layout/permission_xp"/>
+
+            <include layout="@layout/permission_xp" />
 
             <com.xuexiang.xui.widget.button.ButtonView
                 android:id="@+id/helper_permission_next2"

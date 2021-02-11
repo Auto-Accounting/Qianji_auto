@@ -49,15 +49,12 @@ import static cn.dreamn.qianji_auto.ui.adapter.AssetAdapter.KEY_TITLE;
 
 @Page(name = "钱迹资产")
 public class MangerFragment extends StateFragment {
-    
+
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
-
-    private AssetAdapter mAdapter;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
-
-
+    private AssetAdapter mAdapter;
 
     /**
      * 初始化控件
@@ -70,17 +67,17 @@ public class MangerFragment extends StateFragment {
         WidgetUtils.initRecyclerView(recyclerView);
         mAdapter = new AssetAdapter();
         recyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(item-> new MaterialDialog.Builder(getContext())
+        mAdapter.setOnItemClickListener(item -> new MaterialDialog.Builder(getContext())
                 .title(R.string.tip_options)
                 .items(R.array.menu_values)
-                .itemsCallback((dialog, itemView, position, text) ->{
+                .itemsCallback((dialog, itemView, position, text) -> {
                     int id = Integer.parseInt(Objects.requireNonNull(item.get(KEY_ID)));
-                    if(position==0){
+                    if (position == 0) {
                         Assets.delAsset(id);
                         refresh();
-                    }else{
-                        showInputDialog(getString(R.string.asset_change),getString(R.string.asset_change_sub),item.get(KEY_TITLE),(str)->{
-                            Assets.updAsset(id,str);
+                    } else {
+                        showInputDialog(getString(R.string.asset_change), getString(R.string.asset_change_sub), item.get(KEY_TITLE), (str) -> {
+                            Assets.updAsset(id, str);
                             SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
                             refresh();
                         });
@@ -106,7 +103,8 @@ public class MangerFragment extends StateFragment {
                         .setDuration(-1)
                         .setActionColor(android.R.color.white)
                         .setTitleColor(android.R.color.white)
-                        .setAction(R.string.helper_qianji_err, view1 -> {}).setBackgroundColor(R.color.colorPrimary).show();
+                        .setAction(R.string.helper_qianji_err, view1 -> {
+                        }).setBackgroundColor(R.color.colorPrimary).show();
 
             }
         });
@@ -114,7 +112,7 @@ public class MangerFragment extends StateFragment {
             @Override
             public void performAction(View view) {
 
-                showInputDialog("请输入资产名称","钱迹中的资产名称","", str->{
+                showInputDialog("请输入资产名称", "钱迹中的资产名称", "", str -> {
                     Assets.addAsset(str);
                     refresh();
                 });
@@ -128,12 +126,10 @@ public class MangerFragment extends StateFragment {
     }
 
 
-
-
     private void loadData() {
         new Handler().postDelayed(() -> {
             //showLoading("正在加载资产");
-            Asset2[] asset2s=Assets.getAllAccount();
+            Asset2[] asset2s = Assets.getAllAccount();
             List<Map<String, String>> data = new ArrayList<>();
             for (Asset2 asset2 : asset2s) {
                 Map<String, String> item = new HashMap<>();
@@ -141,7 +137,7 @@ public class MangerFragment extends StateFragment {
                 item.put(KEY_ID, String.valueOf(asset2.id));
                 data.add(item);
             }
-            if(data.size()==0) {
+            if (data.size() == 0) {
                 showEmpty("没有资产信息");
                 return;
             }
@@ -158,6 +154,7 @@ public class MangerFragment extends StateFragment {
     protected void initListeners() {
 
     }
+
     private void refresh() {
         map_layout.setRefreshing(true);
         loadData();

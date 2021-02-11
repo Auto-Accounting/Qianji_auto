@@ -40,36 +40,34 @@ public class LogAdapter extends SmartRecyclerAdapter<Map<String, String>> {
     public static final String KEY_SUB = "sub";
     public static final String KEY_TITLE = "title";
     public static final String KEY_POS = "pos";
+    private OnItemClickListener listener;
+
+
     public LogAdapter() {
         super(R.layout.map_list_2);
     }
 
-
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Map<String, String> item, int position) {
-        TextView  item_top = (TextView)holder.findView(R.id.item_top);
+        TextView item_top = (TextView) holder.findView(R.id.item_top);
         item_top.setText(item.get(KEY_TITLE));
-        TextView  item_bottom = (TextView)holder.findView(R.id.item_bottom);
+        TextView item_bottom = (TextView) holder.findView(R.id.item_bottom);
         item_bottom.setText(item.get(KEY_SUB));
-        TwoLineListItem item_click = (TwoLineListItem)holder.findView(R.id.item);
+        TwoLineListItem item_click = (TwoLineListItem) holder.findView(R.id.item);
         item_click.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onClick(item,Integer.parseInt(Objects.requireNonNull(item.get(KEY_POS))));
+                listener.onClick(item, Integer.parseInt(Objects.requireNonNull(item.get(KEY_POS))));
             }
         });
     }
 
-
-
-    //第一步 定义接口
-    public interface OnItemClickListener {
-                    void onClick(Map<String, String> item, Integer pos);
-    }
-
-    private OnItemClickListener listener;
-
     //第二步， 写一个公共的方法
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
+    }
+
+    //第一步 定义接口
+    public interface OnItemClickListener {
+        void onClick(Map<String, String> item, Integer pos);
     }
 }

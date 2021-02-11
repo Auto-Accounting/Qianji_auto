@@ -37,7 +37,10 @@ public class SmsServer {
         String[] strings = data.split("\\|");
         if (strings.length != 5) return;
         BillInfo billInfo = new BillInfo();
-
+        if (strings[3].equals("undefined") || strings[2].equals("undefined") || strings[1].equals("undefined")) {
+            Logs.i("未能匹配到有效短信");
+            return;
+        }
 
         billInfo.setType(BillInfo.getTypeId(strings[2]));
 
@@ -49,18 +52,12 @@ public class SmsServer {
 
         billInfo.setSilent(true);
 
-        billInfo.setSource("短信捕获");
+        billInfo.setSource("短信");
 
         if (!strings[4].equals("undefined")) {
             account = account + "(" + strings[4] + ")";
         }
 
-
-               /* if(!strings[5].equals("undefined")){
-                    billInfo.setShopAccount(strings[5]);
-                }else{
-                    billInfo.setShopAccount("");
-                }*/
         billInfo.setAccountName(account);
 
         billInfo.setRemark(strings[0]);
@@ -71,30 +68,23 @@ public class SmsServer {
     }
 
 
+    public static String getSms(String smsBody) {
 
-    public static String getSms(String smsBody){
 
-
-       try{
+        try {
          /*  V8 runtime = V8.createV8Runtime();
            String result=runtime.executeStringScript(Smses.getSmsRegularJs(smsBody));*/
-           String result = JsEngine.run(Smses.getSmsRegularJs(smsBody));
-           Logs.d("Qianji_Sms","短信分析结果："+result);
-           return result;
-       }catch (Exception e){
+            String result = JsEngine.run(Smses.getSmsRegularJs(smsBody));
+            Logs.d("Qianji_Sms", "短信分析结果：" + result);
+            return result;
+        } catch (Exception e) {
 
-           Logs.i("短信识别出错",e.toString());
-           return "";
-       }
-
+            Logs.i("短信识别出错", e.toString());
+            return "";
+        }
 
 
     }
-
-    
-
-
-
 
 
 }

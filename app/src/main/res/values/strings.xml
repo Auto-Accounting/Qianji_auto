@@ -167,14 +167,7 @@
     <string name="bill_tip">修改记账信息</string>
     <string name="del_success">清除成功</string>
     <string name="choose_copy">复制到剪贴板</string>
-    <string name="get_qianji_url">请输入钱迹Uri-Scheme</string>
-    <string name="get_qianji_tip">用于调试使用。</string>
-    <string name="input_url_schema">请输入钱迹Url-Schema:</string>
-    <string name="test_bill">记账</string>
-    <string name="test_default">恢复默认</string>
-    <string name="test_read_doc">查看文档</string>
-    <string name="api_remark">参数解释：\n必传参数：固定前缀、type、money\n解释：\n【qianji://publicapi/addbill?】固定前缀\n【type】账单类型，目前支持四种: 0支出，1收入，2转账，3信用卡还款（非债务的还款），不填写 type 参数，则默认为支出\n【money】账单金额，金额值必须大于0\n【time】账单时间，格式必须为 yyyy-MM-dd HH:mm:ss\n【remark】账单备注信息\n【catename】账单分类，此参数是代表分类的名称，如果不填写，则默认使用 其它 这个分类，如果提供的 catename 在钱迹分类中无法找到，也会自动使用 "其它" 这个默认分类，注：转账或还款不需要此参数\n【catechoose】弹出选择分类面板，如果catechoose=1，则代表会弹出一个分类选择面板来选择分类，如果不填写或是值不是1，则不弹出。注：此参数只有 type=0 或 type=1 时有效，且与catename二选一，如果有catechoose，则参数catename无效\n【catetheme】选择分类面板的主题样式，配合 catechoose 参数一起使用，默认为黑色主题，如果 catetheme=light，则选择面板是白色，如果 catetheme=auto，则会根据系统主题来自动适配\n【bookname】账单所属账本名称，可以自己指定账单属于哪一个账本，如果钱迹中没有此名称的资产，则提示参数错误，不填写则使用默认账本\n【accountname】账单所属资产名称(或转账的转出账户），如果钱迹中没有此名称的资产，则提示参数错误\n【accountname2】转账或者还款的转入账户，如果钱迹中没有此名称的资产，则提示参数错误</string>
-    <string name="bill_clip">已复制到剪贴板</string>
+   <string name="bill_clip">已复制到剪贴板</string>
     <string name="log_has_sth">已有%d条日志</string>
     <string name="choose_backup">备份</string>
     <string name="choose_restore">恢复</string>
@@ -196,7 +189,7 @@
     <string name="about_item_open_url">项目地址</string>
     <string name="url_open_url">https://github.com/dreamncn/Qianji_auto</string>
     <string name="url_author_blog">https://dreamn.cn</string>
-    <string name="url_learn">https://www.dreamn.cn/posts/Automatic-Billing-Open-The-Right-Way/</string>
+    <string name="url_learn">https://doc.dreamn.cn/doc/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/#/</string>
     <string name="url_donation_link">https://pay.dreamn.cn/</string>
     <string name="url_add_qq_group">http://qm.qq.com/cgi-bin/qm/qr?k=99zP55gaVUnw9LmpLzeci2-cXc3BXLrl</string>
     <string name="choose_wechat">微信打赏</string>
@@ -286,4 +279,12 @@
     <string name="choose_try2">发起记账请求（无视静默模式）</string>
     <string name="choose_input">导入</string>
     <string name="choose_output">导出</string>
+    <string name="cate_type_bill">账单类型</string>
+    <string name="choose_view">可视化编辑</string>
+    <string name="choose_js">Js编辑</string>
+    <string name="js">基础框架：if(条件)return "分类名";   条件可选值为：shopName（商户名）、shopRemark（商户备注）、type（消费类型）、time（当前时间）、source（账单类型）
+</string>
+    <string name="dontAllow">该类型规则使用JS编辑，无法再用可视化编辑</string>
+    <string name="qianji_book_sub">钱迹多账本列表</string>
+    <string name="qianji_book">账本管理</string>
 </resources>

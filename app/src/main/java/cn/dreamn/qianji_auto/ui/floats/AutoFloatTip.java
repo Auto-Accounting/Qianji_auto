@@ -26,10 +26,10 @@ import android.widget.TextView;
 import com.xuexiang.xfloatview.XFloatView;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.Caches;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 /**
@@ -47,7 +47,8 @@ public class AutoFloatTip extends XFloatView {
     private TextView time;
 
     private BillInfo billInfo2;
-    private boolean open=false;
+    private boolean open = false;
+
     /**
      * 构造器
      *
@@ -94,13 +95,12 @@ public class AutoFloatTip extends XFloatView {
      */
     @Override
     protected void initListener() {
-        tip.setOnClickListener(v->{
-            CallAutoActivity.jump(getContext(),billInfo2);
+        tip.setOnClickListener(v -> {
+            CallAutoActivity.jump(getContext(), billInfo2);
             this.clear();
-            open=true;
+            open = true;
         });
     }
-
 
 
     /**
@@ -115,15 +115,15 @@ public class AutoFloatTip extends XFloatView {
     public void clear() {
         super.clear();
         mMainHandler.removeCallbacksAndMessages(null);
-        open=true;
+        open = true;
     }
 
     public void setData(BillInfo billInfo) {
-        billInfo2=billInfo;
+        billInfo2 = billInfo;
         money.setText(BillTools.getCustomBill(billInfo));
         money.setTextColor(BillTools.getColor(billInfo));
         int timeCount = Integer.parseInt(CallAutoActivity.getTimeout());
-        String times= timeCount+ "s";
+        String times = timeCount + "s";
 
         time.setText(times);
         update(timeCount);
@@ -131,27 +131,27 @@ public class AutoFloatTip extends XFloatView {
 
     }
 
-    private void update(int i){
+    private void update(int i) {
         new Handler().postDelayed(() -> {
-            if( open )return;
-            if(i <= 0){
-                CallAutoActivity.jump(getContext(),billInfo2);
+            if (open) return;
+            if (i <= 0) {
+                CallAutoActivity.jump(getContext(), billInfo2);
                 this.clear();
                 return;
             }
-            String times1=i+ "s";
+            String times1 = i + "s";
             time.setText(times1);
-            int j=i-1;
+            int j = i - 1;
             Logs.d(times1);
             update(j);
 
-        },1000);
+        }, 1000);
 
     }
 
     @Override
     public void dismiss() {
         super.dismiss();
-        Caches.update("float_lock","false");
+        Caches.update("float_lock", "false");
     }
 }

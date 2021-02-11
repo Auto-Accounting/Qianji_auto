@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2021 dreamn(dream@dreamn.cn)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,11 +19,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/map_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.yanzhenjie.recyclerview.SwipeRecyclerView
+
+    <com.yanzhenjie.recyclerview.SwipeRecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

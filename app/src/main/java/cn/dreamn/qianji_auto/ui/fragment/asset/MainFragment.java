@@ -31,6 +31,8 @@ public class MainFragment extends BaseFragment {
     SuperTextView asset_manger;
     @BindView(R.id.asset_map)
     SuperTextView asset_map;
+    @BindView(R.id.asset_book)
+    SuperTextView asset_book;
 
     /**
      * 布局的资源id
@@ -51,16 +53,19 @@ public class MainFragment extends BaseFragment {
         initListen();
     }
 
-    private void initSet(){
+    private void initSet() {
 
     }
 
-    private void initListen(){
+    private void initListen() {
         asset_manger.setOnSuperTextViewClickListener(superTextView -> {
             openNewPage(MangerFragment.class);
         });
         asset_map.setOnSuperTextViewClickListener(superTextView -> {
             openNewPage(MapFragment.class);
+        });
+        asset_book.setOnSuperTextViewClickListener(superTextView -> {
+            openNewPage(BookFragment.class);
         });
 
     }

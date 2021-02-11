@@ -19,10 +19,6 @@ package cn.dreamn.qianji_auto.utils.sdkinit;
 
 import android.app.Application;
 
-import cn.dreamn.qianji_auto.MyApp;
-import cn.dreamn.qianji_auto.ui.core.BaseActivity;
-import cn.dreamn.qianji_auto.utils.XToastUtils;
-
 import com.xuexiang.xaop.XAOP;
 import com.xuexiang.xpage.AppPageConfig;
 import com.xuexiang.xpage.PageConfig;
@@ -30,6 +26,10 @@ import com.xuexiang.xrouter.launcher.XRouter;
 import com.xuexiang.xui.XUI;
 import com.xuexiang.xutil.XUtil;
 import com.xuexiang.xutil.common.StringUtils;
+
+import cn.dreamn.qianji_auto.MyApp;
+import cn.dreamn.qianji_auto.ui.core.BaseActivity;
+import cn.dreamn.qianji_auto.utils.XToastUtils;
 
 /**
  * X系列基础库初始化

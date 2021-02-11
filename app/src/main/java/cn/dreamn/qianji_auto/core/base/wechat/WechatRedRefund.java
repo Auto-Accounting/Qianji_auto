@@ -17,12 +17,10 @@
 
 package cn.dreamn.qianji_auto.core.base.wechat;
 
-import android.content.Context;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.base.Analyze;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
@@ -43,29 +41,24 @@ public class WechatRedRefund extends Analyze {
 
 
     @Override
-    public void tryAnalyze(String content, Context context) {
+    public BillInfo tryAnalyze(String content, String source) {
+        BillInfo billInfo = super.tryAnalyze(content, source);
 
-        JSONObject jsonObject = setContent(content);
-        if (jsonObject == null) return;
+        if (billInfo == null) return null;
+        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+            billInfo.setShopRemark("微信红包退款");
 
-        BillInfo billInfo = new BillInfo();
-        billInfo.setShopRemark("微信红包退款");
-        billInfo = getResult(jsonObject, billInfo);
 
         billInfo.setType(BillInfo.TYPE_INCOME);
 
 
-        billInfo.setSource("微信红包退款");
-        if (billInfo.getShopRemark().contains("你未在24小时内")) return;
-        CallAutoActivity.call(context, billInfo);
-
+        if (billInfo.getShopRemark().contains("你未在24小时内")) return null;
+        return billInfo;
     }
 
-
     @Override
-    BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
-        String money = jsonObject.getJSONObject("topline").getJSONObject("value").getString("word");
-
+    public BillInfo getResult(BillInfo billInfo) {
+        String money = BillTools.getMoney(jsonObject.getJSONObject("topline").getJSONObject("value").getString("word"));
         billInfo.setMoney(BillTools.getMoney(money));
         billInfo.setShopAccount("微信支付");
         try {

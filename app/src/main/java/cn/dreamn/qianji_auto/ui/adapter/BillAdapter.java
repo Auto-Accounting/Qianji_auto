@@ -39,7 +39,7 @@ import static com.xuexiang.xui.utils.ResUtils.getString;
  */
 public class BillAdapter extends SmartRecyclerAdapter<Map<String, String>> {
 
-    public static final String KEY_ID="id";
+    public static final String KEY_ID = "id";
     public static final String KEY_SUB = "sub";
     public static final String KEY_TIME = "time";
     public static final String KEY_TYPE = "type";
@@ -47,37 +47,35 @@ public class BillAdapter extends SmartRecyclerAdapter<Map<String, String>> {
     public static final String KEY_ACCOUNT = "account";
     public static final String KEY_REMARK = "remark";
     public static final String KEY_SORT = "sort";
-    public static final String KEY_BILLINFO="billinfo";
+    public static final String KEY_BILLINFO = "billinfo";
+    private OnItemClickListener listener;
+
+
     public BillAdapter() {
         super(R.layout.map_list_2);
     }
 
-
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Map<String, String> item, int position) {
-        TextView  item_top = (TextView)holder.findView(R.id.item_top);
-        item_top.setText(String.format(getString(R.string.bill_templet),item.get(KEY_REMARK),item.get(KEY_MONEY),item.get(KEY_ACCOUNT)));
-        TextView  item_bottom = (TextView)holder.findView(R.id.item_bottom);
-        item_bottom.setText(String.format(getString(R.string.bill_space),item.get(KEY_TIME),item.get(KEY_SUB)));
-        TwoLineListItem item_click = (TwoLineListItem)holder.findView(R.id.item);
+        TextView item_top = (TextView) holder.findView(R.id.item_top);
+        item_top.setText(String.format(getString(R.string.bill_templet), item.get(KEY_REMARK), item.get(KEY_MONEY), item.get(KEY_ACCOUNT)));
+        TextView item_bottom = (TextView) holder.findView(R.id.item_bottom);
+        item_bottom.setText(String.format(getString(R.string.bill_space), item.get(KEY_TIME), item.get(KEY_SUB)));
+        TwoLineListItem item_click = (TwoLineListItem) holder.findView(R.id.item);
         item_click.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onClick(item,Integer.parseInt(Objects.requireNonNull(item.get(KEY_ID))));
+                listener.onClick(item, Integer.parseInt(Objects.requireNonNull(item.get(KEY_ID))));
             }
         });
     }
 
-
-
-    //第一步 定义接口
-    public interface OnItemClickListener {
-                    void onClick(Map<String, String> item,Integer pos);
-    }
-
-    private OnItemClickListener listener;
-
     //第二步， 写一个公共的方法
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
+    }
+
+    //第一步 定义接口
+    public interface OnItemClickListener {
+        void onClick(Map<String, String> item, Integer pos);
     }
 }

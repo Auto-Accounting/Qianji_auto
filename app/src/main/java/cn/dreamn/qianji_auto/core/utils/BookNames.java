@@ -19,34 +19,43 @@ package cn.dreamn.qianji_auto.core.utils;
 
 import com.tencent.mmkv.MMKV;
 
-import java.lang.reflect.Array;
-
 import cn.dreamn.qianji_auto.core.db.BookName;
 import cn.dreamn.qianji_auto.core.db.DbManger;
 
 public class BookNames {
-    public static String getDefault(){
-        MMKV mmkv=MMKV.defaultMMKV();
-        return mmkv.getString("defaultBookName","默认账本");
+    public static String getDefault() {
+        MMKV mmkv = MMKV.defaultMMKV();
+        return mmkv.getString("defaultBookName", "默认账本");
     }
-    public static  void change(String bookName){
-        MMKV mmkv=MMKV.defaultMMKV();
-        mmkv.encode("defaultBookName",bookName);
+
+    public static void change(String bookName) {
+        MMKV mmkv = MMKV.defaultMMKV();
+        mmkv.encode("defaultBookName", bookName);
     }
-    public static String[] getAll(){
-        BookName[] bookNames= DbManger.db.BookNameDao().getAll();
-        String[] result = new String[bookNames.length+1];
-        for(int i=0;i<bookNames.length;i++){
-            result[i]=bookNames[i].name;
+
+    public static String[] getAll() {
+        BookName[] bookNames = DbManger.db.BookNameDao().getAll();
+        String[] result = new String[bookNames.length + 1];
+        for (int i = 0; i < bookNames.length; i++) {
+            result[i] = bookNames[i].name;
         }
-        result[bookNames.length]="默认账本";
+        result[bookNames.length] = "默认账本";
         return result;
     }
 
-    public  static void del(int id){
+    public static BookName[] getAllWith() {
+        return DbManger.db.BookNameDao().getAll();
+    }
+
+    public static void del(int id) {
         DbManger.db.BookNameDao().del(id);
     }
-    public static void add(String bookName){
+
+    public static void upd(int id, String bookName) {
+        DbManger.db.BookNameDao().update(id, bookName);
+    }
+
+    public static void add(String bookName) {
         DbManger.db.BookNameDao().add(bookName);
     }
 }

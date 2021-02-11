@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/parent_bg">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,17 +21,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/set_pay_mode" />
 
             <com.xuexiang.xui.widget.button.RippleView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?attr/xui_config_content_spacing_horizontal"
-                app:rv_type="simpleRipple"
                 app:rv_color="@color/list_text_color_normal_sub"
-                >
+                app:rv_type="simpleRipple">
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
@@ -37,8 +39,9 @@
                     android:layout_marginTop="0dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="0dp"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp">
+
                     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                         android:id="@+id/set_pay_mode_full"
                         android:layout_width="match_parent"
@@ -55,18 +58,18 @@
                         app:sLeftTopTextString="@string/set_pay_mode_top"
                         app:sLeftViewGravity="left_center"
                         app:sLeftViewMarginLeft="30dp"
-                        app:sUseRipple="false"
-                        />
+                        app:sUseRipple="false" />
 
                 </androidx.cardview.widget.CardView>
             </com.xuexiang.xui.widget.button.RippleView>
+
             <com.xuexiang.xui.widget.button.RippleView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?attr/xui_config_content_spacing_horizontal"
-                app:rv_type="simpleRipple"
                 app:rv_color="@color/list_text_color_normal_sub"
-                >
+                app:rv_type="simpleRipple">
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
@@ -74,8 +77,9 @@
                     android:layout_marginTop="0dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="0dp"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp">
+
                     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                         android:id="@+id/set_pay_mode_half"
                         android:layout_width="match_parent"
@@ -92,8 +96,7 @@
                         app:sLeftTopTextString="@string/set_pay_mode_half_top"
                         app:sLeftViewGravity="left_center"
                         app:sLeftViewMarginLeft="30dp"
-                        app:sUseRipple="false"
-                        />
+                        app:sUseRipple="false" />
 
                 </androidx.cardview.widget.CardView>
             </com.xuexiang.xui.widget.button.RippleView>
@@ -102,17 +105,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/set_income_mode" />
 
             <com.xuexiang.xui.widget.button.RippleView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?attr/xui_config_content_spacing_horizontal"
-                app:rv_type="simpleRipple"
                 app:rv_color="@color/list_text_color_normal_sub"
-                >
+                app:rv_type="simpleRipple">
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
@@ -120,8 +123,9 @@
                     android:layout_marginTop="0dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="0dp"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp">
+
                     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                         android:id="@+id/set_income_mode_full"
                         android:layout_width="match_parent"
@@ -138,8 +142,7 @@
                         app:sLeftTopTextString="@string/set_income_mode_top"
                         app:sLeftViewGravity="left_center"
                         app:sLeftViewMarginLeft="30dp"
-                        app:sUseRipple="false"
-                        />
+                        app:sUseRipple="false" />
 
                 </androidx.cardview.widget.CardView>
             </com.xuexiang.xui.widget.button.RippleView>
@@ -148,9 +151,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?attr/xui_config_content_spacing_horizontal"
-                app:rv_type="simpleRipple"
                 app:rv_color="@color/list_text_color_normal_sub"
-                >
+                app:rv_type="simpleRipple">
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
@@ -158,8 +161,9 @@
                     android:layout_marginTop="0dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="0dp"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp">
+
                     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                         android:id="@+id/set_income_mode_half"
                         android:layout_width="match_parent"
@@ -176,25 +180,25 @@
                         app:sLeftTopTextString="@string/set_income_mode_half"
                         app:sLeftViewGravity="left_center"
                         app:sLeftViewMarginLeft="30dp"
-                        app:sUseRipple="false"
-                        />
+                        app:sUseRipple="false" />
 
                 </androidx.cardview.widget.CardView>
             </com.xuexiang.xui.widget.button.RippleView>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/set_bookname" />
 
             <com.xuexiang.xui.widget.button.RippleView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?attr/xui_config_content_spacing_horizontal"
-                app:rv_type="simpleRipple"
                 app:rv_color="@color/list_text_color_normal_sub"
-                >
+                app:rv_type="simpleRipple">
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
@@ -202,8 +206,9 @@
                     android:layout_marginTop="0dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="0dp"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp">
+
                     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                         android:id="@+id/set_bookname"
                         android:layout_width="match_parent"
@@ -220,25 +225,25 @@
                         app:sLeftTopTextString=""
                         app:sLeftViewGravity="left_center"
                         app:sLeftViewMarginLeft="30dp"
-                        app:sUseRipple="false"
-                        />
+                        app:sUseRipple="false" />
 
                 </androidx.cardview.widget.CardView>
             </com.xuexiang.xui.widget.button.RippleView>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/set_float_title" />
 
             <com.xuexiang.xui.widget.button.RippleView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?attr/xui_config_content_spacing_horizontal"
-                app:rv_type="simpleRipple"
                 app:rv_color="@color/list_text_color_normal_sub"
-                >
+                app:rv_type="simpleRipple">
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
@@ -246,8 +251,9 @@
                     android:layout_marginTop="0dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="0dp"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp">
+
                     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                         android:id="@+id/set_timeout"
                         android:layout_width="match_parent"
@@ -264,19 +270,18 @@
                         app:sLeftTopTextString="@string/set_time"
                         app:sLeftViewGravity="left_center"
                         app:sLeftViewMarginLeft="30dp"
-                        app:sUseRipple="false"
-                        />
+                        app:sUseRipple="false" />
 
                 </androidx.cardview.widget.CardView>
 
             </com.xuexiang.xui.widget.button.RippleView>
+
             <com.xuexiang.xui.widget.button.RippleView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?attr/xui_config_content_spacing_horizontal"
-                app:rv_type="simpleRipple"
                 app:rv_color="@color/list_text_color_normal_sub"
-                >
+                app:rv_type="simpleRipple">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -285,8 +290,9 @@
                     android:layout_marginTop="0dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="0dp"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp">
+
                     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                         android:id="@+id/set_float"
                         android:layout_width="match_parent"
@@ -303,8 +309,7 @@
                         app:sLeftTopTextString="@string/set_float"
                         app:sLeftViewGravity="left_center"
                         app:sLeftViewMarginLeft="30dp"
-                        app:sUseRipple="false"
-                        />
+                        app:sUseRipple="false" />
 
                 </androidx.cardview.widget.CardView>
             </com.xuexiang.xui.widget.button.RippleView>
@@ -312,17 +317,17 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/set_remark" />
 
             <com.xuexiang.xui.widget.button.RippleView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?attr/xui_config_content_spacing_horizontal"
-                app:rv_type="simpleRipple"
                 app:rv_color="@color/list_text_color_normal_sub"
-                >
+                app:rv_type="simpleRipple">
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
@@ -330,8 +335,9 @@
                     android:layout_marginTop="0dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="0dp"
-                    app:cardElevation="0dp"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp">
+
                     <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                         android:id="@+id/set_remark"
                         android:layout_width="match_parent"
@@ -348,12 +354,10 @@
                         app:sLeftTopTextString=""
                         app:sLeftViewGravity="left_center"
                         app:sLeftViewMarginLeft="30dp"
-                        app:sUseRipple="false"
-                        />
+                        app:sUseRipple="false" />
 
                 </androidx.cardview.widget.CardView>
             </com.xuexiang.xui.widget.button.RippleView>
-
 
 
         </LinearLayout>

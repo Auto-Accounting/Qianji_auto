@@ -18,16 +18,13 @@
 package cn.dreamn.qianji_auto.ui.adapter;
 
 
-
-import cn.dreamn.qianji_auto.R;
-
 import com.scwang.smartrefresh.layout.adapter.SmartRecyclerAdapter;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
-
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
-import java.util.List;
 import java.util.Map;
+
+import cn.dreamn.qianji_auto.R;
 
 /**
  * 主副标题显示适配器
@@ -39,19 +36,18 @@ public class AssetAdapter extends SmartRecyclerAdapter<Map<String, String>> {
 
     public static final String KEY_TITLE = "title";
     public static final String KEY_ID = "id";
+    private OnItemClickListener listener;
+
 
     public AssetAdapter() {
         super(R.layout.map_list);
     }
 
-
-
-
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Map<String, String> item, int position) {
-        SuperTextView map_text = (SuperTextView)holder.findView(R.id.map_text);
+        SuperTextView map_text = (SuperTextView) holder.findView(R.id.map_text);
         map_text.setLeftString(item.get(KEY_TITLE));
-       // map_text.setRightString(item.get(KEY_VALUE));
+        // map_text.setRightString(item.get(KEY_VALUE));
 
         map_text.setOnClickListener(v -> {
             if (listener != null) {
@@ -60,17 +56,13 @@ public class AssetAdapter extends SmartRecyclerAdapter<Map<String, String>> {
         });
     }
 
-
+    //第二步， 写一个公共的方法
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     //第一步 定义接口
     public interface OnItemClickListener {
         void onClick(Map<String, String> item);
-    }
-
-    private OnItemClickListener listener;
-
-    //第二步， 写一个公共的方法
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
     }
 }

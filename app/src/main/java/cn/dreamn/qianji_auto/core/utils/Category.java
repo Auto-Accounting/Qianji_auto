@@ -25,50 +25,50 @@ import cn.dreamn.qianji_auto.utils.tools.Logs;
 /*import com.eclipsesource.v8.V8;*/
 public class Category {
 
-    public static String getCategory(String shopAccount, String shopRemark, String type){
+    public static String getCategory(String shopAccount, String shopRemark, String type, String source) {
         try {
            /* V8 runtime = V8.createV8Runtime();
             String result = runtime.executeStringScript(getCategoryRegularJs(shopAccount, shopRemark, type));
 */
-            String result = JsEngine.run(getCategoryRegularJs(shopAccount, shopRemark, type));
+            String result = JsEngine.run(getCategoryRegularJs(shopAccount, shopRemark, type, source));
 
             Logs.d("Qianji_Cate", "自动分类结果：" + result);
             return result;
-        }catch (Exception e){
-            Logs.i("自动分类执行出错！"+e.toString());
+        } catch (Exception e) {
+            Logs.i("自动分类执行出错！" + e.toString());
             return "其他";
         }
 
     }
 
     //获取所有的js
-   public static String getCategoryRegularJs(String shopAccount, String shopRemark, String type){
-       if(shopAccount==null)shopAccount="";
-       if(shopRemark==null)shopRemark="";
-       StringBuilder regList= new StringBuilder();
-       Regular[] regular = DbManger.db.RegularDao().load();
-       for (Regular value : regular) {
-           regList.append(value.regular);
-       }
+    public static String getCategoryRegularJs(String shopAccount, String shopRemark, String type, String source) {
+        if (shopAccount == null) shopAccount = "";
+        if (shopRemark == null) shopRemark = "";
+        StringBuilder regList = new StringBuilder();
+        Regular[] regular = DbManger.db.RegularDao().load();
+        for (Regular value : regular) {
+            regList.append(value.regular);
+        }
 
-       type=BillInfo.getTypeName(type);
+        type = BillInfo.getTypeName(type);
 
-       String js="function getCategory(shopName,shopRemark,type,time){%s return '其他';} getCategory('%s','%s','%s','%s');";
+        String js = "function getCategory(shopName,shopRemark,type,time,source){%s return '其他';} getCategory('%s','%s','%s','%s','%s');";
 
-       String time= Tools.getTime("HH");
-       return String.format(js,regList.toString(),shopAccount,shopRemark,type,time);
-   }
+        String time = Tools.getTime("HH");
+        return String.format(js, regList.toString(), shopAccount, shopRemark, type, time, source);
+    }
 
     //获取所有的js
-    public static String getOneRegularJs(String jsData,String shopAccount, String shopRemark, String type,String time){
-        if(shopAccount==null)shopAccount="";
-        if(shopRemark==null)shopRemark="";
+    public static String getOneRegularJs(String jsData, String shopAccount, String shopRemark, String type, String time, String source) {
+        if (shopAccount == null) shopAccount = "";
+        if (shopRemark == null) shopRemark = "";
 
-        type=BillInfo.getTypeName(type);
+        type = BillInfo.getTypeName(type);
 
-        String js="function getCategory(shopName,shopRemark,type,time){%s return '其他';} getCategory('%s','%s','%s','%s');";
+        String js = "function getCategory(shopName,shopRemark,type,time,source){%s return '其他';} getCategory('%s','%s','%s','%s','%s');";
 
-        return String.format(js,jsData,shopAccount,shopRemark,type,time);
+        return String.format(js, jsData, shopAccount, shopRemark, type, time, source);
     }
 
     /**
@@ -82,39 +82,40 @@ public class Category {
      *     return "其他"
      */
     /**
-     *js demo
+     * js demo
      * if(title.contents("123"))//标题 contents 、not contents、indexof、endof、regular（匹配到）
-     *      * if(sub.contents("123"))//副标题
-     *      * if(time>200 && time <100)//时间 < 、>、=
-     *      * return "okk"
+     * * if(sub.contents("123"))//副标题
+     * * if(time>200 && time <100)//时间 < 、>、=
+     * * return "okk"
      */
 
-    public static Regular[] getAll(){
+    public static Regular[] getAll() {
         return DbManger.db.RegularDao().loadAll();
     }
 
     public static void deny(int id) {
         DbManger.db.RegularDao().deny(id);
     }
+
     public static void enable(int id) {
         DbManger.db.RegularDao().enable(id);
     }
 
-    public static Regular[] getOne(int id){
+    public static Regular[] getOne(int id) {
         return DbManger.db.RegularDao().getOne(id);
     }
 
-   public static void addCategory(String js,String name,String cate,String tableList){
-        DbManger.db.RegularDao().add(js,name,cate,tableList);
-   }
+    public static void addCategory(String js, String name, String cate, String tableList) {
+        DbManger.db.RegularDao().add(js, name, cate, tableList);
+    }
 
-   public static void changeCategory(int id,String js,String name,String cate,String tableList){
-       DbManger.db.RegularDao().update(id,js,name,cate,tableList);
-   }
+    public static void changeCategory(int id, String js, String name, String cate, String tableList) {
+        DbManger.db.RegularDao().update(id, js, name, cate, tableList);
+    }
 
-   public static void del(int id){
+    public static void del(int id) {
         DbManger.db.RegularDao().delete(id);
-   }
+    }
 
 
     public static void clear() {

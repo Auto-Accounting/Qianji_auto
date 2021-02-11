@@ -59,16 +59,16 @@ public class Tools {
         List<ResolveInfo> activities = packageManager.queryIntentActivities(intent,
                 PackageManager.MATCH_DEFAULT_ONLY);
         boolean isIntentSafe = activities.size() > 0;
-        if(!isIntentSafe){
-            Logs.i("没有应用响应该请求："+url);
+        if (!isIntentSafe) {
+            Logs.i("没有应用响应该请求：" + url);
             return;
         }
         context.startActivity(intent);
     }
 
-    public static void shareFile(Context context, String filePath){
+    public static void shareFile(Context context, String filePath) {
         Intent shareIntent2 = new Intent();
-        Uri uri = FileProvider.getUriForFile(context,"cn.dreamn.qianji_auto.fileprovider", new File(filePath));
+        Uri uri = FileProvider.getUriForFile(context, "cn.dreamn.qianji_auto.fileprovider", new File(filePath));
         // grantUriPermission(getPackageName(),uri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
         shareIntent2.putExtra(Intent.EXTRA_STREAM, uri);
         //重点:针对7.0以上的操作
@@ -80,9 +80,9 @@ public class Tools {
         context.startActivity(Intent.createChooser(shareIntent2, "分享到"));
     }
 
-    public static String writeToCache(Context mContext,String fileName,String data) {
-        String path = mContext.getExternalCacheDir().getPath()+"/";
-        String file=path+fileName;
+    public static String writeToCache(Context mContext, String fileName, String data) {
+        String path = mContext.getExternalCacheDir().getPath() + "/";
+        String file = path + fileName;
         File dir = new File(path);
         if (!dir.exists()) {
             dir.mkdirs();
@@ -91,23 +91,25 @@ public class Tools {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(data.getBytes());
             fos.close();
-        }catch (Exception e){
-            Logs.i("写入缓存异常！"+e);
+        } catch (Exception e) {
+            Logs.i("写入缓存异常！" + e);
         }
         return file;
     }
 
     /**
      * "yyyy-MM-dd HH:mm:ss"
+     *
      * @param format
      * @return
      */
     @SuppressLint("SimpleDateFormat")
-    public static String getTime(String format){
+    public static String getTime(String format) {
         return DateUtils.getNowString(new SimpleDateFormat(format));
     }
-    public static void sendNotify(Context context, String title, String content, String url){
-       Logs.d("发送记账通知");
+
+    public static void sendNotify(Context context, String title, String content, String url) {
+        Logs.d("发送记账通知");
         Notification mNotification;
         NotificationManager mNotificationManager;
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -121,7 +123,7 @@ public class Tools {
             channel.setShowBadge(true);
             mNotificationManager.createNotificationChannel(channel);
 
-            Notification.Builder builder = new Notification.Builder(context,"1");
+            Notification.Builder builder = new Notification.Builder(context, "1");
 
             mNotification = builder
                     .setSmallIcon(R.drawable.ic_monry)
@@ -133,14 +135,14 @@ public class Tools {
                     .build();
 
 
-        }else{
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"1");
+        } else {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "1");
             builder.setSmallIcon(R.drawable.ic_monry)
                     .setContentTitle(title)
                     .setContentText(content)
                     .setAutoCancel(true)
                     .setContentIntent(resultPendingIntent);
-            mNotification=builder.build();
+            mNotification = builder.build();
 
         }
 
@@ -149,11 +151,11 @@ public class Tools {
 
     }
 
-    public static void clipboard(Context context,String text){
+    public static void clipboard(Context context, String text) {
 
         ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         // 创建普通字符型ClipData
-        ClipData mClipData = ClipData.newPlainText("Label",text);
+        ClipData mClipData = ClipData.newPlainText("Label", text);
         // 将ClipData内容放到系统剪贴板里。
         cm.setPrimaryClip(mClipData);
     }

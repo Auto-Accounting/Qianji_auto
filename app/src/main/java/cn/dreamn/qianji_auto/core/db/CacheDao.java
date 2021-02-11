@@ -24,18 +24,25 @@ import androidx.room.Query;
 public interface CacheDao {
     @Query("SELECT * FROM Cache WHERE (strftime('%s','now')) - time < 300  ORDER BY id desc limit 1")
     Cache[] getWithoutName();//获取最新的一条缓存数据
+
     @Query("SELECT * FROM Cache WHERE (strftime('%s','now')) - time < 300 AND cacheName=:name AND cacheType=:type ORDER BY id desc limit 1")
-    Cache[] getOne(String name,String type);//获取最新的一条缓存数据
+    Cache[] getOne(String name, String type);//获取最新的一条缓存数据
+
     @Query("DELETE FROM Cache WHERE (strftime('%s','now')) - time > 300")
     void deleteTimeout();
+
     @Query("INSERT INTO Cache(cacheName,cacheData,time,cacheType) values(:name,:data,strftime('%s','now'),:type)")
-    long add(String name, String data,String type);
+    long add(String name, String data, String type);
+
     @Query("UPDATE Cache SET cacheData=:data,time=strftime('%s','now') WHERE cacheName=:name")
     void update(String name, String data);
+
     @Query("DELETE FROM Cache WHERE cacheName=:name")
     void del(String name);
+
     @Query("DELETE FROM Cache")
     void deleteAll();
+
     @Query("SELECT * FROM Cache WHERE  cacheType = :type order by id")
     Cache[] getType(String type);
 }

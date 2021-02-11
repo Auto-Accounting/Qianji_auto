@@ -17,15 +17,9 @@
 
 package cn.dreamn.qianji_auto.core.base.alipay;
 
-import android.content.Context;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.base.Analyze;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 /**
  * 笔笔攒
@@ -42,26 +36,22 @@ public class Repayment extends Analyze {
 
 
     @Override
-    public void tryAnalyze(String content, Context context) {
+    public BillInfo tryAnalyze(String content, String source) {
+        BillInfo billInfo = super.tryAnalyze(content, source);
 
-        JSONObject jsonObject = setContent(content);
-        if (jsonObject == null) return;
-
-        BillInfo billInfo = new BillInfo();
+        if (billInfo == null) return null;
         billInfo.setShopRemark("支付宝还款");
-        billInfo = getResult(jsonObject, billInfo);
+
 
         billInfo.setType(BillInfo.TYPE_CREDIT_CARD_PAYMENT);
 
 
-        billInfo.setSource("支付宝还款");
-        if (!billInfo.getShopRemark().startsWith("还款")) return;
-        CallAutoActivity.call(context, billInfo);
-
+        if (!billInfo.getShopRemark().startsWith("还款")) return null;
+        return billInfo;
     }
 
     @Override
-    BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
+    public BillInfo getResult(BillInfo billInfo) {
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("extra")));
         billInfo.setShopAccount("网商银行");
         billInfo.setShopRemark(jsonObject.getString("assistMsg1"));

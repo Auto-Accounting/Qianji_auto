@@ -32,11 +32,10 @@ import com.xuexiang.xfloatview.XFloatView;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.utils.Assets;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.BookNames;
-import cn.dreamn.qianji_auto.core.utils.Caches;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
@@ -72,6 +71,7 @@ public class AutoFloat extends XFloatView {
     private TextView btn_save;
 
     private BillInfo billInfo2;
+
     /**
      * 构造器
      *
@@ -124,6 +124,7 @@ public class AutoFloat extends XFloatView {
         params.gravity = Gravity.LEFT | Gravity.TOP;
         return params;
     }
+
     /**
      * 初始化悬浮控件
      */
@@ -148,7 +149,7 @@ public class AutoFloat extends XFloatView {
         remark_layout = findViewById(R.id.remark_layout);
         time_layout = findViewById(R.id.time_layout);
         type_layout = findViewById(R.id.type_layout);
-        parent_layout=findViewById(R.id.parent_layout);
+        parent_layout = findViewById(R.id.parent_layout);
     }
 
     /**
@@ -156,73 +157,73 @@ public class AutoFloat extends XFloatView {
      */
     @Override
     protected void initListener() {
-        category_layout.setOnClickListener(v->{
+        category_layout.setOnClickListener(v -> {
             billInfo2.setCateChoose(true);
-            CallAutoActivity.goQianji(getContext(),billInfo2);
+            CallAutoActivity.goQianji(getContext(), billInfo2);
             this.clear();
         });
-        account_layout.setOnClickListener(v->{
+        account_layout.setOnClickListener(v -> {
             String[] bookNameList = BookNames.getAll();
-            if(bookNameList==null||bookNameList.length<=0){
+            if (bookNameList == null || bookNameList.length <= 0) {
                 XToastUtils.error("账本为空，请在账本设置中添加账本数据。");
                 return;
             }
-            showMenu("请选择账本",bookNameList,data -> {
+            showMenu("请选择账本", bookNameList, data -> {
 
                 billInfo2.setBookName(bookNameList[data]);
                 this.setData(billInfo2);
             });
         });
-        account_book_layout.setOnClickListener(v->{
+        account_book_layout.setOnClickListener(v -> {
             String[] assets = Assets.getAllAccountName();
-            if(assets==null||assets.length<=0){
+            if (assets == null || assets.length <= 0) {
                 XToastUtils.error("资产账户为空，请在资产账户设置中添加账本数据。");
                 return;
             }
-            showMenu("请选择资产账户",assets,data -> {
+            showMenu("请选择资产账户", assets, data -> {
                 billInfo2.setAccountName(assets[data]);
                 this.setData(billInfo2);
             });
         });
-        account_book2_layout.setOnClickListener(v->{
+        account_book2_layout.setOnClickListener(v -> {
             String[] assets = Assets.getAllAccountName();
-            if(assets==null||assets.length<=0){
+            if (assets == null || assets.length <= 0) {
                 XToastUtils.error("资产账户为空，请在资产账户设置中添加账本数据。");
                 return;
             }
-            showMenu("请选择资产账户",assets,data -> {
+            showMenu("请选择资产账户", assets, data -> {
                 billInfo2.setAccountName2(assets[data]);
                 this.setData(billInfo2);
             });
         });
-        remark_layout.setOnClickListener(v->{
-            showInputDialog("请输入备注信息",billInfo2.getRemark(),data -> {
+        remark_layout.setOnClickListener(v -> {
+            showInputDialog("请输入备注信息", billInfo2.getRemark(), data -> {
                 billInfo2.setRemark(data);
                 this.setData(billInfo2);
             });
 
         });
-        time_layout.setOnClickListener(v->{
-            showInputDialog("请修改时间信息",billInfo2.getTime(),data -> {
+        time_layout.setOnClickListener(v -> {
+            showInputDialog("请修改时间信息", billInfo2.getTime(), data -> {
                 billInfo2.setTime(data);
                 this.setData(billInfo2);
             });
         });
-        type_layout.setOnClickListener(v->{
+        type_layout.setOnClickListener(v -> {
             String[] strings = {"支出", "收入", "转账", "信用还款", "报销"};
-            showMenu("请选择资产账户",strings,data -> {
+            showMenu("请选择资产账户", strings, data -> {
                 billInfo2.setType(BillInfo.getTypeId(strings[data]));
                 this.setData(billInfo2);
             });
         });
-        btn_save.setOnClickListener(v->{
-            CallAutoActivity.goQianji(getContext(),billInfo2);
+        btn_save.setOnClickListener(v -> {
+            CallAutoActivity.goQianji(getContext(), billInfo2);
             this.clear();
         });
-        btn_cancel.setOnClickListener(v->{
+        btn_cancel.setOnClickListener(v -> {
             this.clear();
         });
-        parent_layout.setOnClickListener(v->{
+        parent_layout.setOnClickListener(v -> {
             this.clear();
         });
 
@@ -244,7 +245,7 @@ public class AutoFloat extends XFloatView {
     }
 
     public void setData(BillInfo billInfo) {
-        billInfo2=billInfo;
+        billInfo2 = billInfo;
         auto_remark.setText(billInfo.getRemark());
         auto_category.setText(billInfo.getCateName());
         auto_book.setText(billInfo.getBookName());
@@ -252,9 +253,9 @@ public class AutoFloat extends XFloatView {
         auto_account.setText(billInfo.getAccountName());
         auto_account2.setText(billInfo.getAccountName2());
         auto_time.setText(billInfo.getTime());
-        if(billInfo.getType().equals(BillInfo.TYPE_INCOME) || billInfo.getType().equals(BillInfo.TYPE_PAY)){
+        if (billInfo.getType().equals(BillInfo.TYPE_INCOME) || billInfo.getType().equals(BillInfo.TYPE_PAY)) {
             account_book2_layout.setVisibility(View.GONE);
-        }else{
+        } else {
             account_book2_layout.setVisibility(View.VISIBLE);
         }
         auto_money.setText(BillTools.getCustomBill(billInfo));
@@ -262,17 +263,17 @@ public class AutoFloat extends XFloatView {
     }
     // 回调接口
 
-    private void showMenu(String title,String[] list,ListFloat.Callback callBack){
+    private void showMenu(String title, String[] list, ListFloat.Callback callBack) {
 
-        ListFloat listFloat=new ListFloat(getContext());
-        listFloat.setData(title,list,callBack);
+        ListFloat listFloat = new ListFloat(getContext());
+        listFloat.setData(title, list, callBack);
         listFloat.show();
     }
 
 
     public void showInputDialog(String title, String def, InputFloat.Callback callBack) {
-        InputFloat inputFloat=new InputFloat(getContext());
-        inputFloat.setData(title,def,getContext().getString(R.string.set_cancel),getContext().getString(R.string.input_ok),null,callBack);
+        InputFloat inputFloat = new InputFloat(getContext());
+        inputFloat.setData(title, def, getContext().getString(R.string.set_cancel), getContext().getString(R.string.input_ok), null, callBack);
         inputFloat.show();
 
 

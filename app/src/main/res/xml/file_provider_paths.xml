@@ -2,7 +2,7 @@
 <resources>
     <paths>
         <external-path
-            path=""
-            name="myFile" />
+            name="myFile"
+            path="" />
     </paths>
 </resources>

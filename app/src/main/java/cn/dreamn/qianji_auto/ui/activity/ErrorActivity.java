@@ -17,19 +17,12 @@
 
 package cn.dreamn.qianji_auto.ui.activity;
 
-import android.content.ClipData;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
 
 import com.xuexiang.xutil.XUtil;
-
-import java.io.File;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.utils.Caches;
@@ -51,7 +44,7 @@ public class ErrorActivity extends AppCompatActivity {
     TextView exce_send;
 
 
-    private String filePath="";
+    private String filePath = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,32 +58,33 @@ public class ErrorActivity extends AppCompatActivity {
 
     //处理数据残留
     private void initData() {
-        Caches.AddOrUpdate("float_lock","false");
+        Caches.AddOrUpdate("float_lock", "false");
     }
 
-    private void initView(){
-        exce_title=findViewById(R.id.exce_title);
-        exce_text=findViewById(R.id.exce_text);
-        exce_cancel=findViewById(R.id.exce_cancel);
-        exce_send=findViewById(R.id.exce_send);
+    private void initView() {
+        exce_title = findViewById(R.id.exce_title);
+        exce_text = findViewById(R.id.exce_text);
+        exce_cancel = findViewById(R.id.exce_cancel);
+        exce_send = findViewById(R.id.exce_send);
 
         exce_title.setText("自动记账已崩溃");
         exce_text.setText(getString(R.string.err));
         Bundle bundle = getIntent().getExtras();
 
-        if(bundle!=null){
-            filePath=bundle.getString("fileName");
-          //  exce_text.setText(filePath);
+        if (bundle != null) {
+            filePath = bundle.getString("fileName");
+            //  exce_text.setText(filePath);
         }
     }
-    private void initListen(){
+
+    private void initListen() {
         exce_cancel.setOnClickListener(view -> {
             XUtil.exitApp();
         });
         exce_send.setOnClickListener(view -> {
             Logs.d(filePath);
-           // Uri uri = Uri.fromFile(new File(filePath));
-           Tools.shareFile(this,filePath);
+            // Uri uri = Uri.fromFile(new File(filePath));
+            Tools.shareFile(this, filePath);
         });
 
     }

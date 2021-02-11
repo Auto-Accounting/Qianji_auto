@@ -48,6 +48,7 @@ public class InputFloat extends XFloatView {
 
     private Callback cancel;
     private Callback save;
+
     /**
      * 构造器
      *
@@ -62,18 +63,15 @@ public class InputFloat extends XFloatView {
         setWindowManagerParams(0, 200, ScreenUtils.getScreenWidth(), WindowManager.LayoutParams.WRAP_CONTENT);
 
     }
-    public void setData(String title,String text,String text_cancel,String text_save,Callback cancel,Callback save){
+
+    public void setData(String title, String text, String text_cancel, String text_save, Callback cancel, Callback save) {
         input_title.setText(title);
         input_text.setText(text);
         button_cancel.setText(text_cancel);
         button_save.setText(text_save);
-        this.cancel=cancel;
-        this.save=save;
+        this.cancel = cancel;
+        this.save = save;
     }
-    public interface Callback {
-        void onResponse(String data);
-    }
-
 
     /**
      * @return 获取根布局的ID
@@ -90,7 +88,6 @@ public class InputFloat extends XFloatView {
     protected boolean canMoveOrTouch() {
         return false;
     }
-
 
     @Override
     protected WindowManager.LayoutParams getFloatViewLayoutParams() {
@@ -113,6 +110,7 @@ public class InputFloat extends XFloatView {
         params.gravity = Gravity.LEFT | Gravity.TOP;
         return params;
     }
+
     /**
      * 初始化悬浮控件
      */
@@ -130,21 +128,20 @@ public class InputFloat extends XFloatView {
      */
     @Override
     protected void initListener() {
-        button_cancel.setOnClickListener(v->{
-            if(this.cancel!=null){
+        button_cancel.setOnClickListener(v -> {
+            if (this.cancel != null) {
                 cancel.onResponse(input_text.getText().toString());
             }
             this.clear();
         });
-        button_save.setOnClickListener(v->{
-            if(this.save!=null){
+        button_save.setOnClickListener(v -> {
+            if (this.save != null) {
                 save.onResponse(input_text.getText().toString());
             }
             this.clear();
         });
 
     }
-
 
     /**
      * @return 设置悬浮框是否吸附在屏幕边缘
@@ -158,6 +155,10 @@ public class InputFloat extends XFloatView {
     public void clear() {
         super.clear();
         mMainHandler.removeCallbacksAndMessages(null);
+    }
+
+    public interface Callback {
+        void onResponse(String data);
     }
 
 }

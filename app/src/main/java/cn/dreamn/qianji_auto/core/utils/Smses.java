@@ -18,18 +18,17 @@
 package cn.dreamn.qianji_auto.core.utils;
 
 import cn.dreamn.qianji_auto.core.db.DbManger;
-import cn.dreamn.qianji_auto.core.db.Regular;
 import cn.dreamn.qianji_auto.core.db.Sms;
 
 public class Smses {
 
 
-    public static String getFunction(String regex,String body,String remark,String account,String type,String money,String num){
+    public static String getFunction(String regex, String body, String remark, String account, String type, String money, String num) {
         String js = "function getSms(body){ var remark,account,type,money,num,shopName,pattern ; %s return remark+'|'+account+'|'+type+'|'+money+'|'+num };getSms('%s');";
         String data = "pattern= /%s/;" +
                 "      if(pattern.test(body)){" +
                 "         var array = pattern.exec(body);" +
-                "         var remarkNum='%s',accountNum='%s',typeNum='%s',moneyNum='%s',numNum='%s';"+
+                "         var remarkNum='%s',accountNum='%s',typeNum='%s',moneyNum='%s',numNum='%s';" +
                 "         if(remarkNum!=0){if(!isNaN(parseInt(remarkNum)))remark=array[remarkNum];else remark=remarkNum;}" +
                 "         if(accountNum!=0){if(!isNaN(parseInt(accountNum)))account=array[accountNum];else account=accountNum;}" +
                 "         if(typeNum!=0){if(!isNaN(parseInt(typeNum)))type=array[typeNum];else type=typeNum;}" +
@@ -38,10 +37,11 @@ public class Smses {
                 "      return remark+'|'+account+'|'+type+'|'+money+'|'+num ;" +
                 "}    ";
 
-        String data2=String.format(data,regex,remark,account,type,money,num);
+        String data2 = String.format(data, regex, remark, account, type, money, num);
         return String.format(js, data2, body);
 
     }
+
     //获取所有的js
     public static String getSmsRegularJs(String Body) {
         StringBuilder smsList = new StringBuilder();
@@ -53,7 +53,7 @@ public class Smses {
             String data = "pattern= /%s/;" +
                     "      if(pattern.test(body)){" +
                     "         var array = pattern.exec(body);" +
-                    "         var remarkNum='%s',accountNum='%s',typeNum='%s',moneyNum='%s',numNum='%s';"+
+                    "         var remarkNum='%s',accountNum='%s',typeNum='%s',moneyNum='%s',numNum='%s';" +
                     "         if(remarkNum!=0){if(!isNaN(parseInt(remarkNum)))remark=array[remarkNum];else remark=remarkNum;}" +
                     "         if(accountNum!=0){if(!isNaN(parseInt(accountNum)))account=array[accountNum];else account=accountNum;}" +
                     "         if(typeNum!=0){if(!isNaN(parseInt(typeNum)))type=array[typeNum];else type=typeNum;}" +
@@ -62,7 +62,7 @@ public class Smses {
                     "      return remark+'|'+account+'|'+type+'|'+money+'|'+num ;" +
                     "}    ";
 
-            data = String.format(data, value.regular, nums[0], nums[1],  nums[2], nums[3], nums[4]);
+            data = String.format(data, value.regular, nums[0], nums[1], nums[2], nums[3], nums[4]);
             smsList.append(data);
 
 
@@ -71,39 +71,38 @@ public class Smses {
 
         return String.format(js, smsList.toString(), Body);
     }
+
     /**
-     *
      * var pattern = /(.*)向您尾号(.*)的储蓄卡银联(.*)存入人民币(.*)元,活期余额.*元。\[建设银行\]/g,
-     * 	str = '徐先生1月2日12时18分向您尾号5064的储蓄卡银联入账存入人民币10000.00元,活期余额10050.96元。[建设银行]';
+     * str = '徐先生1月2日12时18分向您尾号5064的储蓄卡银联入账存入人民币10000.00元,活期余额10050.96元。[建设银行]';
      * var array = pattern.exec(str);
      * if(array<=0)return;
-     *
+     * <p>
      * function getSms(body){ var remark,account,type,money,num,shopName; %s return remark+'|'+account+'|'+type+'|'+money+'|'+num };getSms('%s');
-     *
      */
 
-    public static Sms[] getAll(){
+    public static Sms[] getAll() {
         return DbManger.db.SmsDao().loadAll();
     }
 
     public static void deny(int id) {
         DbManger.db.SmsDao().deny(id);
     }
+
     public static void enable(int id) {
         DbManger.db.SmsDao().enable(id);
     }
 
 
-
-    public static void add(String regex,String name,String num){
-        DbManger.db.SmsDao().add(regex,name,num);
+    public static void add(String regex, String name, String num) {
+        DbManger.db.SmsDao().add(regex, name, num);
     }
 
-    public static void change(int id,String regex,String name,String num){
-        DbManger.db.SmsDao().update(id,regex,name,num);
+    public static void change(int id, String regex, String name, String num) {
+        DbManger.db.SmsDao().update(id, regex, name, num);
     }
 
-    public static void del(int id){
+    public static void del(int id) {
         DbManger.db.SmsDao().delete(id);
     }
 

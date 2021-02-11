@@ -18,7 +18,6 @@
 package cn.dreamn.qianji_auto.core.utils;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 import static com.xuexiang.xui.utils.ResUtils.getResources;
 
@@ -26,13 +25,14 @@ public class BillTools {
     public static String getMoney(String s) {
         return getDoubleValue(s);
     }
-    private static String getDoubleValue(String str)
-    {
-        str = str.replace(",", "");
+
+    private static String getDoubleValue(String str) {
+
+
         double d = 0;
 
-        if(str!=null && str.length()!=0)
-        {
+        if (str != null && str.length() != 0) {
+            str = str.replace(",", "");
             StringBuilder bf = new StringBuilder();
 
             char[] chars = str.toCharArray();
@@ -52,31 +52,29 @@ public class BillTools {
                     }
                 }
             }
-            try
-            {
+            try {
                 d = Double.parseDouble(bf.toString());
+            } catch (Exception ignored) {
             }
-            catch(Exception ignored)
-            {}
         }
 
         return String.valueOf(d);
     }
 
-    public static int getColor(BillInfo billInfo){
-        if(billInfo.getType().equals(BillInfo.TYPE_INCOME)){
+    public static int getColor(BillInfo billInfo) {
+        if (billInfo.getType().equals(BillInfo.TYPE_INCOME)) {
             return getResources().getColor(R.color.colorSwipeTwo_winter);
-        }else if(billInfo.getType().equals(BillInfo.TYPE_PAY)){
+        } else if (billInfo.getType().equals(BillInfo.TYPE_PAY)) {
             return getResources().getColor(R.color.toast_error_color);
-        }else if(billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)){
+        } else if (billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)) {
             return getResources().getColor(R.color.colorSwipeThree_autumn);
-        }else{
+        } else {
             return getResources().getColor(R.color.darkGrey_winter);
         }
     }
 
-    public static String getCustomBill(BillInfo billInfo){
-        if(billInfo.getType().equals(BillInfo.TYPE_INCOME)){
+    public static String getCustomBill(BillInfo billInfo) {
+        if (billInfo.getType().equals(BillInfo.TYPE_INCOME)) {
             return "+ ￥" + billInfo.getMoney();
         } else if (billInfo.getType().equals(BillInfo.TYPE_PAY)) {
             return "- ￥" + billInfo.getMoney();

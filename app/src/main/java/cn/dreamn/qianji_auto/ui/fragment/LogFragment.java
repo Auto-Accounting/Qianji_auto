@@ -4,14 +4,12 @@ package cn.dreamn.qianji_auto.ui.fragment;
 import android.os.Handler;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
-import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
@@ -39,14 +37,9 @@ public class LogFragment extends StateFragment {
 
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
-
-    private LogAdapter mAdapter;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
-
-
-
-
+    private LogAdapter mAdapter;
 
     /**
      * 初始化控件
@@ -63,14 +56,14 @@ public class LogFragment extends StateFragment {
 
         map_layout.setColorSchemeColors(0xff0099cc, 0xffff4444, 0xff669900, 0xffaa66cc, 0xffff8800);
 
-        mAdapter.setOnItemClickListener((LogAdapter.OnItemClickListener) (item, pos)-> {
+        mAdapter.setOnItemClickListener((LogAdapter.OnItemClickListener) (item, pos) -> {
             new MaterialDialog.Builder(Objects.requireNonNull(getContext()))
                     .title(R.string.tip_options)
                     .items(R.array.menu_values_log)
-                    .itemsCallback((dialog, itemView, position, text) ->{
-                        switch (position){
+                    .itemsCallback((dialog, itemView, position, text) -> {
+                        switch (position) {
                             case 0:
-                                Tools.clipboard(getContext(),item.get(KEY_TITLE));
+                                Tools.clipboard(getContext(), item.get(KEY_TITLE));
                                 SnackbarUtils.Long(getView(), getString(R.string.choose_copy_succeed)).info().show();
                                 break;
                             case 1:
@@ -89,7 +82,6 @@ public class LogFragment extends StateFragment {
     }
 
 
-
     @Override
     protected void initListeners() {
         new MaterialDialog.Builder(requireContext())
@@ -98,6 +90,7 @@ public class LogFragment extends StateFragment {
                 .negativeText("我知道了")
                 .show();
     }
+
     @Override
     protected TitleBar initTitle() {
 
@@ -130,16 +123,16 @@ public class LogFragment extends StateFragment {
     private void loadData() {
         new Handler().postDelayed(() -> {
             //showLoading("正在加载日志");
-            Log[] logs=Logs.getAll();
+            Log[] logs = Logs.getAll();
             List<Map<String, String>> data = new ArrayList<>();
-            for(int i = 0; i <logs.length; i++){
+            for (int i = 0; i < logs.length; i++) {
                 Map<String, String> item = new HashMap<>();
-                item.put(KEY_SUB, String.format("%s  %s",logs[i].sub,logs[i].time2));
+                item.put(KEY_SUB, String.format("%s  %s", logs[i].sub, logs[i].time2));
                 item.put(KEY_TITLE, logs[i].title);
                 item.put(KEY_POS, String.valueOf(i));
                 data.add(item);
             }
-            if(data.size()==0){
+            if (data.size() == 0) {
                 showEmpty("没有日志信息");
                 return;
             }
@@ -150,10 +143,6 @@ public class LogFragment extends StateFragment {
             showContent();
         }, 1000);
     }
-
-
-
-
 
 
 }

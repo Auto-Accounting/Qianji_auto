@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/parent_bg">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,8 +21,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/mode_work" />
 
             <androidx.cardview.widget.CardView
@@ -51,6 +53,7 @@
                     app:sUseRipple="false" />
 
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
@@ -59,6 +62,7 @@
                 android:layout_marginBottom="0dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp">
+
                 <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                     android:id="@+id/mode_default"
                     android:layout_width="match_parent"
@@ -75,29 +79,28 @@
                     app:sLeftTopTextString="@string/mode_default"
                     app:sLeftViewGravity="left_center"
                     app:sLeftViewMarginLeft="30dp"
-                    app:sUseRipple="false"
-                    />
+                    app:sUseRipple="false" />
 
             </androidx.cardview.widget.CardView>
 
 
             <LinearLayout
+                android:id="@+id/set_helper_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/set_helper_list"
-                >
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_marginStart="15dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/mode_authority" />
 
-                <include layout="@layout/permission_helper"/>
+                <include layout="@layout/permission_helper" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/set_xp_list"
                 android:layout_width="match_parent"
@@ -106,7 +109,7 @@
 
                 >
 
-                <include layout="@layout/permission_xp"/>
+                <include layout="@layout/permission_xp" />
 
             </LinearLayout>
         </LinearLayout>

@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-             android:orientation="vertical">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,9 +42,7 @@
                 android:layout_margin="16dp"
 
 
-                android:orientation="vertical"
-                >
-
+                android:orientation="vertical">
 
 
                 <TextView
@@ -76,8 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
 
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -95,9 +92,7 @@
                         android:id="@+id/sms_regex"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:mlet_maxCount="1000000000">
-                    </com.xuexiang.xui.widget.edittext.MultiLineEditText>
-
+                        app:mlet_maxCount="1000000000"></com.xuexiang.xui.widget.edittext.MultiLineEditText>
 
 
                 </LinearLayout>
@@ -116,9 +111,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="@string/sms_location"
                     android:textColor="#333333"
-                    android:textSize="14sp"
-                    android:text="@string/sms_location" />
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -128,8 +123,7 @@
                     <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                         style="@style/RoundButton.Auto"
                         android:layout_marginEnd="8dp"
-                        android:text="@string/sms_num"
-                         />
+                        android:text="@string/sms_num" />
 
                     <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                         android:id="@+id/sms_num"
@@ -141,6 +135,7 @@
                         android:textColor="@color/xui_config_color_edittext_textcolor" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -149,8 +144,7 @@
                     <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                         style="@style/RoundButton.Auto"
                         android:layout_marginEnd="8dp"
-                        android:text="@string/sms_account"
-                        />
+                        android:text="@string/sms_account" />
 
                     <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                         android:id="@+id/sms_account"
@@ -162,6 +156,7 @@
                         android:textColor="@color/xui_config_color_edittext_textcolor" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -170,8 +165,7 @@
                     <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                         style="@style/RoundButton.Auto"
                         android:layout_marginEnd="8dp"
-                        android:text="@string/sms_type"
-                        />
+                        android:text="@string/sms_type" />
 
                     <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                         android:id="@+id/sms_type"
@@ -183,6 +177,7 @@
                         android:textColor="@color/xui_config_color_edittext_textcolor" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -191,8 +186,7 @@
                     <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                         style="@style/RoundButton.Auto"
                         android:layout_marginEnd="8dp"
-                        android:text="@string/sms_money"
-                        />
+                        android:text="@string/sms_money" />
 
                     <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                         android:id="@+id/sms_money"
@@ -204,6 +198,7 @@
                         android:textColor="@color/xui_config_color_edittext_textcolor" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -212,8 +207,7 @@
                     <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                         style="@style/RoundButton.Auto"
                         android:layout_marginEnd="8dp"
-                        android:text="@string/sms_remark"
-                        />
+                        android:text="@string/sms_remark" />
 
                     <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                         android:id="@+id/sms_remark"
@@ -253,8 +247,6 @@
 
 
         </LinearLayout>
-
-
 
 
     </ScrollView>

@@ -38,7 +38,10 @@ import java.util.Objects;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Asset;
+import cn.dreamn.qianji_auto.core.db.BookName;
 import cn.dreamn.qianji_auto.core.utils.Assets;
+import cn.dreamn.qianji_auto.core.utils.BookNames;
+import cn.dreamn.qianji_auto.ui.adapter.AssetAdapter;
 import cn.dreamn.qianji_auto.ui.adapter.MapAdapter;
 import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
 
@@ -47,14 +50,14 @@ import static cn.dreamn.qianji_auto.ui.adapter.MapAdapter.KEY_TITLE;
 import static cn.dreamn.qianji_auto.ui.adapter.MapAdapter.KEY_VALUE;
 
 
-@Page(name = "资产映射")
-public class MapFragment extends StateFragment {
+@Page(name = "账本管理")
+public class BookFragment extends StateFragment {
 
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
-    private MapAdapter mAdapter;
+    private AssetAdapter mAdapter;
 
     /**
      * 初始化控件
@@ -71,11 +74,11 @@ public class MapFragment extends StateFragment {
                 .itemsCallback((dialog, itemView, position, text) -> {
                     int id = Integer.parseInt(Objects.requireNonNull(item.get(MapAdapter.KEY_ID)));
                     if (position == 0) {
-                        Assets.delMap(id);
+                        BookNames.del(id);
                         refresh();
                     } else {
 
-                        changeMap(id, item.get(MapAdapter.KEY_TITLE));
+                        change(id, item.get(AssetAdapter.KEY_TITLE));
                     }
 
                 })
@@ -91,7 +94,7 @@ public class MapFragment extends StateFragment {
         titleBar.addAction(new TitleBar.ImageAction(R.drawable.ic_add) {
             @Override
             public void performAction(View view) {
-                changeMap(-1, "");
+                change(-1, "");
             }
         });
 
@@ -104,7 +107,7 @@ public class MapFragment extends StateFragment {
     private void initSet() {
 
         WidgetUtils.initRecyclerView(recyclerView);
-        mAdapter = new MapAdapter();
+        mAdapter = new AssetAdapter();
         recyclerView.setAdapter(mAdapter);
 
 
@@ -112,18 +115,17 @@ public class MapFragment extends StateFragment {
 
     private void loadData() {
         new Handler().postDelayed(() -> {
-            //showLoading("正在加载资产");
-            Asset[] asset = Assets.getAllMap();
+
+            BookName[] bookNames = BookNames.getAllWith();
             List<Map<String, String>> data = new ArrayList<>();
-            for (Asset assets : asset) {
+            for (BookName bookName : bookNames) {
                 Map<String, String> item = new HashMap<>();
-                item.put(KEY_TITLE, assets.name);
-                item.put(KEY_VALUE, assets.mapName);
-                item.put(KEY_ID, String.valueOf(assets.id));
+                item.put(KEY_TITLE, bookName.name);
+                item.put(KEY_ID, String.valueOf(bookName.id));
                 data.add(item);
             }
             if (data.size() == 0) {
-                showEmpty("没有资产映射信息");
+                showEmpty("没有账本信息");
                 return;
             }
 
@@ -145,28 +147,18 @@ public class MapFragment extends StateFragment {
         loadData();
     }
 
-    private void changeMap(int id, String def) {
-        String[] assets = Assets.getAllAccountName();
-        if (assets == null) {
-            SnackbarUtils.Long(getView(), "请先添加钱迹资产").info().show();
-            return;
-        }
-        showInputDialog("添加资产映射", "识别出来的资产名称", def, str -> {
+    private void change(int id, String def) {
 
-            new MaterialDialog.Builder(getContext())
-                    .title(R.string.tip_options)
-                    .items(assets)
-                    .itemsCallback((dialog, itemView, position, text) -> {
-                        if (id != -1) {
-                            Assets.updMap(id, str, text.toString());
-                        } else {
-                            Assets.addMap(str, text.toString());
-                        }
+        showInputDialog("添加账本", "钱迹里的账本名称", def, str -> {
 
-                        SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
-                        refresh();
-                    })
-                    .show();
+            if (id != -1) {
+                BookNames.upd(id, str);
+            } else {
+                BookNames.add(str);
+            }
+
+            SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
+            refresh();
         });
 
     }

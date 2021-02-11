@@ -17,11 +17,7 @@
 
 package cn.dreamn.qianji_auto.core.base.wechat;
 
-import android.content.Context;
-
-import com.alibaba.fastjson.JSONObject;
-
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.base.Analyze;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
@@ -42,25 +38,29 @@ public class WechatPaymentTransfer extends Analyze {
 
 
     @Override
-    public void tryAnalyze(String content, Context context) {
+    public BillInfo tryAnalyze(String content, String source) {
+        BillInfo billInfo = super.tryAnalyze(content, source);
 
-        JSONObject jsonObject = setContent(content);
-        if (jsonObject == null) return;
-
-        BillInfo billInfo = new BillInfo();
-        billInfo.setShopRemark("微信转账");
+        if (billInfo == null) return null;
+        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+            billInfo.setShopRemark("微信转账");
         billInfo.setAccountName("零钱");
-        if (jsonObject.getIntValue("paysubtype") == 1) {
+        if (jsonObject.getString("isSend").equals("1") && jsonObject.getIntValue("paysubtype") == 1) {
             billInfo.setType(BillInfo.TYPE_PAY);
-            billInfo.setSource("微信转账付款");
+
             billInfo.setAccountName(jsonObject.getString("payTools"));
-        } else if (jsonObject.getIntValue("paysubtype") == 3) {
+        } else if (jsonObject.getString("isSend").equals("1") && jsonObject.getIntValue("paysubtype") == 3) {
             billInfo.setType(BillInfo.TYPE_INCOME);
-            billInfo.setSource("微信转账收款");
+
+
+        } else if (jsonObject.getString("isSend").equals("0") && jsonObject.getIntValue("paysubtype") == 4) {
+            billInfo.setType(BillInfo.TYPE_INCOME);
+            billInfo.setSilent(true);
+            billInfo.setShopRemark("对方退还转账");
 
         } else {
             Logs.i("该转账记录无效");
-            return;
+            return null;
         }
 
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("feedesc")));
@@ -71,13 +71,13 @@ public class WechatPaymentTransfer extends Analyze {
         billInfo.setShopRemark(jsonObject.getString("pay_memo"));
 
 
-        CallAutoActivity.call(context, billInfo);
+        return billInfo;
 
     }
 
 
     @Override
-    BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
+    public BillInfo getResult(BillInfo billInfo) {
 
 
         return billInfo;

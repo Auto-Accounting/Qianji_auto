@@ -64,7 +64,7 @@ public class EditFragment extends BaseFragment {
     @BindView(R.id.btn_save)
     ButtonView btn_save;
 
-    private  int regularId=-1;
+    private int regularId = -1;
 
     /**
      * 布局的资源id
@@ -88,17 +88,17 @@ public class EditFragment extends BaseFragment {
     private void initSet() {
 
         Bundle arguments = getArguments();
-        if(arguments==null)return;
+        if (arguments == null) return;
         String id = arguments.getString("id");
         String num = arguments.getString("num");
         String regex = arguments.getString("regex");
         String title = arguments.getString("title");
 
-        if(id!=null&& !id.equals("")){
-            regularId=Integer.parseInt(id);
+        if (id != null && !id.equals("")) {
+            regularId = Integer.parseInt(id);
             assert num != null;
-            String[] nums=num.split("\\|");
-            if(nums.length!=5)return;
+            String[] nums = num.split("\\|");
+            if (nums.length != 5) return;
 
             sms_name.setText(title);
             sms_regex.setContentText(regex);
@@ -114,18 +114,17 @@ public class EditFragment extends BaseFragment {
 
     }
 
-    private void initListen(){
+    private void initListen() {
 
-        btn_test.setOnClickListener(v->{
-           // popToBack("SmsFragment",null);
+        btn_test.setOnClickListener(v -> {
+            // popToBack("SmsFragment",null);
 
-            showInputDialog("请输入测试短信","测试短信",Caches.getOneString("test_sms",""),data -> {
-                Caches.AddOrUpdate("test_sms",data);
-                String func=Smses.getFunction(
-                        sms_regex.getContentText(),data,sms_remark.getEditValue(),sms_account.getEditValue(),sms_type.getEditValue(),sms_money.getEditValue(),sms_num.getEditValue()
+            showInputDialog("请输入测试短信", "测试短信", Caches.getOneString("test_sms", ""), data -> {
+                Caches.AddOrUpdate("test_sms", data);
+                String func = Smses.getFunction(
+                        sms_regex.getContentText(), data, sms_remark.getEditValue(), sms_account.getEditValue(), sms_type.getEditValue(), sms_money.getEditValue(), sms_num.getEditValue()
                 );
                 Logs.d(func);
-
 
 
                 try {
@@ -134,21 +133,21 @@ public class EditFragment extends BaseFragment {
 
                     String result=runtime.executeStringScript(func);*/
                     String result = JsEngine.run(func);
-                    Logs.d("Qianji_Sms","短信分析结果："+result);
-                    String[] strings=result.split("\\|");
-                    String datas="";
-                    datas+="备注："+(strings[0].equals("undefined")?"":strings[0])+"\n";
-                    datas+="账户："+(strings[1].equals("undefined")?"":strings[1])+"\n";
-                    datas+="类型："+(strings[2].equals("undefined")?"":strings[2])+"\n";
-                    datas+="金额："+(strings[3].equals("undefined") ?"":strings[3])+"\n";
-                    datas+="账户尾号："+(strings[4].equals("undefined")?"":strings[4])+"\n";
+                    Logs.d("Qianji_Sms", "短信分析结果：" + result);
+                    String[] strings = result.split("\\|");
+                    String datas = "";
+                    datas += "备注：" + (strings[0].equals("undefined") ? "" : strings[0]) + "\n";
+                    datas += "账户：" + (strings[1].equals("undefined") ? "" : strings[1]) + "\n";
+                    datas += "类型：" + (strings[2].equals("undefined") ? "" : strings[2]) + "\n";
+                    datas += "金额：" + (strings[3].equals("undefined") ? "" : strings[3]) + "\n";
+                    datas += "账户尾号：" + (strings[4].equals("undefined") ? "" : strings[4]) + "\n";
 
                     new MaterialDialog.Builder(getContext())
                             .title("识别结果")
                             .content(datas)
                             .positiveText(getString(R.string.input_ok))
                             .show();
-                }catch (Exception e){
+                } catch (Exception e) {
                     new MaterialDialog.Builder(getContext())
                             .title("运行错误")
                             .content(e.toString())
@@ -157,34 +156,33 @@ public class EditFragment extends BaseFragment {
                 }
 
 
-
             });
         });
 
-        btn_save.setOnClickListener(v->{
+        btn_save.setOnClickListener(v -> {
             //获取名称
-            String name= sms_name.getEditValue();
-            if(name.equals("")){
+            String name = sms_name.getEditValue();
+            if (name.equals("")) {
                 SnackbarUtils.Long(getView(), "名称不能为空").danger().show();
                 return;
             }
             //获取分类
-            String regex= sms_regex.getContentText();
-            if(regex.equals("")){
+            String regex = sms_regex.getContentText();
+            if (regex.equals("")) {
                 SnackbarUtils.Long(getView(), "正则不能为空").danger().show();
                 return;
             }
 
 
-            String num= sms_remark.getEditValue() +"|"+ sms_account.getEditValue() +"|"+ sms_type.getEditValue() +"|"+ sms_money.getEditValue() +"|"+ sms_num.getEditValue();
+            String num = sms_remark.getEditValue() + "|" + sms_account.getEditValue() + "|" + sms_type.getEditValue() + "|" + sms_money.getEditValue() + "|" + sms_num.getEditValue();
 
-            if(regularId!=-1){
+            if (regularId != -1) {
                 Smses.change(regularId, regex, name, num);
-            }else{
+            } else {
                 Smses.add(regex, name, num);
             }
 
-            popToBack("SmsFragment",null);
+            popToBack("SmsFragment", null);
         });
 
     }

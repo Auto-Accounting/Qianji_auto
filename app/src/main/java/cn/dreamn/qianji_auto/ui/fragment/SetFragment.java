@@ -23,12 +23,14 @@ import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.utils.BillInfo;
-import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.BookNames;
 import cn.dreamn.qianji_auto.core.utils.Remark;
+import cn.dreamn.qianji_auto.ui.adapter.AssetAdapter;
+import cn.dreamn.qianji_auto.ui.adapter.MapAdapter;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 
 
@@ -50,6 +52,7 @@ public class SetFragment extends BaseFragment {
     SuperTextView set_timeout;
     @BindView(R.id.set_float)
     SuperTextView set_float;
+
     /**
      * 布局的资源id
      *
@@ -101,40 +104,45 @@ public class SetFragment extends BaseFragment {
 
     }
 
-    private void initListen(){
+    private void initListen() {
         MMKV mmkv = MMKV.defaultMMKV();
         set_pay_mode_half.setOnSuperTextViewClickListener(superTextView -> {
-            mmkv.encode("autoPay",false);
+            mmkv.encode("autoPay", false);
             initSet();
             SnackbarUtils.Long(getView(), getString(R.string.set_msg_mode_half)).info().show();
         });
         set_pay_mode_full.setOnSuperTextViewClickListener(superTextView -> {
-            mmkv.encode("autoPay",true);
+            mmkv.encode("autoPay", true);
             initSet();
             SnackbarUtils.Long(getView(), getString(R.string.set_msg_mode_full)).info().show();
         });
         set_income_mode_half.setOnSuperTextViewClickListener(superTextView -> {
 
-            mmkv.encode("autoIncome",false);
+            mmkv.encode("autoIncome", false);
             initSet();
             SnackbarUtils.Long(getView(), getString(R.string.set_msg_mode_half)).info().show();
         });
         set_income_mode_full.setOnSuperTextViewClickListener(superTextView -> {
-            mmkv.encode("autoIncome",true);
+            mmkv.encode("autoIncome", true);
             initSet();
             SnackbarUtils.Long(getView(), getString(R.string.set_msg_mode_full)).info().show();
         });
         set_bookname.setOnSuperTextViewClickListener(superTextView -> {
-            showInputDialog(getString(R.string.set_data_bookname),getString(R.string.set_data_booktip),BookNames.getDefault(),(str)->{
-                BookNames.change(str);
-                SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
-                initSet();
-            });
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.tip_options)
+                    .items(BookNames.getAll())
+                    .itemsCallback((dialog, itemView, position, text) -> {
+                        BookNames.change(text.toString());
+                        SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
+                        initSet();
+
+                    })
+                    .show();
 
         });
 
         set_remark.setOnSuperTextViewClickListener(superTextView -> {
-            showInputDialog(getString(R.string.set_data_remark),getString(R.string.set_data_remarktip),Remark.getRemarkTpl(),(str)->{
+            showInputDialog(getString(R.string.set_data_remark), getString(R.string.set_data_remarktip), Remark.getRemarkTpl(), (str) -> {
                 Remark.setTpl(str);
                 SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
                 initSet();
@@ -142,14 +150,14 @@ public class SetFragment extends BaseFragment {
 
         });
         set_timeout.setOnSuperTextViewClickListener(superTextView -> {
-            showInputDialog(getString(R.string.set_data_time),getString(R.string.set_data_timetip),mmkv.getString("auto_timeout", "10"),(str)->{
+            showInputDialog(getString(R.string.set_data_time), getString(R.string.set_data_timetip), mmkv.getString("auto_timeout", "10"), (str) -> {
 
-                try{
+                try {
                     Integer.parseInt(str);
-                    mmkv.encode("auto_timeout",str);
+                    mmkv.encode("auto_timeout", str);
                     SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
                     initSet();
-                }catch (Exception e){
+                } catch (Exception e) {
                     new MaterialDialog.Builder(getContext())
                             .title("类型错误")
                             .content("只允许输入整数！")
@@ -162,11 +170,11 @@ public class SetFragment extends BaseFragment {
 
         });
         set_float.setOnSuperTextViewClickListener(superTextView -> {
-            if(mmkv.getBoolean("auto_check", true)){
-                mmkv.encode("auto_check",false);
+            if (mmkv.getBoolean("auto_check", true)) {
+                mmkv.encode("auto_check", false);
                 SnackbarUtils.Long(getView(), getString(R.string.set_check_close)).info().show();
-            }else{
-                mmkv.encode("auto_check",true);
+            } else {
+                mmkv.encode("auto_check", true);
                 SnackbarUtils.Long(getView(), getString(R.string.set_check_success)).info().show();
             }
             initSet();

@@ -41,25 +41,26 @@ public class CateAdapter extends SmartRecyclerAdapter<Map<String, String>> {
     public static final String KEY_DENY = "deny";
     public static final String KEY_ID = "id";
     public static final String KEY_DATA = "data";
+    public static final String KEY_JS = "js";
+    private OnItemClickListener listener;
+
+
     public CateAdapter() {
         super(R.layout.map_list);
     }
 
-
-
-
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Map<String, String> item, int position) {
-        SuperTextView map_text = (SuperTextView)holder.findView(R.id.map_text);
+        SuperTextView map_text = (SuperTextView) holder.findView(R.id.map_text);
         map_text.setLeftString(item.get(KEY_TITLE));
         map_text.setCenterString(" 分类为 ");
         map_text.setRightString(item.get(KEY_VALUE));
         map_text.setCenterTextColor(getColor(R.color.white));
         map_text.setRightTextColor(getColor(R.color.white));
         map_text.setLeftTextColor(getColor(R.color.white));
-        if(item.get(KEY_DENY).equals("false")){
+        if (item.get(KEY_DENY).equals("false")) {
             map_text.setBackgroundColor(getColor(R.color.colorWechat));
-        }else{
+        } else {
             map_text.setBackgroundColor(getColor(R.color.grey_winter));
         }
         map_text.setOnClickListener(v -> {
@@ -69,17 +70,13 @@ public class CateAdapter extends SmartRecyclerAdapter<Map<String, String>> {
         });
     }
 
-
+    //第二步， 写一个公共的方法
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     //第一步 定义接口
     public interface OnItemClickListener {
         void onClick(Map<String, String> item);
-    }
-
-    private OnItemClickListener listener;
-
-    //第二步， 写一个公共的方法
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
     }
 }

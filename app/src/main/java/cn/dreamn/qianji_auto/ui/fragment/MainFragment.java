@@ -32,8 +32,6 @@ import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 import com.xuexiang.xutil.XUtil;
 import com.xuexiang.xutil.common.ClickUtils;
 
-import java.util.List;
-
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.utils.App;
@@ -51,7 +49,7 @@ import cn.dreamn.qianji_auto.utils.tools.Permission;
  * @since 2018/11/7 下午1:16
  */
 @Page(name = "自动记账", anim = CoreAnim.none)
-public class MainFragment extends BaseFragment implements ClickUtils.OnClick2ExitListener{
+public class MainFragment extends BaseFragment implements ClickUtils.OnClick2ExitListener {
     @BindView(R.id.status)
     SuperTextView menu_status;
     @BindView(R.id.set)
@@ -107,33 +105,32 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
     }
 
     @SuppressLint({"DefaultLocale", "UseCompatLoadingForDrawables"})
-    private void setActive(){
-        if(Status.isActive(getContext())){
+    private void setActive() {
+        if (Status.isActive(getContext())) {
             Logs.d("已激活");
             menu_status.setBackgroundColor(getResources().getColor(R.color.list_bg_success));
             menu_status.setLeftTopTextColor(getResources().getColor(R.color.list_text_color_succ));
             menu_status.setLeftBottomTextColor(getResources().getColor(R.color.list_text_color_succ));
             menu_status.setLeftIcon(getResources().getDrawable(R.drawable.ic_true));
             menu_status.setLeftTopString(String.format(getString(R.string.menu_active), Status.getFrameWork(getContext())));
-            menu_status.setLeftBottomString(String.format("v%s(%d)", App.getAppVerName(),App.getAppVerCode()));
+            menu_status.setLeftBottomString(String.format("v%s(%d)", App.getAppVerName(), App.getAppVerCode()));
 
-        }else{
+        } else {
             Logs.d("未激活");
             menu_status.setBackgroundColor(getResources().getColor(R.color.list_bg_err));
             menu_status.setLeftTopTextColor(getResources().getColor(R.color.list_text_color_err));
             menu_status.setLeftBottomTextColor(getResources().getColor(R.color.list_text_color_err));
             menu_status.setLeftIcon(getResources().getDrawable(R.drawable.ic_false));
             menu_status.setLeftTopString(String.format(getString(R.string.menu_noactive), Status.getFrameWork(getContext())));
-            menu_status.setLeftBottomString(String.format("v%s (%d)",App.getAppVerName(),App.getAppVerCode()));
+            menu_status.setLeftBottomString(String.format("v%s (%d)", App.getAppVerName(), App.getAppVerCode()));
         }
 
 
     }
 
 
-
     @SuppressLint("SdCardPath")
-    private void initListen(){
+    private void initListen() {
         menu_status.setOnSuperTextViewClickListener(superTextView -> {
             openNewPage(ModeFragment.class);
         });
@@ -155,33 +152,31 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
         });
         menu_Backup.setOnSuperTextViewClickListener(superTextView -> {
 
-            Permission.getInstance().grant(getActivity(),Permission.Storage);
+            Permission.getInstance().grant(getActivity(), Permission.Storage);
             new MaterialDialog.Builder(requireContext())
                     .title(R.string.tip_options)
                     .items(R.array.menu_values_backup)
-                    .itemsCallback((dialog, itemView, position, text) ->{
-                        if(position==0){
+                    .itemsCallback((dialog, itemView, position, text) -> {
+                        if (position == 0) {
                             try {
                                 SnackbarUtils.Long(getView(), "备份中...").info().show();
                                 FileUtils.backUp(getContext());
-                                SnackbarUtils.Long(getView(), String.format(getString(R.string.bak_success),"/sdcard/Download/QianJiAuto")).info().show();
+                                SnackbarUtils.Long(getView(), String.format(getString(R.string.bak_success), "/sdcard/Download/QianJiAuto")).info().show();
 
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                        }else{
+                        } else {
                             FileChooser fileChooser = new FileChooser(getActivity(), filePath -> {
-                                String ret=FileUtils.restore(filePath.get(0).getFilePath(),getContext());
-                                if(ret.equals("ok")){
+                                String ret = FileUtils.restore(filePath.get(0).getFilePath(), getContext());
+                                if (ret.equals("ok")) {
                                     SnackbarUtils.Long(getView(), getString(R.string.bak_success_2)).info().show();
                                     XUtil.rebootApp();
-                                }
-                                else  SnackbarUtils.Long(getView(), ret).info().show();
+                                } else SnackbarUtils.Long(getView(), ret).info().show();
                             });
 
                             fileChooser.setTitle("请选择备份文件");
                             fileChooser.setDoneText("确定");
-
 
 
                             fileChooser.setChooseType(FileInfo.FILE_TYPE_BACKUP);
@@ -191,7 +186,7 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
 
                     })
                     .show();
-          //  openNewPage(BackupFragment.class);
+            //  openNewPage(BackupFragment.class);
 
         });
 
@@ -225,14 +220,14 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
     }
 
 
-    private void showUpdateLog(){
+    private void showUpdateLog() {
         MMKV mmkv = MMKV.defaultMMKV();
-        int version=mmkv.getInt("version",0);
-        int nowVersion=App.getAppVerCode();
-        if(nowVersion>version){
-            String data=FileUtils.getAssetsData(getContext(),"update.txt");
-            if(data==null)return;
-            mmkv.encode("version",nowVersion);
+        int version = mmkv.getInt("version", 0);
+        int nowVersion = App.getAppVerCode();
+        if (nowVersion > version) {
+            String data = FileUtils.getAssetsData(getContext(), "update.txt");
+            if (data == null) return;
+            mmkv.encode("version", nowVersion);
             new MaterialDialog.Builder(requireContext())
                     .title("更新日志")
                     .content(data)

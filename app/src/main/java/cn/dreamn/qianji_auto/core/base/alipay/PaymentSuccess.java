@@ -17,17 +17,12 @@
 
 package cn.dreamn.qianji_auto.core.base.alipay;
 
-import android.content.Context;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import cn.dreamn.qianji_auto.core.utils.Assets;
+import cn.dreamn.qianji_auto.core.base.Analyze;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
-import cn.dreamn.qianji_auto.core.utils.Category;
-import cn.dreamn.qianji_auto.core.utils.Remark;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 /**
@@ -37,61 +32,54 @@ public class PaymentSuccess extends Analyze {
 
     private static PaymentSuccess paymentSuccess;
 
-    public static PaymentSuccess getInstance(){
-        if(paymentSuccess!=null)return paymentSuccess;
-        paymentSuccess=new PaymentSuccess();
+    public static PaymentSuccess getInstance() {
+        if (paymentSuccess != null) return paymentSuccess;
+        paymentSuccess = new PaymentSuccess();
         return paymentSuccess;
     }
 
 
     @Override
-    public void tryAnalyze(String content, Context context) {
+    public BillInfo tryAnalyze(String content, String source) {
+        BillInfo billInfo = super.tryAnalyze(content, source);
 
-        JSONObject jsonObject=setContent(content);
-        if(jsonObject==null)return ;
-
-        BillInfo billInfo=new BillInfo();
+        if (billInfo == null) return null;
         billInfo.setShopRemark("支付宝支付");
-        billInfo = getResult(jsonObject, billInfo);
 
-        if(billInfo.getSource()!=null&& billInfo.getSource().equals("花呗还款")){
+
+        if (billInfo.getSource() != null && billInfo.getSource().equals("花呗还款")) {
             billInfo.setType(BillInfo.TYPE_CREDIT_CARD_PAYMENT);
 
 
-        }else{
+        } else {
             billInfo.setType(BillInfo.TYPE_PAY);
 
-            billInfo.setSource("支付宝付款成功");
 
         }
-        CallAutoActivity.call(context,billInfo);
-
+        return billInfo;
     }
 
     @Override
-    BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
+    public BillInfo getResult(BillInfo billInfo) {
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
-        JSONArray jsonArray=jsonObject.getJSONArray("content");
-        for(int i=0;i<jsonArray.size();i++){
-            JSONObject jsonObject1=jsonArray.getJSONObject(i);
-            String name=jsonObject1.getString("title");
-            String value=jsonObject1.getString("content");
-            Logs.d("name ->"+name+"  value->"+value);
+        JSONArray jsonArray = jsonObject.getJSONArray("content");
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+            String name = jsonObject1.getString("title");
+            String value = jsonObject1.getString("content");
+            Logs.d("name ->" + name + "  value->" + value);
             switch (name) {
                 case "付款方式：":
                     billInfo.setAccountName(value);
                     break;
                 case "交易对象：":
+                case "还款到：":
                     billInfo.setShopAccount(value);
                     break;
                 case "商品说明：":
                 case "充值说明：":
                 case "还款说明：":
                     billInfo.setShopRemark(value);
-                    break;
-                case "还款到：":
-                    billInfo.setSource("花呗还款");
-                    billInfo.setShopAccount(value);
                     break;
                 default:
                     break;

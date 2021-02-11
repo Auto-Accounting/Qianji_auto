@@ -1,12 +1,8 @@
 package cn.dreamn.qianji_auto.ui.fragment;
 
 
-import android.annotation.SuppressLint;
 import android.os.Handler;
-import android.telecom.Call;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -31,7 +27,6 @@ import cn.dreamn.qianji_auto.core.utils.AutoBills;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.adapter.BillAdapter;
-import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 import static cn.dreamn.qianji_auto.ui.adapter.BillAdapter.KEY_ACCOUNT;
 import static cn.dreamn.qianji_auto.ui.adapter.BillAdapter.KEY_BILLINFO;
@@ -50,11 +45,9 @@ public class BillFragment extends StateFragment {
 
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
-    
-    private BillAdapter mAdapter;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
-
+    private BillAdapter mAdapter;
 
     /**
      * 初始化控件
@@ -72,31 +65,30 @@ public class BillFragment extends StateFragment {
         map_layout.setColorSchemeColors(0xff0099cc, 0xffff4444, 0xff669900, 0xffaa66cc, 0xffff8800);
 
 
-
-        mAdapter.setOnItemClickListener((BillAdapter.OnItemClickListener) (item, pos)-> {
+        mAdapter.setOnItemClickListener((BillAdapter.OnItemClickListener) (item, pos) -> {
             new MaterialDialog.Builder(Objects.requireNonNull(getContext()))
                     .title(R.string.tip_options)
                     .items(R.array.menu_values_bill)
-                    .itemsCallback((dialog, itemView, position, text) ->{
+                    .itemsCallback((dialog, itemView, position, text) -> {
                         BillInfo billInfo2;
-                        switch (position){
+                        switch (position) {
                             case 0:
                                 //前往钱迹
-                                 billInfo2=BillInfo.parse(item.get(KEY_BILLINFO));
-                              //  billInfo2.setSilent(false);
-                                CallAutoActivity.callNoAdd(getContext(),billInfo2);
+                                billInfo2 = BillInfo.parse(item.get(KEY_BILLINFO));
+                                //  billInfo2.setSilent(false);
+                                CallAutoActivity.callNoAdd(getContext(), billInfo2);
                                 break;
                             case 2:
-                                Tools.clipboard(getContext(),item.get(KEY_BILLINFO));
+                                Tools.clipboard(getContext(), item.get(KEY_BILLINFO));
                                 SnackbarUtils.Long(getView(), getString(R.string.bill_clip)).info().show();
                                 break;
                             case 1:
-                                 billInfo2=BillInfo.parse(item.get(KEY_BILLINFO));
-                                 billInfo2.setSilent(false);
-                                CallAutoActivity.callNoAdd(getContext(),billInfo2);
+                                billInfo2 = BillInfo.parse(item.get(KEY_BILLINFO));
+                                billInfo2.setSilent(false);
+                                CallAutoActivity.callNoAdd(getContext(), billInfo2);
                                 break;
                             case 3:
-                               // Storage.type(Storage.Bill).del("bill",pos);
+                                // Storage.type(Storage.Bill).del("bill",pos);
                                 AutoBills.del(Integer.parseInt(item.get(KEY_ID)));
                                 refresh();
                                 break;
@@ -112,11 +104,11 @@ public class BillFragment extends StateFragment {
     }
 
 
-
     @Override
     protected void initListeners() {
 
     }
+
     @Override
     protected TitleBar initTitle() {
 
@@ -149,8 +141,8 @@ public class BillFragment extends StateFragment {
 
     private void loadData() {
         new Handler().postDelayed(() -> {
-           // showLoading("正在加载账单列表");
-            AutoBill[] autoBills= AutoBills.getAll();
+            // showLoading("正在加载账单列表");
+            AutoBill[] autoBills = AutoBills.getAll();
             List<Map<String, String>> data = new ArrayList<>();
             for (AutoBill autoBill : autoBills) {
                 Map<String, String> item = new HashMap<>();
@@ -168,7 +160,7 @@ public class BillFragment extends StateFragment {
 
                 data.add(item);
             }
-            if(data.size()==0){
+            if (data.size() == 0) {
                 showEmpty("没有账单信息");
                 return;
             }

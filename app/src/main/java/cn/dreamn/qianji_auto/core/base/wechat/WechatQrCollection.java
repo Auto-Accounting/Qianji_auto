@@ -15,7 +15,7 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.base.alipay;
+package cn.dreamn.qianji_auto.core.base.wechat;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -25,16 +25,16 @@ import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 
 /**
- * 转账给某人
+ * 付款给某人
  */
-public class TransferIntoYuebao extends Analyze {
+public class WechatQrCollection extends Analyze {
 
-    private static TransferIntoYuebao transferIntoYuebao;
+    private static WechatQrCollection paymentSuccess;
 
-    public static TransferIntoYuebao getInstance() {
-        if (transferIntoYuebao != null) return transferIntoYuebao;
-        transferIntoYuebao = new TransferIntoYuebao();
-        return transferIntoYuebao;
+    public static WechatQrCollection getInstance() {
+        if (paymentSuccess != null) return paymentSuccess;
+        paymentSuccess = new WechatQrCollection();
+        return paymentSuccess;
     }
 
 
@@ -44,35 +44,36 @@ public class TransferIntoYuebao extends Analyze {
 
         if (billInfo == null) return null;
 
+
+        billInfo.setAccountName("零钱");
+        billInfo.setType(BillInfo.TYPE_INCOME);
         billInfo.setSilent(true);
-        billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
-        //余额转入余额宝
-        billInfo.setAccountName2("余额宝");
+
         return billInfo;
     }
 
     @Override
     public BillInfo getResult(BillInfo billInfo) {
-        billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
-        JSONArray jsonArray = jsonObject.getJSONArray("content");
-        for (int i = 0; i < jsonArray.size(); i++) {
-            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-            String name = jsonObject1.getString("title");
-            String value = jsonObject1.getString("content");
-            switch (name) {
-                case "付款方式：":
-                    billInfo.setAccountName(value);
-                    break;
-                case "交易对象：":
+        String money = BillTools.getMoney(jsonObject.getJSONObject("topline").getJSONObject("value").getString("word"));
+        billInfo.setMoney(BillTools.getMoney(money));
+
+        JSONArray line = jsonObject.getJSONObject("lines").getJSONArray("line");
+        for (int i = 0; i < line.size(); i++) {
+            JSONObject jsonObject1 = line.getJSONObject(i);
+            String key = jsonObject1.getJSONObject("key").getString("word");
+            String value = jsonObject1.getJSONObject("value").getString("word");
+
+            switch (key) {
+                case "付款方":
                     billInfo.setShopAccount(value);
                     break;
-                case "商品说明：":
+                case "付款方备注":
+                case "汇总":
                     billInfo.setShopRemark(value);
-                    break;
-                default:
                     break;
             }
         }
+
         return billInfo;
     }
 }

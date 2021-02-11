@@ -17,16 +17,9 @@
 
 package cn.dreamn.qianji_auto.core.base.alipay;
 
-import android.content.Context;
-
-import com.alibaba.fastjson.JSONObject;
-
-import cn.dreamn.qianji_auto.core.utils.Assets;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.base.Analyze;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.Category;
-import cn.dreamn.qianji_auto.core.utils.Remark;
 
 /**
  * 付款给某人
@@ -35,20 +28,18 @@ public class YuLiBao extends Analyze {
 
     private static YuLiBao paymentSuccess;
 
-    public static YuLiBao getInstance(){
-        if(paymentSuccess!=null)return paymentSuccess;
-        paymentSuccess=new YuLiBao();
+    public static YuLiBao getInstance() {
+        if (paymentSuccess != null) return paymentSuccess;
+        paymentSuccess = new YuLiBao();
         return paymentSuccess;
     }
 
 
     @Override
-    public void tryAnalyze(String content, Context context) {
+    public BillInfo tryAnalyze(String content, String source) {
+        BillInfo billInfo = super.tryAnalyze(content, source);
 
-        JSONObject jsonObject=setContent(content);
-        if(jsonObject==null)return ;
-
-        BillInfo billInfo=new BillInfo();
+        if (billInfo == null) return null;
 
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("assistMsg1")));
         billInfo.setShopAccount("余利宝");
@@ -58,12 +49,11 @@ public class YuLiBao extends Analyze {
         billInfo.setSilent(true);
 
 
-        billInfo.setSource("支付宝余额宝收益");
-        CallAutoActivity.call(context,billInfo);
+        return billInfo;
     }
 
     @Override
-    BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
+    public BillInfo getResult(BillInfo billInfo) {
 
 
         return billInfo;

@@ -19,6 +19,7 @@ package cn.dreamn.qianji_auto.core.base;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 
 import cn.dreamn.qianji_auto.core.base.alipay.Alipay;
 import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
@@ -27,12 +28,12 @@ public class Manager {
     public static String[] getAll() throws IllegalAccessException {
         Field[] fields = Wechat.class.getDeclaredFields();
 
-        Array<String> array = new Array<>();
+        ArrayList<String> List = new ArrayList<>();
 
         for (Field field : fields) {
             field.setAccessible(true);
             if (field.getType().toString().endsWith("java.lang.String") && Modifier.isStatic(field.getModifiers()))
-                array.addLast((String) field.get(Wechat.class));
+                List.add((String) field.get(Wechat.class));
         }
 
         fields = Alipay.class.getDeclaredFields();
@@ -40,9 +41,18 @@ public class Manager {
         for (Field field : fields) {
             field.setAccessible(true);
             if (field.getType().toString().endsWith("java.lang.String") && Modifier.isStatic(field.getModifiers()))
-                array.addLast((String) field.get(Alipay.class));
+                List.add((String) field.get(Alipay.class));
         }
 
-        return array.toArray();
+        List.add("短信");
+        List.add("任意类型");
+
+
+        return List.toArray(new String[0]);
+    }
+
+    public static String get(String str) {
+        if (str == null) return "任意类型";
+        return str;
     }
 }

@@ -17,12 +17,7 @@
 
 package cn.dreamn.qianji_auto.core.base.wechat;
 
-import android.content.Context;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.base.Analyze;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
@@ -43,28 +38,24 @@ public class WechatTransferReceived extends Analyze {
 
 
     @Override
-    public void tryAnalyze(String content, Context context) {
+    public BillInfo tryAnalyze(String content, String source) {
+        BillInfo billInfo = super.tryAnalyze(content, source);
 
-        JSONObject jsonObject = setContent(content);
-        if (jsonObject == null) return;
+        if (billInfo == null) return null;
+        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+            billInfo.setShopRemark("微信转账收款");
 
-        BillInfo billInfo = new BillInfo();
-        billInfo.setShopRemark("微信转账收款");
-        billInfo = getResult(jsonObject, billInfo);
 
         billInfo.setType(BillInfo.TYPE_INCOME);
 
         billInfo.setAccountName("零钱");
 
 
-        billInfo.setSource("微信转账收款");
-        CallAutoActivity.call(context, billInfo);
-
+        return billInfo;
     }
 
-
     @Override
-    BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
+    public BillInfo getResult(BillInfo billInfo) {
 
         try {
             String raw = jsonObject.getJSONObject("lines").getJSONArray("line").getJSONObject(0).getJSONObject("value").getString("word");
@@ -73,8 +64,9 @@ public class WechatTransferReceived extends Analyze {
             if (raws.length != 2) return billInfo;
             billInfo.setShopAccount(raws[0]);
             billInfo.setMoney(BillTools.getMoney(raws[1]));
-            String money = jsonObject.getJSONObject("topline").getJSONObject("value").getString("word");
-            billInfo.setShopRemark("今日收款总金额" + money);
+            String money = BillTools.getMoney(jsonObject.getJSONObject("topline").getJSONObject("value").getString("word"));
+            if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+                billInfo.setShopRemark("今日收款总金额" + money);
 
         } catch (Exception e) {
             Logs.i("解析json出现了错误！\n json数据：" + jsonObject.toJSONString() + "\n 错误：" + e.toString());

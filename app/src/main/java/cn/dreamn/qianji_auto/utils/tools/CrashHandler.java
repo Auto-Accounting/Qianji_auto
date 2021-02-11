@@ -18,20 +18,13 @@
 package cn.dreamn.qianji_auto.utils.tools;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Looper;
 
-import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
-
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -42,32 +35,33 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.activity.ErrorActivity;
 
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
     public static final String TAG = "CrashHandler";
-
-    // 系统默认的UncaughtException处理类
-    private Thread.UncaughtExceptionHandler mDefaultHandler;
     // CrashHandler实例
     @SuppressLint("StaticFieldLeak")
     private static final CrashHandler INSTANCE = new CrashHandler();
-    // 程序的Context对象
-    private Context mContext;
     // 用来存储设备信息和异常信息
     private final Map<String, String> infos = new HashMap<String, String>();
-
     // 用于格式化日期,作为日志文件名的一部分
     @SuppressLint("SimpleDateFormat")
     private final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+    // 系统默认的UncaughtException处理类
+    private Thread.UncaughtExceptionHandler mDefaultHandler;
+    // 程序的Context对象
+    private Context mContext;
 
-    /** 保证只有一个CrashHandler实例 */
+    /**
+     * 保证只有一个CrashHandler实例
+     */
     private CrashHandler() {
     }
 
-    /** 获取CrashHandler实例 ,单例模式 */
+    /**
+     * 获取CrashHandler实例 ,单例模式
+     */
     public static CrashHandler getInstance() {
         return INSTANCE;
     }
@@ -93,7 +87,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
-               // Log.e(TAG, "error : ", e);
+                // Log.e(TAG, "error : ", e);
             }
             // 退出程序
             android.os.Process.killProcess(android.os.Process.myPid());
@@ -111,7 +105,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         if (ex == null) {
             return false;
         }
-       // getInstance().getSpUtil().setCrashLog(true);// 每次进入应用检查，是否有log，有则上传
+        // getInstance().getSpUtil().setCrashLog(true);// 每次进入应用检查，是否有log，有则上传
         // 使用Toast来显示异常信息
         new Thread() {
             @SuppressLint("ResourceType")
@@ -125,7 +119,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 String fileName = saveCrashInfo2File(ex);
 
                 Intent intent = new Intent(mContext, ErrorActivity.class);
-                intent.putExtra("fileName",fileName);
+                intent.putExtra("fileName", fileName);
                 Logs.d(fileName);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
@@ -155,16 +149,16 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 infos.put("versionCode", versionCode);
             }
         } catch (PackageManager.NameNotFoundException e) {
-           // Log.e(TAG, "an error occured when collect package info", e);
+            // Log.e(TAG, "an error occured when collect package info", e);
         }
         Field[] fields = Build.class.getDeclaredFields();
         for (Field field : fields) {
             try {
                 field.setAccessible(true);
                 infos.put(field.getName(), field.get(null).toString());
-              //  Log.d(TAG, field.getName() + " : " + field.get(null));
+                //  Log.d(TAG, field.getName() + " : " + field.get(null));
             } catch (Exception e) {
-              //  Log.e(TAG, "an error occured when collect crash info", e);
+                //  Log.e(TAG, "an error occured when collect crash info", e);
             }
         }
     }
@@ -173,7 +167,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      * 保存错误信息到文件中
      *
      * @param ex
-     * @return 返回文件名称,便于将文件传送到服务器
+     * @return 返回文件名称, 便于将文件传送到服务器
      */
     private String saveCrashInfo2File(Throwable ex) {
 
@@ -202,9 +196,10 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             String nameString = "error";
             String fileName = nameString + "-" + time + "-" + timestamp
                     + ".log";
-            return Tools.writeToCache(mContext,fileName,sb.toString());
+            Logs.d(sb.toString());
+            return Tools.writeToCache(mContext, fileName, sb.toString());
         } catch (Exception e) {
-           // Log.e(TAG, "an error occured while writing file...", e);
+            // Log.e(TAG, "an error occured while writing file...", e);
         }
         return null;
     }

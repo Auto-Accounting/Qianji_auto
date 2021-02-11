@@ -3,7 +3,6 @@ package cn.dreamn.qianji_auto.core.hook;
 import android.content.pm.ApplicationInfo;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HookMain implements IXposedHookLoadPackage {

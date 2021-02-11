@@ -23,6 +23,7 @@ public interface IHooker {
      * 最先执行的HOOK，可以不用实现。
      */
     void hookFirst() throws Error;
+
     /**
      * 返回包名
      *
@@ -39,6 +40,7 @@ public interface IHooker {
 
     /**
      * 返回支持的版本列表,如果不在支持列表做出提示
+     *
      * @return
      */
     String[] getAppVer();

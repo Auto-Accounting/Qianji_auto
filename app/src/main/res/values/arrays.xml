@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2020 xuexiangjys(xuexiangjys@163.com)
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -86,10 +85,13 @@
         <item>@string/choose_regular_deny</item>
         <item>@string/choose_regular_enable</item>
     </string-array>
-    <string-array name="menu_values_import" >
+    <string-array name="menu_values_import">
         <item>@string/choose_input</item>
         <item>@string/choose_output</item>
     </string-array>
-
+    <string-array name="menu_values_cate">
+        <item>@string/choose_view</item>
+        <item>@string/choose_js</item>
+    </string-array>
 
 </resources>

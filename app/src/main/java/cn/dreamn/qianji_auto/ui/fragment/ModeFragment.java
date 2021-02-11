@@ -24,7 +24,6 @@ import android.widget.LinearLayout;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
-import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import butterknife.BindView;
@@ -50,7 +49,6 @@ public class ModeFragment extends BaseFragment {
     LinearLayout set_xp_list;
 
 
-
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_mode;
@@ -64,17 +62,18 @@ public class ModeFragment extends BaseFragment {
         initSet();
         initListen();
     }
-    private void initSet(){
+
+    private void initSet() {
         MMKV mmkv = MMKV.defaultMMKV();
-        String mode=mmkv.getString("helper_choose","xposed");
-        if(mode.equals("helper")){
-            setSelectedModel(mode_default,true);
-            setSelectedModel(mode_xp,false);
+        String mode = mmkv.getString("helper_choose", "xposed");
+        if (mode.equals("helper")) {
+            setSelectedModel(mode_default, true);
+            setSelectedModel(mode_xp, false);
             set_helper_list.setVisibility(View.VISIBLE);
             set_xp_list.setVisibility(View.GONE);
-        }else{
-            setSelectedModel(mode_default,false);
-            setSelectedModel(mode_xp,true);
+        } else {
+            setSelectedModel(mode_default, false);
+            setSelectedModel(mode_xp, true);
             set_helper_list.setVisibility(View.GONE);
             set_xp_list.setVisibility(View.VISIBLE);
 
@@ -103,12 +102,12 @@ public class ModeFragment extends BaseFragment {
             R.id.permission_sms2
 
     })
-    public void onViewClicked(View view){
+    public void onViewClicked(View view) {
         MMKV mmkv = MMKV.defaultMMKV();
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.mode_default:
                 SnackbarUtils.Long(getView(), getString(R.string.mode_msg_default)).info().show();
-                mmkv.encode("helper_choose","helper");
+                mmkv.encode("helper_choose", "helper");
                 initSet();
                 break;
             case R.id.mode_xp:
@@ -136,19 +135,20 @@ public class ModeFragment extends BaseFragment {
                 Permission.getInstance().grant(this.getContext(), Permission.Battery);
                 break;
             case R.id.permission_lock:
-                Permission.getInstance().grant(this.getContext(),Permission.Lock);
+                Permission.getInstance().grant(this.getContext(), Permission.Lock);
                 break;
             case R.id.permission_battery_ingore:
-                Permission.getInstance().grant(this.getContext(),Permission.BatteryIngore);
+                Permission.getInstance().grant(this.getContext(), Permission.BatteryIngore);
                 break;
             case R.id.permission_notification:
-                Permission.getInstance().grant(this.getContext(),Permission.Notification);
+                Permission.getInstance().grant(this.getContext(), Permission.Notification);
                 break;
-            default:break;
+            default:
+                break;
         }
     }
 
-    private void initListen(){
+    private void initListen() {
 
     }
 }

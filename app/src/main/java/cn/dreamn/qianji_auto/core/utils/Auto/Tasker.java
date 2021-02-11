@@ -20,8 +20,6 @@ package cn.dreamn.qianji_auto.core.utils.Auto;
 import android.content.Context;
 import android.os.Handler;
 
-import com.tencent.mmkv.MMKV;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -32,35 +30,35 @@ import cn.dreamn.qianji_auto.core.utils.Caches;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 public class Tasker {
-    public static void  add(Context context,BillInfo billInfo){
-        String md5=getMD5Str(billInfo.toString());
-        Caches.add(md5,billInfo.toString(),"tasker_bill");
+    public static void add(Context context, BillInfo billInfo) {
+        String md5 = getMD5Str(billInfo.toString());
+        Caches.add(md5, billInfo.toString(), "tasker_bill");
         run(context);
     }
 
-    public static void run(Context context){
+    public static void run(Context context) {
 
-        Cache cache = Caches.getOne("float_lock","0");
-        Logs.d("Qianji_check","记账检查...");
-        if(cache!=null && cache.cacheData.equals("true")) {
-            Logs.d("Qianji_check","记账已锁定...退出中");
+        Cache cache = Caches.getOne("float_lock", "0");
+        Logs.d("Qianji_check", "记账检查...");
+        if (cache != null && cache.cacheData.equals("true")) {
+            Logs.d("Qianji_check", "记账已锁定...退出中");
             return;
         }
 
-        Logs.d("Qianji_check","检查通过...");
-        Caches.AddOrUpdate("float_lock","true");
-        Logs.d("Qianji_check","重新锁定...");
-        Cache[] caches=Caches.getType("tasker_bill");
+        Logs.d("Qianji_check", "检查通过...");
+        Caches.AddOrUpdate("float_lock", "true");
+        Logs.d("Qianji_check", "重新锁定...");
+        Cache[] caches = Caches.getType("tasker_bill");
 
 
-        update(context,caches,0);
-
+        update(context, caches, 0);
 
 
     }
-    private static void update(Context context,Cache[] caches,int i){
-        if(i>=caches.length) {
-            Caches.AddOrUpdate("float_lock","false");
+
+    private static void update(Context context, Cache[] caches, int i) {
+        if (i >= caches.length) {
+            Caches.AddOrUpdate("float_lock", "false");
             return;
         }
         BillInfo billInfo = BillInfo.parse(caches[i].cacheData);
@@ -70,18 +68,20 @@ public class Tasker {
 
             Cache[] caches2 = Caches.getType("tasker_bill");
             int h;
-            for(h=0;h<caches2.length;h++){
+            for (h = 0; h < caches2.length; h++) {
                 Logs.d(caches[i].cacheData);
-                if(caches[i].id==caches2[h].id)break;
+                if (caches[i].id == caches2[h].id) break;
             }
 
-            int j= 1 + h;
-           update( context, caches2, j);
-        },10000);
+            int j = 1 + h;
+            update(context, caches2, j);
+        }, 10000);
 
     }
+
     /**
      * MD5加密
+     *
      * @param str 转换前的字符串
      * @return 转换后的字符串
      */

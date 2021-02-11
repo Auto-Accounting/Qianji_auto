@@ -16,9 +16,9 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/parent_bg"
     android:orientation="vertical">
 
@@ -29,25 +29,64 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/input_url_schema"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/input_url_schema"
-                android:textColor="@color/title_color" />
-
-            <com.xuexiang.xui.widget.edittext.MultiLineEditText
-                android:id="@+id/url_schema"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                app:mlet_contentText="qianji://publicapi/addbill?&amp;type=0&amp;money=26.5&amp;catename=咖啡"
-                app:mlet_maxCount="100000" >
+                android:layout_margin="16dp"
+                android:orientation="vertical">
 
-            </com.xuexiang.xui.widget.edittext.MultiLineEditText>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/regular_name"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                        android:id="@+id/regular_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="分类规则名称"
+                        android:textColor="@color/xui_config_color_edittext_textcolor" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="请输入js"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+
+                <com.xuexiang.xui.widget.edittext.MultiLineEditText
+                    android:id="@+id/js_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    app:mlet_contentText="if(true)return '其他';"
+                    app:mlet_maxCount="100000">
+
+                </com.xuexiang.xui.widget.edittext.MultiLineEditText>
+
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,40 +95,42 @@
                 android:orientation="horizontal">
 
                 <com.xuexiang.xui.widget.button.ButtonView
-                    android:id="@+id/btn_remark"
+                    android:id="@+id/btn_test"
                     style="@style/ButtonView.Blue"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginBottom="15dp"
-                    android:text="@string/test_bill" />
+                    android:text="@string/btn_test" />
 
                 <com.xuexiang.xui.widget.button.ButtonView
-                    android:id="@+id/btn_default"
+                    android:id="@+id/btn_save"
                     style="@style/ButtonView.Green"
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="5dp"
                     android:layout_marginBottom="15dp"
-                    android:text="@string/test_default" />
-
-                <com.xuexiang.xui.widget.button.ButtonView
-                    android:id="@+id/btn_doc"
-                    style="@style/ButtonView.Gray"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="@string/test_read_doc" />
+                    android:text="@string/btn_save" />
 
 
             </LinearLayout>
-            <TextView
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/api_remark"
-                android:textColor="@color/title_color" />
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:text="@string/js"
+                    android:textColor="#333333"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

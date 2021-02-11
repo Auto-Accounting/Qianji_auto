@@ -34,12 +34,11 @@
 
                 <!--   请修改为自己的应用图标   -->
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/logo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="Logo"
-                    app:srcCompat="@mipmap/ic_launcher"
-                    android:id="@+id/logo"
-                    />
+                    app:srcCompat="@mipmap/ic_launcher" />
 
                 <TextView
                     android:id="@+id/desc"

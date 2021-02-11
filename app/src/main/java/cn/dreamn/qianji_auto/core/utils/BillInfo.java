@@ -32,21 +32,18 @@ import cn.dreamn.qianji_auto.utils.tools.Logs;
 /**
  * 钱迹数据字段
  */
-public class BillInfo  {
-
-    private String type;//账单类型
+public class BillInfo {
 
     public static String TYPE_PAY = "0";//支出
     public static String TYPE_INCOME = "1";//收入
     public static String TYPE_TRANSFER_ACCOUNTS = "2";//转账
     public static String TYPE_CREDIT_CARD_PAYMENT = "3";//信用卡还款
     public static String TYPE_PAYMENT_REFUND = "5";//报销
+    private String type;//账单类型
     private String money;//大于0
 
     private String time;//yyyy-MM-dd HH:mm:ss
 
-
-    private String billType;//账单类型
     //以上为必传参数
 
     private String remark;//备注信息
@@ -71,182 +68,6 @@ public class BillInfo  {
 
 
     private String isSilent;//是否为静默模式
-
-    public boolean getIsSilent() {
-        return isSilent != null && isSilent.equals("true");
-    }
-
-
-    public void setSilent(boolean state) {
-        isSilent = (state ? "true" : "false");
-    }
-
-
-    public String getBillType() {
-        return billType;
-    }
-
-
-    public void setBillType(String type) {
-        billType = type;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getMoney() {
-        return this.money;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public String getCateName() {
-        return catename;
-    }
-
-    public Boolean getCateChoose() {
-        return catechoose.equals("1");
-    }
-
-    public String getBookName() {
-        return bookname;
-    }
-
-    public String getAccountName() {
-        return accountname;
-    }
-
-    public String getAccountName2() {
-        return accountname2;
-    }
-
-
-    public String getShopAccount() {
-        return this.shopAccount;
-    }
-
-    public String getShopRemark() {
-        return this.shopRemark;
-    }
-
-    public String getSource(){ return this.source;}
-
-    public void setSource(String source){
-        this.source=source;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setMoney(String money) {
-        this.money = money;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    public void setTime() {
-        this.time = DateUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public void setCateName(String name) {
-        this.catename = name;
-    }
-
-    public void setCateChoose(Boolean Open) {
-        if (Open) {
-            this.catechoose = "1";
-        } else {
-            this.catechoose = "0";
-        }
-
-    }
-
-    public void setBookName(String name) {
-        this.bookname = name;
-    }
-
-    public void setAccountName(String name) {
-        this.accountname = name;
-    }
-
-    public void setAccountName2(String name) {
-        this.accountname2 = name;
-    }
-
-    public void setShopAccount(String name) {
-        this.shopAccount = name;
-    }
-
-    public void setShopRemark(String name) {
-        this.shopRemark = name;
-    }
-
-    public String getQianJi() {
-
-        String url = "qianji://publicapi/addbill?&type=" + type + "&money=" + money;
-
-        if (time != null) {
-            url += "&time=" + time;
-        }
-        if (remark != null) {
-            url += "&remark=" + remark;
-        }
-        if (catename != null) {
-            url += "&catename=" + catename;
-        }
-        url += "&catechoose=" + catechoose;
-
-        url += "&catetheme=auto";
-
-        if (this.bookname != null && !this.bookname.equals("默认账本")) {
-            url += "&bookname=" + bookname;
-        }
-
-        if (accountname != null) {
-            url += "&accountname=" + accountname;
-        }
-        if (accountname2 != null) {
-            url += "&accountname2=" + accountname2;
-        }
-        Logs.d("钱迹URL:" + url);
-        return url;
-    }
-    @NotNull
-    public String toString(){
-        String url=this.getQianJi();
-        if (shopAccount != null) {
-            url += "&shopAccount=" + shopAccount;
-        }
-        if (shopRemark != null) {
-            url += "&shopRemark=" + shopRemark;
-        }
-        if (source != null) {
-            url += "&source=" + source;
-        }
-
-        if (isSilent != null) {
-            url += "&isSilent=" + isSilent;
-        }
-        if (billType != null) {
-            url += "&billType=" + billType;
-        }
-        return url;
-    }
 
     public static BillInfo parse(String url) {
         Uri mUri = Uri.parse(url);
@@ -292,8 +113,7 @@ public class BillInfo  {
                 case "isSilent":
                     billInfo.setSilent(value.equals("true"));
                     break;
-                case "billType":
-                    billInfo.setBillType(value);
+
                 default:
                     break;
             }
@@ -302,29 +122,6 @@ public class BillInfo  {
         return billInfo;
 
 
-    }
-
-    public boolean isAvaiable() {
-        //检查时间
-        if (this.time == null || this.time.equals("")) {
-            Logs.d("Qianji_Analyze", "时间错误" + this.time);
-            return false;
-        }
-        //检查金额
-        if (this.money == null || BillTools.getMoney(this.money).equals("0")|| BillTools.getMoney(this.money).equals("0.0")|| BillTools.getMoney(this.money).equals("0.00")) {
-            Logs.d("Qianji_Analyze", "金额 :" + this.money);
-            return false;
-        }
-        //检查分类
-        if (this.type == null) {
-            Logs.d("Qianji_Analyze", "分类错误 -> null");
-            return false;
-        }
-
-        if (this.accountname != null && this.accountname.equals(this.accountname2))
-            return false;
-
-        return true;
     }
 
     public static String getTypeId(String type) {
@@ -353,6 +150,193 @@ public class BillInfo  {
         return "支出";
     }
 
+    public boolean getIsSilent() {
+        return isSilent != null && isSilent.equals("true");
+    }
+
+    public void setSilent(boolean state) {
+        isSilent = (state ? "true" : "false");
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getMoney() {
+        return this.money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getCateName() {
+        return catename;
+    }
+
+    public void setCateName(String name) {
+        this.catename = name;
+    }
+
+    public Boolean getCateChoose() {
+        return catechoose.equals("1");
+    }
+
+    public void setCateChoose(Boolean Open) {
+        if (Open) {
+            this.catechoose = "1";
+        } else {
+            this.catechoose = "0";
+        }
+
+    }
+
+    public String getBookName() {
+        return bookname;
+    }
+
+    public void setBookName(String name) {
+        this.bookname = name;
+    }
+
+    public String getAccountName() {
+        return accountname;
+    }
+
+    public void setAccountName(String name) {
+        this.accountname = name;
+    }
+
+    public String getAccountName2() {
+        return accountname2;
+    }
+
+    public void setAccountName2(String name) {
+        this.accountname2 = name;
+    }
+
+    public String getShopAccount() {
+        return this.shopAccount;
+    }
+
+    public void setShopAccount(String name) {
+        this.shopAccount = name;
+    }
+
+    public String getShopRemark() {
+        return this.shopRemark;
+    }
+
+    public void setShopRemark(String name) {
+        this.shopRemark = name;
+    }
+
+    public String getSource() {
+        return this.source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public void setTime() {
+        this.time = DateUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+    }
+
+    public String getQianJi() {
+
+        String url = "qianji://publicapi/addbill?&type=" + type + "&money=" + money;
+
+        if (time != null) {
+            url += "&time=" + time;
+        }
+        if (remark != null) {
+            url += "&remark=" + remark;
+        }
+        if (catename != null) {
+            url += "&catename=" + catename;
+        }
+        url += "&catechoose=" + catechoose;
+
+        url += "&catetheme=auto";
+
+        if (this.bookname != null && !this.bookname.equals("默认账本")) {
+            url += "&bookname=" + bookname;
+        }
+
+        if (accountname != null) {
+            url += "&accountname=" + accountname;
+        }
+        if (accountname2 != null) {
+            url += "&accountname2=" + accountname2;
+        }
+        Logs.d("钱迹URL:" + url);
+        return url;
+    }
+
+    @NotNull
+    public String toString() {
+        String url = this.getQianJi();
+        if (shopAccount != null) {
+            url += "&shopAccount=" + shopAccount;
+        }
+        if (shopRemark != null) {
+            url += "&shopRemark=" + shopRemark;
+        }
+        if (source != null) {
+            url += "&source=" + source;
+        }
+
+        if (isSilent != null) {
+            url += "&isSilent=" + isSilent;
+        }
+        return url;
+    }
+
+    public boolean isAvaiable() {
+        //检查时间
+        if (this.time == null || this.time.equals("")) {
+            Logs.d("Qianji_Analyze", "时间错误" + this.time);
+            return false;
+        }
+        //检查金额
+        if (this.money == null || BillTools.getMoney(this.money).equals("0") || BillTools.getMoney(this.money).equals("0.0") || BillTools.getMoney(this.money).equals("0.00")) {
+            Logs.d("Qianji_Analyze", "金额 :" + this.money);
+            return false;
+        }
+        //检查分类
+        if (this.type == null) {
+            Logs.d("Qianji_Analyze", "分类错误 -> null");
+            return false;
+        }
+
+        if (this.accountname != null && this.accountname.equals(this.accountname2))
+            return false;
+
+        return true;
+    }
+
     public String dump() {
         String output = "";
         output += String.format("消费类型=%s\n", getTypeName(type));
@@ -366,7 +350,6 @@ public class BillInfo  {
         output += String.format("资产名2=%s\n", accountname2);
         output += String.format("商户名=%s\n", shopAccount);
         output += String.format("商户备注=%s\n", shopRemark);
-        output += String.format("账单类型=%s\n", billType);
         output += String.format("数据来源=%s\n", source);
         output += String.format("是否静默=%s\n", getIsSilent());
         output += "是否有效？" + (isAvaiable() ? "有效" : "无效");

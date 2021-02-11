@@ -21,14 +21,10 @@ import android.content.Context;
 
 import java.util.List;
 
-import cn.dreamn.qianji_auto.core.utils.Assets;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.BookNames;
 import cn.dreamn.qianji_auto.core.utils.Caches;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
-import cn.dreamn.qianji_auto.core.utils.Category;
-import cn.dreamn.qianji_auto.core.utils.Remark;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 class AnalyzeAlipayRedPackageRec {
@@ -37,7 +33,7 @@ class AnalyzeAlipayRedPackageRec {
 
     public static boolean succeed(List<String> list, Context applicationContext) {
 
-        BillInfo billInfo=new BillInfo();
+        BillInfo billInfo = new BillInfo();
 
         billInfo.setShopAccount(list.get(1));
         billInfo.setRemark(list.get(2));
@@ -47,17 +43,17 @@ class AnalyzeAlipayRedPackageRec {
 
         billInfo.setType(BillInfo.TYPE_INCOME);
 
-        if(billInfo.getAccountName()==null)
+        if (billInfo.getAccountName() == null)
             billInfo.setAccountName("支付宝");
 
         billInfo.setAccountName(billInfo.getAccountName());
-        billInfo.setSource("支付宝收款红包捕获");
+
         billInfo.dump();
         CallAutoActivity.call(applicationContext, billInfo);
 
         Caches.del(TAG);
 
-        Logs.d("Qianji_Analyze","捕获红包");
+        Logs.d("Qianji_Analyze", "捕获红包");
         return false;
     }
 }

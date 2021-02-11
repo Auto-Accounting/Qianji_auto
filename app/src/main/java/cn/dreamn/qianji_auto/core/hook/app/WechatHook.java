@@ -45,7 +45,6 @@ import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
 import cn.dreamn.qianji_auto.core.hook.HookBase;
 import cn.dreamn.qianji_auto.core.hook.Task;
 import cn.dreamn.qianji_auto.utils.tools.DpUtil;
-import cn.dreamn.qianji_auto.utils.tools.Logs;
 import cn.dreamn.qianji_auto.utils.tools.StyleUtil;
 import cn.dreamn.qianji_auto.utils.tools.ViewUtil;
 import de.robv.android.xposed.XC_MethodHook;
@@ -54,12 +53,14 @@ import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 
 public class WechatHook extends HookBase {
     private static WechatHook wechatHook;
+
     public static synchronized WechatHook getInstance() {
         if (wechatHook == null) {
             wechatHook = new WechatHook();
         }
         return wechatHook;
     }
+
     @Override
     public void hookFirst() throws Error {
         hookSetting();//添加设置
@@ -133,9 +134,7 @@ public class WechatHook extends HookBase {
     }
 
 
-
     private void hookMsg() {
-        Logi("微信hook启动", true);
         Class<?> SQLiteDatabase = XposedHelpers.findClass("com.tencent.wcdb.database.SQLiteDatabase", mAppClassLoader);
         XposedHelpers.findAndHookMethod(SQLiteDatabase, "insert", String.class, String.class, ContentValues.class, new XC_MethodHook() {
 
@@ -148,11 +147,11 @@ public class WechatHook extends HookBase {
                         String tableName = (String) param.args[0];
                         String arg = (String) param.args[1];
 
-                        Logi("----------------\n " +
+                      /*  Logi("----------------\n " +
                                 "arg1" + tableName + "\n" +
                                 "arg2：" + arg + "\n" + "" +
                                 "arg3：" + contentValues.toString()
-                        );
+                        );*/
 
                         if (!tableName.equals("message") || TextUtils.isEmpty(tableName)) {
                             return;
@@ -166,38 +165,35 @@ public class WechatHook extends HookBase {
                         //转账消息
                         if (type == 419430449) {
                             Integer isSend = contentValues.getAsInteger("isSend");
-                            if (isSend == 1) {
-                                //我发出去的转账
-                                String talker = contentValues.getAsString("talker");
-                                XmlToJson xmlToJson = new XmlToJson.Builder(contentStr).build();
-                                String xml = xmlToJson.toString();
-                                JSONObject msg = JSONObject.parseObject(xml);
+                            //我发出去的转账
+                            String talker = contentValues.getAsString("talker");
+                            XmlToJson xmlToJson = new XmlToJson.Builder(contentStr).build();
+                            String xml = xmlToJson.toString();
+                            JSONObject msg = JSONObject.parseObject(xml);
 
-                                Logi("-------转账信息-------", true);
-                                Logi("微信JSON消息：" + xml, true);
+                            Logi("-------转账信息-------\n" +
+                                    "微信JSON消息：" + xml, true);
 
-                                JSONObject wcpayinfo = msg.getJSONObject("msg").getJSONObject("appmsg").getJSONObject("wcpayinfo");
-
-                                wcpayinfo.put("talker", talker);
-                                if (readData("userName").equals("false") || readData("cache_wechat_paytool").equals("false")) {
-                                    Logi("转账消息被捕获，但无法获得有效支付信息。", false);
-                                    return;
-                                }
-                                wcpayinfo.put("nickName", readData("userName"));
-                                wcpayinfo.put("payTools", readData("cache_wechat_paytool"));//缓存的支付方式
-
-                                writeData("userName", "false");
-                                writeData("cache_wechat_paytool", "false");
-
-                                Bundle bundle = new Bundle();
-                                bundle.putString("type", Receive.WECHAT);
-                                bundle.putString("data", wcpayinfo.toJSONString());
-                                bundle.putString("title", "微信转账");
-                                bundle.putString("from", Wechat.PAYMENT_TRANSFER);
-
-
-                                send(bundle);
+                            JSONObject wcpayinfo = msg.getJSONObject("msg").getJSONObject("appmsg").getJSONObject("wcpayinfo");
+                            wcpayinfo.put("talker", talker);
+                            if (readData("userName").equals("false") || readData("cache_wechat_paytool").equals("false")) {
+                                Logi("转账消息被捕获，但无法获得有效支付信息。", false);
+                                return;
                             }
+                            wcpayinfo.put("nickName", readData("userName"));
+                            wcpayinfo.put("payTools", readData("cache_wechat_paytool"));//缓存的支付方式
+                            wcpayinfo.put("isSend", String.valueOf(isSend));//缓存的支付方式
+                                /*writeData("userName", "false");
+                                writeData("cache_wechat_paytool", "false");*/
+
+                            Bundle bundle = new Bundle();
+                            bundle.putString("type", Receive.WECHAT);
+                            bundle.putString("data", wcpayinfo.toJSONString());
+                            bundle.putString("title", "微信转账");
+                            bundle.putString("from", Wechat.PAYMENT_TRANSFER);
+
+
+                            send(bundle);
                         } else if (type == 436207665) {
                             Integer isSend = contentValues.getAsInteger("isSend");
                             if (isSend == 1) {
@@ -212,33 +208,36 @@ public class WechatHook extends HookBase {
 
                                 JSONObject wcpayinfo = msg.getJSONObject("msg").getJSONObject("appmsg").getJSONObject("wcpayinfo");
 
-                                if (readData("userName").equals("false") || readData("cache_wechat_paytool").equals("false") || readData("cache_wechat_payMoney").equals("false")) {
-                                    Logi("红包消息被捕获，但无法获得有效支付信息。", false);
-                                    return;
-                                }
+                                Task.onMain(100, () -> {
 
-                                wcpayinfo.put("talker", talker);
-                                wcpayinfo.put("nickName", readData("userName"));
-                                wcpayinfo.put("payTools", readData("cache_wechat_paytool"));//缓存的支付方式
+                                    if (readData("userName").equals("false") || readData("cache_wechat_paytool").equals("false") || readData("cache_wechat_payMoney").equals("false")) {
+                                        Logi("红包消息被捕获，但无法获得有效支付信息。", false);
+                                        return;
+                                    }
 
-                                wcpayinfo.put("money", readData("cache_wechat_payMoney"));//缓存的金额
+                                    wcpayinfo.put("talker", talker);
+                                    wcpayinfo.put("nickName", readData("userName"));
+                                    wcpayinfo.put("payTools", readData("cache_wechat_paytool"));//缓存的支付方式
+                                    wcpayinfo.put("isSend", String.valueOf(isSend));//缓存的支付方式
+                                    wcpayinfo.put("money", readData("cache_wechat_payMoney"));//缓存的金额
 
-                                writeData("userName", "false");
+                               /* writeData("userName", "false");
                                 writeData("cache_wechat_paytool", "false");
-                                writeData("cache_wechat_payMoney", "false");
+                                writeData("cache_wechat_payMoney", "false");*/
 
-                                Bundle bundle = new Bundle();
-                                bundle.putString("type", Receive.WECHAT);
-                                bundle.putString("data", wcpayinfo.toJSONString());
-                                bundle.putString("title", "微信红包");
-                                bundle.putString("from", Wechat.RED_PACKAGE);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("type", Receive.WECHAT);
+                                    bundle.putString("data", wcpayinfo.toJSONString());
+                                    bundle.putString("title", "微信红包");
+                                    bundle.putString("from", Wechat.RED_PACKAGE);
 
 
-                                send(bundle);
+                                    send(bundle);
+                                });
                             }
 
                         } else if (type == 318767153) {
-                            Logi("微信XML消息：" + contentStr, true);
+                            Logi("微信XML消息：" + contentStr, false);
 
                             try {
 
@@ -301,7 +300,7 @@ public class WechatHook extends HookBase {
 
                                 }
                                 send(bundle);
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 Logi("JSON错误" + e.toString(), true);
                             }
 
@@ -512,7 +511,7 @@ public class WechatHook extends HookBase {
                 }
             }
         } catch (Exception e) {
-            Logi(e.toString(),true);
+            Logi(e.toString(), true);
         }
         return false;
     }

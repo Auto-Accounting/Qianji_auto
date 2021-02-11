@@ -63,11 +63,9 @@ public class SmsFragment extends StateFragment {
 
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
-
-    private SmsAdapter mAdapter;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
-
+    private SmsAdapter mAdapter;
 
     /**
      * 初始化控件

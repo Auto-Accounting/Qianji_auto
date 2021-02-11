@@ -18,19 +18,22 @@
 package cn.dreamn.qianji_auto.core.db;
 
 import androidx.room.Dao;
-import androidx.room.Entity;
 import androidx.room.Query;
 
 @Dao
-public interface LogDao{
+public interface LogDao {
     @Query("SELECT * FROM Log order by pos DESC")
     Log[] loadAll();
+
     @Query("DELETE FROM Log WHERE (strftime('%s','now'))- time > :timeout")
     void deleteTimeout(int timeout);
+
     @Query("INSERT INTO Log(time,time2,title,sub) values(strftime('%s','now'),:time2,:title,:sub)")
-    void add(String title, String sub,String time2);
+    void add(String title, String sub, String time2);
+
     @Query("DELETE FROM Log WHERE pos=:pos")
     void del(Integer pos);
+
     @Query("DELETE FROM Log")
     void delAll();
 }

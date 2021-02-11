@@ -29,5 +29,5 @@ public class Sms {
     public String regular;//翻译后的规则
     public String smsNum;//remark|account|type|money|num
     public String name;//规则名
-    public int use=1;//是否启用该规则
+    public int use = 1;//是否启用该规则
 }

@@ -18,106 +18,123 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/parent_bg"
+    android:background="@color/backgroundWhite"
     android:orientation="vertical">
-<LinearLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_margin="16dp"
 
-android:orientation="vertical"
-android:padding="10dp">
-
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textColor="#333333"
-    android:textSize="14sp"
-    android:text="@string/cate_testName" />
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical">
-
-    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
-        style="@style/RoundButton.Auto"
-        android:layout_marginEnd="8dp"
-        android:text="@string/cate_time"
-        />
-
-    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-        android:id="@+id/cate_time"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="24小时整数时间"
+        android:layout_margin="16dp"
+        android:background="@color/backgroundWhite"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        android:textColor="@color/xui_config_color_edittext_textcolor" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cate_testName"
+            android:textColor="#333333"
+            android:textSize="14sp" />
 
-</LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
 
-    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
-        style="@style/RoundButton.Auto"
-        android:layout_marginEnd="8dp"
-        android:text="@string/cate_shopName"
-        />
+            <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                style="@style/RoundButton.Auto"
+                android:layout_marginEnd="8dp"
+                android:text="@string/cate_time" />
 
-    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-        android:id="@+id/cate_shopName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint=""
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/cate_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="24小时整数时间"
 
-        android:textColor="@color/xui_config_color_edittext_textcolor" />
+                android:textColor="@color/xui_config_color_edittext_textcolor" />
 
-</LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical">
+        </LinearLayout>
 
-    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
-        style="@style/RoundButton.Auto"
-        android:layout_marginEnd="8dp"
-        android:text="@string/cate_shopRemark"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
 
-    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-        android:id="@+id/cate_shopRemark"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint=""
+            <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                style="@style/RoundButton.Auto"
+                android:layout_marginEnd="8dp"
+                android:text="@string/cate_shopName" />
 
-        android:textColor="@color/xui_config_color_edittext_textcolor" />
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/cate_shopName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint=""
 
-</LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical">
+                android:textColor="@color/xui_config_color_edittext_textcolor" />
 
-    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
-        style="@style/RoundButton.Auto"
-        android:layout_marginEnd="8dp"
-        android:text="@string/cate_type"
-        />
+        </LinearLayout>
 
-    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-        android:id="@+id/cate_type"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="支出/收入/转账/信用还款"
-        android:textColor="@color/xui_config_color_edittext_textcolor" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
 
-</LinearLayout>
+            <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                style="@style/RoundButton.Auto"
+                android:layout_marginEnd="8dp"
+                android:text="@string/cate_shopRemark" />
 
-</LinearLayout>
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/cate_shopRemark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint=""
+
+                android:textColor="@color/xui_config_color_edittext_textcolor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                style="@style/RoundButton.Auto"
+                android:layout_marginEnd="8dp"
+                android:text="@string/cate_type" />
+
+            <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                android:id="@+id/cate_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="支出/收入/转账/信用还款" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                style="@style/RoundButton.Auto"
+                android:layout_marginEnd="8dp"
+                android:text="@string/cate_type_bill" />
+
+            <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                android:id="@+id/cate_type2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="支出/收入/转账/信用还款" />
+
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

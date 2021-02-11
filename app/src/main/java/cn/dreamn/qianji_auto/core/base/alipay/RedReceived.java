@@ -17,39 +17,30 @@
 
 package cn.dreamn.qianji_auto.core.base.alipay;
 
-import android.content.Context;
-
-import com.alibaba.fastjson.JSONObject;
-
-import cn.dreamn.qianji_auto.core.utils.Assets;
+import cn.dreamn.qianji_auto.core.base.Analyze;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
-import cn.dreamn.qianji_auto.core.utils.Category;
-import cn.dreamn.qianji_auto.core.utils.Remark;
 
 public class RedReceived extends Analyze {
 
     private static RedReceived redPackageRec;
 
-    public static RedReceived getInstance(){
-        if(redPackageRec!=null)return redPackageRec;
-        redPackageRec=new RedReceived();
+    public static RedReceived getInstance() {
+        if (redPackageRec != null) return redPackageRec;
+        redPackageRec = new RedReceived();
         return redPackageRec;
     }
 
 
     @Override
-    public void tryAnalyze(String content, Context context) {
+    public BillInfo tryAnalyze(String content, String source) {
+        BillInfo billInfo = super.tryAnalyze(content, source);
 
-        JSONObject jsonObject=setContent(content);
-        if(jsonObject==null)return ;
-
-        BillInfo billInfo=new BillInfo();
+        if (billInfo == null) return null;
         billInfo.setShopRemark("收红包");
-        String shopName=jsonObject.getString("subtitle").replaceAll("&[a-zA-Z]{1,10};", "").replaceAll("<[^>]*>", "").replaceAll("[(/>)<]", "");
+        String shopName = jsonObject.getString("subtitle").replaceAll("&[a-zA-Z]{1,10};", "").replaceAll("<[^>]*>", "").replaceAll("[(/>)<]", "");
 
-        String shopRemark =jsonObject.getString("title");
+        String shopRemark = jsonObject.getString("title");
         String money = BillTools.getMoney(jsonObject.getString("statusLine1Text"));
         String payTool = "支付宝";
         billInfo.setAccountName(payTool);
@@ -57,8 +48,8 @@ public class RedReceived extends Analyze {
         billInfo.setMoney(money);
         billInfo.setShopRemark(shopRemark);
         billInfo.setShopAccount(shopName);
-        billInfo.setSource("支付宝收到红包");
-         CallAutoActivity.call(context, billInfo);
+        return billInfo;
+
     }
 
 

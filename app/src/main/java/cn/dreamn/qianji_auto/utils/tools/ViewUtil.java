@@ -60,7 +60,6 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.ButtonBarLayout;
 import androidx.appcompat.widget.SwitchCompat;
 
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,6 +76,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ViewUtil {
 
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
+    private static Class sRecycleViewClz;
+    private static Comparator<View> sYLocationLHCompator = new Comparator<View>() {
+        @Override
+        public int compare(View o1, View o2) {
+            int y1 = getViewYPosInScreen(o1);
+            int y2 = getViewYPosInScreen(o2);
+            return Integer.compare(y1, y2);
+        }
+    };
 
     @SuppressLint("NewApi")
     public static int generateViewId() {
@@ -211,8 +219,6 @@ public class ViewUtil {
         return null;
     }
 
-    private static Class sRecycleViewClz;
-
     private static String getViewBaseDesc(View view) {
         if (sRecycleViewClz == null) {
             try {
@@ -285,7 +291,7 @@ public class ViewUtil {
         } else if (view instanceof TextView) {
             stringBuffer.append(" text:").append(((TextView) view).getText());
         }
-        int []location = new int[]{0,0};
+        int[] location = new int[]{0, 0};
         view.getLocationOnScreen(location);
         stringBuffer.append(" cor x:").append(location[0]).append(" y:").append(location[1]);
         CharSequence desc = view.getContentDescription();
@@ -310,11 +316,11 @@ public class ViewUtil {
             if (child instanceof ViewGroup) {
                 recursiveLoopChildren((ViewGroup) child);
                 // DO SOMETHING WITH VIEWGROUP, AFTER CHILDREN HAS BEEN LOOPED
-               // L.d("ViewGroup", getViewInfo(child));
+                // L.d("ViewGroup", getViewInfo(child));
             } else {
                 if (child != null) {
                     try {
-                     //   L.d("view", getViewInfo(child));
+                        //   L.d("view", getViewInfo(child));
                     } catch (Exception e) {
 
                     }
@@ -394,16 +400,7 @@ public class ViewUtil {
         }
     }
 
-    private static Comparator<View> sYLocationLHCompator = new Comparator<View>() {
-        @Override
-        public int compare(View o1, View o2) {
-            int y1 = getViewYPosInScreen(o1);
-            int y2 = getViewYPosInScreen(o2);
-            return Integer.compare(y1, y2);
-        }
-    };
-
-    public static void sortViewListByYPosition (List<View> viewList) {
+    public static void sortViewListByYPosition(List<View> viewList) {
         Collections.sort(viewList, sYLocationLHCompator);
     }
 
@@ -426,14 +423,13 @@ public class ViewUtil {
 
     public static String viewsDesc(List<View> childView) {
         StringBuffer stringBuffer = new StringBuffer();
-        for (View view: childView) {
+        for (View view : childView) {
             stringBuffer.append(ViewUtil.getViewInfo(view)).append("\n");
         }
         return stringBuffer.toString();
     }
 
     /**
-     *
      * @param viewGroup
      * @param childView
      * @return found >= 0, not found -1
@@ -486,7 +482,7 @@ public class ViewUtil {
         if (views instanceof List) {
             return new ArrayList<View>((List<View>) viewsField.get(wmInstance));
         } else if (views instanceof View[]) {
-            return Arrays.asList((View[])viewsField.get(wmInstance));
+            return Arrays.asList((View[]) viewsField.get(wmInstance));
         }
 
         return new ArrayList<View>();
@@ -529,6 +525,6 @@ public class ViewUtil {
         if (parent == null) {
             return current;
         }
-        return getTopestView(parent, (ViewGroup)parent);
+        return getTopestView(parent, (ViewGroup) parent);
     }
 }

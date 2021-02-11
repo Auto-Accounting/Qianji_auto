@@ -30,7 +30,7 @@ public class DpUtil {
         return dipValue * getDensity(context);
     }
 
-    private static float getDensity(Context context){
+    private static float getDensity(Context context) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         return dm.density;
     }

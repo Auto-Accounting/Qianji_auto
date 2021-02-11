@@ -27,7 +27,6 @@ import android.widget.ScrollView;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.StatusBarUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.dialog.materialdialog.GravityEnum;
@@ -53,6 +52,13 @@ import cn.dreamn.qianji_auto.utils.tools.Permission;
 @Page(name = "引导", anim = CoreAnim.none)
 public class HelperFragment extends BaseFragment {
 
+    private static final int page_1 = 0;
+    private static final int page_4 = 1;
+    private static final int page_2 = 2;
+    private static final int page_3 = 3;
+    private static final int page_3_1 = 4;
+    private static final int page_3_2 = 5;
+    private static final int page_5 = 6;
     @BindViews({
             R.id.page_1,
             R.id.page_4,
@@ -63,15 +69,6 @@ public class HelperFragment extends BaseFragment {
             R.id.page_5
     })
     ScrollView[] scrollViews;
-
-    private static final int page_1 = 0;
-    private static final int page_4 = 1;
-    private static final int page_2 = 2;
-    private static final int page_3 = 3;
-    private static final int page_3_1 = 4;
-    private static final int page_3_2 = 5;
-    private static final int page_5 = 6;
-
 
     @Override
     protected int getLayoutId() {
@@ -85,16 +82,17 @@ public class HelperFragment extends BaseFragment {
     }
 
     @Override
-    protected void initViews(){
+    protected void initViews() {
         StatusBarUtils.initStatusBarStyle(Objects.requireNonNull(getActivity()), false, Colors.TRANSPARENT);
         //没有同意过隐私协议则弹出
-        MMKV mmkv=MMKV.defaultMMKV();
-        if(!mmkv.getBoolean("protocol",false))
+        MMKV mmkv = MMKV.defaultMMKV();
+        if (!mmkv.getBoolean("protocol", false))
             showMsg();
-        int i=mmkv.getInt("step",page_1);
+        int i = mmkv.getInt("step", page_1);
         step(i);
 
     }
+
     @SuppressLint("NonConstantResourceId")
     @OnClick({
             R.id.helper_start,
@@ -131,38 +129,41 @@ public class HelperFragment extends BaseFragment {
 
     })
     public void onViewClicked(View view) {
-        MMKV mmkv=MMKV.defaultMMKV();
+        MMKV mmkv = MMKV.defaultMMKV();
         switch (view.getId()) {
-            case R.id.helper_start:step(page_4);break;
+            case R.id.helper_start:
+                step(page_4);
+                break;
             case R.id.helper_bill:
-                showTip(false,R.string.helper_tip2,R.string.helper_tip_qianji2,R.string.helper_qianji_ok,view1 -> {
-                  //  showTip(false,R.string.helper_tip2,R.string.helper_tip_qianji2,R.string.helper_qianji_ok,view3 ->{});
+                showTip(false, R.string.helper_tip2, R.string.helper_tip_qianji2, R.string.helper_qianji_ok, view1 -> {
+                    //  showTip(false,R.string.helper_tip2,R.string.helper_tip_qianji2,R.string.helper_qianji_ok,view3 ->{});
 
-                  // intent = new Intent(Intent.ACTION_MAIN);
+                    // intent = new Intent(Intent.ACTION_MAIN);
                     //
                     //        ComponentName componentName = new ComponentName("com.mutangtech.qianji", "com.mutangtech.qianji.bill.add.AddBillActivity");
                     //        intent.setComponent(componentName);
-                    try{
+                    try {
 
                         AppUtils.launchApp("com.mutangtech.qianji");
                         Logs.d("启动钱迹成功。");
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         Logs.d("启动钱迹失败。");
-                        showTip(true,R.string.helper_tip,R.string.helper_tip_qianji,R.string.helper_qianji_install,view2 -> {
+                        showTip(true, R.string.helper_tip, R.string.helper_tip_qianji, R.string.helper_qianji_install, view2 -> {
                             Uri uri = Uri.parse("market://details?id=com.mutangtech.qianji");
                             Intent intent2 = new Intent(Intent.ACTION_VIEW, uri);
                             intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent2);
-                        },-1);
+                        }, -1);
                     }
-                },-1);
+                }, -1);
                 break;
             case R.id.helper_bill_next:
                 step(page_2);
 
                 break;
             case R.id.helper_async:
-                showTip(false,R.string.helper_tip3,R.string.helper_tip_qianji3,R.string.helper_qianji_err,view1 -> {},-1);
+                showTip(false, R.string.helper_tip3, R.string.helper_tip_qianji3, R.string.helper_qianji_err, view1 -> {
+                }, -1);
                 break;
             case R.id.helper_async_next:
                 step(page_3);
@@ -192,20 +193,20 @@ public class HelperFragment extends BaseFragment {
                 Permission.getInstance().grant(this.getContext(), Permission.Battery);
                 break;
             case R.id.permission_lock:
-                Permission.getInstance().grant(this.getContext(),Permission.Lock);
+                Permission.getInstance().grant(this.getContext(), Permission.Lock);
                 break;
             case R.id.permission_battery_ingore:
-                Permission.getInstance().grant(this.getContext(),Permission.BatteryIngore);
+                Permission.getInstance().grant(this.getContext(), Permission.BatteryIngore);
                 break;
             case R.id.permission_notification:
-                Permission.getInstance().grant(this.getContext(),Permission.Notification);
+                Permission.getInstance().grant(this.getContext(), Permission.Notification);
                 break;
            /* case R.id.permission_security:
                 Permission.getInstance().grant(this.getContext(),Permission.Security);
                 break;*/
 
             case R.id.helper_choose_xp:
-                mmkv.encode("helper_choose","xposed");
+                mmkv.encode("helper_choose", "xposed");
                 step(page_3_2);
                 break;
 
@@ -215,20 +216,22 @@ public class HelperFragment extends BaseFragment {
                 step(page_5);
                 break;
             case R.id.set_check:
-                if(mmkv.getBoolean("auto_check",true)){
-                    mmkv.encode("auto_check",false);
-                    showTip(false,R.string.helper_tip_qianji4,R.string.helper_tip4,R.string.helper_qianji_err,view1 -> {},5000);
-                }else{
-                    mmkv.encode("auto_check",true);
-                    showTip(false,R.string.helper_tip_qianji5,R.string.helper_tip5,R.string.helper_qianji_err,view1 -> {},5000);
+                if (mmkv.getBoolean("auto_check", true)) {
+                    mmkv.encode("auto_check", false);
+                    showTip(false, R.string.helper_tip_qianji4, R.string.helper_tip4, R.string.helper_qianji_err, view1 -> {
+                    }, 5000);
+                } else {
+                    mmkv.encode("auto_check", true);
+                    showTip(false, R.string.helper_tip_qianji5, R.string.helper_tip5, R.string.helper_qianji_err, view1 -> {
+                    }, 5000);
                 }
                 break;
             case R.id.set_delay:
-                showInputDialog("请输入延时时间","默认延时10秒，设置为0不延时。",mmkv.getString("auto_timeout","10"), (CallBack) data -> {
-                    try{
+                showInputDialog("请输入延时时间", "默认延时10秒，设置为0不延时。", mmkv.getString("auto_timeout", "10"), (CallBack) data -> {
+                    try {
                         Integer.parseInt(data);
-                        mmkv.encode("auto_timeout",data);
-                    }catch (Exception e){
+                        mmkv.encode("auto_timeout", data);
+                    } catch (Exception e) {
                         new MaterialDialog.Builder(getContext())
                                 .title("类型错误")
                                 .content("只允许输入整数！")
@@ -238,14 +241,14 @@ public class HelperFragment extends BaseFragment {
                 });
                 break;
             case R.id.set_default_book:
-                showInputDialog("请输入默认账本","钱迹非会员请保持使用默认账本",mmkv.getString("defaultBookName","默认账本"), (CallBack) data -> {
-                    mmkv.encode("defaultBookName",data);
+                showInputDialog("请输入默认账本", "钱迹非会员请保持使用默认账本", mmkv.getString("defaultBookName", "默认账本"), (CallBack) data -> {
+                    mmkv.encode("defaultBookName", data);
                 });
                 break;
 
 
             case R.id.set_ok:
-                mmkv.encode("first",false);
+                mmkv.encode("first", false);
                 openNewPage(MainFragment.class);
             default:
                 break;
@@ -258,14 +261,14 @@ public class HelperFragment extends BaseFragment {
         LayoutInflater factory = LayoutInflater.from(getContext());
         @SuppressLint("InflateParams") final View textEntryView = factory.inflate(R.layout.fragment_helper_service, null);
         new MaterialDialog.Builder(Objects.requireNonNull(getContext()))
-               .customView(textEntryView,true)
+                .customView(textEntryView, true)
                 .buttonsGravity(GravityEnum.CENTER)
                 .positiveText(getString(R.string.helper_service_ok))
                 .negativeText(getString(R.string.helper_service_err))
                 .onPositive((dialog, which) -> {
                     //下一步
-                    MMKV mmkv=MMKV.defaultMMKV();
-                    mmkv.encode("protocol",true);//同意协议
+                    MMKV mmkv = MMKV.defaultMMKV();
+                    mmkv.encode("protocol", true);//同意协议
                     Logs.d("已同意服务协议与隐私政策。");
                 })
                 .onNegative((dialog, which) -> {
@@ -275,42 +278,36 @@ public class HelperFragment extends BaseFragment {
                 .show();
     }
 
-    private void step(int i){
-        Logs.d("页面展示 "+i);
-        if(i<scrollViews.length){
+    private void step(int i) {
+        Logs.d("页面展示 " + i);
+        if (i < scrollViews.length) {
             for (ScrollView scrollView : scrollViews) {
                 scrollView.setVisibility(View.GONE);
             }
-                scrollViews[i].setVisibility(View.VISIBLE);
-            MMKV mmkv=MMKV.defaultMMKV();
-            mmkv.encode("step",i);//同意协议
+            scrollViews[i].setVisibility(View.VISIBLE);
+            MMKV mmkv = MMKV.defaultMMKV();
+            mmkv.encode("step", i);//同意协议
         }
     }
-    // 回调接口
-    private interface Callback {
-        void onResponse(View view);
-    }
-    private void showTip(boolean err, int title, int content, int tipAction, Callback callback,int timeout){
-       CookieBar.Builder cookieBar= CookieBar.builder(getActivity())
+
+    private void showTip(boolean err, int title, int content, int tipAction, Callback callback, int timeout) {
+        CookieBar.Builder cookieBar = CookieBar.builder(getActivity())
                 .setTitle(title)
                 .setMessage(content)
                 .setDuration(timeout)
                 .setActionColor(android.R.color.white)
                 .setTitleColor(android.R.color.white)
                 .setAction(tipAction, callback::onResponse);
-        if(!err){
+        if (!err) {
             cookieBar.setBackgroundColor(R.color.colorPrimary);
-        }else{
+        } else {
             cookieBar.setBackgroundColor(R.color.toast_warning_color);
         }
         cookieBar.show();
 
     }
-    // 回调接口
-    private interface Callback2 {
-        void onResponse(String data);
-    }
-    public void showInputDialog(String title,String tip,String def,Callback2 callBack) {
+
+    public void showInputDialog(String title, String tip, String def, Callback2 callBack) {
         new MaterialDialog.Builder(getContext())
                 .title(title)
                 .content(tip)
@@ -318,11 +315,22 @@ public class HelperFragment extends BaseFragment {
                         getString(R.string.input_tip),
                         def,
                         false,
-                        ((dialog, input) -> {}))
+                        ((dialog, input) -> {
+                        }))
                 .positiveText(getString(R.string.input_ok))
                 .negativeText(getString(R.string.set_cancel))
                 .onPositive((dialog, which) -> callBack.onResponse(dialog.getInputEditText().getText().toString()))
                 .show();
+    }
+
+    // 回调接口
+    private interface Callback {
+        void onResponse(View view);
+    }
+
+    // 回调接口
+    private interface Callback2 {
+        void onResponse(String data);
     }
 
 }

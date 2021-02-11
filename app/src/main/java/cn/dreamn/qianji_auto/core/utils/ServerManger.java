@@ -21,33 +21,29 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 
 import cn.dreamn.qianji_auto.core.helper.AutoAccessibilityService;
 import cn.dreamn.qianji_auto.core.helper.AutoBillService;
 import cn.dreamn.qianji_auto.core.helper.NotificationService;
-import cn.dreamn.qianji_auto.core.helper.SmsServer;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 import cn.dreamn.qianji_auto.utils.tools.Permission;
 
-import static com.xuexiang.xutil.XUtil.getContentResolver;
-
 public class ServerManger {
-    public static void startAccessibility(Context context){
+    public static void startAccessibility(Context context) {
 
-        if(!AutoAccessibilityService.isStart()){
-            Permission.getInstance().grant(context,Permission.Assist);
+        if (!AutoAccessibilityService.isStart()) {
+            Permission.getInstance().grant(context, Permission.Assist);
         }
         //context.startService(new Intent(context, AutoAccessibilityService.class));
     }
 
-    public static void startAutoNotify(Context context){
+    public static void startAutoNotify(Context context) {
         Logs.i("通知已启动");
         context.startService(new Intent(context, AutoBillService.class));
     }
 
 
-    public static void startNotice(Context context){
+    public static void startNotice(Context context) {
         Logs.i("通知监听已启动");
         PackageManager pm = context.getPackageManager();
         pm.setComponentEnabledSetting(new ComponentName(context, NotificationService.class),

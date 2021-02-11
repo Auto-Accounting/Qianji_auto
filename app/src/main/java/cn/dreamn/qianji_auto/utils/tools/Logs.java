@@ -19,44 +19,39 @@ package cn.dreamn.qianji_auto.utils.tools;
 
 import android.annotation.SuppressLint;
 
-import com.xuexiang.xutil.data.DateUtils;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.TimeZone;
-
-import cn.dreamn.qianji_auto.MyApp;
 import cn.dreamn.qianji_auto.core.db.DbManger;
 import cn.dreamn.qianji_auto.core.db.Log;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 
 public class Logs {
 
-    public static int timeout=24*60*60;
+    public static int timeout = 24 * 60 * 60;
 
-    public static void d(String msg)  {
+    public static void d(String msg) {
         String defaultTag = "Qianji-Auto";
         android.util.Log.i(defaultTag, msg);
     }
-    public static void d(String TAG,String msg)  {
+
+    public static void d(String TAG, String msg) {
         android.util.Log.i(TAG, msg);
     }
 
-    public static void i(String msg)  {
+    public static void i(String msg) {
         String defaultTag = "Qianji-Auto";
         android.util.Log.i(defaultTag, msg);
-        DbManger.db.LogDao().add(msg,"自动记账",getTime());
+        DbManger.db.LogDao().add(msg, "自动记账", getTime());
         DbManger.db.LogDao().deleteTimeout(timeout);
     }
-    public static void i(String TAG,String msg)  {
+
+    public static void i(String TAG, String msg) {
         android.util.Log.i(TAG, msg);
-        DbManger.db.LogDao().add(msg,TAG,getTime());
+        DbManger.db.LogDao().add(msg, TAG, getTime());
         DbManger.db.LogDao().deleteTimeout(timeout);
     }
 
 
     @SuppressLint("SimpleDateFormat")
-    private static String getTime(){
+    private static String getTime() {
         return Tools.getTime("yyyy-MM-dd HH:mm:ss");
 
     }
@@ -66,11 +61,11 @@ public class Logs {
         DbManger.db.LogDao().del(pos);
     }
 
-    public static void delAll(){
+    public static void delAll() {
         DbManger.db.LogDao().delAll();
     }
 
-    public static Log[] getAll(){
+    public static Log[] getAll() {
         return DbManger.db.LogDao().loadAll();
     }
 }

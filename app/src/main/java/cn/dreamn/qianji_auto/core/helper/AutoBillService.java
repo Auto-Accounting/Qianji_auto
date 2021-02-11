@@ -5,16 +5,12 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Build;
 import android.os.IBinder;
 import android.widget.RemoteViews;
-
-import java.util.Objects;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.activity.MainActivity;
@@ -48,7 +44,6 @@ public class AutoBillService extends Service {
     }
 
 
-
     private void startServer() {
         PendingIntent activity = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
 
@@ -68,7 +63,7 @@ public class AutoBillService extends Service {
         builder.setContent(remoteViews);
         builder.setCustomBigContentView(remoteViews);
         if (Build.VERSION.SDK_INT >= 26) {
-            NotificationChannel notificationChannel = new NotificationChannel("AutoBillService", "自动记账",NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel notificationChannel = new NotificationChannel("AutoBillService", "自动记账", NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.enableLights(false);
             notificationChannel.setShowBadge(false);
             ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(notificationChannel);
@@ -79,8 +74,6 @@ public class AutoBillService extends Service {
         notification.flags = 2;
         startForeground(6699, notification);
     }
-
-
 
 
 }

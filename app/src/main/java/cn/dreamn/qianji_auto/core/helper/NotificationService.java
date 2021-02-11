@@ -25,13 +25,9 @@ import android.service.notification.StatusBarNotification;
 
 import androidx.core.app.NotificationCompat;
 
-import cn.dreamn.qianji_auto.core.utils.Assets;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.BookNames;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
-import cn.dreamn.qianji_auto.core.utils.Category;
-import cn.dreamn.qianji_auto.core.utils.Remark;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 public class NotificationService extends NotificationListenerService {
@@ -45,11 +41,11 @@ public class NotificationService extends NotificationListenerService {
             if (extras != null) {
                 String title = extras.getString(NotificationCompat.EXTRA_TITLE, "");
                 String content = extras.getString(NotificationCompat.EXTRA_TEXT, "");
-                Logs.d( "**********************");
-                Logs.d( "包名:" + pkg);
-                Logs.d( "标题:" + title);
-                Logs.d( "内容:" + content);
-                Logs.d( "**********************");
+                Logs.d("**********************");
+                Logs.d("包名:" + pkg);
+                Logs.d("标题:" + title);
+                Logs.d("内容:" + content);
+                Logs.d("**********************");
 
 
                 switch (pkg) {
@@ -60,7 +56,7 @@ public class NotificationService extends NotificationListenerService {
                                 if (money.equals("0")) {
                                     money = BillTools.getMoney(title);
                                 }
-                                if(!money.equals("0")){
+                                if (!money.equals("0")) {
                                     BillInfo billInfo = new BillInfo();
                                     billInfo.setMoney(money);
                                     billInfo.setShopRemark(content);
@@ -68,7 +64,7 @@ public class NotificationService extends NotificationListenerService {
 
                                     billInfo.setType(BillInfo.TYPE_INCOME);
                                     billInfo.setAccountName("余额");
-                                    billInfo.setSource("支付宝二维码收款捕获");
+
                                     billInfo.dump();
                                     CallAutoActivity.call(getApplicationContext(), billInfo);
                                 }
@@ -91,7 +87,7 @@ public class NotificationService extends NotificationListenerService {
 
                                     billInfo.setType(BillInfo.TYPE_INCOME);
                                     billInfo.setAccountName("零钱");
-                                    billInfo.setSource("微信二维码收款捕获");
+
                                     billInfo.dump();
                                     CallAutoActivity.call(getApplicationContext(), billInfo);
                                 }
@@ -101,7 +97,6 @@ public class NotificationService extends NotificationListenerService {
 
                         break;
                 }
-
 
 
             }

@@ -17,11 +17,7 @@
 
 package cn.dreamn.qianji_auto.core.base.wechat;
 
-import android.content.Context;
-
-import com.alibaba.fastjson.JSONObject;
-
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.base.Analyze;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 
@@ -41,16 +37,15 @@ public class WechatRedPackageReceived extends Analyze {
 
 
     @Override
-    public void tryAnalyze(String content, Context context) {
+    public BillInfo tryAnalyze(String content, String source) {
+        BillInfo billInfo = super.tryAnalyze(content, source);
 
-        JSONObject jsonObject = setContent(content);
-        if (jsonObject == null) return;
-
-        BillInfo billInfo = new BillInfo();
-        billInfo.setShopRemark("微信红包收入");
+        if (billInfo == null) return null;
+        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+            billInfo.setShopRemark("微信红包收入");
         billInfo.setAccountName("零钱");
         billInfo.setType(BillInfo.TYPE_INCOME);
-        billInfo.setSource("微信收红包");
+
 
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
 
@@ -59,14 +54,14 @@ public class WechatRedPackageReceived extends Analyze {
         billInfo.setShopAccount(jsonObject.getString("shopAccount"));
         billInfo.setShopRemark(jsonObject.getString("remark"));
 
+        return billInfo;
 
-        CallAutoActivity.call(context, billInfo);
 
     }
 
 
     @Override
-    BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
+    public BillInfo getResult(BillInfo billInfo) {
 
 
         return billInfo;

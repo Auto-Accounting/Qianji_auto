@@ -17,18 +17,12 @@
 
 package cn.dreamn.qianji_auto.core.base.alipay;
 
-import android.content.Context;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import cn.dreamn.qianji_auto.core.db.Asset;
-import cn.dreamn.qianji_auto.core.utils.Assets;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.base.Analyze;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.Category;
-import cn.dreamn.qianji_auto.core.utils.Remark;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 /**
@@ -38,42 +32,38 @@ public class Refund extends Analyze {
 
     private static Refund paymentSuccess;
 
-    public static Refund getInstance(){
-        if(paymentSuccess!=null)return paymentSuccess;
-        paymentSuccess=new Refund();
+    public static Refund getInstance() {
+        if (paymentSuccess != null) return paymentSuccess;
+        paymentSuccess = new Refund();
         return paymentSuccess;
     }
 
 
     @Override
-    public void tryAnalyze(String content, Context context) {
+    public BillInfo tryAnalyze(String content, String source) {
+        BillInfo billInfo = super.tryAnalyze(content, source);
 
-        JSONObject jsonObject=setContent(content);
-        if(jsonObject==null)return ;
-
-        BillInfo billInfo=new BillInfo();
+        if (billInfo == null) return null;
         billInfo.setShopRemark("淘宝退款");
-        billInfo = getResult(jsonObject, billInfo);
+
 
         billInfo.setShopAccount("淘宝");
         billInfo.setType(BillInfo.TYPE_INCOME);
         billInfo.setSilent(true);
 
-        billInfo.setSource("支付宝退款到账");
-        CallAutoActivity.call(context,billInfo);
-
+        return billInfo;
     }
 
     @Override
-    BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
+    public BillInfo getResult(BillInfo billInfo) {
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
-        JSONArray jsonArray=jsonObject.getJSONArray("content");
+        JSONArray jsonArray = jsonObject.getJSONArray("content");
 
-        for(int i=0;i<jsonArray.size();i++){
-            JSONObject jsonObject1=jsonArray.getJSONObject(i);
-            String name=jsonObject1.getString("title");
-            String value=jsonObject1.getString("content");
-            Logs.d("name ->"+name+"  value->"+value);
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+            String name = jsonObject1.getString("title");
+            String value = jsonObject1.getString("content");
+            Logs.d("name ->" + name + "  value->" + value);
             switch (name) {
 
                 case "退款去向：":

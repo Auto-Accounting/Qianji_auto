@@ -31,19 +31,21 @@ import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 public class DataUtils {
     private final Bundle bundle;
-    public DataUtils(){
+
+    public DataUtils() {
         bundle = new Bundle();
     }
-    public void put(String name,Object data) {
-        if(data==null)bundle.putString(name,"");
+
+    public void put(String name, Object data) {
+        if (data == null) bundle.putString(name, "");
         else bundle.putString(name, data.toString());
     }
 
-    public String get(String name){
+    public String get(String name) {
         return bundle.getString(name);
     }
 
-    public void remove(String name){
+    public void remove(String name) {
         bundle.remove(name);
     }
 
@@ -54,15 +56,16 @@ public class DataUtils {
             String value = mUri.getQueryParameter(param);
             Logs.d(param);
 
-            bundle.putString(param,URLDecoder.decode(value, "UTF-8"));
+            bundle.putString(param, URLDecoder.decode(value, "UTF-8"));
         }
     }
+
     @NotNull
-    public String toString(){
-        StringBuilder ret= new StringBuilder("data://string?");
+    public String toString() {
+        StringBuilder ret = new StringBuilder("data://string?");
         Set<String> keySet = bundle.keySet();
-        for(String key : keySet) {
-            String value = (String)bundle.get(key);
+        for (String key : keySet) {
+            String value = (String) bundle.get(key);
             try {
                 ret.append("&").append(key).append("=").append(URLEncoder.encode(value, "UTF-8"));
             } catch (UnsupportedEncodingException e) {

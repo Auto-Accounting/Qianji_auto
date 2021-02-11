@@ -17,17 +17,12 @@
 
 package cn.dreamn.qianji_auto.core.base.alipay;
 
-import android.content.Context;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import cn.dreamn.qianji_auto.core.utils.Assets;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.base.Analyze;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.Category;
-import cn.dreamn.qianji_auto.core.utils.Remark;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 /**
@@ -37,46 +32,45 @@ public class FundArrival extends Analyze {
 
     private static FundArrival paymentSuccess;
 
-    public static FundArrival getInstance(){
-        if(paymentSuccess!=null)return paymentSuccess;
-        paymentSuccess=new FundArrival();
+    public static FundArrival getInstance() {
+        if (paymentSuccess != null) return paymentSuccess;
+        paymentSuccess = new FundArrival();
         return paymentSuccess;
     }
 
 
     @Override
-    public void tryAnalyze(String content, Context context) {
+    public BillInfo tryAnalyze(String content, String source) {
+        BillInfo billInfo = super.tryAnalyze(content, source);
 
-        JSONObject jsonObject=setContent(content);
-        if(jsonObject==null)return ;
+        if (billInfo == null) return null;
 
-        BillInfo billInfo=new BillInfo();
         billInfo.setShopRemark("商家付款");
-        billInfo = getResult(jsonObject, billInfo);
 
         billInfo.setType(BillInfo.TYPE_INCOME);
         billInfo.setSilent(true);
 
-        billInfo.setSource("支付宝商家付款到账");
-        CallAutoActivity.call(context,billInfo);
-
+        return billInfo;
     }
 
     @Override
-    BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
+    public BillInfo getResult(BillInfo billInfo) {
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
-        JSONArray jsonArray=jsonObject.getJSONArray("content");
+        JSONArray jsonArray = jsonObject.getJSONArray("content");
         billInfo.setAccountName("余额");
-        for(int i=0;i<jsonArray.size();i++){
-            JSONObject jsonObject1=jsonArray.getJSONObject(i);
-            String name=jsonObject1.getString("title");
-            String value=jsonObject1.getString("content");
-            Logs.d("name ->"+name+"  value->"+value);
-            switch (name){
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+            String name = jsonObject1.getString("title");
+            String value = jsonObject1.getString("content");
+            Logs.d("name ->" + name + "  value->" + value);
+            switch (name) {
 
-                case "付款方：":billInfo.setShopAccount(value);break;
+                case "付款方：":
+                    billInfo.setShopAccount(value);
+                    break;
 
-                default:break;
+                default:
+                    break;
             }
         }
         return billInfo;

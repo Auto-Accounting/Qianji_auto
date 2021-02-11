@@ -4,24 +4,26 @@
     android:id="@+id/item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#FFFFFF"
     android:minHeight="?attr/listPreferredItemHeight"
     android:mode="twoLine"
-    android:background="#FFFFFF"
     android:paddingStart="?attr/listPreferredItemPaddingStart"
     android:paddingEnd="?attr/listPreferredItemPaddingEnd">
 
-    <TextView android:id="@+id/item_top"
+    <TextView
+        android:id="@+id/item_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textAppearance="?attr/textAppearanceListItem" />
 
-    <TextView android:id="@+id/item_bottom"
+    <TextView
+        android:id="@+id/item_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/item_top"
-        android:textColor="@color/list_text_color_normal_sub"
         android:layout_alignStart="@+id/item_top"
-        android:textAppearance="?attr/textAppearanceListItemSecondary" />
+        android:textAppearance="?attr/textAppearanceListItemSecondary"
+        android:textColor="@color/list_text_color_normal_sub" />
 
 </TwoLineListItem>

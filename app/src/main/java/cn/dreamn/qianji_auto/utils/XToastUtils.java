@@ -33,14 +33,14 @@ import com.xuexiang.xui.widget.toast.XToast;
 public final class XToastUtils {
 
 
-    private XToastUtils() {
-        throw new UnsupportedOperationException("u can't instantiate me...");
-    }
-
     static {
         XToast.Config.get()
                 .setAlpha(200)
                 .allowQueue(false);
+    }
+
+    private XToastUtils() {
+        throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
     //======普通土司=======//

@@ -9,22 +9,21 @@ import cn.dreamn.qianji_auto.core.hook.app.WechatHook;
 
 
 public class HookList {
-    private final List<HookBase> mListHook = new ArrayList<>();
-
     private static HookList mHookList;
-
-    public synchronized static HookList getInstance() {
-        if (mHookList == null) {
-            mHookList = new HookList();
-        }
-        return mHookList;
-    }
+    private final List<HookBase> mListHook = new ArrayList<>();
 
     public HookList() {
         mListHook.clear();
         mListHook.add(QianjiAuto.getInstance());
         mListHook.add(AlipayHook.getInstance());
         mListHook.add(WechatHook.getInstance());
+    }
+
+    public synchronized static HookList getInstance() {
+        if (mHookList == null) {
+            mHookList = new HookList();
+        }
+        return mHookList;
     }
 
     public List<HookBase> getmListHook() {

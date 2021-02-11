@@ -37,9 +37,9 @@ import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.core.base.Receive;
 import cn.dreamn.qianji_auto.core.base.alipay.Alipay;
 import cn.dreamn.qianji_auto.core.hook.HookBase;
+import cn.dreamn.qianji_auto.core.hook.Task;
 import cn.dreamn.qianji_auto.utils.tools.DpUtil;
 import cn.dreamn.qianji_auto.utils.tools.StyleUtil;
-import cn.dreamn.qianji_auto.core.hook.Task;
 import cn.dreamn.qianji_auto.utils.tools.ViewUtil;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
@@ -47,12 +47,14 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class AlipayHook extends HookBase {
     private static AlipayHook alipayHook;
+
     public static synchronized AlipayHook getInstance() {
         if (alipayHook == null) {
             alipayHook = new AlipayHook();
         }
         return alipayHook;
     }
+
     @Override
     public void hookFirst() throws Error {
 
@@ -90,48 +92,49 @@ public class AlipayHook extends HookBase {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    if(param.getResult()!=null)
-                        Logi("支付宝原本监测到的安全信息："+param.getResult().toString(),true);
+                    if (param.getResult() != null)
+                        Logi("支付宝原本监测到的安全信息：" + param.getResult().toString(), true);
                     param.setResult(null);
-                    Logi( "hook 支付宝安全监测 succeed！",true);
+                    Logi("hook 支付宝安全监测 succeed！", true);
                 }
 
             });
 
         } catch (Error | Exception e) {
-            Logi( "hook 支付宝安全监测 error :"+e.toString(),true);
+            Logi("hook 支付宝安全监测 error :" + e.toString(), true);
         }
     }
-    private void hookRed(){
+
+    private void hookRed() {
 
         Class<?> proguard = XposedHelpers.findClass("com.alipay.mobile.redenvelope.proguard.c.b", mAppClassLoader);
         Class<?> SyncMessage = XposedHelpers.findClass("com.alipay.mobile.rome.longlinkservice.syncmodel.SyncMessage", mAppClassLoader);
 
 
-        XposedHelpers.findAndHookMethod(proguard,"onReceiveMessage", SyncMessage, new XC_MethodHook() {
+        XposedHelpers.findAndHookMethod(proguard, "onReceiveMessage", SyncMessage, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 super.beforeHookedMethod(param);
-                String data=param.args[0].toString();
-                data=data.substring(data.indexOf("msgData=[")+"msgData=[".length(),data.indexOf("], pushData=,"));
+                String data = param.args[0].toString();
+                data = data.substring(data.indexOf("msgData=[") + "msgData=[".length(), data.indexOf("], pushData=,"));
 
-                JSONObject jsonObject= JSON.parseObject(data);
-                if(!jsonObject.containsKey("pl"))return;
-                String str=jsonObject.getString("pl");
-                JSONObject jsonObject1= JSON.parseObject(str);
-                if(!jsonObject1.containsKey("templateJson"))return;
-                String templateJson=jsonObject1.getString("templateJson");
-                JSONObject jsonObject2= JSON.parseObject(templateJson);
-                if(!jsonObject2.containsKey("statusLine1Text"))return;
-                if(!jsonObject2.containsKey("title"))return;
-                if(!jsonObject2.containsKey("subtitle"))return;
-                if(!jsonObject2.getString("subtitle").contains("来自"))return;
-                Logi( "hook 支付宝收到红包 succeed！",true);
-                Logi("红包数据："+data);
+                JSONObject jsonObject = JSON.parseObject(data);
+                if (!jsonObject.containsKey("pl")) return;
+                String str = jsonObject.getString("pl");
+                JSONObject jsonObject1 = JSON.parseObject(str);
+                if (!jsonObject1.containsKey("templateJson")) return;
+                String templateJson = jsonObject1.getString("templateJson");
+                JSONObject jsonObject2 = JSON.parseObject(templateJson);
+                if (!jsonObject2.containsKey("statusLine1Text")) return;
+                if (!jsonObject2.containsKey("title")) return;
+                if (!jsonObject2.containsKey("subtitle")) return;
+                if (!jsonObject2.getString("subtitle").contains("来自")) return;
+                Logi("hook 支付宝收到红包 succeed！", true);
+                Logi("红包数据：" + data);
 
-                Bundle bundle=new Bundle();
-                bundle.putString("from",Alipay.RED_RECEIVED);
-                bundle.putString("type",Receive.ALIPAY);
+                Bundle bundle = new Bundle();
+                bundle.putString("from", Alipay.RED_RECEIVED);
+                bundle.putString("type", Receive.ALIPAY);
                 bundle.putString("data", jsonObject2.toJSONString());
                 bundle.putString("title", "红包");
                 send(bundle);
@@ -140,31 +143,32 @@ public class AlipayHook extends HookBase {
             }
         });
     }
-    private void hookReceive(){
+
+    private void hookReceive() {
 
         Class<?> MsgboxInfoServiceImpl = XposedHelpers.findClass("com.alipay.android.phone.messageboxstatic.biz.sync.d", mAppClassLoader);
         Class<?> SyncMessage = XposedHelpers.findClass("com.alipay.mobile.rome.longlinkservice.syncmodel.SyncMessage", mAppClassLoader);
 
-        XposedHelpers.findAndHookMethod(MsgboxInfoServiceImpl,"onReceiveMessage", SyncMessage, new XC_MethodHook() {
+        XposedHelpers.findAndHookMethod(MsgboxInfoServiceImpl, "onReceiveMessage", SyncMessage, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 super.beforeHookedMethod(param);
-                String data=param.args[0].toString();
-                data=data.substring(data.indexOf("msgData=[")+"msgData=[".length(),data.indexOf("], pushData=,"));
-                Logi( "收到消息："+data,true);
-                JSONObject jsonObject= JSON.parseObject(data);
-                if(!jsonObject.containsKey("pl"))return;
-                String str=jsonObject.getString("pl");
-                JSONObject jsonObject1= JSON.parseObject(str);
+                String data = param.args[0].toString();
+                data = data.substring(data.indexOf("msgData=[") + "msgData=[".length(), data.indexOf("], pushData=,"));
+                Logi("收到消息：" + data, true);
+                JSONObject jsonObject = JSON.parseObject(data);
+                if (!jsonObject.containsKey("pl")) return;
+                String str = jsonObject.getString("pl");
+                JSONObject jsonObject1 = JSON.parseObject(str);
 
-                if(!jsonObject1.containsKey("templateType"))return;
-                if(!jsonObject1.containsKey("title"))return;
-                if(!jsonObject1.containsKey("content"))return;
+                if (!jsonObject1.containsKey("templateType")) return;
+                if (!jsonObject1.containsKey("title")) return;
+                if (!jsonObject1.containsKey("content")) return;
 
-                Logi( "-------消息开始解析-------");
-                Bundle bundle=new Bundle();
-                bundle.putString("type",Receive.ALIPAY);
-                if(jsonObject1.getString("templateType").equals("BN")){
+                Logi("-------消息开始解析-------");
+                Bundle bundle = new Bundle();
+                bundle.putString("type", Receive.ALIPAY);
+                if (jsonObject1.getString("templateType").equals("BN")) {
                     JSONObject content = jsonObject1.getJSONObject("content");
                     bundle.putString("data", content.toJSONString());
                     String title = jsonObject1.getString("title");
@@ -184,29 +188,37 @@ public class AlipayHook extends HookBase {
                             bundle.putString("from", Alipay.BIBIZAN);
                             break;
                         case "资金到账通知":
-                            Logi( "-------资金到账通知-------");
-                            bundle.putString("from", Alipay.FUNDS_ARRIVAL);break;
+                            Logi("-------资金到账通知-------");
+                            bundle.putString("from", Alipay.FUNDS_ARRIVAL);
+                            break;
                         case "付款成功":
-                            Logi( "-------付款成功-------");
-                            bundle.putString("from", Alipay.PAYMENT_SUCCESS);break;
+                            Logi("-------付款成功-------");
+                            bundle.putString("from", Alipay.PAYMENT_SUCCESS);
+                            break;
                         case "转账成功":
-                            Logi( "-------转账成功-------");
-                            bundle.putString("from", Alipay.TRANSFER_SUCCESS);break;
+                            Logi("-------转账成功-------");
+                            bundle.putString("from", Alipay.TRANSFER_SUCCESS);
+                            break;
                         case "退款通知":
-                            Logi( "-------退款通知-------");
-                            bundle.putString("from", Alipay.REFUND);break;
+                            Logi("-------退款通知-------");
+                            bundle.putString("from", Alipay.REFUND);
+                            break;
                         case "收到一笔转账":
-                            Logi( "-------收到一笔转账-------");
-                            bundle.putString("from", Alipay.TRANSFER_RECEIVED);break;
+                            Logi("-------收到一笔转账-------");
+                            bundle.putString("from", Alipay.TRANSFER_RECEIVED);
+                            break;
                         case "余额宝-自动转入":
-                            Logi( "-------余额宝自动转入------");
-                            bundle.putString("from", Alipay.TRANSFER_INTO_YUEBAO);break;
+                        case "余额宝-单次转入":
+                            Logi("-------余额宝自动、单次转入------");
+                            bundle.putString("from", Alipay.TRANSFER_INTO_YUEBAO);
+                            break;
                         default:
-                            Logi( "-------未知数据结构-------",true);
-                            bundle.putString("from", Alipay.CANT_UNDERSTAND);break;
+                            Logi("-------未知数据结构-------", true);
+                            bundle.putString("from", Alipay.CANT_UNDERSTAND);
+                            break;
                     }
                     send(bundle);
-                }else if(jsonObject1.getString("templateType").equals("S")) {
+                } else if (jsonObject1.getString("templateType").equals("S")) {
                     JSONObject content = jsonObject1.getJSONObject("extraInfo");
                     content.put("extra", jsonObject1.getString("content"));
                     bundle.putString("data", content.toJSONString());
@@ -243,7 +255,7 @@ public class AlipayHook extends HookBase {
         });
     }
 
-    private void hookSetting(){
+    private void hookSetting() {
         XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
             protected void afterHookedMethod(MethodHookParam param) {
                 final Activity activity = (Activity) param.thisObject;
@@ -254,6 +266,7 @@ public class AlipayHook extends HookBase {
             }
         });
     }
+
     private void doSettingsMenuInject(final Activity activity) {
         Logi("hook支付宝设置");
         int listViewId = activity.getResources().getIdentifier("setting_list", "id", "com.alipay.android.phone.openplatform");

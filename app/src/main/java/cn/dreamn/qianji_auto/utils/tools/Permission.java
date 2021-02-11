@@ -17,9 +17,7 @@
 
 package cn.dreamn.qianji_auto.utils.tools;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
@@ -29,8 +27,6 @@ import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.widget.Toast;
-
 
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.XXPermissions;
@@ -48,33 +44,31 @@ import static com.xuexiang.xutil.app.AppUtils.getPackageName;
 public class Permission {
 
 
+    public static final int Assist = 1;
+    public static final int Sms = 2;
+    public static final int Float = 3;
+    public static final int Start = 4;
+    public static final int Battery = 5;
+    public static final int Lock = 6;
+    public static final int BatteryIngore = 7;
+    public static final int Security = 8;
+    public static final int Storage = 9;
+    public static final int All = 10;
+    public static final int Notification = 11;
     static Permission permission;
 
-    public static final int Assist=1;
-    public static final int Sms=2;
-    public static final int Float=3;
-    public static final int Start=4;
-    public static final int Battery=5;
-    public static final int Lock=6;
-    public static final int BatteryIngore=7;
-    public static final int Security=8;
-    public static final int Storage=9;
-    public static final int All=10;
-    public static final int Notification=11;
-
-
-    public static Permission getInstance(){
-        if(permission==null)permission=new Permission();
+    public static Permission getInstance() {
+        if (permission == null) permission = new Permission();
         return permission;
     }
 
 
     @SuppressLint("BatteryLife")
-    public void grant(Context context, int permission){
+    public void grant(Context context, int permission) {
         Intent intent;
-        switch (permission){
+        switch (permission) {
             case Assist:
-                intent = new Intent(android.provider.Settings. ACTION_ACCESSIBILITY_SETTINGS );
+                intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
                 break;
@@ -165,13 +159,13 @@ public class Permission {
                 //TODO 留待后期强化
                 break;
             case BatteryIngore:
-                if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
                     boolean hasIgnored = powerManager.isIgnoringBatteryOptimizations(context.getPackageName());
                     //  判断当前APP是否有加入电池优化的白名单，如果没有，弹出加入电池优化的白名单的设置对话框。
-                    if(!hasIgnored) {
+                    if (!hasIgnored) {
                         intent = new Intent(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                        intent.setData(Uri.parse("package:"+context.getPackageName()));
+                        intent.setData(Uri.parse("package:" + context.getPackageName()));
                         context.startActivity(intent);
                     }
                 }
@@ -209,17 +203,18 @@ public class Permission {
                 break;
             case Notification:
 
-                if(!isNotificationListenersEnabled())
+                if (!isNotificationListenersEnabled())
                     gotoNotificationAccessSetting();
                 break;
-            default:break;
+            default:
+                break;
         }
     }
 
     // To check if service is enabled
     public boolean isAccessibilitySettingsOn(Context mContext) {
         int accessibilityEnabled = 0;
-        final String service =  "cn.dreamn.qianji_auto/" + AutoAccessibilityService.class.getCanonicalName();
+        final String service = "cn.dreamn.qianji_auto/" + AutoAccessibilityService.class.getCanonicalName();
         try {
             accessibilityEnabled = Settings.Secure.getInt(
                     mContext.getApplicationContext().getContentResolver(),
@@ -270,6 +265,7 @@ public class Permission {
         }
         return false;
     }
+
     protected void gotoNotificationAccessSetting() {
         try {
             Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
@@ -291,8 +287,6 @@ public class Permission {
             e.printStackTrace();
         }
     }
-
-
 
 
 }

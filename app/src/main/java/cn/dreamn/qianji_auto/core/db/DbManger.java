@@ -25,23 +25,36 @@ public class DbManger {
     public static AppDatabase db;
 
     public static void init(Context context) {
-        db = Room.databaseBuilder(context,AppDatabase.class, "ankio").allowMainThreadQueries().build();
+        db = Room.databaseBuilder(context, AppDatabase.class, "ankio").allowMainThreadQueries().build();
     }
 
 
+    public static void initDb() {
 
-    public static void initDb(){
+    }
+
+    private static void initAsset() {
+    }
+
+    private static void initAsset2() {
+    }
+
+    private static void initAutoBill() {
+    }
+
+    private static void initBookName() {
+    }
+
+    private static void initCache() {
+    }
+
+    private static void initLog() {
+    }
+
+    private static void initRegular() {
 
     }
 
-    private static void initAsset(){}
-    private static void initAsset2(){}
-    private static void initAutoBill(){}
-    private static void initBookName(){}
-    private static void initCache(){}
-    private static void initLog(){}
-    private static void initRegular(){
-
+    private static void initSms() {
     }
-    private static void initSms(){}
 }

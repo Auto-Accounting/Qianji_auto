@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2021 dreamn(dream@dreamn.cn)
- *   
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -35,6 +35,13 @@ import cn.dreamn.qianji_auto.utils.tools.CrashHandler;
 public class MyApp extends Application {
 
 
+    /**
+     * @return 当前app是否是调试开发模式
+     */
+    public static boolean isDebug() {
+        return BuildConfig.DEBUG;
+    }
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -58,15 +65,6 @@ public class MyApp extends Application {
 
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);
-    }
-
-
-
-    /**
-     * @return 当前app是否是调试开发模式
-     */
-    public static boolean isDebug() {
-        return BuildConfig.DEBUG;
     }
 
 

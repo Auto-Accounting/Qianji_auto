@@ -15,9 +15,7 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.base.wechat;
-
-import android.content.Context;
+package cn.dreamn.qianji_auto.core.base;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -26,33 +24,38 @@ import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 public class Analyze {
 
-    private static String TAG="Qianji-Xp-Analyze";
+    private static String TAG = "Qianji-Xp-Analyze";
+    protected JSONObject jsonObject;
+
     /*
      * 设置需要分析的内容
      * */
-    protected JSONObject setContent(String content){
-        try{
-            return JSONObject.parseObject(content);
-        }catch (Exception e){
-            Logs.i(TAG,e.toString());
-            return null;
+    protected void setContent(String content) {
+        try {
+            jsonObject = JSONObject.parseObject(content);
+        } catch (Exception e) {
+            jsonObject = null;
+            Logs.i(TAG, e.toString());
         }
     }
 
     /**
      * 从json中获取分析结果
-     * @param jsonObject jsonArray
+     *
      * @param billInfo billInfo
      * @return billInfo
      */
-    BillInfo getResult(JSONObject jsonObject, BillInfo billInfo){
+    public BillInfo getResult(BillInfo billInfo) {
         return null;
     }
 
-    /**
-     * 分析数据
-     */
-    public  void tryAnalyze(String content, Context context){
 
+    public BillInfo tryAnalyze(String content, String source) {
+        setContent(content);
+        if (jsonObject == null) return null;
+        BillInfo billInfo = new BillInfo();
+        billInfo = getResult(billInfo);
+        billInfo.setSource(source);
+        return billInfo;
     }
 }

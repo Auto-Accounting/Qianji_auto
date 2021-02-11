@@ -33,21 +33,17 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 public abstract class HookBase implements IHooker {
-    private Integer mHookCount = 0;
-    private Integer mHookCountIndex = 1;//HOOK第几个进程
-    protected ClassLoader mAppClassLoader;
-    protected Context mContext;
-
-
     public static final String SEND_ACTION = "cn.dreamn.qianji_auto.XPOSED";
     public static final String SEND_LOG_ACTION = "cn.dreamn.qianji_auto.XPOSED_LOG";
-
-
-  protected String TAG="Qianji-Auto";
+    protected ClassLoader mAppClassLoader;
+    protected Context mContext;
+    protected String TAG = "Qianji-Auto";
+    private Integer mHookCount = 0;
+    private Integer mHookCountIndex = 1;//HOOK第几个进程
 
     /**
-     * @param packPagename String 需要hook的包名
-     * @param processName String 序号hook的进程名
+     * @param packPagename   String 需要hook的包名
+     * @param processName    String 序号hook的进程名
      * @param hookCountIndex 第几个进程才HOOK，一般为1，vxp可能要写2，如果不知道，那就写0，都去hook
      */
     public void hook(String packPagename, String processName, Integer hookCountIndex) {
@@ -70,19 +66,19 @@ public abstract class HookBase implements IHooker {
                 mContext = (Context) param.args[0];
                 mAppClassLoader = mContext.getClassLoader();
                 if (getPackPageName().equals(processName)) {
-                    Logi("hooked 进程名 "+processName);
+                    Logi("hooked 进程名 " + processName);
                     mHookCount = mHookCount + 1;
-                   if (mHookCountIndex == 0 || mHookCount.equals(mHookCountIndex)) {
-                       try {
-                           if (!compare()) {
-                               String string = String.format("当前应用[%s]版本[%s]可能不受支持！您可以继续使用，但可能部分功能不支持。支持的版本为：%s", getAppName(), getVerName(mContext), Arrays.toString(getAppVer()));
-                               Toast.makeText(mContext, string, Toast.LENGTH_LONG).show();
-                               Logi(string, false);
-                           }
+                    if (mHookCountIndex == 0 || mHookCount.equals(mHookCountIndex)) {
+                        try {
+                            if (!compare()) {
+                                String string = String.format("当前应用[%s]版本[%s]可能不受支持！您可以继续使用，但可能部分功能不支持。支持的版本为：%s", getAppName(), getVerName(mContext), Arrays.toString(getAppVer()));
+                                Toast.makeText(mContext, string, Toast.LENGTH_LONG).show();
+                                Logi(string, false);
+                            }
 
-                           hookFirst();
+                            hookFirst();
 
-                       } catch (Error | Exception e) {
+                        } catch (Error | Exception e) {
                             Logi(e.toString());
                         }
                     }
@@ -94,37 +90,41 @@ public abstract class HookBase implements IHooker {
 
     /**
      * 发送广播通知
+     *
      * @param bundle
      */
-    public void send(Bundle bundle){
-        Logi("广播给自动记账："+bundle.toString());
-        sendBroadcast(SEND_ACTION,bundle);
+    public void send(Bundle bundle) {
+        Logi("广播给自动记账：" + bundle.toString());
+        sendBroadcast(SEND_ACTION, bundle);
     }
 
     /**
      * 打印日志
+     *
      * @param msg
      */
-    public void Logi(String msg){
-        Log.i("Qianji-"+getAppName(),msg);
+    public void Logi(String msg) {
+        Log.i("Qianji-" + getAppName(), msg);
     }
+
     /**
      * 打印日志
+     *
      * @param msg
      */
-    public void Logi(String msg,boolean xp){
-        if(xp)XposedBridge.log("Qianji-"+getAppName()+" -> "+msg);
-        else{
+    public void Logi(String msg, boolean xp) {
+        if (xp) XposedBridge.log("Qianji-" + getAppName() + " -> " + msg);
+        else {
             //发送到自动记账日志
-            Log.i("Qianji-"+getAppName(),msg);
-            Bundle bundle=new Bundle();
-            bundle.putString("tag","Qianji-"+getAppName());
-            bundle.putString("msg",msg);
-            sendBroadcast(SEND_LOG_ACTION,bundle);
+            Log.i("Qianji-" + getAppName(), msg);
+            Bundle bundle = new Bundle();
+            bundle.putString("tag", "Qianji-" + getAppName());
+            bundle.putString("msg", msg);
+            sendBroadcast(SEND_LOG_ACTION, bundle);
         }
     }
 
-    private void sendBroadcast(String Action,Bundle bundle){
+    private void sendBroadcast(String Action, Bundle bundle) {
         Intent intent = new Intent(Action);
         intent.setPackage("cn.dreamn.qianji_auto");
         intent.putExtras(bundle);
@@ -134,10 +134,11 @@ public abstract class HookBase implements IHooker {
 
     /**
      * 获取版本名
+     *
      * @param context
      * @return
      */
-    protected   String getVerName(Context context) {
+    protected String getVerName(Context context) {
         String verName = "";
         try {
             verName = context.getPackageManager().
@@ -150,29 +151,30 @@ public abstract class HookBase implements IHooker {
 
     /**
      * 判断是否是支持版本
+     *
      * @return
      */
-    private boolean compare(){
+    private boolean compare() {
 
-        String[] version=getAppVer();
-        if(version==null){
+        String[] version = getAppVer();
+        if (version == null) {
             //表示全版本支持
             return true;
         }
 
-        String string=getVerName(mContext);
-        if(readData("version_" + string).equals("true")){
+        String string = getVerName(mContext);
+        if (readData("version_" + string).equals("true")) {
             return true;
         }
-        Logi("当前应用版本："+string+" 支持的版本为"+ Arrays.toString(version));
+        Logi("当前应用版本：" + string + " 支持的版本为" + Arrays.toString(version));
         for (String s : version) {
             if (s.equals(string)) return true;
         }
-        writeData("version_"+string,"true");
+        writeData("version_" + string, "true");
         return false;
     }
 
-    protected void writeData(String key,String value){
+    protected void writeData(String key, String value) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("ankio_xp", Context.MODE_PRIVATE); //私有数据
 
         SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
@@ -181,9 +183,10 @@ public abstract class HookBase implements IHooker {
 
         editor.apply();//提交修改
     }
-    protected String readData(String key){
+
+    protected String readData(String key) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("ankio_xp", Context.MODE_PRIVATE); //私有数据
-        return sharedPreferences.getString(key,"false");
+        return sharedPreferences.getString(key, "false");
     }
 
 

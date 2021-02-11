@@ -24,7 +24,6 @@ import android.content.pm.PackageManager;
 import com.xuexiang.xutil.app.AppUtils;
 
 import java.util.List;
-import java.util.Map;
 
 import cn.dreamn.qianji_auto.R;
 
@@ -43,33 +42,41 @@ public class App {
         }
         return "";
     }
+
     //判断是否安装某个框架
-    public static String getFrameWork(Context context){
-        String farmework="xposed";//判断加载的框架
-        String[] appName={"taichi","edxposed","lsposed","xposed"};
-        String[] appPackage={"me.weishu.exp","org.meowcat.edxposed.manager","io.github.lsposed.manager","de.robv.android.xposed.installer"};
+    public static String getFrameWork(Context context) {
+        String farmework = "xposed";//判断加载的框架
+        String[] appName = {"taichi", "edxposed", "lsposed", "xposed"};
+        String[] appPackage = {"me.weishu.exp", "org.meowcat.edxposed.manager", "io.github.lsposed.manager", "de.robv.android.xposed.installer"};
 
-        for (int i=0;i<appName.length;i++) {
+        for (int i = 0; i < appName.length; i++) {
 
-            if(!getAppVersionName(context,appPackage[i]).equals("")){
-                farmework=appName[i];//框架已经安装
+            if (!getAppVersionName(context, appPackage[i]).equals("")) {
+                farmework = appName[i];//框架已经安装
                 break;
             }
         }
 
-        switch (farmework){
+        switch (farmework) {
 
-            case "taichi":return getString(R.string.frame_taichi);
-            case "edxposed":return "EdXposed";
-            case "lsposed":return "LSPosed";
-            case "xposed":return "Xposed";
-            default:return getString(R.string.frame_unknow);
+            case "taichi":
+                return getString(R.string.frame_taichi);
+            case "edxposed":
+                return "EdXposed";
+            case "lsposed":
+                return "LSPosed";
+            case "xposed":
+                return "Xposed";
+            default:
+                return getString(R.string.frame_unknow);
         }
     }
-    public static String getAppVerName(){
+
+    public static String getAppVerName() {
         return AppUtils.getAppVersionName();
     }
-    public static int getAppVerCode(){
+
+    public static int getAppVerCode() {
         return AppUtils.getAppVersionCode();
     }
 }

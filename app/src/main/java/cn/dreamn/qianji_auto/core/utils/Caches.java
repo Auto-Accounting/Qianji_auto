@@ -22,51 +22,53 @@ import cn.dreamn.qianji_auto.core.db.DbManger;
 
 public class Caches {
 
-    public static Cache getOne(String name,String type){
+    public static Cache getOne(String name, String type) {
         DbManger.db.CacheDao().deleteTimeout();
-        Cache[] caches = DbManger.db.CacheDao().getOne(name,type);
-        if(caches.length<=0)return null;
+        Cache[] caches = DbManger.db.CacheDao().getOne(name, type);
+        if (caches.length <= 0) return null;
 
         return caches[0];
     }
-    public static Cache[] getType(String type){
+
+    public static Cache[] getType(String type) {
         return DbManger.db.CacheDao().getType(type);
     }
-    public static Cache getWithoutAnyThing(){
+
+    public static Cache getWithoutAnyThing() {
         Cache[] caches = DbManger.db.CacheDao().getWithoutName();
-        if(caches.length<=0)return null;
+        if (caches.length <= 0) return null;
         return caches[0];
     }
 
-    public static void del(String name){
+    public static void del(String name) {
         DbManger.db.CacheDao().del(name);
     }
 
-    public static long add(String name, String data,String type){
+    public static long add(String name, String data, String type) {
         DbManger.db.CacheDao().deleteTimeout();
-        return DbManger.db.CacheDao().add(name,data,type);
+        return DbManger.db.CacheDao().add(name, data, type);
     }
 
-    public static void update(String name, String data){
-        DbManger.db.CacheDao().update(name,data);
+    public static void update(String name, String data) {
+        DbManger.db.CacheDao().update(name, data);
     }
 
     public static void Clean() {
         DbManger.db.CacheDao().deleteAll();
     }
 
-    public static void AddOrUpdate(String  name,String data){
-        if(getOne(name,"0")!=null){
-            update(name,data);
-        }else{
-            add(name,data,"0");
+    public static void AddOrUpdate(String name, String data) {
+        if (getOne(name, "0") != null) {
+            update(name, data);
+        } else {
+            add(name, data, "0");
         }
     }
 
-    public static String getOneString(String  name, String def){
+    public static String getOneString(String name, String def) {
         DbManger.db.CacheDao().deleteTimeout();
-        Cache[] caches = DbManger.db.CacheDao().getOne(name,"0");
-        if(caches.length<=0)return def;
+        Cache[] caches = DbManger.db.CacheDao().getOne(name, "0");
+        if (caches.length <= 0) return def;
 
         return caches[0].cacheData;
     }

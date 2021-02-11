@@ -25,13 +25,13 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class QianjiAuto extends HookBase {
     private static QianjiAuto qianjiAuto;
+
     public static synchronized QianjiAuto getInstance() {
         if (qianjiAuto == null) {
             qianjiAuto = new QianjiAuto();
         }
         return qianjiAuto;
     }
-
 
 
     @Override
@@ -41,6 +41,7 @@ public class QianjiAuto extends HookBase {
 
 
     }
+
     @Override
     public String getPackPageName() {
         return "cn.dreamn.qianji_auto";

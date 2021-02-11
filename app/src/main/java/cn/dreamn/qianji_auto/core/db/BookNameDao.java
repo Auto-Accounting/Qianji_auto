@@ -24,12 +24,16 @@ import androidx.room.Query;
 public interface BookNameDao {
     @Query("SELECT * FROM bookname")
     BookName[] getAll();
+
     @Query("SELECT * FROM bookname WHERE id=:id")
     BookName[] getAll(int id);
+
     @Query("DELETE FROM bookname WHERE id=:id")
     void del(int id);
+
     @Query("INSERT INTO bookname(name) values(:name)")
     void add(String name);
+
     @Query("UPDATE  bookname SET name=:name WHERE id=:id")
     void update(int id, String name);
 }

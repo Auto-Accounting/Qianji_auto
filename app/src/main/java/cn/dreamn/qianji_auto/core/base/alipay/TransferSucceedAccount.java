@@ -17,14 +17,13 @@
 
 package cn.dreamn.qianji_auto.core.base.alipay;
 
-import android.content.Context;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.base.Analyze;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
+
 
 /**
  * 转账给某人
@@ -41,26 +40,24 @@ public class TransferSucceedAccount extends Analyze {
 
 
     @Override
-    public void tryAnalyze(String content, Context context) {
+    public BillInfo tryAnalyze(String content, String source) {
+        BillInfo billInfo = super.tryAnalyze(content, source);
 
-        JSONObject jsonObject = setContent(content);
-        if (jsonObject == null) return;
+        if (billInfo == null) return null;
+        if (!jsonObject.getString("status").equals("余额宝转出申请提交")) return null;
 
-        if (!jsonObject.getString("status").equals("余额宝转出申请提交")) return;
 
-        BillInfo billInfo = new BillInfo();
         billInfo.setShopRemark("余额宝转出银行卡");
-        billInfo = getResult(jsonObject, billInfo);
+
         billInfo.setAccountName("余额宝");
 
         billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
         billInfo.setShopAccount("余额宝");
-        billInfo.setSource("支付余额宝转出银行卡");
-        CallAutoActivity.call(context, billInfo);
+        return billInfo;
     }
 
     @Override
-    BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
+    public BillInfo getResult(BillInfo billInfo) {
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
         JSONArray jsonArray = jsonObject.getJSONArray("content");
         for (int i = 0; i < jsonArray.size(); i++) {

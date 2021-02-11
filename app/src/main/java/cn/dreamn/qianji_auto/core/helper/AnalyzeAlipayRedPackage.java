@@ -22,59 +22,52 @@ import android.content.Context;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.core.db.Cache;
-import cn.dreamn.qianji_auto.core.utils.Assets;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.BookNames;
 import cn.dreamn.qianji_auto.core.utils.Caches;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
-import cn.dreamn.qianji_auto.core.utils.Category;
-import cn.dreamn.qianji_auto.core.utils.Remark;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 class AnalyzeAlipayRedPackage {
     public final static String TAG = "alipay_redpackage";
+
     //获取备注
-    public static boolean remark(List<String> list){
-        String remark,money,shopName;
+    public static boolean remark(List<String> list) {
+        String remark, money, shopName;
 
-        remark=list.get(0);
-        shopName=list.get(2);
-        money=BillTools.getMoney(list.get(4));
+        remark = list.get(0);
+        shopName = list.get(2);
+        money = BillTools.getMoney(list.get(4));
         // Caches.Clean();
-        Cache cache=Caches.getOne(TAG,BillInfo.TYPE_PAY);
-        BillInfo billInfo ;
+        Cache cache = Caches.getOne(TAG, BillInfo.TYPE_PAY);
+        BillInfo billInfo;
 
-        if(cache!=null){
-            billInfo=BillInfo.parse(cache.cacheData);
-        }else{
-            billInfo=new BillInfo();
-            Caches.add(TAG,billInfo.toString(),BillInfo.TYPE_PAY);
+        if (cache != null) {
+            billInfo = BillInfo.parse(cache.cacheData);
+        } else {
+            billInfo = new BillInfo();
+            Caches.add(TAG, billInfo.toString(), BillInfo.TYPE_PAY);
         }
-
 
 
         billInfo.setRemark(remark);
         billInfo.setShopRemark(remark);
         billInfo.setMoney(money);
         billInfo.setShopAccount(shopName);
-        Caches.update(TAG,billInfo.toString());
-        Logs.d("Qianji_Analyze",billInfo.getQianJi());
-        Logs.d("Qianji_Analyze","红包说明："+remark);
+        Caches.update(TAG, billInfo.toString());
+        Logs.d("Qianji_Analyze", billInfo.getQianJi());
+        Logs.d("Qianji_Analyze", "红包说明：" + remark);
         return true;
     }
 
 
-
-
-
     public static void succeed(String money, Context applicationContext) {
-        Cache data=Caches.getOne(TAG,BillInfo.TYPE_PAY);
+        Cache data = Caches.getOne(TAG, BillInfo.TYPE_PAY);
         BillInfo billInfo;
-        if(data==null){
+        if (data == null) {
             return;
-        }else {
-            billInfo=BillInfo.parse(data.cacheData);
+        } else {
+            billInfo = BillInfo.parse(data.cacheData);
         }
 
         billInfo.setMoney(money);
@@ -82,16 +75,16 @@ class AnalyzeAlipayRedPackage {
 
         billInfo.setType(BillInfo.TYPE_PAY);
 
-        if(billInfo.getAccountName()==null)
+        if (billInfo.getAccountName() == null)
             billInfo.setAccountName("支付宝");
 
         billInfo.setAccountName(billInfo.getAccountName());
-        billInfo.setSource("支付宝红包捕获");
+
         billInfo.dump();
         CallAutoActivity.call(applicationContext, billInfo);
 
         Caches.del(TAG);
 
-        Logs.d("Qianji_Analyze","捕获的金额:"+money);
+        Logs.d("Qianji_Analyze", "捕获的金额:" + money);
     }
 }

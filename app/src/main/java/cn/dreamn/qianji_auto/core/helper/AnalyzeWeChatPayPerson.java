@@ -22,39 +22,34 @@ import android.content.Context;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.core.db.Cache;
-import cn.dreamn.qianji_auto.core.utils.Assets;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.BookNames;
 import cn.dreamn.qianji_auto.core.utils.Caches;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
-import cn.dreamn.qianji_auto.core.utils.Category;
-import cn.dreamn.qianji_auto.core.utils.Remark;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 class AnalyzeWeChatPayPerson {
     private final static String TAG = "wechat_pay_person";
+
     //获取备注
-    public static boolean remark(List<String> list){
+    public static boolean remark(List<String> list) {
 
-        String shopName=list.get(2);
-        String money=BillTools.getMoney(list.get(5));
-        String  remark = "";
-        if(list.size()>=8&&list.get(7).contains("修改")){
-            remark=list.get(6);
+        String shopName = list.get(2);
+        String money = BillTools.getMoney(list.get(5));
+        String remark = "";
+        if (list.size() >= 8 && list.get(7).contains("修改")) {
+            remark = list.get(6);
         }
-        remark=remark.replace(" 修改","").replace("，","");
+        remark = remark.replace(" 修改", "").replace("，", "");
 
-        Cache cache=Caches.getOne(TAG,BillInfo.TYPE_PAY);
-        BillInfo billInfo ;
+        Cache cache = Caches.getOne(TAG, BillInfo.TYPE_PAY);
+        BillInfo billInfo;
 
-        if(cache!=null){
-            billInfo=BillInfo.parse(cache.cacheData);
-        }else{
-            billInfo=new BillInfo();
-            Caches.add(TAG,billInfo.toString(),BillInfo.TYPE_PAY);
+        if (cache != null) {
+            billInfo = BillInfo.parse(cache.cacheData);
+        } else {
+            billInfo = new BillInfo();
+            Caches.add(TAG, billInfo.toString(), BillInfo.TYPE_PAY);
         }
-
 
 
         billInfo.setRemark(remark);
@@ -62,83 +57,82 @@ class AnalyzeWeChatPayPerson {
         billInfo.setShopAccount(shopName);
         billInfo.setMoney(money);
 
-        Caches.update(TAG,billInfo.toString());
-        Logs.d("Qianji_Analyze",billInfo.getQianJi());
-        Logs.d("Qianji_Analyze","付款说明："+remark);
+        Caches.update(TAG, billInfo.toString());
+        Logs.d("Qianji_Analyze", billInfo.getQianJi());
+        Logs.d("Qianji_Analyze", "付款说明：" + remark);
         return true;
     }
 
 
-    public static boolean account(List<String> list){
+    public static boolean account(List<String> list) {
 
-        String money="",account="";
-        if(list.size()==5) {
+        String money = "", account = "";
+        if (list.size() == 5) {
             money = BillTools.getMoney(list.get(2));
             account = list.get(4);
-        }else{
+        } else {
             return false;
         }
 
 
-        Cache data=Caches.getOne(TAG,BillInfo.TYPE_PAY);
+        Cache data = Caches.getOne(TAG, BillInfo.TYPE_PAY);
 
         BillInfo billInfo;
 
-        if(data!=null){
-            billInfo=BillInfo.parse(data.cacheData);
-        }else{
-            billInfo=new BillInfo();
-            Caches.add(TAG,billInfo.toString(),BillInfo.TYPE_PAY);
+        if (data != null) {
+            billInfo = BillInfo.parse(data.cacheData);
+        } else {
+            billInfo = new BillInfo();
+            Caches.add(TAG, billInfo.toString(), BillInfo.TYPE_PAY);
         }
 
 
         billInfo.setMoney(money);
         billInfo.setAccountName(account);
 
-        Caches.update(TAG,billInfo.toString());
-        Logs.d("Qianji_Analyze",billInfo.toString());
-        Logs.d("Qianji_Analyze","捕获的金额:"+money+",捕获的资产："+account);
+        Caches.update(TAG, billInfo.toString());
+        Logs.d("Qianji_Analyze", billInfo.toString());
+        Logs.d("Qianji_Analyze", "捕获的金额:" + money + ",捕获的资产：" + account);
         return true;
     }
 
-    public static boolean succeed(List<String> list, Context context){
-       if(list.size()<6) return false;
-       String money= BillTools.getMoney(list.get(2));
-       String shopName = list.get(4);
+    public static boolean succeed(List<String> list, Context context) {
+        if (list.size() < 6) return false;
+        String money = BillTools.getMoney(list.get(2));
+        String shopName = list.get(4);
 
 
-        Cache data=Caches.getOne(TAG,BillInfo.TYPE_PAY);
+        Cache data = Caches.getOne(TAG, BillInfo.TYPE_PAY);
         BillInfo billInfo;
-        if(data==null){
+        if (data == null) {
             return false;
-        }else {
-            billInfo=BillInfo.parse(data.cacheData);
+        } else {
+            billInfo = BillInfo.parse(data.cacheData);
         }
 
         billInfo.setMoney(money);
         billInfo.setShopAccount(shopName);
 
 
-        Logs.d("Qianji_Analyze",billInfo.toString());
-        if(billInfo.getShopRemark()==null){
-            billInfo.setRemark("付款给"+shopName);
-            billInfo.setShopRemark("付款给"+shopName);
+        Logs.d("Qianji_Analyze", billInfo.toString());
+        if (billInfo.getShopRemark() == null) {
+            billInfo.setRemark("付款给" + shopName);
+            billInfo.setShopRemark("付款给" + shopName);
         }
-
 
 
         billInfo.setType(BillInfo.TYPE_PAY);
 
-        if(billInfo.getAccountName()==null)
+        if (billInfo.getAccountName() == null)
             billInfo.setAccountName("微信");
 
-        billInfo.setSource("微信付款捕获");
+
         billInfo.dump();
-        CallAutoActivity.call(context, billInfo);
+
 
         Caches.del(TAG);
 
-        Logs.d("Qianji_Analyze","捕获的金额:"+money+",捕获的商户名："+shopName);
+        Logs.d("Qianji_Analyze", "捕获的金额:" + money + ",捕获的商户名：" + shopName);
         return true;
     }
 

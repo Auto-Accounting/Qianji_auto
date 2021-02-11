@@ -26,38 +26,40 @@ import android.os.Bundle;
 import com.tencent.mmkv.MMKV;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.utils.tools.Logs;
 import cn.dreamn.qianji_auto.utils.tools.Permission;
 
 import static com.xuexiang.xui.utils.ResUtils.getString;
 
 public class Status {
-    public static  boolean isActive(Context context){
-        if(getActiveMode().equals("helper")){
+    public static boolean isActive(Context context) {
+        if (getActiveMode().equals("helper")) {
             return defaultActive(context);
-        }else return xposedActive(context);
+        } else return xposedActive(context);
     }
 
-    public static String getActiveMode(){
-        MMKV mmkv=MMKV.defaultMMKV();
-        return mmkv.getString("helper_choose","xposed");
+    public static String getActiveMode() {
+        MMKV mmkv = MMKV.defaultMMKV();
+        return mmkv.getString("helper_choose", "xposed");
     }
 
-    public static String getFrameWork(Context context){
-        if(getActiveMode().equals("helper")){
+    public static String getFrameWork(Context context) {
+        if (getActiveMode().equals("helper")) {
             return getString(R.string.frame_default);
-        }else return App.getFrameWork(context);
+        } else return App.getFrameWork(context);
     }
-    private static boolean defaultActive(Context context){
+
+    private static boolean defaultActive(Context context) {
         return Permission.getInstance().isAccessibilitySettingsOn(context);
 
     }
-    private static boolean xposedActive(Context context){
-        String farmwork=App.getFrameWork(context);
-        if(farmwork.equals(getString(R.string.frame_taichi)))return taichiActive(context);
+
+    private static boolean xposedActive(Context context) {
+        String farmwork = App.getFrameWork(context);
+        if (farmwork.equals(getString(R.string.frame_taichi))) return taichiActive(context);
         return false;
     }
-    private  static boolean taichiActive(Context context) {
+
+    private static boolean taichiActive(Context context) {
 
         boolean isExp = false;
         if (context == null) {

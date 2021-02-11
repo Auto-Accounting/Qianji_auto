@@ -17,18 +17,12 @@
 
 package cn.dreamn.qianji_auto.core.base.wechat;
 
-import android.content.Context;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import cn.dreamn.qianji_auto.core.base.wechat.Analyze;
-import cn.dreamn.qianji_auto.core.utils.Assets;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.base.Analyze;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.Category;
-import cn.dreamn.qianji_auto.core.utils.Remark;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 
@@ -39,45 +33,45 @@ public class Payment extends Analyze {
 
     private static Payment paymentSuccess;
 
-    public static Payment getInstance(){
-        if(paymentSuccess!=null)return paymentSuccess;
-        paymentSuccess=new Payment();
+    public static Payment getInstance() {
+        if (paymentSuccess != null) return paymentSuccess;
+        paymentSuccess = new Payment();
         return paymentSuccess;
     }
 
 
     @Override
-    public void tryAnalyze(String content, Context context) {
+    public BillInfo tryAnalyze(String content, String source) {
+        BillInfo billInfo = super.tryAnalyze(content, source);
 
-        JSONObject jsonObject=setContent(content);
-        if(jsonObject==null)return ;
-
-        BillInfo billInfo=new BillInfo();
+        if (billInfo == null) return null;
         billInfo.setShopRemark("微信支付付款成功");
-        billInfo = getResult(jsonObject, billInfo);
+
 
         billInfo.setType(BillInfo.TYPE_PAY);
 
 
-        billInfo.setSource("微信支付");
-        CallAutoActivity.call(context,billInfo);
-
+        return billInfo;
     }
 
-
     @Override
-    BillInfo getResult(JSONObject jsonObject, BillInfo billInfo) {
-        String money = jsonObject.getJSONObject("topline").getJSONObject("value").getString("word");
+    public BillInfo getResult(BillInfo billInfo) {
+        String money = BillTools.getMoney(jsonObject.getJSONObject("topline").getJSONObject("value").getString("word"));
         String shop = jsonObject.getString("display_name");
         billInfo.setMoney(BillTools.getMoney(money));
-        if (!shop.equals("")) {
-            billInfo.setShopAccount(shop);
-            String payTool = jsonObject.getJSONObject("lines").getJSONObject("line").getJSONObject("value").getString("word");
-            billInfo.setAccountName(payTool);
+        try {
+            JSONObject lines = jsonObject.getJSONObject("lines");
 
-        } else {
+            if (!shop.equals("")) {
+                billInfo.setShopAccount(shop);
+            }
+
+
             try {
-                JSONArray line = jsonObject.getJSONObject("lines").getJSONArray("line");
+                String payTool = lines.getJSONObject("line").getJSONObject("value").getString("word");
+                billInfo.setAccountName(payTool);
+            } catch (Exception e) {
+                JSONArray line = lines.getJSONArray("line");
                 for (int i = 0; i < line.size(); i++) {
                     JSONObject jsonObject1 = line.getJSONObject(i);
                     String key = jsonObject1.getJSONObject("key").getString("word");
@@ -85,22 +79,23 @@ public class Payment extends Analyze {
 
                     switch (key) {
                         case "收款方":
+                        case "商家名称":
                             billInfo.setShopAccount(value);
                         case "支付方式":
                             billInfo.setAccountName(value);
                             break;
                         case "扣费项目":
+                        case "商品详情":
                         case "备注":
                         case "付款留言":
                             billInfo.setShopRemark(value);
                             break;
                     }
                 }
-            } catch (Exception e) {
-                Logs.i("解析json出现了错误！\n json数据：" + jsonObject.toJSONString() + "\n 错误：" + e.toString());
             }
+        } catch (Exception e) {
+            Logs.i("解析json出现了错误！\n json数据：" + jsonObject.toJSONString() + "\n 错误：" + e.toString());
         }
-
 
         return billInfo;
     }

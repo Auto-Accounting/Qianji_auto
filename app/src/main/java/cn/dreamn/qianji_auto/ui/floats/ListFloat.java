@@ -23,9 +23,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Gravity;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,11 +31,7 @@ import android.widget.TextView;
 import com.xuexiang.xfloatview.XFloatView;
 import com.xuexiang.xutil.display.ScreenUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 /**
  * 应用切换悬浮窗
@@ -69,18 +63,15 @@ public class ListFloat extends XFloatView {
         setWindowManagerParams(0, 200, ScreenUtils.getScreenWidth(), WindowManager.LayoutParams.WRAP_CONTENT);
 
     }
-    public void setData(String title,String[] item,Callback select){
+
+    public void setData(String title, String[] item, Callback select) {
         list_title.setText(title);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.list_item, item);//listdata和str均可
         list_view.setAdapter(arrayAdapter);
 
-        callback=select;
+        callback = select;
 
     }
-    public interface Callback {
-        void onResponse(int data);
-    }
-
 
     /**
      * @return 获取根布局的ID
@@ -97,7 +88,6 @@ public class ListFloat extends XFloatView {
     protected boolean canMoveOrTouch() {
         return false;
     }
-
 
     @Override
     protected WindowManager.LayoutParams getFloatViewLayoutParams() {
@@ -120,6 +110,7 @@ public class ListFloat extends XFloatView {
         params.gravity = Gravity.LEFT | Gravity.TOP;
         return params;
     }
+
     /**
      * 初始化悬浮控件
      */
@@ -139,14 +130,13 @@ public class ListFloat extends XFloatView {
 
         list_view.setOnItemClickListener((parent, view, position, id) -> {
 
-            if(callback!=null){
+            if (callback != null) {
                 callback.onResponse(position);
             }
             this.clear();
         });
 
     }
-
 
     /**
      * @return 设置悬浮框是否吸附在屏幕边缘
@@ -160,6 +150,10 @@ public class ListFloat extends XFloatView {
     public void clear() {
         super.clear();
         mMainHandler.removeCallbacksAndMessages(null);
+    }
+
+    public interface Callback {
+        void onResponse(int data);
     }
 
 }
