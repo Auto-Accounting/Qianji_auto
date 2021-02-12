@@ -51,7 +51,7 @@ public class Category {
             regList.append(value.regular);
         }
 
-        type = BillInfo.getTypeName(type);
+     //   type = BillInfo.getTypeName(type);
 
         String js = "function getCategory(shopName,shopRemark,type,time,source){%s return '其他';} getCategory('%s','%s','%s','%s','%s');";
 
@@ -64,7 +64,7 @@ public class Category {
         if (shopAccount == null) shopAccount = "";
         if (shopRemark == null) shopRemark = "";
 
-        type = BillInfo.getTypeName(type);
+        //type = BillInfo.getTypeName(type);
 
         String js = "function getCategory(shopName,shopRemark,type,time,source){%s return '其他';} getCategory('%s','%s','%s','%s','%s');";
 

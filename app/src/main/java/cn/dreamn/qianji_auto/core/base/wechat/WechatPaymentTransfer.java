@@ -47,15 +47,16 @@ public class WechatPaymentTransfer extends Analyze {
         billInfo.setAccountName("零钱");
         if (jsonObject.getString("isSend").equals("1") && jsonObject.getIntValue("paysubtype") == 1) {
             billInfo.setType(BillInfo.TYPE_PAY);
-
+            billInfo.setSource(Wechat.PAYMENT_TRANSFER);
             billInfo.setAccountName(jsonObject.getString("payTools"));
         } else if (jsonObject.getString("isSend").equals("1") && jsonObject.getIntValue("paysubtype") == 3) {
             billInfo.setType(BillInfo.TYPE_INCOME);
-
+            billInfo.setSource(Wechat.PAYMENT_TRANSFER_RECEIVED);
 
         } else if (jsonObject.getString("isSend").equals("0") && jsonObject.getIntValue("paysubtype") == 4) {
             billInfo.setType(BillInfo.TYPE_INCOME);
             billInfo.setSilent(true);
+            billInfo.setSource(Wechat.PAYMENT_TRANSFER_REFUND);
             billInfo.setShopRemark("对方退还转账");
 
         } else {

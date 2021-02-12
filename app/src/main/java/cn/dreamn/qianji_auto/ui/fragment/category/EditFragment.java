@@ -244,7 +244,11 @@ public class EditFragment extends BaseFragment {
 
                             String result = runtime.executeStringScript(Category.getOneRegularJs(js,cate_shopName.getEditValue(), cate_shopRemark.getEditValue(), cate_type.getEditValue(),cate_time.getEditValue()));
 */
-                            String result = JsEngine.run(Category.getOneRegularJs(js, cate_shopName.getEditValue(), cate_shopRemark.getEditValue(), cate_type.getText().toString(), cate_time.getEditValue(), cate_type2.getText().toString()));
+
+                            String jsData = Category.getOneRegularJs(js, cate_shopName.getEditValue(), cate_shopRemark.getEditValue(), cate_type.getText().toString(), cate_time.getEditValue(), cate_type2.getText().toString());
+                            Logs.i("当前测试js数据", jsData);
+
+                            String result = JsEngine.run(jsData);
                             Logs.d("Qianji_Cate", "自动分类结果：" + result);
                             new MaterialDialog.Builder(getContext())
                                     .title("自动分类结果")
@@ -279,6 +283,7 @@ public class EditFragment extends BaseFragment {
 
 
             String regular = getCateJs();
+            if (regular.equals("")) return;
             DataUtils dataUtils = new DataUtils();
 
             dataUtils.put("regular_billtype", regular_billtype.getText());
@@ -366,17 +371,24 @@ public class EditFragment extends BaseFragment {
         }
 //获取类型
         String type2 = regular_billtype.getText().toString();
-        if (!type.equals(getString(R.string.choose_type_null))) {
+        if (!type2.equals(getString(R.string.choose_type_null))) {
             regularList += String.format("source == '%s' && ", type2);
         }
-        regularList = regularList.substring(0, regularList.lastIndexOf('&') - 1);
+
+        int last = regularList.lastIndexOf('&');
+        if (last != -1 && last != 0)
+            regularList = regularList.substring(0, last - 1);
+
+        if (regularList.equals("")) {
+            SnackbarUtils.Long(getView(), "规则填写错误:条件内容为空。").danger().show();
+            return "";
+        }
         //获取规则
-        String regular = String.format("if(%s)return '%s';", regularList, sort);
 
-        Logs.d(regular);
+        //  Logs.i("当前测试规则",regular);
 
 
-        return regular;
+        return String.format("if(%s)return '%s';", regularList, sort);
 
 
     }

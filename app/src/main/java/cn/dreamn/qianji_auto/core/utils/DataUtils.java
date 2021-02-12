@@ -54,7 +54,7 @@ public class DataUtils {
         Set<String> params = mUri.getQueryParameterNames();
         for (String param : params) {
             String value = mUri.getQueryParameter(param);
-            Logs.d(param);
+          //  Logs.d(param);
 
             bundle.putString(param, URLDecoder.decode(value, "UTF-8"));
         }

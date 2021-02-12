@@ -46,7 +46,7 @@ public class Analyze {
      * @return billInfo
      */
     public BillInfo getResult(BillInfo billInfo) {
-        return null;
+        return billInfo;
     }
 
 
@@ -55,6 +55,7 @@ public class Analyze {
         if (jsonObject == null) return null;
         BillInfo billInfo = new BillInfo();
         billInfo = getResult(billInfo);
+        if (billInfo == null) return null;
         billInfo.setSource(source);
         return billInfo;
     }
