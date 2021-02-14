@@ -34,7 +34,7 @@ class AnalyzeAlipayTransfer {
     private final static String TAG = "alipay_transfer";
 
     //获取备注
-    public static boolean remark(List<String> list, Context context) {
+    public static boolean remark(List<String> list) {
         String remark = null, money = null, account = null;
         for (int i = 0; i < list.size(); i++) {
             String str = list.get(i);
@@ -102,9 +102,9 @@ class AnalyzeAlipayTransfer {
                 billInfo.setAccountName("支付宝");
             billInfo.setSource(Alipay.PAYMENT_SUCCESS);
 
-            Caches.update(TAG, billInfo.toString());
+            Caches.add(AnalyzeAlipay.TAG, billInfo.toString(), BillInfo.TYPE_PAY);
 
-            CallAutoActivity.call(context, billInfo);
+            // CallAutoActivity.call(context, billInfo);
 
 
         }

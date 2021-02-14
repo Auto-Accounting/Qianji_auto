@@ -30,6 +30,13 @@ public class Caches {
         return caches[0];
     }
 
+    public static String getCacheData(String name) {
+        Cache cache = getOne(name, "0");
+        if (cache == null) return "";
+        else return cache.cacheData;
+    }
+
+
     public static Cache[] getType(String type) {
         return DbManger.db.CacheDao().getType(type);
     }

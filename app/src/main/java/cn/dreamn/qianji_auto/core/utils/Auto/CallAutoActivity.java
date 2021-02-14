@@ -19,6 +19,8 @@ package cn.dreamn.qianji_auto.core.utils.Auto;
 
 import android.content.Context;
 
+import androidx.constraintlayout.solver.Cache;
+
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xutil.display.ScreenUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
@@ -42,9 +44,14 @@ import static cn.dreamn.qianji_auto.core.utils.Tools.goUrl;
 public class CallAutoActivity {
 
     public static void call(Context context, BillInfo billInfo) {
+        billInfo = replaceWithSomeThing(billInfo);
+        if (Caches.getCacheData("lastBill").equals(billInfo.toString())) {
+            return;
+        }
+        Caches.AddOrUpdate("lastBill", billInfo.toString());
         //重复账单过滤
         //多笔记账延时
-        billInfo = replaceWithSomeThing(billInfo);
+
         Logs.i("账单捕获，账单信息:\n" + billInfo.dump());
         if (!billInfo.isAvaiable()) return;
 
@@ -120,7 +127,11 @@ public class CallAutoActivity {
             Logs.d("唤起自动记账面板");
             AutoFloat autoFloat = new AutoFloat(context);
             autoFloat.setData(billInfo);
-            autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight());
+            if (ScreenUtils.getScreenWidth() > ScreenUtils.getScreenHeight()) {
+                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight(), ScreenUtils.getScreenWidth());
+            } else {
+                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight());
+            }
             autoFloat.show();
         } catch (Exception e) {
             Logs.i("请授予悬浮窗权限！" + e.toString());
@@ -154,30 +165,30 @@ public class CallAutoActivity {
 
         Logs.i("记账请求发起，账单初始信息：\n" + billInfo.dump());
         if (billInfo.getIsSilent()) {
-            Logs.i("账单为 后台交易");
+            //  Logs.i("账单为 后台交易");
             if (mmkv.getBoolean("autoIncome", false)) {
-                Logs.i("全自动模式->直接对钱迹发起请求");
+                //   Logs.i("全自动模式->直接对钱迹发起请求");
                 goQianji(context, billInfo);
             } else {
-                Logs.i("半自动模式->发出记账通知");
+                //  Logs.i("半自动模式->发出记账通知");
                 //通知处理
                 Tools.sendNotify(context, "记账提醒", "￥" + billInfo.getMoney() + " - " + billInfo.getRemark(), billInfo.getQianJi());
             }
             return;
         } else {
-            Logs.i("账单为 前台交易");
+            // Logs.i("账单为 前台交易");
             if (mmkv.getBoolean("autoPay", false)) {
-                Logs.i("全自动模式->直接对钱迹发起请求");
+                // Logs.i("全自动模式->直接对钱迹发起请求");
                 goQianji(context, billInfo);
                 return;
             }
         }
-        Logs.i("半自动模式 -> 下一步");
+        //Logs.i("半自动模式 -> 下一步");
         if (getTimeout().equals("0")) {
-            Logs.i("确认超时时间为0 直接下一步");
+            //  Logs.i("确认超时时间为0 直接下一步");
             jump(context, billInfo);
         } else {
-            Logs.i("存在超时，弹出超时面板");
+            //  Logs.i("存在超时，弹出超时面板");
             showTip(context, billInfo);
         }
 

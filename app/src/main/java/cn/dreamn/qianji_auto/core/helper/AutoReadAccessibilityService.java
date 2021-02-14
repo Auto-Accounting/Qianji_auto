@@ -1,10 +1,15 @@
 package cn.dreamn.qianji_auto.core.helper;
 
 import android.accessibilityservice.AccessibilityService;
+import android.app.Notification;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+
+import androidx.core.app.NotificationCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +58,6 @@ public class AutoReadAccessibilityService extends AccessibilityService {
     }
 
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
-        if (!isStart) return;//服务未启动
 
 
         this.packageName = accessibilityEvent.getPackageName().toString();
@@ -62,22 +66,41 @@ public class AutoReadAccessibilityService extends AccessibilityService {
 
         //  if (eventType != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED && eventType != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED)
         //   return;
+        if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
 
+            //获取Parcelable对象
+            Parcelable data = accessibilityEvent.getParcelableData();
+
+            //判断是否是Notification对象
+            if (data instanceof Notification) {
+                Logs.i("通知栏发生变化 > " + accessibilityEvent.getText().toString());
+                Notification notification = (Notification) data;
+                if (notification != null) {
+                    Bundle extras = notification.extras;
+                    if (extras != null) {
+                        String title = extras.getString(NotificationCompat.EXTRA_TITLE, "");
+                        String content = extras.getString(NotificationCompat.EXTRA_TEXT, "");
+
+                        Logs.d("**********************");
+                        Logs.d("标题:" + title);
+                        Logs.d("内容:" + content);
+                        Logs.d("**********************");
+                        //[微信收款助手: 微信支付收款0.01元(朋友到店)]
+                        Notice.tryAnalyze(getApplicationContext(), title, content);
+                    }
+                }
+
+            }
+
+
+            return;
+        }
         AccessibilityNodeInfo source = accessibilityEvent.getSource();
 
 
         if (source == null) return;
 
         Operator.getInstance().updateEvent(this, accessibilityEvent);
-
-
-        if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
-            //[微信收款助手: 微信支付收款0.01元(朋友到店)]
-            String notice = accessibilityEvent.getText().toString();
-            Notice.tryAnalyze(getApplicationContext(), notice);
-            Logs.d("通知栏发生变化 > " + accessibilityEvent.getText().toString());
-            return;
-        }
 
 
         nodeList = new ArrayList<>();
@@ -184,18 +207,15 @@ public class AutoReadAccessibilityService extends AccessibilityService {
 
             if (nodeListId.get(0) != null && nodeListId.get(0).equals("com.alipay.mobile.antui:id/title_text")) {
                 String shopName = nodeList.get(0);
-                if (Caches.getOne("alipayShopName", "0") == null)
-                    Caches.add("alipayShopName", shopName, "0");
-                else {
-                    Caches.update("alipayShopName", shopName);
-                }
+                Logs.d("Qianji-shopName", shopName);
+                Caches.AddOrUpdate("alipayShopName", shopName);
             }
 
             //支付宝部分
             //支付宝转账付款、部分红包
             if (findHook(".*, 订单信息, .*, 付款方式.*", nodeListStr, nodeList.size(), new int[]{6, 7})) {
                 Logs.d("Qianji_Analyze", "=======抓取备注信息=======");
-                if (AnalyzeAlipayTransfer.remark(nodeList, getApplicationContext())) return;
+                if (AnalyzeAlipayTransfer.remark(nodeList)) return;
                 //这个地方可以抓取所有支付页面的信息
                 Logs.d("Qianji_Analyze", "===============");
             }
@@ -259,7 +279,6 @@ public class AutoReadAccessibilityService extends AccessibilityService {
 
         }
 
-
     }
 
     private void NodeTransfer(AccessibilityNodeInfo accessibilityNodeInfo) {
@@ -287,12 +306,12 @@ public class AutoReadAccessibilityService extends AccessibilityService {
         }
         if (!find) return false;
 
-        Logs.d("Qianji_Match", "匹配文本：" + nodeListStr);
-        Logs.d("Qianji_Match", "匹配规则：" + content);
+        //   Logs.d("Qianji_Match", "匹配文本：" + nodeListStr);
+        //   Logs.d("Qianji_Match", "匹配规则：" + content);
 
         if (!Regex.isMatchEnd(nodeListStr, content)) return false;
 
-        Logs.d("Qianji_Match", "匹配成功！");
+        Logs.d("Qianji_Match", nodeListStr + "匹配成功！");
         return true;
     }
 

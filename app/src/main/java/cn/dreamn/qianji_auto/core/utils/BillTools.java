@@ -101,6 +101,8 @@ public class BillTools {
             }
         } else if (payTool.startsWith("还款到")) {
             payTool = payTool.substring(3);
+        } else if (payTool.startsWith("账户")) {
+            payTool = payTool.substring(2);
         }
         return payTool;
     }

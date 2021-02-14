@@ -31,7 +31,7 @@ import cn.dreamn.qianji_auto.core.utils.Caches;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 class AnalyzeAlipay {
-    private final static String TAG = "alipayment";
+    public final static String TAG = "alipayment";
 
     public static boolean paymnet(List<String> list, Context context) {
         Cache cache = Caches.getOne(TAG, "0");

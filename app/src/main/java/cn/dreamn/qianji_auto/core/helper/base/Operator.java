@@ -78,7 +78,7 @@ public class Operator {
         // 建议使用getRootInActiveWindow，这样不依赖当前的事件类型
         if (mAccessibilityService != null) {
             nodeInfo = mAccessibilityService.getRootInActiveWindow();
-            Logs.d("nodeInfo: " + nodeInfo);
+         //   Logs.d("nodeInfo: " + nodeInfo);
         }
         // 下面这个必须依赖当前的AccessibilityEvent
         //   nodeInfo = curEvent.getSource();

@@ -17,7 +17,9 @@
 
 package cn.dreamn.qianji_auto.ui.floats;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Handler;
@@ -79,6 +81,7 @@ public class AutoFloat extends XFloatView {
      * @param context
      */
     public AutoFloat(Context context) {
+
         super(context);
         initData();
     }
@@ -105,6 +108,7 @@ public class AutoFloat extends XFloatView {
     }
 
 
+    @SuppressLint("RtlHardcoded")
     @Override
     protected WindowManager.LayoutParams getFloatViewLayoutParams() {
         WindowManager.LayoutParams params = new WindowManager.LayoutParams();
@@ -124,6 +128,9 @@ public class AutoFloat extends XFloatView {
         ;
         // 调整悬浮窗显示的停靠位置为左侧置顶
         params.gravity = Gravity.LEFT | Gravity.TOP;
+
+        params.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+
         return params;
     }
 

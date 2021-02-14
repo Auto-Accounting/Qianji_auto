@@ -26,29 +26,29 @@ import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 
 public class Notice {
-    public static void tryAnalyze(Context context, String notice) {
-        if (notice.startsWith("[微信收款助手: 微信支付收款")) {
+    public static void tryAnalyze(Context context, String title, String content) {
+        if (title.contains("微信收款助手")) {
             BillInfo billInfo = new BillInfo();
-            billInfo.setMoney(BillTools.getMoney(notice));
+            billInfo.setMoney(BillTools.getMoney(content));
 
-            billInfo.setShopRemark(notice.replace("微信收款助手:", ""));
+            billInfo.setShopRemark(content);
             billInfo.setShopAccount("微信支付");
             billInfo.setSource(Wechat.RECEIVED_QR);
             billInfo.setType(BillInfo.TYPE_INCOME);
+            billInfo.setSilent(true);
             billInfo.setAccountName("零钱");
             CallAutoActivity.call(context, billInfo);
-        } else {
-            if (notice.contains("你已成功收款")) {
-                BillInfo billInfo = new BillInfo();
-                billInfo.setMoney(BillTools.getMoney(notice));
+        } else if (title.contains("你已成功收款")) {
+            BillInfo billInfo = new BillInfo();
+            billInfo.setMoney(BillTools.getMoney(title));
 
-                billInfo.setShopRemark(notice);
-                billInfo.setShopAccount("支付宝支付");
-                billInfo.setSource(Alipay.QR_COLLECTION);
-                billInfo.setType(BillInfo.TYPE_INCOME);
-                billInfo.setAccountName("余额");
-                CallAutoActivity.call(context, billInfo);
-            }
+            billInfo.setShopRemark(title);
+            billInfo.setShopAccount("支付宝支付");
+            billInfo.setSource(Alipay.QR_COLLECTION);
+            billInfo.setType(BillInfo.TYPE_INCOME);
+            billInfo.setAccountName("余额");
+            billInfo.setSilent(true);
+            CallAutoActivity.call(context, billInfo);
         }
     }
 }
