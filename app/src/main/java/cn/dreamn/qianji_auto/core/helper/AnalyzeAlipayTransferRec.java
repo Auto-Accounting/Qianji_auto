@@ -21,6 +21,8 @@ import android.content.Context;
 
 import java.util.List;
 
+import cn.dreamn.qianji_auto.core.base.alipay.Alipay;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.Caches;
@@ -55,12 +57,14 @@ class AnalyzeAlipayTransferRec {
             billInfo.setAccountName("支付宝");
 
 
-        billInfo.dump();
-
-
         Caches.del(TAG);
 
         Logs.d("Qianji_Analyze", "捕获的金额:" + money + ",捕获的商户名：" + shopName);
+        billInfo.setSource(Alipay.TRANSFER_SUCCESS_ACCOUNT);
+
+
+        CallAutoActivity.call(context, billInfo);
+
         return true;
     }
 

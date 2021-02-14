@@ -23,7 +23,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -33,7 +32,7 @@ import com.hjq.permissions.XXPermissions;
 
 import java.util.List;
 
-import cn.dreamn.qianji_auto.core.helper.AutoAccessibilityService;
+import cn.dreamn.qianji_auto.core.utils.Status;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
 
 import static com.xuexiang.xutil.XUtil.getContentResolver;
@@ -68,6 +67,7 @@ public class Permission {
         Intent intent;
         switch (permission) {
             case Assist:
+                if (Status.isActive(context)) break;
                 intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -159,15 +159,13 @@ public class Permission {
                 //TODO 留待后期强化
                 break;
             case BatteryIngore:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-                    boolean hasIgnored = powerManager.isIgnoringBatteryOptimizations(context.getPackageName());
-                    //  判断当前APP是否有加入电池优化的白名单，如果没有，弹出加入电池优化的白名单的设置对话框。
-                    if (!hasIgnored) {
-                        intent = new Intent(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                        intent.setData(Uri.parse("package:" + context.getPackageName()));
-                        context.startActivity(intent);
-                    }
+                PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                boolean hasIgnored = powerManager.isIgnoringBatteryOptimizations(context.getPackageName());
+                //  判断当前APP是否有加入电池优化的白名单，如果没有，弹出加入电池优化的白名单的设置对话框。
+                if (!hasIgnored) {
+                    intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                    intent.setData(Uri.parse("package:" + context.getPackageName()));
+                    context.startActivity(intent);
                 }
                 break;
 
@@ -211,42 +209,6 @@ public class Permission {
         }
     }
 
-    // To check if service is enabled
-    public boolean isAccessibilitySettingsOn(Context mContext) {
-        int accessibilityEnabled = 0;
-        final String service = "cn.dreamn.qianji_auto/" + AutoAccessibilityService.class.getCanonicalName();
-        try {
-            accessibilityEnabled = Settings.Secure.getInt(
-                    mContext.getApplicationContext().getContentResolver(),
-                    android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
-
-        } catch (Settings.SettingNotFoundException e) {
-
-        }
-        TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');
-
-        if (accessibilityEnabled == 1) {
-
-            String settingValue = Settings.Secure.getString(
-                    mContext.getApplicationContext().getContentResolver(),
-                    Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
-            if (settingValue != null) {
-                mStringColonSplitter.setString(settingValue);
-                while (mStringColonSplitter.hasNext()) {
-                    String accessibilityService = mStringColonSplitter.next();
-
-
-                    if (accessibilityService.equalsIgnoreCase(service)) {
-
-                        return true;
-                    }
-                }
-            }
-        } else {
-        }
-
-        return false;
-    }
 
 
     public boolean isNotificationListenersEnabled() {

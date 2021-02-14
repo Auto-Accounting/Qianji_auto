@@ -21,7 +21,9 @@ import android.content.Context;
 
 import java.util.List;
 
+import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
 import cn.dreamn.qianji_auto.core.db.Cache;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.Caches;
@@ -117,10 +119,10 @@ class AnalyzeWeChatBills {
             billInfo.setAccountName("微信");
 
 
-        billInfo.dump();
-
-
         Logs.d("Qianji_Analyze", "捕获的金额:" + money + ",捕获的商户名：" + shopName);
+
+        billInfo.setSource(Wechat.PAYMENT);
+        CallAutoActivity.call(context, billInfo);
         return true;
     }
 

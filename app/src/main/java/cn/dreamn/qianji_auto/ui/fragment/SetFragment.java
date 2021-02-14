@@ -52,6 +52,8 @@ public class SetFragment extends BaseFragment {
     SuperTextView set_timeout;
     @BindView(R.id.set_float)
     SuperTextView set_float;
+    @BindView(R.id.set_float_style)
+    SuperTextView set_float_style;
 
     /**
      * 布局的资源id
@@ -100,7 +102,7 @@ public class SetFragment extends BaseFragment {
 
         set_timeout.setLeftBottomString(mmkv.getString("auto_timeout", "10") + "s");
         set_float.setLeftBottomString(mmkv.getBoolean("auto_check", true) ? "已开启" : "已关闭");
-
+        set_float_style.setLeftTopString(mmkv.getBoolean("auto_style", true) ? "自动记账自带账单悬浮窗" : "钱迹分类选择窗口");
 
     }
 
@@ -127,6 +129,20 @@ public class SetFragment extends BaseFragment {
             initSet();
             SnackbarUtils.Long(getView(), getString(R.string.set_msg_mode_full)).info().show();
         });
+        set_float_style.setOnSuperTextViewClickListener(superTextView -> {
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.tip_options)
+                    .items(new String[]{"自动记账自带账单悬浮窗", "钱迹分类选择窗口"})
+                    .itemsCallback((dialog, itemView, position, text) -> {
+                        mmkv.encode("auto_style", text == "自动记账自带账单悬浮窗");
+                        SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
+                        initSet();
+
+                    })
+                    .show();
+
+        });
+
         set_bookname.setOnSuperTextViewClickListener(superTextView -> {
             new MaterialDialog.Builder(getContext())
                     .title(R.string.tip_options)

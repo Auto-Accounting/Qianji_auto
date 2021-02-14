@@ -30,6 +30,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
+import cn.dreamn.qianji_auto.utils.tools.Android;
 import cn.dreamn.qianji_auto.utils.tools.Permission;
 
 @Page(name = "工作模式")
@@ -141,7 +142,8 @@ public class ModeFragment extends BaseFragment {
                 Permission.getInstance().grant(this.getContext(), Permission.BatteryIngore);
                 break;
             case R.id.permission_notification:
-                Permission.getInstance().grant(this.getContext(), Permission.Notification);
+                // Permission.getInstance().grant(this.getContext(), Permission.Notification);
+                Android.hideTaskbar(getActivity());
                 break;
             default:
                 break;

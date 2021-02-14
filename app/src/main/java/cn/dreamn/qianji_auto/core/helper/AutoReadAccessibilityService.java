@@ -9,14 +9,15 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.dreamn.qianji_auto.core.helper.base.Operator;
 import cn.dreamn.qianji_auto.core.utils.Caches;
 import cn.dreamn.qianji_auto.core.utils.Regex;
 import cn.dreamn.qianji_auto.core.utils.ServerManger;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
-public class AutoAccessibilityService extends AccessibilityService {
+public class AutoReadAccessibilityService extends AccessibilityService {
 
-    public static boolean isDebug = true;
+    public static boolean isDebug = false;
 
     private static boolean isStart = false;
 
@@ -27,7 +28,7 @@ public class AutoAccessibilityService extends AccessibilityService {
     private String className = "";
     private int eventType = 0;
 
-    public AutoAccessibilityService() {
+    public AutoReadAccessibilityService() {
     }
 
     public static boolean isStart() {
@@ -54,41 +55,40 @@ public class AutoAccessibilityService extends AccessibilityService {
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
         if (!isStart) return;//服务未启动
 
+
         this.packageName = accessibilityEvent.getPackageName().toString();
         this.className = accessibilityEvent.getClassName().toString();
         this.eventType = accessibilityEvent.getEventType();
 
-        Logs.d("Qianji_Screen", "------------Start-----------");
-        Logs.d("Qianji_Screen", "packageName:" + this.packageName);
-        Logs.d("Qianji_Screen", "className:" + this.packageName);
-        Logs.d("Qianji_Screen", "eventType:" + this.eventType);
-
-
-        if (eventType != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED && eventType != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED)
-            return;
-
-        if (!packageName.equals("com.tencent.mm") && !packageName.equals("com.eg.android.AlipayGphone"))
-            return;
+        //  if (eventType != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED && eventType != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED)
+        //   return;
 
         AccessibilityNodeInfo source = accessibilityEvent.getSource();
 
+
         if (source == null) return;
 
-       /* final Thread threadA = new Thread(() -> {
+        Operator.getInstance().updateEvent(this, accessibilityEvent);
 
-        });
-        threadA.start();
-*/
+
+        if (eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
+            //[微信收款助手: 微信支付收款0.01元(朋友到店)]
+            String notice = accessibilityEvent.getText().toString();
+            Notice.tryAnalyze(getApplicationContext(), notice);
+            Logs.d("通知栏发生变化 > " + accessibilityEvent.getText().toString());
+            return;
+        }
+
+
         nodeList = new ArrayList<>();
         nodeListId = new ArrayList<>();
 
         NodeTransfer(source);// ok
 
-        //TODO 此处埋坑，有一个listId获取在分析其他的时候方便一点？
         if (nodeList.size() <= 0 || nodeListId.size() <= 0) return;
 
 
-        if (AutoAccessibilityService.isDebug) {
+        if (AutoReadAccessibilityService.isDebug) {
             for (int i = 0; i < nodeList.size(); i++) {
                 String str = nodeList.get(i);
                 Logs.d("Qianji_Analyze", i + "  " + str);
@@ -102,13 +102,12 @@ public class AutoAccessibilityService extends AccessibilityService {
         if (packageName.equals("com.tencent.mm")) {
 
 
-            if (nodeListId.get(0) != null && nodeListId.get(0).equals("com.tencent.mm:id/gas")) {
-                String shopName = nodeList.get(0);
-                if (Caches.getOne("shopName", "0") == null)
-                    Caches.add("shopName", shopName, "0");
-                else {
-                    Caches.update("shopName", shopName);
-                }
+            //判断聊天页面
+            String str = Operator.getInstance().isNeedPage(null, null, "当前所在页面,与.*的聊天", true);
+            if (str != null) {
+                String userName = str.replace("当前所在页面,与", "").replace("的聊天", "");
+                Logs.d("已获得用户名:" + userName);
+                Caches.AddOrUpdate("shopName", userName);
             }
 
             //微信转账付款
@@ -132,7 +131,7 @@ public class AutoAccessibilityService extends AccessibilityService {
 
 
             //微信个人/群红包
-            if (findHook("发红包, .*金额, .*, 元, .*, 红包封面, ¥.*, 塞钱进红包.*", nodeListStr, nodeList.size(), new int[]{8, 9, 13, 14})) {
+            if (findHook("发红包, .*金额, .*, 元, .*, 红包封面.*, 塞钱进红包.*", nodeListStr, nodeList.size(), new int[]{8, 9, 13, 14})) {
                 Logs.d("Qianji_Analyze", "=======抓取红包备注信息=======");
                 if (AnalyzeWeChatRedPackage.remark(nodeList)) return;
                 Logs.d("Qianji_Analyze", "===============");
@@ -156,20 +155,20 @@ public class AutoAccessibilityService extends AccessibilityService {
                 if (AnalyzeWeChatPayPerson.account(nodeList)) return;
                 Logs.d("Qianji_Analyze", "===============");
             }
-            if (findHook("支付成功, ¥, .*, 收款方, .*, 完成", nodeListStr, nodeList.size(), new int[]{6})) {
+            if (findHook("支付成功, ¥, .*, 收款方, .*完成", nodeListStr, nodeList.size(), new int[]{6})) {
                 Logs.d("Qianji_Analyze", "=======抓取付款完成信息=======");
                 if (AnalyzeWeChatPayPerson.succeed(nodeList, getApplicationContext())) return;
                 Logs.d("Qianji_Analyze", "===============");
             }
 
             //微信转账收款
-            if (findHook("你已收款, ¥.*, 零钱余额, 零钱通 七日年化2.45%, 转入零钱通 省心赚收益, 转入, 转账时间：.*, 收款时间：.*", nodeListStr, nodeList.size(), new int[]{8})) {
+            if (findHook("你已收款, ¥.*, 零钱余额.*转账时间.*, 收款时间.*", nodeListStr, nodeList.size(), new int[]{8})) {
                 Logs.d("Qianji_Analyze", "=======抓取转账收款金额信息=======");
                 if (AnalyzeWeChatTransferRec.succeed(nodeList, getApplicationContext())) return;
                 Logs.d("Qianji_Analyze", "===============");
             }
             //微信红包收款
-            if (findHook(".*的红包, .*, 元, 已存入零钱，可直接.*, 回复表情到聊天, .*", nodeListStr, nodeList.size(), new int[]{9, 14, 16})) {
+            if (findHook(".*的红包, .*, 元, 已存入零钱.*, 回复表情到聊天, .*", nodeListStr, nodeList.size(), new int[]{9, 14, 16})) {
                 Logs.d("Qianji_Analyze", "=======抓取转账收款金额信息=======");
                 if (AnalyzeWeChatRedPackageRec.succeed(nodeList, getApplicationContext())) return;
                 Logs.d("Qianji_Analyze", "===============");
@@ -203,6 +202,17 @@ public class AutoAccessibilityService extends AccessibilityService {
             if (findHook("转账成功, .*, 付款方式, .*, 收款方, .*, 完成", nodeListStr, nodeList.size(), new int[]{7})) {
                 Logs.d("Qianji_Analyze", "=======抓取转账成功信息=======");
                 if (AnalyzeAlipayTransfer.succeed(nodeList, getApplicationContext())) return;
+                Logs.d("Qianji_Analyze", "===============");
+            }
+
+            if (findHook("使用密码, 请验证指纹", nodeListStr, nodeList.size(), new int[]{2})) {
+                Logs.d("Qianji_Analyze", "=======抓取支付信息=======");
+                if (AnalyzeAlipay.paymnet(nodeList, getApplicationContext())) return;
+                Logs.d("Qianji_Analyze", "===============");
+            }
+            if (findHook("请输入支付密码, 付款.*元", nodeListStr, nodeList.size(), new int[]{2})) {
+                Logs.d("Qianji_Analyze", "=======抓取支付信息=======");
+                if (AnalyzeAlipay.paymnet(nodeList, getApplicationContext())) return;
                 Logs.d("Qianji_Analyze", "===============");
             }
             //支付宝红包
@@ -240,10 +250,16 @@ public class AutoAccessibilityService extends AccessibilityService {
                 Logs.d("Qianji_Analyze", "===============");
             }
 
+            //支付宝账单
+            if (findHook(".*, 交易成功, 转账说明, .*, 创建时间, .*, 更多, 账单分类, .*, 标签和备注, 添加, 查看往来记录, 对此订单有疑问", nodeListStr, nodeList.size(), new int[]{18})) {
+                Logs.d("Qianji_Analyze", "=======抓取红包备注信息=======");
+                if (AnalyzeAlipayTransferRec2.succeed(nodeList, getApplicationContext())) return;
+                Logs.d("Qianji_Analyze", "===============");
+            }
+
         }
 
 
-        Logs.d("Qianji_Screen", "------------End-----------");
     }
 
     private void NodeTransfer(AccessibilityNodeInfo accessibilityNodeInfo) {
@@ -253,7 +269,7 @@ public class AutoAccessibilityService extends AccessibilityService {
             if (child != null && child.getChildCount() > 0) {
                 NodeTransfer(child);
             } else if (child != null && !TextUtils.isEmpty(child.getText())) {
-                Logs.d("Qianji_Node", "nodeInfo:" + child.getText() + "  className: " + child.getClassName() + " viewId " + child.getViewIdResourceName());
+                //    Logs.d("Qianji_Node", "nodeInfo:" + child.getText() + "  className: " + child.getClassName() + " viewId " + child.getViewIdResourceName());
                 nodeList.add(child.getText().toString());
                 nodeListId.add(child.getViewIdResourceName());
             }
@@ -274,7 +290,7 @@ public class AutoAccessibilityService extends AccessibilityService {
         Logs.d("Qianji_Match", "匹配文本：" + nodeListStr);
         Logs.d("Qianji_Match", "匹配规则：" + content);
 
-        if (!Regex.isMatch(nodeListStr, content)) return false;
+        if (!Regex.isMatchEnd(nodeListStr, content)) return false;
 
         Logs.d("Qianji_Match", "匹配成功！");
         return true;
@@ -286,7 +302,7 @@ public class AutoAccessibilityService extends AccessibilityService {
         isStart = true;
         Logs.i("辅助功能已启用");
         ServerManger.startAutoNotify(getApplicationContext());
-        ServerManger.startNotice(getApplicationContext());
+
     }
 
     public boolean onUnbind(Intent intent) {

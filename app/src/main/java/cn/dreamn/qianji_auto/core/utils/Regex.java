@@ -21,6 +21,10 @@ import java.util.regex.Pattern;
 
 public class Regex {
     public static boolean isMatch(String str, String pattern) {
+        return Pattern.matches(".*" + pattern, str);
+    }
+
+    public static boolean isMatchEnd(String str, String pattern) {
         return Pattern.matches(".*" + pattern + "]$", str);
     }
 }

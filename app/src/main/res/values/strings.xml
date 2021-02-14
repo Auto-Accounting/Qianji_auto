@@ -267,8 +267,8 @@
     <string name="sms_money">金额</string>
     <string name="sms_remark">备注</string>
     <string name="notification">支付宝微信通知监听</string>
-    <string name="permission_notification_sub">监听微信支付宝收款消息</string>
-    <string name="permission_notificaiton">通知读取权限</string>
+    <string name="permission_notification_sub">从最近任务列表里面隐藏自动记账</string>
+    <string name="permission_notificaiton">最近任务隐藏</string>
     <string name="btn_test">测试</string>
     <string name="choose_copy_succeed">复制成功</string>
     <string name="cate_testName">请输入相关信息进行测试</string>
@@ -287,4 +287,6 @@
     <string name="dontAllow">该类型规则使用JS编辑，无法再用可视化编辑</string>
     <string name="qianji_book_sub">钱迹多账本列表</string>
     <string name="qianji_book">账本管理</string>
+    <string name="set_float_style">二次记账悬浮窗样式</string>
+    <string name="set_float_style_sub">支持使用1.x版本的钱迹分类</string>
 </resources>

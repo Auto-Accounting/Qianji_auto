@@ -26,7 +26,8 @@ import android.os.Bundle;
 import com.tencent.mmkv.MMKV;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.utils.tools.Permission;
+import cn.dreamn.qianji_auto.core.helper.AutoReadAccessibilityService;
+import cn.dreamn.qianji_auto.core.helper.base.ApiUtil;
 
 import static com.xuexiang.xui.utils.ResUtils.getString;
 
@@ -49,7 +50,7 @@ public class Status {
     }
 
     private static boolean defaultActive(Context context) {
-        return Permission.getInstance().isAccessibilitySettingsOn(context);
+        return ApiUtil.isAccessibilityServiceOn(context, AutoReadAccessibilityService.class);
 
     }
 

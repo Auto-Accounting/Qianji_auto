@@ -17,23 +17,18 @@
 
 package cn.dreamn.qianji_auto.core.utils;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 
-import cn.dreamn.qianji_auto.core.helper.AutoAccessibilityService;
 import cn.dreamn.qianji_auto.core.helper.AutoBillService;
-import cn.dreamn.qianji_auto.core.helper.NotificationService;
+import cn.dreamn.qianji_auto.core.helper.AutoReadAccessibilityService;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 import cn.dreamn.qianji_auto.utils.tools.Permission;
 
 public class ServerManger {
     public static void startAccessibility(Context context) {
 
-        if (!AutoAccessibilityService.isStart()) {
-            Permission.getInstance().grant(context, Permission.Assist);
-        }
+        Permission.getInstance().grant(context, Permission.Assist);
         //context.startService(new Intent(context, AutoAccessibilityService.class));
     }
 
@@ -42,12 +37,5 @@ public class ServerManger {
         context.startService(new Intent(context, AutoBillService.class));
     }
 
-
-    public static void startNotice(Context context) {
-        Logs.i("通知监听已启动");
-        PackageManager pm = context.getPackageManager();
-        pm.setComponentEnabledSetting(new ComponentName(context, NotificationService.class),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-    }
 
 }

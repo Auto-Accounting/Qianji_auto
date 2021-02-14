@@ -44,6 +44,10 @@ public class Caches {
         DbManger.db.CacheDao().del(name);
     }
 
+    public static void delBody(String body) {
+        DbManger.db.CacheDao().delbody(body);
+    }
+
     public static long add(String name, String data, String type) {
         DbManger.db.CacheDao().deleteTimeout();
         return DbManger.db.CacheDao().add(name, data, type);

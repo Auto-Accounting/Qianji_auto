@@ -21,6 +21,7 @@ import android.content.Context;
 
 import java.util.List;
 
+import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
 import cn.dreamn.qianji_auto.core.db.Cache;
 import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
@@ -80,7 +81,8 @@ class AnalyzeAlipayRedPackage {
 
         billInfo.setAccountName(billInfo.getAccountName());
 
-        billInfo.dump();
+        billInfo.setSource(Wechat.PAYMENT_TRANSFER);
+
         CallAutoActivity.call(applicationContext, billInfo);
 
         Caches.del(TAG);

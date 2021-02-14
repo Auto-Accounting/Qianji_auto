@@ -36,6 +36,7 @@ import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.BookNames;
+import cn.dreamn.qianji_auto.core.utils.Caches;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
@@ -84,6 +85,7 @@ public class AutoFloat extends XFloatView {
 
     private void initData() {
         Logs.d("初始化窗口");
+        //  Caches.AddOrUpdate("float_lock", "true");
     }
 
     /**
@@ -282,6 +284,6 @@ public class AutoFloat extends XFloatView {
     @Override
     public void dismiss() {
         super.dismiss();
-        //   Caches.update("float_lock","false");
+        //Caches.update("float_lock","false");
     }
 }

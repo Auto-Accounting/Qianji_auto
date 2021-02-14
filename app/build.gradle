@@ -13,8 +13,8 @@ android {
         applicationId "cn.dreamn.qianji_auto"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
-        versionCode 54
-        versionName "2.0.0beta5"
+        versionCode 56
+        versionName "2.0.0beta7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -95,6 +95,7 @@ dependencies {
     implementation 'com.github.smart-fun:XmlToJson:1.4.4'
     implementation project(path: ':filechooser')
     implementation project(path: ':rhino-1.7.13')
+
     testImplementation deps.junit
     androidTestImplementation deps.runner
     androidTestImplementation deps.espresso.core

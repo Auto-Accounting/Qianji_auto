@@ -138,7 +138,7 @@ public class FileTourController {
             storageVolumeClazz = Class.forName("android.os.storage.StorageVolume");
             Method getVolumeList = mStorageManager.getClass().getMethod("getVolumeList");
             Method getPath;
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+            if (Build.VERSION.SDK_INT <= 29) {
                 getPath = storageVolumeClazz.getMethod("getPath");
             } else {
                 getPath = storageVolumeClazz.getMethod("getDirectory");
@@ -151,7 +151,7 @@ public class FileTourController {
             for (int i = 0; i < length; i++) {
                 Object storageVolumeElement = Array.get(result, i);
                 String path;
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+                if (Build.VERSION.SDK_INT <= 29) {
                     path = (String) getPath.invoke(storageVolumeElement);
                 } else {
                     path = getPath.invoke(storageVolumeElement).toString();
@@ -161,23 +161,14 @@ public class FileTourController {
                     return path;
                 }
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (ClassNotFoundException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return null;
     }
 
     public boolean isRootFile() {
-        if (isRootFile(currentFile))
-            isRootFile = true;
-        else
-            isRootFile = false;
+        isRootFile = isRootFile(currentFile);
         return isRootFile;
     }
 

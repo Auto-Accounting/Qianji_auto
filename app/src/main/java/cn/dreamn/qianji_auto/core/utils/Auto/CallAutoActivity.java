@@ -42,6 +42,8 @@ import static cn.dreamn.qianji_auto.core.utils.Tools.goUrl;
 public class CallAutoActivity {
 
     public static void call(Context context, BillInfo billInfo) {
+        //重复账单过滤
+        //多笔记账延时
         billInfo = replaceWithSomeThing(billInfo);
         Logs.i("账单捕获，账单信息:\n" + billInfo.dump());
         if (!billInfo.isAvaiable()) return;
@@ -107,6 +109,13 @@ public class CallAutoActivity {
 
     //显示悬浮记账
     public static void showFloat(Context context, BillInfo billInfo) {
+        MMKV mmkv = MMKV.defaultMMKV();
+        if (!mmkv.getBoolean("auto_style", true)) {
+            Logs.i("唤起自动钱迹分类面板");
+            billInfo.setCateChoose(true);
+            goQianji(context, billInfo);
+            return;
+        }
         try {
             Logs.d("唤起自动记账面板");
             AutoFloat autoFloat = new AutoFloat(context);
@@ -123,6 +132,7 @@ public class CallAutoActivity {
 
     public static void goQianji(Context context, BillInfo billInfo) {
         //  Caches.update("float_lock","false");
+        //Caches.AddOrUpdate("float_time",String.valueOf(System.currentTimeMillis()));
         Logs.i("对钱迹发起请求 :" + billInfo.getQianJi().trim());
         goUrl(context, billInfo.getQianJi().trim());
     }

@@ -45,5 +45,8 @@ public interface CacheDao {
 
     @Query("SELECT * FROM Cache WHERE  cacheType = :type order by id")
     Cache[] getType(String type);
+
+    @Query("DELETE FROM Cache WHERE cacheData=:body")
+    void delbody(String body);
 }
 

@@ -25,11 +25,17 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import cn.dreamn.qianji_auto.core.db.Cache;
+import cn.dreamn.qianji_auto.core.db.Log;
+import cn.dreamn.qianji_auto.core.hook.Task;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.Caches;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
+
 public class Tasker {
+
+    private static String TAG = "tasker";
+
     public static void add(Context context, BillInfo billInfo) {
         String md5 = getMD5Str(billInfo.toString());
         Caches.add(md5, billInfo.toString(), "tasker_bill");
@@ -38,18 +44,33 @@ public class Tasker {
 
     public static void run(Context context) {
 
+
+        // Cache cache = Caches.getOne("float_time", "0");
         Cache cache = Caches.getOne("float_lock", "0");
-        Logs.d("Qianji_check", "记账检查...");
+        Logs.i(TAG, "任务运行检查");
         if (cache != null && cache.cacheData.equals("true")) {
-            Logs.d("Qianji_check", "记账已锁定...退出中");
+            Logs.i(TAG, "任务已锁定");
             return;
         }
 
-        Logs.d("Qianji_check", "检查通过...");
+        Logs.i(TAG, "任务未锁定");
         Caches.AddOrUpdate("float_lock", "true");
-        Logs.d("Qianji_check", "重新锁定...");
-        Cache[] caches = Caches.getType("tasker_bill");
+        Logs.i(TAG, "任务重新锁定...");
 
+
+
+
+
+
+        /*if (cache != null) {
+            long t=System.currentTimeMillis()-Long.parseLong(cache.cacheData);
+            if(t<10000){
+                Logs.i(TAG,"该任务提交时超时，需等待。");
+               return;
+            }
+        }*/
+        //  Logs.i(TAG,"任务未超时.");
+        Cache[] caches = Caches.getType("tasker_bill");
 
         update(context, caches, 0);
 
@@ -57,27 +78,43 @@ public class Tasker {
     }
 
     private static void update(Context context, Cache[] caches, int i) {
-        if (i >= caches.length) {
+        Logs.i(TAG, "任务启动,任务id" + i + "，任务总数" + caches.length);
+
+        if (i < 0 || i >= caches.length) {
+            Logs.i(TAG, "任务完成");
             Caches.AddOrUpdate("float_lock", "false");
             return;
         }
+        Logs.i(TAG, "任务执行：" + caches[i].cacheData);
+
         BillInfo billInfo = BillInfo.parse(caches[i].cacheData);
         CallAutoActivity.run(context, billInfo);
-        new Handler().postDelayed(() -> {
-            Caches.del(caches[i].cacheName);
 
+        Logs.i(TAG, "任务等待运行");
+        new Handler().postDelayed(() -> {
+            //重复任务清除计划
+            Logs.i(TAG, "任务运行启动，删除上一个任务:" + caches[i].cacheData);
+            Caches.delBody(caches[i].cacheData);
             Cache[] caches2 = Caches.getType("tasker_bill");
+            Logs.i(TAG, "重新获取任务列表");
             int h;
+            Logs.i(TAG, caches[i].cacheData);
             for (h = 0; h < caches2.length; h++) {
-                Logs.d(caches[i].cacheData);
+                Logs.i(TAG, caches2[h].cacheData);
                 if (caches[i].id == caches2[h].id) break;
             }
+            int j;
+            if (h >= caches2.length)
+                j = h - 1;
+            else
+                j = 1 + h;
 
-            int j = 1 + h;
+            Logs.i(TAG, "获得新任务列表的对应ID:" + j);
             update(context, caches2, j);
         }, 10000);
 
     }
+
 
     /**
      * MD5加密

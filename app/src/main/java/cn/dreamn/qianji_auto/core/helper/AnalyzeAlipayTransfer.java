@@ -21,7 +21,10 @@ import android.content.Context;
 
 import java.util.List;
 
+import cn.dreamn.qianji_auto.core.base.alipay.Alipay;
+import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
 import cn.dreamn.qianji_auto.core.db.Cache;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.Caches;
@@ -97,12 +100,11 @@ class AnalyzeAlipayTransfer {
 
             if (billInfo.getAccountName() == null)
                 billInfo.setAccountName("支付宝");
-            if (type == 3) {
+            billInfo.setSource(Alipay.PAYMENT_SUCCESS);
 
-            } else {
+            Caches.update(TAG, billInfo.toString());
 
-            }
-            billInfo.dump();
+            CallAutoActivity.call(context, billInfo);
 
 
         }
@@ -120,7 +122,7 @@ class AnalyzeAlipayTransfer {
         Cache data = Caches.getOne(TAG, BillInfo.TYPE_PAY);
         BillInfo billInfo;
         if (data == null) {
-            return false;
+            billInfo = new BillInfo();
         } else {
             billInfo = BillInfo.parse(data.cacheData);
         }
@@ -142,12 +144,12 @@ class AnalyzeAlipayTransfer {
             billInfo.setAccountName("支付宝");
 
 
-        billInfo.dump();
-
-
         Caches.del(TAG);
 
         Logs.d("Qianji_Analyze", "捕获的金额:" + money + ",捕获的商户名：" + shopName);
+
+        billInfo.setSource(Wechat.PAYMENT_TRANSFER);
+        CallAutoActivity.call(context, billInfo);
         return true;
     }
 

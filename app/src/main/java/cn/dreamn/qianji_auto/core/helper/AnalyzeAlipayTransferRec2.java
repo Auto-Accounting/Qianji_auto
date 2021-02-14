@@ -21,54 +21,50 @@ import android.content.Context;
 
 import java.util.List;
 
-import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
+import cn.dreamn.qianji_auto.core.base.alipay.Alipay;
 import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
+import cn.dreamn.qianji_auto.core.utils.Caches;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
-class AnalyzeWeChatRedPackageRec {
-    private final static String TAG = "wechat_redpackage_rec";
+class AnalyzeAlipayTransferRec2 {
+    private final static String TAG = "alipay_transfer2";
     //获取备注
 
 
     public static boolean succeed(List<String> list, Context context) {
 
-        String money = null, remark = null, shopName = null;
-        for (int i = 0; i < list.size(); i++) {
-            String str = list.get(i);
-            if (str.contains("的红包")) {
-                shopName = str.replace("的红包", "");
-                money = BillTools.getMoney(list.get(i + 2));
-                remark = list.get(i + 1);
-                break;
-            }
-        }
-        if (money == null || remark == null || shopName == null) return false;
+        //[Dreamn在线收款, +1.00, 交易成功, 转账说明, 劳务费, 创建时间, 2021-02-14 15:19, 更多, 账单分类, 转账红包, 标签和备注, 添加, 查看往来记录, 对此订单有疑问]
+        String money = BillTools.getMoney(list.get(1));
+
+        String shopName = list.get(0);
+        String remark = list.get(4);
+        String account = "余额";
 
         BillInfo billInfo = new BillInfo();
 
-        billInfo.setMoney(money);
+        billInfo.setAccountName(account);
         billInfo.setRemark(remark);
         billInfo.setShopRemark(remark);
         billInfo.setShopAccount(shopName);
-
-
         billInfo.setMoney(money);
-
-
-        Logs.d("Qianji_Analyze", billInfo.toString());
+        billInfo.setShopAccount(shopName);
 
 
         billInfo.setType(BillInfo.TYPE_INCOME);
 
-        billInfo.setAccountName("零钱");
+        if (billInfo.getAccountName() == null)
+            billInfo.setAccountName("支付宝");
 
 
-        Logs.d("Qianji_Analyze", "捕获的金额:" + money + ",捕获的商户名：无");
+        Caches.del(TAG);
 
-        billInfo.setSource(Wechat.RED_PACKAGE_RECEIVED);
+        Logs.d("Qianji_Analyze", "捕获的金额:" + money + ",捕获的商户名：" + shopName);
+
+        billInfo.setSource(Alipay.TRANSFER_SUCCESS_ACCOUNT);
         CallAutoActivity.call(context, billInfo);
+
         return true;
     }
 

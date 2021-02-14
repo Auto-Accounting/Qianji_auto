@@ -108,7 +108,7 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                 Logs.i("无障碍模式服务启动");
                 ServerManger.startAccessibility(context);
                 ServerManger.startAutoNotify(context);
-                ServerManger.startNotice(context);
+
 
                 break;
             case "cn.dreamn.qianji_auto.XPOSED_LOG": {

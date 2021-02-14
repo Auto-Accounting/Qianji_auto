@@ -21,7 +21,9 @@ import android.content.Context;
 
 import java.util.List;
 
+import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
 import cn.dreamn.qianji_auto.core.db.Cache;
+import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.Caches;
@@ -33,7 +35,7 @@ class AnalyzeWeChatRedPackage {
     //获取备注
     public static boolean remark(List<String> list) {
         String remark, money, shopName;
-        if (list.size() == 9 || list.size() == 8) {//个人红包
+        if (list.size() == 9 || list.size() == 8 || list.size() == 10) {//个人红包
             remark = list.get(4);
             money = BillTools.getMoney(list.get(6));
             shopName = "个人红包";
@@ -70,7 +72,7 @@ class AnalyzeWeChatRedPackage {
 
     public static boolean account(List<String> list, Context context) {
         String money, account;
-        if (list.size() == 5) {
+        if (list.size() == 5 || list.size() == 6) {
             money = BillTools.getMoney(list.get(2));
             account = list.get(4);
         } else {
@@ -80,13 +82,16 @@ class AnalyzeWeChatRedPackage {
         Cache data = Caches.getOne(TAG, BillInfo.TYPE_PAY);
         Cache data2 = Caches.getOne("shopName", "0");
         BillInfo billInfo;
-        if (data == null) return false;
+        if (data == null) {
+            billInfo = new BillInfo();
+        } else {
+            billInfo = BillInfo.parse(data.cacheData);
+        }
 
-        billInfo = BillInfo.parse(data.cacheData);
 
         if (data2 != null) {
             billInfo.setShopAccount(data2.cacheData);
-            Caches.del("shopName");
+
         }
 
         billInfo.setMoney(money);
@@ -108,13 +113,11 @@ class AnalyzeWeChatRedPackage {
             billInfo.setAccountName("微信");
 
 
-        billInfo.dump();
-
-
         Caches.del(TAG);
 
         Logs.d("Qianji_Analyze", "捕获的金额:" + money + ",红包页面无法捕获商户名");
-
+        billInfo.setSource(Wechat.RED_PACKAGE);
+        CallAutoActivity.call(context, billInfo);
 
         return true;
     }

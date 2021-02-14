@@ -21,39 +21,27 @@ import android.content.Context;
 
 import java.util.List;
 
+import cn.dreamn.qianji_auto.core.base.alipay.Alipay;
+import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
+import cn.dreamn.qianji_auto.core.db.Cache;
 import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.Caches;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
-class AnalyzeAlipayRedPackageRec {
-    public final static String TAG = "alipay_redpackage_rec";
+class AnalyzeAlipay {
+    private final static String TAG = "alipayment";
 
-
-    public static boolean succeed(List<String> list, Context applicationContext) {
-
-        BillInfo billInfo = new BillInfo();
-
-        billInfo.setShopAccount(list.get(1));
-        billInfo.setRemark(list.get(2));
-        billInfo.setShopRemark(list.get(2));
-        billInfo.setMoney(BillTools.getMoney(list.get(3)));
-
-
-        billInfo.setType(BillInfo.TYPE_INCOME);
-
-        if (billInfo.getAccountName() == null)
-            billInfo.setAccountName("支付宝");
-
-        billInfo.setAccountName(billInfo.getAccountName());
-
-
-        CallAutoActivity.call(applicationContext, billInfo);
-
-        Caches.del(TAG);
-
-        Logs.d("Qianji_Analyze", "捕获红包");
-        return false;
+    public static boolean paymnet(List<String> list, Context context) {
+        Cache cache = Caches.getOne(TAG, "0");
+        if (cache != null) {
+            BillInfo billInfo = BillInfo.parse(cache.cacheData);
+            Caches.del(TAG);
+            CallAutoActivity.call(context, billInfo);
+            return true;
+        } else return false;
     }
+
+
 }
