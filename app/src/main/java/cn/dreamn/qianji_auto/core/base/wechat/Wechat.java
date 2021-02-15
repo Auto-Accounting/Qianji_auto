@@ -28,6 +28,7 @@ public class Wechat {
     public final static String RED_PACKAGE = "微信发红包给别人";//微信发红包给别人
     public final static String RED_PACKAGE_RECEIVED = "微信接收他人红包";//微信收到红包
     public static final String PAYMENT_REFUND = "微信支付退款";
+    public static final String INCOME_SHOP = "商家转账入账通知";
     public static final String CANT_UNDERSTAND = "微信无法解析的消息类型";
 
 }

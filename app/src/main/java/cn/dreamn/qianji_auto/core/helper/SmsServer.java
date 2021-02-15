@@ -19,7 +19,7 @@ package cn.dreamn.qianji_auto.core.helper;
 
 import android.content.Context;
 
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.Smses;

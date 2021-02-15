@@ -26,7 +26,7 @@ import android.widget.TextView;
 import com.xuexiang.xfloatview.XFloatView;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.Caches;

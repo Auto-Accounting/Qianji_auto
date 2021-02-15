@@ -40,6 +40,7 @@ import cn.dreamn.qianji_auto.core.base.alipay.YuEBao;
 import cn.dreamn.qianji_auto.core.base.alipay.YuLiBao;
 import cn.dreamn.qianji_auto.core.base.wechat.Payment;
 import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
+import cn.dreamn.qianji_auto.core.base.wechat.WechatIncomeShop;
 import cn.dreamn.qianji_auto.core.base.wechat.WechatPaymentRefund;
 import cn.dreamn.qianji_auto.core.base.wechat.WechatPaymentTransfer;
 import cn.dreamn.qianji_auto.core.base.wechat.WechatQrCollection;
@@ -48,7 +49,7 @@ import cn.dreamn.qianji_auto.core.base.wechat.WechatRedPackageReceived;
 import cn.dreamn.qianji_auto.core.base.wechat.WechatRedRefund;
 import cn.dreamn.qianji_auto.core.base.wechat.WechatTransferRefund;
 import cn.dreamn.qianji_auto.core.helper.SmsServer;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.ServerManger;
 import cn.dreamn.qianji_auto.core.utils.Status;
@@ -218,6 +219,9 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                                 break;
                             case Wechat.RED_REFUND:
                                 billInfo = WechatRedRefund.getInstance().tryAnalyze(data, Wechat.RED_REFUND);
+                                break;
+                            case Wechat.INCOME_SHOP:
+                                billInfo = WechatIncomeShop.getInstance().tryAnalyze(data, Wechat.INCOME_SHOP);
                                 break;
                             case Wechat.CANT_UNDERSTAND:
 

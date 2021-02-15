@@ -34,11 +34,10 @@ import com.xuexiang.xfloatview.XFloatView;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.utils.Assets;
-import cn.dreamn.qianji_auto.core.utils.Auto.CallAutoActivity;
+import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.utils.BookNames;
-import cn.dreamn.qianji_auto.core.utils.Caches;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
