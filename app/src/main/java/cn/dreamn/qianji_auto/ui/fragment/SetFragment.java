@@ -54,6 +54,8 @@ public class SetFragment extends BaseFragment {
     SuperTextView set_float;
     @BindView(R.id.set_float_style)
     SuperTextView set_float_style;
+    @BindView(R.id.set_sort)
+    SuperTextView set_sort;
 
     /**
      * 布局的资源id
@@ -103,7 +105,7 @@ public class SetFragment extends BaseFragment {
         set_timeout.setLeftBottomString(mmkv.getString("auto_timeout", "10") + "s");
         set_float.setLeftBottomString(mmkv.getBoolean("auto_check", true) ? "已开启" : "已关闭");
         set_float_style.setLeftTopString(mmkv.getBoolean("auto_style", true) ? "自动记账自带账单悬浮窗" : "钱迹分类选择窗口");
-
+        set_sort.setLeftBottomString(mmkv.getBoolean("auto_sort", false) ? "已开启" : "已关闭");
     }
 
     private void initListen() {
@@ -192,6 +194,16 @@ public class SetFragment extends BaseFragment {
             } else {
                 mmkv.encode("auto_check", true);
                 SnackbarUtils.Long(getView(), getString(R.string.set_check_success)).info().show();
+            }
+            initSet();
+        });
+        set_sort.setOnSuperTextViewClickListener(superTextView -> {
+            if (mmkv.getBoolean("auto_sort", false)) {
+                mmkv.encode("auto_sort", false);
+                SnackbarUtils.Long(getView(), getString(R.string.set_sort_close)).info().show();
+            } else {
+                mmkv.encode("auto_sort", true);
+                SnackbarUtils.Long(getView(), getString(R.string.set_sort_success)).info().show();
             }
             initSet();
         });

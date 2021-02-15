@@ -31,9 +31,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xuexiang.xfloatview.XFloatView;
+import com.xuexiang.xutil.display.ScreenUtils;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.utils.Assets;
+import cn.dreamn.qianji_auto.core.utils.Caches;
 import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
@@ -88,6 +90,7 @@ public class AutoFloat extends XFloatView {
     private void initData() {
         Logs.d("初始化窗口");
         //  Caches.AddOrUpdate("float_lock", "true");
+
     }
 
     /**
@@ -231,9 +234,7 @@ public class AutoFloat extends XFloatView {
         btn_cancel.setOnClickListener(v -> {
             this.clear();
         });
-        parent_layout.setOnClickListener(v -> {
-            this.clear();
-        });
+
 
     }
 
@@ -275,6 +276,11 @@ public class AutoFloat extends XFloatView {
 
         ListFloat listFloat = new ListFloat(getContext());
         listFloat.setData(title, list, callBack);
+        if (ScreenUtils.getScreenWidth() > ScreenUtils.getScreenHeight()) {
+            listFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight() - 100, ScreenUtils.getScreenWidth());
+        } else {
+            listFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight() - 100);
+        }
         listFloat.show();
     }
 
@@ -282,6 +288,11 @@ public class AutoFloat extends XFloatView {
     public void showInputDialog(String title, String def, InputFloat.Callback callBack) {
         InputFloat inputFloat = new InputFloat(getContext());
         inputFloat.setData(title, def, getContext().getString(R.string.set_cancel), getContext().getString(R.string.input_ok), null, callBack);
+        if (ScreenUtils.getScreenWidth() > ScreenUtils.getScreenHeight()) {
+            inputFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight() - 100, ScreenUtils.getScreenWidth());
+        } else {
+            inputFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight() - 100);
+        }
         inputFloat.show();
 
 
@@ -290,6 +301,6 @@ public class AutoFloat extends XFloatView {
     @Override
     public void dismiss() {
         super.dismiss();
-        //Caches.update("float_lock","false");
+        Caches.AddOrUpdate("float_lock", "false");
     }
 }

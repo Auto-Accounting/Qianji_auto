@@ -66,6 +66,8 @@ public class BillTools {
             return getResources().getColor(R.color.colorSwipeTwo_winter);
         } else if (billInfo.getType().equals(BillInfo.TYPE_PAY)) {
             return getResources().getColor(R.color.toast_error_color);
+        } else if (billInfo.getType().equals(BillInfo.TYPE_PAYMENT_REFUND)) {
+            return getResources().getColor(R.color.colorSwipeTwo_winter);
         } else if (billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)) {
             return getResources().getColor(R.color.colorSwipeThree_autumn);
         } else {
@@ -80,6 +82,8 @@ public class BillTools {
             return "- ￥" + billInfo.getMoney();
         } else if (billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)) {
             return "-> ￥" + billInfo.getMoney();
+        } else if (billInfo.getType().equals(BillInfo.TYPE_PAYMENT_REFUND)) {
+            return "+ ￥" + billInfo.getMoney();
         } else {
             return "- ￥" + billInfo.getMoney();
         }

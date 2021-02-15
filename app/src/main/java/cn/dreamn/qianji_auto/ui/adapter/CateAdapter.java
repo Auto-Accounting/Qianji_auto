@@ -53,7 +53,7 @@ public class CateAdapter extends SmartRecyclerAdapter<Map<String, String>> {
     protected void onBindViewHolder(SmartViewHolder holder, Map<String, String> item, int position) {
         SuperTextView map_text = (SuperTextView) holder.findView(R.id.map_text);
         map_text.setLeftString(item.get(KEY_TITLE));
-        map_text.setCenterString(" 分类为 ");
+      //  map_text.setCenterString(" 分类为 ");
         map_text.setRightString(item.get(KEY_VALUE));
         map_text.setCenterTextColor(getColor(R.color.white));
         map_text.setRightTextColor(getColor(R.color.white));

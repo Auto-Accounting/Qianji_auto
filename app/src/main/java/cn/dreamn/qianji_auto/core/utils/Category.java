@@ -22,7 +22,7 @@ import cn.dreamn.qianji_auto.core.db.Regular;
 import cn.dreamn.qianji_auto.utils.tools.JsEngine;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
-/*import com.eclipsesource.v8.V8;*/
+
 public class Category {
 
     public static String getCategory(String shopAccount, String shopRemark, String type, String source) {
@@ -36,8 +36,52 @@ public class Category {
             return result;
         } catch (Exception e) {
             Logs.i("自动分类执行出错！" + e.toString());
-            return "其他";
+            return "NotFind";
         }
+
+    }
+
+    public static void setCateJs(BillInfo billInfo) {
+
+
+        String time = Tools.getTime("HH");
+        String name = "[自动生成]" + billInfo.getSource();
+        String sort = "其他";
+        String str = "";
+
+        str += String.format("time = %s && ", time);
+        str += String.format("shopName.indexOf('%s')!=-1 && ", billInfo.getShopAccount());
+        str += String.format("shopRemark.indexOf('%s')!=-1 && ", billInfo.getShopRemark());
+        str += String.format("type == '%s' && ", BillInfo.getTypeName(billInfo.getType()));
+        str += String.format("source == '%s' && ", billInfo.getSource());
+
+        String regular = "if(%s)return '其他'";
+
+        int last = str.lastIndexOf('&');
+        if (last != -1 && last != 0)
+            str = str.substring(0, last - 1);
+
+        regular = String.format(regular, str);
+
+        DataUtils dataUtils = new DataUtils();
+
+        dataUtils.put("regular_billtype", billInfo.getSource());
+
+        dataUtils.put("regular_name", "[自动生成]" + billInfo.getSource());
+        dataUtils.put("regular_time1_link", "=");
+        dataUtils.put("regular_time1", time);
+        dataUtils.put("regular_time2_link", "");
+        dataUtils.put("regular_time2", "");
+
+        dataUtils.put("regular_shopName_link", "包含");
+        dataUtils.put("regular_shopName", billInfo.getShopAccount());
+        dataUtils.put("regular_shopRemark_link", "包含");
+        dataUtils.put("regular_shopRemark", billInfo.getShopRemark());
+
+        dataUtils.put("regular_type", BillInfo.getTypeName(billInfo.getType()));
+        dataUtils.put("regular_sort", sort);
+
+        Category.addCategory(regular, name, sort, dataUtils.toString());
 
     }
 
@@ -53,7 +97,7 @@ public class Category {
 
      //   type = BillInfo.getTypeName(type);
 
-        String js = "function getCategory(shopName,shopRemark,type,time,source){%s return '其他';} getCategory('%s','%s','%s','%s','%s');";
+        String js = "function getCategory(shopName,shopRemark,type,time,source){%s return 'NotFind';} getCategory('%s','%s','%s','%s','%s');";
 
         String time = Tools.getTime("HH");
         return String.format(js, regList.toString(), shopAccount, shopRemark, type, time, source);

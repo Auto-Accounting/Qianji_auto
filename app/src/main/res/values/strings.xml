@@ -289,4 +289,7 @@
     <string name="qianji_book">账本管理</string>
     <string name="set_float_style">二次记账悬浮窗样式</string>
     <string name="set_float_style_sub">支持使用1.x版本的钱迹分类</string>
+    <string name="set_sort">自动分类填充</string>
+    <string name="set_sort_close">已关闭自动分类填充</string>
+    <string name="set_sort_success">已开启自动分类填充</string>
 </resources>

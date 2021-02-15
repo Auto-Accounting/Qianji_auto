@@ -48,7 +48,7 @@ public class MapAdapter extends SmartRecyclerAdapter<Map<String, String>> {
     protected void onBindViewHolder(SmartViewHolder holder, Map<String, String> item, int position) {
         SuperTextView map_text = (SuperTextView) holder.findView(R.id.map_text);
         map_text.setLeftString(item.get(KEY_TITLE));
-        map_text.setCenterString(" -> ");
+     //   map_text.setCenterString(" -> ");
         map_text.setRightString(item.get(KEY_VALUE));
 
         map_text.setOnClickListener(v -> {

@@ -24,16 +24,6 @@ import com.tencent.mmkv.MMKV;
 import com.xuexiang.xutil.display.ScreenUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
 
-import cn.dreamn.qianji_auto.core.db.Cache;
-import cn.dreamn.qianji_auto.core.utils.Assets;
-import cn.dreamn.qianji_auto.core.utils.AutoBills;
-import cn.dreamn.qianji_auto.core.utils.BillInfo;
-import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.BookNames;
-import cn.dreamn.qianji_auto.core.utils.Caches;
-import cn.dreamn.qianji_auto.core.utils.Category;
-import cn.dreamn.qianji_auto.core.utils.Remark;
-import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
@@ -82,8 +72,23 @@ public class CallAutoActivity {
         }
 
         billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(), billInfo.getShopRemark()));//设置备注
-        billInfo.setCateName(Category.getCategory(billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType()), billInfo.getSource()));//设置自动分类
+
+        String cate = Category.getCategory(billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType()), billInfo.getSource());
+        if (cate.equals("NotFind")) {
+            billInfo.setCateName("其他");//设置自动分类
+
+            MMKV mmkv = MMKV.defaultMMKV();
+            if (mmkv.getBoolean("auto_sort", false)) {
+                Category.setCateJs(billInfo);
+            }
+
+
+        } else {
+            billInfo.setCateName(cate);//设置自动分类
+        }
+
         billInfo.setBookName(BookNames.getDefault());//设置自动记账的账本名
+
 
         return billInfo;
     }
@@ -103,11 +108,19 @@ public class CallAutoActivity {
 
     //显示角标
     public static void showTip(Context context, BillInfo billInfo) {
+
+
         try {
             Logs.d("唤起自动记账面板角标");
             AutoFloatTip autoFloatTip = new AutoFloatTip(context);
             autoFloatTip.setData(billInfo);
-            autoFloatTip.setWindowManagerParams(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight() / 2 - 100, 700, 200);
+
+            //自适应大小
+            String str = BillTools.getCustomBill(billInfo);
+
+            int minLength = str.length() * 20;
+
+            autoFloatTip.setWindowManagerParams(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight() / 2 - 100, 350 + minLength, 150);
             autoFloatTip.show();
         } catch (Exception e) {
             Logs.i("请授予悬浮窗权限！" + e.toString());
@@ -130,9 +143,9 @@ public class CallAutoActivity {
             AutoFloat autoFloat = new AutoFloat(context);
             autoFloat.setData(billInfo);
             if (ScreenUtils.getScreenWidth() > ScreenUtils.getScreenHeight()) {
-                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight(), ScreenUtils.getScreenWidth());
+                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight() - 100, ScreenUtils.getScreenWidth());
             } else {
-                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight());
+                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight() - 100);
             }
             autoFloat.show();
         } catch (Exception e) {

@@ -31,10 +31,10 @@
         tools:ignore="MissingConstraints">
 
         <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="-20dp"
+            android:layout_marginEnd="-10dp"
             android:src="@drawable/logo_qianji" />
 
         <TextView
@@ -56,10 +56,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="2dp"
+            android:layout_marginEnd="1dp"
             android:background="@color/transparent"
             android:gravity="right|center_vertical|center_horizontal|center|end"
-            android:minWidth="30dp"
+            android:minWidth="20dp"
             android:text="0s"
             android:textColor="@color/colorSwipeThree_night"
             android:textSize="14sp"
