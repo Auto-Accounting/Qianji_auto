@@ -34,7 +34,7 @@ public class SmsServer {
     public static void readSMS(String sms, Context context) {
         String data = getSms(sms);
 
-        String[] strings = data.split("\\|");
+        String[] strings = data.split("\\|", -1);
         if (strings.length != 5) return;
         BillInfo billInfo = new BillInfo();
         if (strings[3].equals("undefined") || strings[2].equals("undefined") || strings[1].equals("undefined")) {

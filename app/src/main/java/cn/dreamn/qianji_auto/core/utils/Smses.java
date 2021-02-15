@@ -47,7 +47,7 @@ public class Smses {
         StringBuilder smsList = new StringBuilder();
         Sms[] sms = DbManger.db.SmsDao().load();
         for (Sms value : sms) {
-            String[] nums = value.smsNum.split("\\|");
+            String[] nums = value.smsNum.split("\\|", -1);
             if (nums.length != 5) return null;
 
             String data = "pattern= /%s/;" +

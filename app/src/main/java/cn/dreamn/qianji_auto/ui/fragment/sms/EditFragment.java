@@ -26,6 +26,8 @@ import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.edittext.MultiLineEditText;
 import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 
+import java.util.Arrays;
+
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.utils.Caches;
@@ -97,7 +99,8 @@ public class EditFragment extends BaseFragment {
         if (id != null && !id.equals("")) {
             regularId = Integer.parseInt(id);
             assert num != null;
-            String[] nums = num.split("\\|");
+            String[] nums = num.split("\\|", -1);
+            Logs.d(Arrays.toString(nums));
             if (nums.length != 5) return;
 
             sms_name.setText(title);
@@ -134,13 +137,14 @@ public class EditFragment extends BaseFragment {
                     String result=runtime.executeStringScript(func);*/
                     String result = JsEngine.run(func);
                     Logs.d("Qianji_Sms", "短信分析结果：" + result);
-                    String[] strings = result.split("\\|");
+                    String[] strings = result.split("\\|", -1);
                     String datas = "";
-                    datas += "备注：" + (strings[0].equals("undefined") ? "" : strings[0]) + "\n";
-                    datas += "账户：" + (strings[1].equals("undefined") ? "" : strings[1]) + "\n";
-                    datas += "类型：" + (strings[2].equals("undefined") ? "" : strings[2]) + "\n";
+                    datas += "尾号：" + (strings[4].equals("undefined") ? "" : strings[4]) + "\n";
+                    datas += "账户名：" + (strings[1].equals("undefined") ? "" : strings[1]) + "\n";
+                    datas += "收支类型：" + (strings[2].equals("undefined") ? "" : strings[2]) + "\n";
                     datas += "金额：" + (strings[3].equals("undefined") ? "" : strings[3]) + "\n";
-                    datas += "账户尾号：" + (strings[4].equals("undefined") ? "" : strings[4]) + "\n";
+                    datas += "备注：" + (strings[0].equals("undefined") ? "" : strings[0]) + "\n";
+
 
                     new MaterialDialog.Builder(getContext())
                             .title("识别结果")
