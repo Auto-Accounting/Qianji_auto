@@ -507,13 +507,7 @@ public class WechatHook extends HookBase {
             mHeaderViewInfosField.setAccessible(true);
             ArrayList<ListView.FixedViewInfo> mHeaderViewInfos = (ArrayList<ListView.FixedViewInfo>) mHeaderViewInfosField.get(listView);
             if (mHeaderViewInfos != null) {
-                for (ListView.FixedViewInfo viewInfo : mHeaderViewInfos) {
-                    if (viewInfo.view == null) {
-                        continue;
-                    }
-                    // Object tag = viewInfo.view.getTag();
-
-                }
+                // Object tag = viewInfo.view.getTag();
             }
         } catch (Exception e) {
             Logi(e.toString(), true);

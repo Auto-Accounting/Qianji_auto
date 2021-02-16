@@ -6,6 +6,7 @@ import org.mozilla.javascript.Scriptable;
 public class JsEngine {
     public static String run(String jsCode) {
 
+        Logs.d(jsCode);
 
         Context rhino = Context.enter();
 

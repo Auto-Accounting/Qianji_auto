@@ -19,6 +19,8 @@ package cn.dreamn.qianji_auto.core.utils;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
+import android.widget.Toast;
 
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xutil.display.ScreenUtils;
@@ -26,7 +28,6 @@ import com.xuexiang.xutil.tip.ToastUtils;
 
 import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
-import cn.dreamn.qianji_auto.utils.XToastUtils;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 import static cn.dreamn.qianji_auto.core.utils.Tools.goUrl;
@@ -52,10 +53,21 @@ public class CallAutoActivity {
     }
 
     public static void callNoAdd(Context context, BillInfo billInfo) {
-        billInfo = replaceWithSomeThing(billInfo);
+        //  billInfo = replaceWithSomeThing(billInfo);
         if (!billInfo.isAvaiable()) return;
         // Tasker.add(context, billInfo);
         run(context, billInfo);
+
+    }
+
+    public static void callNoAdd(Context context, BillInfo billInfo, boolean change) {
+        //  billInfo = replaceWithSomeThing(billInfo);
+        if (!billInfo.isAvaiable()) return;
+        // Tasker.add(context, billInfo);
+        //  run(context, billInfo);
+        if (change) {
+            showFloat(context, billInfo);
+        }
 
     }
 
@@ -157,27 +169,44 @@ public class CallAutoActivity {
     }
 
     public static void goQianji(Context context, BillInfo billInfo) {
-        Caches.update("float_lock", "false");
-        String cache = Caches.getCacheData("float_time");
-        if (!cache.equals("")) {
-            long time = Long.parseLong(cache);
-            long t = System.currentTimeMillis() - time;
-            t = t / 1000;
 
-            if (t < 11) {
+        new Handler(Looper.getMainLooper()).post(() -> {
 
-                XToastUtils.info("距离上一次发起请求时间为" + t + "s,稍后为您自动记账。");
-                //延迟时间
-                new Handler().postDelayed(() -> {
-                    goQianji(context, billInfo);
-                }, t * 100);
-                return;
+            Caches.update("float_lock", "false");
+            String cache = Caches.getCacheData("float_time");
+            if (!cache.equals("")) {
+                long time = Long.parseLong(cache);
+                long t = System.currentTimeMillis() - time;
+                t = t / 1000;
+
+                if (t < 11) {
+                    if (!Caches.getCacheData("show_tip").equals("true")) {
+                        Toast.makeText(context, "距离上一次发起请求时间为" + t + "s,稍后为您自动记账。", Toast.LENGTH_LONG).show();
+                        //    XToastUtils.info("距离上一次发起请求时间为" + t + "s,稍后为您自动记账。");
+                        Caches.AddOrUpdate("show_tip", "true");
+                    }
+
+                    //延迟时间
+                    new Handler().postDelayed(() -> {
+                        goQianji(context, billInfo);
+                    }, t * 100);
+                    return;
+                }
             }
-        }
+            Caches.AddOrUpdate("show_tip", "false");
+            Caches.AddOrUpdate("float_time", String.valueOf(System.currentTimeMillis()));
+            Logs.i("对钱迹发起请求 :" + billInfo.getQianJi().trim());
 
-        Caches.AddOrUpdate("float_time", String.valueOf(System.currentTimeMillis()));
-        Logs.i("对钱迹发起请求 :" + billInfo.getQianJi().trim());
-        goUrl(context, billInfo.getQianJi().trim());
+            try {
+                goUrl(context, billInfo.getQianJi().trim());
+                Toast.makeText(context, "记账成功！金额￥" + billInfo.getMoney() + "。", Toast.LENGTH_LONG).show();
+
+                //  XToastUtils.success("自动记账成功！金额￥"+billInfo.getMoney()+"。");
+            } catch (Exception e) {
+                Logs.i(e.toString());
+            }
+
+        });
 
 
     }

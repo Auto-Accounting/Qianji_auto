@@ -44,18 +44,18 @@ public class Category {
     public static void setCateJs(BillInfo billInfo) {
 
 
-        String time = Tools.getTime("HH");
+       // String time = Tools.getTime("HH");
         String name = "[自动生成]" + billInfo.getSource();
         String sort = "其他";
         String str = "";
 
-        str += String.format("time = %s && ", time);
+        //    str += String.format("time = %s && ", time);
         str += String.format("shopName.indexOf('%s')!=-1 && ", billInfo.getShopAccount());
         str += String.format("shopRemark.indexOf('%s')!=-1 && ", billInfo.getShopRemark());
         str += String.format("type == '%s' && ", BillInfo.getTypeName(billInfo.getType()));
         str += String.format("source == '%s' && ", billInfo.getSource());
 
-        String regular = "if(%s)return '其他'";
+        String regular = "if(%s)return '其他';";
 
         int last = str.lastIndexOf('&');
         if (last != -1 && last != 0)
@@ -68,8 +68,8 @@ public class Category {
         dataUtils.put("regular_billtype", billInfo.getSource());
 
         dataUtils.put("regular_name", "[自动生成]" + billInfo.getSource());
-        dataUtils.put("regular_time1_link", "=");
-        dataUtils.put("regular_time1", time);
+        dataUtils.put("regular_time1_link", "");
+        dataUtils.put("regular_time1", "");
         dataUtils.put("regular_time2_link", "");
         dataUtils.put("regular_time2", "");
 

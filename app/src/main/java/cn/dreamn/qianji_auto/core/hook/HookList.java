@@ -5,6 +5,7 @@ import java.util.List;
 
 import cn.dreamn.qianji_auto.core.hook.app.AlipayHook;
 import cn.dreamn.qianji_auto.core.hook.app.QianjiAuto;
+import cn.dreamn.qianji_auto.core.hook.app.QianjiHook;
 import cn.dreamn.qianji_auto.core.hook.app.WechatHook;
 
 
@@ -17,6 +18,7 @@ public class HookList {
         mListHook.add(QianjiAuto.getInstance());
         mListHook.add(AlipayHook.getInstance());
         mListHook.add(WechatHook.getInstance());
+        //  mListHook.add(QianjiHook.getInstance());
     }
 
     public synchronized static HookList getInstance() {

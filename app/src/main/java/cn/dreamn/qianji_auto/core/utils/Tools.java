@@ -50,10 +50,12 @@ import static com.xuexiang.xutil.XUtil.getPackageManager;
 
 public class Tools {
     public static void goUrl(Context context, String url) {
+        Logs.i("Qianji-Url", url);
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         Uri content_url = Uri.parse(url);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
         intent.setData(content_url);
         PackageManager packageManager = getPackageManager();
         List<ResolveInfo> activities = packageManager.queryIntentActivities(intent,

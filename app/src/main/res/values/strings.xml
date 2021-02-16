@@ -195,13 +195,13 @@
     <string name="choose_wechat">微信打赏</string>
     <string name="choose_alipay">支付宝打赏</string>
     <string name="app_name_sub">钱迹</string>
-    <string name="set_time">延时记账时间（s）</string>
+    <string name="set_time">弹窗倒计时时间（s）</string>
     <string name="set_time_sub">默认10秒</string>
     <string name="helper_tip_qianji4">二次确认已关闭</string>
     <string name="helper_tip4">自动记账时不再弹出二次确认框</string>
     <string name="helper_tip_qianji5">二次确认功能已开启</string>
     <string name="helper_tip5">识别账单后会弹出窗口二次确认</string>
-    <string name="set_float_title">其他设置</string>
+    <string name="set_float_title">悬浮窗设置</string>
     <string name="set_data_time">请输入超时时间</string>
     <string name="set_data_timetip">单位为秒</string>
     <string name="set_check_success">已开启弹窗功能</string>
@@ -292,4 +292,6 @@
     <string name="set_sort">自动分类填充</string>
     <string name="set_sort_close">已关闭自动分类填充</string>
     <string name="set_sort_success">已开启自动分类填充</string>
+    <string name="set_float_click">倒计时悬浮窗点击操作</string>
+    <string name="set_float_end">倒计时结束操作</string>
 </resources>

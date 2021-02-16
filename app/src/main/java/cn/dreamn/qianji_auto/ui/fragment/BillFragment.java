@@ -85,7 +85,7 @@ public class BillFragment extends StateFragment {
                             case 1:
                                 billInfo2 = BillInfo.parse(item.get(KEY_BILLINFO));
                                 billInfo2.setSilent(false);
-                                CallAutoActivity.callNoAdd(getContext(), billInfo2);
+                                CallAutoActivity.callNoAdd(getContext(), billInfo2, true);
                                 break;
                             case 3:
                                 // Storage.type(Storage.Bill).del("bill",pos);
