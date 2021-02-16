@@ -50,8 +50,10 @@ public class SetFragment extends BaseFragment {
     SuperTextView set_remark;
     @BindView(R.id.set_timeout)
     SuperTextView set_timeout;
-    @BindView(R.id.set_float)
-    SuperTextView set_float;
+    @BindView(R.id.set_float_click)
+    SuperTextView set_float_click;
+    @BindView(R.id.set_float_end)
+    SuperTextView set_float_end;
     @BindView(R.id.set_float_style)
     SuperTextView set_float_style;
     @BindView(R.id.set_sort)
@@ -103,7 +105,11 @@ public class SetFragment extends BaseFragment {
         set_remark.setLeftTopString(Remark.getRemarkTpl());
 
         set_timeout.setLeftBottomString(mmkv.getString("auto_timeout", "10") + "s");
-        set_float.setLeftBottomString(mmkv.getBoolean("auto_check", true) ? "已开启" : "已关闭");
+
+        //set_float.setLeftBottomString(mmkv.getBoolean("auto_check", true) ? "已开启" : "已关闭");
+        set_float_click.setLeftBottomString(mmkv.getBoolean("auto_float_click_double", true) ? "二次确认面板弹窗" : "直接记账");
+        set_float_end.setLeftBottomString(mmkv.getBoolean("auto_float_end_double", true) ? "二次确认面板弹窗" : "直接记账");
+
         set_float_style.setLeftTopString(mmkv.getBoolean("auto_style", true) ? "自动记账自带账单悬浮窗" : "钱迹分类选择窗口");
         set_sort.setLeftBottomString(mmkv.getBoolean("auto_sort", false) ? "已开启" : "已关闭");
     }
@@ -187,15 +193,31 @@ public class SetFragment extends BaseFragment {
             });
 
         });
-        set_float.setOnSuperTextViewClickListener(superTextView -> {
-            if (mmkv.getBoolean("auto_check", true)) {
-                mmkv.encode("auto_check", false);
-                SnackbarUtils.Long(getView(), getString(R.string.set_check_close)).info().show();
-            } else {
-                mmkv.encode("auto_check", true);
-                SnackbarUtils.Long(getView(), getString(R.string.set_check_success)).info().show();
-            }
-            initSet();
+        set_float_click.setOnSuperTextViewClickListener(superTextView -> {
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.tip_options)
+                    .items(new String[]{"二次确认面板弹窗", "直接记账"})
+                    .itemsCallback((dialog, itemView, position, text) -> {
+                        mmkv.encode("auto_float_click_double", text == "二次确认面板弹窗");
+                        SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
+                        initSet();
+
+                    })
+                    .show();
+
+        });
+        set_float_end.setOnSuperTextViewClickListener(superTextView -> {
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.tip_options)
+                    .items(new String[]{"二次确认面板弹窗", "直接记账"})
+                    .itemsCallback((dialog, itemView, position, text) -> {
+                        mmkv.encode("auto_float_end_double", text == "二次确认面板弹窗");
+                        SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
+                        initSet();
+
+                    })
+                    .show();
+
         });
         set_sort.setOnSuperTextViewClickListener(superTextView -> {
             if (mmkv.getBoolean("auto_sort", false)) {

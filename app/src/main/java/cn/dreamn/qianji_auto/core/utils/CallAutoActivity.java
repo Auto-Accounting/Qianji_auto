@@ -112,11 +112,6 @@ public class CallAutoActivity {
         return mmkv.getString("auto_timeout", "10");
     }
 
-    //角标检查
-    public static Boolean getCheck() {
-        MMKV mmkv = MMKV.defaultMMKV();
-        return mmkv.getBoolean("auto_check", true);
-    }
 
     //显示角标
     public static void showTip(Context context, BillInfo billInfo) {
@@ -144,6 +139,7 @@ public class CallAutoActivity {
     //显示悬浮记账
     public static void showFloat(Context context, BillInfo billInfo) {
         MMKV mmkv = MMKV.defaultMMKV();
+
         if (!mmkv.getBoolean("auto_style", true)) {
             Logs.i("唤起自动钱迹分类面板");
             billInfo.setCateChoose(true);
@@ -212,15 +208,6 @@ public class CallAutoActivity {
     }
 
 
-    public static void jump(Context context, BillInfo billInfo) {
-        if (getCheck()) {
-            Logs.i("需要二次确认 -> 弹出悬浮窗");
-            showFloat(context, billInfo);
-        } else {
-            Logs.i("不需要二次确认 -> 直接对钱迹发起请求");
-            goQianji(context, billInfo);
-        }
-    }
 
 
     public static void run(Context context, BillInfo billInfo) {
@@ -262,8 +249,15 @@ public class CallAutoActivity {
         }
         //Logs.i("半自动模式 -> 下一步");
         if (getTimeout().equals("0")) {
-            //  Logs.i("确认超时时间为0 直接下一步");
-            jump(context, billInfo);
+            // MMKV mmkv=MMKV.defaultMMKV();
+            if (!mmkv.getBoolean("auto_float_end_double", true)) {
+                Logs.i("直接发起记账请求");
+                //这是倒计时结束
+                CallAutoActivity.goQianji(context, billInfo);
+                return;
+            }
+
+            showFloat(context, billInfo);
         } else {
             //  Logs.i("存在超时，弹出超时面板");
             showTip(context, billInfo);

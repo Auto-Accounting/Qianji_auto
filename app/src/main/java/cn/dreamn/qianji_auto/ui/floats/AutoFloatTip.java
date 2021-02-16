@@ -23,6 +23,7 @@ import android.os.Looper;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.tencent.mmkv.MMKV;
 import com.xuexiang.xfloatview.XFloatView;
 
 import cn.dreamn.qianji_auto.R;
@@ -96,7 +97,16 @@ public class AutoFloatTip extends XFloatView {
     @Override
     protected void initListener() {
         tip.setOnClickListener(v -> {
-            CallAutoActivity.jump(getContext(), billInfo2);
+            MMKV mmkv = MMKV.defaultMMKV();
+            if (!mmkv.getBoolean("auto_float_click_double", true)) {
+                Logs.i("直接发起记账请求");
+                //这是倒计时结束
+                CallAutoActivity.goQianji(getContext(), billInfo2);
+                this.clear();
+                return;
+            }
+
+            CallAutoActivity.showFloat(getContext(), billInfo2);
             this.clear();
             open = true;
         });
@@ -135,7 +145,19 @@ public class AutoFloatTip extends XFloatView {
         new Handler().postDelayed(() -> {
             if (open) return;
             if (i <= 0) {
-                CallAutoActivity.jump(getContext(), billInfo2);
+
+                MMKV mmkv = MMKV.defaultMMKV();
+                if (!mmkv.getBoolean("auto_float_end_double", true)) {
+                    Logs.i("直接发起记账请求");
+                    //这是倒计时结束
+                    CallAutoActivity.goQianji(getContext(), billInfo2);
+                    this.clear();
+                    return;
+                }
+
+                CallAutoActivity.showFloat(getContext(), billInfo2);
+
+
                 this.clear();
                 return;
             }

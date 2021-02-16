@@ -201,7 +201,7 @@
     <string name="helper_tip4">自动记账时不再弹出二次确认框</string>
     <string name="helper_tip_qianji5">二次确认功能已开启</string>
     <string name="helper_tip5">识别账单后会弹出窗口二次确认</string>
-    <string name="set_float_title">悬浮窗设置</string>
+    <string name="set_float_title">倒计时悬浮窗设置</string>
     <string name="set_data_time">请输入超时时间</string>
     <string name="set_data_timetip">单位为秒</string>
     <string name="set_check_success">已开启弹窗功能</string>
@@ -287,11 +287,12 @@
     <string name="dontAllow">该类型规则使用JS编辑，无法再用可视化编辑</string>
     <string name="qianji_book_sub">钱迹多账本列表</string>
     <string name="qianji_book">账本管理</string>
-    <string name="set_float_style">二次记账悬浮窗样式</string>
+    <string name="set_float_style">二次确认面板弹窗样式</string>
     <string name="set_float_style_sub">支持使用1.x版本的钱迹分类</string>
     <string name="set_sort">自动分类填充</string>
     <string name="set_sort_close">已关闭自动分类填充</string>
     <string name="set_sort_success">已开启自动分类填充</string>
     <string name="set_float_click">倒计时悬浮窗点击操作</string>
     <string name="set_float_end">倒计时结束操作</string>
+    <string name="set_other">其他设置</string>
 </resources>
