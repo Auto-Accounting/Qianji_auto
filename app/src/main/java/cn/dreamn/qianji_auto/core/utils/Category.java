@@ -46,7 +46,7 @@ public class Category {
 
        // String time = Tools.getTime("HH");
         String name = "[自动生成]" + billInfo.getSource();
-        String sort = "其他";
+        String sort = "其它";
         String str = "";
 
         //    str += String.format("time = %s && ", time);
@@ -55,7 +55,7 @@ public class Category {
         str += String.format("type == '%s' && ", BillInfo.getTypeName(billInfo.getType()));
         str += String.format("source == '%s' && ", billInfo.getSource());
 
-        String regular = "if(%s)return '其他';";
+        String regular = "if(%s)return '其它';";
 
         int last = str.lastIndexOf('&');
         if (last != -1 && last != 0)
@@ -110,7 +110,7 @@ public class Category {
 
         //type = BillInfo.getTypeName(type);
 
-        String js = "function getCategory(shopName,shopRemark,type,time,source){%s return '其他';} getCategory('%s','%s','%s','%s','%s');";
+        String js = "function getCategory(shopName,shopRemark,type,time,source){%s return '其它';} getCategory('%s','%s','%s','%s','%s');";
 
         return String.format(js, jsData, shopAccount, shopRemark, type, time, source);
     }
@@ -123,7 +123,7 @@ public class Category {
      *     if(shopRemark.indexOf("迎选购")!=-1)return "主12主主主"
      *     if(shopRemark=="新老顾客欢")return "滚滚"
      *     if((/新老/g).test(shopName))return "ddd"
-     *     return "其他"
+     *     return "其它"
      */
     /**
      * js demo

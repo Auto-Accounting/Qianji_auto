@@ -94,4 +94,10 @@
         <item>@string/choose_js</item>
     </string-array>
 
+    <string-array name="menu_donate">
+        <!--   <item>@string/choose_wechat</item>-->
+        <item>@string/choose_alipay</item>
+        <!--      <item>@string/choose_qq</item>-->
+    </string-array>
+
 </resources>

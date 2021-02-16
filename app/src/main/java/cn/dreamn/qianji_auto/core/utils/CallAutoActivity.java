@@ -36,6 +36,7 @@ import static cn.dreamn.qianji_auto.core.utils.Tools.goUrl;
 public class CallAutoActivity {
 
     public static void call(Context context, BillInfo billInfo) {
+        billInfo.setTime();//设置时间
         billInfo = replaceWithSomeThing(billInfo);
         if (Caches.getCacheData("lastBill").equals(billInfo.toString())) {
             return;
@@ -53,7 +54,7 @@ public class CallAutoActivity {
     }
 
     public static void callNoAdd(Context context, BillInfo billInfo) {
-        //  billInfo = replaceWithSomeThing(billInfo);
+        billInfo = replaceWithSomeThing(billInfo);
         if (!billInfo.isAvaiable()) return;
         // Tasker.add(context, billInfo);
         run(context, billInfo);
@@ -61,7 +62,7 @@ public class CallAutoActivity {
     }
 
     public static void callNoAdd(Context context, BillInfo billInfo, boolean change) {
-        //  billInfo = replaceWithSomeThing(billInfo);
+        billInfo = replaceWithSomeThing(billInfo);
         if (!billInfo.isAvaiable()) return;
         // Tasker.add(context, billInfo);
         //  run(context, billInfo);
@@ -73,7 +74,7 @@ public class CallAutoActivity {
 
     public static BillInfo replaceWithSomeThing(BillInfo billInfo) {
 
-        billInfo.setTime();//设置时间
+
         billInfo.setAccountName(Assets.getMap(BillTools.dealPayTool(billInfo.getAccountName())));//设置一号资产
         billInfo.setAccountName2(Assets.getMap(BillTools.dealPayTool(billInfo.getAccountName2())));//设置二号资产
 
@@ -87,7 +88,7 @@ public class CallAutoActivity {
 
         String cate = Category.getCategory(billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType()), billInfo.getSource());
         if (cate.equals("NotFind")) {
-            billInfo.setCateName("其他");//设置自动分类
+            billInfo.setCateName("其它");//设置自动分类
 
             MMKV mmkv = MMKV.defaultMMKV();
             if (mmkv.getBoolean("auto_sort", false)) {

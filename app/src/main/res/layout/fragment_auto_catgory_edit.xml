@@ -286,7 +286,7 @@
                         android:layout_weight="1"
 
                         android:hint=""
-                        android:text="其他"
+                        android:text="其它"
                         android:textColor="@color/xui_config_color_edittext_textcolor" />
 
                 </LinearLayout>

@@ -1,13 +1,13 @@
 package cn.dreamn.qianji_auto.ui.fragment;
 
 import android.content.Intent;
-import android.didikee.donate.AlipayDonate;
 import android.net.Uri;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.xuexiang.xpage.annotation.Page;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.grouplist.XUIGroupListView;
 import com.xuexiang.xutil.app.AppUtils;
 
@@ -20,6 +20,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
+import cn.dreamn.qianji_auto.utils.tools.DonateUtil;
 
 @Page(name = "关于")
 public class AboutFragment extends BaseFragment {
@@ -50,10 +51,24 @@ public class AboutFragment extends BaseFragment {
                 .addItemView(mAboutGroupListView.createItemView(getResources().getString(R.string.about_item_homepage)), v -> Tools.goUrl(getContext(), getString(R.string.url_author_blog)))
                 .addItemView(mAboutGroupListView.createItemView(getResources().getString(R.string.about_item_learn)), v -> Tools.goUrl(getContext(), getString(R.string.url_learn)))
                 .addItemView(mAboutGroupListView.createItemView(getResources().getString(R.string.about_item_donation_link)), v -> {
-                    boolean hasInstalledAlipayClient = AlipayDonate.hasInstalledAlipayClient(getContext());
-                    if (hasInstalledAlipayClient) {
-                        AlipayDonate.startAlipayClient(getActivity(), "fkx13398cgtyl92srtra836");
-                    }
+                    new MaterialDialog.Builder(getContext())
+                            .title(R.string.tip_options)
+                            .items(R.array.menu_donate)
+                            .itemsCallback((dialog, itemView, position, text) -> {
+                                switch (position) {
+                                    case 0:
+                                        DonateUtil.openAlipayPayPage(getContext());
+                                        //  DonateUtil.openWeChatPay(getContext());
+                                        break;
+                                    case 1:
+                                        //   DonateUtil.openAlipayPayPage(getContext());
+                                        break;
+                                    case 2:
+                                        //  DonateUtil.openQQPay(getContext());
+                                        break;
+                                }
+                            })
+                            .show();
                 })
                 .addItemView(mAboutGroupListView.createItemView(getResources().getString(R.string.about_item_add_qq_group)), v -> {
                     String key = "ifoJ5lHBaEqX-dloMkG4d3Ra89zXCLti";
