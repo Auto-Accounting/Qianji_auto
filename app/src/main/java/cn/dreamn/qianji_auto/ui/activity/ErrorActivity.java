@@ -25,7 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.xuexiang.xutil.XUtil;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.utils.Caches;
+import cn.dreamn.qianji_auto.core.db.Helper.Caches;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 

@@ -237,7 +237,7 @@ public class WechatHook extends HookBase {
                             }
 
                         } else if (type == 318767153) {
-                            Logi("微信XML消息：" + contentStr, false);
+                            Logi("微信XML消息：" + contentStr, true);
 
                             try {
 
@@ -286,6 +286,10 @@ public class WechatHook extends HookBase {
                                     case "转账退款到账通知":
                                         Logi("-------转账过期退还/退款到账通知-------");
                                         bundle.putString("from", Wechat.PAYMENT_TRANSFER_REFUND);
+                                        break;
+                                    case "零钱提现到账":
+                                        Logi("-------零钱提现到账-------");
+                                        bundle.putString("from", Wechat.MONEY_INCOME);
                                         break;
                                     case "红包退款到账通知":
                                         Logi("-------红包退款到账通知-------");

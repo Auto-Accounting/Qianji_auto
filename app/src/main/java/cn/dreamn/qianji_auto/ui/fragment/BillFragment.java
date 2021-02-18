@@ -21,9 +21,9 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.db.AutoBill;
+import cn.dreamn.qianji_auto.core.db.Table.AutoBill;
 import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
-import cn.dreamn.qianji_auto.core.utils.AutoBills;
+import cn.dreamn.qianji_auto.core.db.Helper.AutoBills;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.adapter.BillAdapter;
@@ -66,7 +66,7 @@ public class BillFragment extends StateFragment {
 
 
         mAdapter.setOnItemClickListener((BillAdapter.OnItemClickListener) (item, pos) -> {
-            new MaterialDialog.Builder(Objects.requireNonNull(getContext()))
+            new MaterialDialog.Builder(getContext())
                     .title(R.string.tip_options)
                     .items(R.array.menu_values_bill)
                     .itemsCallback((dialog, itemView, position, text) -> {
@@ -117,7 +117,7 @@ public class BillFragment extends StateFragment {
             @Override
             public void performAction(View view) {
 
-                new MaterialDialog.Builder(requireContext())
+                new MaterialDialog.Builder(getContext())
                         .title("清空账单信息")
                         .content("您确定要清除账单信息吗？")
                         .positiveText("确定")

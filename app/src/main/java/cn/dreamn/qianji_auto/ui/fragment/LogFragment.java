@@ -21,7 +21,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.db.Log;
+import cn.dreamn.qianji_auto.core.db.Table.Log;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.adapter.LogAdapter;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
@@ -57,7 +57,7 @@ public class LogFragment extends StateFragment {
         map_layout.setColorSchemeColors(0xff0099cc, 0xffff4444, 0xff669900, 0xffaa66cc, 0xffff8800);
 
         mAdapter.setOnItemClickListener((LogAdapter.OnItemClickListener) (item, pos) -> {
-            new MaterialDialog.Builder(Objects.requireNonNull(getContext()))
+            new MaterialDialog.Builder(getContext())
                     .title(R.string.tip_options)
                     .items(R.array.menu_values_log)
                     .itemsCallback((dialog, itemView, position, text) -> {
@@ -84,7 +84,7 @@ public class LogFragment extends StateFragment {
 
     @Override
     protected void initListeners() {
-        new MaterialDialog.Builder(requireContext())
+        new MaterialDialog.Builder(getContext())
                 .title("日志缓存")
                 .content("日志缓存有效期为24小时，如果有无法正常记账的情况请在24小时内反馈，24小时后日志会自动删除。")
                 .negativeText("我知道了")
@@ -98,7 +98,7 @@ public class LogFragment extends StateFragment {
         titleBar.addAction(new TitleBar.TextAction("清空") {
             @Override
             public void performAction(View view) {
-                new MaterialDialog.Builder(requireContext())
+                new MaterialDialog.Builder(getContext())
                         .title("清空日志")
                         .content("您确定要清除日志信息吗？")
                         .positiveText("确定")

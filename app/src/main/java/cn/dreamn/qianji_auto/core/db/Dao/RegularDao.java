@@ -15,21 +15,26 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.db;
+package cn.dreamn.qianji_auto.core.db.Dao;
 
 import androidx.room.Dao;
 import androidx.room.Query;
 
+import cn.dreamn.qianji_auto.core.db.Table.Regular;
+
 @Dao
 public interface RegularDao {
-    @Query("SELECT * FROM regular")
+    @Query("SELECT * FROM regular  order by sort,id")
     Regular[] loadAll();
 
-    @Query("SELECT * FROM regular WHERE use=1")
+    @Query("SELECT * FROM regular WHERE use=1  order by sort,id")
     Regular[] load();
 
     @Query("DELETE FROM regular WHERE id=:id")
     void delete(int id);
+
+    @Query("UPDATE  regular set sort=:sort WHERE id=:id")
+    void setSort(int id, int sort);
 
     @Query("INSERT INTO regular(regular,cate,name,tableList,use) values(:regular,:cate,:name,:tableList,1)")
     void add(String regular, String name, String cate, String tableList);

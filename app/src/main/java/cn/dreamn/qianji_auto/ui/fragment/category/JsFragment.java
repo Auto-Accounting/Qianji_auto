@@ -30,14 +30,11 @@ import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.edittext.MultiLineEditText;
 import com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText;
 
-import java.io.UnsupportedEncodingException;
-
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.base.Manager;
-import cn.dreamn.qianji_auto.core.utils.Caches;
-import cn.dreamn.qianji_auto.core.utils.Category;
-import cn.dreamn.qianji_auto.core.utils.DataUtils;
+import cn.dreamn.qianji_auto.core.db.Helper.Caches;
+import cn.dreamn.qianji_auto.core.db.Helper.Category;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 import cn.dreamn.qianji_auto.utils.tools.JsEngine;

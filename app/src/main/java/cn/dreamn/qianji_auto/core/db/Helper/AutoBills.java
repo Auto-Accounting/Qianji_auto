@@ -15,10 +15,11 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.utils;
+package cn.dreamn.qianji_auto.core.db.Helper;
 
-import cn.dreamn.qianji_auto.core.db.AutoBill;
+import cn.dreamn.qianji_auto.core.db.Table.AutoBill;
 import cn.dreamn.qianji_auto.core.db.DbManger;
+import cn.dreamn.qianji_auto.core.utils.BillInfo;
 
 public class AutoBills {
     public static AutoBill[] getAll() {

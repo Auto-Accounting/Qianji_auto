@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.core.helper.base.Operator;
-import cn.dreamn.qianji_auto.core.utils.Caches;
+import cn.dreamn.qianji_auto.core.db.Helper.Caches;
 import cn.dreamn.qianji_auto.core.utils.Regex;
 import cn.dreamn.qianji_auto.core.utils.ServerManger;
 import cn.dreamn.qianji_auto.utils.tools.Logs;

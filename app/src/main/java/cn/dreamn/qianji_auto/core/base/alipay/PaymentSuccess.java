@@ -44,13 +44,13 @@ public class PaymentSuccess extends Analyze {
         BillInfo billInfo = super.tryAnalyze(content, source);
 
         if (billInfo == null) return null;
-        billInfo.setShopRemark("支付宝支付");
+        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+            billInfo.setShopRemark("支付宝支付");
 
 
-        if (billInfo.getSource() != null && billInfo.getSource().equals("花呗还款")) {
+        if (billInfo.getShopAccount() != null && billInfo.getShopAccount().equals("花呗")) {
             billInfo.setType(BillInfo.TYPE_CREDIT_CARD_PAYMENT);
-
-
+            billInfo.setAccountName2("花呗");
         } else {
             billInfo.setType(BillInfo.TYPE_PAY);
 
@@ -74,11 +74,13 @@ public class PaymentSuccess extends Analyze {
                     break;
                 case "交易对象：":
                 case "还款到：":
+                case "户号：":
                     billInfo.setShopAccount(value);
                     break;
                 case "商品说明：":
                 case "充值说明：":
                 case "还款说明：":
+                case "缴费说明：":
                     billInfo.setShopRemark(value);
                     break;
                 default:

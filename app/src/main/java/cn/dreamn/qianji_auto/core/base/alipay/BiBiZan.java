@@ -44,8 +44,8 @@ public class BiBiZan extends Analyze {
         BillInfo billInfo = super.tryAnalyze(content, source);
 
         if (billInfo == null) return null;
-
-        billInfo.setShopRemark("笔笔攒");
+        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+            billInfo.setShopRemark("笔笔攒");
 
         billInfo.setSilent(true);
         billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);

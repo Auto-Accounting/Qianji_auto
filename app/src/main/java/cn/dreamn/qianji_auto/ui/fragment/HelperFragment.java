@@ -262,7 +262,7 @@ public class HelperFragment extends BaseFragment {
     public void showMsg() {
         LayoutInflater factory = LayoutInflater.from(getContext());
         @SuppressLint("InflateParams") final View textEntryView = factory.inflate(R.layout.fragment_helper_service, null);
-        new MaterialDialog.Builder(Objects.requireNonNull(getContext()))
+        new MaterialDialog.Builder(getContext())
                 .customView(textEntryView, true)
                 .buttonsGravity(GravityEnum.CENTER)
                 .positiveText(getString(R.string.helper_service_ok))

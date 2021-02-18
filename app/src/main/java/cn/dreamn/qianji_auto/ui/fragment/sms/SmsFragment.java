@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.alibaba.fastjson.JSONArray;
@@ -34,8 +35,10 @@ import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
+import com.yanzhenjie.recyclerview.touch.OnItemMoveListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,13 +46,14 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.db.Sms;
+import cn.dreamn.qianji_auto.core.db.Table.Sms;
 import cn.dreamn.qianji_auto.core.utils.App;
-import cn.dreamn.qianji_auto.core.utils.Smses;
+import cn.dreamn.qianji_auto.core.db.Helper.Smses;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.adapter.SmsAdapter;
 import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
 import cn.dreamn.qianji_auto.utils.tools.FileUtils;
+import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_DENY;
 import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_ID;
@@ -67,6 +71,7 @@ public class SmsFragment extends StateFragment {
     SwipeRecyclerView recyclerView;
     private SmsAdapter mAdapter;
 
+    private List<Map<String, String>> mDataList;
     /**
      * 初始化控件
      */
@@ -78,6 +83,34 @@ public class SmsFragment extends StateFragment {
         WidgetUtils.initRecyclerView(recyclerView);
         mAdapter = new SmsAdapter();
         recyclerView.setAdapter(mAdapter);
+        recyclerView.setLongPressDragEnabled(true);
+        recyclerView.setOnItemMoveListener(new OnItemMoveListener() {
+            @Override
+            public boolean onItemMove(RecyclerView.ViewHolder srcHolder, RecyclerView.ViewHolder targetHolder) {
+                // 此方法在Item拖拽交换位置时被调用。
+                // 第一个参数是要交换为之的Item，第二个是目标位置的Item。
+
+                // 交换数据，并更新adapter。
+                int fromPosition = srcHolder.getAdapterPosition();
+                int toPosition = targetHolder.getAdapterPosition();
+                Collections.swap(mDataList, fromPosition, toPosition);
+                mAdapter.notifyItemMoved(fromPosition, toPosition);
+                //   Logs.d(mDataList.get(toPosition).get(KEY_TITLE)+"key id"+mDataList.get(toPosition).get(KEY_ID)+" to"+toPosition);
+                Smses.setSort(Integer.parseInt(mDataList.get(fromPosition).get(KEY_ID)), fromPosition);
+                Smses.setSort(Integer.parseInt(mDataList.get(toPosition).get(KEY_ID)), toPosition);
+
+                // 返回true，表示数据交换成功，ItemView可以交换位置。
+                return true;
+            }
+
+            @Override
+            public void onItemDismiss(RecyclerView.ViewHolder viewHolder) {
+
+            }
+
+        });// 监听拖拽，更新UI。
+
+
         mAdapter.setOnItemClickListener(item -> new MaterialDialog.Builder(getContext())
                 .title(item.get(KEY_TITLE))
                 .items(R.array.menu_values_req2)
@@ -156,7 +189,7 @@ public class SmsFragment extends StateFragment {
                                             SnackbarUtils.Long(getView(), "该文件不是有效的短信配置数据文件").info().show();
                                             return;
                                         }
-                                        new MaterialDialog.Builder(requireContext())
+                                        new MaterialDialog.Builder(getContext())
                                                 .title("恢复提醒")
                                                 .content("是否覆盖旧数据（清空所有数据不做保留）？")
                                                 .positiveText("确定")
@@ -224,8 +257,8 @@ public class SmsFragment extends StateFragment {
     private void loadData() {
         new Handler().postDelayed(() -> {
             // showLoading("正在加载短信识别规则");
+            mDataList = new ArrayList<>();
             Sms[] sms = Smses.getAll();
-            List<Map<String, String>> data = new ArrayList<>();
             for (Sms value : sms) {
                 Map<String, String> item = new HashMap<>();
 
@@ -234,14 +267,14 @@ public class SmsFragment extends StateFragment {
                 item.put(KEY_DENY, value.use == 1 ? "false" : "true");
                 item.put(KEY_ID, String.valueOf(value.id));
                 item.put(KEY_NUM, value.smsNum);
-                data.add(item);
+                mDataList.add(item);
             }
-            if (data.size() == 0) {
+            if (mDataList.size() == 0) {
                 showEmpty("没有任何短信识别规则");
                 return;
             }
 
-            mAdapter.refresh(data);
+            mAdapter.refresh(mDataList);
             if (map_layout != null) {
                 map_layout.setRefreshing(false);
             }

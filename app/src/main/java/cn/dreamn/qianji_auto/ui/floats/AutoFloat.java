@@ -34,12 +34,12 @@ import com.xuexiang.xfloatview.XFloatView;
 import com.xuexiang.xutil.display.ScreenUtils;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.utils.Assets;
-import cn.dreamn.qianji_auto.core.utils.Caches;
+import cn.dreamn.qianji_auto.core.db.Helper.Assets;
+import cn.dreamn.qianji_auto.core.db.Helper.Caches;
 import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.BookNames;
+import cn.dreamn.qianji_auto.core.db.Helper.BookNames;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
@@ -222,7 +222,7 @@ public class AutoFloat extends XFloatView {
         });
         type_layout.setOnClickListener(v -> {
             String[] strings = {"支出", "收入", "转账", "信用还款", "报销"};
-            showMenu("请选择资产账户", strings, data -> {
+            showMenu("请选择收支类型", strings, data -> {
                 billInfo2.setType(BillInfo.getTypeId(strings[data]));
                 this.setData(billInfo2);
             });

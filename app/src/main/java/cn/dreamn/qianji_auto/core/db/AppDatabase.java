@@ -17,8 +17,30 @@
 
 package cn.dreamn.qianji_auto.core.db;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import cn.dreamn.qianji_auto.core.db.Dao.Asset2Dao;
+import cn.dreamn.qianji_auto.core.db.Dao.AssetDao;
+import cn.dreamn.qianji_auto.core.db.Dao.AutoBillDao;
+import cn.dreamn.qianji_auto.core.db.Dao.BookNameDao;
+import cn.dreamn.qianji_auto.core.db.Dao.CacheDao;
+import cn.dreamn.qianji_auto.core.db.Dao.LogDao;
+import cn.dreamn.qianji_auto.core.db.Dao.OtherDao;
+import cn.dreamn.qianji_auto.core.db.Dao.RegularDao;
+import cn.dreamn.qianji_auto.core.db.Dao.SmsDao;
+import cn.dreamn.qianji_auto.core.db.Table.Asset;
+import cn.dreamn.qianji_auto.core.db.Table.Asset2;
+import cn.dreamn.qianji_auto.core.db.Table.AutoBill;
+import cn.dreamn.qianji_auto.core.db.Table.BookName;
+import cn.dreamn.qianji_auto.core.db.Table.Cache;
+import cn.dreamn.qianji_auto.core.db.Table.Log;
+import cn.dreamn.qianji_auto.core.db.Table.Other;
+import cn.dreamn.qianji_auto.core.db.Table.Regular;
+import cn.dreamn.qianji_auto.core.db.Table.Sms;
 
 @Database(entities = {
         Log.class,
@@ -28,8 +50,9 @@ import androidx.room.RoomDatabase;
         BookName.class,
         Asset.class,
         Asset2.class,
-        AutoBill.class
-}, version = 1, exportSchema = false)
+        AutoBill.class,
+        Other.class
+}, version = 2, exportSchema = false)
 
 public abstract class AppDatabase extends RoomDatabase {
     public abstract LogDao LogDao();
@@ -47,4 +70,19 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract Asset2Dao Asset2Dao();
 
     public abstract AutoBillDao AutoBillDao();
+
+    public abstract OtherDao OtherDao();
+
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+
+            database.execSQL("CREATE TABLE `Other` (`id` INTEGER NOT NULL , "
+                    + "`regular` TEXT,`num` TEXT,`name` TEXT,`use` INTEGER NOT NULL DEFAULT 1, `sort` INTEGER NOT NULL DEFAULT 0,PRIMARY KEY(`id`))");
+            database.execSQL("ALTER TABLE Regular "
+                    + " ADD COLUMN sort INTEGER NOT NULL DEFAULT 0");
+            database.execSQL("ALTER TABLE Sms "
+                    + " ADD COLUMN sort INTEGER NOT NULL DEFAULT 0");
+        }
+    };
 }

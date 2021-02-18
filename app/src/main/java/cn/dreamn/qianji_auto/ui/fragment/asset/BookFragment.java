@@ -37,17 +37,14 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.db.Asset;
-import cn.dreamn.qianji_auto.core.db.BookName;
-import cn.dreamn.qianji_auto.core.utils.Assets;
-import cn.dreamn.qianji_auto.core.utils.BookNames;
+import cn.dreamn.qianji_auto.core.db.Table.BookName;
+import cn.dreamn.qianji_auto.core.db.Helper.BookNames;
 import cn.dreamn.qianji_auto.ui.adapter.AssetAdapter;
 import cn.dreamn.qianji_auto.ui.adapter.MapAdapter;
 import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
 
 import static cn.dreamn.qianji_auto.ui.adapter.MapAdapter.KEY_ID;
 import static cn.dreamn.qianji_auto.ui.adapter.MapAdapter.KEY_TITLE;
-import static cn.dreamn.qianji_auto.ui.adapter.MapAdapter.KEY_VALUE;
 
 
 @Page(name = "账本管理")

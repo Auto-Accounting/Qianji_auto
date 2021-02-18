@@ -24,7 +24,7 @@ import java.util.List;
 import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.Caches;
+import cn.dreamn.qianji_auto.core.db.Helper.Caches;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 class AnalyzeAlipayRedPackageRec {

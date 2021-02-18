@@ -29,13 +29,13 @@ import cn.dreamn.qianji_auto.utils.tools.Logs;
 /**
  * 微信支付成功
  */
-public class Payment extends Analyze {
+public class WechatIncomeMoney extends Analyze {
 
-    private static Payment paymentSuccess;
+    private static WechatIncomeMoney paymentSuccess;
 
-    public static Payment getInstance() {
+    public static WechatIncomeMoney getInstance() {
         if (paymentSuccess != null) return paymentSuccess;
-        paymentSuccess = new Payment();
+        paymentSuccess = new WechatIncomeMoney();
         return paymentSuccess;
     }
 
@@ -49,8 +49,9 @@ public class Payment extends Analyze {
             billInfo.setShopRemark("微信支付付款成功");
 
 
-        billInfo.setType(BillInfo.TYPE_PAY);
-
+        billInfo.setSilent(true);
+        billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
+        billInfo.setAccountName("零钱");
 
         return billInfo;
     }
@@ -67,31 +68,19 @@ public class Payment extends Analyze {
                 billInfo.setShopAccount(shop);
             }
 
+            JSONArray line = lines.getJSONArray("line");
+            for (int i = 0; i < line.size(); i++) {
+                JSONObject jsonObject1 = line.getJSONObject(i);
+                String key = jsonObject1.getJSONObject("key").getString("word");
+                String value = jsonObject1.getJSONObject("value").getString("word");
 
-            try {
-                String payTool = lines.getJSONObject("line").getJSONObject("value").getString("word");
-                billInfo.setAccountName(payTool);
-            } catch (Exception e) {
-                JSONArray line = lines.getJSONArray("line");
-                for (int i = 0; i < line.size(); i++) {
-                    JSONObject jsonObject1 = line.getJSONObject(i);
-                    String key = jsonObject1.getJSONObject("key").getString("word");
-                    String value = jsonObject1.getJSONObject("value").getString("word");
-
-                    switch (key) {
-                        case "收款方":
-                        case "商家名称":
-                            billInfo.setShopAccount(value);
-                        case "支付方式":
-                            billInfo.setAccountName(value);
-                            break;
-                        case "扣费项目":
-                        case "商品详情":
-                        case "备注":
-                        case "付款留言":
-                            billInfo.setShopRemark(value);
-                            break;
-                    }
+                switch (key) {
+                    case "提现银行":
+                        billInfo.setAccountName2(value);
+                        break;
+                    case "备注":
+                        billInfo.setShopRemark(value);
+                        break;
                 }
             }
         } catch (Exception e) {

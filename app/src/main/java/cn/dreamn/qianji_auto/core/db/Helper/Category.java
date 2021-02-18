@@ -15,10 +15,13 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.utils;
+package cn.dreamn.qianji_auto.core.db.Helper;
 
 import cn.dreamn.qianji_auto.core.db.DbManger;
-import cn.dreamn.qianji_auto.core.db.Regular;
+import cn.dreamn.qianji_auto.core.db.Table.Regular;
+import cn.dreamn.qianji_auto.core.utils.BillInfo;
+import cn.dreamn.qianji_auto.core.utils.DataUtils;
+import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.utils.tools.JsEngine;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
@@ -159,6 +162,10 @@ public class Category {
 
     public static void del(int id) {
         DbManger.db.RegularDao().delete(id);
+    }
+
+    public static void setSort(int id, int sort) {
+        DbManger.db.RegularDao().setSort(id, sort);
     }
 
 

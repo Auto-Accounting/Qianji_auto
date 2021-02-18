@@ -15,16 +15,15 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.db;
+package cn.dreamn.qianji_auto.core.db.Table;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Asset {
+public class Asset2 {
     //账户列表
     @PrimaryKey(autoGenerate = true)
     public int id;
     public String name;//账户名
-    public String mapName;//映射账户名
 }

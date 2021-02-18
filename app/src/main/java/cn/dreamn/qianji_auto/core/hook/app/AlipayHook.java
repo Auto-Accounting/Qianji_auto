@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.dreamn.qianji_auto.BuildConfig;
@@ -155,104 +156,128 @@ public class AlipayHook extends HookBase {
                 super.beforeHookedMethod(param);
                 String data = param.args[0].toString();
                 data = data.substring(data.indexOf("msgData=[") + "msgData=[".length(), data.indexOf("], pushData=,"));
-                Logi("收到消息：" + data, true);
-                JSONObject jsonObject = JSON.parseObject(data);
-                if (!jsonObject.containsKey("pl")) return;
-                String str = jsonObject.getString("pl");
-                JSONObject jsonObject1 = JSON.parseObject(str);
 
-                if (!jsonObject1.containsKey("templateType")) return;
-                if (!jsonObject1.containsKey("title")) return;
-                if (!jsonObject1.containsKey("content")) return;
-
-                Logi("-------消息开始解析-------");
-                Bundle bundle = new Bundle();
-                bundle.putString("type", Receive.ALIPAY);
-                if (jsonObject1.getString("templateType").equals("BN")) {
-                    JSONObject content = jsonObject1.getJSONObject("content");
-                    bundle.putString("data", content.toJSONString());
-                    String title = jsonObject1.getString("title");
-                    Logi(title);
-                    bundle.putString("title", title);
-                    switch (title) {
-                        case "转账收款到余额宝":
-                            Logi("-------转账收款到余额宝-------");
-                            bundle.putString("from", Alipay.TRANSFER_YUEBAO);
-                            break;
-                        case "转账到账成功":
-                            Logi("-------转账到账成功-------");
-                            bundle.putString("from", Alipay.TRANSFER_SUCCESS_ACCOUNT);
-                            break;
-                        case "余额宝-笔笔攒-单笔攒入":
-                            Logi("-------余额宝-笔笔攒-单笔攒入-------");
-                            bundle.putString("from", Alipay.BIBIZAN);
-                            break;
-                        case "资金到账通知":
-                            Logi("-------资金到账通知-------");
-                            bundle.putString("from", Alipay.FUNDS_ARRIVAL);
-                            break;
-                        case "付款成功":
-                            Logi("-------付款成功-------");
-                            bundle.putString("from", Alipay.PAYMENT_SUCCESS);
-                            break;
-                        case "转账成功":
-                            Logi("-------转账成功-------");
-                            bundle.putString("from", Alipay.TRANSFER_SUCCESS);
-                            break;
-                        case "退款通知":
-                            Logi("-------退款通知-------");
-                            bundle.putString("from", Alipay.REFUND);
-                            break;
-                        case "收到一笔转账":
-                            Logi("-------收到一笔转账-------");
-                            bundle.putString("from", Alipay.TRANSFER_RECEIVED);
-                            break;
-                        case "余额宝-自动转入":
-                        case "余额宝-单次转入":
-                            Logi("-------余额宝自动、单次转入------");
-                            bundle.putString("from", Alipay.TRANSFER_INTO_YUEBAO);
-                            break;
-                        default:
-                            Logi("-------未知数据结构-------", true);
-                            bundle.putString("from", Alipay.CANT_UNDERSTAND);
-                            break;
+                try {
+                    data = "[" + data + "]";
+                    JSONArray jsonArray = JSONArray.parseArray(data);
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        analyze(jsonArray.get(i).toString());
                     }
-                    send(bundle);
-                } else if (jsonObject1.getString("templateType").equals("S")) {
-                    JSONObject content = jsonObject1.getJSONObject("extraInfo");
-                    content.put("extra", jsonObject1.getString("content"));
-                    bundle.putString("data", content.toJSONString());
-                    String title = jsonObject1.getString("title");
-                    Logi(title);
-                    bundle.putString("title", title);
-                    switch (title) {
-                        case "商家服务":
-                            return;//没什么卵用
-                        case "商家服务·收款到账":
-                            Logi("-------商家服务·收款到账-------");
-                            bundle.putString("from", Alipay.QR_COLLECTION);
-                            break;
-                        case "网商银行·余利宝":
-                            Logi("-------网商银行·余利宝-------");
-                            bundle.putString("from", Alipay.REC_YULIBAO);
-                            break;
-                        case "网商银行":
-                            Logi("-------网商银行-------");
-                            bundle.putString("from", Alipay.REPAYMENT);
-                            break;
-                        case "蚂蚁财富·我的余额宝":
-                            Logi("-------蚂蚁财富·我的余额宝-------");
-                            bundle.putString("from", Alipay.REC_YUEBAO);
-                            break;
-                        default:
-                            Logi("-------未知数据结构-------", true);
-                            bundle.putString("from", Alipay.CANT_UNDERSTAND);
-                            break;
-                    }
-                    send(bundle);
+                } catch (Exception e) {
+                    analyze(data);
                 }
+
             }
         });
+    }
+
+
+    private void analyze(String data) {
+        Logi("收到消息：" + data, true);
+        JSONObject jsonObject = JSON.parseObject(data);
+        if (!jsonObject.containsKey("pl")) return;
+        String str = jsonObject.getString("pl");
+        JSONObject jsonObject1 = JSON.parseObject(str);
+
+        if (!jsonObject1.containsKey("templateType")) return;
+        if (!jsonObject1.containsKey("title")) return;
+        if (!jsonObject1.containsKey("content")) return;
+
+        Logi("-------消息开始解析-------");
+        Bundle bundle = new Bundle();
+        bundle.putString("type", Receive.ALIPAY);
+        if (jsonObject1.getString("templateType").equals("BN")) {
+            JSONObject content = jsonObject1.getJSONObject("content");
+            bundle.putString("data", content.toJSONString());
+            String title = jsonObject1.getString("title");
+            Logi(title);
+            bundle.putString("title", title);
+            switch (title) {
+                case "转账收款到余额宝":
+                    Logi("-------转账收款到余额宝-------");
+                    bundle.putString("from", Alipay.TRANSFER_YUEBAO);
+                    break;
+                case "转账到账成功":
+                    Logi("-------转账到账成功-------");
+                    bundle.putString("from", Alipay.TRANSFER_SUCCESS_ACCOUNT);
+                    break;
+                case "余额宝-笔笔攒-单笔攒入":
+                    Logi("-------余额宝-笔笔攒-单笔攒入-------");
+                    bundle.putString("from", Alipay.BIBIZAN);
+                    break;
+                case "资金到账通知":
+                    Logi("-------资金到账通知-------");
+                    bundle.putString("from", Alipay.FUNDS_ARRIVAL);
+                    break;
+                case "付款成功":
+                    Logi("-------付款成功-------");
+                    bundle.putString("from", Alipay.PAYMENT_SUCCESS);
+                    break;
+                case "余额宝-蚂蚁星愿自动攒入":
+                    Logi("-------余额宝-蚂蚁星愿自动攒入-------");
+                    bundle.putString("from", Alipay.MAYI);
+                    break;
+                case " 红包到账通知":
+                    Logi("------- 红包到账通知-------");
+                    bundle.putString("from", Alipay.CLIENT_CASH);
+                    break;
+                case "转账成功":
+                    Logi("-------转账成功-------");
+                    bundle.putString("from", Alipay.TRANSFER_SUCCESS);
+                    break;
+                case "退款通知":
+                    Logi("-------退款通知-------");
+                    bundle.putString("from", Alipay.REFUND);
+                    break;
+                case "收到一笔转账":
+                    Logi("-------收到一笔转账-------");
+                    bundle.putString("from", Alipay.TRANSFER_RECEIVED);
+                    break;
+                case "余额宝-自动转入":
+                case "余额宝-单次转入":
+                    Logi("-------余额宝自动、单次转入------");
+                    bundle.putString("from", Alipay.TRANSFER_INTO_YUEBAO);
+                    break;
+                default:
+                    Logi("-------未知数据结构-------", true);
+                    bundle.putString("from", Alipay.CANT_UNDERSTAND);
+                    break;
+            }
+            send(bundle);
+        } else if (jsonObject1.getString("templateType").equals("S")) {
+            JSONObject content = jsonObject1.getJSONObject("extraInfo");
+            content.put("extra", jsonObject1.getString("content"));
+            bundle.putString("data", content.toJSONString());
+            String title = jsonObject1.getString("title");
+            Logi(title);
+            bundle.putString("title", title);
+            switch (title) {
+                case "商家服务":
+                    return;//没什么卵用
+                case "商家服务·收款到账":
+                    Logi("-------商家服务·收款到账-------");
+                    bundle.putString("from", Alipay.QR_COLLECTION);
+                    break;
+                case "网商银行·余利宝":
+                    Logi("-------网商银行·余利宝-------");
+                    bundle.putString("from", Alipay.REC_YULIBAO);
+                    break;
+                case "网商银行":
+                    Logi("-------网商银行-------");
+                    bundle.putString("from", Alipay.REPAYMENT);
+                    break;
+                case "蚂蚁财富·我的余额宝":
+                    Logi("-------蚂蚁财富·我的余额宝-------");
+                    bundle.putString("from", Alipay.REC_YUEBAO);
+                    break;
+                default:
+                    Logi("-------未知数据结构-------", true);
+                    bundle.putString("from", Alipay.CANT_UNDERSTAND);
+                    break;
+            }
+            send(bundle);
+        }
+
     }
 
     private void hookSetting() {

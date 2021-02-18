@@ -15,27 +15,16 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.db;
+package cn.dreamn.qianji_auto.core.db.Table;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class AutoBill {
+public class BookName {
     //账户列表
     @PrimaryKey(autoGenerate = true)
     public int id;
-    public String type;//账单类型
-    public String money;//账户名
-    public String time;//账户名
-    public String remark;//备注信息
-    public String catename;//分类
-    public String catechoose;//账户名
-    public String bookname;//账本名称
-    public String accountname;//账单所属资产名称
-    public String accountname2;//转账或者还款的转入账户
-    public String shopAccount;//识别出来的收款账户
-    public String shopRemark;//识别出来的备注
-    public String billInfo;//识别出来的账单数据集
-    public String source;//来源
+    public String name;//账户名
+
 }

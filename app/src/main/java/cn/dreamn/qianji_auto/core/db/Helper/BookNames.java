@@ -15,11 +15,11 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.utils;
+package cn.dreamn.qianji_auto.core.db.Helper;
 
 import com.tencent.mmkv.MMKV;
 
-import cn.dreamn.qianji_auto.core.db.BookName;
+import cn.dreamn.qianji_auto.core.db.Table.BookName;
 import cn.dreamn.qianji_auto.core.db.DbManger;
 
 public class BookNames {

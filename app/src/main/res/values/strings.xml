@@ -263,10 +263,11 @@
     <string name="sms_regular">正则表达式</string>
     <string name="sms_location">匹配项目所在位置</string>
     <string name="sms_num">尾号</string>
-    <string name="sms_account">账户名</string>
+    <string name="sms_account">账户名称1</string>
+    <string name="sms_account2">账户名称2</string>
     <string name="sms_type">收支类型</string>
     <string name="sms_money">金额</string>
-    <string name="sms_remark">备注</string>
+    <string name="sms_remark">商户备注</string>
     <string name="notification">支付宝微信通知监听</string>
     <string name="permission_notification_sub">从最近任务列表里面隐藏自动记账</string>
     <string name="permission_notificaiton">最近任务隐藏</string>
@@ -296,4 +297,10 @@
     <string name="set_float_click">倒计时悬浮窗点击操作</string>
     <string name="set_float_end">倒计时结束操作</string>
     <string name="set_other">其他设置</string>
+    <string name="sms_shop">商户名称</string>
+    <string name="sms_client">后台交易</string>
+    <string name="choose_yes">是</string>
+    <string name="choose_no">否</string>
+    <string name="menu_other_sub">未识别账单自定义规则</string>
+    <string name="menu_other">未识别规则</string>
 </resources>

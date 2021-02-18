@@ -15,29 +15,28 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.db;
+package cn.dreamn.qianji_auto.core.db.Dao;
 
 import androidx.room.Dao;
 import androidx.room.Query;
 
+import cn.dreamn.qianji_auto.core.db.Table.Log;
+
 @Dao
-public interface AssetDao {
-    @Query("SELECT * FROM asset")
-    Asset[] getAll();
+public interface LogDao {
+    @Query("SELECT * FROM Log order by pos DESC")
+    Log[] loadAll();
 
-    @Query("SELECT * FROM asset WHERE id=:id")
-    Asset[] get(int id);
+    @Query("DELETE FROM Log WHERE (strftime('%s','now'))- time > :timeout")
+    void deleteTimeout(int timeout);
 
-    @Query("SELECT * FROM asset WHERE name=:name")
-    Asset[] get(String name);
+    @Query("INSERT INTO Log(time,time2,title,sub) values(strftime('%s','now'),:time2,:title,:sub)")
+    void add(String title, String sub, String time2);
 
-    @Query("DELETE FROM asset WHERE id=:id")
-    void del(int id);
+    @Query("DELETE FROM Log WHERE pos=:pos")
+    void del(Integer pos);
 
-    @Query("INSERT INTO asset(name,mapName) values(:name,:mapName)")
-    void add(String name, String mapName);
-
-    @Query("UPDATE  asset SET name=:name,mapName=:mapName WHERE id=:id")
-    void update(int id, String name, String mapName);
+    @Query("DELETE FROM Log")
+    void delAll();
 }
 

@@ -46,8 +46,8 @@ public class TransferSucceedAccount extends Analyze {
         if (billInfo == null) return null;
         if (!jsonObject.getString("status").equals("余额宝转出申请提交")) return null;
 
-
-        billInfo.setShopRemark("余额宝转出银行卡");
+        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+            billInfo.setShopRemark("余额宝转出银行卡");
 
         billInfo.setAccountName("余额宝");
 

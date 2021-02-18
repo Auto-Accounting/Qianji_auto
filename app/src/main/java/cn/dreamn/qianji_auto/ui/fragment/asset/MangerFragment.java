@@ -38,8 +38,8 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.db.Asset2;
-import cn.dreamn.qianji_auto.core.utils.Assets;
+import cn.dreamn.qianji_auto.core.db.Table.Asset2;
+import cn.dreamn.qianji_auto.core.db.Helper.Assets;
 import cn.dreamn.qianji_auto.ui.adapter.AssetAdapter;
 import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
 

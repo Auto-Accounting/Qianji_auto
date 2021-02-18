@@ -165,10 +165,10 @@
                     <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                         style="@style/RoundButton.Auto"
                         android:layout_marginEnd="8dp"
-                        android:text="@string/sms_type" />
+                        android:text="@string/sms_account2" />
 
                     <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                        android:id="@+id/sms_type"
+                        android:id="@+id/sms_account2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -186,10 +186,76 @@
                     <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                         style="@style/RoundButton.Auto"
                         android:layout_marginEnd="8dp"
+                        android:text="@string/sms_type" />
+
+                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                        android:id="@+id/sms_type"
+                        android:text="支出"
+                        style="@style/RoundButton.Auto"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="可输入数字或中文"
+
+                        android:textColor="@color/xui_config_color_edittext_textcolor" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                        style="@style/RoundButton.Auto"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/sms_client" />
+
+                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                        android:id="@+id/sms_client"
+                        android:text="是"
+                        style="@style/RoundButton.Auto"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:textColor="@color/xui_config_color_edittext_textcolor" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                        style="@style/RoundButton.Auto"
+                        android:layout_marginEnd="8dp"
                         android:text="@string/sms_money" />
 
                     <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
                         android:id="@+id/sms_money"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="可输入数字或中文"
+
+                        android:textColor="@color/xui_config_color_edittext_textcolor" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                        style="@style/RoundButton.Auto"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/sms_shop" />
+
+                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                        android:id="@+id/sms_shop"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -225,7 +291,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal"
+                android:gravity="center_horizontal|fill_vertical"
                 android:orientation="horizontal">
 
 

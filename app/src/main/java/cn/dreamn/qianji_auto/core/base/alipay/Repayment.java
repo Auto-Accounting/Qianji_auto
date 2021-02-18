@@ -40,7 +40,8 @@ public class Repayment extends Analyze {
         BillInfo billInfo = super.tryAnalyze(content, source);
 
         if (billInfo == null) return null;
-        billInfo.setShopRemark("支付宝还款");
+        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+            billInfo.setShopRemark("支付宝还款");
 
 
         billInfo.setType(BillInfo.TYPE_CREDIT_CARD_PAYMENT);

@@ -43,7 +43,8 @@ public class TransferSucceed extends Analyze {
         BillInfo billInfo = super.tryAnalyze(content, source);
 
         if (billInfo == null) return null;
-        billInfo.setShopRemark("转账成功");
+        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+            billInfo.setShopRemark("转账成功");
 
 
         billInfo.setType(BillInfo.TYPE_PAY);

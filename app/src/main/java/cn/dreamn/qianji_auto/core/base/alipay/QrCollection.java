@@ -40,7 +40,8 @@ public class QrCollection extends Analyze {
         BillInfo billInfo = super.tryAnalyze(content, source);
 
         if (billInfo == null) return null;
-        billInfo.setShopRemark("二维码收款");
+        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+            billInfo.setShopRemark("二维码收款");
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("extra")));
         billInfo.setShopRemark(jsonObject.getString("assistMsg1"));
         billInfo.setShopAccount(jsonObject.getString("assistName1"));

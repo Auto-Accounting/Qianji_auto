@@ -21,40 +21,15 @@ import android.content.Context;
 
 import androidx.room.Room;
 
+import static cn.dreamn.qianji_auto.core.db.AppDatabase.MIGRATION_1_2;
+
 public class DbManger {
     public static AppDatabase db;
 
     public static void init(Context context) {
-        db = Room.databaseBuilder(context, AppDatabase.class, "ankio").allowMainThreadQueries().build();
-    }
-
-
-    public static void initDb() {
-
-    }
-
-    private static void initAsset() {
-    }
-
-    private static void initAsset2() {
-    }
-
-    private static void initAutoBill() {
-    }
-
-    private static void initBookName() {
-    }
-
-    private static void initCache() {
-    }
-
-    private static void initLog() {
-    }
-
-    private static void initRegular() {
-
-    }
-
-    private static void initSms() {
+        db = Room.databaseBuilder(context, AppDatabase.class, "ankio").
+                allowMainThreadQueries().
+                addMigrations(MIGRATION_1_2).
+                build();
     }
 }

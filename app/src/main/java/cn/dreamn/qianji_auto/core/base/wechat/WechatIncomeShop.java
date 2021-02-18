@@ -45,7 +45,8 @@ public class WechatIncomeShop extends Analyze {
         BillInfo billInfo = super.tryAnalyze(content, source);
 
         if (billInfo == null) return null;
-        // billInfo.setShopRemark("微信支付付款成功");
+        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+            billInfo.setShopRemark("微信支付付款成功");
 
 
         billInfo.setSilent(true);

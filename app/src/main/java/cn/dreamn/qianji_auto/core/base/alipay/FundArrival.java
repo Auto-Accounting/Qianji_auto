@@ -44,8 +44,8 @@ public class FundArrival extends Analyze {
         BillInfo billInfo = super.tryAnalyze(content, source);
 
         if (billInfo == null) return null;
-
-        billInfo.setShopRemark("商家付款");
+        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+            billInfo.setShopRemark("商家付款");
 
         billInfo.setType(BillInfo.TYPE_INCOME);
         billInfo.setSilent(true);

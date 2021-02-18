@@ -37,7 +37,8 @@ public class RedReceived extends Analyze {
         BillInfo billInfo = super.tryAnalyze(content, source);
 
         if (billInfo == null) return null;
-        billInfo.setShopRemark("收红包");
+        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+            billInfo.setShopRemark("收红包");
         String shopName = jsonObject.getString("subtitle").replaceAll("&[a-zA-Z]{1,10};", "").replaceAll("<[^>]*>", "").replaceAll("[(/>)<]", "");
 
         String shopRemark = jsonObject.getString("title");

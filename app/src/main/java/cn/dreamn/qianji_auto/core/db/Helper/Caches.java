@@ -15,9 +15,9 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.utils;
+package cn.dreamn.qianji_auto.core.db.Helper;
 
-import cn.dreamn.qianji_auto.core.db.Cache;
+import cn.dreamn.qianji_auto.core.db.Table.Cache;
 import cn.dreamn.qianji_auto.core.db.DbManger;
 
 public class Caches {

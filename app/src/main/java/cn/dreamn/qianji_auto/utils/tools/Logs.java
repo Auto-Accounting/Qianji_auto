@@ -20,7 +20,7 @@ package cn.dreamn.qianji_auto.utils.tools;
 import android.annotation.SuppressLint;
 
 import cn.dreamn.qianji_auto.core.db.DbManger;
-import cn.dreamn.qianji_auto.core.db.Log;
+import cn.dreamn.qianji_auto.core.db.Table.Log;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 
 public class Logs {

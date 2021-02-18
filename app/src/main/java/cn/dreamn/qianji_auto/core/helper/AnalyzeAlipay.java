@@ -21,10 +21,10 @@ import android.content.Context;
 
 import java.util.List;
 
-import cn.dreamn.qianji_auto.core.db.Cache;
+import cn.dreamn.qianji_auto.core.db.Table.Cache;
 import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
-import cn.dreamn.qianji_auto.core.utils.Caches;
+import cn.dreamn.qianji_auto.core.db.Helper.Caches;
 
 class AnalyzeAlipay {
     public final static String TAG = "alipayment";

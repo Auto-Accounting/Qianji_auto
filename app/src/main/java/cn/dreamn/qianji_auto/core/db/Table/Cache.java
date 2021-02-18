@@ -15,19 +15,17 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.db;
+package cn.dreamn.qianji_auto.core.db.Table;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Sms {
-    //短信处理规则
+public class Cache {
     @PrimaryKey(autoGenerate = true)
     public int id;
-
-    public String regular;//翻译后的规则
-    public String smsNum;//remark|account|type|money|num
-    public String name;//规则名
-    public int use = 1;//是否启用该规则
+    public String cacheType;//缓存类型
+    public String cacheData;//缓存数据
+    public String cacheName;//缓存标题
+    public String time;//有效期
 }

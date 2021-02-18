@@ -15,30 +15,35 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.db;
+package cn.dreamn.qianji_auto.core.db.Dao;
 
 import androidx.room.Dao;
 import androidx.room.Query;
 
+import cn.dreamn.qianji_auto.core.db.Table.Sms;
+
 @Dao
 public interface SmsDao {
-    @Query("SELECT * FROM sms WHERE use=1")
-    public Sms[] load();
+    @Query("SELECT * FROM sms WHERE use=1  order by sort,id")
+    Sms[] load();
 
-    @Query("SELECT * FROM sms")
-    public Sms[] loadAll();
+    @Query("SELECT * FROM sms  order by sort,id")
+    Sms[] loadAll();
 
     @Query("DELETE FROM sms WHERE id=:id")
-    public void delete(int id);
+    void delete(int id);
+
+    @Query("UPDATE  sms set sort=:sort WHERE id=:id")
+    void setSort(int id, int sort);
 
     @Query("UPDATE  sms SET regular=:regular,name=:name,smsNum=:num WHERE id=:id")
-    public void update(int id, String regular, String name, String num);
+    void update(int id, String regular, String name, String num);
 
     @Query("UPDATE  sms SET use=1 WHERE id=:id")
-    public void enable(int id);
+    void enable(int id);
 
     @Query("UPDATE  sms SET use=0 WHERE id=:id")
-    public void deny(int id);
+    void deny(int id);
 
     @Query("INSERT INTO sms(regular,name,smsNum,use) values(:regex,:name,:num,1)")
     void add(String regex, String name, String num);

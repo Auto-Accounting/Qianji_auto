@@ -15,27 +15,20 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.db;
+package cn.dreamn.qianji_auto.core.db.Table;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Regular {
-    //自动分类规则
+public class Other {
+    //其他信息处理规则
     @PrimaryKey(autoGenerate = true)
     public int id;
-    /**
-     * 解析字段 商户title  备注信息 sub
-     * if(title.contents("123"))//标题 contents 、not contents、indexof、endof、regular（匹配到）
-     * if(sub.contents("123"))//副标题
-     * if(time>200 && time <100)//时间 < 、>、=
-     * return "okk"
-     */
-    public String regular;//翻译后的规则
-    public String name;
-    public String cate;
-    public String tableList;
-    public int use;//是否启用该规则
 
+    public String regular;//翻译后的规则
+    public String num;//remark|account|type|money|num
+    public String name;//规则名
+    public int use = 1;//是否启用该规则
+    public int sort = 0;//排序
 }

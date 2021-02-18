@@ -15,10 +15,12 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.db;
+package cn.dreamn.qianji_auto.core.db.Dao;
 
 import androidx.room.Dao;
 import androidx.room.Query;
+
+import cn.dreamn.qianji_auto.core.db.Table.Cache;
 
 @Dao
 public interface CacheDao {

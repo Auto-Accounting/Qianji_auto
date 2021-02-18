@@ -15,10 +15,10 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.utils;
+package cn.dreamn.qianji_auto.core.db.Helper;
 
-import cn.dreamn.qianji_auto.core.db.Asset;
-import cn.dreamn.qianji_auto.core.db.Asset2;
+import cn.dreamn.qianji_auto.core.db.Table.Asset;
+import cn.dreamn.qianji_auto.core.db.Table.Asset2;
 import cn.dreamn.qianji_auto.core.db.DbManger;
 
 public class Assets {

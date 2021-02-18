@@ -75,7 +75,7 @@ public abstract class HookBase implements IHooker {
                                 Toast.makeText(mContext, string, Toast.LENGTH_LONG).show();
                                 Logi(string, false);
                             }
-
+                            //Toast.makeText(mContext,"加载自动记账成功！",Toast.LENGTH_LONG).show();
                             hookFirst();
 
                         } catch (Error | Exception e) {

@@ -111,10 +111,10 @@
 
             <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                 android:id="@+id/cate_type"
+                style="@style/RoundButton.Auto"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="支出/收入/转账/信用还款" />
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -131,6 +131,7 @@
             <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                 android:id="@+id/cate_type2"
                 android:layout_width="0dp"
+                style="@style/RoundButton.Auto"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="支出/收入/转账/信用还款" />

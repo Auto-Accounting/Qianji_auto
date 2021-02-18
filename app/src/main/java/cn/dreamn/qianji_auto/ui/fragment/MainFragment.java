@@ -38,6 +38,7 @@ import cn.dreamn.qianji_auto.core.utils.App;
 import cn.dreamn.qianji_auto.core.utils.Status;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.category.CategoryFragment;
+import cn.dreamn.qianji_auto.ui.fragment.other.OtherFragment;
 import cn.dreamn.qianji_auto.ui.fragment.sms.SmsFragment;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
 import cn.dreamn.qianji_auto.utils.tools.FileUtils;
@@ -65,6 +66,10 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
     SuperTextView menu_Bill;
     @BindView(R.id.Log)
     SuperTextView menu_Log;
+
+    @BindView(R.id.Other)
+    SuperTextView menu_other;
+
     @BindView(R.id.Backup)
     SuperTextView menu_Backup;
     @BindView(R.id.About)
@@ -150,10 +155,13 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
         menu_Bill.setOnSuperTextViewClickListener(superTextView -> {
             openNewPage(BillFragment.class);
         });
+        menu_other.setOnSuperTextViewClickListener(superTextView -> {
+            openNewPage(OtherFragment.class);
+        });
         menu_Backup.setOnSuperTextViewClickListener(superTextView -> {
 
             Permission.getInstance().grant(getActivity(), Permission.Storage);
-            new MaterialDialog.Builder(requireContext())
+            new MaterialDialog.Builder(getContext())
                     .title(R.string.tip_options)
                     .items(R.array.menu_values_backup)
                     .itemsCallback((dialog, itemView, position, text) -> {
@@ -228,7 +236,7 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
             String data = FileUtils.getAssetsData(getContext(), "update.txt");
             if (data == null) return;
             mmkv.encode("version", nowVersion);
-            new MaterialDialog.Builder(requireContext())
+            new MaterialDialog.Builder(getContext())
                     .title("更新日志")
                     .content(data)
                     .negativeText("我知道了")

@@ -28,13 +28,13 @@ import cn.dreamn.qianji_auto.utils.tools.Logs;
 /**
  * 付款给某人
  */
-public class Refund extends Analyze {
+public class ClientCash extends Analyze {
 
-    private static Refund paymentSuccess;
+    private static ClientCash paymentSuccess;
 
-    public static Refund getInstance() {
+    public static ClientCash getInstance() {
         if (paymentSuccess != null) return paymentSuccess;
-        paymentSuccess = new Refund();
+        paymentSuccess = new ClientCash();
         return paymentSuccess;
     }
 
@@ -44,14 +44,10 @@ public class Refund extends Analyze {
         BillInfo billInfo = super.tryAnalyze(content, source);
 
         if (billInfo == null) return null;
-        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
-            billInfo.setShopRemark("淘宝退款");
-
-
-        billInfo.setShopAccount("淘宝");
+        billInfo.setShopAccount("客户端红包提现");
         billInfo.setType(BillInfo.TYPE_INCOME);
+        billInfo.setAccountName("余额");
         billInfo.setSilent(true);
-
         return billInfo;
     }
 
@@ -59,21 +55,15 @@ public class Refund extends Analyze {
     public BillInfo getResult(BillInfo billInfo) {
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
         JSONArray jsonArray = jsonObject.getJSONArray("content");
-
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
             String name = jsonObject1.getString("title");
             String value = jsonObject1.getString("content");
             Logs.d("name ->" + name + "  value->" + value);
             switch (name) {
-
-                case "退款去向：":
-                    billInfo.setAccountName(value);
-                    break;
-                case "退款说明：":
+                case "说明：":
                     billInfo.setShopRemark(value);
                     break;
-
                 default:
                     break;
             }

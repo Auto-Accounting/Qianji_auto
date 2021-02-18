@@ -15,26 +15,31 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.db;
+package cn.dreamn.qianji_auto.core.db.Dao;
 
 import androidx.room.Dao;
 import androidx.room.Query;
 
+import cn.dreamn.qianji_auto.core.db.Table.Asset2;
+
 @Dao
-public interface BookNameDao {
-    @Query("SELECT * FROM bookname")
-    BookName[] getAll();
+public interface Asset2Dao {
+    @Query("SELECT * FROM asset2")
+    Asset2[] getAll();
 
-    @Query("SELECT * FROM bookname WHERE id=:id")
-    BookName[] getAll(int id);
+    @Query("SELECT * FROM asset2 WHERE id=:id")
+    Asset2[] get(int id);
 
-    @Query("DELETE FROM bookname WHERE id=:id")
+    @Query("SELECT * FROM asset2 WHERE name=:name")
+    Asset2[] get(String name);
+
+    @Query("DELETE FROM asset2 WHERE id=:id")
     void del(int id);
 
-    @Query("INSERT INTO bookname(name) values(:name)")
+    @Query("INSERT INTO asset2(name) values(:name)")
     void add(String name);
 
-    @Query("UPDATE  bookname SET name=:name WHERE id=:id")
+    @Query("UPDATE  asset2 SET name=:name WHERE id=:id")
     void update(int id, String name);
 }
 

@@ -23,14 +23,10 @@ import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
-import java.util.Objects;
-
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.utils.BookNames;
+import cn.dreamn.qianji_auto.core.db.Helper.BookNames;
 import cn.dreamn.qianji_auto.core.utils.Remark;
-import cn.dreamn.qianji_auto.ui.adapter.AssetAdapter;
-import cn.dreamn.qianji_auto.ui.adapter.MapAdapter;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 
 

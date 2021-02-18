@@ -15,7 +15,7 @@
  *
  */
 
-package cn.dreamn.qianji_auto.ui.fragment.category;
+package cn.dreamn.qianji_auto.ui.fragment.other;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,34 +46,34 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.core.db.Helper.Others;
 import cn.dreamn.qianji_auto.core.db.Helper.Smses;
-import cn.dreamn.qianji_auto.core.db.Table.Regular;
+import cn.dreamn.qianji_auto.core.db.Table.Other;
+import cn.dreamn.qianji_auto.core.db.Table.Sms;
 import cn.dreamn.qianji_auto.core.utils.App;
-import cn.dreamn.qianji_auto.core.db.Helper.Category;
 import cn.dreamn.qianji_auto.core.utils.Tools;
-import cn.dreamn.qianji_auto.ui.adapter.CateAdapter;
 import cn.dreamn.qianji_auto.ui.adapter.SmsAdapter;
 import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
 import cn.dreamn.qianji_auto.utils.tools.FileUtils;
-import cn.dreamn.qianji_auto.utils.tools.Logs;
 
-import static cn.dreamn.qianji_auto.ui.adapter.CateAdapter.KEY_DATA;
-import static cn.dreamn.qianji_auto.ui.adapter.CateAdapter.KEY_DENY;
-import static cn.dreamn.qianji_auto.ui.adapter.CateAdapter.KEY_ID;
-import static cn.dreamn.qianji_auto.ui.adapter.CateAdapter.KEY_JS;
-import static cn.dreamn.qianji_auto.ui.adapter.CateAdapter.KEY_TITLE;
-import static cn.dreamn.qianji_auto.ui.adapter.CateAdapter.KEY_VALUE;
+import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_DENY;
+import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_ID;
+import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_NUM;
+import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_REGEX;
+import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_TITLE;
 
 
-@Page(name = "自动分类")
-public class CategoryFragment extends StateFragment {
+@Page(name = "未识别账单处理规则")
+public class OtherFragment extends StateFragment {
 
     @BindView(R.id.map_layout)
     SwipeRefreshLayout map_layout;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
-    private CateAdapter mAdapter;
+    private SmsAdapter mAdapter;
+
     private List<Map<String, String>> mDataList;
+
     /**
      * 初始化控件
      */
@@ -83,9 +83,8 @@ public class CategoryFragment extends StateFragment {
         showLoading("加载中...");
 
         WidgetUtils.initRecyclerView(recyclerView);
-        mAdapter = new CateAdapter();
+        mAdapter = new SmsAdapter();
         recyclerView.setAdapter(mAdapter);
-
         recyclerView.setLongPressDragEnabled(true);
         recyclerView.setOnItemMoveListener(new OnItemMoveListener() {
             @Override
@@ -98,9 +97,9 @@ public class CategoryFragment extends StateFragment {
                 int toPosition = targetHolder.getAdapterPosition();
                 Collections.swap(mDataList, fromPosition, toPosition);
                 mAdapter.notifyItemMoved(fromPosition, toPosition);
-                //  Logs.d(mDataList.get(toPosition).get(SmsAdapter.KEY_TITLE)+"key id"+mDataList.get(toPosition).get(SmsAdapter.KEY_ID)+" to"+toPosition);
-                Category.setSort(Integer.parseInt(mDataList.get(fromPosition).get(SmsAdapter.KEY_ID)), fromPosition);
-                Category.setSort(Integer.parseInt(mDataList.get(toPosition).get(SmsAdapter.KEY_ID)), toPosition);
+                //   Logs.d(mDataList.get(toPosition).get(KEY_TITLE)+"key id"+mDataList.get(toPosition).get(KEY_ID)+" to"+toPosition);
+                Others.setSort(Integer.parseInt(mDataList.get(fromPosition).get(KEY_ID)), fromPosition);
+                Others.setSort(Integer.parseInt(mDataList.get(toPosition).get(KEY_ID)), toPosition);
 
                 // 返回true，表示数据交换成功，ItemView可以交换位置。
                 return true;
@@ -113,37 +112,29 @@ public class CategoryFragment extends StateFragment {
 
         });// 监听拖拽，更新UI。
 
+
         mAdapter.setOnItemClickListener(item -> new MaterialDialog.Builder(getContext())
-                .title(R.string.tip_options)
-                .items(R.array.menu_values_req)
+                .title(item.get(KEY_TITLE))
+                .items(R.array.menu_values_req2)
                 .itemsCallback((dialog, itemView, position, text) -> {
                     int id = Integer.parseInt(Objects.requireNonNull(item.get(KEY_ID)));
                     if (position == 0) {
-                        Category.del(id);
+                        Others.del(id);
                         SnackbarUtils.Long(getView(), getString(R.string.del_success)).info().show();
                         refresh();
                     } else if (position == 1) {
-                        if (item.get(KEY_DATA).equals("")) {
-                            SnackbarUtils.Long(getView(), getString(R.string.dontAllow)).info().show();
-                            return;
-                        }
                         Bundle params = new Bundle();
                         params.putString("id", String.valueOf(id));
-
-                        params.putString("data", item.get(KEY_DATA));
+                        params.putString("num", item.get(KEY_NUM));
+                        params.putString("regex", item.get(KEY_REGEX));
+                        params.putString("title", item.get(KEY_TITLE));
                         openPage(EditFragment.class, params);
                     } else if (position == 2) {
-                        Bundle params = new Bundle();
-                        params.putString("id", String.valueOf(id));
-                        params.putString("data", item.get(KEY_JS));
-                        params.putString("name", item.get(KEY_TITLE));
-                        openPage(JsFragment.class, params);
-                    } else if (position == 3) {
-                        Category.deny(id);
+                        Others.deny(id);
                         SnackbarUtils.Long(getView(), getString(R.string.deny_success)).info().show();
                         refresh();
-                    } else if (position == 4) {
-                        Category.enable(id);
+                    } else if (position == 3) {
+                        Others.enable(id);
                         SnackbarUtils.Long(getView(), getString(R.string.enable_success)).info().show();
                         refresh();
                     }
@@ -171,28 +162,8 @@ public class CategoryFragment extends StateFragment {
             @Override
             public void performAction(View view) {
 
+                openPage(EditFragment.class, true);
 
-                new MaterialDialog.Builder(getContext())
-                        .title(R.string.tip_options)
-                        .items(R.array.menu_values_cate)
-                        .itemsCallback((dialog, itemView, position, text) -> {
-
-                            if (position == 0) {
-                                openPage(EditFragment.class, true);
-                            } else if (position == 1) {
-                                openPage(JsFragment.class, true);
-                            }
-
-                        })
-                        .show();
-                /**
-                 * // 设置需要传递的参数
-                 * Bundle params = new Bundle();
-                 * params.putBoolean(DateReceiveFragment.KEY_IS_NEED_BACK, false);
-                 * int id = (int) (Math.random() * 100);
-                 * params.putString(DateReceiveFragment.KEY_EVENT_NAME, "事件" + id);
-                 * params.putString(DateReceiveFragment.KEY_EVENT_DATA, "事件" + id + "携带的数据");
-                 */
             }
         });
         titleBar.addAction(new TitleBar.ImageAction(R.drawable.ic_import) {
@@ -207,7 +178,7 @@ public class CategoryFragment extends StateFragment {
                                 try {
                                     int allowVersion = 49;
                                     FileChooser fileChooser = new FileChooser(getActivity(), filePath -> {
-
+                                        //filePath.get(0).getFilePath()
                                         String data = FileUtils.get(filePath.get(0).getFilePath());
                                         JSONObject jsonObject = JSONObject.parseObject(data);
                                         int version = jsonObject.getIntValue("version");
@@ -216,23 +187,24 @@ public class CategoryFragment extends StateFragment {
                                             SnackbarUtils.Long(getView(), "不支持该版本的配置恢复").info().show();
                                             return;
                                         }
-                                        if (!from.equals("Category")) {
-                                            SnackbarUtils.Long(getView(), "该文件不是有效的自动分类配置数据文件").info().show();
+                                        if (!from.equals("Other")) {
+                                            SnackbarUtils.Long(getView(), "该文件不是有效的未识别规则配置数据文件").info().show();
                                             return;
                                         }
-
-                                        JSONArray jsonArray = jsonObject.getJSONArray("data");
-
                                         new MaterialDialog.Builder(getContext())
                                                 .title("恢复提醒")
                                                 .content("是否覆盖旧数据（清空所有数据不做保留）？")
                                                 .positiveText("确定")
-                                                .onPositive((dialog2, which) -> Category.clear())
+                                                .onPositive((dialog2, which) -> {
+                                                    Smses.clear();
+
+                                                })
                                                 .negativeText("取消")
                                                 .onAny((dialog3, which) -> {
+                                                    JSONArray jsonArray = jsonObject.getJSONArray("data");
                                                     for (int i = 0; i < jsonArray.size(); i++) {
                                                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                                        Category.addCategory(jsonObject1.getString("regular"), jsonObject1.getString("name"), jsonObject1.getString("cate"), jsonObject1.getString("tableList"));
+                                                        Others.add(jsonObject1.getString("regular"), jsonObject1.getString("name"), jsonObject1.getString("smsNum"));
                                                     }
                                                     SnackbarUtils.Long(getView(), "恢复成功").info().show();
                                                     refresh();
@@ -242,37 +214,32 @@ public class CategoryFragment extends StateFragment {
 
                                     });
 
-                                    fileChooser.setTitle("请选择自动分类配置数据文件");
+                                    fileChooser.setTitle("请选择未识别配置数据文件");
                                     fileChooser.setDoneText("确定");
-
-
                                     fileChooser.setChooseType(FileInfo.FILE_TYPE_AUTOJSON);
                                     fileChooser.open();
-
-
                                 } catch (Exception e) {
                                     SnackbarUtils.Long(getView(), "不是自动记账所支持的恢复文件，请重新选择。").info().show();
                                 }
                                 //导入
                             } else if (position == 1) {
                                 //导出
-                                Regular[] regulars = Category.getAll();
+                                Other[] others = Others.getAll();
                                 try {
                                     JSONObject jsonObject = new JSONObject();
                                     jsonObject.put("version", App.getAppVerCode());
-                                    jsonObject.put("from", "Category");
+                                    jsonObject.put("from", "Other");
                                     JSONArray jsonArray = new JSONArray();
-                                    for (Regular regular : regulars) {
+                                    for (Other sm : others) {
                                         JSONObject jsonObject1 = new JSONObject();
-                                        jsonObject1.put("name", regular.name);
-                                        jsonObject1.put("regular", regular.regular);
-                                        jsonObject1.put("tableList", regular.tableList);
-                                        jsonObject1.put("cate", regular.cate);
+                                        jsonObject1.put("name", sm.name);
+                                        jsonObject1.put("regular", sm.regular);
+                                        jsonObject1.put("smsNum", sm.num);
                                         jsonArray.add(jsonObject1);
                                     }
                                     jsonObject.put("data", jsonArray);
-                                    Tools.writeToCache(getContext(), "regular.autoJson", jsonObject.toJSONString());
-                                    Tools.shareFile(getContext(), getContext().getExternalCacheDir().getPath() + "/regular.autoJson");
+                                    Tools.writeToCache(getContext(), "other.autoJson", jsonObject.toJSONString());
+                                    Tools.shareFile(getContext(), getContext().getExternalCacheDir().getPath() + "/other.autoJson");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -282,6 +249,7 @@ public class CategoryFragment extends StateFragment {
             }
         });
 
+
         return titleBar;
 
 
@@ -290,21 +258,21 @@ public class CategoryFragment extends StateFragment {
 
     private void loadData() {
         new Handler().postDelayed(() -> {
-            // mStatefulLayout.showLoading("正在加载分类规则");
-            Regular[] regulars = Category.getAll();
+            // showLoading("正在加载短信识别规则");
             mDataList = new ArrayList<>();
-            for (Regular regular : regulars) {
+            Other[] others = Others.getAll();
+            for (Other value : others) {
                 Map<String, String> item = new HashMap<>();
-                item.put(KEY_TITLE, regular.name);
-                item.put(KEY_VALUE, regular.cate);
-                item.put(KEY_DENY, regular.use == 1 ? "false" : "true40");
-                item.put(KEY_ID, String.valueOf(regular.id));
-                item.put(KEY_DATA, regular.tableList);
-                item.put(KEY_JS, regular.regular);
+
+                item.put(KEY_TITLE, value.name);
+                item.put(KEY_REGEX, value.regular);
+                item.put(KEY_DENY, value.use == 1 ? "false" : "true");
+                item.put(KEY_ID, String.valueOf(value.id));
+                item.put(KEY_NUM, value.num);
                 mDataList.add(item);
             }
             if (mDataList.size() == 0) {
-                showEmpty("没有任何分类规则");
+                showEmpty("没有任何未识别规则");
                 return;
             }
 

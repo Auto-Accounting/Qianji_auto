@@ -45,7 +45,8 @@ public class WechatPaymentRefund extends Analyze {
         BillInfo billInfo = super.tryAnalyze(content, source);
 
         if (billInfo == null) return null;
-        billInfo.setShopRemark("微信支付退款");
+        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+            billInfo.setShopRemark("微信支付退款");
 
         billInfo.setSilent(true);
         billInfo.setType(BillInfo.TYPE_INCOME);

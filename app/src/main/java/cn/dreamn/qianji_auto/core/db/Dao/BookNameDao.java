@@ -15,17 +15,28 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.db;
+package cn.dreamn.qianji_auto.core.db.Dao;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import androidx.room.Dao;
+import androidx.room.Query;
 
-@Entity
-public class Cache {
-    @PrimaryKey(autoGenerate = true)
-    public int id;
-    public String cacheType;//缓存类型
-    public String cacheData;//缓存数据
-    public String cacheName;//缓存标题
-    public String time;//有效期
+import cn.dreamn.qianji_auto.core.db.Table.BookName;
+
+@Dao
+public interface BookNameDao {
+    @Query("SELECT * FROM bookname")
+    BookName[] getAll();
+
+    @Query("SELECT * FROM bookname WHERE id=:id")
+    BookName[] getAll(int id);
+
+    @Query("DELETE FROM bookname WHERE id=:id")
+    void del(int id);
+
+    @Query("INSERT INTO bookname(name) values(:name)")
+    void add(String name);
+
+    @Query("UPDATE  bookname SET name=:name WHERE id=:id")
+    void update(int id, String name);
 }
+

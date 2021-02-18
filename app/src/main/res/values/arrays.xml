@@ -100,4 +100,11 @@
         <!--      <item>@string/choose_qq</item>-->
     </string-array>
 
+    <string-array name="menu_client">
+        <!--   <item>@string/choose_wechat</item>-->
+        <item>@string/choose_yes</item>
+        <item>@string/choose_no</item>
+        <!--      <item>@string/choose_qq</item>-->
+    </string-array>
+
 </resources>

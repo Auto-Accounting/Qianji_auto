@@ -23,10 +23,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 
+import cn.dreamn.qianji_auto.core.base.Other;
 import cn.dreamn.qianji_auto.core.base.Receive;
 import cn.dreamn.qianji_auto.core.base.alipay.Alipay;
 import cn.dreamn.qianji_auto.core.base.alipay.BiBiZan;
+import cn.dreamn.qianji_auto.core.base.alipay.ClientCash;
 import cn.dreamn.qianji_auto.core.base.alipay.FundArrival;
+import cn.dreamn.qianji_auto.core.base.alipay.MaYi;
 import cn.dreamn.qianji_auto.core.base.alipay.PaymentSuccess;
 import cn.dreamn.qianji_auto.core.base.alipay.QrCollection;
 import cn.dreamn.qianji_auto.core.base.alipay.RedReceived;
@@ -40,6 +43,7 @@ import cn.dreamn.qianji_auto.core.base.alipay.YuEBao;
 import cn.dreamn.qianji_auto.core.base.alipay.YuLiBao;
 import cn.dreamn.qianji_auto.core.base.wechat.Payment;
 import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
+import cn.dreamn.qianji_auto.core.base.wechat.WechatIncomeMoney;
 import cn.dreamn.qianji_auto.core.base.wechat.WechatIncomeShop;
 import cn.dreamn.qianji_auto.core.base.wechat.WechatPaymentRefund;
 import cn.dreamn.qianji_auto.core.base.wechat.WechatPaymentTransfer;
@@ -130,60 +134,67 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                 if (title == null) title = "";
                 if (from == null || data == null || type == null) return;
                 String str =
-                        "--------账单开始处理------- \n" +
-                                ">>>>>>>>>>>>>>>>>>广播消息 \n" +
-                                "源APP: " + type + "\n" +
+
+                        "源APP: " + type + "\n" +
                                 "源自类型: " + from + "\n" +
                                 "源标题: " + title + "\n" +
-                                "数据: " + data + "\n" +
-                                ">>>>>>>>>>>>>>>>>>  \n" +
-                                "--------账单开始分析------- \n";
+                                "数据: " + data + "\n";
+                Logs.i(str);
                 BillInfo billInfo = null;
                 switch (type) {
                     case Receive.ALIPAY:
                         switch (from) {
                             case Alipay.BIBIZAN:
                                 //笔笔攒消息
-                                billInfo = BiBiZan.getInstance().tryAnalyze(data, Alipay.BIBIZAN);
+                                billInfo = BiBiZan.getInstance().tryAnalyze(data, from);
                                 break;
                             case Alipay.REPAYMENT:
-                                billInfo = Repayment.getInstance().tryAnalyze(data, Alipay.REPAYMENT);
+                                billInfo = Repayment.getInstance().tryAnalyze(data, from);
                                 break;
                             case Alipay.PAYMENT_SUCCESS:
-                                billInfo = PaymentSuccess.getInstance().tryAnalyze(data, Alipay.PAYMENT_SUCCESS);
+                                billInfo = PaymentSuccess.getInstance().tryAnalyze(data, from);
                                 break;
                             case Alipay.QR_COLLECTION:
-                                billInfo = QrCollection.getInstance().tryAnalyze(data, Alipay.QR_COLLECTION);
+                                billInfo = QrCollection.getInstance().tryAnalyze(data, from);
                                 break;
                             case Alipay.REC_YUEBAO:
-                                billInfo = YuEBao.getInstance().tryAnalyze(data, Alipay.REC_YUEBAO);
+                                billInfo = YuEBao.getInstance().tryAnalyze(data, from);
                                 break;
                             case Alipay.REC_YULIBAO:
-                                billInfo = YuLiBao.getInstance().tryAnalyze(data, Alipay.REC_YULIBAO);
+                                billInfo = YuLiBao.getInstance().tryAnalyze(data, from);
                                 break;
                             case Alipay.RED_RECEIVED:
-                                billInfo = RedReceived.getInstance().tryAnalyze(data, Alipay.RED_RECEIVED);
+                                billInfo = RedReceived.getInstance().tryAnalyze(data, from);
                                 break;
                             case Alipay.REFUND:
-                                billInfo = Refund.getInstance().tryAnalyze(data, Alipay.REFUND);
+                                billInfo = Refund.getInstance().tryAnalyze(data, from);
                                 break;
                             case Alipay.FUNDS_ARRIVAL:
-                                billInfo = FundArrival.getInstance().tryAnalyze(data, Alipay.FUNDS_ARRIVAL);
+                                billInfo = FundArrival.getInstance().tryAnalyze(data, from);
                                 break;
                             case Alipay.TRANSFER_RECEIVED:
-                                billInfo = TransferReceived.getInstance().tryAnalyze(data, Alipay.TRANSFER_RECEIVED);
+                                billInfo = TransferReceived.getInstance().tryAnalyze(data, from);
                                 break;
                             case Alipay.TRANSFER_SUCCESS:
-                                billInfo = TransferSucceed.getInstance().tryAnalyze(data, Alipay.TRANSFER_SUCCESS);
+                                billInfo = TransferSucceed.getInstance().tryAnalyze(data, from);
                                 break;
                             case Alipay.TRANSFER_SUCCESS_ACCOUNT:
-                                billInfo = TransferSucceedAccount.getInstance().tryAnalyze(data, Alipay.TRANSFER_SUCCESS_ACCOUNT);
+                                billInfo = TransferSucceedAccount.getInstance().tryAnalyze(data, from);
+                                break;
+                            case Alipay.MAYI:
+                                billInfo = MaYi.getInstance().tryAnalyze(data, from);
+                                break;
+                            case Alipay.CLIENT_CASH:
+                                billInfo = ClientCash.getInstance().tryAnalyze(data, from);
                                 break;
                             case Alipay.TRANSFER_YUEBAO:
                             case Alipay.TRANSFER_INTO_YUEBAO:
-                                billInfo = TransferIntoYuebao.getInstance().tryAnalyze(data, Alipay.TRANSFER_INTO_YUEBAO);
+                                billInfo = TransferIntoYuebao.getInstance().tryAnalyze(data, from);
                                 break;
                             case Alipay.CANT_UNDERSTAND:
+                                String body = Other.getTextWithWechat(data);
+                                Logs.i("未识别信息文本", body);
+                                Other.regular(title, data, context);
                                 break;
                             default:
                                 break;
@@ -193,38 +204,43 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                     case Receive.WECHAT:
                         switch (from) {
                             case Wechat.PAYMENT:
-                                billInfo = Payment.getInstance().tryAnalyze(data, Wechat.PAYMENT);
+                                billInfo = Payment.getInstance().tryAnalyze(data, from);
                                 break;
                             case Wechat.RECEIVED_QR:
-                                billInfo = WechatQrCollection.getInstance().tryAnalyze(data, Wechat.RECEIVED_QR);
+                                billInfo = WechatQrCollection.getInstance().tryAnalyze(data, from);
                                 break;
                             case Wechat.PAYMENT_TRANSFER:
-                                billInfo = WechatPaymentTransfer.getInstance().tryAnalyze(data, Wechat.PAYMENT_TRANSFER);
+                                billInfo = WechatPaymentTransfer.getInstance().tryAnalyze(data, from);
                                 break;
                             case Wechat.PAYMENT_TRANSFER_RECEIVED:
                                 //  WechatTransferReceived.getInstance().tryAnalyze(data,context);
                                 // 和上面那个一样
                                 break;
                             case Wechat.RED_PACKAGE:
-                                billInfo = WechatRedPackage.getInstance().tryAnalyze(data, Wechat.RED_PACKAGE);
+                                billInfo = WechatRedPackage.getInstance().tryAnalyze(data, from);
                                 break;
                             case Wechat.RED_PACKAGE_RECEIVED:
-                                billInfo = WechatRedPackageReceived.getInstance().tryAnalyze(data, Wechat.RED_PACKAGE_RECEIVED);
+                                billInfo = WechatRedPackageReceived.getInstance().tryAnalyze(data, from);
                                 break;
                             case Wechat.PAYMENT_TRANSFER_REFUND:
-                                billInfo = WechatTransferRefund.getInstance().tryAnalyze(data, Wechat.PAYMENT_TRANSFER_REFUND);
+                                billInfo = WechatTransferRefund.getInstance().tryAnalyze(data, from);
                                 break;
                             case Wechat.PAYMENT_REFUND:
-                                billInfo = WechatPaymentRefund.getInstance().tryAnalyze(data, Wechat.PAYMENT_REFUND);
+                                billInfo = WechatPaymentRefund.getInstance().tryAnalyze(data, from);
                                 break;
                             case Wechat.RED_REFUND:
-                                billInfo = WechatRedRefund.getInstance().tryAnalyze(data, Wechat.RED_REFUND);
+                                billInfo = WechatRedRefund.getInstance().tryAnalyze(data, from);
                                 break;
                             case Wechat.INCOME_SHOP:
-                                billInfo = WechatIncomeShop.getInstance().tryAnalyze(data, Wechat.INCOME_SHOP);
+                                billInfo = WechatIncomeShop.getInstance().tryAnalyze(data, from);
+                                break;
+                            case Wechat.MONEY_INCOME:
+                                billInfo = WechatIncomeMoney.getInstance().tryAnalyze(data, from);
                                 break;
                             case Wechat.CANT_UNDERSTAND:
-
+                                String body = Other.getTextWithWechat(data);
+                                Logs.i("未识别信息文本", body);
+                                Other.regular(title, data, context);
                                 break;
                             default:
                                 break;
@@ -234,14 +250,12 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                     default:
                         break;
                 }
-                str += ">>>>>>>>>>>>>>>>>>账单分析完毕 \n";
+                // str += ">>>>>>>>>>>>>>>>>>账单分析完毕 \n";
                 if (billInfo != null) {
-                    str += "分析结果：账单有效 \n";
+
                     CallAutoActivity.call(context, billInfo);
-                } else {
-                    str += "分析结果：账单无效 \n";
                 }
-                Logs.i(str);
+
                 break;
             }
         }

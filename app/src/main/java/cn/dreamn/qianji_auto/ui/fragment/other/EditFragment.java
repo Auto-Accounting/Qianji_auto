@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 xuexiangjys(xuexiangjys@163.com)
+ * Copyright (C) 2021 dreamn(dream@dreamn.cn)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  *
  */
 
-package cn.dreamn.qianji_auto.ui.fragment.sms;
+package cn.dreamn.qianji_auto.ui.fragment.other;
 
 import android.os.Bundle;
 
@@ -32,7 +32,8 @@ import java.util.Arrays;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Helper.Caches;
-import cn.dreamn.qianji_auto.core.db.Helper.Smses;
+import cn.dreamn.qianji_auto.core.db.Helper.Others;
+
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 import cn.dreamn.qianji_auto.utils.tools.JsEngine;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
@@ -108,7 +109,7 @@ public class EditFragment extends BaseFragment {
         if (id != null && !id.equals("")) {
             regularId = Integer.parseInt(id);
 
-            String[] s = Smses.getSmsNum(num);
+            String[] s = Others.getNum(num);
             Logs.d(Arrays.toString(s));
 
             sms_name.setText(title);
@@ -149,9 +150,9 @@ public class EditFragment extends BaseFragment {
         btn_test.setOnClickListener(v -> {
             // popToBack("SmsFragment",null);
 
-            showInputDialog("请输入测试短信", "测试短信", Caches.getOneString("test_sms", ""), data -> {
+            showInputDialog("请输入测试文本", "测试文本", Caches.getOneString("test_text", ""), data -> {
                 Caches.AddOrUpdate("test_sms", data);
-                String func = Smses.getFunction(
+                String func = Others.getFunction(
                         sms_regex.getContentText(),
                         data,
                         sms_remark.getEditValue(),
@@ -172,8 +173,8 @@ public class EditFragment extends BaseFragment {
 
                     String result=runtime.executeStringScript(func);*/
                     String result = JsEngine.run(func);
-                    Logs.d("Qianji_Sms", "短信分析结果：" + result);
-                    String[] strings = Smses.getSmsNum(result);
+                    Logs.d("Qianji_Text", "文本分析结果：" + result);
+                    String[] strings = Others.getNum(result);
                     String datas = "";
                     datas += "尾号：" + strings[4] + "\n";
                     datas += "账户名称1：" + strings[1] + "\n";
@@ -220,12 +221,12 @@ public class EditFragment extends BaseFragment {
             String num = sms_remark.getEditValue() + "|" + sms_account.getEditValue() + "|" + sms_type.getText().toString() + "|" + sms_money.getEditValue() + "|" + sms_num.getEditValue() + "|" + sms_shop.getEditValue() + "|" + sms_account2.getEditValue() + "|" + sms_client.getText();
 
             if (regularId != -1) {
-                Smses.change(regularId, regex, name, num);
+                Others.change(regularId, regex, name, num);
             } else {
-                Smses.add(regex, name, num);
+                Others.add(regex, name, num);
             }
 
-            popToBack("SmsFragment", null);
+            popToBack("OtherFragment", null);
         });
 
     }

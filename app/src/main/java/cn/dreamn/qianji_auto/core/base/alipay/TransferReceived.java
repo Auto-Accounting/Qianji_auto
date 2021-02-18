@@ -43,7 +43,8 @@ public class TransferReceived extends Analyze {
         BillInfo billInfo = super.tryAnalyze(content, source);
 
         if (billInfo == null) return null;
-        billInfo.setShopRemark("转账收款");
+        if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
+            billInfo.setShopRemark("转账收款");
 
 
         billInfo.setAccountName("余额");

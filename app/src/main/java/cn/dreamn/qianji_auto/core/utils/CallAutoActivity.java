@@ -26,6 +26,12 @@ import com.tencent.mmkv.MMKV;
 import com.xuexiang.xutil.display.ScreenUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
 
+import cn.dreamn.qianji_auto.core.db.Helper.Assets;
+import cn.dreamn.qianji_auto.core.db.Helper.AutoBills;
+import cn.dreamn.qianji_auto.core.db.Helper.BookNames;
+import cn.dreamn.qianji_auto.core.db.Helper.Caches;
+import cn.dreamn.qianji_auto.core.db.Helper.Category;
+import cn.dreamn.qianji_auto.core.db.Table.Cache;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
@@ -36,18 +42,26 @@ import static cn.dreamn.qianji_auto.core.utils.Tools.goUrl;
 public class CallAutoActivity {
 
     public static void call(Context context, BillInfo billInfo) {
-        billInfo.setTime();//设置时间
+        String cache = Caches.getCacheData("lastTime");
+
+        if (cache.equals("")) cache = "0";
+        long time = Long.parseLong(cache);
+        long t = System.currentTimeMillis() - time;
+        t = t / 1000;
+
         billInfo = replaceWithSomeThing(billInfo);
-        if (Caches.getCacheData("lastBill").equals(billInfo.toString())) {
+        if (Caches.getCacheData("lastBill").equals(billInfo.toString()) && t < 2) {
+            Logs.i("出现重复账单");
             return;
         }
-        Caches.AddOrUpdate("lastBill", billInfo.toString());
+        Caches.AddOrUpdate("lastTime", String.valueOf(System.currentTimeMillis()));
+
         //重复账单过滤
         //多笔记账延时
-
+        billInfo.setTime();//设置时间
         Logs.i("账单捕获，账单信息:\n" + billInfo.dump());
         if (!billInfo.isAvaiable()) return;
-
+        Caches.AddOrUpdate("lastBill", billInfo.toString());
         AutoBills.add(billInfo);
         //  Tasker.add(context, billInfo);
         run(context, billInfo);
@@ -213,7 +227,7 @@ public class CallAutoActivity {
 
     public static void run(Context context, BillInfo billInfo) {
 
-        cn.dreamn.qianji_auto.core.db.Cache cache = Caches.getOne("float_lock", "0");
+        Cache cache = Caches.getOne("float_lock", "0");
 
         Logs.d("Qianji_check", "记账检查...");
         if (cache != null && cache.cacheData.equals("true")) {
