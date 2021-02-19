@@ -107,6 +107,8 @@ public class BillTools {
             payTool = payTool.substring(3);
         } else if (payTool.startsWith("账户")) {
             payTool = payTool.substring(2);
+        } else if (payTool.contains("预计入账时间")) {
+            payTool = payTool.substring(0, payTool.indexOf("预计入账时间") - 1);
         }
         return payTool;
     }
