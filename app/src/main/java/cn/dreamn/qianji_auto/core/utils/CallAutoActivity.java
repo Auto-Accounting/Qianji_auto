@@ -98,7 +98,7 @@ public class CallAutoActivity {
             billInfo.setShopAccount(billInfo.getSource());
         }
 
-        billInfo.setRemark(Remark.getRemark(billInfo.getShopAccount(), billInfo.getShopRemark()));//设置备注
+        billInfo.setRemark(Remark.getRemark(billInfo));//设置备注
 
         String cate = Category.getCategory(billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType()), billInfo.getSource());
         if (cate.equals("NotFind")) {

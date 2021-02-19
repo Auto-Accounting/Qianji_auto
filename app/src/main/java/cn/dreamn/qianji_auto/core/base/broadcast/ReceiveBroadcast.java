@@ -27,6 +27,7 @@ import cn.dreamn.qianji_auto.core.base.Other;
 import cn.dreamn.qianji_auto.core.base.Receive;
 import cn.dreamn.qianji_auto.core.base.alipay.Alipay;
 import cn.dreamn.qianji_auto.core.base.alipay.BiBiZan;
+import cn.dreamn.qianji_auto.core.base.alipay.CardRepayment;
 import cn.dreamn.qianji_auto.core.base.alipay.ClientCash;
 import cn.dreamn.qianji_auto.core.base.alipay.FundArrival;
 import cn.dreamn.qianji_auto.core.base.alipay.MaYi;
@@ -149,8 +150,13 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                                 billInfo = BiBiZan.getInstance().tryAnalyze(data, from);
                                 break;
                             case Alipay.REPAYMENT:
+
                                 billInfo = Repayment.getInstance().tryAnalyze(data, from);
                                 break;
+                            case Alipay.CARD_REPAYMENT:
+                                billInfo = CardRepayment.getInstance().tryAnalyze(data, from);
+                                break;
+                            case Alipay.PAYMENT_ORDING:
                             case Alipay.PAYMENT_SUCCESS:
                                 billInfo = PaymentSuccess.getInstance().tryAnalyze(data, from);
                                 break;
@@ -192,7 +198,7 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                                 billInfo = TransferIntoYuebao.getInstance().tryAnalyze(data, from);
                                 break;
                             case Alipay.CANT_UNDERSTAND:
-                                String body = Other.getTextWithWechat(data);
+                                String body = Other.getTextWithAlipay(data);
                                 Logs.i("未识别信息文本", body);
                                 Other.regular(title, data, context);
                                 break;

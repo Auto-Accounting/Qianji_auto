@@ -31,8 +31,10 @@ public class Alipay {
     public final static String FUNDS_ARRIVAL = "支付宝商家付款到账";//资金到账通知
     public final static String RED_RECEIVED = "支付宝收到红包";//收到红包
     public final static String REPAYMENT = "支付宝网商银行还款";//还款
+    public final static String CARD_REPAYMENT = "支付宝信用卡还款";//还款
     public static final String TRANSFER_INTO_YUEBAO = "支付宝余额宝自动或单次转入";//余额宝自动转入
-    public static final String MAYI = "蚂蚁星愿";//蚂蚁星愿
-    public static final String CLIENT_CASH = "客户端提现红包";//客户端提现红包
+    public static final String MAYI = "支付宝蚂蚁星愿";//蚂蚁星愿
+    public static final String CLIENT_CASH = "支付宝客户端提现红包";//客户端提现红包
     public final static String CANT_UNDERSTAND = "支付宝无法识别的消息";//无法理解
+    public static final String PAYMENT_ORDING = "充值-普通充值";
 }

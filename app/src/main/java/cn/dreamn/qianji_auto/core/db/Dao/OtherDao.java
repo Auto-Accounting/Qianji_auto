@@ -46,7 +46,7 @@ public interface OtherDao {
     @Query("UPDATE  other SET use=0 WHERE id=:id")
     void deny(int id);
 
-    @Query("INSERT INTO other(regular,name,num,use) values(:regex,:name,:num,1)")
+    @Query("INSERT INTO other(regular,name,num,use,sort) values(:regex,:name,:num,1,0)")
     void add(String regex, String name, String num);
 
     @Query("DELETE FROM other")

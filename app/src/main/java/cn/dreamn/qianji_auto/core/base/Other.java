@@ -52,6 +52,24 @@ public class Other {
         return s;
     }
 
+    public static String getTextWithAlipay(String str) {
+        Pattern p = Pattern.compile("\"(.*?)\"");
+        Matcher m = p.matcher(str);
+        //  boolean next = false;
+        StringBuilder ret = new StringBuilder();
+        while (m.find()) {
+            String data = m.group();
+            data = data.replace("\"", "").replace("\n", "");
+            ret.append(",").append(data);
+            //next = data.equals("word");
+        }
+        String s = ret.toString();
+        if (s.contains(",")) {
+            s = s.substring(s.indexOf(","));
+        }
+        return s;
+    }
+
     public static void regular(String title, String body, Context context) {
 
 

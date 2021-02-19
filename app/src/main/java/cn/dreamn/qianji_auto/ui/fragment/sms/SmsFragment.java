@@ -46,14 +46,13 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.core.db.Helper.Smses;
 import cn.dreamn.qianji_auto.core.db.Table.Sms;
 import cn.dreamn.qianji_auto.core.utils.App;
-import cn.dreamn.qianji_auto.core.db.Helper.Smses;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.adapter.SmsAdapter;
 import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
 import cn.dreamn.qianji_auto.utils.tools.FileUtils;
-import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_DENY;
 import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_ID;

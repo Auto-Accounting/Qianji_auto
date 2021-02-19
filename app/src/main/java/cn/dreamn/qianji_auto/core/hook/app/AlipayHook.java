@@ -209,7 +209,12 @@ public class AlipayHook extends HookBase {
                     Logi("-------资金到账通知-------");
                     bundle.putString("from", Alipay.FUNDS_ARRIVAL);
                     break;
+                case "充值-普通充值":
+                    Logi("-------充值-普通充值-------");
+                    bundle.putString("from", Alipay.PAYMENT_ORDING);
+                    break;
                 case "付款成功":
+
                     Logi("-------付款成功-------");
                     bundle.putString("from", Alipay.PAYMENT_SUCCESS);
                     break;
@@ -237,6 +242,10 @@ public class AlipayHook extends HookBase {
                 case "余额宝-单次转入":
                     Logi("-------余额宝自动、单次转入------");
                     bundle.putString("from", Alipay.TRANSFER_INTO_YUEBAO);
+                    break;
+                case "还款到账成功":
+                    Logi("-------还款到账成功------");
+                    bundle.putString("from", Alipay.CARD_REPAYMENT);
                     break;
                 default:
                     Logi("-------未知数据结构-------", true);

@@ -20,10 +20,19 @@ package cn.dreamn.qianji_auto.core.utils;
 import com.tencent.mmkv.MMKV;
 
 public class Remark {
-    public static String getRemark(String shopName, String shopRemark) {
+    public static String getRemark(BillInfo billInfo) {
+        String shopName = billInfo.getShopAccount();
+        String shopRemark = billInfo.getShopRemark();
+        String app = billInfo.getSource().contains("微信") ? "微信" : "支付宝";
+
         if (shopName == null) shopName = "";
         if (shopRemark == null) shopRemark = "";
-        return getRemarkTpl().replace("[商户名]", shopName).replace("[商户备注]", shopRemark);
+        return getRemarkTpl().replace("[商户名]", shopName)
+                .replace("[商户备注]", shopRemark)
+                .replace("[APP]", app)
+                .replace("[支出资产]", billInfo.getAccountName())
+                .replace("[变动资产]", billInfo.getAccountName2())
+                ;
     }
 
     public static String getRemarkTpl() {

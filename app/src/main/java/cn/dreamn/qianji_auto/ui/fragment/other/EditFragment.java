@@ -42,7 +42,7 @@ import cn.dreamn.qianji_auto.utils.tools.Logs;
 import com.eclipsesource.v8.V8;*/
 
 
-@Page(name = "识别规则编辑")
+@Page(name = "文本识别规则编辑")
 public class EditFragment extends BaseFragment {
 
 

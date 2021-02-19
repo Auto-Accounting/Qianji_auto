@@ -106,11 +106,22 @@ class AnalyzeWeChatBills {
         String shopName = list.get(1).replace("扫二维码付款-给", "");
 
         BillInfo billInfo = new BillInfo();
-        billInfo.setAccountName(list.get(9));
-        billInfo.setRemark(list.get(1));
+        //billInfo.setAccountName(list.get(9));
+        //billInfo.setRemark(list.get(1));
         billInfo.setShopAccount(shopName);
-        billInfo.setShopRemark(list.get(1));
+        // billInfo.setShopRemark(list.get(1));
         billInfo.setMoney(money);
+
+        for (int i = 0; i < list.size(); i++) {
+            String s = list.get(i);
+            if (s.equals("收款方备注") && i + 1 < list.size()) {
+                billInfo.setShopRemark(list.get(i + 1));
+            } else if (s.equals("付款方留言") && i + 1 < list.size()) {
+                billInfo.setShopRemark(list.get(i + 1));
+            } else if (s.equals("支付方式") && i + 1 < list.size()) {
+                billInfo.setAccountName(list.get(i + 1));
+            }
+        }
 
 
         billInfo.setType(BillInfo.TYPE_PAY);

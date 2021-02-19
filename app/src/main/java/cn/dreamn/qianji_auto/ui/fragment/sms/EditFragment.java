@@ -41,7 +41,7 @@ import cn.dreamn.qianji_auto.utils.tools.Logs;
 import com.eclipsesource.v8.V8;*/
 
 
-@Page(name = "识别规则编辑")
+@Page(name = "短信识别规则编辑")
 public class EditFragment extends BaseFragment {
 
 
@@ -222,7 +222,9 @@ public class EditFragment extends BaseFragment {
             if (regularId != -1) {
                 Smses.change(regularId, regex, name, num);
             } else {
+                // Logs.d("add 1");
                 Smses.add(regex, name, num);
+                // Logs.d("add 2");
             }
 
             popToBack("SmsFragment", null);

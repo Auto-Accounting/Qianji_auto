@@ -45,7 +45,7 @@ public interface SmsDao {
     @Query("UPDATE  sms SET use=0 WHERE id=:id")
     void deny(int id);
 
-    @Query("INSERT INTO sms(regular,name,smsNum,use) values(:regex,:name,:num,1)")
+    @Query("INSERT INTO sms(regular,name,smsNum,use,sort) values(:regex,:name,:num,1,0)")
     void add(String regex, String name, String num);
 
     @Query("DELETE FROM sms")
