@@ -95,7 +95,7 @@ public class BillTools {
         if (payTool == null) return payTool;
         if (payTool.startsWith("退回")) {
             payTool = payTool.substring(2);
-            if (payTool.startsWith("支付卡")) {
+            if (payTool.startsWith("支付卡") || payTool.startsWith("银行卡")) {
                 payTool = payTool.substring(3);
                 if (payTool.startsWith("(") && payTool.endsWith(")")) {
                     payTool = payTool.substring(1, payTool.length() - 1);

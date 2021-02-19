@@ -238,12 +238,11 @@ public class WechatHook extends HookBase {
 
                         } else if (type == 318767153) {
                             Logi("微信XML消息：" + contentStr, true);
-
+                            XmlToJson xmlToJson = new XmlToJson.Builder(contentStr).build();
+                            String xml = xmlToJson.toString();
                             try {
 
 
-                                XmlToJson xmlToJson = new XmlToJson.Builder(contentStr).build();
-                                String xml = xmlToJson.toString();
                                 JSONObject msg = JSONObject.parseObject(xml);
                                 JSONObject mmreader = msg.getJSONObject("msg").getJSONObject("appmsg").getJSONObject("mmreader");
 
@@ -310,6 +309,12 @@ public class WechatHook extends HookBase {
                                 }
                                 send(bundle);
                             } catch (Exception e) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("type", Receive.WECHAT);
+                                bundle.putString("data", xml);
+                                bundle.putString("title", Wechat.CANT_UNDERSTAND);
+                                bundle.putString("from", Wechat.CANT_UNDERSTAND);
+                                send(bundle);
                                 Logi("JSON错误" + e.toString(), true);
                             }
 
@@ -436,7 +441,7 @@ public class WechatHook extends HookBase {
     private void doSettingsMenuInject(final Activity activity) {
         ListView itemView = (ListView) ViewUtil.findViewByName(activity, "android", "list");
         if (ViewUtil.findViewByText(itemView, "自动记账") != null
-                || isHeaderViewExistsFallback(itemView)) {
+        ) {
             return;
         }
 
@@ -499,23 +504,4 @@ public class WechatHook extends HookBase {
 
     }
 
-    private boolean isHeaderViewExistsFallback(ListView listView) {
-        if (listView == null) {
-            return false;
-        }
-        if (listView.getHeaderViewsCount() <= 0) {
-            return false;
-        }
-        try {
-            Field mHeaderViewInfosField = ListView.class.getDeclaredField("mHeaderViewInfos");
-            mHeaderViewInfosField.setAccessible(true);
-            ArrayList<ListView.FixedViewInfo> mHeaderViewInfos = (ArrayList<ListView.FixedViewInfo>) mHeaderViewInfosField.get(listView);
-            if (mHeaderViewInfos != null) {
-                // Object tag = viewInfo.view.getTag();
-            }
-        } catch (Exception e) {
-            Logi(e.toString(), true);
-        }
-        return false;
-    }
 }
