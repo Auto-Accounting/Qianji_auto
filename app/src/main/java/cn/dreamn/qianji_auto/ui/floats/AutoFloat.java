@@ -262,11 +262,18 @@ public class AutoFloat extends XFloatView {
         auto_account.setText(billInfo.getAccountName());
         auto_account2.setText(billInfo.getAccountName2());
         auto_time.setText(billInfo.getTime());
-        if (billInfo.getType().equals(BillInfo.TYPE_INCOME) || billInfo.getType().equals(BillInfo.TYPE_PAY)) {
+        if (billInfo.getType().equals(BillInfo.TYPE_INCOME) || billInfo.getType().equals(BillInfo.TYPE_PAY) || billInfo.getType().equals(BillInfo.TYPE_PAYMENT_REFUND)) {
             account_book2_layout.setVisibility(View.GONE);
         } else {
             account_book2_layout.setVisibility(View.VISIBLE);
         }
+
+        if (billInfo.getType().equals(BillInfo.TYPE_INCOME) || billInfo.getType().equals(BillInfo.TYPE_PAY)) {
+            auto_category.setVisibility(View.VISIBLE);
+        } else {
+            auto_category.setVisibility(View.GONE);
+        }
+
         auto_money.setText(BillTools.getCustomBill(billInfo));
         auto_money.setTextColor(BillTools.getColor(billInfo));
     }
