@@ -56,7 +56,8 @@ public class Repayment extends Analyze {
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("extra")));
         billInfo.setShopAccount("网商银行");
         billInfo.setShopRemark(jsonObject.getString("assistMsg1"));
-        billInfo.setAccountName("支付宝");//这个不准确
+
+
         billInfo.setAccountName2(jsonObject.getString("assistMsg2"));
 
         return billInfo;

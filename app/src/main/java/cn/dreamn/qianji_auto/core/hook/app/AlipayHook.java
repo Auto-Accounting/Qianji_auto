@@ -40,6 +40,7 @@ import cn.dreamn.qianji_auto.core.base.alipay.Alipay;
 import cn.dreamn.qianji_auto.core.hook.HookBase;
 import cn.dreamn.qianji_auto.core.hook.Task;
 import cn.dreamn.qianji_auto.utils.tools.DpUtil;
+import cn.dreamn.qianji_auto.utils.tools.Logs;
 import cn.dreamn.qianji_auto.utils.tools.StyleUtil;
 import cn.dreamn.qianji_auto.utils.tools.ViewUtil;
 import de.robv.android.xposed.XC_MethodHook;
@@ -63,8 +64,10 @@ public class AlipayHook extends HookBase {
         hookRed();
         hookReceive();
         hookSetting();
+        hookPayUi();
 
     }
+
 
     @Override
     public String getPackPageName() {
@@ -109,6 +112,34 @@ public class AlipayHook extends HookBase {
         } catch (Error | Exception e) {
             Logi("hook 支付宝安全监测 error :" + e.toString(), false);
         }
+    }
+
+    private void hookPayUi() {
+        Class<?> LogUtil = XposedHelpers.findClass("com.alipay.android.msp.utils.LogUtil", mAppClassLoader);
+        XposedHelpers.findAndHookMethod(LogUtil, "record", int.class, String.class, String.class, String.class, new XC_MethodHook() {
+            public void beforeHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+                String str = methodHookParam.args[2].toString();
+                String data = methodHookParam.args[3].toString();
+                try {
+                    if (str.equals("MspUIClient:handleUiShow")) {
+                        //找到所需
+                        data = data.substring("data=".length());
+                        JSONObject parseObject = JSON.parseObject(data);
+                        if (parseObject.containsKey("data")) {
+                            JSONObject parseObject2 = JSON.parseObject(parseObject.getString("data"));
+                            if (parseObject2.containsKey("costTitle")) {
+                                writeData("alipay_cache_shopremark", parseObject2.getString("product"));
+                                writeData("alipay_cache_money", parseObject2.getString("cost"));
+                                writeData("alipay_cache_payTool", parseObject2.getString("payTool"));
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    Logi("出现错误" + e.toString(), true);
+                }
+            }
+        });
+
     }
 
     private void hookRed() {
@@ -185,16 +216,24 @@ public class AlipayHook extends HookBase {
         JSONObject jsonObject1 = JSON.parseObject(str);
 
         if (!jsonObject1.containsKey("templateType")) return;
+        if (!jsonObject1.containsKey("templateName")) return;
         if (!jsonObject1.containsKey("title")) return;
         if (!jsonObject1.containsKey("content")) return;
 
         Logi("-------消息开始解析-------");
         Bundle bundle = new Bundle();
         bundle.putString("type", Receive.ALIPAY);
+        String title = jsonObject1.getString("title");
+        String templateName = jsonObject1.getString("templateName");
+        if (title.equals("其他")) title = templateName;
+
         if (jsonObject1.getString("templateType").equals("BN")) {
             JSONObject content = jsonObject1.getJSONObject("content");
+            content.put("alipay_cache_shopremark", readData("alipay_cache_shopremark"));
+            content.put("alipay_cache_money", readData("alipay_cache_money"));
+            content.put("alipay_cache_payTool", readData("alipay_cache_payTool"));
             bundle.putString("data", content.toJSONString());
-            String title = jsonObject1.getString("title");
+            // String title = jsonObject1.getString("title");
             Logi(title);
             bundle.putString("title", title);
             switch (title) {
@@ -207,6 +246,7 @@ public class AlipayHook extends HookBase {
                     bundle.putString("from", Alipay.TRANSFER_SUCCESS_ACCOUNT);
                     break;
                 case "余额宝-笔笔攒-单笔攒入":
+                case "笔笔攒自动存入消息":
                     Logi("-------余额宝-笔笔攒-单笔攒入-------");
                     bundle.putString("from", Alipay.BIBIZAN);
                     break;
@@ -219,7 +259,7 @@ public class AlipayHook extends HookBase {
                     bundle.putString("from", Alipay.PAYMENT_ORDING);
                     break;
                 case "付款成功":
-
+                    content.put("cache", true);
                     Logi("-------付款成功-------");
                     bundle.putString("from", Alipay.PAYMENT_SUCCESS);
                     break;
@@ -261,8 +301,11 @@ public class AlipayHook extends HookBase {
         } else if (jsonObject1.getString("templateType").equals("S")) {
             JSONObject content = jsonObject1.getJSONObject("extraInfo");
             content.put("extra", jsonObject1.getString("content"));
+            content.put("alipay_cache_shopremark", readData("alipay_cache_shopremark"));
+            content.put("alipay_cache_money", readData("alipay_cache_money"));
+            content.put("alipay_cache_payTool", readData("alipay_cache_payTool"));
             bundle.putString("data", content.toJSONString());
-            String title = jsonObject1.getString("title");
+            //String title = jsonObject1.getString("title");
             Logi(title);
             bundle.putString("title", title);
             switch (title) {

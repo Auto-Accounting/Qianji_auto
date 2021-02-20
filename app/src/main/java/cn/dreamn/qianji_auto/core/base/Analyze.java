@@ -57,6 +57,23 @@ public class Analyze {
         billInfo = getResult(billInfo);
         if (billInfo == null) return null;
         billInfo.setSource(source);
+        billInfo = setAvalibleData(billInfo);
+        return billInfo;
+    }
+
+    public BillInfo setAvalibleData(BillInfo billInfo) {
+        if (billInfo.getIsSilent()) return billInfo;
+        if (jsonObject.containsKey("alipay_cache_shopremark") && jsonObject.containsKey("alipay_cache_money") && jsonObject.containsKey("alipay_cache_payTool")) {
+            if (billInfo.getMoney().equals(jsonObject.getString("alipay_cache_money"))) {
+                if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals("")) {
+                    billInfo.setShopRemark(jsonObject.getString("alipay_cache_shopremark"));
+                }
+
+                if (!jsonObject.getString("alipay_cache_payTool").equals("")) {
+                    billInfo.setAccountName(jsonObject.getString("alipay_cache_payTool"));
+                }
+            }
+        }
         return billInfo;
     }
 }

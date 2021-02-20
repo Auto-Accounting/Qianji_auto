@@ -94,7 +94,7 @@ public abstract class HookBase implements IHooker {
      * @param bundle
      */
     public void send(Bundle bundle) {
-        Logi("广播给自动记账：" + bundle.toString());
+        Logi("广播给自动记账：" + bundle.toString(), true);
         sendBroadcast(SEND_ACTION, bundle);
     }
 
