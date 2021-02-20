@@ -56,4 +56,9 @@ public class QianjiAuto extends HookBase {
     public String[] getAppVer() {
         return null;
     }
+
+    @Override
+    public int getHookId() {
+        return 1;
+    }
 }

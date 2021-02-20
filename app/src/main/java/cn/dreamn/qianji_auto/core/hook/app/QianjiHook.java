@@ -72,4 +72,9 @@ public class QianjiHook extends HookBase {
     public String[] getAppVer() {
         return null;
     }
+
+    @Override
+    public int getHookId() {
+        return 1;
+    }
 }

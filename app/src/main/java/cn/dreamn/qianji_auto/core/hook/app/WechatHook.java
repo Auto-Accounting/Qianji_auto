@@ -89,6 +89,11 @@ public class WechatHook extends HookBase {
         };
     }
 
+    @Override
+    public int getHookId() {
+        return 2;
+    }
+
 
     private void hookButton() {
         // 微信首页添加按钮

@@ -83,6 +83,11 @@ public class AlipayHook extends HookBase {
         };
     }
 
+    @Override
+    public int getHookId() {
+        return 1;
+    }
+
     /**
      * hook掉安全校验
      */
@@ -102,7 +107,7 @@ public class AlipayHook extends HookBase {
             });
 
         } catch (Error | Exception e) {
-            Logi("hook 支付宝安全监测 error :" + e.toString(), true);
+            Logi("hook 支付宝安全监测 error :" + e.toString(), false);
         }
     }
 
