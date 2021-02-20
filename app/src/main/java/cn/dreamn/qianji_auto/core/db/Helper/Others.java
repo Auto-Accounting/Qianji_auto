@@ -83,7 +83,7 @@ public class Others {
 
 
         }
-        String js = "function getSms(body){ var remark,account,type,money,num,shopName,account2 ; %s return remark+'|'+account+'|'+type+'|'+money+'|'+num+'|'+shopName+'|'+account2; };getSms('%s');";
+        String js = "function getSms(body){ var remark,account,type,money,num,shopName,account2,client ; %s return remark+'|'+account+'|'+type+'|'+money+'|'+num+'|'+shopName+'|'+account2+'|'+client; };getSms('%s');";
 
         return String.format(js, smsList.toString(), Body);
     }

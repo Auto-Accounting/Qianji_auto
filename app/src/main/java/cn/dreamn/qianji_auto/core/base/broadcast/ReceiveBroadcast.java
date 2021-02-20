@@ -260,6 +260,8 @@ public class ReceiveBroadcast extends BroadcastReceiver {
                 if (billInfo != null) {
 
                     CallAutoActivity.call(context, billInfo);
+                } else {
+                    Logs.i(">>>账单无效");
                 }
 
                 break;
