@@ -45,9 +45,11 @@ public class Category {
     }
 
     public static void setCateJs(BillInfo billInfo) {
-
-
-       // String time = Tools.getTime("HH");
+        //这两种类型不需要
+        if (billInfo.getType().equals(BillInfo.TYPE_CREDIT_CARD_PAYMENT) || billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)) {
+            return;
+        }
+        // String time = Tools.getTime("HH");
         String name = "[自动生成]" + billInfo.getSource();
         String sort = "其它";
         String str = "";
