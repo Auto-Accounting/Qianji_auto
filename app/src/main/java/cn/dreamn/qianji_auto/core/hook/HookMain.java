@@ -1,22 +1,23 @@
 package cn.dreamn.qianji_auto.core.hook;
 
-import android.content.pm.ApplicationInfo;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class HookMain implements IXposedHookLoadPackage {
 
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (lpparam.appInfo == null || (lpparam.appInfo.flags & (ApplicationInfo.FLAG_SYSTEM |
-                ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)) != 0) {
-            return;
-        }
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+
         final String packageName = lpparam.packageName;
         final String processName = lpparam.processName;
 
-        for (HookBase hookBase : HookList.getInstance().getmListHook()) {
-            hookBase.hook(packageName, processName, 2);
+        for (Class<?> hookBase : HookList.getInstance().getmListHook()) {
+
+            Object hookFunc = hookBase.newInstance();
+            Method method = hookBase.getMethod("hook", String.class, String.class, Integer.class);
+            method.invoke(hookFunc, packageName, processName, 2);
         }
     }
 }

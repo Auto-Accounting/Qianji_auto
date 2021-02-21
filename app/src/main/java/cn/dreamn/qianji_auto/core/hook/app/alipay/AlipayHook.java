@@ -15,50 +15,43 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.hook.app;
-
-import android.content.Context;
+package cn.dreamn.qianji_auto.core.hook.app.alipay;
 
 import cn.dreamn.qianji_auto.core.hook.HookBase;
-import de.robv.android.xposed.XC_MethodReplacement;
-import de.robv.android.xposed.XposedHelpers;
 
-public class QianjiAuto extends HookBase {
-    private static QianjiAuto qianjiAuto;
 
-    public static synchronized QianjiAuto getInstance() {
-        if (qianjiAuto == null) {
-            qianjiAuto = new QianjiAuto();
-        }
-        return qianjiAuto;
-    }
+public class AlipayHook extends HookBase {
 
 
     @Override
     public void hookFirst() throws Error {
-
-        XposedHelpers.findAndHookMethod("cn.dreamn.qianji_auto.core.utils.Status", mAppClassLoader, "xposedActive", Context.class, XC_MethodReplacement.returnConstant(true));
-
-
+        //支付宝设置
+        hookSetting.init(utils);
+        //支付宝安全设置
+        hookSafe.init(utils);
+        //支付宝支付UI
+        hookPayUI.init(utils);
+        //支付宝消息通知
+        hookReceive.init(utils);
+        //支付宝红包
+        hookRed.init(utils);
     }
+
 
     @Override
     public String getPackPageName() {
-        return "cn.dreamn.qianji_auto";
+        return "com.eg.android.AlipayGphone";
     }
 
     @Override
     public String getAppName() {
-        return "自动记账";
+        return "支付宝";
     }
 
     @Override
     public String[] getAppVer() {
-        return null;
-    }
-
-    @Override
-    public int getHookId() {
-        return 1;
+        return new String[]{
+                "10.2.13.9020",
+        };
     }
 }

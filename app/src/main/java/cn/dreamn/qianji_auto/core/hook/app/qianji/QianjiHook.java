@@ -15,7 +15,7 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.hook.app;
+package cn.dreamn.qianji_auto.core.hook.app.qianji;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,14 +25,6 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class QianjiHook extends HookBase {
-    private static QianjiHook qianjiAuto;
-
-    public static synchronized QianjiHook getInstance() {
-        if (qianjiAuto == null) {
-            qianjiAuto = new QianjiHook();
-        }
-        return qianjiAuto;
-    }
 
 
     @Override
@@ -49,7 +41,7 @@ public class QianjiHook extends HookBase {
                     protected void afterHookedMethod(MethodHookParam param) {
                         //  Logi("hook 钱迹3");
                         Intent intent = (Intent) param.getResult();
-                        Logi("钱迹收到数据:" + intent.getData(), false);
+                        utils.log("钱迹收到数据:" + intent.getData(), false);
                     }
                 });
             }
@@ -73,8 +65,4 @@ public class QianjiHook extends HookBase {
         return null;
     }
 
-    @Override
-    public int getHookId() {
-        return 1;
-    }
 }

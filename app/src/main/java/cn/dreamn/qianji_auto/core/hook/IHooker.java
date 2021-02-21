@@ -45,6 +45,5 @@ public interface IHooker {
      */
     String[] getAppVer();
 
-    int getHookId();
 
 }

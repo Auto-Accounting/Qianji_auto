@@ -3,21 +3,22 @@ package cn.dreamn.qianji_auto.core.hook;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.dreamn.qianji_auto.core.hook.app.AlipayHook;
-import cn.dreamn.qianji_auto.core.hook.app.QianjiAuto;
-import cn.dreamn.qianji_auto.core.hook.app.QianjiHook;
-import cn.dreamn.qianji_auto.core.hook.app.WechatHook;
+import cn.dreamn.qianji_auto.core.hook.app.alipay.AlipayHook;
+import cn.dreamn.qianji_auto.core.hook.app.qianji.QianjiHook;
+import cn.dreamn.qianji_auto.core.hook.app.auto.QianjiAuto;
+import cn.dreamn.qianji_auto.core.hook.app.wechat.WechatHook;
 
 
 public class HookList {
     private static HookList mHookList;
-    private final List<HookBase> mListHook = new ArrayList<>();
+    private final List<Class<?>> mListHook = new ArrayList<>();
 
     public HookList() {
         mListHook.clear();
-        mListHook.add(QianjiAuto.getInstance());
-        mListHook.add(AlipayHook.getInstance());
-        mListHook.add(WechatHook.getInstance());
+        mListHook.add(QianjiAuto.class);
+        mListHook.add(AlipayHook.class);
+        mListHook.add(WechatHook.class);
+        mListHook.add(QianjiHook.class);
         //  mListHook.add(QianjiHook.getInstance());
     }
 
@@ -28,7 +29,7 @@ public class HookList {
         return mHookList;
     }
 
-    public List<HookBase> getmListHook() {
+    public List<Class<?>> getmListHook() {
         return mListHook;
     }
 }
