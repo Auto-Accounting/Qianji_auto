@@ -119,7 +119,7 @@ public class hookReceive {
                     utils.log("-------余额宝-蚂蚁星愿自动攒入-------");
                     bundle.putString("from", Alipay.MAYI);
                     break;
-                case " 红包到账通知":
+                case "红包到账通知":
                     utils.log("------- 红包到账通知-------");
                     bundle.putString("from", Alipay.CLIENT_CASH);
                     break;

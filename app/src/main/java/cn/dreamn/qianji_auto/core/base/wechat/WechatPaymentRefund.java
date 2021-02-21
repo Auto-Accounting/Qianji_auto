@@ -48,7 +48,6 @@ public class WechatPaymentRefund extends Analyze {
         if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
             billInfo.setShopRemark("微信支付退款");
 
-        billInfo.setSilent(true);
         billInfo.setType(BillInfo.TYPE_INCOME);
 
         return billInfo;
@@ -56,6 +55,7 @@ public class WechatPaymentRefund extends Analyze {
 
     @Override
     public BillInfo getResult(BillInfo billInfo) {
+        billInfo.setSilent(true);
         String money = BillTools.getMoney(jsonObject.getJSONObject("topline").getJSONObject("value").getString("word"));
         billInfo.setMoney(BillTools.getMoney(money));
         billInfo.setShopAccount("微信支付");

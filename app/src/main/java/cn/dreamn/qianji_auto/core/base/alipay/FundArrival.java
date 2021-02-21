@@ -48,13 +48,14 @@ public class FundArrival extends Analyze {
             billInfo.setShopRemark("商家付款");
 
         billInfo.setType(BillInfo.TYPE_INCOME);
-        billInfo.setSilent(true);
+
 
         return billInfo;
     }
 
     @Override
     public BillInfo getResult(BillInfo billInfo) {
+        billInfo.setSilent(true);
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
         JSONArray jsonArray = jsonObject.getJSONArray("content");
         billInfo.setAccountName("余额");

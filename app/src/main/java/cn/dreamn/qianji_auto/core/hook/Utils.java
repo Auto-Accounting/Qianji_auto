@@ -33,7 +33,7 @@ public class Utils {
     public static final String SEND_ACTION = "cn.dreamn.qianji_auto.XPOSED";
     public static final String SEND_LOG_ACTION = "cn.dreamn.qianji_auto.XPOSED_LOG";
     private final Context mContext;
-    private ClassLoader mAppClassLoader;
+    private final ClassLoader mAppClassLoader;
     private final String appName;
 
     public Utils(Context context, ClassLoader classLoader, String name) {
@@ -143,13 +143,12 @@ public class Utils {
             return;
         }
 
-        String string2 = String.format("当前应用[%s]版本[%s]可能不受支持！您可以继续使用，但可能部分功能不支持。支持的版本为：%s", appName, getVerName(), Arrays.toString(version));
-        Toast.makeText(mContext, string2, Toast.LENGTH_LONG).show();
-        log(string, false);
-
         for (String s : version) {
             if (s.equals(string)) return;
         }
+        String string2 = String.format("当前应用[%s]版本[%s]可能不受支持！您可以继续使用，但可能部分功能不支持。支持的版本为：%s", appName, getVerName(), Arrays.toString(version));
+        Toast.makeText(mContext, string2, Toast.LENGTH_LONG).show();
+        log(string, false);
         writeData("version_" + string, "true");
     }
 

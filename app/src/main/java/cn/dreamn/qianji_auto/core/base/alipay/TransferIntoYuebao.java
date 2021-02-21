@@ -44,7 +44,6 @@ public class TransferIntoYuebao extends Analyze {
 
         if (billInfo == null) return null;
 
-        billInfo.setSilent(true);
         billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
         if (billInfo.getAccountName() == null || billInfo.getAccountName().equals(""))
             billInfo.setAccountName("余额");
@@ -55,6 +54,7 @@ public class TransferIntoYuebao extends Analyze {
 
     @Override
     public BillInfo getResult(BillInfo billInfo) {
+        billInfo.setSilent(true);
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
         JSONArray jsonArray = jsonObject.getJSONArray("content");
         for (int i = 0; i < jsonArray.size(); i++) {

@@ -48,12 +48,13 @@ public class MaYi extends Analyze {
 
         billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
         billInfo.setAccountName2("余额宝");
-        billInfo.setSilent(true);
+
         return billInfo;
     }
 
     @Override
     public BillInfo getResult(BillInfo billInfo) {
+        billInfo.setSilent(true);
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
         JSONArray jsonArray = jsonObject.getJSONArray("content");
         for (int i = 0; i < jsonArray.size(); i++) {

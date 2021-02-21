@@ -47,13 +47,14 @@ public class WechatQrCollection extends Analyze {
 
         billInfo.setAccountName("零钱");
         billInfo.setType(BillInfo.TYPE_INCOME);
-        billInfo.setSilent(true);
+
 
         return billInfo;
     }
 
     @Override
     public BillInfo getResult(BillInfo billInfo) {
+        billInfo.setSilent(true);
         String money = BillTools.getMoney(jsonObject.getJSONObject("topline").getJSONObject("value").getString("word"));
         billInfo.setMoney(BillTools.getMoney(money));
 

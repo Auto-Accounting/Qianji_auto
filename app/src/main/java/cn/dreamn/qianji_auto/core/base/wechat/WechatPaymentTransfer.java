@@ -45,6 +45,23 @@ public class WechatPaymentTransfer extends Analyze {
         if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
             billInfo.setShopRemark("微信转账");
         billInfo.setAccountName("零钱");
+
+
+        billInfo.setMoney(BillTools.getMoney(jsonObject.getString("feedesc")));
+
+        //抓的很准
+
+        billInfo.setShopAccount(jsonObject.getString("nickName"));
+        billInfo.setShopRemark(jsonObject.getString("pay_memo"));
+
+
+        return billInfo;
+
+    }
+
+
+    @Override
+    public BillInfo getResult(BillInfo billInfo) {
         if (jsonObject.getString("isSend").equals("1") && jsonObject.getIntValue("paysubtype") == 1) {
             billInfo.setType(BillInfo.TYPE_PAY);
             billInfo.setSource(Wechat.PAYMENT_TRANSFER);
@@ -63,23 +80,6 @@ public class WechatPaymentTransfer extends Analyze {
             Logs.i("该转账记录无效");
             return null;
         }
-
-        billInfo.setMoney(BillTools.getMoney(jsonObject.getString("feedesc")));
-
-        //抓的很准
-
-        billInfo.setShopAccount(jsonObject.getString("nickName"));
-        billInfo.setShopRemark(jsonObject.getString("pay_memo"));
-
-
-        return billInfo;
-
-    }
-
-
-    @Override
-    public BillInfo getResult(BillInfo billInfo) {
-
 
         return billInfo;
     }

@@ -19,7 +19,6 @@ public class HookList {
         mListHook.add(AlipayHook.class);
         mListHook.add(WechatHook.class);
         mListHook.add(QianjiHook.class);
-        //  mListHook.add(QianjiHook.getInstance());
     }
 
     public synchronized static HookList getInstance() {

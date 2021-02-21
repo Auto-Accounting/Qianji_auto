@@ -53,6 +53,7 @@ public class Repayment extends Analyze {
 
     @Override
     public BillInfo getResult(BillInfo billInfo) {
+
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("extra")));
         billInfo.setShopAccount("网商银行");
         billInfo.setShopRemark(jsonObject.getString("assistMsg1"));

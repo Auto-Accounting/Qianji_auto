@@ -47,12 +47,12 @@ public class ClientCash extends Analyze {
         billInfo.setShopAccount("客户端红包提现");
         billInfo.setType(BillInfo.TYPE_INCOME);
         billInfo.setAccountName("余额");
-        billInfo.setSilent(true);
         return billInfo;
     }
 
     @Override
     public BillInfo getResult(BillInfo billInfo) {
+        billInfo.setSilent(true);
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
         JSONArray jsonArray = jsonObject.getJSONArray("content");
         for (int i = 0; i < jsonArray.size(); i++) {

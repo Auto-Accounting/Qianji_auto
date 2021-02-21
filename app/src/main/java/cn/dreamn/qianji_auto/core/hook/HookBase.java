@@ -20,14 +20,7 @@ package cn.dreamn.qianji_auto.core.hook;
 import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
-
-import java.util.Arrays;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -92,22 +85,29 @@ public abstract class HookBase implements IHooker {
 
 
     public void init() {
-
+        utils = new Utils(mContext, mAppClassLoader, getAppName());
         mHookCount = mHookCount + 1;
+        utils.log("hook id " + mHookCount.toString());
         if (mHookCountIndex != 0 && !mHookCount.equals(mHookCountIndex)) {
             return;
         }
 
-        utils = new Utils(mContext, mAppClassLoader, getAppName());
-
-        try {
+        Task.onMain(100, () -> {
             utils.compare(getAppVer());//判断版本
             Toast.makeText(mContext, "加载自动记账成功！", Toast.LENGTH_LONG).show();
-            hookFirst();
+        });
+        Task.onMain(() -> {
+            try {
 
-        } catch (Error | Exception e) {
-            utils.log(e.toString());
-        }
+                hookFirst();
+
+            } catch (Error | Exception e) {
+                utils.log("hook 出现严重错误！" + e.toString(), false);
+            }
+
+        });
+
+
     }
   
 

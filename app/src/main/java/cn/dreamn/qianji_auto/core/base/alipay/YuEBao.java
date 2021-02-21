@@ -46,13 +46,12 @@ public class YuEBao extends Analyze {
         billInfo.setShopRemark(jsonObject.getString("assistMsg1"));
         billInfo.setAccountName("余额宝");
         billInfo.setType(BillInfo.TYPE_INCOME);
-        billInfo.setSilent(true);
         return billInfo;
     }
 
     @Override
     public BillInfo getResult(BillInfo billInfo) {
-
+        billInfo.setSilent(true);
 
         return billInfo;
     }

@@ -46,7 +46,6 @@ public class YuLiBao extends Analyze {
         billInfo.setShopRemark(jsonObject.getString("assistMsg2") + "余利宝收益");
         billInfo.setAccountName("余利宝");
         billInfo.setType(BillInfo.TYPE_INCOME);
-        billInfo.setSilent(true);
 
 
         return billInfo;
@@ -55,7 +54,7 @@ public class YuLiBao extends Analyze {
     @Override
     public BillInfo getResult(BillInfo billInfo) {
 
-
+        billInfo.setSilent(true);
         return billInfo;
     }
 }

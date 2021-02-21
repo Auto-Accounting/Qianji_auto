@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -42,7 +43,7 @@ import de.robv.android.xposed.XposedHelpers;
 public class hookSetting {
     public static void init(Utils utils) {
         ClassLoader mAppClassLoader = utils.getClassLoader();
-        XposedHelpers.findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
+        XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
             protected void beforeHookedMethod(MethodHookParam param) {
                 Activity activity = (Activity) param.thisObject;
                 final String activityClzName = activity.getClass().getName();
@@ -56,8 +57,7 @@ public class hookSetting {
     private static void doSettingsMenuInject(Activity activity, Utils utils) {
         Context mContext = utils.getContext();
         ListView itemView = (ListView) ViewUtil.findViewByName(activity, "android", "list");
-        if (ViewUtil.findViewByText(itemView, "自动记账") != null
-        ) {
+        if (ViewUtil.findViewByText(itemView, "自动记账") != null) {
             return;
         }
 

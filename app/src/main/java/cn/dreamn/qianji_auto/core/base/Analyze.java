@@ -64,6 +64,9 @@ public class Analyze {
     public BillInfo setAvalibleData(BillInfo billInfo) {
         if (billInfo.getIsSilent()) return billInfo;
         if (jsonObject.containsKey("alipay_cache_shopremark") && jsonObject.containsKey("alipay_cache_money") && jsonObject.containsKey("alipay_cache_payTool")) {
+            if (billInfo.getMoney() == null) {
+                billInfo.setMoney(jsonObject.getString("alipay_cache_money"));
+            }
             if (billInfo.getMoney().equals(jsonObject.getString("alipay_cache_money"))) {
                 if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals("")) {
                     billInfo.setShopRemark(jsonObject.getString("alipay_cache_shopremark"));

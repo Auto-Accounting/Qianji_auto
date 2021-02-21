@@ -45,18 +45,19 @@ public class Refund extends Analyze {
 
         if (billInfo == null) return null;
         if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
-            billInfo.setShopRemark("淘宝退款");
+            billInfo.setShopRemark("支付宝退款");
 
 
-        billInfo.setShopAccount("淘宝");
+        billInfo.setShopAccount("支付宝");
         billInfo.setType(BillInfo.TYPE_INCOME);
-        billInfo.setSilent(true);
+
 
         return billInfo;
     }
 
     @Override
     public BillInfo getResult(BillInfo billInfo) {
+        billInfo.setSilent(true);
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
         JSONArray jsonArray = jsonObject.getJSONArray("content");
 

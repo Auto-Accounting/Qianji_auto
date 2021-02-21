@@ -49,7 +49,6 @@ public class WechatIncomeShop extends Analyze {
             billInfo.setShopRemark("微信支付付款成功");
 
 
-        billInfo.setSilent(true);
         billInfo.setType(BillInfo.TYPE_INCOME);
 
 
@@ -58,6 +57,7 @@ public class WechatIncomeShop extends Analyze {
 
     @Override
     public BillInfo getResult(BillInfo billInfo) {
+        billInfo.setSilent(true);
         String money = BillTools.getMoney(jsonObject.getJSONObject("topline").getJSONObject("value").getString("word"));
         String shop = jsonObject.getString("display_name");
         billInfo.setMoney(BillTools.getMoney(money));

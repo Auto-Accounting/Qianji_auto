@@ -47,7 +47,7 @@ public class BiBiZan extends Analyze {
         if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
             billInfo.setShopRemark("笔笔攒");
 
-        billInfo.setSilent(true);
+
         billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
         billInfo.setAccountName2("余额宝");
 
@@ -56,6 +56,7 @@ public class BiBiZan extends Analyze {
 
     @Override
     public BillInfo getResult(BillInfo billInfo) {
+        billInfo.setSilent(true);
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("money")));
         JSONArray jsonArray = jsonObject.getJSONArray("content");
         for (int i = 0; i < jsonArray.size(); i++) {

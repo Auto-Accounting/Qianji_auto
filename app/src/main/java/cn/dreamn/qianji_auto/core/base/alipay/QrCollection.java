@@ -47,7 +47,7 @@ public class QrCollection extends Analyze {
         billInfo.setShopAccount(jsonObject.getString("assistName1"));
         billInfo.setAccountName("余额");
         billInfo.setType(BillInfo.TYPE_INCOME);
-        billInfo.setSilent(true);
+
 
         return billInfo;
     }
@@ -55,7 +55,7 @@ public class QrCollection extends Analyze {
     @Override
     public BillInfo getResult(BillInfo billInfo) {
 
-
+        billInfo.setSilent(true);
         return billInfo;
     }
 }

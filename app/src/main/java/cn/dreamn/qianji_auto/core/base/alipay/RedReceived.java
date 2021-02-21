@@ -53,5 +53,9 @@ public class RedReceived extends Analyze {
 
     }
 
-
+    @Override
+    public BillInfo getResult(BillInfo billInfo) {
+        billInfo.setSilent(true);
+        return billInfo;
+    }
 }
