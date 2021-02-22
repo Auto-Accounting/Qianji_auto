@@ -285,10 +285,10 @@ public class BillInfo {
             url += "&bookname=" + bookname;
         }
 
-        if (accountname != null) {
+        if (accountname != null && !accountname.equals("")) {
             url += "&accountname=" + accountname;
         }
-        if (accountname2 != null) {
+        if (accountname2 != null && !accountname2.equals("")) {
             url += "&accountname2=" + accountname2;
         }
         Logs.d("钱迹URL:" + url);
@@ -317,22 +317,25 @@ public class BillInfo {
     public boolean isAvaiable() {
         //检查时间
         if (this.time == null || this.time.equals("")) {
-            Logs.d("Qianji_Analyze", "时间错误" + this.time);
+            Logs.i("Qianji_Analyze", "时间错误" + this.time);
             return false;
         }
         //检查金额
         if (this.money == null || BillTools.getMoney(this.money).equals("0") || BillTools.getMoney(this.money).equals("0.0") || BillTools.getMoney(this.money).equals("0.00")) {
-            Logs.d("Qianji_Analyze", "金额 :" + this.money);
+            Logs.i("Qianji_Analyze", "金额 :" + this.money);
             return false;
         }
         //检查分类
         if (this.type == null) {
-            Logs.d("Qianji_Analyze", "分类错误 -> null");
+            Logs.i("Qianji_Analyze", "分类错误 -> null");
             return false;
         }
 
-        if (this.accountname != null && this.accountname.equals(this.accountname2))
+        if (this.accountname != null && this.accountname.equals(this.accountname2)) {
+            Logs.i("Qianji_Analyze", "两个账户名称一致不予以记录");
             return false;
+        }
+
 
         return true;
     }

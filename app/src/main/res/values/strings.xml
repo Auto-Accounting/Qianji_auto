@@ -303,4 +303,6 @@
     <string name="choose_no">否</string>
     <string name="menu_other_sub">未识别账单自定义规则</string>
     <string name="menu_other">未识别规则</string>
+    <string name="qianji_cate">分类管理</string>
+    <string name="qianji_cate_sub">钱迹分类管理</string>
 </resources>

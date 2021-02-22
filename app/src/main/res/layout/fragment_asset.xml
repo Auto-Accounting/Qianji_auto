@@ -148,6 +148,44 @@
                 </androidx.cardview.widget.CardView>
             </com.xuexiang.xui.widget.button.RippleView>
 
+            <com.xuexiang.xui.widget.button.RippleView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="?attr/xui_config_content_spacing_horizontal"
+                app:rv_color="@color/list_text_color_normal_sub"
+                app:rv_type="simpleRipple">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="0dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp">
+
+                    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                        android:id="@+id/asset_cate"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        app:sLeftBottomTextColor="@color/list_text_color_normal"
+                        app:sLeftBottomTextSize="13sp"
+                        app:sLeftBottomTextString="@string/qianji_cate_sub"
+                        app:sLeftIconHeight="35sp"
+                        app:sLeftIconMarginLeft="25dp"
+                        app:sLeftIconRes="@drawable/ic_sort"
+                        app:sLeftIconWidth="35sp"
+                        app:sLeftTopTextColor="@color/list_text_color_normal_sub"
+                        app:sLeftTopTextSize="18sp"
+                        app:sLeftTopTextString="@string/qianji_cate"
+                        app:sLeftViewGravity="left_center"
+                        app:sLeftViewMarginLeft="30dp"
+                        app:sUseRipple="false" />
+
+                </androidx.cardview.widget.CardView>
+            </com.xuexiang.xui.widget.button.RippleView>
+
         </LinearLayout>
 
     </ScrollView>

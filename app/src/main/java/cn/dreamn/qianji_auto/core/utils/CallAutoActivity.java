@@ -49,9 +49,9 @@ public class CallAutoActivity {
         long t = System.currentTimeMillis() - time;
         t = t / 1000;
 
-        billInfo = replaceWithSomeThing(billInfo);
+        replaceWithSomeThing(billInfo);
         if (Caches.getCacheData("lastBill").equals(billInfo.toString()) && t < 2) {
-            Logs.i("出现重复账单");
+            Logs.i("出现重复账单，该账单不计入。\n" + billInfo.dump());
             return;
         }
         Caches.AddOrUpdate("lastTime", String.valueOf(System.currentTimeMillis()));
@@ -59,16 +59,16 @@ public class CallAutoActivity {
         //重复账单过滤
         //多笔记账延时
         billInfo.setTime();//设置时间
-        Logs.i("账单捕获，账单信息:\n" + billInfo.dump());
+        Logs.i("账单已捕获，账单信息:\n" + billInfo.dump());
         if (!billInfo.isAvaiable()) return;
         Caches.AddOrUpdate("lastBill", billInfo.toString());
         AutoBills.add(billInfo);
-        //  Tasker.add(context, billInfo);
+        Logs.i("账单已添加至账单列表。");
         run(context, billInfo);
     }
 
     public static void callNoAdd(Context context, BillInfo billInfo) {
-        billInfo = replaceWithSomeThing(billInfo);
+        replaceWithSomeThing(billInfo);
         if (!billInfo.isAvaiable()) return;
         // Tasker.add(context, billInfo);
         run(context, billInfo);
@@ -76,7 +76,7 @@ public class CallAutoActivity {
     }
 
     public static void callNoAdd(Context context, BillInfo billInfo, boolean change) {
-        billInfo = replaceWithSomeThing(billInfo);
+        replaceWithSomeThing(billInfo);
         if (!billInfo.isAvaiable()) return;
         // Tasker.add(context, billInfo);
         //  run(context, billInfo);
@@ -86,7 +86,7 @@ public class CallAutoActivity {
 
     }
 
-    public static BillInfo replaceWithSomeThing(BillInfo billInfo) {
+    public static void replaceWithSomeThing(BillInfo billInfo) {
 
 
         billInfo.setAccountName(Assets.getMap(BillTools.dealPayTool(billInfo.getAccountName())));//设置一号资产
@@ -117,7 +117,6 @@ public class CallAutoActivity {
         billInfo.setBookName(BookNames.getDefault());//设置自动记账的账本名
 
 
-        return billInfo;
     }
 
 
@@ -174,7 +173,7 @@ public class CallAutoActivity {
         } catch (Exception e) {
             Logs.i("请授予悬浮窗权限！" + e.toString());
             ToastUtils.toast("请授予悬浮窗权限！");
-            Caches.AddOrUpdate("float_lock", "false");
+
         }
 
     }
@@ -183,7 +182,7 @@ public class CallAutoActivity {
 
         new Handler(Looper.getMainLooper()).post(() -> {
 
-            Caches.update("float_lock", "false");
+            Caches.AddOrUpdate("float_lock", "false");
             String cache = Caches.getCacheData("float_time");
             if (!cache.equals("")) {
                 long time = Long.parseLong(cache);
@@ -226,55 +225,53 @@ public class CallAutoActivity {
 
 
     public static void run(Context context, BillInfo billInfo) {
-
-        Cache cache = Caches.getOne("float_lock", "0");
+        Logs.i("唤起自动记账面板...");
+        /*Cache cache = Caches.getOne("float_lock", "0");
 
         Logs.d("Qianji_check", "记账检查...");
         if (cache != null && cache.cacheData.equals("true")) {
             Logs.d("Qianji_check", "记账已锁定...退出中");
+            Logs.i("自动记账面板锁定，退出记账。");
             return;
-        }
-
-        Logs.d("Qianji_check", "检查通过...");
-        Caches.AddOrUpdate("float_lock", "true");
-        Logs.d("Qianji_check", "重新锁定...");
-
+        }*/
+//Logs.i("唤起自动记账面板...");
 
         MMKV mmkv = MMKV.defaultMMKV();
 
         Logs.i("记账请求发起，账单初始信息：\n" + billInfo.dump());
         if (billInfo.getIsSilent()) {
-            //  Logs.i("账单为 后台交易");
+            Logs.i("账单为 后台交易");
             if (mmkv.getBoolean("autoIncome", false)) {
-                //   Logs.i("全自动模式->直接对钱迹发起请求");
+                Logs.i("全自动模式->直接对钱迹发起请求");
                 goQianji(context, billInfo);
             } else {
-                //  Logs.i("半自动模式->发出记账通知");
+                Logs.i("半自动模式->发出记账通知");
                 //通知处理
                 Tools.sendNotify(context, "记账提醒", "￥" + billInfo.getMoney() + " - " + billInfo.getRemark(), billInfo.getQianJi());
             }
             return;
         } else {
-            // Logs.i("账单为 前台交易");
+            Logs.i("账单为 前台交易");
             if (mmkv.getBoolean("autoPay", false)) {
-                // Logs.i("全自动模式->直接对钱迹发起请求");
+                Logs.i("全自动模式->直接对钱迹发起请求");
                 goQianji(context, billInfo);
                 return;
             }
         }
-        //Logs.i("半自动模式 -> 下一步");
+        Caches.AddOrUpdate("float_lock", "true");
+        Logs.i("半自动模式 -> 下一步");
         if (getTimeout().equals("0")) {
             // MMKV mmkv=MMKV.defaultMMKV();
             if (!mmkv.getBoolean("auto_float_end_double", true)) {
-                Logs.i("直接发起记账请求");
+                Logs.i("倒计时结束直接发起请求");
                 //这是倒计时结束
                 CallAutoActivity.goQianji(context, billInfo);
                 return;
             }
-
+            Logs.i("直接弹出悬浮窗");
             showFloat(context, billInfo);
         } else {
-            //  Logs.i("存在超时，弹出超时面板");
+            Logs.i("存在超时，弹出超时面板");
             showTip(context, billInfo);
         }
 

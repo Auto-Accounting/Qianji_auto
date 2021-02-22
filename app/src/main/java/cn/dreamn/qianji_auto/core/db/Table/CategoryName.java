@@ -15,23 +15,20 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.db;
+package cn.dreamn.qianji_auto.core.db.Table;
 
-import android.content.Context;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-import androidx.room.Room;
-
-import static cn.dreamn.qianji_auto.core.db.AppDatabase.MIGRATION_1_2;
-import static cn.dreamn.qianji_auto.core.db.AppDatabase.MIGRATION_2_3;
-
-public class DbManger {
-    public static AppDatabase db;
-
-    public static void init(Context context) {
-        db = Room.databaseBuilder(context, AppDatabase.class, "ankio").
-                allowMainThreadQueries().
-                addMigrations(MIGRATION_1_2).
-                addMigrations(MIGRATION_2_3).
-                build();
-    }
+@Entity
+public class CategoryName {
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+    public String name;//分类名
+    public String icon;//分类图标
+    public String level;//分类等级
+    public String type;//类型
+    public String self_id;//钱迹中自己的id
+    public String parent_id;//父类id
 }
+

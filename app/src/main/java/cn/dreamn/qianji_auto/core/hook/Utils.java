@@ -32,6 +32,7 @@ import de.robv.android.xposed.XposedBridge;
 public class Utils {
     public static final String SEND_ACTION = "cn.dreamn.qianji_auto.XPOSED";
     public static final String SEND_LOG_ACTION = "cn.dreamn.qianji_auto.XPOSED_LOG";
+    public static final String SEND_ACTION_QIANJI = "cn.dreamn.qianji_auto.QIANJI";
     private final Context mContext;
     private final ClassLoader mAppClassLoader;
     private final String appName;
@@ -77,6 +78,11 @@ public class Utils {
     public void send(Bundle bundle) {
         log("广播给自动记账：" + bundle.toString(), true);
         sendBroadcast(SEND_ACTION, bundle);
+    }
+
+    public void send2auto(Bundle bundle) {
+        log("钱迹数据广播给自动记账：" + bundle.toString(), true);
+        sendBroadcast(SEND_ACTION_QIANJI, bundle);
     }
 
     /**

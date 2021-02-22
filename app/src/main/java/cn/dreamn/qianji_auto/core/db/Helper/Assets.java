@@ -58,6 +58,14 @@ public class Assets {
         DbManger.db.Asset2Dao().add(assetName);
     }
 
+    public static void addAsset(String assetName, String icon) {
+        DbManger.db.Asset2Dao().add(assetName, icon);
+    }
+
+    public static void cleanAsset() {
+        DbManger.db.Asset2Dao().clean();
+    }
+
     public static void updAsset(int id, String assetName) {
         DbManger.db.Asset2Dao().update(id, assetName);
     }

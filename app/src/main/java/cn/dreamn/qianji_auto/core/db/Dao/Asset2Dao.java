@@ -36,10 +36,16 @@ public interface Asset2Dao {
     @Query("DELETE FROM asset2 WHERE id=:id")
     void del(int id);
 
-    @Query("INSERT INTO asset2(name) values(:name)")
+    @Query("INSERT INTO asset2(name,icon) values(:name,:icon)")
+    void add(String name, String icon);
+
+    @Query("INSERT INTO asset2(name,icon) values(:name,'')")
     void add(String name);
 
     @Query("UPDATE  asset2 SET name=:name WHERE id=:id")
     void update(int id, String name);
+
+    @Query("DELETE FROM asset2")
+    void clean();
 }
 

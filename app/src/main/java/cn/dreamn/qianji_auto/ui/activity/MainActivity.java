@@ -48,5 +48,8 @@ public class MainActivity extends BaseActivity {
             openPage(MainFragment.class);
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }

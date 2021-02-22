@@ -58,4 +58,12 @@ public class BookNames {
     public static void add(String bookName) {
         DbManger.db.BookNameDao().add(bookName);
     }
+
+    public static void add(String bookName, String icon) {
+        DbManger.db.BookNameDao().add(bookName, icon);
+    }
+
+    public static void clean() {
+        DbManger.db.BookNameDao().clean();
+    }
 }

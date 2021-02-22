@@ -96,16 +96,11 @@ public abstract class HookBase implements IHooker {
             utils.compare(getAppVer());//判断版本
             Toast.makeText(mContext, "加载自动记账成功！", Toast.LENGTH_LONG).show();
         });
-        Task.onMain(() -> {
-            try {
-
-                hookFirst();
-
-            } catch (Error | Exception e) {
-                utils.log("hook 出现严重错误！" + e.toString(), false);
-            }
-
-        });
+        try {
+            hookFirst();
+        } catch (Error | Exception e) {
+            utils.log("hook 出现严重错误！" + e.toString(), false);
+        }
 
 
     }

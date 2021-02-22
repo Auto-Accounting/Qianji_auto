@@ -36,7 +36,13 @@ public interface BookNameDao {
     @Query("INSERT INTO bookname(name) values(:name)")
     void add(String name);
 
+    @Query("INSERT INTO bookname(name,icon) values(:name,:icon)")
+    void add(String name, String icon);
+
     @Query("UPDATE  bookname SET name=:name WHERE id=:id")
     void update(int id, String name);
+
+    @Query("DELETE FROM bookname")
+    void clean();
 }
 

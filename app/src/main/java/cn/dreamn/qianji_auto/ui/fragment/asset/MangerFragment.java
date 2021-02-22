@@ -93,21 +93,7 @@ public class MangerFragment extends StateFragment {
     @Override
     protected TitleBar initTitle() {
         TitleBar titleBar = super.initTitle();
-        titleBar.addAction(new TitleBar.ImageAction(R.drawable.ic_async) {
-            @Override
-            public void performAction(View view) {
 
-                CookieBar.builder(getActivity())
-                        .setTitle(R.string.helper_tip3)
-                        .setMessage(R.string.helper_tip_qianji3)
-                        .setDuration(-1)
-                        .setActionColor(android.R.color.white)
-                        .setTitleColor(android.R.color.white)
-                        .setAction(R.string.helper_qianji_err, view1 -> {
-                        }).setBackgroundColor(R.color.colorPrimary).show();
-
-            }
-        });
         titleBar.addAction(new TitleBar.ImageAction(R.drawable.ic_add) {
             @Override
             public void performAction(View view) {

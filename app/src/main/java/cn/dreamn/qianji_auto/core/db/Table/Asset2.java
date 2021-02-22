@@ -26,4 +26,5 @@ public class Asset2 {
     @PrimaryKey(autoGenerate = true)
     public int id;
     public String name;//账户名
+    public String icon;//图标
 }

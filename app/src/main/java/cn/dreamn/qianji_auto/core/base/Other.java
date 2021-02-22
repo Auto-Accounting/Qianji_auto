@@ -18,6 +18,7 @@
 package cn.dreamn.qianji_auto.core.base;
 
 import android.content.Context;
+import android.webkit.URLUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,13 +38,14 @@ public class Other {
     public static String getTextWithWechat(String str) {
         Pattern p = Pattern.compile("\"(.*?)\"");
         Matcher m = p.matcher(str);
-        boolean next = false;
+
         StringBuilder ret = new StringBuilder();
         while (m.find()) {
             String data = m.group();
-            data = data.replace("\"", "").replace("\n", "");
-            if (next) ret.append(",").append(data);
-            next = data.equals("word");
+            data = data.replace("\"", "").replace("\n", "").replace("\\n", "").replace("'", "");
+            if (!URLUtil.isValidUrl(data))
+                ret.append(",").append(data);
+
         }
         String s = ret.toString();
         if (s.contains(",")) {
@@ -59,8 +61,9 @@ public class Other {
         StringBuilder ret = new StringBuilder();
         while (m.find()) {
             String data = m.group();
-            data = data.replace("\"", "").replace("\n", "");
-            ret.append(",").append(data);
+            data = data.replace("\"", "").replace("\n", "").replace("\\n", "").replace("'", "");
+            if (!URLUtil.isValidUrl(data))
+                ret.append(",").append(data);
             //next = data.equals("word");
         }
         String s = ret.toString();
@@ -69,6 +72,7 @@ public class Other {
         }
         return s;
     }
+
 
     public static void regular(String title, String body, Context context) {
 

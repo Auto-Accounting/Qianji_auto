@@ -54,9 +54,10 @@ public class Analyze {
         setContent(content);
         if (jsonObject == null) return null;
         BillInfo billInfo = new BillInfo();
+        billInfo.setSource(source);
         billInfo = getResult(billInfo);
         if (billInfo == null) return null;
-        billInfo.setSource(source);
+
         billInfo = setAvalibleData(billInfo);
         return billInfo;
     }

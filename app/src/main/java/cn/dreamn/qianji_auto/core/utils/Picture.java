@@ -15,23 +15,8 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.db;
+package cn.dreamn.qianji_auto.core.utils;
 
-import android.content.Context;
+public class Picture {
 
-import androidx.room.Room;
-
-import static cn.dreamn.qianji_auto.core.db.AppDatabase.MIGRATION_1_2;
-import static cn.dreamn.qianji_auto.core.db.AppDatabase.MIGRATION_2_3;
-
-public class DbManger {
-    public static AppDatabase db;
-
-    public static void init(Context context) {
-        db = Room.databaseBuilder(context, AppDatabase.class, "ankio").
-                allowMainThreadQueries().
-                addMigrations(MIGRATION_1_2).
-                addMigrations(MIGRATION_2_3).
-                build();
-    }
 }

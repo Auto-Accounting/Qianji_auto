@@ -27,6 +27,8 @@
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
+
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.ErrorActivity" />
         <activity android:name="com.thl.filechooser.FileChooserActivity" />
@@ -94,20 +96,38 @@
                 android:resource="@xml/file_provider_paths" />
         </provider>
 
-        <receiver
-            android:name=".core.base.broadcast.ReceiveBroadcast"
-            android:exported="true"
-
-            >
-            <intent-filter android:priority="1000">
+        <receiver android:name=".core.base.broadcast.BootBroadcast">
+            <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".core.base.broadcast.SMSBroadcast"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter android:priority="1000">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-                <!-- 自定义广播类型 -->
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".core.base.broadcast.XposedBroadcast"
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
                 <action android:name="cn.dreamn.qianji_auto.XPOSED" />
                 <action android:name="cn.dreamn.qianji_auto.XPOSED_LOG" />
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".core.base.broadcast.QianjiBroadcast"
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="cn.dreamn.qianji_auto.QIANJI" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

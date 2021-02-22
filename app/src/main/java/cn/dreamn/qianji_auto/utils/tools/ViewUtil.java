@@ -89,29 +89,12 @@ public class ViewUtil {
     @SuppressLint("NewApi")
     public static int generateViewId() {
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            for (; ; ) {
-                final int result = sNextGeneratedId.get();
-                // aapt-generated IDs have the high byte nonzero; clamp to the range under that.
-                int newValue = result + 1;
-                if (newValue > 0x00FFFFFF)
-                    newValue = 1; // Roll over to 1, not 0.
-                if (sNextGeneratedId.compareAndSet(result, newValue)) {
-                    return result;
-                }
-            }
-        } else {
-            return View.generateViewId();
-        }
+        return View.generateViewId();
     }
 
     public static int initId(View view) {
         int id;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            id = generateViewId();
-        } else {
-            id = View.generateViewId();
-        }
+        id = View.generateViewId();
         view.setId(id);
         return id;
     }
@@ -223,7 +206,7 @@ public class ViewUtil {
         if (sRecycleViewClz == null) {
             try {
                 sRecycleViewClz = Class.forName("android.support.v7.widget.RecyclerView");
-            } catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException ignored) {
             }
         }
 
@@ -282,7 +265,7 @@ public class ViewUtil {
     }
 
     public static String getViewInfo(View view) {
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuffer = new StringBuilder();
         stringBuffer.append(String.valueOf(view));
         stringBuffer.append(" type:").append(getViewBaseDesc(view));
         stringBuffer.append(" clz:").append(view.getClass().getName());
@@ -305,9 +288,8 @@ public class ViewUtil {
     public static void recursiveLoopChildren(View view) {
         if (view instanceof ViewGroup) {
             recursiveLoopChildren((ViewGroup) view);
-        } else {
-            //L.d("Empty view");
-        }
+        }  //L.d("Empty view");
+
     }
 
     public static void recursiveLoopChildren(ViewGroup parent) {
@@ -321,7 +303,7 @@ public class ViewUtil {
                 if (child != null) {
                     try {
                         //   L.d("view", getViewInfo(child));
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
 
                     }
                     // DO SOMETHING WITH VIEW
@@ -401,7 +383,7 @@ public class ViewUtil {
     }
 
     public static void sortViewListByYPosition(List<View> viewList) {
-        Collections.sort(viewList, sYLocationLHCompator);
+        viewList.sort(sYLocationLHCompator);
     }
 
     public static int getViewYPosInScreen(View v) {
