@@ -50,6 +50,7 @@ import com.xuexiang.xutil.display.ScreenUtils;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Helper.Assets;
 import cn.dreamn.qianji_auto.core.db.Helper.Caches;
+import cn.dreamn.qianji_auto.core.db.Helper.Category;
 import cn.dreamn.qianji_auto.core.db.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
@@ -416,7 +417,19 @@ public class AutoFloat extends XFloatView {
 
     @Override
     public void dismiss() {
+
+        String cate = Category.getCategory(billInfo2.getShopAccount(), billInfo2.getShopRemark(), BillInfo.getTypeName(billInfo2.getType(true)), billInfo2.getSource());
+        if (cate.equals("NotFind")) {
+
+
+            MMKV mmkv = MMKV.defaultMMKV();
+            if (mmkv.getBoolean("auto_sort", false)) {
+                Category.setCateJs(billInfo2, billInfo2.getCateName());
+            }
+
+
+        }
         super.dismiss();
-        Caches.AddOrUpdate("float_lock", "false");
+
     }
 }

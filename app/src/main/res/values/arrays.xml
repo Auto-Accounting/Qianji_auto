@@ -63,6 +63,8 @@
         <item>@string/choose_type_null</item>
         <item>@string/choose_type_pay</item>
         <item>@string/choose_type_income</item>
+        <item>@string/choose_type_reimbursement</item>
+
 
     </string-array>
     <string-array name="menu_values_regular_choose">

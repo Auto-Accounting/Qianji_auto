@@ -87,14 +87,14 @@ public abstract class HookBase implements IHooker {
     public void init() {
         utils = new Utils(mContext, mAppClassLoader, getAppName());
         mHookCount = mHookCount + 1;
-        utils.log("hook id " + mHookCount.toString());
+       // utils.log("hook id " + mHookCount.toString());
         if (mHookCountIndex != 0 && !mHookCount.equals(mHookCountIndex)) {
             return;
         }
 
         Task.onMain(100, () -> {
             utils.compare(getAppVer());//判断版本
-            Toast.makeText(mContext, "加载自动记账成功！", Toast.LENGTH_LONG).show();
+            // Toast.makeText(mContext, "加载自动记账成功！", Toast.LENGTH_LONG).show();
         });
         try {
             hookFirst();

@@ -44,14 +44,14 @@ public class Category {
 
     }
 
-    public static void setCateJs(BillInfo billInfo) {
+    public static void setCateJs(BillInfo billInfo, String sort) {
         //这两种类型不需要
         if (billInfo.getType().equals(BillInfo.TYPE_CREDIT_CARD_PAYMENT) || billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)) {
             return;
         }
         // String time = Tools.getTime("HH");
         String name = "[自动生成]" + billInfo.getSource();
-        String sort = "其它";
+        // String sort = "其它";
         String str = "";
 
         //    str += String.format("time = %s && ", time);
@@ -60,13 +60,13 @@ public class Category {
         str += String.format("type == '%s' && ", BillInfo.getTypeName(billInfo.getType()));
         str += String.format("source == '%s' && ", billInfo.getSource());
 
-        String regular = "if(%s)return '其它';";
+        String regular = "if(%s)return '%s';";
 
         int last = str.lastIndexOf('&');
         if (last != -1 && last != 0)
             str = str.substring(0, last - 1);
 
-        regular = String.format(regular, str);
+        regular = String.format(regular, str, sort);
 
         DataUtils dataUtils = new DataUtils();
 

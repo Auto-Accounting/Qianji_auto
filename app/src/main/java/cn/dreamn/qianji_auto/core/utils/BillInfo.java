@@ -174,6 +174,14 @@ public class BillInfo {
         return type;
     }
 
+    public String getType(Boolean real) {
+        if (real) {
+            String t = type;
+            if (getReimbursement()) t = TYPE_PAYMENT_REFUND;
+            return t;
+        } else return type;
+    }
+
     public void setType(String type) {
         this.type = type;
     }
@@ -278,9 +286,8 @@ public class BillInfo {
 
     public String getQianJi() {
 
-        String t = type;
-        if (getReimbursement()) t = TYPE_PAYMENT_REFUND;
-        String url = "qianji://publicapi/addbill?&type=" + t + "&money=" + money;
+
+        String url = "qianji://publicapi/addbill?&type=" + getType(true) + "&money=" + money;
 
         if (time != null) {
             url += "&time=" + time;
