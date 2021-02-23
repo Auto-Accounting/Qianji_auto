@@ -21,6 +21,7 @@ import com.tencent.mmkv.MMKV;
 
 import cn.dreamn.qianji_auto.core.db.Table.BookName;
 import cn.dreamn.qianji_auto.core.db.DbManger;
+import cn.dreamn.qianji_auto.core.db.Table.CategoryName;
 
 public class BookNames {
     public static String getDefault() {
@@ -31,6 +32,13 @@ public class BookNames {
     public static void change(String bookName) {
         MMKV mmkv = MMKV.defaultMMKV();
         mmkv.encode("defaultBookName", bookName);
+    }
+
+    public static String getPic(String name) {
+        BookName[] bookNames = DbManger.db.BookNameDao().get(name);
+        if (bookNames != null && bookNames.length != 0)
+            return bookNames[0].icon;
+        return "";
     }
 
     public static String[] getAll() {

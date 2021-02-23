@@ -20,6 +20,7 @@ package cn.dreamn.qianji_auto.core.db.Helper;
 import cn.dreamn.qianji_auto.core.db.Table.Asset;
 import cn.dreamn.qianji_auto.core.db.Table.Asset2;
 import cn.dreamn.qianji_auto.core.db.DbManger;
+import cn.dreamn.qianji_auto.core.db.Table.BookName;
 
 public class Assets {
     public static Asset2[] getAllAccount() {
@@ -34,6 +35,13 @@ public class Assets {
             result[i] = assets[i].name;
         }
         return result;
+    }
+
+    public static String getPic(String name) {
+        Asset2[] asset2s = DbManger.db.Asset2Dao().get(name);
+        if (asset2s != null && asset2s.length != 0)
+            return asset2s[0].icon;
+        return "";
     }
 
     public static String[] getMap() {

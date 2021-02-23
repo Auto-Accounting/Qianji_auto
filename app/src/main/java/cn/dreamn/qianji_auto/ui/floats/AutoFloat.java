@@ -18,29 +18,46 @@
 package cn.dreamn.qianji_auto.ui.floats;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.tencent.mmkv.MMKV;
 import com.xuexiang.xfloatview.XFloatView;
+import com.xuexiang.xui.utils.SnackbarUtils;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xutil.display.ScreenUtils;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Helper.Assets;
 import cn.dreamn.qianji_auto.core.db.Helper.Caches;
+import cn.dreamn.qianji_auto.core.db.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
 import cn.dreamn.qianji_auto.core.db.Helper.BookNames;
+import cn.dreamn.qianji_auto.ui.fragment.asset.category.CateChoose;
 import cn.dreamn.qianji_auto.utils.XToastUtils;
+import cn.dreamn.qianji_auto.utils.picture.MyBitmapUtils;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 /**
@@ -70,6 +87,15 @@ public class AutoFloat extends XFloatView {
     private RelativeLayout remark_layout;
     private RelativeLayout time_layout;
     private RelativeLayout type_layout;
+
+    private RelativeLayout reimbursement_layout;
+    private TextView auto_reimbursement;
+
+
+    private ImageView iv_cate;
+    private ImageView iv_account;
+    private ImageView iv_account2;
+
 
     private TextView btn_cancel;
     private TextView btn_save;
@@ -161,6 +187,19 @@ public class AutoFloat extends XFloatView {
         time_layout = findViewById(R.id.time_layout);
         type_layout = findViewById(R.id.type_layout);
         parent_layout = findViewById(R.id.parent_layout);
+
+
+        reimbursement_layout = findViewById(R.id.reimbursement_layout);
+
+        auto_reimbursement = findViewById(R.id.auto_reimbursement);
+
+
+        iv_cate = findViewById(R.id.iv_cate);
+
+        iv_account = findViewById(R.id.iv_account);
+
+        iv_account2 = findViewById(R.id.iv_account2);
+
     }
 
     /**
@@ -169,13 +208,62 @@ public class AutoFloat extends XFloatView {
     @Override
     protected void initListener() {
         category_layout.setOnClickListener(v -> {
-            billInfo2.setCateChoose(true);
-            CallAutoActivity.goQianji(getContext(), billInfo2);
-            this.clear();
+            MMKV mmkv = MMKV.defaultMMKV();
+            if (mmkv.getBoolean("auto_cate_table", true)) {
+                BottomSheetDialog dialog = new BottomSheetDialog(getContext());
+                @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_cate_choose, null);
+
+                ExpandableListView expandableListView = view.findViewById(R.id.expandableListViewData);
+
+                CateChoose cateChoose = new CateChoose(expandableListView, getContext(), BillInfo.getTypeName(billInfo2.getType()), false);
+
+                cateChoose.refresh();
+
+                cateChoose.setOnClick(new CateChoose.CallBack() {
+                    @Override
+                    public void OnLongClickGroup(Bundle parent) {
+                        billInfo2.setCateName(parent.getString("name"));
+                        setData(billInfo2);
+                        dialog.cancel();
+                    }
+
+                    @Override
+                    public void OnLongClickChild(Bundle parent, Bundle child) {
+                        billInfo2.setCateName(child.getString("name"));
+                        setData(billInfo2);
+                        dialog.cancel();
+                    }
+
+
+                    @Override
+                    public void OnClickChild(Bundle parent, Bundle child) {
+                        billInfo2.setCateName(child.getString("name"));
+                        setData(billInfo2);
+                        dialog.cancel();
+                    }
+                });
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
+                } else {
+                    dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+                }
+
+                dialog.setContentView(view);
+                dialog.setCancelable(true);
+                dialog.setCanceledOnTouchOutside(true);
+
+                dialog.show();
+            } else {
+                billInfo2.setCateChoose(true);
+                CallAutoActivity.goQianji(getContext(), billInfo2);
+                this.clear();
+            }
+
         });
         account_layout.setOnClickListener(v -> {
             String[] bookNameList = BookNames.getAll();
-            if (bookNameList == null || bookNameList.length <= 0) {
+            if (bookNameList.length <= 0) {
                 XToastUtils.error("账本为空，请在账本设置中添加账本数据。");
                 return;
             }
@@ -221,7 +309,7 @@ public class AutoFloat extends XFloatView {
             });
         });
         type_layout.setOnClickListener(v -> {
-            String[] strings = {"支出", "收入", "转账", "信用还款", "报销"};
+            String[] strings = {"支出", "收入", "转账", "信用还款"};
             showMenu("请选择收支类型", strings, data -> {
                 billInfo2.setType(BillInfo.getTypeId(strings[data]));
                 this.setData(billInfo2);
@@ -233,6 +321,16 @@ public class AutoFloat extends XFloatView {
         });
         btn_cancel.setOnClickListener(v -> {
             this.clear();
+        });
+        reimbursement_layout.setOnClickListener(v -> {
+            if (auto_reimbursement.getText().toString().equals("不报销")) {
+                auto_reimbursement.setText("报销");
+                billInfo2.setRrimbursement(true);
+            } else {
+                auto_reimbursement.setText("不报销");
+                billInfo2.setRrimbursement(false);
+            }
+            this.setData(billInfo2);
         });
 
 
@@ -264,21 +362,32 @@ public class AutoFloat extends XFloatView {
         auto_time.setText(billInfo.getTime());
         if (billInfo.getType().equals(BillInfo.TYPE_INCOME) || billInfo.getType().equals(BillInfo.TYPE_PAY) || billInfo.getType().equals(BillInfo.TYPE_PAYMENT_REFUND)) {
             account_book2_layout.setVisibility(View.GONE);
+            category_layout.setVisibility(View.VISIBLE);
         } else {
             account_book2_layout.setVisibility(View.VISIBLE);
+            category_layout.setVisibility(View.GONE);
+        }
+        String type;
+        if (!billInfo.getType().equals(BillInfo.TYPE_PAY)) {
+            type = "0";
+            reimbursement_layout.setVisibility(View.GONE);
+        } else {
+            type = "1";
+            reimbursement_layout.setVisibility(View.VISIBLE);
         }
 
-        if (billInfo.getType().equals(BillInfo.TYPE_INCOME) || billInfo.getType().equals(BillInfo.TYPE_PAY)) {
-            auto_category.setVisibility(View.VISIBLE);
-        } else {
-            auto_category.setVisibility(View.GONE);
-        }
+        MyBitmapUtils myBitmapUtils = new MyBitmapUtils(getContext());
+
+
+        myBitmapUtils.disPlay(iv_cate, CategoryNames.getPic(type, billInfo.getCateName()));
+        myBitmapUtils.disPlay(iv_account, Assets.getPic(billInfo.getCateName()));
+        myBitmapUtils.disPlay(iv_account2, Assets.getPic(billInfo.getCateName()));
 
         auto_money.setText(BillTools.getCustomBill(billInfo));
         auto_money.setTextColor(BillTools.getColor(billInfo));
-    }
-    // 回调接口
 
+
+    }
     private void showMenu(String title, String[] list, ListFloat.Callback callBack) {
 
         ListFloat listFloat = new ListFloat(getContext());

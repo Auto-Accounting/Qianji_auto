@@ -60,7 +60,7 @@ public class InputFloat extends XFloatView {
     }
 
     private void initData() {
-        setWindowManagerParams(0, 200, ScreenUtils.getScreenWidth(), WindowManager.LayoutParams.WRAP_CONTENT);
+     //   setWindowManagerParams(0, 200, ScreenUtils.getScreenWidth(), WindowManager.LayoutParams.WRAP_CONTENT);
 
     }
 

@@ -207,7 +207,7 @@
     <string name="set_data_timetip">单位为秒</string>
     <string name="set_check_success">已开启弹窗功能</string>
     <string name="set_check_close">已关闭弹窗功能</string>
-    <string name="err">自动记账发生异常崩溃，正在搜集错误信息，请将错误日志发送给我们以便于解决该问题。邮箱：dream@ankio.net  QQ群：165652170</string>
+    <string name="err">自动记账发生异常崩溃，正在搜集错误信息，请将错误日志发送给我们以便于解决该问题,您可以去酷安尝试更新看是否已解决该问题。邮箱：dream@ankio.net  QQ群：165652170</string>
     <string name="send">发送日志</string>
     <string name="menu_asset_sub">管理钱迹资产</string>
     <string name="menu_asset">资产管理</string>
@@ -311,4 +311,7 @@
     <string name="choose_income">收入</string>
     <string name="set_failed">设置失败，该分类已有。</string>
     <string name="helper_tip_qianji9">目前仅支持Xposed已激活用户同步。无障碍用户请手动配置数据。</string>
+    <string name="set_cate_choose">分类选择面板</string>
+    <string name="set_cate">自动记账自带</string>
+    <string name="auto_reimbursement">报销</string>
 </resources>

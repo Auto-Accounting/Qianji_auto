@@ -37,6 +37,13 @@ public class CategoryNames {
         return DbManger.db.CategoryNameDao().get("1", parent_id);
     }
 
+    public static String getPic(String name, String type) {
+        CategoryName[] categoryNames = DbManger.db.CategoryNameDao().get(type, name);
+        if (categoryNames != null && categoryNames.length != 0)
+            return categoryNames[0].icon;
+        return "";
+    }
+
     public static boolean insert(String name, String icon, String level, String type, String self_id, String parent_id) {
         if (self_id.equals("")) {
             self_id = String.valueOf(System.currentTimeMillis());

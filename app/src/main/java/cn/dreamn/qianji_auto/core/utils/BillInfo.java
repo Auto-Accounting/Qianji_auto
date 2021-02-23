@@ -50,6 +50,8 @@ public class BillInfo {
 
     private String catename;//分类
 
+    private String reimbursement;//是否报销
+
     private String catechoose = "0";//type=0或1有效
 
     private String bookname = "默认账本";//账本名称，不填写则使用默认账本
@@ -113,7 +115,9 @@ public class BillInfo {
                 case "isSilent":
                     billInfo.setSilent(value.equals("true"));
                     break;
-
+                case "reimbursement":
+                    billInfo.setRrimbursement(value.equals("true"));
+                    break;
                 default:
                     break;
             }
@@ -148,6 +152,14 @@ public class BillInfo {
         if (type.equals(TYPE_TRANSFER_ACCOUNTS)) return "转账";
         if (type.equals(TYPE_PAYMENT_REFUND)) return "报销";
         return "支出";
+    }
+
+    public boolean getReimbursement() {
+        return reimbursement != null && reimbursement.equals("true");
+    }
+
+    public void setRrimbursement(boolean state) {
+        reimbursement = (state ? "true" : "false");
     }
 
     public boolean getIsSilent() {
@@ -266,7 +278,9 @@ public class BillInfo {
 
     public String getQianJi() {
 
-        String url = "qianji://publicapi/addbill?&type=" + type + "&money=" + money;
+        String t = type;
+        if (getReimbursement()) t = TYPE_PAYMENT_REFUND;
+        String url = "qianji://publicapi/addbill?&type=" + t + "&money=" + money;
 
         if (time != null) {
             url += "&time=" + time;
@@ -310,6 +324,9 @@ public class BillInfo {
 
         if (isSilent != null) {
             url += "&isSilent=" + isSilent;
+        }
+        if (reimbursement != null) {
+            url += "&reimbursement=" + reimbursement;
         }
         return url;
     }

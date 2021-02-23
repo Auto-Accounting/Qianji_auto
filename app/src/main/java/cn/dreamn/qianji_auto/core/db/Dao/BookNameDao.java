@@ -44,5 +44,8 @@ public interface BookNameDao {
 
     @Query("DELETE FROM bookname")
     void clean();
+
+    @Query("SELECT * FROM bookname WHERE name=:name")
+    BookName[] get(String name);
 }
 

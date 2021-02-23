@@ -64,6 +64,7 @@
     <color name="bgGray_summer">#f4f4f4</color>
     <color name="bgGray_winter">#f4f4f4</color>
     <color name="black">#000000</color>
+    <color name="alpha0">#00000000</color>
     <color name="blackAlpha10">#1a000000</color>
     <color name="blackAlpha10_autumn">#1a000000</color>
     <color name="blackAlpha10_night">#1a000000</color>

@@ -102,7 +102,7 @@ public class TabFragmentBase extends BaseFragment {
     private void initView() {
 
 
-        cateChoose = new CateChoose(expandableListView, getContext(), title);
+        cateChoose = new CateChoose(expandableListView, getContext(), title, true);
 
         cateChoose.refresh();
 

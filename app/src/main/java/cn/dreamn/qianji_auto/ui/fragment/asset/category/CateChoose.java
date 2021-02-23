@@ -24,6 +24,7 @@ import android.widget.ExpandableListView;
 import java.util.ArrayList;
 
 import cn.dreamn.qianji_auto.core.db.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.core.db.Table.BookName;
 import cn.dreamn.qianji_auto.core.db.Table.CategoryName;
 
 public class CateChoose {
@@ -32,11 +33,13 @@ public class CateChoose {
     private final ExpandableListView expandableListView;
     private final Context context;
     private final String title;
+    private final Boolean isAdd;
 
-    public CateChoose(ExpandableListView expandableListView, Context context, String title) {
+    public CateChoose(ExpandableListView expandableListView, Context context, String title, Boolean isAdd) {
         this.expandableListView = expandableListView;
         this.context = context;
         this.title = title;
+        this.isAdd = isAdd;
     }
 
     private Bundle getBundle(CategoryName categoryName) {
@@ -105,18 +108,26 @@ public class CateChoose {
                 Bundle bundle = getBundle(categoryName);
                 parent.add(bundle);
                 CategoryName[] categoryNames1 = CategoryNames.getChildrenByIncome(categoryName.self_id);
-                Bundle[] childs = new Bundle[categoryNames1.length + 1];
+                Bundle[] childs;
+                if (isAdd)
+                    childs = new Bundle[categoryNames1.length + 1];
+                else
+                    childs = new Bundle[categoryNames1.length];
+
                 for (int i = 0; i < categoryNames1.length; i++) {
                     Bundle bundle2 = getBundle(categoryNames1[i]);
                     childs[i] = bundle2;
                 }
-                Bundle bundle3 = new Bundle();
-                bundle3.putString("name", "添加子类");
-                bundle3.putInt("id", -2);
-                bundle3.putString("icon", "");
-                bundle3.putString("type", categoryName.type);
-                bundle3.putString("parent_id", categoryName.self_id);
-                childs[categoryNames1.length] = bundle3;
+                if (isAdd) {
+                    Bundle bundle3 = new Bundle();
+                    bundle3.putString("name", "添加子类");
+                    bundle3.putInt("id", -2);
+                    bundle3.putString("icon", "");
+                    bundle3.putString("type", categoryName.type);
+                    bundle3.putString("parent_id", categoryName.self_id);
+                    childs[categoryNames1.length] = bundle3;
+                }
+
                 child.add(childs);
             }
         } else if (title.equals("支出")) {
@@ -126,18 +137,24 @@ public class CateChoose {
                 Bundle bundle = getBundle(categoryName);
                 parent.add(bundle);
                 CategoryName[] categoryNames1 = CategoryNames.getChildrenByPay(categoryName.self_id);
-                Bundle[] childs = new Bundle[categoryNames1.length + 1];
+                Bundle[] childs;
+                if (isAdd)
+                    childs = new Bundle[categoryNames1.length + 1];
+                else
+                    childs = new Bundle[categoryNames1.length];
                 for (int i = 0; i < categoryNames1.length; i++) {
                     Bundle bundle2 = getBundle(categoryNames1[i]);
                     childs[i] = bundle2;
                 }
-                Bundle bundle3 = new Bundle();
-                bundle3.putString("name", "添加子类");
-                bundle3.putInt("id", -2);
-                bundle3.putString("type", categoryName.type);
-                bundle3.putString("parent_id", categoryName.self_id);
-                bundle3.putString("icon", "");
-                childs[categoryNames1.length] = bundle3;
+                if (isAdd) {
+                    Bundle bundle3 = new Bundle();
+                    bundle3.putString("name", "添加子类");
+                    bundle3.putInt("id", -2);
+                    bundle3.putString("icon", "");
+                    bundle3.putString("type", categoryName.type);
+                    bundle3.putString("parent_id", categoryName.self_id);
+                    childs[categoryNames1.length] = bundle3;
+                }
                 child.add(childs);
             }
         } else {
@@ -146,18 +163,24 @@ public class CateChoose {
                 Bundle bundle = getBundle(categoryName);
                 parent.add(bundle);
                 CategoryName[] categoryNames1 = CategoryNames.getChildrenByIncome(categoryName.self_id);
-                Bundle[] childs = new Bundle[categoryNames1.length + 1];
+                Bundle[] childs;
+                if (isAdd)
+                    childs = new Bundle[categoryNames1.length + 1];
+                else
+                    childs = new Bundle[categoryNames1.length];
                 for (int i = 0; i < categoryNames1.length; i++) {
                     Bundle bundle2 = getBundle(categoryNames1[i]);
                     childs[i] = bundle2;
                 }
-                Bundle bundle3 = new Bundle();
-                bundle3.putString("name", "添加子类");
-                bundle3.putInt("id", -2);
-                bundle3.putString("icon", "");
-                bundle3.putString("type", categoryName.type);
-                bundle3.putString("parent_id", categoryName.self_id);
-                childs[categoryNames1.length] = bundle3;
+                if (isAdd) {
+                    Bundle bundle3 = new Bundle();
+                    bundle3.putString("name", "添加子类");
+                    bundle3.putInt("id", -2);
+                    bundle3.putString("icon", "");
+                    bundle3.putString("type", categoryName.type);
+                    bundle3.putString("parent_id", categoryName.self_id);
+                    childs[categoryNames1.length] = bundle3;
+                }
                 child.add(childs);
             }
             categoryNames = CategoryNames.getParentByPay();
@@ -166,18 +189,24 @@ public class CateChoose {
                 Bundle bundle = getBundle(categoryName);
                 parent.add(bundle);
                 CategoryName[] categoryNames1 = CategoryNames.getChildrenByPay(categoryName.self_id);
-                Bundle[] childs = new Bundle[categoryNames1.length + 1];
+                Bundle[] childs;
+                if (isAdd)
+                    childs = new Bundle[categoryNames1.length + 1];
+                else
+                    childs = new Bundle[categoryNames1.length];
                 for (int i = 0; i < categoryNames1.length; i++) {
                     Bundle bundle2 = getBundle(categoryNames1[i]);
                     childs[i] = bundle2;
                 }
-                Bundle bundle3 = new Bundle();
-                bundle3.putString("name", "添加子类");
-                bundle3.putInt("id", -2);
-                bundle3.putString("type", categoryName.type);
-                bundle3.putString("parent_id", categoryName.self_id);
-                bundle3.putString("icon", "");
-                childs[categoryNames1.length] = bundle3;
+                if (isAdd) {
+                    Bundle bundle3 = new Bundle();
+                    bundle3.putString("name", "添加子类");
+                    bundle3.putInt("id", -2);
+                    bundle3.putString("icon", "");
+                    bundle3.putString("type", categoryName.type);
+                    bundle3.putString("parent_id", categoryName.self_id);
+                    childs[categoryNames1.length] = bundle3;
+                }
                 child.add(childs);
             }
         }

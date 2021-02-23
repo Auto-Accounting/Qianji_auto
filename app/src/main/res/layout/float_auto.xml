@@ -113,6 +113,14 @@
                 android:textColor="@color/darkGrey"
                 android:textSize="14sp" />
 
+            <ImageView
+                android:id="@+id/iv_cate"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/auto_category"
+                android:src="@drawable/ic_null" />
 
             <TextView
                 android:id="@+id/auto_category"
@@ -226,6 +234,51 @@
                 android:layerType="software" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/reimbursement_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/selectable_item_expand"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp">
+
+            <ImageView
+                android:id="@+id/iv_reimbursement"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="-20dp"
+                android:layout_toStartOf="@+id/reimbursement"
+                android:src="@drawable/ic_reimbursement" />
+
+            <TextView
+                android:id="@+id/reimbursement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="26dp"
+                android:text="@string/auto_reimbursement"
+                android:textColor="@color/darkGrey"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/auto_reimbursement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="不报销"
+                android:textColor="@color/darkGrey"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/line_stroke"
+                android:layerType="software" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/account_book_layout"
@@ -254,6 +307,14 @@
                 android:textColor="@color/darkGrey"
                 android:textSize="14sp" />
 
+            <ImageView
+                android:id="@+id/iv_account"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/auto_account"
+                android:src="@drawable/ic_null" />
 
             <TextView
                 android:id="@+id/auto_account"
@@ -346,6 +407,14 @@
                 android:textColor="@color/darkGrey"
                 android:textSize="14sp" />
 
+            <ImageView
+                android:id="@+id/iv_account2"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/auto_account2"
+                android:src="@drawable/ic_null" />
 
             <TextView
                 android:id="@+id/auto_account2"

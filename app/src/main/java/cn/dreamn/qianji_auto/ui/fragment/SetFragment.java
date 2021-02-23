@@ -54,6 +54,8 @@ public class SetFragment extends BaseFragment {
     SuperTextView set_float_style;
     @BindView(R.id.set_sort)
     SuperTextView set_sort;
+    @BindView(R.id.set_cate)
+    SuperTextView set_cate;
 
     /**
      * 布局的资源id
@@ -108,6 +110,8 @@ public class SetFragment extends BaseFragment {
 
         set_float_style.setLeftTopString(mmkv.getBoolean("auto_style", true) ? "自动记账自带账单悬浮窗" : "钱迹分类选择窗口");
         set_sort.setLeftBottomString(mmkv.getBoolean("auto_sort", false) ? "已开启" : "已关闭");
+        set_cate.setLeftTopString(mmkv.getBoolean("auto_cate_table", true) ? "自动记账自带分类选择面板" : "钱迹分类选择窗口");
+
     }
 
     private void initListen() {
@@ -187,6 +191,19 @@ public class SetFragment extends BaseFragment {
 
 
             });
+
+        });
+        set_cate.setOnSuperTextViewClickListener(superTextView -> {
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.tip_options)
+                    .items(new String[]{"自动记账自带分类选择面板", "钱迹分类选择窗口"})
+                    .itemsCallback((dialog, itemView, position, text) -> {
+                        mmkv.encode("auto_cate_table", text == "自动记账自带分类选择面板");
+                        SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
+                        initSet();
+
+                    })
+                    .show();
 
         });
         set_float_click.setOnSuperTextViewClickListener(superTextView -> {

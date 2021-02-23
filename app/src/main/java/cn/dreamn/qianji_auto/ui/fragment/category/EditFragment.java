@@ -415,7 +415,7 @@ public class EditFragment extends BaseFragment {
 
         ExpandableListView expandableListView = view.findViewById(R.id.expandableListViewData);
 
-        CateChoose cateChoose = new CateChoose(expandableListView, getContext(), type);
+        CateChoose cateChoose = new CateChoose(expandableListView, getContext(), type, false);
 
         cateChoose.refresh();
 
