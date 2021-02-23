@@ -71,7 +71,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<Data> getAsset() {
-        Cursor cursor = db.rawQuery("select * from user_asset", null);
+        Cursor cursor = db.rawQuery("select * from user_asset where TYPE <> 5", null);
         ArrayList<Data> data = new ArrayList<>();
         while (cursor.moveToNext()) {
             Bundle bundle = new Bundle();
@@ -86,7 +86,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<Data> getUserBook() {
-        Cursor cursor = db.rawQuery("select * from user_book", null);
+        Cursor cursor = db.rawQuery("select * from user_book ", null);
         ArrayList<Data> data = new ArrayList<>();
         while (cursor.moveToNext()) {
             Bundle bundle = new Bundle();

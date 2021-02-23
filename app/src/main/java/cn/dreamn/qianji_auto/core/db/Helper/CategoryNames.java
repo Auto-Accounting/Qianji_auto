@@ -38,7 +38,7 @@ public class CategoryNames {
     }
 
     public static String getPic(String name, String type) {
-        CategoryName[] categoryNames = DbManger.db.CategoryNameDao().get(type, name);
+        CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type);
         if (categoryNames != null && categoryNames.length != 0)
             return categoryNames[0].icon;
         return "";

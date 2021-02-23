@@ -17,10 +17,15 @@
 
 package cn.dreamn.qianji_auto.core.db.Helper;
 
+import android.os.Bundle;
+
+import java.util.ArrayList;
+
 import cn.dreamn.qianji_auto.core.db.Table.Asset;
 import cn.dreamn.qianji_auto.core.db.Table.Asset2;
 import cn.dreamn.qianji_auto.core.db.DbManger;
 import cn.dreamn.qianji_auto.core.db.Table.BookName;
+import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 public class Assets {
     public static Asset2[] getAllAccount() {
@@ -35,6 +40,19 @@ public class Assets {
             result[i] = assets[i].name;
         }
         return result;
+    }
+
+    public static Bundle[] getAllIcon() {
+        Asset2[] assets = DbManger.db.Asset2Dao().getAll();
+        if (assets.length <= 0) return null;
+        ArrayList<Bundle> bundleArrayList = new ArrayList<>();
+        for (Asset2 asset : assets) {
+            Bundle bundle = new Bundle();
+            bundle.putString("name", asset.name);
+            bundle.putString("icon", asset.icon);
+            bundleArrayList.add(bundle);
+        }
+        return bundleArrayList.toArray(new Bundle[0]);
     }
 
     public static String getPic(String name) {

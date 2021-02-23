@@ -315,4 +315,5 @@
     <string name="set_cate">自动记账自带</string>
     <string name="auto_reimbursement">报销</string>
     <string name="choose_type_reimbursement">报销</string>
+    <string name="desc">logo</string>
 </resources>

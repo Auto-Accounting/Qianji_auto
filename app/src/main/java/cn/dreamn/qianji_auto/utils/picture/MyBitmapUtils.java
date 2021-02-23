@@ -42,25 +42,26 @@ public class MyBitmapUtils {
     public void disPlay(ImageView ivPic, String url) {
         ivPic.setImageResource(R.drawable.ic_null);
         if (url == null || url.equals("")) return;
+        Bitmap bitmap = getBitmap(url);
+        if (bitmap == null) {
+            mNetCacheUtils.getBitmapFromNet(ivPic, url);
+        } else ivPic.setImageBitmap(bitmap);
+    }
+
+    public Bitmap getBitmap(String url) {
         Bitmap bitmap;
         //内存缓存
         bitmap = mMemoryCacheUtils.getBitmapFromMemory(url);
         if (bitmap != null) {
-            ivPic.setImageBitmap(bitmap);
-            System.out.println("从内存获取图片啦.....");
-            return;
+
+            return bitmap;
         }
 
         //本地缓存
         bitmap = mLocalCacheUtils.getBitmapFromLocal(url);
         if (bitmap != null) {
-            ivPic.setImageBitmap(bitmap);
-            System.out.println("从本地获取图片啦.....");
-            //从本地获取图片后,保存至内存中
-            mMemoryCacheUtils.setBitmapToMemory(url, bitmap);
-            return;
+            return bitmap;
         }
-        //网络缓存
-        mNetCacheUtils.getBitmapFromNet(ivPic, url);
+        return null;
     }
 }

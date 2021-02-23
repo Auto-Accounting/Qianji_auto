@@ -20,6 +20,7 @@ package cn.dreamn.qianji_auto.ui.fragment.asset;
 import android.content.Intent;
 import android.view.View;
 
+import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
@@ -50,11 +51,14 @@ public class MainFragment extends BaseFragment {
             @Override
             public void performAction(View view) {
                 if (Status.getActiveMode().equals("xposed") && Status.isActive(getContext())) {
+
                     Intent intent = new Intent();
                     //com.ustcinfo.ict.ahhxapp 被启动包名；com.ustcinfo.ict.platform.ui.LoginActivity  被启动指定类全名
                     intent.setClassName("com.mutangtech.qianji", "com.mutangtech.qianji.ui.main.MainActivity");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("needAsync", "true");
+                    MMKV mmkv = MMKV.defaultMMKV();
+                    mmkv.encode("needAsync", true);
                     requireContext().startActivity(intent);
                 } else {
                     CookieBar.builder(getActivity())

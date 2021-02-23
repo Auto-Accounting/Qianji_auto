@@ -17,8 +17,13 @@
 
 package cn.dreamn.qianji_auto.core.db.Helper;
 
+import android.os.Bundle;
+
 import com.tencent.mmkv.MMKV;
 
+import java.util.ArrayList;
+
+import cn.dreamn.qianji_auto.core.db.Table.Asset2;
 import cn.dreamn.qianji_auto.core.db.Table.BookName;
 import cn.dreamn.qianji_auto.core.db.DbManger;
 import cn.dreamn.qianji_auto.core.db.Table.CategoryName;
@@ -49,6 +54,26 @@ public class BookNames {
         }
         result[bookNames.length] = "默认账本";
         return result;
+    }
+
+    public static Bundle[] getAllIcon() {
+        BookName[] bookNames = DbManger.db.BookNameDao().getAll();
+        ArrayList<Bundle> bundleArrayList = new ArrayList<>();
+        for (BookName bookName : bookNames) {
+            Bundle bundle = new Bundle();
+            bundle.putString("name", bookName.name);
+            bundle.putString("cover", bookName.icon);
+            bundleArrayList.add(bundle);
+
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putString("name", "默认账本");
+        bundle.putString("cover", "");
+        bundleArrayList.add(bundle);
+        return bundleArrayList.toArray(new Bundle[0]);
+
+
     }
 
     public static BookName[] getAllWith() {

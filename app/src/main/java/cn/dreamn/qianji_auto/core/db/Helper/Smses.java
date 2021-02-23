@@ -105,7 +105,7 @@ public class Smses {
 
 
     public static void add(String regex, String name, String num) {
-        Logs.d("add 3");
+    //    Logs.d("add 3");
         DbManger.db.SmsDao().add(regex, name, num);
     }
 

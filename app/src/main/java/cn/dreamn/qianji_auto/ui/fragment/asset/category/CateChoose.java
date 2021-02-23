@@ -21,10 +21,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.ExpandableListView;
 
+import com.xuexiang.xui.utils.SnackbarUtils;
+
 import java.util.ArrayList;
 
+import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Helper.CategoryNames;
-import cn.dreamn.qianji_auto.core.db.Table.BookName;
 import cn.dreamn.qianji_auto.core.db.Table.CategoryName;
 
 public class CateChoose {
@@ -40,17 +42,18 @@ public class CateChoose {
         this.context = context;
         this.title = title;
         this.isAdd = isAdd;
+
     }
 
     private Bundle getBundle(CategoryName categoryName) {
         Bundle bundle = new Bundle();
-        bundle.putString("name", categoryName.name);
+        bundle.putString("name", categoryName.name == null ? "" : categoryName.name);
         bundle.putInt("id", categoryName.id);
-        bundle.putString("icon", categoryName.icon);
-        bundle.putString("level", categoryName.level);
-        bundle.putString("type", categoryName.type);
-        bundle.putString("self_id", categoryName.self_id);
-        bundle.putString("parent_id", categoryName.parent_id);
+        bundle.putString("icon", categoryName.icon == null ? "" : categoryName.icon);
+        bundle.putString("level", categoryName.level == null ? "" : categoryName.level);
+        bundle.putString("type", categoryName.type == null ? "" : categoryName.type);
+        bundle.putString("self_id", categoryName.self_id == null ? "" : categoryName.self_id);
+        bundle.putString("parent_id", categoryName.parent_id == null ? "" : categoryName.parent_id);
         return bundle;
     }
 

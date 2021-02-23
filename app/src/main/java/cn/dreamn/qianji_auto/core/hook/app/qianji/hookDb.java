@@ -41,9 +41,7 @@ public class hookDb {
                 final String activityClzName = activity.getClass().getName();
                 utils.log(activityClzName);
                 if (activityClzName.contains("com.mutangtech.qianji.ui.main.MainActivity")) {
-                    Task.onMain(100, () -> {
-                        doDbHook(activity, utils);
-                    });
+                    doDbHook(activity, utils);
                 }
             }
         });
@@ -67,7 +65,9 @@ public class hookDb {
                 bundle.putParcelableArrayList("category", category);
                 bundle.putParcelableArrayList("userBook", userBook);
                 utils.send2auto(bundle);
+
                 Toast.makeText(utils.getContext(), "钱迹数据信息获取完毕，现在请返回自动记账。", Toast.LENGTH_LONG).show();
+                XposedHelpers.callMethod(activity, "finish");
             }
 
         } else {

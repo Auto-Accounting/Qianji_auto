@@ -23,7 +23,7 @@ public class Remark {
     public static String getRemark(BillInfo billInfo) {
         String shopName = billInfo.getShopAccount();
         String shopRemark = billInfo.getShopRemark();
-        String app = billInfo.getSource().contains("微信") ? "微信" : "支付宝";
+        String app = billInfo.getSource().contains("微信") ? "微信" : (billInfo.getSource().contains("支付宝") ? "支付宝" : "短信");
 
         if (shopName == null) shopName = "";
         if (shopRemark == null) shopRemark = "";

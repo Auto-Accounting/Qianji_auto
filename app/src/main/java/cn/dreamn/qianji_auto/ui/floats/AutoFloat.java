@@ -211,8 +211,23 @@ public class AutoFloat extends XFloatView {
         category_layout.setOnClickListener(v -> {
             MMKV mmkv = MMKV.defaultMMKV();
             if (mmkv.getBoolean("auto_cate_table", true)) {
+
+              /*  //
+                CateFloat cateFloat = new CateFloat(getContext());
+                cateFloat.setData(billInfo2,  (billInfo)->{
+                    billInfo2=billInfo;
+                    setData(billInfo);
+                    cateFloat.clear();
+                });
+                if (ScreenUtils.getScreenWidth() > ScreenUtils.getScreenHeight()) {
+                    cateFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight() - 100, ScreenUtils.getScreenWidth());
+                } else {
+                    cateFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight() - 100);
+                }
+                cateFloat.show();*/
+                //
                 BottomSheetDialog dialog = new BottomSheetDialog(getContext());
-                @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_cate_choose, null);
+                View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_cate_choose, null, false);
 
                 ExpandableListView expandableListView = view.findViewById(R.id.expandableListViewData);
 
@@ -263,36 +278,35 @@ public class AutoFloat extends XFloatView {
 
         });
         account_layout.setOnClickListener(v -> {
-            String[] bookNameList = BookNames.getAll();
-            if (bookNameList.length <= 0) {
-                XToastUtils.error("账本为空，请在账本设置中添加账本数据。");
-                return;
-            }
-            showMenu("请选择账本", bookNameList, data -> {
+            Bundle[] bookNameList = BookNames.getAllIcon();
 
-                billInfo2.setBookName(bookNameList[data]);
+
+            showMenu("请选择账本", 3, bookNameList, data -> {
+
+                billInfo2.setBookName(bookNameList[data].getString("name"));
                 this.setData(billInfo2);
             });
         });
         account_book_layout.setOnClickListener(v -> {
-            String[] assets = Assets.getAllAccountName();
+            Bundle[] assets = Assets.getAllIcon();
             if (assets == null || assets.length <= 0) {
                 XToastUtils.error("资产账户为空，请在资产账户设置中添加账本数据。");
                 return;
             }
-            showMenu("请选择资产账户", assets, data -> {
-                billInfo2.setAccountName(assets[data]);
+            showMenu("请选择资产账户", 2, assets, data -> {
+                billInfo2.setAccountName(assets[data].getString("name"));
                 this.setData(billInfo2);
             });
         });
         account_book2_layout.setOnClickListener(v -> {
-            String[] assets = Assets.getAllAccountName();
+            Bundle[] assets = Assets.getAllIcon();
+
             if (assets == null || assets.length <= 0) {
                 XToastUtils.error("资产账户为空，请在资产账户设置中添加账本数据。");
                 return;
             }
-            showMenu("请选择资产账户", assets, data -> {
-                billInfo2.setAccountName2(assets[data]);
+            showMenu("请选择资产账户", 2, assets, data -> {
+                billInfo2.setAccountName2(assets[data].getString("name"));
                 this.setData(billInfo2);
             });
         });
@@ -310,8 +324,11 @@ public class AutoFloat extends XFloatView {
             });
         });
         type_layout.setOnClickListener(v -> {
+
             String[] strings = {"支出", "收入", "转账", "信用还款"};
-            showMenu("请选择收支类型", strings, data -> {
+
+
+            showMenu("请选择收支类型", 1, strings, data -> {
                 billInfo2.setType(BillInfo.getTypeId(strings[data]));
                 this.setData(billInfo2);
             });
@@ -370,29 +387,31 @@ public class AutoFloat extends XFloatView {
         }
         String type;
         if (!billInfo.getType().equals(BillInfo.TYPE_PAY)) {
-            type = "0";
+            type = "1";
             reimbursement_layout.setVisibility(View.GONE);
         } else {
-            type = "1";
+            type = "0";
             reimbursement_layout.setVisibility(View.VISIBLE);
         }
 
         MyBitmapUtils myBitmapUtils = new MyBitmapUtils(getContext());
 
 
-        myBitmapUtils.disPlay(iv_cate, CategoryNames.getPic(type, billInfo.getCateName()));
-        myBitmapUtils.disPlay(iv_account, Assets.getPic(billInfo.getCateName()));
-        myBitmapUtils.disPlay(iv_account2, Assets.getPic(billInfo.getCateName()));
+        myBitmapUtils.disPlay(iv_cate, CategoryNames.getPic(billInfo.getCateName(), type));
+        iv_cate.setColorFilter(getContext().getColor(R.color.darkGrey));
+        myBitmapUtils.disPlay(iv_account, Assets.getPic(billInfo.getAccountName()));
+        myBitmapUtils.disPlay(iv_account2, Assets.getPic(billInfo.getAccountName2()));
 
         auto_money.setText(BillTools.getCustomBill(billInfo));
         auto_money.setTextColor(BillTools.getColor(billInfo));
 
 
     }
-    private void showMenu(String title, String[] list, ListFloat.Callback callBack) {
+
+    private void showMenu(String title, int type, Object[] list, ListFloat.Callback callBack) {
 
         ListFloat listFloat = new ListFloat(getContext());
-        listFloat.setData(title, list, callBack);
+        listFloat.setData(title, type, list, callBack);
         if (ScreenUtils.getScreenWidth() > ScreenUtils.getScreenHeight()) {
             listFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight() - 100, ScreenUtils.getScreenWidth());
         } else {

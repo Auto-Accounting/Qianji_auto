@@ -20,6 +20,7 @@ package cn.dreamn.qianji_auto.ui.floats;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.Gravity;
@@ -64,10 +65,19 @@ public class ListFloat extends XFloatView {
 
     }
 
-    public void setData(String title, String[] item, Callback select) {
+    public void setData(String title, int type, Object[] item, Callback select) {
         list_title.setText(title);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), R.layout.list_item, item);//listdata和str均可
-        list_view.setAdapter(arrayAdapter);
+        if (type == 1) {
+            ListAdapter listAdapter = new ListAdapter(getContext(), R.layout.list_item, (String[]) item);//listdata和str均可
+            list_view.setAdapter(listAdapter);
+        } else if (type == 2) {
+            ListAdapter2 listAdapter2 = new ListAdapter2(getContext(), R.layout.list_item2, (Bundle[]) item);//listdata和str均可
+            list_view.setAdapter(listAdapter2);
+        } else if (type == 3) {
+            ListAdapter3 listAdapter3 = new ListAdapter3(getContext(), R.layout.list_item3, (Bundle[]) item);//listdata和str均可
+            list_view.setAdapter(listAdapter3);
+        }
+
 
         callback = select;
 

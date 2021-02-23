@@ -59,12 +59,16 @@ public class Payment extends Analyze {
     public BillInfo getResult(BillInfo billInfo) {
         String money = BillTools.getMoney(jsonObject.getJSONObject("topline").getJSONObject("value").getString("word"));
         String shop = jsonObject.getString("display_name");
+        String payTools = jsonObject.getString("payTools");
         billInfo.setMoney(BillTools.getMoney(money));
         try {
             JSONObject lines = jsonObject.getJSONObject("lines");
 
-            if (!shop.equals("")) {
+            if (shop != null && !shop.equals("")) {
                 billInfo.setShopAccount(shop);
+            }
+            if (payTools != null && !payTools.equals("")) {
+                billInfo.setAccountName(payTools);
             }
 
 

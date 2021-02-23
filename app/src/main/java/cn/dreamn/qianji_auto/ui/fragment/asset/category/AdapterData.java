@@ -128,7 +128,6 @@ public class AdapterData extends BaseExpandableListAdapter {
     }
 
 
-    /*#TODO 填充二级列表*/
     @SuppressLint("InflateParams")
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {

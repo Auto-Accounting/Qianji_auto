@@ -152,7 +152,8 @@ public class hookMsg {
                             }
                             if (jsonObject == null) return;
                             jsonObject.put("display_name", display_name);
-
+                            jsonObject.put("payTools", utils.readData("cache_wechat_paytool"));
+                            utils.log("原始json数据：" + jsonObject.toJSONString(), true);
 
                             utils.log("收到消息：" + xml, true);
                             utils.log("-------消息开始解析-------");

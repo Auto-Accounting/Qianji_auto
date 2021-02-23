@@ -22,6 +22,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.tencent.mmkv.MMKV;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -41,7 +43,9 @@ public class QianjiBroadcast extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         if (action == null) return;
-
+        MMKV mmkv = MMKV.defaultMMKV();
+        if (!mmkv.getBoolean("needAsync", false)) return;
+        mmkv.encode("needAsync", false);
         /**
          *
          Bundle bundle=new Bundle();
@@ -59,7 +63,7 @@ public class QianjiBroadcast extends BroadcastReceiver {
 
         ArrayList<Data> userBook = extData.getParcelableArrayList("userBook");
         if (asset != null && category != null && userBook != null) {
-            Logs.i("钱迹资产信息有效");
+            Logs.i("钱迹数据信息有效");
             Assets.cleanAsset();
             for (int i = 0; i < asset.size(); i++) {
                 Data d = asset.get(i);
@@ -82,6 +86,7 @@ public class QianjiBroadcast extends BroadcastReceiver {
             intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent1.setClass(context, MainActivity.class);
             context.startActivity(intent1);
+            Logs.i("钱迹数据同步完毕");
         }
 
     }
