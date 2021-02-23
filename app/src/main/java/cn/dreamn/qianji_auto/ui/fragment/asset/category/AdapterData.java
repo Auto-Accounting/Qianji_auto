@@ -20,10 +20,14 @@ package cn.dreamn.qianji_auto.ui.fragment.asset.category;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,13 +45,17 @@ class AdapterData extends BaseExpandableListAdapter {
     private Context mContext;
     private LayoutInflater mInflater = null;
 
-    public AdapterData(Context context, Bundle[] group, Bundle[][] child) {
+
+    public void setData(Context context, Bundle[] group, Bundle[][] child) {
+
         groups = group;
         childs = child;
+
         mContext = context;
         mInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
 
     /*一级列表个数*/
     @Override
@@ -89,6 +97,7 @@ class AdapterData extends BaseExpandableListAdapter {
         return true;
     }
 
+
     /*
      * isExpanded 是否已经展开
      * */
@@ -106,7 +115,9 @@ class AdapterData extends BaseExpandableListAdapter {
         tv_title.setText(groups[groupPosition].get("name").toString());
         MyBitmapUtils myBitmapUtils = new MyBitmapUtils(mContext);
         myBitmapUtils.disPlay(iv_img, groups[groupPosition].get("icon").toString());
-        iv_img.setColorFilter(mContext.getColor(R.color.xui_btn_blue_normal_color));
+        iv_img.setColorFilter(mContext.getColor(R.color.textBlue_autumn));
+
+
         //控制是否展开图标
         if (isExpanded) {
             iv_indicator.setRotation(90);
@@ -115,6 +126,7 @@ class AdapterData extends BaseExpandableListAdapter {
         }
         return convertView;
     }
+
 
     /*#TODO 填充二级列表*/
     @SuppressLint("InflateParams")
@@ -127,12 +139,12 @@ class AdapterData extends BaseExpandableListAdapter {
         ImageView iv_img = convertView.findViewById(R.id.iv_img);
         TextView tv_title = convertView.findViewById(R.id.tv_title);
         AppCompatImageView iv_indicator = convertView.findViewById(R.id.iv_indicator);
-        fl_title.setBackgroundColor(mContext.getColor(R.color.background));
+        fl_title.setBackgroundColor(mContext.getColor(R.color.backgroundLight_autumn));
         tv_title.setText(childs[groupPosition][childPosition].get("name").toString());
 
         MyBitmapUtils myBitmapUtils = new MyBitmapUtils(mContext);
         myBitmapUtils.disPlay(iv_img, childs[groupPosition][childPosition].get("icon").toString());
-        iv_img.setColorFilter(mContext.getColor(R.color.xui_btn_blue_normal_color));
+        iv_img.setColorFilter(mContext.getColor(R.color.textBlue_autumn));
         // tv.setText(childs[groupPosition][childPosition]);
         iv_indicator.setVisibility(View.GONE);
         return convertView;

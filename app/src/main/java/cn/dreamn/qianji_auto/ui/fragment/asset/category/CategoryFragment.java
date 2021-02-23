@@ -17,17 +17,26 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.asset.category;
 
+import android.content.Intent;
+import android.view.View;
+
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.adapter.FragmentAdapter;
+import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
+import com.xuexiang.xui.widget.actionbar.TitleBar;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
+import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.core.db.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
+import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 
 @Page(name = "分类管理")
@@ -38,6 +47,7 @@ public class CategoryFragment extends BaseFragment implements TabLayout.OnTabSel
 
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
+    FragmentAdapter<TabFragmentBase> adapter;
 
     @Override
     protected int getLayoutId() {
@@ -47,18 +57,38 @@ public class CategoryFragment extends BaseFragment implements TabLayout.OnTabSel
     @Override
     protected void initViews() {
 
+        refresh();
+
+    }
+
+    private void refresh() {
         // 固定数量的Tab,关联ViewPager
-        FragmentAdapter<TabFragmentBase> adapter = new FragmentAdapter<>(getChildFragmentManager());
+        adapter = new FragmentAdapter<>(getChildFragmentManager());
         for (String page : ContentPage.getPageNames()) {
             adapter.addFragment(TabFragmentBase.newInstance(page), page);
         }
         mTabLayout1.addOnTabSelectedListener(this);
         mViewPager.setAdapter(adapter);
+
         mTabLayout1.setupWithViewPager(mViewPager);
 
 
         WidgetUtils.setTabLayoutTextFont(mTabLayout1);
+    }
 
+    @Override
+    protected TitleBar initTitle() {
+        TitleBar titleBar = super.initTitle();
+        titleBar.addAction(new TitleBar.TextAction("添加") {
+            @Override
+            public void performAction(View view) {
+
+                //Logs.d("添加分类");
+                change(-1, "-1", "1", "-1", "");
+
+            }
+        });
+        return titleBar;
     }
 
     @Override
@@ -74,5 +104,65 @@ public class CategoryFragment extends BaseFragment implements TabLayout.OnTabSel
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
+    }
+
+    public void change(int id, String parent_id, String level, String type, String def) {
+
+        if (type.equals("-1")) {
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.tip_options)
+                    .items(R.array.menu_cate)
+                    .itemsCallback((dialog, itemView, position, text) -> {
+
+                        change(id, parent_id, level, String.valueOf(position), def);
+
+                    })
+                    .show();
+        } else {
+            showInputDialog("添加分类", "请输入分类名称", def, str -> {
+
+                if (id != -1) {
+                    if (!CategoryNames.update(id, str, type)) {
+                        SnackbarUtils.Long(getView(), getString(R.string.set_failed)).info().show();
+                    } else {
+                        SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
+                        //  adapterData.refresh(expandableListView,0);
+                        refresh();
+                    }
+                } else {
+                    if (!CategoryNames.insert(str, "", level, type, "", parent_id)) {
+                        SnackbarUtils.Long(getView(), getString(R.string.set_failed)).info().show();
+                    } else {
+                        SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
+                        // adapterData.refresh(expandableListView,0);
+                        refresh();
+                    }
+                }
+            });
+        }
+
+
+    }
+
+    public void showInputDialog(String title, String tip, String def, CallBack callBack) {
+        new MaterialDialog.Builder(getContext())
+                .title(title)
+                .content(tip)
+                .input(
+                        getString(R.string.input_tip),
+                        def,
+                        false,
+                        ((dialog, input) -> {
+                        })
+                )
+                .positiveText(getString(R.string.input_ok))
+                .negativeText(getString(R.string.set_cancel))
+                .onPositive((dialog, which) -> callBack.onResponse(dialog.getInputEditText().getText().toString()))
+                .show();
+    }
+
+    // 回调接口
+    public interface CallBack {
+        void onResponse(String data);
     }
 }

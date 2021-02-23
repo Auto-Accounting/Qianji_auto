@@ -37,12 +37,21 @@ public class CategoryNames {
         return DbManger.db.CategoryNameDao().get("1", parent_id);
     }
 
-    public static void insert(String name, String icon, String level, String type, String self_id, String parent_id) {
+    public static boolean insert(String name, String icon, String level, String type, String self_id, String parent_id) {
+        if (self_id.equals("")) {
+            self_id = String.valueOf(System.currentTimeMillis());
+        }
+        CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type);
+        if (categoryNames.length != 0) return false;
         DbManger.db.CategoryNameDao().add(name, icon, level, type, self_id, parent_id);
+        return true;
     }
 
-    public static void update(int id, String name, String icon, String level, String type, String self_id, String parent_id) {
-        DbManger.db.CategoryNameDao().update(id, name, icon, level, type, self_id, parent_id);
+    public static boolean update(int id, String name, String type) {
+        CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type);
+        if (categoryNames.length != 0) return false;
+        DbManger.db.CategoryNameDao().update(id, name);
+        return true;
     }
 
     public static void del(int id) {

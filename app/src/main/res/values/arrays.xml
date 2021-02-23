@@ -107,4 +107,12 @@
         <!--      <item>@string/choose_qq</item>-->
     </string-array>
 
+    <string-array name="menu_cate">
+        <!--   <item>@string/choose_wechat</item>-->
+        <item>@string/choose_pay</item>
+        <item>@string/choose_income</item>
+        <!--      <item>@string/choose_qq</item>-->
+    </string-array>
+
+
 </resources>

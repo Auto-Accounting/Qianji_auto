@@ -232,4 +232,26 @@ public class EditFragment extends BaseFragment {
 
     }
 
+    public void showInputDialog(String title, String tip, String def, CallBack callBack) {
+        new MaterialDialog.Builder(getContext())
+                .title(title)
+                .content(tip)
+                .input(
+                        getString(R.string.input_tip),
+                        def,
+                        false,
+                        ((dialog, input) -> {
+                        })
+                )
+                .positiveText(getString(R.string.input_ok))
+                .negativeText(getString(R.string.set_cancel))
+                .onPositive((dialog, which) -> callBack.onResponse(dialog.getInputEditText().getText().toString()))
+                .show();
+    }
+
+    // 回调接口
+    public interface CallBack {
+        void onResponse(String data);
+    }
+
 }

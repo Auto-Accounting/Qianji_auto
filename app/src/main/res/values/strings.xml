@@ -50,7 +50,7 @@
     <string name="helper_tip_qianji2"><![CDATA[设置路径：钱迹 -> 设置·关于 -> 插件[实验室] -> 资产管理 -> 开启 。开启资产管理后请返回钱迹首页，点击右上方的银行卡图标添加资产。]]></string>
     <string name="helper_qianji_ok">前去设置</string>
     <string name="helper_tip3">同步说明</string>
-    <string name="helper_tip_qianji3">尝试过和首富沟通，首富未给出明确答复。该功能暂时无效。直接下一步即可。</string>
+    <string name="helper_tip_qianji3">目前仅Xposed用户可以同步。</string>
     <string name="helper_qianji_err">我知道了</string>
     <string name="btn_cancel">取消保存</string>
     <string name="btn_save">保存</string>
@@ -305,4 +305,10 @@
     <string name="menu_other">未识别规则</string>
     <string name="qianji_cate">分类管理</string>
     <string name="qianji_cate_sub">钱迹分类管理</string>
+    <string name="title_add_parent_category">添加</string>
+
+    <string name="choose_pay">支出</string>
+    <string name="choose_income">收入</string>
+    <string name="set_failed">设置失败，该分类已有。</string>
+    <string name="helper_tip_qianji9">目前仅支持Xposed已激活用户同步。无障碍用户请手动配置数据。</string>
 </resources>

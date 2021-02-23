@@ -229,7 +229,7 @@ public class HelperFragment extends BaseFragment {
                 }
                 break;
             case R.id.set_delay:
-                showInputDialog("请输入延时时间", "默认延时10秒，设置为0不延时。", mmkv.getString("auto_timeout", "10"), (CallBack) data -> {
+                showInputDialog("请输入延时时间", "默认延时10秒，设置为0不延时。", mmkv.getString("auto_timeout", "10"), data -> {
                     try {
                         Integer.parseInt(data);
                         mmkv.encode("auto_timeout", data);
@@ -243,7 +243,7 @@ public class HelperFragment extends BaseFragment {
                 });
                 break;
             case R.id.set_default_book:
-                showInputDialog("请输入默认账本", "钱迹非会员请保持使用默认账本", mmkv.getString("defaultBookName", "默认账本"), (CallBack) data -> {
+                showInputDialog("请输入默认账本", "钱迹非会员请保持使用默认账本", mmkv.getString("defaultBookName", "默认账本"), data -> {
                     mmkv.encode("defaultBookName", data);
                 });
                 break;
@@ -334,5 +334,6 @@ public class HelperFragment extends BaseFragment {
     private interface Callback2 {
         void onResponse(String data);
     }
+
 
 }

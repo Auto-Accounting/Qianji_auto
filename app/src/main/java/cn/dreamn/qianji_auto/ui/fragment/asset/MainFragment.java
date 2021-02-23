@@ -27,6 +27,7 @@ import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.core.utils.Status;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.asset.category.CategoryFragment;
 
@@ -48,23 +49,28 @@ public class MainFragment extends BaseFragment {
         titleBar.addAction(new TitleBar.ImageAction(R.drawable.ic_async) {
             @Override
             public void performAction(View view) {
+                if (Status.getActiveMode().equals("xposed") && Status.isActive(getContext())) {
+                    Intent intent = new Intent();
+                    //com.ustcinfo.ict.ahhxapp 被启动包名；com.ustcinfo.ict.platform.ui.LoginActivity  被启动指定类全名
+                    intent.setClassName("com.mutangtech.qianji", "com.mutangtech.qianji.ui.main.MainActivity");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("needAsync", "true");
+                    requireContext().startActivity(intent);
+                } else {
+                    CookieBar.builder(getActivity())
+                            .setTitle(R.string.helper_tip3)
+                            .setMessage(R.string.helper_tip_qianji9)
+                            .setDuration(-1)
+                            .setActionColor(android.R.color.white)
+                            .setTitleColor(android.R.color.white)
+                            .setAction(R.string.helper_qianji_err, view1 -> {
 
-                CookieBar.builder(getActivity())
-                        .setTitle(R.string.helper_tip3)
-                        .setMessage(R.string.helper_tip_qianji3)
-                        .setDuration(-1)
-                        .setActionColor(android.R.color.white)
-                        .setTitleColor(android.R.color.white)
-                        .setAction(R.string.helper_qianji_err, view1 -> {
-                        }).setBackgroundColor(R.color.colorPrimary).show();
+                            }).setBackgroundColor(R.color.colorPrimary).show();
+                }
+
                 //com.mutangtech.qianji.p259ui.main.MainActivity
 
-                Intent intent = new Intent();
-                //com.ustcinfo.ict.ahhxapp 被启动包名；com.ustcinfo.ict.platform.ui.LoginActivity  被启动指定类全名
-                intent.setClassName("com.mutangtech.qianji", "com.mutangtech.qianji.ui.main.MainActivity");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("needAsync", "true");
-                requireContext().startActivity(intent);
+
             }
         });
         return titleBar;

@@ -20,7 +20,6 @@ package cn.dreamn.qianji_auto.core.db.Dao;
 import androidx.room.Dao;
 import androidx.room.Query;
 
-import cn.dreamn.qianji_auto.core.db.Table.Asset;
 import cn.dreamn.qianji_auto.core.db.Table.CategoryName;
 
 @Dao
@@ -40,8 +39,11 @@ public interface CategoryNameDao {
     @Query("INSERT INTO categoryname(name,icon,level,type,self_id,parent_id) values(:name,:icon,:level,:type,:self_id,:parent_id)")
     void add(String name, String icon, String level, String type, String self_id, String parent_id);
 
-    @Query("UPDATE  categoryname SET name=:name,icon=:icon,level=:level,type=:type,self_id=:self_id,parent_id=:parent_id WHERE id=:id")
-    void update(int id, String name, String icon, String level, String type, String self_id, String parent_id);
+    @Query("UPDATE  categoryname SET name=:name WHERE id=:id")
+    void update(int id, String name);
+
+    @Query("Select * from categoryname where name=:name and type=:type")
+    CategoryName[] getByName(String name, String type);
 
     @Query("DELETE  FROM categoryname")
     void clean();
