@@ -4,12 +4,15 @@ package cn.dreamn.qianji_auto.ui.fragment;
 import android.os.Handler;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
+import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
@@ -84,10 +87,14 @@ public class LogFragment extends StateFragment {
 
     @Override
     protected void initListeners() {
+        MMKV mmkv = MMKV.defaultMMKV();
+        if (!mmkv.getBoolean("show_log_tip", true)) return;
         new MaterialDialog.Builder(getContext())
                 .title("日志缓存")
                 .content("日志缓存有效期为24小时，如果有无法正常记账的情况请在24小时内反馈，24小时后日志会自动删除。")
                 .negativeText("我知道了")
+                .positiveText("不再显示")
+                .onPositive((dialog, which) -> mmkv.encode("show_log_tip", false))
                 .show();
     }
 

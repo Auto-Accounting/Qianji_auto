@@ -63,8 +63,7 @@
         <item>@string/choose_type_null</item>
         <item>@string/choose_type_pay</item>
         <item>@string/choose_type_income</item>
-        <item>@string/choose_type_transfer_accounts</item>
-        <item>@string/choose_type_credit_card_payment</item>
+
     </string-array>
     <string-array name="menu_values_regular_choose">
         <item>@string/choose_regular_and</item>

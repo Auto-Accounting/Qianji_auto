@@ -278,16 +278,18 @@
                     android:gravity="center_vertical">
 
 
-                    <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                    <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+
+                        style="@style/RoundButton.Auto"
+
                         android:id="@+id/regular_sort"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
 
                         android:layout_weight="1"
 
                         android:hint=""
                         android:text="其它"
-                        android:textColor="@color/xui_config_color_edittext_textcolor" />
+
+                        android:layout_width="0dp" />
 
                 </LinearLayout>
 

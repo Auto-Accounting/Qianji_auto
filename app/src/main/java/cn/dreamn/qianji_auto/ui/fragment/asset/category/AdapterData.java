@@ -37,7 +37,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.utils.picture.MyBitmapUtils;
 
-class AdapterData extends BaseExpandableListAdapter {
+public class AdapterData extends BaseExpandableListAdapter {
 
     Bundle[] groups;
     Bundle[][] childs;

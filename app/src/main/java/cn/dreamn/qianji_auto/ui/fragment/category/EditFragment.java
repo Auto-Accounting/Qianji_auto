@@ -21,7 +21,11 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ExpandableListView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.widget.button.ButtonView;
@@ -39,6 +43,8 @@ import cn.dreamn.qianji_auto.core.db.Helper.Category;
 import cn.dreamn.qianji_auto.core.utils.DataUtils;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
+import cn.dreamn.qianji_auto.ui.fragment.asset.category.AdapterData;
+import cn.dreamn.qianji_auto.ui.fragment.asset.category.CateChoose;
 import cn.dreamn.qianji_auto.utils.tools.JsEngine;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
@@ -74,7 +80,7 @@ public class EditFragment extends BaseFragment {
     @BindView(R.id.regular_type)
     RoundButton regular_type;
     @BindView(R.id.regular_sort)
-    MaterialEditText regular_sort;
+    RoundButton regular_sort;
 
 
     @BindView(R.id.btn_test)
@@ -197,6 +203,10 @@ public class EditFragment extends BaseFragment {
                 e.printStackTrace();
             }
         });
+        regular_sort.setOnClickListener(v -> {
+            String type = regular_type.getText().toString();
+            showChoose(type, data -> regular_sort.setText(data));
+        });
         btn_test.setOnClickListener(v -> {
             LayoutInflater factory = LayoutInflater.from(getContext());
             @SuppressLint("InflateParams") final View textEntryView = factory.inflate(R.layout.fragment_auto_catgory_edit_test, null);
@@ -275,7 +285,7 @@ public class EditFragment extends BaseFragment {
                 return;
             }
             //获取分类
-            String sort = regular_sort.getEditValue();
+            String sort = regular_sort.getText().toString();
             if (sort.equals("")) {
                 SnackbarUtils.Long(getView(), "分类不能为空").danger().show();
                 return;
@@ -321,7 +331,7 @@ public class EditFragment extends BaseFragment {
             return "";
         }
         //获取分类
-        String sort = regular_sort.getEditValue();
+        String sort = regular_sort.getText().toString();
         if (sort.equals("")) {
             SnackbarUtils.Long(getView(), "分类不能为空").danger().show();
             return "";
@@ -392,5 +402,49 @@ public class EditFragment extends BaseFragment {
 
 
     }
+
+    interface Choose {
+        void onChoose(String data);
+    }
+
+    private void showChoose(String type, Choose choose) {
+
+
+        BottomSheetDialog dialog = new BottomSheetDialog(getContext());
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_cate_choose, null);
+
+        ExpandableListView expandableListView = view.findViewById(R.id.expandableListViewData);
+
+        CateChoose cateChoose = new CateChoose(expandableListView, getContext(), type);
+
+        cateChoose.refresh();
+
+        cateChoose.setOnClick(new CateChoose.CallBack() {
+            @Override
+            public void OnLongClickGroup(Bundle parent) {
+                choose.onChoose(parent.getString("name"));
+                dialog.cancel();
+            }
+
+            @Override
+            public void OnLongClickChild(Bundle parent, Bundle child) {
+                choose.onChoose(child.getString("name"));
+                dialog.cancel();
+            }
+
+
+            @Override
+            public void OnClickChild(Bundle parent, Bundle child) {
+                choose.onChoose(child.getString("name"));
+                dialog.cancel();
+            }
+        });
+
+        dialog.setContentView(view);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+    }
+
 
 }

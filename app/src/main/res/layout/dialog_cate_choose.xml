@@ -16,46 +16,36 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <FrameLayout
-        android:id="@+id/fl_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        tools:ignore="UselessParent">
+        android:layout_height="60dp">
 
-        <ImageView
-            android:id="@+id/iv_img"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="20dp"
-            android:scaleType="centerInside"
-
-            app:srcCompat="@drawable/ic_null" />
 
         <TextView
-            android:id="@+id/tv_title"
-            style="@style/TextStyle.Content"
-            android:layout_gravity="start|center_vertical"
-            android:layout_marginStart="66dp"
-            android:padding="16dp" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:padding="16dp"
-            android:tint="?attr/colorAccent"
-            app:srcCompat="@drawable/ic_arrow_right" />
+            android:layout_gravity="center"
+            android:text="选择分类"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
 
     </FrameLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@android:color/darker_gray" />
+
+    <!--二级菜单-->
+    <ExpandableListView
+        android:id="@+id/expandableListViewData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

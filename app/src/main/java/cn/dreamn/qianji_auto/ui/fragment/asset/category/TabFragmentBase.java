@@ -17,27 +17,22 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.asset.category;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
+import com.tencent.mmkv.MMKV;
 import com.xuexiang.xrouter.annotation.AutoWired;
 import com.xuexiang.xrouter.launcher.XRouter;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 
-
-import java.util.ArrayList;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,9 +40,9 @@ import butterknife.Unbinder;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Helper.BookNames;
 import cn.dreamn.qianji_auto.core.db.Helper.CategoryNames;
-import cn.dreamn.qianji_auto.core.db.Table.CategoryName;
+import cn.dreamn.qianji_auto.ui.adapter.AssetAdapter;
+import cn.dreamn.qianji_auto.ui.adapter.MapAdapter;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
-import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 /**
  * @author xuexiang
@@ -61,12 +56,8 @@ public class TabFragmentBase extends BaseFragment {
     @BindView(R.id.expandableListView)
     ExpandableListView expandableListView;
 
-
+    CateChoose cateChoose;
     private Unbinder mUnbinder;
-
-    AdapterData adapterData;
-    Bundle[] parentArr = new Bundle[0];
-    Bundle[][] childArr = new Bundle[0][];
 
     @AutoWired(name = KEY_TITLE)
     String title;
@@ -107,113 +98,86 @@ public class TabFragmentBase extends BaseFragment {
     }
 
 
-    private Bundle getBundle(CategoryName categoryName) {
-        Bundle bundle = new Bundle();
-        bundle.putString("name", categoryName.name);
-        bundle.putInt("id", categoryName.id);
-        bundle.putString("icon", categoryName.icon);
-        bundle.putString("level", categoryName.level);
-        bundle.putString("type", categoryName.type);
-        bundle.putString("self_id", categoryName.self_id);
-        bundle.putString("parent_id", categoryName.parent_id);
-        return bundle;
-    }
 
     private void initView() {
 
-        adapterData = new AdapterData();
+
+        cateChoose = new CateChoose(expandableListView, getContext(), title);
+
+        cateChoose.refresh();
 
 
-        expandableListView.setOnItemLongClickListener((arg0, arg1, arg2, arg3) -> {
+        cateChoose.setOnClick(new CateChoose.CallBack() {
+            @Override
+            public void OnLongClickGroup(Bundle parent) {
+                new MaterialDialog.Builder(getContext())
+                        .title(R.string.tip_options)
+                        .items(R.array.menu_values)
+                        .itemsCallback((dialog, itemView, position, text) -> {
+                            if (position == 0) {
 
-            if (ExpandableListView.getPackedPositionType(arg3) == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-                long packPos = ((ExpandableListView) arg0).getExpandableListPosition(arg2);
-                int groupPosition = ExpandableListView.getPackedPositionGroup(packPos);
-                int childPosition = ExpandableListView.getPackedPositionChild(packPos);
+                                new MaterialDialog.Builder(getContext())
+                                        .title("一级分类删除警告")
+                                        .content("删除该一级分类的同时会删除该分类下所有二级分类，是否确认？")
+                                        .negativeText("确认")
+                                        .positiveText("取消")
+                                        .onNegative((dialog2, which) -> {
+                                            CategoryNames.del(parent.getInt("id"));
+                                            refresh();
+                                        })
+                                        .show();
 
+                            } else {
 
-            } else {
-                long packPos = ((ExpandableListView) arg0).getExpandableListPosition(arg2);
-                int groupPosition = ExpandableListView.getPackedPositionGroup(packPos);
-                Bundle bundle = parentArr[groupPosition];
-                change(bundle.getInt("id"), "-1", "1", bundle.getString("type"), bundle.getString("name"));
+                                change(parent.getInt("id"), "-1", "1", parent.getString("type"), parent.getString("name"));
+
+                            }
+
+                        })
+                        .show();
+            }
+
+            @Override
+            public void OnLongClickChild(Bundle parent, Bundle child) {
 
             }
 
-            return true;
-        });
-        expandableListView.setOnChildClickListener((a, v, groupPos, childPos, id) -> {
-            Bundle bundle = childArr[groupPos][childPos];
-            if (bundle.getString("name").equals("添加子类")) {
-                change(-1, bundle.getString("parent_id"), "2", bundle.getString("type"), "");
-            } else {
-                change(bundle.getInt("id"), bundle.getString("parent_id"), "2", bundle.getString("type"), bundle.getString("name"));
+
+            @Override
+            public void OnClickChild(Bundle parent, Bundle child) {
+                if (child.getString("name").equals("添加子类")) {
+                    change(-1, child.getString("parent_id"), "2", child.getString("type"), "");
+                } else {
+                    new MaterialDialog.Builder(getContext())
+                            .title(R.string.tip_options)
+                            .items(R.array.menu_values)
+                            .itemsCallback((dialog, itemView, position, text) -> {
+                                if (position == 0) {
+                                    CategoryNames.del(child.getInt("id"));
+                                    refresh();
+                                } else {
+
+                                    change(child.getInt("id"), child.getString("parent_id"), "2", child.getString("type"), child.getString("name"));
+
+                                }
+
+                            })
+                            .show();
+                }
             }
-
-            return true;
         });
 
 
-        refresh();
+        //refresh();
+
     }
 
     protected void refresh() {
-        getAdapterData();
-        adapterData.setData(getContext(), parentArr, childArr);
-        expandableListView.setGroupIndicator(null);
-        expandableListView.setAdapter(adapterData);
+        if (cateChoose != null) {
+            cateChoose.refresh();
 
-    }
-
-    public void getAdapterData() {
-        ArrayList<Bundle> parent = new ArrayList<>();
-        ArrayList<Bundle[]> child = new ArrayList<>();
-
-        if (title.equals("收入")) {
-            CategoryName[] categoryNames = CategoryNames.getParentByIncome();
-            for (CategoryName categoryName : categoryNames) {
-                Bundle bundle = getBundle(categoryName);
-                parent.add(bundle);
-                CategoryName[] categoryNames1 = CategoryNames.getChildrenByIncome(categoryName.self_id);
-                Bundle[] childs = new Bundle[categoryNames1.length + 1];
-                for (int i = 0; i < categoryNames1.length; i++) {
-                    Bundle bundle2 = getBundle(categoryNames1[i]);
-                    childs[i] = bundle2;
-                }
-                Bundle bundle3 = new Bundle();
-                bundle3.putString("name", "添加子类");
-                bundle3.putInt("id", -2);
-                bundle3.putString("icon", "");
-                bundle3.putString("type", categoryName.type);
-                bundle3.putString("parent_id", categoryName.self_id);
-                childs[categoryNames1.length] = bundle3;
-                child.add(childs);
-            }
-        } else {
-            CategoryName[] categoryNames = CategoryNames.getParentByPay();
-            for (CategoryName categoryName : categoryNames) {
-
-                Bundle bundle = getBundle(categoryName);
-                parent.add(bundle);
-                CategoryName[] categoryNames1 = CategoryNames.getChildrenByPay(categoryName.self_id);
-                Bundle[] childs = new Bundle[categoryNames1.length + 1];
-                for (int i = 0; i < categoryNames1.length; i++) {
-                    Bundle bundle2 = getBundle(categoryNames1[i]);
-                    childs[i] = bundle2;
-                }
-                Bundle bundle3 = new Bundle();
-                bundle3.putString("name", "添加子类");
-                bundle3.putInt("id", -2);
-                bundle3.putString("type", categoryName.type);
-                bundle3.putString("parent_id", categoryName.self_id);
-                bundle3.putString("icon", "");
-                childs[categoryNames1.length] = bundle3;
-                child.add(childs);
-            }
         }
 
-        parentArr = parent.toArray(new Bundle[0]);
-        childArr = child.toArray(new Bundle[0][0]);
     }
 
     public void change(int id, String parent_id, String level, String type, String def) {
