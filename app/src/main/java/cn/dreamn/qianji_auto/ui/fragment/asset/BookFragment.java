@@ -17,6 +17,7 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.asset;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
@@ -29,22 +30,13 @@ import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.db.Table.BookName;
 import cn.dreamn.qianji_auto.core.db.Helper.BookNames;
-import cn.dreamn.qianji_auto.ui.adapter.AssetAdapter;
-import cn.dreamn.qianji_auto.ui.adapter.MapAdapter;
+import cn.dreamn.qianji_auto.ui.adapter.ListAdapter3;
 import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
-
-import static cn.dreamn.qianji_auto.ui.adapter.MapAdapter.KEY_ID;
-import static cn.dreamn.qianji_auto.ui.adapter.MapAdapter.KEY_TITLE;
 
 
 @Page(name = "账本管理")
@@ -54,7 +46,7 @@ public class BookFragment extends StateFragment {
     SwipeRefreshLayout map_layout;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
-    private AssetAdapter mAdapter;
+    private ListAdapter3 mAdapter;
 
     /**
      * 初始化控件
@@ -65,17 +57,17 @@ public class BookFragment extends StateFragment {
         showLoading("加载中...");
 
         initSet();
-        mAdapter.setOnItemClickListener(item -> new MaterialDialog.Builder(getContext())
+        mAdapter.setOnItemClickListener((ListAdapter3.OnItemClickListener) (item, pos) -> new MaterialDialog.Builder(getContext())
                 .title(R.string.tip_options)
                 .items(R.array.menu_values)
                 .itemsCallback((dialog, itemView, position, text) -> {
-                    int id = Integer.parseInt(Objects.requireNonNull(item.get(MapAdapter.KEY_ID)));
+                    int id = item.getInt("id");
                     if (position == 0) {
                         BookNames.del(id);
                         refresh();
                     } else {
 
-                        change(id, item.get(AssetAdapter.KEY_TITLE));
+                        change(id, item.getString("name"));
                     }
 
                 })
@@ -104,7 +96,7 @@ public class BookFragment extends StateFragment {
     private void initSet() {
 
         WidgetUtils.initRecyclerView(recyclerView);
-        mAdapter = new AssetAdapter();
+        mAdapter = new ListAdapter3(getContext());
         recyclerView.setAdapter(mAdapter);
 
 
@@ -113,20 +105,13 @@ public class BookFragment extends StateFragment {
     private void loadData() {
         new Handler().postDelayed(() -> {
 
-            BookName[] bookNames = BookNames.getAllWith();
-            List<Map<String, String>> data = new ArrayList<>();
-            for (BookName bookName : bookNames) {
-                Map<String, String> item = new HashMap<>();
-                item.put(KEY_TITLE, bookName.name);
-                item.put(KEY_ID, String.valueOf(bookName.id));
-                data.add(item);
-            }
-            if (data.size() == 0) {
+            Bundle[] bundles = BookNames.getAllIcon(false);
+            if (bundles.length <= 1) {
                 showEmpty("没有账本信息");
                 return;
             }
 
-            mAdapter.refresh(data);
+            mAdapter.refresh(Arrays.asList(bundles));
             if (map_layout != null) {
                 map_layout.setRefreshing(false);
             }

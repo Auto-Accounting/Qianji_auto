@@ -48,6 +48,7 @@ public class Assets {
         ArrayList<Bundle> bundleArrayList = new ArrayList<>();
         for (Asset2 asset : assets) {
             Bundle bundle = new Bundle();
+            bundle.putInt("id", asset.id);
             bundle.putString("name", asset.name);
             bundle.putString("icon", asset.icon);
             bundleArrayList.add(bundle);

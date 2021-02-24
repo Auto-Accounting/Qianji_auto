@@ -56,6 +56,7 @@ public class NetCacheUtils {
      * @param url   下载图片的网络地址
      */
     public void getBitmapFromNet(View ivPic, String url) {
+
         new BitmapTask().execute(ivPic, url);//启动AsyncTask
 
     }

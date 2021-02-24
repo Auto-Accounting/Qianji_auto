@@ -50,6 +50,7 @@ public class MemoryCacheUtils {
      * @param url
      */
     public Bitmap getBitmapFromMemory(String url) {
+        if (url == null) return null;
         //Bitmap bitmap = mMemoryCache.get(url);//1.强引用方法
             /*2.弱引用方法
             SoftReference<Bitmap> bitmapSoftReference = mMemoryCache.get(url);

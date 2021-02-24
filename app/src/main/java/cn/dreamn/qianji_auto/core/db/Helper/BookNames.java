@@ -62,6 +62,7 @@ public class BookNames {
         for (BookName bookName : bookNames) {
             Bundle bundle = new Bundle();
             bundle.putString("name", bookName.name);
+            bundle.putInt("id", bookName.id);
             bundle.putString("cover", bookName.icon);
             bundleArrayList.add(bundle);
 
@@ -69,8 +70,34 @@ public class BookNames {
 
         Bundle bundle = new Bundle();
         bundle.putString("name", "默认账本");
+        bundle.putInt("id", -1);
         bundle.putString("cover", " http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
         bundleArrayList.add(bundle);
+        return bundleArrayList.toArray(new Bundle[0]);
+
+
+    }
+
+    public static Bundle[] getAllIcon(Boolean add) {
+        BookName[] bookNames = DbManger.db.BookNameDao().getAll();
+        ArrayList<Bundle> bundleArrayList = new ArrayList<>();
+        for (BookName bookName : bookNames) {
+            Bundle bundle = new Bundle();
+            bundle.putString("name", bookName.name);
+            bundle.putInt("id", bookName.id);
+            bundle.putString("cover", bookName.icon);
+            bundleArrayList.add(bundle);
+
+        }
+
+        if (add) {
+            Bundle bundle = new Bundle();
+            bundle.putString("name", "默认账本");
+            bundle.putInt("id", -1);
+            bundle.putString("cover", " http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
+            bundleArrayList.add(bundle);
+        }
+
         return bundleArrayList.toArray(new Bundle[0]);
 
 

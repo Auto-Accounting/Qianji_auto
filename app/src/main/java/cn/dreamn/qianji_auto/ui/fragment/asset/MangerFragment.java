@@ -17,6 +17,7 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.asset;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
@@ -27,24 +28,15 @@ import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
-import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.db.Table.Asset2;
 import cn.dreamn.qianji_auto.core.db.Helper.Assets;
-import cn.dreamn.qianji_auto.ui.adapter.AssetAdapter;
+import cn.dreamn.qianji_auto.ui.adapter.ListAdapter2;
 import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
-
-import static cn.dreamn.qianji_auto.ui.adapter.AssetAdapter.KEY_ID;
-import static cn.dreamn.qianji_auto.ui.adapter.AssetAdapter.KEY_TITLE;
 
 
 @Page(name = "钱迹资产")
@@ -54,7 +46,7 @@ public class MangerFragment extends StateFragment {
     SwipeRefreshLayout map_layout;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
-    private AssetAdapter mAdapter;
+    private ListAdapter2 mAdapter;
 
     /**
      * 初始化控件
@@ -65,18 +57,18 @@ public class MangerFragment extends StateFragment {
         showLoading("加载中...");
 
         WidgetUtils.initRecyclerView(recyclerView);
-        mAdapter = new AssetAdapter();
+        mAdapter = new ListAdapter2(getContext());
         recyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(item -> new MaterialDialog.Builder(getContext())
+        mAdapter.setOnItemClickListener((ListAdapter2.OnItemClickListener) (item, pos) -> new MaterialDialog.Builder(getContext())
                 .title(R.string.tip_options)
                 .items(R.array.menu_values)
                 .itemsCallback((dialog, itemView, position, text) -> {
-                    int id = Integer.parseInt(Objects.requireNonNull(item.get(KEY_ID)));
+                    int id = item.getInt("id");
                     if (position == 0) {
                         Assets.delAsset(id);
                         refresh();
                     } else {
-                        showInputDialog(getString(R.string.asset_change), getString(R.string.asset_change_sub), item.get(KEY_TITLE), (str) -> {
+                        showInputDialog(getString(R.string.asset_change), getString(R.string.asset_change_sub), item.getString("name"), (str) -> {
                             Assets.updAsset(id, str);
                             SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
                             refresh();
@@ -113,22 +105,18 @@ public class MangerFragment extends StateFragment {
 
 
     private void loadData() {
+        showLoading("正在加载资产信息");
         new Handler().postDelayed(() -> {
-            //showLoading("正在加载资产");
-            Asset2[] asset2s = Assets.getAllAccount();
-            List<Map<String, String>> data = new ArrayList<>();
-            for (Asset2 asset2 : asset2s) {
-                Map<String, String> item = new HashMap<>();
-                item.put(KEY_TITLE, asset2.name);
-                item.put(KEY_ID, String.valueOf(asset2.id));
-                data.add(item);
-            }
-            if (data.size() == 0) {
+
+            Bundle[] bundles = Assets.getAllIcon();
+
+
+            if (bundles == null || bundles.length == 0) {
                 showEmpty("没有资产信息");
                 return;
             }
 
-            mAdapter.refresh(data);
+            mAdapter.refresh(Arrays.asList(bundles));
             if (map_layout != null) {
                 map_layout.setRefreshing(false);
             }

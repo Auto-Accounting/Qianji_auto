@@ -47,6 +47,7 @@ public class LocalCacheUtils {
      * @param url
      */
     public Bitmap getBitmapFromLocal(String url) {
+        if (url == null) return null;
         String fileName = null;//把图片的url当做文件名,并进行MD5加密
         try {
             fileName = md5(url) + ".png";

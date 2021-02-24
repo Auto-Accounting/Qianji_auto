@@ -18,6 +18,7 @@
 package cn.dreamn.qianji_auto.ui.fragment.asset.category;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.view.View;
 
 import androidx.viewpager.widget.ViewPager;
@@ -40,7 +41,7 @@ import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 
 @Page(name = "分类管理")
-public class CategoryFragment extends BaseFragment implements TabLayout.OnTabSelectedListener {
+public class CategoryFragment extends StateFragment implements TabLayout.OnTabSelectedListener {
 
     @BindView(R.id.tab1)
     TabLayout mTabLayout1;
@@ -51,7 +52,7 @@ public class CategoryFragment extends BaseFragment implements TabLayout.OnTabSel
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_category;
+        return R.layout.fragment_state2;
     }
 
     @Override
@@ -62,18 +63,22 @@ public class CategoryFragment extends BaseFragment implements TabLayout.OnTabSel
     }
 
     private void refresh() {
-        // 固定数量的Tab,关联ViewPager
-        adapter = new FragmentAdapter<>(getChildFragmentManager());
-        for (String page : ContentPage.getPageNames()) {
-            adapter.addFragment(TabFragmentBase.newInstance(page), page);
-        }
-        mTabLayout1.addOnTabSelectedListener(this);
-        mViewPager.setAdapter(adapter);
+        showLoading("分类数据加载中...");
+        new Handler().postDelayed(() -> {
+            // 固定数量的Tab,关联ViewPager
+            adapter = new FragmentAdapter<>(getChildFragmentManager());
+            for (String page : ContentPage.getPageNames()) {
+                adapter.addFragment(TabFragmentBase.newInstance(page), page);
+            }
+            mTabLayout1.addOnTabSelectedListener(this);
+            mViewPager.setAdapter(adapter);
 
-        mTabLayout1.setupWithViewPager(mViewPager);
+            mTabLayout1.setupWithViewPager(mViewPager);
 
 
-        WidgetUtils.setTabLayoutTextFont(mTabLayout1);
+            WidgetUtils.setTabLayoutTextFont(mTabLayout1);
+            showContent();
+        }, 1000);
     }
 
     @Override

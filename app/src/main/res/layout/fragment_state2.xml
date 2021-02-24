@@ -67,7 +67,7 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <include layout="@layout/include_list" />
+        <include layout="@layout/fragment_category" />
     </LinearLayout>
 
 
