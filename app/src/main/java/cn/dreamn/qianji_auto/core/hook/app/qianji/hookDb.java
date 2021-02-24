@@ -55,23 +55,33 @@ public class hookDb {
         if (intent != null) {
             utils.log("钱迹收到数据:" + intent.getStringExtra("needAsync"));
             if (intent.getStringExtra("needAsync") != null && intent.getStringExtra("needAsync").equals("true")) {
-                DBHelper dbHelper = new DBHelper(utils.getContext());
-                ArrayList<Data> asset = dbHelper.getAsset();
-                ArrayList<Data> category = dbHelper.getCategory();
-                ArrayList<Data> userBook = dbHelper.getUserBook();
+                DBHelper dbHelper;
+                try {
+                    dbHelper = new DBHelper(utils.getContext(), 86);
+                    ArrayList<Data> asset = dbHelper.getAsset();
+                    ArrayList<Data> category = dbHelper.getCategory();
+                    ArrayList<Data> userBook = dbHelper.getUserBook();
+                    dbHelper.finalize();
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("asset", asset);
+                    bundle.putParcelableArrayList("category", category);
+                    bundle.putParcelableArrayList("userBook", userBook);
+                    utils.send2auto(bundle);
 
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("asset", asset);
-                bundle.putParcelableArrayList("category", category);
-                bundle.putParcelableArrayList("userBook", userBook);
-                utils.send2auto(bundle);
+                    Toast.makeText(utils.getContext(), "钱迹数据信息获取完毕，现在请返回自动记账。", Toast.LENGTH_LONG).show();
+                    XposedHelpers.callMethod(activity, "finish");
+                } catch (Exception e) {
+                    utils.log("钱迹数据库版本不受支持！请更新！" + e.toString());
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
 
-                Toast.makeText(utils.getContext(), "钱迹数据信息获取完毕，现在请返回自动记账。", Toast.LENGTH_LONG).show();
-                XposedHelpers.callMethod(activity, "finish");
             }
 
         } else {
             utils.log("intent获取失败");
         }
     }
+
+
 }

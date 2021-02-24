@@ -17,16 +17,25 @@
 
 package cn.dreamn.qianji_auto.core.db.Helper;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.tencent.mmkv.MMKV;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 
 import java.util.ArrayList;
 
+import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Table.Asset2;
 import cn.dreamn.qianji_auto.core.db.Table.BookName;
 import cn.dreamn.qianji_auto.core.db.DbManger;
 import cn.dreamn.qianji_auto.core.db.Table.CategoryName;
+import cn.dreamn.qianji_auto.ui.floats.ListAdapter2;
+import cn.dreamn.qianji_auto.ui.floats.ListAdapter3;
 
 public class BookNames {
     public static String getDefault() {
@@ -39,11 +48,15 @@ public class BookNames {
         mmkv.encode("defaultBookName", bookName);
     }
 
-    public static String getPic(String name) {
+    public static Bundle getOne(String name) {
         BookName[] bookNames = DbManger.db.BookNameDao().get(name);
-        if (bookNames != null && bookNames.length != 0)
-            return bookNames[0].icon;
-        return "";
+        Bundle bundle = new Bundle();
+        if (bookNames != null && bookNames.length != 0) {
+            bundle.putString("icon", bookNames[0].icon);
+            bundle.putString("name", bookNames[0].name);
+            bundle.putString("book_id", bookNames[0].book_id);
+        }
+        return bundle;
     }
 
     public static String[] getAll() {
@@ -56,27 +69,7 @@ public class BookNames {
         return result;
     }
 
-    public static Bundle[] getAllIcon() {
-        BookName[] bookNames = DbManger.db.BookNameDao().getAll();
-        ArrayList<Bundle> bundleArrayList = new ArrayList<>();
-        for (BookName bookName : bookNames) {
-            Bundle bundle = new Bundle();
-            bundle.putString("name", bookName.name);
-            bundle.putInt("id", bookName.id);
-            bundle.putString("cover", bookName.icon);
-            bundleArrayList.add(bundle);
 
-        }
-
-        Bundle bundle = new Bundle();
-        bundle.putString("name", "默认账本");
-        bundle.putInt("id", -1);
-        bundle.putString("cover", " http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
-        bundleArrayList.add(bundle);
-        return bundleArrayList.toArray(new Bundle[0]);
-
-
-    }
 
     public static Bundle[] getAllIcon(Boolean add) {
         BookName[] bookNames = DbManger.db.BookNameDao().getAll();
@@ -85,15 +78,19 @@ public class BookNames {
             Bundle bundle = new Bundle();
             bundle.putString("name", bookName.name);
             bundle.putInt("id", bookName.id);
+            String bid = bookName.book_id;
+            if (bid == null || bid.equals("")) bid = "-1";
+            bundle.putString("book_id", bid);
             bundle.putString("cover", bookName.icon);
             bundleArrayList.add(bundle);
 
         }
 
-        if (add) {
+        if (bundleArrayList.size() == 0 && add) {
             Bundle bundle = new Bundle();
             bundle.putString("name", "默认账本");
             bundle.putInt("id", -1);
+            bundle.putString("book_id", "-1");
             bundle.putString("cover", " http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
             bundleArrayList.add(bundle);
         }
@@ -101,10 +98,6 @@ public class BookNames {
         return bundleArrayList.toArray(new Bundle[0]);
 
 
-    }
-
-    public static BookName[] getAllWith() {
-        return DbManger.db.BookNameDao().getAll();
     }
 
     public static void del(int id) {
@@ -116,14 +109,59 @@ public class BookNames {
     }
 
     public static void add(String bookName) {
-        DbManger.db.BookNameDao().add(bookName);
+
+        DbManger.db.BookNameDao().add(bookName, "", String.valueOf(System.currentTimeMillis()));
     }
 
-    public static void add(String bookName, String icon) {
-        DbManger.db.BookNameDao().add(bookName, icon);
+    public static void add(String bookName, String icon, String book_id) {
+        if (book_id.equals("")) {
+            book_id = String.valueOf(System.currentTimeMillis());
+        }
+        DbManger.db.BookNameDao().add(bookName, icon, book_id);
     }
 
     public static void clean() {
         DbManger.db.BookNameDao().clean();
+    }
+
+    public static int getAllLen() {
+        BookName[] bookNames = DbManger.db.BookNameDao().getAll();
+        return bookNames.length;
+
+    }
+
+
+    public interface BookSelect {
+        void onSelect(Bundle bundle);
+    }
+
+    public static void showBookSelect(Context context, String title, BookSelect bookSelect) {
+
+        LayoutInflater factory = LayoutInflater.from(context);
+        final View textEntryView = factory.inflate(R.layout.float_list2, null);
+
+
+        //   final TextView list_title = textEntryView.findViewById(R.id.list_title);
+        final ListView list_view = textEntryView.findViewById(R.id.list_view);
+
+        Bundle[] item = getAllIcon(false);
+
+        ListAdapter3 listAdapter3 = new ListAdapter3(context, R.layout.list_item2, item);//listdata和str均可
+        list_view.setAdapter(listAdapter3);
+        //    list_title.setText(title);
+        MaterialDialog dialog = new MaterialDialog.Builder(context)
+                .customView(textEntryView, false)
+                .title(title)
+                .show();
+        list_view.setOnItemClickListener((parent, view, position, id) -> {
+
+            if (bookSelect != null) {
+                bookSelect.onSelect(item[position]);
+                dialog.dismiss();
+            }
+
+        });
+
+
     }
 }

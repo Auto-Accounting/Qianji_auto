@@ -21,41 +21,41 @@ import cn.dreamn.qianji_auto.core.db.DbManger;
 import cn.dreamn.qianji_auto.core.db.Table.CategoryName;
 
 public class CategoryNames {
-    public static CategoryName[] getParentByPay() {
-        return DbManger.db.CategoryNameDao().get("0");
+    public static CategoryName[] getParentByPay(String book_id) {
+        return DbManger.db.CategoryNameDao().get("0", book_id);
     }
 
-    public static CategoryName[] getParentByIncome() {
-        return DbManger.db.CategoryNameDao().get("1");
+    public static CategoryName[] getParentByIncome(String book_id) {
+        return DbManger.db.CategoryNameDao().get("1", book_id);
     }
 
-    public static CategoryName[] getChildrenByPay(String parent_id) {
-        return DbManger.db.CategoryNameDao().get("0", parent_id);
+    public static CategoryName[] getChildrenByPay(String parent_id, String book_id) {
+        return DbManger.db.CategoryNameDao().get("0", parent_id, book_id);
     }
 
-    public static CategoryName[] getChildrenByIncome(String parent_id) {
-        return DbManger.db.CategoryNameDao().get("1", parent_id);
+    public static CategoryName[] getChildrenByIncome(String parent_id, String book_id) {
+        return DbManger.db.CategoryNameDao().get("1", parent_id, book_id);
     }
 
-    public static String getPic(String name, String type) {
-        CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type);
+    public static String getPic(String name, String type, String book_id) {
+        CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type, book_id);
         if (categoryNames != null && categoryNames.length != 0)
             return categoryNames[0].icon;
         return "";
     }
 
-    public static boolean insert(String name, String icon, String level, String type, String self_id, String parent_id) {
+    public static boolean insert(String name, String icon, String level, String type, String self_id, String parent_id, String book_id) {
         if (self_id.equals("")) {
             self_id = String.valueOf(System.currentTimeMillis());
         }
-        CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type);
+        CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type, book_id);
         if (categoryNames.length != 0) return false;
-        DbManger.db.CategoryNameDao().add(name, icon, level, type, self_id, parent_id);
+        DbManger.db.CategoryNameDao().add(name, icon, level, type, self_id, parent_id, book_id);
         return true;
     }
 
-    public static boolean update(int id, String name, String type) {
-        CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type);
+    public static boolean update(int id, String name, String type, String book_id) {
+        CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type, book_id);
         if (categoryNames.length != 0) return false;
         DbManger.db.CategoryNameDao().update(id, name);
         return true;

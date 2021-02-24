@@ -24,7 +24,7 @@ import cn.dreamn.qianji_auto.core.db.Table.Asset2;
 
 @Dao
 public interface Asset2Dao {
-    @Query("SELECT * FROM asset2")
+    @Query("SELECT * FROM asset2 order by sort,id")
     Asset2[] getAll();
 
     @Query("SELECT * FROM asset2 WHERE id=:id")
@@ -36,10 +36,10 @@ public interface Asset2Dao {
     @Query("DELETE FROM asset2 WHERE id=:id")
     void del(int id);
 
-    @Query("INSERT INTO asset2(name,icon) values(:name,:icon)")
-    void add(String name, String icon);
+    @Query("INSERT INTO asset2(name,icon,sort) values(:name,:icon,:sort)")
+    void add(String name, String icon, int sort);
 
-    @Query("INSERT INTO asset2(name,icon) values(:name,'')")
+    @Query("INSERT INTO asset2(name,icon,sort) values(:name,'',0)")
     void add(String name);
 
     @Query("UPDATE  asset2 SET name=:name WHERE id=:id")

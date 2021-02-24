@@ -103,6 +103,8 @@ public class AutoFloat extends XFloatView {
 
     private BillInfo billInfo2;
 
+    private String book_id = "-1";
+
     /**
      * 构造器
      *
@@ -117,6 +119,7 @@ public class AutoFloat extends XFloatView {
     private void initData() {
         Logs.d("初始化窗口");
         //  Caches.AddOrUpdate("float_lock", "true");
+
 
     }
 
@@ -231,7 +234,8 @@ public class AutoFloat extends XFloatView {
 
                 ExpandableListView expandableListView = view.findViewById(R.id.expandableListViewData);
 
-                CateChoose cateChoose = new CateChoose(expandableListView, getContext(), BillInfo.getTypeName(billInfo2.getType()), false);
+
+                CateChoose cateChoose = new CateChoose(expandableListView, getContext(), BillInfo.getTypeName(billInfo2.getType()), false, book_id);
 
                 cateChoose.refresh();
 
@@ -279,12 +283,13 @@ public class AutoFloat extends XFloatView {
 
         });
         account_layout.setOnClickListener(v -> {
-            Bundle[] bookNameList = BookNames.getAllIcon();
+            Bundle[] bookNameList = BookNames.getAllIcon(false);
 
 
             showMenu("请选择账本", 3, bookNameList, data -> {
 
                 billInfo2.setBookName(bookNameList[data].getString("name"));
+                book_id = bookNameList[data].getString("book_id");
                 this.setData(billInfo2);
             });
         });
@@ -398,7 +403,14 @@ public class AutoFloat extends XFloatView {
         MyBitmapUtils myBitmapUtils = new MyBitmapUtils(getContext());
 
 
-        myBitmapUtils.disPlay(iv_cate, CategoryNames.getPic(billInfo.getCateName(), type));
+        if (BookNames.getAllLen() != 0) {
+            Bundle bundle = BookNames.getOne(billInfo.getBookName());
+            if (bundle.getString("book_id") != null) {
+                book_id = bundle.getString("book_id");
+            }
+        }
+
+        myBitmapUtils.disPlay(iv_cate, CategoryNames.getPic(billInfo.getCateName(), type, book_id));
         iv_cate.setColorFilter(getContext().getColor(R.color.darkGrey));
         myBitmapUtils.disPlay(iv_account, Assets.getPic(billInfo.getAccountName()));
         myBitmapUtils.disPlay(iv_account2, Assets.getPic(billInfo.getAccountName2()));

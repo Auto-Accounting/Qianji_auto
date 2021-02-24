@@ -27,4 +27,5 @@ public class Asset2 {
     public int id;
     public String name;//账户名
     public String icon;//图标
+    public int sort = 0;
 }

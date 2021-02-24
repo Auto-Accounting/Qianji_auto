@@ -30,5 +30,6 @@ public class CategoryName {
     public String type;//类型
     public String self_id;//钱迹中自己的id
     public String parent_id;//父类id
+    public String book_id = "-1";//所属账本
 }
 

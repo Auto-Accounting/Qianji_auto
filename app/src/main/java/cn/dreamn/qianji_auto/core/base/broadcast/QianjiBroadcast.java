@@ -68,19 +68,19 @@ public class QianjiBroadcast extends BroadcastReceiver {
             for (int i = 0; i < asset.size(); i++) {
                 Data d = asset.get(i);
                 Bundle m = d.get();
-                Assets.addAsset(m.getString("name"), m.getString("icon"));
+                Assets.addAsset(m.getString("name"), m.getString("icon"), m.getInt("sort"));
             }
             CategoryNames.clean();
             for (int i = 0; i < category.size(); i++) {
                 Data d = category.get(i);
                 Bundle m = d.get();
-                CategoryNames.insert(m.getString("name"), m.getString("icon"), m.getString("level"), m.getString("type"), m.getString("id"), m.getString("parent"));
+                CategoryNames.insert(m.getString("name"), m.getString("icon"), m.getString("level"), m.getString("type"), m.getString("id"), m.getString("parent"), m.getString("book_id"));
             }
             BookNames.clean();
             for (int i = 0; i < userBook.size(); i++) {
                 Data d = userBook.get(i);
                 Bundle m = d.get();
-                BookNames.add(m.getString("name"), m.getString("cover"));
+                BookNames.add(m.getString("name"), m.getString("cover"), m.getString("id"));
             }
             Intent intent1 = new Intent();
             intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

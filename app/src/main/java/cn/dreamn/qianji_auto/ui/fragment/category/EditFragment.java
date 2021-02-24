@@ -38,6 +38,7 @@ import java.io.UnsupportedEncodingException;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.base.Manager;
+import cn.dreamn.qianji_auto.core.db.Helper.BookNames;
 import cn.dreamn.qianji_auto.core.db.Helper.Caches;
 import cn.dreamn.qianji_auto.core.db.Helper.Category;
 import cn.dreamn.qianji_auto.core.utils.DataUtils;
@@ -204,8 +205,19 @@ public class EditFragment extends BaseFragment {
             }
         });
         regular_sort.setOnClickListener(v -> {
+
             String type = regular_type.getText().toString();
-            showChoose(type, data -> regular_sort.setText(data));
+            if (BookNames.getAllLen() == 0) {
+                showChoose(type, "-1", (data) -> regular_sort.setText(data));
+            } else {
+                BookNames.showBookSelect(getContext(), "请选择账本", bundle -> {
+                    String book_id = bundle.getString("book_id");
+                    if (book_id == null || book_id.equals("")) book_id = "-1";
+                    showChoose(type, book_id, (data) -> regular_sort.setText(data));
+                });
+            }
+
+
         });
         btn_test.setOnClickListener(v -> {
             LayoutInflater factory = LayoutInflater.from(getContext());
@@ -260,6 +272,7 @@ public class EditFragment extends BaseFragment {
 
                             String result = JsEngine.run(jsData);
                             Logs.d("Qianji_Cate", "自动分类结果：" + result);
+                            assert result != null;
                             new MaterialDialog.Builder(getContext())
                                     .title("自动分类结果")
                                     .content(result)
@@ -407,7 +420,7 @@ public class EditFragment extends BaseFragment {
         void onChoose(String data);
     }
 
-    private void showChoose(String type, Choose choose) {
+    private void showChoose(String type, String book_id, Choose choose) {
 
 
         BottomSheetDialog dialog = new BottomSheetDialog(getContext());
@@ -415,7 +428,7 @@ public class EditFragment extends BaseFragment {
 
         ExpandableListView expandableListView = view.findViewById(R.id.expandableListViewData);
 
-        CateChoose cateChoose = new CateChoose(expandableListView, getContext(), type, false);
+        CateChoose cateChoose = new CateChoose(expandableListView, getContext(), type, false, book_id);
 
         cateChoose.refresh();
 

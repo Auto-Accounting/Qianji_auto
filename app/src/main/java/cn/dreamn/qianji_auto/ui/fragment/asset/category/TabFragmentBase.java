@@ -52,6 +52,7 @@ public class TabFragmentBase extends BaseFragment {
 
 
     private static final String KEY_TITLE = "title";
+    private static final String KEY_BOOKID = "book_id";
 
     @BindView(R.id.expandableListView)
     ExpandableListView expandableListView;
@@ -61,11 +62,14 @@ public class TabFragmentBase extends BaseFragment {
 
     @AutoWired(name = KEY_TITLE)
     String title;
+    @AutoWired(name = KEY_BOOKID)
+    String book_id;
 
-
-    public static TabFragmentBase newInstance(String title) {
+    public static TabFragmentBase newInstance(String title, String book_id) {
         Bundle args = new Bundle();
         args.putString(KEY_TITLE, title);
+        args.putString(KEY_BOOKID, book_id);
+
         TabFragmentBase fragment = new TabFragmentBase();
         fragment.setArguments(args);
         return fragment;
@@ -102,7 +106,7 @@ public class TabFragmentBase extends BaseFragment {
     private void initView() {
 
 
-        cateChoose = new CateChoose(expandableListView, getContext(), title, true);
+        cateChoose = new CateChoose(expandableListView, getContext(), title, true, book_id);
 
         cateChoose.refresh();
 
@@ -196,14 +200,14 @@ public class TabFragmentBase extends BaseFragment {
             showInputDialog("添加分类", "请输入分类名称", def, str -> {
 
                 if (id != -1) {
-                    if (!CategoryNames.update(id, str, type)) {
+                    if (!CategoryNames.update(id, str, type, book_id)) {
                         SnackbarUtils.Long(getView(), getString(R.string.set_failed)).info().show();
                     } else {
                         SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
                         refresh();
                     }
                 } else {
-                    if (!CategoryNames.insert(str, "", level, type, "", parent_id)) {
+                    if (!CategoryNames.insert(str, "", level, type, "", parent_id, book_id)) {
                         SnackbarUtils.Long(getView(), getString(R.string.set_failed)).info().show();
                     } else {
                         SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();

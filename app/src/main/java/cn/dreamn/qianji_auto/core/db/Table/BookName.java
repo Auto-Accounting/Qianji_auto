@@ -28,4 +28,6 @@ public class BookName {
     public String name;//账户名
     public String icon;//图标
 
+    public String book_id = "-1";
+
 }

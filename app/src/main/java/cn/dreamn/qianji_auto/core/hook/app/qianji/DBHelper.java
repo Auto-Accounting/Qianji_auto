@@ -28,15 +28,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.robv.android.xposed.XposedBridge;
+
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "qianjiapp";
-    ;
+    public String err = "";
+
     //SQLiteDatabase
     private final SQLiteDatabase db;
 
-    public DBHelper(Context context) {
-        super(context, DB_NAME, null, 86);
+    public DBHelper(Context context, int version) {
+        super(context, DB_NAME, null, version);
         db = getReadableDatabase();
     }
 
@@ -44,6 +47,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -59,6 +63,7 @@ public class DBHelper extends SQLiteOpenHelper {
             bundle.putString("name", cursor.getString(cursor.getColumnIndex("NAME")));
             bundle.putString("type", cursor.getString(cursor.getColumnIndex("TYPE")));
             bundle.putString("id", cursor.getString(cursor.getColumnIndex("_id")));
+            bundle.putString("book_id", cursor.getString(cursor.getColumnIndex("bookid")));
             bundle.putString("parent", cursor.getString(cursor.getColumnIndex("PARENT_ID")));
             bundle.putString("level", cursor.getString(cursor.getColumnIndex("LEVEL")));
             bundle.putString("icon", cursor.getString(cursor.getColumnIndex("ICON")));
@@ -67,14 +72,16 @@ public class DBHelper extends SQLiteOpenHelper {
             data.add(data1);
         }
         cursor.close();
+        //  db.close();
         return data;
     }
 
     public ArrayList<Data> getAsset() {
-        Cursor cursor = db.rawQuery("select * from user_asset where TYPE <> 5", null);
+        Cursor cursor = db.rawQuery("select * from user_asset where TYPE <> 5 and STATUS = 0", null);
         ArrayList<Data> data = new ArrayList<>();
         while (cursor.moveToNext()) {
             Bundle bundle = new Bundle();
+            bundle.putInt("sort", cursor.getInt(cursor.getColumnIndex("SORT")));
             bundle.putString("name", cursor.getString(cursor.getColumnIndex("NAME")));
             bundle.putString("icon", cursor.getString(cursor.getColumnIndex("ICON")));
             Data data1 = new Data();
@@ -82,6 +89,7 @@ public class DBHelper extends SQLiteOpenHelper {
             data.add(data1);
         }
         cursor.close();
+        // db.close();
         return data;
     }
 
@@ -90,6 +98,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<Data> data = new ArrayList<>();
         while (cursor.moveToNext()) {
             Bundle bundle = new Bundle();
+            bundle.putString("id", cursor.getString(cursor.getColumnIndex("BOOK_ID")));
             bundle.putString("name", cursor.getString(cursor.getColumnIndex("NAME")));
             bundle.putString("cover", cursor.getString(cursor.getColumnIndex("COVER")));
             Data data1 = new Data();
@@ -97,6 +106,7 @@ public class DBHelper extends SQLiteOpenHelper {
             data.add(data1);
         }
         cursor.close();
+        //  db.close();
         return data;
     }
 

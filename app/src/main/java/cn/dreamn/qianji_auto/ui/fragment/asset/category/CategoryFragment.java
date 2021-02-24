@@ -18,6 +18,7 @@
 package cn.dreamn.qianji_auto.ui.fragment.asset.category;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
@@ -34,6 +35,7 @@ import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.core.db.Helper.BookNames;
 import cn.dreamn.qianji_auto.core.db.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
@@ -50,6 +52,7 @@ public class CategoryFragment extends StateFragment implements TabLayout.OnTabSe
     ViewPager mViewPager;
     FragmentAdapter<TabFragmentBase> adapter;
 
+    private String book_id = "-1";
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_state2;
@@ -57,9 +60,21 @@ public class CategoryFragment extends StateFragment implements TabLayout.OnTabSe
 
     @Override
     protected void initViews() {
+        if (BookNames.getAllLen() == 0) {
+            refresh();
+        } else {
+            select();
+        }
 
-        refresh();
 
+    }
+
+    private void select() {
+        BookNames.showBookSelect(getContext(), "请选择账本", bundle -> {
+            book_id = bundle.getString("book_id");
+            if (book_id == null || book_id.equals("")) book_id = "-1";
+            refresh();
+        });
     }
 
     private void refresh() {
@@ -68,11 +83,10 @@ public class CategoryFragment extends StateFragment implements TabLayout.OnTabSe
             // 固定数量的Tab,关联ViewPager
             adapter = new FragmentAdapter<>(getChildFragmentManager());
             for (String page : ContentPage.getPageNames()) {
-                adapter.addFragment(TabFragmentBase.newInstance(page), page);
+                adapter.addFragment(TabFragmentBase.newInstance(page, book_id), page);
             }
             mTabLayout1.addOnTabSelectedListener(this);
             mViewPager.setAdapter(adapter);
-
             mTabLayout1.setupWithViewPager(mViewPager);
 
 
@@ -90,6 +104,14 @@ public class CategoryFragment extends StateFragment implements TabLayout.OnTabSe
 
                 //Logs.d("添加分类");
                 change(-1, "-1", "1", "-1", "");
+
+            }
+        });
+        titleBar.addAction(new TitleBar.TextAction("切换") {
+            @Override
+            public void performAction(View view) {
+
+                select();
 
             }
         });
@@ -127,7 +149,7 @@ public class CategoryFragment extends StateFragment implements TabLayout.OnTabSe
             showInputDialog("添加分类", "请输入分类名称", def, str -> {
 
                 if (id != -1) {
-                    if (!CategoryNames.update(id, str, type)) {
+                    if (!CategoryNames.update(id, str, type, book_id)) {
                         SnackbarUtils.Long(getView(), getString(R.string.set_failed)).info().show();
                     } else {
                         SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
@@ -135,7 +157,7 @@ public class CategoryFragment extends StateFragment implements TabLayout.OnTabSe
                         refresh();
                     }
                 } else {
-                    if (!CategoryNames.insert(str, "", level, type, "", parent_id)) {
+                    if (!CategoryNames.insert(str, "", level, type, "", parent_id, book_id)) {
                         SnackbarUtils.Long(getView(), getString(R.string.set_failed)).info().show();
                     } else {
                         SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
