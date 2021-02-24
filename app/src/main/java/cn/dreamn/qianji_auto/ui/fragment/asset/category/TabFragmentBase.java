@@ -43,6 +43,7 @@ import cn.dreamn.qianji_auto.core.db.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.adapter.AssetAdapter;
 import cn.dreamn.qianji_auto.ui.adapter.MapAdapter;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
+import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 /**
  * @author xuexiang
@@ -52,7 +53,7 @@ public class TabFragmentBase extends BaseFragment {
 
 
     private static final String KEY_TITLE = "title";
-    private static final String KEY_BOOKID = "book_id";
+
 
     @BindView(R.id.expandableListView)
     ExpandableListView expandableListView;
@@ -62,17 +63,23 @@ public class TabFragmentBase extends BaseFragment {
 
     @AutoWired(name = KEY_TITLE)
     String title;
-    @AutoWired(name = KEY_BOOKID)
+
     String book_id;
 
-    public static TabFragmentBase newInstance(String title, String book_id) {
+    public static TabFragmentBase newInstance(String title) {
+
         Bundle args = new Bundle();
         args.putString(KEY_TITLE, title);
-        args.putString(KEY_BOOKID, book_id);
+
 
         TabFragmentBase fragment = new TabFragmentBase();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public TabFragmentBase setBookId(String book_id) {
+        this.book_id = book_id;
+        return this;
     }
 
 
@@ -105,7 +112,7 @@ public class TabFragmentBase extends BaseFragment {
 
     private void initView() {
 
-
+        Logs.d("Qianji-", "账本id " + book_id);
         cateChoose = new CateChoose(expandableListView, getContext(), title, true, book_id);
 
         cateChoose.refresh();

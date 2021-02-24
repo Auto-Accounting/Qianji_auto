@@ -22,6 +22,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -32,6 +35,8 @@ import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.popupwindow.bar.CookieBar;
+
+import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
@@ -72,6 +77,7 @@ public class CategoryFragment extends StateFragment implements TabLayout.OnTabSe
     private void select() {
         BookNames.showBookSelect(getContext(), "请选择账本", bundle -> {
             book_id = bundle.getString("book_id");
+            // Logs.d("Qianji-","账本id "+book_id);
             if (book_id == null || book_id.equals("")) book_id = "-1";
             refresh();
         });
@@ -79,20 +85,32 @@ public class CategoryFragment extends StateFragment implements TabLayout.OnTabSe
 
     private void refresh() {
         showLoading("分类数据加载中...");
-        new Handler().postDelayed(() -> {
-            // 固定数量的Tab,关联ViewPager
-            adapter = new FragmentAdapter<>(getChildFragmentManager());
-            for (String page : ContentPage.getPageNames()) {
-                adapter.addFragment(TabFragmentBase.newInstance(page, book_id), page);
+
+        if (mViewPager.getAdapter() != null) {
+            FragmentManager fm = getChildFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            List<Fragment> fragments = fm.getFragments();
+            if (fragments.size() > 0) {
+                for (int i = 0; i < fragments.size(); i++) {
+                    //   Logs.d(fragments.get(i).getClass().getName());
+                    ft.remove(fragments.get(i)).commitNow();
+                }
             }
-            mTabLayout1.addOnTabSelectedListener(this);
-            mViewPager.setAdapter(adapter);
-            mTabLayout1.setupWithViewPager(mViewPager);
+            ft.commit();
 
+        }
+        // 固定数量的Tab,关联ViewPager
+        adapter = new FragmentAdapter<>(getChildFragmentManager());
+        for (String page : ContentPage.getPageNames()) {
 
-            WidgetUtils.setTabLayoutTextFont(mTabLayout1);
-            showContent();
-        }, 1000);
+            adapter.addFragment(TabFragmentBase.newInstance(page).setBookId(book_id), page);
+        }
+        mTabLayout1.addOnTabSelectedListener(this);
+        mViewPager.setAdapter(adapter);
+        mTabLayout1.setupWithViewPager(mViewPager);
+
+        WidgetUtils.setTabLayoutTextFont(mTabLayout1);
+        showContent();
     }
 
     @Override

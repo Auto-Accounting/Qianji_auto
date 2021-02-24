@@ -74,6 +74,7 @@ public class BookNames {
     public static Bundle[] getAllIcon(Boolean add) {
         BookName[] bookNames = DbManger.db.BookNameDao().getAll();
         ArrayList<Bundle> bundleArrayList = new ArrayList<>();
+
         for (BookName bookName : bookNames) {
             Bundle bundle = new Bundle();
             bundle.putString("name", bookName.name);
@@ -83,8 +84,8 @@ public class BookNames {
             bundle.putString("book_id", bid);
             bundle.putString("cover", bookName.icon);
             bundleArrayList.add(bundle);
-
         }
+
 
         if (bundleArrayList.size() == 0 && add) {
             Bundle bundle = new Bundle();
@@ -140,26 +141,26 @@ public class BookNames {
         LayoutInflater factory = LayoutInflater.from(context);
         final View textEntryView = factory.inflate(R.layout.float_list2, null);
 
+        //final TextView list_title = textEntryView.findViewById(R.id.list_title);
 
-        //   final TextView list_title = textEntryView.findViewById(R.id.list_title);
         final ListView list_view = textEntryView.findViewById(R.id.list_view);
 
         Bundle[] item = getAllIcon(false);
 
         ListAdapter3 listAdapter3 = new ListAdapter3(context, R.layout.list_item2, item);//listdata和str均可
         list_view.setAdapter(listAdapter3);
-        //    list_title.setText(title);
+
         MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .customView(textEntryView, false)
                 .title(title)
                 .show();
-        list_view.setOnItemClickListener((parent, view, position, id) -> {
 
+
+        list_view.setOnItemClickListener((parent, view, position, id) -> {
             if (bookSelect != null) {
                 bookSelect.onSelect(item[position]);
                 dialog.dismiss();
             }
-
         });
 
 

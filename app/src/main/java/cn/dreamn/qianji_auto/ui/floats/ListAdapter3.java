@@ -58,7 +58,7 @@ public class ListAdapter3 extends ArrayAdapter {
         String name = bundle.getString("name");
         tv_title.setText(name);
         String cover = bundle.getString("cover");
-        Logs.d("picture " + cover);
+
         myBitmapUtils.disPlay(fl_title, cover);
         //  fl_title.setBackground(new BitmapDrawable(getContext().getResources(), myBitmapUtils.getBitmap(cover)));
 

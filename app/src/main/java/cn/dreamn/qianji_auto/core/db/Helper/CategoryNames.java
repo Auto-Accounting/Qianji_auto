@@ -63,14 +63,14 @@ public class CategoryNames {
 
     public static void del(int id) {
         CategoryName[] categoryNames = DbManger.db.CategoryNameDao().get(id);
-        String parent_id = "-1";
-        String type = "0";
-        if (categoryNames.length != 0) {
-            parent_id = categoryNames[0].parent_id;
-            type = categoryNames[0].type;
-        }
+        if (categoryNames.length == 0) return;
+
+        String self_id = categoryNames[0].self_id;
+        String type = categoryNames[0].type;
+        String book_id = categoryNames[0].book_id;
         DbManger.db.CategoryNameDao().del(id);
-        CategoryName[] categoryNames2 = DbManger.db.CategoryNameDao().get(type, parent_id);
+
+        CategoryName[] categoryNames2 = DbManger.db.CategoryNameDao().get(type, book_id, self_id);
         for (CategoryName categoryName : categoryNames2) {
             DbManger.db.CategoryNameDao().del(categoryName.id);
         }

@@ -104,6 +104,8 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE CategoryName ADD COLUMN  book_id TEXT  NOT NULL DEFAULT \"-1\" ");
             database.execSQL("ALTER TABLE BookName ADD COLUMN book_id TEXT   NOT NULL DEFAULT \"-1\" ");
             database.execSQL("ALTER TABLE Asset2 ADD COLUMN sort INTEGER NOT NULL DEFAULT 0");
+            database.execSQL("UPDATE  BookName set book_id= \"-1\" ");
+            database.execSQL("UPDATE  CategoryName set book_id= \"-1\" ");
         }
     };
 }

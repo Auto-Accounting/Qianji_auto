@@ -25,6 +25,7 @@ import java.util.ArrayList;
 
 import cn.dreamn.qianji_auto.core.db.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.core.db.Table.CategoryName;
+import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 public class CateChoose {
     private Bundle[] parentArr = new Bundle[0];
@@ -41,6 +42,7 @@ public class CateChoose {
         this.title = title;
         this.isAdd = isAdd;
         this.book_id = book_id;
+        Logs.d("数据域被创建！bookid" + book_id);
 
     }
 
@@ -104,7 +106,7 @@ public class CateChoose {
     private void getAdapterData() {
         ArrayList<Bundle> parent = new ArrayList<>();
         ArrayList<Bundle[]> child = new ArrayList<>();
-
+        Logs.d("Qianji-catechoose", "book_id " + book_id + "title " + title);
         if (title.equals("收入")) {
             CategoryName[] categoryNames = CategoryNames.getParentByIncome(book_id);
             for (CategoryName categoryName : categoryNames) {
@@ -126,7 +128,7 @@ public class CateChoose {
                     bundle3.putString("name", "添加子类");
                     bundle3.putInt("id", -2);
                     bundle3.putString("icon", "");
-                    bundle3.putString("book_id", "-1");
+                    bundle3.putString("book_id", categoryName.book_id);
                     bundle3.putString("type", categoryName.type);
                     bundle3.putString("parent_id", categoryName.self_id);
                     childs[categoryNames1.length] = bundle3;
@@ -155,7 +157,7 @@ public class CateChoose {
                     bundle3.putString("name", "添加子类");
                     bundle3.putInt("id", -2);
                     bundle3.putString("icon", "");
-                    bundle3.putString("book_id", "-1");
+                    bundle3.putString("book_id", categoryName.book_id);
                     bundle3.putString("type", categoryName.type);
                     bundle3.putString("parent_id", categoryName.self_id);
                     childs[categoryNames1.length] = bundle3;
@@ -182,7 +184,7 @@ public class CateChoose {
                     bundle3.putString("name", "添加子类");
                     bundle3.putInt("id", -2);
                     bundle3.putString("icon", "");
-                    bundle3.putString("book_id", "-1");
+                    bundle3.putString("book_id", categoryName.book_id);
                     bundle3.putString("type", categoryName.type);
                     bundle3.putString("parent_id", categoryName.self_id);
                     childs[categoryNames1.length] = bundle3;
@@ -209,7 +211,7 @@ public class CateChoose {
                     bundle3.putString("name", "添加子类");
                     bundle3.putInt("id", -2);
                     bundle3.putString("icon", "");
-                    bundle3.putString("book_id", "-1");
+                    bundle3.putString("book_id", categoryName.book_id);
                     bundle3.putString("type", categoryName.type);
                     bundle3.putString("parent_id", categoryName.self_id);
                     childs[categoryNames1.length] = bundle3;
