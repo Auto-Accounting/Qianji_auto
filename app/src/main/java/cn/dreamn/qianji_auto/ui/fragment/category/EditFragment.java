@@ -454,7 +454,7 @@ public class EditFragment extends BaseFragment {
         });
 
         dialog.setContentView(view);
-        dialog.setCancelable(true);
+        dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
     }
