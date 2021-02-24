@@ -266,8 +266,9 @@ public class AutoFloat extends XFloatView {
                 }
 
                 dialog.setContentView(view);
-                dialog.setCancelable(true);
-                dialog.setCanceledOnTouchOutside(true);
+                dialog.setCancelable(false);
+                dialog.setCanceledOnTouchOutside(false);
+
 
                 dialog.show();
             } else {

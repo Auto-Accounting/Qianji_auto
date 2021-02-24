@@ -15,8 +15,8 @@ android {
         targetSdkVersion build_versions.target_sdk
         versionCode 72
      //   Date date = new Date()
-      //  versionName "2.0.11"+date.format("_yyyyMMddHHmmss").toString()
-        versionName "2.0.12"
+        versionName "2.0.13_"+(new Date()).format("_yyyyMMddHHmm").toString()
+      //  versionName "2.0.12"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true

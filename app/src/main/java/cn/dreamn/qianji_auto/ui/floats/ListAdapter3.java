@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.utils.picture.MyBitmapUtils;
+import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 /**
  * Created by Administrator-Liu on 2018/8/27.
@@ -57,9 +58,9 @@ public class ListAdapter3 extends ArrayAdapter {
         String name = bundle.getString("name");
         tv_title.setText(name);
         String cover = bundle.getString("cover");
-
-        fl_title.setBackground(new BitmapDrawable(getContext().getResources(), myBitmapUtils.getBitmap(cover)));
-
+        Logs.d("picture " + cover);
+        myBitmapUtils.disPlay(fl_title, cover);
+        //  fl_title.setBackground(new BitmapDrawable(getContext().getResources(), myBitmapUtils.getBitmap(cover)));
 
         return view;
 

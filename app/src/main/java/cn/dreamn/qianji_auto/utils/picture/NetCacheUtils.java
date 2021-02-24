@@ -18,14 +18,21 @@
 package cn.dreamn.qianji_auto.utils.picture;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.ImageView;
+
+import androidx.core.content.ContextCompat;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import cn.dreamn.qianji_auto.R;
 
 /**
  * 三级缓存之网络缓存
@@ -34,10 +41,12 @@ public class NetCacheUtils {
 
     private LocalCacheUtils mLocalCacheUtils;
     private MemoryCacheUtils mMemoryCacheUtils;
+    private Context mContext;
 
-    public NetCacheUtils(LocalCacheUtils localCacheUtils, MemoryCacheUtils memoryCacheUtils) {
+    public NetCacheUtils(LocalCacheUtils localCacheUtils, MemoryCacheUtils memoryCacheUtils, Context context) {
         mLocalCacheUtils = localCacheUtils;
         mMemoryCacheUtils = memoryCacheUtils;
+        mContext = context;
     }
 
     /**
@@ -46,7 +55,7 @@ public class NetCacheUtils {
      * @param ivPic 显示图片的imageview
      * @param url   下载图片的网络地址
      */
-    public void getBitmapFromNet(ImageView ivPic, String url) {
+    public void getBitmapFromNet(View ivPic, String url) {
         new BitmapTask().execute(ivPic, url);//启动AsyncTask
 
     }
@@ -59,7 +68,7 @@ public class NetCacheUtils {
      */
     class BitmapTask extends AsyncTask<Object, Void, Bitmap> {
 
-        private ImageView ivPic;
+        private View ivPic;
         private String url;
 
         /**
@@ -70,7 +79,7 @@ public class NetCacheUtils {
          */
         @Override
         protected Bitmap doInBackground(Object[] params) {
-            ivPic = (ImageView) params[0];
+            ivPic = (View) params[0];
             url = (String) params[1];
 
             return downLoadBitmap(url);
@@ -94,15 +103,30 @@ public class NetCacheUtils {
         @Override
         protected void onPostExecute(Bitmap result) {
             if (result != null) {
-                ivPic.setImageBitmap(result);
-                System.out.println("从网络缓存图片啦.....");
-
+                setImage(ivPic, result);
                 //从网络获取图片后,保存至本地缓存
                 mLocalCacheUtils.setBitmapToLocal(url, result);
                 //保存至内存中
                 mMemoryCacheUtils.setBitmapToMemory(url, result);
 
             }
+        }
+
+        public void setImage(View ivPic, Bitmap bitmap) {
+            if (bitmap == null) {
+                if (ivPic instanceof ImageView) {
+                    ((ImageView) ivPic).setImageResource(R.drawable.ic_null);
+                } else {
+                    ivPic.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ic_null));
+                }
+            } else {
+                if (ivPic instanceof ImageView) {
+                    ((ImageView) ivPic).setImageBitmap(bitmap);
+                } else {
+                    ivPic.setBackground(new BitmapDrawable(mContext.getResources(), bitmap));
+                }
+            }
+
         }
     }
 
@@ -119,13 +143,17 @@ public class NetCacheUtils {
             conn.setConnectTimeout(5000);
             conn.setReadTimeout(5000);
             conn.setRequestMethod("GET");
-
+            conn.setRequestProperty("Accept-Encoding", "identity");
             int responseCode = conn.getResponseCode();
             if (responseCode == 200) {
                 //图片压缩
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                //options.inSampleSize=2;//宽高压缩为原来的1/2
-                // options.inPreferredConfig=Bitmap.Config.ARGB_4444;
+                if (conn.getContentLength() > 2048) {
+                    options.inSampleSize = 2;//宽高压缩为原来的1/2
+                }
+                //
+                options.inPreferredConfig = Bitmap.Config.ARGB_4444;
+                //options.inPreferredConfig = Bitmap.Config.RGB_565;
                 return BitmapFactory.decodeStream(conn.getInputStream(), null, options);
             }
         } catch (IOException e) {

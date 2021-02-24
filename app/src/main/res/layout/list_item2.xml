@@ -18,18 +18,21 @@
             android:id="@+id/iv_img"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
             android:layout_margin="20dp"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/ic_null"
-            android:contentDescription="@string/desc" />
+            android:contentDescription="@string/desc"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_null" />
 
         <TextView
-            android:layout_gravity="start|center_vertical"
-            android:layout_marginStart="66dp"
-            android:padding="16dp"
-            android:layout_height="match_parent"
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
-            android:id="@+id/tv_title"></TextView>
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="66dp"
+            android:foregroundGravity="center_vertical|center|center_horizontal"
+            android:gravity="center|center_horizontal|center_vertical"
+            android:padding="16dp" />
     </FrameLayout>
 </LinearLayout>
 

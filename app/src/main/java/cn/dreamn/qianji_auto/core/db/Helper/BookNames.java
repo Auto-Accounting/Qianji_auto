@@ -69,7 +69,7 @@ public class BookNames {
 
         Bundle bundle = new Bundle();
         bundle.putString("name", "默认账本");
-        bundle.putString("cover", "");
+        bundle.putString("cover", " http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
         bundleArrayList.add(bundle);
         return bundleArrayList.toArray(new Bundle[0]);
 

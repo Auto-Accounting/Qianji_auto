@@ -29,14 +29,15 @@
         android:background="@color/white"
         android:orientation="horizontal"
         tools:ignore="UselessParent">
+
         <ImageView
             android:id="@+id/iv_img"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_margin="20dp"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/ic_null"
-            android:contentDescription="@string/desc" />
+            android:contentDescription="@string/desc"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_null" />
 
         <TextView
             android:id="@+id/tv_title"

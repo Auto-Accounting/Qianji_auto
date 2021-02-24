@@ -77,6 +77,7 @@ public class LocalCacheUtils {
                 parentFile.mkdirs();
             }
 
+
             //把图片保存至本地
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(file));
         } catch (Exception e) {
