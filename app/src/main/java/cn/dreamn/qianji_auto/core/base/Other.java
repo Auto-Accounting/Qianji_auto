@@ -62,7 +62,7 @@ public class Other {
         while (m.find()) {
             String data = m.group();
             data = data.replace("\"", "").replace("\t", ",").replace("\n", ",").replace("\\n", "").replace("'", "");
-            if (!data.contains("//") && !data.equals(""))
+            if (!data.contains("//") && !data.equals("") && !data.equals("\\/\\/"))
                 ret.append(",").append(data);
             //next = data.equals("word");
         }
