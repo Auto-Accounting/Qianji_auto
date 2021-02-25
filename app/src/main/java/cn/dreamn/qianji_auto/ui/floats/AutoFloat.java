@@ -215,20 +215,7 @@ public class AutoFloat extends XFloatView {
             MMKV mmkv = MMKV.defaultMMKV();
             if (mmkv.getBoolean("auto_cate_table", true)) {
 
-              /*  //
-                CateFloat cateFloat = new CateFloat(getContext());
-                cateFloat.setData(billInfo2,  (billInfo)->{
-                    billInfo2=billInfo;
-                    setData(billInfo);
-                    cateFloat.clear();
-                });
-                if (ScreenUtils.getScreenWidth() > ScreenUtils.getScreenHeight()) {
-                    cateFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight() - 100, ScreenUtils.getScreenWidth());
-                } else {
-                    cateFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight() - 100);
-                }
-                cateFloat.show();*/
-                //
+
                 BottomSheetDialog dialog = new BottomSheetDialog(getContext());
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_cate_choose, null, false);
 
@@ -283,7 +270,7 @@ public class AutoFloat extends XFloatView {
 
         });
         account_layout.setOnClickListener(v -> {
-            Bundle[] bookNameList = BookNames.getAllIcon(false);
+            Bundle[] bookNameList = BookNames.getAllIcon(true);
 
 
             showMenu("请选择账本", 3, bookNameList, data -> {

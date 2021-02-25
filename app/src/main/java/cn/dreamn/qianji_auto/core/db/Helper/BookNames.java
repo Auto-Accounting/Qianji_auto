@@ -92,7 +92,7 @@ public class BookNames {
             bundle.putString("name", "默认账本");
             bundle.putInt("id", -1);
             bundle.putString("book_id", "-1");
-            bundle.putString("cover", " http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
+            bundle.putString("cover", "http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
             bundleArrayList.add(bundle);
         }
 
@@ -111,7 +111,7 @@ public class BookNames {
 
     public static void add(String bookName) {
 
-        DbManger.db.BookNameDao().add(bookName, "", String.valueOf(System.currentTimeMillis()));
+        DbManger.db.BookNameDao().add(bookName, "http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2", String.valueOf(System.currentTimeMillis()));
     }
 
     public static void add(String bookName, String icon, String book_id) {

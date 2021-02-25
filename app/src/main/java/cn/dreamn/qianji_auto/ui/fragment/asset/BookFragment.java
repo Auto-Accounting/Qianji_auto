@@ -37,6 +37,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Helper.BookNames;
 import cn.dreamn.qianji_auto.ui.adapter.ListAdapter3;
 import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
+import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 
 @Page(name = "账本管理")
@@ -58,10 +59,11 @@ public class BookFragment extends StateFragment {
 
         initSet();
         mAdapter.setOnItemClickListener((ListAdapter3.OnItemClickListener) (item, pos) -> new MaterialDialog.Builder(getContext())
-                .title(R.string.tip_options)
+                .title(item.getString("name"))
                 .items(R.array.menu_values)
                 .itemsCallback((dialog, itemView, position, text) -> {
                     int id = item.getInt("id");
+                    Logs.d(item.toString());
                     if (position == 0) {
                         BookNames.del(id);
                         refresh();
@@ -106,7 +108,7 @@ public class BookFragment extends StateFragment {
         new Handler().postDelayed(() -> {
 
             Bundle[] bundles = BookNames.getAllIcon(false);
-            if (bundles.length <= 1) {
+            if (bundles.length <= 0) {
                 showEmpty("没有账本信息");
                 return;
             }
@@ -130,8 +132,14 @@ public class BookFragment extends StateFragment {
     }
 
     private void change(int id, String def) {
+        String title;
+        if (id != -1) {
+            title = "修改账本";
+        } else {
+            title = "添加账本";
+        }
 
-        showInputDialog("添加账本", "钱迹里的账本名称", def, str -> {
+        showInputDialog(title, "钱迹里的账本名称", def, str -> {
 
             if (id != -1) {
                 BookNames.upd(id, str);
