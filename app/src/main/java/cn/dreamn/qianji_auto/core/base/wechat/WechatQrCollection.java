@@ -57,7 +57,10 @@ public class WechatQrCollection extends Analyze {
         billInfo.setSilent(true);
         String money = BillTools.getMoney(jsonObject.getJSONObject("topline").getJSONObject("value").getString("word"));
         billInfo.setMoney(BillTools.getMoney(money));
-
+        String payTools = jsonObject.getString("payTools");
+        if (payTools != null && !payTools.equals("")) {
+            billInfo.setAccountName(payTools);
+        }
         JSONArray line = jsonObject.getJSONObject("lines").getJSONArray("line");
         for (int i = 0; i < line.size(); i++) {
             JSONObject jsonObject1 = line.getJSONObject(i);

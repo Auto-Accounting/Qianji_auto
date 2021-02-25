@@ -39,6 +39,20 @@ public class FileUtils {
         }
     }
 
+    public static boolean fileIsExists(String strFile) {
+        try {
+            File f = new File(strFile);
+            if (!f.exists()) {
+                return false;
+            }
+
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
+    }
+
     //读取文件并返回
     public static String get(String fileName) {
         try {
@@ -106,7 +120,7 @@ public class FileUtils {
             if (comment == null) return "该配置文件非自动记账配置文件。";
             DataUtils dataUtils = new DataUtils();
             dataUtils.parse(comment);
-            if (Integer.parseInt(dataUtils.get("code")) < 43) {
+            if (Integer.parseInt(dataUtils.get("code")) < 74) {
                 return String.format("该配置文件为低版本自动记账(%s)所备份，无法恢复。", dataUtils.get("name"));
             }
             String filename2 = context.getExternalCacheDir().getPath();

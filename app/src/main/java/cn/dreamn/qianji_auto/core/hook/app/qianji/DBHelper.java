@@ -28,9 +28,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.dreamn.qianji_auto.core.async_qianji.ExeCommand;
 import de.robv.android.xposed.XposedBridge;
 
-public class DBHelper extends SQLiteOpenHelper {
+public class DBHelper {
 
     private static final String DB_NAME = "qianjiapp";
     public String err = "";
@@ -38,20 +39,15 @@ public class DBHelper extends SQLiteOpenHelper {
     //SQLiteDatabase
     private final SQLiteDatabase db;
 
-    public DBHelper(Context context, int version) {
-        super(context, DB_NAME, null, version);
-        db = getReadableDatabase();
-    }
+    private final String NEW_PATH = "/data/data/com.mutangtech.qianji/qianjiapp";
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
+    public DBHelper() {
+        String[] commands = new String[]{
+                "cat /data/data/com.mutangtech.qianji/databases/qianjiapp > " + NEW_PATH
+        };
 
-    }
-
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //
+        String str = new ExeCommand().run(commands, 100000000).getResult();
+        db = SQLiteDatabase.openOrCreateDatabase(NEW_PATH, null);
     }
 
 

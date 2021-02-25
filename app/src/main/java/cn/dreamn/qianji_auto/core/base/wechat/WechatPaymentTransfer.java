@@ -62,6 +62,10 @@ public class WechatPaymentTransfer extends Analyze {
 
     @Override
     public BillInfo getResult(BillInfo billInfo) {
+        String payTools = jsonObject.getString("payTools");
+        if (payTools != null && !payTools.equals("")) {
+            billInfo.setAccountName(payTools);
+        }
         if (jsonObject.getString("isSend").equals("1") && jsonObject.getIntValue("paysubtype") == 1) {
             billInfo.setType(BillInfo.TYPE_PAY);
             billInfo.setSource(Wechat.PAYMENT_TRANSFER);

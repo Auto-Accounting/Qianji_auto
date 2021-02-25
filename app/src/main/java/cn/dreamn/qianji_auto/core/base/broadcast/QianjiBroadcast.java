@@ -46,13 +46,7 @@ public class QianjiBroadcast extends BroadcastReceiver {
         MMKV mmkv = MMKV.defaultMMKV();
         if (!mmkv.getBoolean("needAsync", false)) return;
         mmkv.encode("needAsync", false);
-        /**
-         *
-         Bundle bundle=new Bundle();
-         bundle.putParcelableArrayList("asset",asset);
-         bundle.putParcelableArrayList("category",asset);
-         bundle.putParcelableArrayList("userBook",asset);
-         */
+
 
         Bundle extData = intent.getExtras();
         if (extData == null) return;

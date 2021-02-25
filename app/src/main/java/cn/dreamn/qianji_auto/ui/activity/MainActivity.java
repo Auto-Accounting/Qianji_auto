@@ -44,12 +44,16 @@ public class MainActivity extends BaseActivity {
         if (kv.getBoolean("first", true)) {
             Logs.d("第一次使用，加载引导页面。");
             openPage(HelperFragment.class);
-        } else
+        } else {
+
             openPage(MainFragment.class);
+        }
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
     }
 }

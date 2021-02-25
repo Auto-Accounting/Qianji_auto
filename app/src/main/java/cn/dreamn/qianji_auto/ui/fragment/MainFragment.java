@@ -18,6 +18,8 @@
 package cn.dreamn.qianji_auto.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.KeyEvent;
 
 import com.tencent.mmkv.MMKV;
@@ -34,6 +36,7 @@ import com.xuexiang.xutil.common.ClickUtils;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.core.async_qianji.Async;
 import cn.dreamn.qianji_auto.core.utils.App;
 import cn.dreamn.qianji_auto.core.utils.Status;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
@@ -87,6 +90,8 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
         initListen();
 
     }
+
+
 /*
 
     @Override

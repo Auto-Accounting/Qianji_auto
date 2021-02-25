@@ -57,7 +57,7 @@ public class hookDb {
             if (intent.getStringExtra("needAsync") != null && intent.getStringExtra("needAsync").equals("true")) {
                 DBHelper dbHelper;
                 try {
-                    dbHelper = new DBHelper(utils.getContext(), 86);
+                    dbHelper = new DBHelper();
                     ArrayList<Data> asset = dbHelper.getAsset();
                     ArrayList<Data> category = dbHelper.getCategory();
                     ArrayList<Data> userBook = dbHelper.getUserBook();
@@ -66,14 +66,17 @@ public class hookDb {
                     bundle.putParcelableArrayList("asset", asset);
                     bundle.putParcelableArrayList("category", category);
                     bundle.putParcelableArrayList("userBook", userBook);
+                    //  utils.log(bundle.toString());
                     utils.send2auto(bundle);
+
 
                     Toast.makeText(utils.getContext(), "钱迹数据信息获取完毕，现在请返回自动记账。", Toast.LENGTH_LONG).show();
                     XposedHelpers.callMethod(activity, "finish");
                 } catch (Exception e) {
-                    utils.log("钱迹数据库版本不受支持！请更新！" + e.toString());
+                    utils.log("钱迹数据获取失败" + e.toString(), false);
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
+                    utils.log("钱迹数据获取失败2" + throwable.toString(), false);
                 }
 
             }

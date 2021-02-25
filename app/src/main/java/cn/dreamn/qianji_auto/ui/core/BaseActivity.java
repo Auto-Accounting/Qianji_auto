@@ -18,6 +18,7 @@
 package cn.dreamn.qianji_auto.ui.core;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.xuexiang.xpage.base.XPageActivity;
@@ -29,6 +30,7 @@ import com.xuexiang.xui.XUI;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.dreamn.qianji_auto.utils.tools.Logs;
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 /**
@@ -104,4 +106,8 @@ public class BaseActivity extends XPageActivity {
         super.onRelease();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }
