@@ -45,6 +45,7 @@ import com.tencent.mmkv.MMKV;
 import com.xuexiang.xfloatview.XFloatView;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
+import com.xuexiang.xui.widget.toast.XToast;
 import com.xuexiang.xutil.display.ScreenUtils;
 
 import cn.dreamn.qianji_auto.R;
@@ -224,6 +225,11 @@ public class AutoFloat extends XFloatView {
 
                 CateChoose cateChoose = new CateChoose(expandableListView, getContext(), BillInfo.getTypeName(billInfo2.getType()), false, book_id);
 
+                if (cateChoose.isEmpty()) {
+                    XToast.error(getContext(), "您尚未添加任何分类!").show();
+                    return;
+                }
+
                 cateChoose.refresh();
 
                 cateChoose.setOnClick(new CateChoose.CallBack() {
@@ -330,17 +336,26 @@ public class AutoFloat extends XFloatView {
             CallAutoActivity.goQianji(getContext(), billInfo2);
             this.clear();
         });
-        btn_cancel.setOnClickListener(v -> {
-            this.clear();
-        });
+        btn_cancel.setOnClickListener(v -> this.clear());
         reimbursement_layout.setOnClickListener(v -> {
             if (auto_reimbursement.getText().toString().equals("不报销")) {
                 auto_reimbursement.setText("报销");
+
                 billInfo2.setRrimbursement(true);
+
             } else {
                 auto_reimbursement.setText("不报销");
                 billInfo2.setRrimbursement(false);
             }
+            String cate = Category.getCategory(billInfo2);
+            if (cate.equals("NotFind")) {
+                billInfo2.setCateName("其它");//设置自动分类
+
+            } else {
+                billInfo2.setCateName(cate);//设置自动分类
+            }
+            //账单修改报销后重新分类
+
             this.setData(billInfo2);
         });
 
@@ -385,8 +400,11 @@ public class AutoFloat extends XFloatView {
         } else {
             type = "0";
             reimbursement_layout.setVisibility(View.VISIBLE);
-        }
 
+        }
+        if (billInfo.getType(true).equals(BillInfo.TYPE_PAYMENT_REFUND)) {
+            auto_reimbursement.setText("报销");
+        }
         MyBitmapUtils myBitmapUtils = new MyBitmapUtils(getContext());
 
 

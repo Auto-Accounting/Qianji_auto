@@ -46,6 +46,10 @@ public class CateChoose {
 
     }
 
+    public boolean isEmpty() {
+        return parentArr.length == 0 || childArr.length == 0;
+    }
+
     private Bundle getBundle(CategoryName categoryName) {
         Bundle bundle = new Bundle();
         bundle.putString("name", categoryName.name == null ? "" : categoryName.name);

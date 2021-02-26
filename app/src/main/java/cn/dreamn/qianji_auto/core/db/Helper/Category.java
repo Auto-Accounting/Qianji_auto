@@ -46,7 +46,7 @@ public class Category {
 
     public static void setCateJs(BillInfo billInfo, String sort) {
         //这两种类型不需要
-        if (billInfo.getType().equals(BillInfo.TYPE_CREDIT_CARD_PAYMENT) || billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)) {
+        if (billInfo.getType(true).equals(BillInfo.TYPE_CREDIT_CARD_PAYMENT) || billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)) {
             return;
         }
         // String time = Tools.getTime("HH");
@@ -57,7 +57,7 @@ public class Category {
         //    str += String.format("time = %s && ", time);
         str += String.format("shopName.indexOf('%s')!=-1 && ", billInfo.getShopAccount());
         str += String.format("shopRemark.indexOf('%s')!=-1 && ", billInfo.getShopRemark());
-        str += String.format("type == '%s' && ", BillInfo.getTypeName(billInfo.getType()));
+        str += String.format("type == '%s' && ", BillInfo.getTypeName(billInfo.getType(true)));
         str += String.format("source == '%s' && ", billInfo.getSource());
 
         String regular = "if(%s)return '%s';";
@@ -83,7 +83,7 @@ public class Category {
         dataUtils.put("regular_shopRemark_link", "包含");
         dataUtils.put("regular_shopRemark", billInfo.getShopRemark());
 
-        dataUtils.put("regular_type", BillInfo.getTypeName(billInfo.getType()));
+        dataUtils.put("regular_type", BillInfo.getTypeName(billInfo.getType(true)));
         dataUtils.put("regular_sort", sort);
 
         Category.addCategory(regular, name, sort, dataUtils.toString());

@@ -146,13 +146,13 @@ public class MangerFragment extends StateFragment {
         new Handler().postDelayed(() -> {
 
             Bundle[] bundles = Assets.getAllIcon();
-            mDataList = Arrays.asList(bundles);
+
 
             if (bundles == null || bundles.length == 0) {
                 showEmpty("没有资产信息");
                 return;
             }
-
+            mDataList = Arrays.asList(bundles);
             mAdapter.refresh(mDataList);
             if (map_layout != null) {
                 map_layout.setRefreshing(false);
