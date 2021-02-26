@@ -68,6 +68,17 @@ public class EditFragment extends BaseFragment {
     @BindView(R.id.regular_time2)
     MaterialEditText regular_time2;
 
+
+    @BindView(R.id.regular_money1_link)
+    RoundButton regular_money1_link;
+    @BindView(R.id.regular_money1)
+    MaterialEditText regular_money1;
+    @BindView(R.id.regular_money2_link)
+    RoundButton regular_money2_link;
+    @BindView(R.id.regular_money2)
+    MaterialEditText regular_money2;
+
+
     @BindView(R.id.regular_shopName_link)
     RoundButton regular_shopName_link;
     @BindView(R.id.regular_shopName)
@@ -141,6 +152,11 @@ public class EditFragment extends BaseFragment {
             regular_type.setText(dataUtils.get("regular_type"));
             regular_sort.setText(dataUtils.get("regular_sort"));
             regular_billtype.setText(Manager.get(dataUtils.get("regular_billtype")));
+
+            regular_money1_link.setText(dataUtils.get("regular_money1_link"));
+            regular_money1.setText(dataUtils.get("regular_money1"));
+            regular_money2_link.setText(dataUtils.get("regular_money2_link"));
+            regular_money2.setText(dataUtils.get("regular_money2"));
         }
 
     }
@@ -161,6 +177,25 @@ public class EditFragment extends BaseFragment {
                     .items(R.array.menu_values_time)
                     .itemsCallback((dialog, itemView, position, text) -> {
                         regular_time2_link.setText(text);
+                    })
+                    .show();
+        });
+
+        regular_money1_link.setOnClickListener(v -> {
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.tip_options)
+                    .items(R.array.menu_values_time)
+                    .itemsCallback((dialog, itemView, position, text) -> {
+                        regular_money1_link.setText(text);
+                    })
+                    .show();
+        });
+        regular_money2_link.setOnClickListener(v -> {
+            new MaterialDialog.Builder(getContext())
+                    .title(R.string.tip_options)
+                    .items(R.array.menu_values_time)
+                    .itemsCallback((dialog, itemView, position, text) -> {
+                        regular_money2_link.setText(text);
                     })
                     .show();
         });
@@ -223,6 +258,7 @@ public class EditFragment extends BaseFragment {
             LayoutInflater factory = LayoutInflater.from(getContext());
             @SuppressLint("InflateParams") final View textEntryView = factory.inflate(R.layout.fragment_auto_catgory_edit_test, null);
             final MaterialEditText cate_time = textEntryView.findViewById(R.id.cate_time);
+            final MaterialEditText cate_money = textEntryView.findViewById(R.id.cate_money);
             final MaterialEditText cate_shopName = textEntryView.findViewById(R.id.cate_shopName);
             final MaterialEditText cate_shopRemark = textEntryView.findViewById(R.id.cate_shopRemark);
             final RoundButton cate_type = textEntryView.findViewById(R.id.cate_type);
@@ -267,7 +303,7 @@ public class EditFragment extends BaseFragment {
                             String result = runtime.executeStringScript(Category.getOneRegularJs(js,cate_shopName.getEditValue(), cate_shopRemark.getEditValue(), cate_type.getEditValue(),cate_time.getEditValue()));
 */
 
-                            String jsData = Category.getOneRegularJs(js, cate_shopName.getEditValue(), cate_shopRemark.getEditValue(), cate_type.getText().toString(), cate_time.getEditValue(), cate_type2.getText().toString());
+                            String jsData = Category.getOneRegularJs(js, cate_shopName.getEditValue(), cate_shopRemark.getEditValue(), cate_type.getText().toString(), cate_time.getEditValue(), cate_type2.getText().toString(), cate_money.getEditValue());
                             Logs.i("当前测试js数据", jsData);
 
                             String result = JsEngine.run(jsData);
@@ -317,6 +353,11 @@ public class EditFragment extends BaseFragment {
             dataUtils.put("regular_time2_link", regular_time2_link.getText());
             dataUtils.put("regular_time2", regular_time2.getEditValue());
 
+            dataUtils.put("regular_money1_link", regular_money1_link.getText());
+            dataUtils.put("regular_money1", regular_money1.getEditValue());
+            dataUtils.put("regular_money2_link", regular_money2_link.getText());
+            dataUtils.put("regular_money2", regular_money2.getEditValue());
+
             dataUtils.put("regular_shopName_link", regular_shopName_link.getText());
             dataUtils.put("regular_shopName", regular_shopName.getEditValue());
             dataUtils.put("regular_shopRemark_link", regular_shopRemark_link.getText());
@@ -354,9 +395,16 @@ public class EditFragment extends BaseFragment {
         String regularList = "";
         //时间获取
         if (!regular_time1.getEditValue().equals(""))
-            regularList += String.format("time %s %s && ", regular_time1_link.getText().toString(), regular_time1.getText().toString());
+            regularList += String.format("time %s %s && ", regular_time1_link.getText().toString(), regular_time1.getEditValue());
         if (!regular_time2.getEditValue().equals(""))
-            regularList += String.format("time %s %s && ", regular_time2_link.getText().toString(), regular_time2.getText().toString());
+            regularList += String.format("time %s %s && ", regular_time2_link.getText().toString(), regular_time2.getEditValue());
+
+        //时间获取
+        if (!regular_money1.getEditValue().equals(""))
+            regularList += String.format("money %s %s && ", regular_money1_link.getText().toString(), regular_money1.getEditValue());
+        if (!regular_money2.getEditValue().equals(""))
+            regularList += String.format("money %s %s && ", regular_money2_link.getText().toString(), regular_money2.getEditValue());
+
         String shopName = regular_shopName.getEditValue();
         String shopNameLink = regular_shopName_link.getText().toString();
         if (!shopName.equals("")) {

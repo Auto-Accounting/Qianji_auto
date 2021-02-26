@@ -65,6 +65,27 @@
             <com.xuexiang.xui.widget.button.roundbutton.RoundButton
                 style="@style/RoundButton.Auto"
                 android:layout_marginEnd="8dp"
+                android:text="@string/cate_money" />
+
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/cate_money"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="金额"
+
+                android:textColor="@color/xui_config_color_edittext_textcolor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+                style="@style/RoundButton.Auto"
+                android:layout_marginEnd="8dp"
                 android:text="@string/cate_shopName" />
 
             <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText

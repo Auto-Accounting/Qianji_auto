@@ -33,7 +33,7 @@ public class Category {
            /* V8 runtime = V8.createV8Runtime();
             String result = runtime.executeStringScript(getCategoryRegularJs(shopAccount, shopRemark, type));
 */
-            String result = JsEngine.run(getCategoryRegularJs(billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType(true)), billInfo.getSource()));
+            String result = JsEngine.run(getCategoryRegularJs(billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType(true)), billInfo.getSource(), billInfo.getMoney()));
 
             Logs.d("Qianji_Cate", "自动分类结果：" + result);
             return result;
@@ -77,6 +77,10 @@ public class Category {
         dataUtils.put("regular_time1", "");
         dataUtils.put("regular_time2_link", "");
         dataUtils.put("regular_time2", "");
+        dataUtils.put("regular_money1_link", "");
+        dataUtils.put("regular_money1", "");
+        dataUtils.put("regular_money2_link", "");
+        dataUtils.put("regular_money2", "");
 
         dataUtils.put("regular_shopName_link", "包含");
         dataUtils.put("regular_shopName", billInfo.getShopAccount());
@@ -91,7 +95,7 @@ public class Category {
     }
 
     //获取所有的js
-    public static String getCategoryRegularJs(String shopAccount, String shopRemark, String type, String source) {
+    public static String getCategoryRegularJs(String shopAccount, String shopRemark, String type, String source, String money) {
         if (shopAccount == null) shopAccount = "";
         if (shopRemark == null) shopRemark = "";
         StringBuilder regList = new StringBuilder();
@@ -100,24 +104,24 @@ public class Category {
             regList.append(value.regular);
         }
 
-     //   type = BillInfo.getTypeName(type);
+        //   type = BillInfo.getTypeName(type);
 
-        String js = "function getCategory(shopName,shopRemark,type,time,source){%s return 'NotFind';} getCategory('%s','%s','%s','%s','%s');";
+        String js = "function getCategory(shopName,shopRemark,type,time,source,money){%s return 'NotFind';} getCategory('%s','%s','%s','%s','%s','%s');";
 
         String time = Tools.getTime("HH");
-        return String.format(js, regList.toString(), shopAccount, shopRemark, type, time, source);
+        return String.format(js, regList.toString(), shopAccount, shopRemark, type, time, source, money);
     }
 
     //获取所有的js
-    public static String getOneRegularJs(String jsData, String shopAccount, String shopRemark, String type, String time, String source) {
+    public static String getOneRegularJs(String jsData, String shopAccount, String shopRemark, String type, String time, String source, String money) {
         if (shopAccount == null) shopAccount = "";
         if (shopRemark == null) shopRemark = "";
 
         //type = BillInfo.getTypeName(type);
 
-        String js = "function getCategory(shopName,shopRemark,type,time,source){%s return '其它';} getCategory('%s','%s','%s','%s','%s');";
+        String js = "function getCategory(shopName,shopRemark,type,time,source,money){%s return '其它';} getCategory('%s','%s','%s','%s','%s','%s');";
 
-        return String.format(js, jsData, shopAccount, shopRemark, type, time, source);
+        return String.format(js, jsData, shopAccount, shopRemark, type, time, source, money);
     }
 
     /**

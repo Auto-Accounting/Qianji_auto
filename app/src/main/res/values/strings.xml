@@ -316,4 +316,6 @@
     <string name="auto_reimbursement">报销</string>
     <string name="choose_type_reimbursement">报销</string>
     <string name="desc">logo</string>
+    <string name="regular_money_full">金额条件满足</string>
+    <string name="cate_money">金额</string>
 </resources>

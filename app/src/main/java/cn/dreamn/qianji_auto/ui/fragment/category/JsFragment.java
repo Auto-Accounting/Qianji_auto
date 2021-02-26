@@ -100,6 +100,7 @@ public class JsFragment extends BaseFragment {
             LayoutInflater factory = LayoutInflater.from(getContext());
             @SuppressLint("InflateParams") final View textEntryView = factory.inflate(R.layout.fragment_auto_catgory_edit_test, null);
             final MaterialEditText cate_time = textEntryView.findViewById(R.id.cate_time);
+            final MaterialEditText cate_money = textEntryView.findViewById(R.id.cate_money);
             final MaterialEditText cate_shopName = textEntryView.findViewById(R.id.cate_shopName);
             final MaterialEditText cate_shopRemark = textEntryView.findViewById(R.id.cate_shopRemark);
             final RoundButton cate_type = textEntryView.findViewById(R.id.cate_type);
@@ -143,7 +144,7 @@ public class JsFragment extends BaseFragment {
 
                             String result = runtime.executeStringScript(Category.getOneRegularJs(js,cate_shopName.getEditValue(), cate_shopRemark.getEditValue(), cate_type.getEditValue(),cate_time.getEditValue()));
 */
-                            String result = JsEngine.run(Category.getOneRegularJs(js, cate_shopName.getEditValue(), cate_shopRemark.getEditValue(), cate_type.getText().toString(), cate_time.getEditValue(), cate_type2.getText().toString()));
+                            String result = JsEngine.run(Category.getOneRegularJs(js, cate_shopName.getEditValue(), cate_shopRemark.getEditValue(), cate_type.getText().toString(), cate_time.getEditValue(), cate_type2.getText().toString(), cate_money.getEditValue()));
                             Logs.d("Qianji_Cate", "自动分类结果：" + result);
                             new MaterialDialog.Builder(getContext())
                                     .title("自动分类结果")
