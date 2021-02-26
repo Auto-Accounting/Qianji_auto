@@ -33,7 +33,7 @@ public class Category {
            /* V8 runtime = V8.createV8Runtime();
             String result = runtime.executeStringScript(getCategoryRegularJs(shopAccount, shopRemark, type));
 */
-            String result = JsEngine.run(getCategoryRegularJs(billInfo.getShopAccount(), billInfo.getShopRemark(), billInfo.getType(true), billInfo.getSource()));
+            String result = JsEngine.run(getCategoryRegularJs(billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType(true)), billInfo.getSource()));
 
             Logs.d("Qianji_Cate", "自动分类结果：" + result);
             return result;

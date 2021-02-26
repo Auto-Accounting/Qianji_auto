@@ -23,6 +23,8 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import com.tencent.mmkv.MMKV;
+import com.xuexiang.xaop.util.MD5Utils;
+import com.xuexiang.xupdate.utils.Md5Utils;
 import com.xuexiang.xutil.display.ScreenUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
 
@@ -42,18 +44,23 @@ import static cn.dreamn.qianji_auto.core.utils.Tools.goUrl;
 public class CallAutoActivity {
 
     public static void call(Context context, BillInfo billInfo) {
-        String cache = Caches.getCacheData("lastTime");
+        /*String cache = Caches.getCacheData("lastTime");
 
         if (cache.equals("")) cache = "0";
         long time = Long.parseLong(cache);
         long t = System.currentTimeMillis() - time;
-        t = t / 1000;
+        t = t / 1000;*/
 
         replaceWithSomeThing(billInfo);
-        if (Caches.getCacheData("lastBill").equals(billInfo.toString()) && t < 2) {
+        /*if (Caches.getCacheData("lastBill").equals(billInfo.toString()) && t < 2) {
+            Logs.i("出现重复账单，该账单不计入。\n" + billInfo.dump());
+            return;
+        }*/
+        if (!Caches.getCacheData(MD5Utils.encode(billInfo.toString())).equals("")) {
             Logs.i("出现重复账单，该账单不计入。\n" + billInfo.dump());
             return;
         }
+        Caches.AddOrUpdate(MD5Utils.encode(billInfo.toString()), "receive");
         Caches.AddOrUpdate("lastTime", String.valueOf(System.currentTimeMillis()));
 
         //重复账单过滤
