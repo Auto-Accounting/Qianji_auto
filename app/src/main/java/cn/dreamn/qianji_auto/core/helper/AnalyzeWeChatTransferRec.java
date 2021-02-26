@@ -19,6 +19,8 @@ package cn.dreamn.qianji_auto.core.helper;
 
 import android.content.Context;
 
+import com.xuexiang.xaop.util.MD5Utils;
+
 import java.util.List;
 
 import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
@@ -34,7 +36,16 @@ class AnalyzeWeChatTransferRec {
 
     public static boolean succeed(List<String> list, Context context) {
         if (list.size() < 8) return false;
-        String money = BillTools.getMoney(list.get(1));
+        String money = "";
+
+        for (int i = 0; i < list.size(); i++) {
+            String str = list.get(i);
+            if (str.equals("你已收款")) {
+                money = BillTools.getMoney(list.get(i + 1));
+            }
+        }
+
+
         BillInfo billInfo = new BillInfo();
 
         Cache data2 = Caches.getOne("shopName", "0");

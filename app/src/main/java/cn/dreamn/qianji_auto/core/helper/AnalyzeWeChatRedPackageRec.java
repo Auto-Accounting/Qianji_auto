@@ -19,9 +19,12 @@ package cn.dreamn.qianji_auto.core.helper;
 
 import android.content.Context;
 
+import com.xuexiang.xaop.util.MD5Utils;
+
 import java.util.List;
 
 import cn.dreamn.qianji_auto.core.base.wechat.Wechat;
+import cn.dreamn.qianji_auto.core.db.Helper.Caches;
 import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;

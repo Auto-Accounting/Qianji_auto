@@ -146,7 +146,7 @@ public class XposedBroadcast extends BroadcastReceiver {
                         case Alipay.CANT_UNDERSTAND:
                             String body = Other.getTextWithAlipay(data);
                             Logs.i("未识别信息文本", body);
-                            Other.regular(title, data, context);
+                            billInfo = Other.regular(title, data, context);
                             break;
                         default:
                             break;
@@ -194,13 +194,16 @@ public class XposedBroadcast extends BroadcastReceiver {
                         case Wechat.CANT_UNDERSTAND:
                             String body = Other.getTextWithWechat(data);
                             Logs.i("未识别信息文本", body);
-                            Other.regular(title, data, context);
+                            billInfo = Other.regular(title, data, context);
                             break;
                         default:
                             break;
                     }
                     if (billInfo != null && billInfo.getSource() == null) {
                         billInfo.setSource("微信");
+                        if (billInfo.getAccountName() == null) {
+                            billInfo.setAccountName("微信");
+                        }
                     }
                     break;
                 default:

@@ -121,4 +121,8 @@ public class Assets {
         return assets[0].mapName;
 
     }
+
+    public static void setSort(int id, int fromPosition) {
+        DbManger.db.Asset2Dao().setSort(id, fromPosition);
+    }
 }

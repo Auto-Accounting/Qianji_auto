@@ -142,4 +142,43 @@ class AnalyzeWeChatPayPerson {
     }
 
 
+    public static boolean succeed2(List<String> list, Context context) {
+        if (list.size() < 5) return false;
+        String money = BillTools.getMoney(list.get(2));
+        String shopName = list.get(1);
+
+
+        Cache data = Caches.getOne(TAG, BillInfo.TYPE_PAY);
+        BillInfo billInfo;
+        if (data == null) {
+            return false;
+        } else {
+            billInfo = BillInfo.parse(data.cacheData);
+        }
+
+        billInfo.setMoney(money);
+        billInfo.setShopAccount(shopName);
+
+
+        Logs.d("Qianji_Analyze", billInfo.toString());
+        if (billInfo.getShopRemark() == null) {
+            billInfo.setRemark("付款给" + shopName);
+            billInfo.setShopRemark("付款给" + shopName);
+        }
+
+
+        billInfo.setType(BillInfo.TYPE_PAY);
+
+        if (billInfo.getAccountName() == null)
+            billInfo.setAccountName("微信");
+
+
+        Caches.del(TAG);
+
+        Logs.d("Qianji_Analyze", "捕获的金额:" + money + ",捕获的商户名：" + shopName);
+
+        billInfo.setSource(Wechat.PAYMENT);
+        CallAutoActivity.call(context, billInfo);
+        return true;
+    }
 }

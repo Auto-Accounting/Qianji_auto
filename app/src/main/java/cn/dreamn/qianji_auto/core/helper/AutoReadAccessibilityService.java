@@ -11,6 +11,8 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import androidx.core.app.NotificationCompat;
 
+import com.xuexiang.xaop.util.MD5Utils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,9 +137,11 @@ public class AutoReadAccessibilityService extends AccessibilityService {
 
             //微信转账付款
             if (findHook(".*修改.*", nodeListStr, nodeList.size(), new int[]{1, 5, 6})) {
+
                 Logs.d("Qianji_Analyze", "=======抓取备注信息=======");
                 if (AnalyzeWeChatTransfer.remark(nodeList)) return;
                 Logs.d("Qianji_Analyze", "===============");
+
             }
 
             if (findHook("向.*转账, ￥.*, 支付方式, .*", nodeListStr, nodeList.size(), new int[]{5})) {
@@ -183,21 +187,43 @@ public class AutoReadAccessibilityService extends AccessibilityService {
                 if (AnalyzeWeChatPayPerson.succeed(nodeList, getApplicationContext())) return;
                 Logs.d("Qianji_Analyze", "===============");
             }
+            if (findHook("支付成功,.*,￥.*完成", nodeListStr, nodeList.size(), new int[]{5})) {
+                Logs.d("Qianji_Analyze", "=======抓取付款完成信息=======");
+                if (AnalyzeWeChatPayPerson.succeed2(nodeList, getApplicationContext())) return;
+                Logs.d("Qianji_Analyze", "===============");
+            }
 
             //微信转账收款
             if (findHook("你已收款, ¥.*, 零钱余额.*转账时间.*, 收款时间.*", nodeListStr, nodeList.size(), new int[]{8})) {
+                if (!Caches.getCacheData(MD5Utils.encode(nodeListStr)).equals("")) {
+                    Logs.d("该信息已被处理");
+                    return;
+                }
                 Logs.d("Qianji_Analyze", "=======抓取转账收款金额信息=======");
-                if (AnalyzeWeChatTransferRec.succeed(nodeList, getApplicationContext())) return;
+                if (AnalyzeWeChatTransferRec.succeed(nodeList, getApplicationContext())) {
+                    Caches.AddOrUpdate(MD5Utils.encode(nodeListStr), "receive");
+                    return;
+                }
                 Logs.d("Qianji_Analyze", "===============");
+
             }
             //微信红包收款
-            if (findHook(".*的红包, .*, 元, 已存入零钱.*, 回复表情到聊天, .*", nodeListStr, nodeList.size(), new int[]{9, 14, 16})) {
+            if (findHook(".*的红包.*元.*已存入零钱.*", nodeListStr, nodeList.size(), new int[]{8})) {
+                if (!Caches.getCacheData(MD5Utils.encode(nodeListStr)).equals("")) {
+                    Logs.d("该信息已被处理");
+                    return;
+                }
                 Logs.d("Qianji_Analyze", "=======抓取转账收款金额信息=======");
-                if (AnalyzeWeChatRedPackageRec.succeed(nodeList, getApplicationContext())) return;
+                if (AnalyzeWeChatRedPackageRec.succeed(nodeList, getApplicationContext())) {
+                    Caches.AddOrUpdate(MD5Utils.encode(nodeListStr), "receive");
+                    return;
+                }
+
                 Logs.d("Qianji_Analyze", "===============");
+
             }
             //微信扫码付款账单页面
-            if (findHook(".*,   , 当前状态, 支付成功, 收款方备注, .*, 支付方式, .*, 转账时间, .*, 转账单号, .*,   , 发起群收款,   ,   , 联系收款方,   ,   , 对订单有疑惑,   ,   , 常见问题,   ,   , 取消, 账单详情, 全部账单", nodeListStr, nodeList.size(), new int[]{30})) {
+            if (findHook(".*当前状态, 支付成功, 收款方备注, .*, 支付方式, .*, 转账时间, .*, 转账单号, .*账单详情, 全部账单", nodeListStr, nodeList.size(), new int[]{30})) {
                 Logs.d("Qianji_Analyze", "=======抓取转账收款金额信息=======");
                 if (AnalyzeWeChatBills.succeed(nodeList, getApplicationContext())) return;
                 Logs.d("Qianji_Analyze", "===============");

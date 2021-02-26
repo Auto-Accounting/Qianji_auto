@@ -21,6 +21,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.tencent.mmkv.MMKV;
 import com.thl.filechooser.FileChooser;
@@ -29,6 +31,7 @@ import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xui.utils.SnackbarUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
+import com.xuexiang.xui.widget.dialog.materialdialog.GravityEnum;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 import com.xuexiang.xutil.XUtil;
@@ -39,6 +42,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.async_qianji.Async;
 import cn.dreamn.qianji_auto.core.utils.App;
 import cn.dreamn.qianji_auto.core.utils.Status;
+import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.category.CategoryFragment;
 import cn.dreamn.qianji_auto.ui.fragment.other.OtherFragment;
@@ -88,7 +92,62 @@ public class MainFragment extends BaseFragment implements ClickUtils.OnClick2Exi
         showUpdateLog();
         setActive();
         initListen();
+        initData();
+    }
 
+    private void initData() {
+
+        MMKV mmkv = MMKV.defaultMMKV();
+        if (!mmkv.getBoolean("protocol", false)) {
+            showMsg(this::showHelp);
+        } else showHelp();
+
+
+    }
+
+    private void showHelp() {
+        MMKV kv = MMKV.defaultMMKV();
+        if (kv.getBoolean("first", true)) {
+            new MaterialDialog.Builder(getContext()).
+                    title("设置提醒").
+                    content("您是第一次使用，需要查看教程配置自动记账与钱迹吗？").
+                    negativeText("不需要").
+                    positiveText("需要").
+                    onAny((v, a) -> {
+                        kv.encode("first", false);
+                    }).
+                    onPositive((v, a) -> Tools.goUrl(getContext(), "https://doc.ankio.net/doc/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/#/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE")).show();
+
+        }
+
+    }
+
+    interface whenEnd {
+        void onEnd();
+    }
+
+    private void showMsg(whenEnd w) {
+        LayoutInflater factory = LayoutInflater.from(getContext());
+        @SuppressLint("InflateParams") final View textEntryView = factory.inflate(R.layout.fragment_helper_service, null);
+        new MaterialDialog.Builder(getContext())
+                .customView(textEntryView, true)
+                .buttonsGravity(GravityEnum.CENTER)
+                .positiveText(getString(R.string.helper_service_ok))
+                .negativeText(getString(R.string.helper_service_err))
+                .onPositive((dialog, which) -> {
+                    //下一步
+                    MMKV mmkv = MMKV.defaultMMKV();
+                    mmkv.encode("protocol", true);//同意协议
+                    Logs.d("已同意服务协议与隐私政策。");
+                })
+                .onNegative((dialog, which) -> {
+                    Logs.d("不同意服务协议与隐私政策,APP退出。");
+                    XUtil.exitApp();
+                })
+                .onAny((v, a) -> {
+                    w.onEnd();
+                })
+                .show();
     }
 
 

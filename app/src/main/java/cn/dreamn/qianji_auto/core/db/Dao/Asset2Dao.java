@@ -47,5 +47,8 @@ public interface Asset2Dao {
 
     @Query("DELETE FROM asset2")
     void clean();
+
+    @Query("UPDATE  asset2 set sort=:sort WHERE id=:id")
+    void setSort(int id, int sort);
 }
 

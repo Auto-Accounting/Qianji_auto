@@ -18,16 +18,13 @@
 package cn.dreamn.qianji_auto.core.base;
 
 import android.content.Context;
-import android.webkit.URLUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.dreamn.qianji_auto.core.db.Helper.Others;
-import cn.dreamn.qianji_auto.core.db.Helper.Smses;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
-import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.utils.tools.JsEngine;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
@@ -74,7 +71,7 @@ public class Other {
     }
 
 
-    public static void regular(String title, String body, Context context) {
+    public static BillInfo regular(String title, String body, Context context) {
 
 
         String data = getData(body);
@@ -84,7 +81,7 @@ public class Other {
         BillInfo billInfo = new BillInfo();
         if (strings[3].equals("") || strings[2].equals("") || strings[1].equals("")) {
             Logs.i("未能匹配到有效数据");
-            return;
+            return null;
         }
 
         billInfo.setType(BillInfo.getTypeId(strings[2]));
@@ -108,20 +105,21 @@ public class Other {
         billInfo.setShopRemark(strings[0]);
 
 
-        CallAutoActivity.call(context, billInfo);
+        return billInfo;
     }
 
     public static String getData(String body) {
 
 
         try {
-         /*  V8 runtime = V8.createV8Runtime();
-           String result=runtime.executeStringScript(Smses.getSmsRegularJs(smsBody));*/
-            String result = JsEngine.run(Others.getOtherRegularJs(body));
+
+            String js = Others.getOtherRegularJs(body);
+            Logs.i("识别未知类型的js", js);
+            String result = JsEngine.run(js);
             Logs.d("Qianji_Text", "文本分析结果：" + result);
             return result;
         } catch (Exception e) {
-            Logs.i("短信识别出错", e.toString());
+            Logs.i("识别出错", e.toString());
             return "";
         }
 

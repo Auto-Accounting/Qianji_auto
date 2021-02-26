@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.xuexiang.xpage.annotation.Page;
@@ -29,14 +30,21 @@ import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
+import com.yanzhenjie.recyclerview.touch.OnItemMoveListener;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Helper.Assets;
+import cn.dreamn.qianji_auto.core.db.Helper.Smses;
 import cn.dreamn.qianji_auto.ui.adapter.ListAdapter2;
 import cn.dreamn.qianji_auto.ui.fragment.StateFragment;
+
+import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_ID;
 
 
 @Page(name = "钱迹资产")
@@ -47,6 +55,7 @@ public class MangerFragment extends StateFragment {
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
     private ListAdapter2 mAdapter;
+    private List<Bundle> mDataList;
 
     /**
      * 初始化控件
@@ -59,6 +68,34 @@ public class MangerFragment extends StateFragment {
         WidgetUtils.initRecyclerView(recyclerView);
         mAdapter = new ListAdapter2(getContext());
         recyclerView.setAdapter(mAdapter);
+        recyclerView.setLongPressDragEnabled(true);
+        recyclerView.setOnItemMoveListener(new OnItemMoveListener() {
+            @Override
+            public boolean onItemMove(RecyclerView.ViewHolder srcHolder, RecyclerView.ViewHolder targetHolder) {
+                // 此方法在Item拖拽交换位置时被调用。
+                // 第一个参数是要交换为之的Item，第二个是目标位置的Item。
+
+                // 交换数据，并更新adapter。
+                int fromPosition = srcHolder.getAdapterPosition();
+                int toPosition = targetHolder.getAdapterPosition();
+                Collections.swap(mDataList, fromPosition, toPosition);
+                mAdapter.notifyItemMoved(fromPosition, toPosition);
+                //   Logs.d(mDataList.get(toPosition).get(KEY_TITLE)+"key id"+mDataList.get(toPosition).get(KEY_ID)+" to"+toPosition);
+                ((Bundle) mDataList.get(fromPosition)).getInt("id");
+
+                Assets.setSort(((Bundle) mDataList.get(fromPosition)).getInt("id"), fromPosition);
+                Assets.setSort(((Bundle) mDataList.get(toPosition)).getInt("id"), toPosition);
+
+                // 返回true，表示数据交换成功，ItemView可以交换位置。
+                return true;
+            }
+
+            @Override
+            public void onItemDismiss(RecyclerView.ViewHolder viewHolder) {
+
+            }
+
+        });// 监听拖拽，更新UI。
         mAdapter.setOnItemClickListener((ListAdapter2.OnItemClickListener) (item, pos) -> new MaterialDialog.Builder(getContext())
                 .title(R.string.tip_options)
                 .items(R.array.menu_values)
@@ -109,14 +146,14 @@ public class MangerFragment extends StateFragment {
         new Handler().postDelayed(() -> {
 
             Bundle[] bundles = Assets.getAllIcon();
-
+            mDataList = Arrays.asList(bundles);
 
             if (bundles == null || bundles.length == 0) {
                 showEmpty("没有资产信息");
                 return;
             }
 
-            mAdapter.refresh(Arrays.asList(bundles));
+            mAdapter.refresh(mDataList);
             if (map_layout != null) {
                 map_layout.setRefreshing(false);
             }

@@ -44,7 +44,6 @@ public class WechatPaymentTransfer extends Analyze {
         if (billInfo == null) return null;
         if (billInfo.getShopRemark() == null || billInfo.getShopRemark().equals(""))
             billInfo.setShopRemark("微信转账");
-        billInfo.setAccountName("零钱");
 
 
         billInfo.setMoney(BillTools.getMoney(jsonObject.getString("feedesc")));
