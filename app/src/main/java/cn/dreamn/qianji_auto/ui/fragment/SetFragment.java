@@ -17,6 +17,8 @@
 
 package cn.dreamn.qianji_auto.ui.fragment;
 
+import android.os.Bundle;
+
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.SnackbarUtils;
@@ -152,16 +154,15 @@ public class SetFragment extends BaseFragment {
         });
 
         set_bookname.setOnSuperTextViewClickListener(superTextView -> {
-            new MaterialDialog.Builder(getContext())
-                    .title(R.string.tip_options)
-                    .items(BookNames.getAll())
-                    .itemsCallback((dialog, itemView, position, text) -> {
-                        BookNames.change(text.toString());
-                        SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
-                        initSet();
+            BookNames.showBookSelect(getContext(), "请选择账本", new BookNames.BookSelect() {
+                @Override
+                public void onSelect(Bundle bundle) {
+                    BookNames.change(bundle.getString("name"));
+                    SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();
+                    initSet();
+                }
+            });
 
-                    })
-                    .show();
 
         });
 

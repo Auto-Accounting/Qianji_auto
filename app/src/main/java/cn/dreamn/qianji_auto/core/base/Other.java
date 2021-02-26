@@ -42,8 +42,8 @@ public class Other {
         StringBuilder ret = new StringBuilder();
         while (m.find()) {
             String data = m.group();
-            data = data.replace("\"", "").replace("\t", ",").replace("\n", ",").replace("\\n", "").replace("'", "");
-            if (!data.contains("//") && !data.equals("") && !data.equals("\\/\\/"))
+            data = data.replace("\"", "").replace("\\t", "").replace("\t", ",").replace("\n", ",").replace("\\n", "").replace("'", "");
+            if (!data.contains("//") && !data.equals("") && !data.contains("\\/\\/"))
                 ret.append(",").append(data);
 
         }
@@ -61,8 +61,8 @@ public class Other {
         StringBuilder ret = new StringBuilder();
         while (m.find()) {
             String data = m.group();
-            data = data.replace("\"", "").replace("\t", ",").replace("\n", ",").replace("\\n", "").replace("'", "");
-            if (!data.contains("//") && !data.equals("") && !data.equals("\\/\\/"))
+            data = data.replace("\"", "").replace("\\t", "").replace("\t", ",").replace("\n", ",").replace("\\n", "").replace("'", "");
+            if (!data.contains("//") && !data.equals("") && !data.contains("\\/\\/"))
                 ret.append(",").append(data);
             //next = data.equals("word");
         }

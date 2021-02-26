@@ -16,7 +16,7 @@ android {
         versionCode 75
      //   Date date = new Date()
       //  versionName "2.0.13_"+(new Date()).format("_yyyyMMddHHmm").toString()
-        versionName "2.0.15"
+        versionName "2.0.16"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true

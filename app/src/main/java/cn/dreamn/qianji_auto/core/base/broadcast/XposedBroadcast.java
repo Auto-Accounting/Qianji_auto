@@ -151,7 +151,9 @@ public class XposedBroadcast extends BroadcastReceiver {
                         default:
                             break;
                     }
-
+                    if (billInfo != null && billInfo.getSource() == null) {
+                        billInfo.setSource("支付宝");
+                    }
                     break;
                 case Receive.WECHAT:
                     switch (from) {
@@ -197,7 +199,9 @@ public class XposedBroadcast extends BroadcastReceiver {
                         default:
                             break;
                     }
-
+                    if (billInfo != null && billInfo.getSource() == null) {
+                        billInfo.setSource("微信");
+                    }
                     break;
                 default:
                     break;
@@ -209,7 +213,6 @@ public class XposedBroadcast extends BroadcastReceiver {
             } else {
                 Logs.i(">>>账单无效");
             }
-            return;
 
 
         }

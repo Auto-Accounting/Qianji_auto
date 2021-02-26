@@ -437,7 +437,7 @@ public class AutoFloat extends XFloatView {
     @Override
     public void dismiss() {
 
-        String cate = Category.getCategory(billInfo2.getShopAccount(), billInfo2.getShopRemark(), BillInfo.getTypeName(billInfo2.getType(true)), billInfo2.getSource());
+        String cate = Category.getCategory(billInfo2);
         if (cate.equals("NotFind")) {
 
 

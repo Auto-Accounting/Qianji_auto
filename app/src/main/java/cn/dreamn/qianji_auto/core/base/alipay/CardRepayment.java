@@ -51,7 +51,7 @@ public class CardRepayment extends Analyze {
         billInfo.setType(BillInfo.TYPE_CREDIT_CARD_PAYMENT);
 
 
-        if (!billInfo.getShopRemark().startsWith("还款")) return null;
+        if (!billInfo.getShopRemark().contains("还款")) return null;
         return billInfo;
     }
 

@@ -100,7 +100,7 @@ public class CallAutoActivity {
 
         billInfo.setRemark(Remark.getRemark(billInfo));//设置备注
 
-        String cate = Category.getCategory(billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType(true)), billInfo.getSource());
+        String cate = Category.getCategory(billInfo);
         if (cate.equals("NotFind")) {
             billInfo.setCateName("其它");//设置自动分类
 

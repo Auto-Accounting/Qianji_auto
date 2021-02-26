@@ -28,12 +28,12 @@ import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 public class Category {
 
-    public static String getCategory(String shopAccount, String shopRemark, String type, String source) {
+    public static String getCategory(BillInfo billInfo) {
         try {
            /* V8 runtime = V8.createV8Runtime();
             String result = runtime.executeStringScript(getCategoryRegularJs(shopAccount, shopRemark, type));
 */
-            String result = JsEngine.run(getCategoryRegularJs(shopAccount, shopRemark, type, source));
+            String result = JsEngine.run(getCategoryRegularJs(billInfo.getShopAccount(), billInfo.getShopRemark(), billInfo.getType(true), billInfo.getSource()));
 
             Logs.d("Qianji_Cate", "自动分类结果：" + result);
             return result;

@@ -145,7 +145,7 @@ public class BookNames {
 
         final ListView list_view = textEntryView.findViewById(R.id.list_view);
 
-        Bundle[] item = getAllIcon(false);
+        Bundle[] item = getAllIcon(true);
 
         ListAdapter3 listAdapter3 = new ListAdapter3(context, R.layout.list_item2, item);//listdata和str均可
         list_view.setAdapter(listAdapter3);
