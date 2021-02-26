@@ -225,12 +225,13 @@ public class AutoFloat extends XFloatView {
 
                 CateChoose cateChoose = new CateChoose(expandableListView, getContext(), BillInfo.getTypeName(billInfo2.getType()), false, book_id);
 
+
+                cateChoose.refresh();
+
                 if (cateChoose.isEmpty()) {
                     XToast.error(getContext(), "您尚未添加任何分类!").show();
                     return;
                 }
-
-                cateChoose.refresh();
 
                 cateChoose.setOnClick(new CateChoose.CallBack() {
                     @Override

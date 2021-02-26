@@ -56,16 +56,17 @@ public class CallAutoActivity {
             Logs.i("出现重复账单，该账单不计入。\n" + billInfo.dump());
             return;
         }*/
+        billInfo.setTime();//设置时间
         if (!Caches.getCacheData(MD5Utils.encode(billInfo.toString())).equals("")) {
             Logs.i("出现重复账单，该账单不计入。\n" + billInfo.dump());
             return;
         }
         Caches.AddOrUpdate(MD5Utils.encode(billInfo.toString()), "receive");
-        Caches.AddOrUpdate("lastTime", String.valueOf(System.currentTimeMillis()));
+        //  Caches.AddOrUpdate("lastTime", String.valueOf(System.currentTimeMillis()));
 
         //重复账单过滤
         //多笔记账延时
-        billInfo.setTime();//设置时间
+
         Logs.i("账单已捕获，账单信息:\n" + billInfo.dump());
         if (!billInfo.isAvaiable()) return;
         Caches.AddOrUpdate("lastBill", billInfo.toString());

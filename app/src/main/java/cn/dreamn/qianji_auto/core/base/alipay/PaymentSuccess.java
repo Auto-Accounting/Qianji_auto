@@ -51,6 +51,9 @@ public class PaymentSuccess extends Analyze {
         if (billInfo.getShopAccount() != null && billInfo.getShopAccount().equals("花呗")) {
             billInfo.setType(BillInfo.TYPE_CREDIT_CARD_PAYMENT);
             billInfo.setAccountName2("花呗");
+        } else if (billInfo.getShopRemark().equals("普通充值")) {
+            billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
+            billInfo.setAccountName2("余额");
         } else {
             billInfo.setType(BillInfo.TYPE_PAY);
 
