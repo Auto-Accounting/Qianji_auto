@@ -115,7 +115,7 @@ public class BookNames {
     }
 
     public static void add(String bookName, String icon, String book_id) {
-        if (book_id.equals("")) {
+        if (book_id == null || book_id.equals("")) {
             book_id = String.valueOf(System.currentTimeMillis());
         }
         DbManger.db.BookNameDao().add(bookName, icon, book_id);
