@@ -72,13 +72,14 @@ public class WechatPaymentTransfer extends Analyze {
         } else if (jsonObject.getString("isSend").equals("1") && jsonObject.getIntValue("paysubtype") == 3) {
             billInfo.setType(BillInfo.TYPE_INCOME);
             billInfo.setSource(Wechat.PAYMENT_TRANSFER_RECEIVED);
+            billInfo.setAccountName("零钱");
 
         } else if (jsonObject.getString("isSend").equals("0") && jsonObject.getIntValue("paysubtype") == 4) {
             billInfo.setType(BillInfo.TYPE_INCOME);
             billInfo.setSilent(true);
             billInfo.setSource(Wechat.PAYMENT_TRANSFER_REFUND);
             billInfo.setShopRemark("对方退还转账");
-
+            billInfo.setAccountName("零钱");
         } else {
             Logs.i("该转账记录无效");
             return null;
