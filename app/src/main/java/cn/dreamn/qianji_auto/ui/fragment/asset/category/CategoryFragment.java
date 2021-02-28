@@ -175,7 +175,7 @@ public class CategoryFragment extends StateFragment implements TabLayout.OnTabSe
                         refresh();
                     }
                 } else {
-                    if (!CategoryNames.insert(str, "", level, type, "", parent_id, book_id)) {
+                    if (!CategoryNames.insert(str, "", level, type, "", parent_id, book_id, null)) {
                         SnackbarUtils.Long(getView(), getString(R.string.set_failed)).info().show();
                     } else {
                         SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();

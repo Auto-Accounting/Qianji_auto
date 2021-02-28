@@ -55,7 +55,7 @@ import cn.dreamn.qianji_auto.core.db.Table.Sms;
         AutoBill.class,
         Other.class,
         CategoryName.class
-}, version = 4, exportSchema = false)
+}, version = 5, exportSchema = false)
 
 public abstract class AppDatabase extends RoomDatabase {
     public abstract LogDao LogDao();
@@ -106,6 +106,14 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE Asset2 ADD COLUMN sort INTEGER NOT NULL DEFAULT 0");
             database.execSQL("UPDATE  BookName set book_id = \"-1\" ");
             database.execSQL("UPDATE  CategoryName set book_id = \"-1\" ");
+        }
+    };
+    static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+
+            database.execSQL("ALTER TABLE CategoryName ADD COLUMN  sort TEXT  ");
+            database.execSQL("UPDATE  CategoryName set sort = \"500\" ");
         }
     };
 }

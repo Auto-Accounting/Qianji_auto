@@ -54,6 +54,9 @@ public class PaymentSuccess extends Analyze {
         } else if (billInfo.getShopRemark().equals("普通充值")) {
             billInfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
             billInfo.setAccountName2("余额");
+        } else if (billInfo.getShopRemark().contains("相互宝分摊")) {
+            billInfo.setSilent(true);
+            billInfo.setType(BillInfo.TYPE_PAY);
         } else {
             billInfo.setType(BillInfo.TYPE_PAY);
 

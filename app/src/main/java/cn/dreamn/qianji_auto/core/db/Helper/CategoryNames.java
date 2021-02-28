@@ -44,13 +44,16 @@ public class CategoryNames {
         return "";
     }
 
-    public static boolean insert(String name, String icon, String level, String type, String self_id, String parent_id, String book_id) {
-        if (self_id.equals("")) {
+    public static boolean insert(String name, String icon, String level, String type, String self_id, String parent_id, String book_id, String sort) {
+        if (self_id == null || self_id.equals("")) {
             self_id = String.valueOf(System.currentTimeMillis());
+        }
+        if (sort == null || sort.equals("")) {
+            sort = "500";
         }
         CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type, book_id);
         if (categoryNames.length != 0) return false;
-        DbManger.db.CategoryNameDao().add(name, icon, level, type, self_id, parent_id, book_id);
+        DbManger.db.CategoryNameDao().add(name, icon, level, type, self_id, parent_id, book_id, sort);
         return true;
     }
 

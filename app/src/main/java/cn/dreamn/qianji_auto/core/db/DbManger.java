@@ -24,6 +24,7 @@ import androidx.room.Room;
 import static cn.dreamn.qianji_auto.core.db.AppDatabase.MIGRATION_1_2;
 import static cn.dreamn.qianji_auto.core.db.AppDatabase.MIGRATION_2_3;
 import static cn.dreamn.qianji_auto.core.db.AppDatabase.MIGRATION_3_4;
+import static cn.dreamn.qianji_auto.core.db.AppDatabase.MIGRATION_4_5;
 
 public class DbManger {
     public static AppDatabase db;
@@ -34,6 +35,7 @@ public class DbManger {
                 addMigrations(MIGRATION_1_2).
                 addMigrations(MIGRATION_2_3).
                 addMigrations(MIGRATION_3_4).
+                addMigrations(MIGRATION_4_5).
                 build();
     }
 }

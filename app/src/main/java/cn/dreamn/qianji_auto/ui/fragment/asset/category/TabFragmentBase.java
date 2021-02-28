@@ -214,7 +214,7 @@ public class TabFragmentBase extends BaseFragment {
                         refresh();
                     }
                 } else {
-                    if (!CategoryNames.insert(str, "", level, type, "", parent_id, book_id)) {
+                    if (!CategoryNames.insert(str, "", level, type, "", parent_id, book_id, null)) {
                         SnackbarUtils.Long(getView(), getString(R.string.set_failed)).info().show();
                     } else {
                         SnackbarUtils.Long(getView(), getString(R.string.set_success)).info().show();

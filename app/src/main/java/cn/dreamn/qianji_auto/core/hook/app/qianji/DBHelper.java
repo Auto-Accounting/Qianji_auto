@@ -63,6 +63,7 @@ public class DBHelper {
             bundle.putString("parent", cursor.getString(cursor.getColumnIndex("PARENT_ID")));
             bundle.putString("level", cursor.getString(cursor.getColumnIndex("LEVEL")));
             bundle.putString("icon", cursor.getString(cursor.getColumnIndex("ICON")));
+            bundle.putString("sort", cursor.getString(cursor.getColumnIndex("SORT")));
             Data data1 = new Data();
             data1.set(bundle);
             data.add(data1);

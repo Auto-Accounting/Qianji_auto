@@ -24,10 +24,10 @@ import cn.dreamn.qianji_auto.core.db.Table.CategoryName;
 
 @Dao
 public interface CategoryNameDao {
-    @Query("SELECT * FROM categoryname WHERE type=:type AND level='1' AND book_id=:book_id")
+    @Query("SELECT * FROM categoryname WHERE type=:type AND level='1' AND book_id=:book_id order by CAST(sort as int)")
     CategoryName[] get(String type, String book_id);
 
-    @Query("SELECT * FROM categoryname WHERE type=:type AND level='2' AND parent_id=:parent  AND book_id=:book_id")
+    @Query("SELECT * FROM categoryname WHERE type=:type AND level='2' AND parent_id=:parent  AND book_id=:book_id  order by CAST(sort as int)")
     CategoryName[] get(String type, String parent, String book_id);
 
     @Query("DELETE FROM categoryname WHERE id=:id")
@@ -36,8 +36,8 @@ public interface CategoryNameDao {
     @Query("SELECT * FROM categoryname WHERE id=:id limit 1")
     CategoryName[] get(int id);
 
-    @Query("INSERT INTO categoryname(name,icon,level,type,self_id,parent_id,book_id) values(:name,:icon,:level,:type,:self_id,:parent_id,:book_id)")
-    void add(String name, String icon, String level, String type, String self_id, String parent_id, String book_id);
+    @Query("INSERT INTO categoryname(name,icon,level,type,self_id,parent_id,book_id,sort) values(:name,:icon,:level,:type,:self_id,:parent_id,:book_id,:sort)")
+    void add(String name, String icon, String level, String type, String self_id, String parent_id, String book_id, String sort);
 
     @Query("UPDATE  categoryname SET name=:name WHERE id=:id")
     void update(int id, String name);

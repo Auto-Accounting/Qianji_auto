@@ -99,7 +99,7 @@ public class Async {
                 sendMsg("正在导入第" + (i + 1) + "条分类中");
                 Data d = asset.get(i);
                 Bundle m = d.get();
-                CategoryNames.insert(m.getString("name"), m.getString("icon"), m.getString("level"), m.getString("type"), m.getString("id"), m.getString("parent"), m.getString("book_id"));
+                CategoryNames.insert(m.getString("name"), m.getString("icon"), m.getString("level"), m.getString("type"), m.getString("id"), m.getString("parent"), m.getString("book_id"), null);
             }
             BookNames.clean();
             for (int i = 0; i < userBook.size(); i++) {

@@ -68,7 +68,7 @@ public class QianjiBroadcast extends BroadcastReceiver {
             for (int i = 0; i < category.size(); i++) {
                 Data d = category.get(i);
                 Bundle m = d.get();
-                CategoryNames.insert(m.getString("name"), m.getString("icon"), m.getString("level"), m.getString("type"), m.getString("id"), m.getString("parent"), m.getString("book_id"));
+                CategoryNames.insert(m.getString("name"), m.getString("icon"), m.getString("level"), m.getString("type"), m.getString("id"), m.getString("parent"), m.getString("book_id"), m.getString("sort"));
             }
             BookNames.clean();
             for (int i = 0; i < userBook.size(); i++) {
