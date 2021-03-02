@@ -30,6 +30,7 @@ public class hookPayUI {
         Class<?> LogUtil = XposedHelpers.findClass("com.alipay.android.msp.utils.LogUtil", mAppClassLoader);
         XposedHelpers.findAndHookMethod(LogUtil, "record", int.class, String.class, String.class, String.class, new XC_MethodHook() {
             public void beforeHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+                if (methodHookParam.args[3] == null || methodHookParam.args[2] == null) return;
                 String str = methodHookParam.args[2].toString();
                 String data = methodHookParam.args[3].toString();
                 try {
