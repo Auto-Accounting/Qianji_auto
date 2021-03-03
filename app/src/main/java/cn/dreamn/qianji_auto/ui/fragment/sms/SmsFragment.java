@@ -58,6 +58,7 @@ import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_DENY;
 import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_ID;
 import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_NUM;
 import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_REGEX;
+import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_TEXT;
 import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_TITLE;
 
 
@@ -71,6 +72,7 @@ public class SmsFragment extends StateFragment {
     private SmsAdapter mAdapter;
 
     private List<Map<String, String>> mDataList;
+
     /**
      * 初始化控件
      */
@@ -124,6 +126,7 @@ public class SmsFragment extends StateFragment {
                         params.putString("id", String.valueOf(id));
                         params.putString("num", item.get(KEY_NUM));
                         params.putString("regex", item.get(KEY_REGEX));
+                        params.putString("text", item.get(KEY_TEXT));
                         params.putString("title", item.get(KEY_TITLE));
                         openPage(EditFragment.class, params);
                     } else if (position == 2) {
@@ -201,7 +204,7 @@ public class SmsFragment extends StateFragment {
                                                     JSONArray jsonArray = jsonObject.getJSONArray("data");
                                                     for (int i = 0; i < jsonArray.size(); i++) {
                                                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                                        Smses.add(jsonObject1.getString("regular"), jsonObject1.getString("name"), jsonObject1.getString("smsNum"));
+                                                        Smses.add(jsonObject1.getString("regular"), jsonObject1.getString("name"), jsonObject1.getString("smsNum"), jsonObject1.getString("text"));
                                                     }
                                                     SnackbarUtils.Long(getView(), "恢复成功").info().show();
                                                     refresh();
@@ -231,6 +234,7 @@ public class SmsFragment extends StateFragment {
                                         JSONObject jsonObject1 = new JSONObject();
                                         jsonObject1.put("name", sm.name);
                                         jsonObject1.put("regular", sm.regular);
+                                        jsonObject1.put("text", sm.text);
                                         jsonObject1.put("smsNum", sm.smsNum);
                                         jsonArray.add(jsonObject1);
                                     }
@@ -263,6 +267,7 @@ public class SmsFragment extends StateFragment {
 
                 item.put(KEY_TITLE, value.name);
                 item.put(KEY_REGEX, value.regular);
+                item.put(KEY_TEXT, value.text);
                 item.put(KEY_DENY, value.use == 1 ? "false" : "true");
                 item.put(KEY_ID, String.valueOf(value.id));
                 item.put(KEY_NUM, value.smsNum);

@@ -102,12 +102,12 @@ public class Others {
     }
 
 
-    public static void add(String regex, String name, String num) {
-        DbManger.db.OtherDao().add(regex, name, num);
+    public static void add(String regex, String name, String num, String text) {
+        DbManger.db.OtherDao().add(regex, name, num, text);
     }
 
-    public static void change(int id, String regex, String name, String num) {
-        DbManger.db.OtherDao().update(id, regex, name, num);
+    public static void change(int id, String regex, String name, String num, String text) {
+        DbManger.db.OtherDao().update(id, regex, name, num, text);
     }
 
     public static void del(int id) {

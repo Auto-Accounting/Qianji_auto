@@ -55,6 +55,8 @@ public class EditFragment extends BaseFragment {
 
     @BindView(R.id.sms_regex)
     MultiLineEditText sms_regex;
+    @BindView(R.id.sms_test_text)
+    MultiLineEditText sms_test_text;
 
     @BindView(R.id.sms_num)
     MaterialEditText sms_num;
@@ -104,6 +106,7 @@ public class EditFragment extends BaseFragment {
         String id = arguments.getString("id");
         String num = arguments.getString("num");
         String regex = arguments.getString("regex");
+        String test_text = arguments.getString("text");
         String title = arguments.getString("title");
 
         if (id != null && !id.equals("")) {
@@ -114,6 +117,7 @@ public class EditFragment extends BaseFragment {
 
             sms_name.setText(title);
             sms_regex.setContentText(regex);
+            sms_test_text.setContentText(test_text);
 
             sms_account.setText(s[1]);
             sms_money.setText(s[3]);
@@ -150,57 +154,60 @@ public class EditFragment extends BaseFragment {
         btn_test.setOnClickListener(v -> {
             // popToBack("SmsFragment",null);
 
-            showInputDialog("请输入测试文本", "测试文本", Caches.getOneString("test_text", ""), data -> {
-                Caches.AddOrUpdate("test_sms", data);
-                String func = Others.getFunction(
-                        sms_regex.getContentText(),
-                        data,
-                        sms_remark.getEditValue(),
-                        sms_account.getEditValue(),
-                        sms_type.getText().toString(),
-                        sms_money.getEditValue(),
-                        sms_num.getEditValue(),
-                        sms_shop.getEditValue(),
-                        sms_account2.getEditValue(),
-                        sms_client.getText().toString()
-                );
-                Logs.d(func);
+            // showInputDialog("请输入测试文本", "测试文本", Caches.getOneString("test_text", ""), data -> {
+            // });
+
+            // 判断测试文本
+            String data = sms_test_text.getContentText();
+            if (data.equals("")) {
+                SnackbarUtils.Long(getView(), "测试文本不能为空").danger().show();
+                return;
+            }
+            String func = Others.getFunction(
+                    sms_regex.getContentText(),
+                    data,
+                    sms_remark.getEditValue(),
+                    sms_account.getEditValue(),
+                    sms_type.getText().toString(),
+                    sms_money.getEditValue(),
+                    sms_num.getEditValue(),
+                    sms_shop.getEditValue(),
+                    sms_account2.getEditValue(),
+                    sms_client.getText().toString()
+            );
+            Logs.d(func);
 
 
-                try {
+            try {
                   /*  V8 runtime = V8.createV8Runtime();
 
-
                     String result=runtime.executeStringScript(func);*/
-                    String result = JsEngine.run(func);
-                    Logs.d("Qianji_Text", "文本分析结果：" + result);
-                    String[] strings = Others.getNum(result);
-                    String datas = "";
-                    datas += "尾号：" + strings[4] + "\n";
-                    datas += "账户名称1：" + strings[1] + "\n";
-                    datas += "账户名称2：" + strings[6] + "\n";
-                    datas += "收支类型：" + strings[2] + "\n";
-                    datas += "后台交易：" + strings[7] + "\n";
-                    datas += "金额：" + strings[3] + "\n";
-                    datas += "商户名称：" + strings[5] + "\n";
-                    datas += "商户备注：" + strings[0] + "\n";
+                String result = JsEngine.run(func);
+                Logs.d("Qianji_Text", "文本分析结果：" + result);
+                String[] strings = Others.getNum(result);
+                String datas = "";
+                datas += "尾号：" + strings[4] + "\n";
+                datas += "账户名称1：" + strings[1] + "\n";
+                datas += "账户名称2：" + strings[6] + "\n";
+                datas += "收支类型：" + strings[2] + "\n";
+                datas += "后台交易：" + strings[7] + "\n";
+                datas += "金额：" + strings[3] + "\n";
+                datas += "商户名称：" + strings[5] + "\n";
+                datas += "商户备注：" + strings[0] + "\n";
 
 
-                    new MaterialDialog.Builder(getContext())
-                            .title("识别结果")
-                            .content(datas)
-                            .positiveText(getString(R.string.input_ok))
-                            .show();
-                } catch (Exception e) {
-                    new MaterialDialog.Builder(getContext())
-                            .title("运行错误")
-                            .content(e.toString())
-                            .positiveText(getString(R.string.input_ok))
-                            .show();
-                }
-
-
-            });
+                new MaterialDialog.Builder(getContext())
+                        .title("识别结果")
+                        .content(datas)
+                        .positiveText(getString(R.string.input_ok))
+                        .show();
+            } catch (Exception e) {
+                new MaterialDialog.Builder(getContext())
+                        .title("运行错误")
+                        .content(e.toString())
+                        .positiveText(getString(R.string.input_ok))
+                        .show();
+            }
         });
 
         btn_save.setOnClickListener(v -> {
@@ -217,13 +224,19 @@ public class EditFragment extends BaseFragment {
                 return;
             }
 
+            // 获取测试文本
+            String test_text = sms_test_text.getContentText();
+            if (test_text.equals("")) {
+                SnackbarUtils.Long(getView(), "测试文本不能为空").danger().show();
+                return;
+            }
 
             String num = sms_remark.getEditValue() + "|" + sms_account.getEditValue() + "|" + sms_type.getText().toString() + "|" + sms_money.getEditValue() + "|" + sms_num.getEditValue() + "|" + sms_shop.getEditValue() + "|" + sms_account2.getEditValue() + "|" + sms_client.getText();
 
             if (regularId != -1) {
-                Others.change(regularId, regex, name, num);
+                Others.change(regularId, regex, name, num, test_text);
             } else {
-                Others.add(regex, name, num);
+                Others.add(regex, name, num, test_text);
             }
 
             popToBack("OtherFragment", null);

@@ -261,6 +261,7 @@
     <string name="menu_sms">短信识别</string>
     <string name="choose_share">分享</string>
     <string name="sms_regular">正则表达式</string>
+    <string name="sms_test_text">测试文本</string>
     <string name="sms_location">匹配项目所在位置</string>
     <string name="sms_num">尾号</string>
     <string name="sms_account">账户名称1</string>

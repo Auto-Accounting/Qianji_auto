@@ -36,8 +36,8 @@ public interface SmsDao {
     @Query("UPDATE  sms set sort=:sort WHERE id=:id")
     void setSort(int id, int sort);
 
-    @Query("UPDATE  sms SET regular=:regular,name=:name,smsNum=:num WHERE id=:id")
-    void update(int id, String regular, String name, String num);
+    @Query("UPDATE  sms SET regular=:regular,name=:name,smsNum=:num,text=:text WHERE id=:id")
+    void update(int id, String regular, String name, String num, String text);
 
     @Query("UPDATE  sms SET use=1 WHERE id=:id")
     void enable(int id);
@@ -45,8 +45,8 @@ public interface SmsDao {
     @Query("UPDATE  sms SET use=0 WHERE id=:id")
     void deny(int id);
 
-    @Query("INSERT INTO sms(regular,name,smsNum,use,sort) values(:regex,:name,:num,1,0)")
-    void add(String regex, String name, String num);
+    @Query("INSERT INTO sms(regular,name,smsNum,text,use,sort) values(:regex,:name,:num,:text,1,0)")
+    void add(String regex, String name, String num, String text);
 
     @Query("DELETE FROM sms")
     void clean();
