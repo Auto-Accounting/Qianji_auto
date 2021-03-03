@@ -52,6 +52,7 @@ public class AlipayHook extends HookBase {
     public String[] getAppVer() {
         return new String[]{
                 "10.2.13.9020",
+                "10.2.15.9500",
         };
     }
 }

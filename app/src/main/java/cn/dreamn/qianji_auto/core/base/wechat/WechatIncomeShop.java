@@ -64,7 +64,7 @@ public class WechatIncomeShop extends Analyze {
         try {
             JSONObject lines = jsonObject.getJSONObject("lines");
 
-            if (!shop.equals("")) {
+            if (shop != null && !shop.equals("")) {
                 billInfo.setShopAccount(shop);
             }
 

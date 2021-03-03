@@ -59,14 +59,15 @@ public class WechatIncomeMoney extends Analyze {
     public BillInfo getResult(BillInfo billInfo) {
         billInfo.setSilent(true);
         String money = BillTools.getMoney(jsonObject.getJSONObject("topline").getJSONObject("value").getString("word"));
-        String shop = jsonObject.getString("display_name");
         billInfo.setMoney(BillTools.getMoney(money));
+        String shop = jsonObject.getString("display_name");
+        if (shop != null && !shop.equals("")) {
+            billInfo.setShopAccount(shop);
+        }
+
         try {
             JSONObject lines = jsonObject.getJSONObject("lines");
 
-            if (!shop.equals("")) {
-                billInfo.setShopAccount(shop);
-            }
 
             JSONArray line = lines.getJSONArray("line");
             for (int i = 0; i < line.size(); i++) {

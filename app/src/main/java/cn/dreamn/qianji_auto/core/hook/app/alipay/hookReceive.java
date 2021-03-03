@@ -175,6 +175,7 @@ public class hookReceive {
                     utils.log("-------网商银行-------");
                     bundle.putString("from", Alipay.REPAYMENT);
                     break;
+                case "余额宝":
                 case "蚂蚁财富·我的余额宝":
                     utils.log("-------蚂蚁财富·我的余额宝-------");
                     bundle.putString("from", Alipay.REC_YUEBAO);

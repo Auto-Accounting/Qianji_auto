@@ -330,6 +330,8 @@ public class AutoFloat extends XFloatView {
 
             showMenu("请选择收支类型", 1, strings, data -> {
                 billInfo2.setType(BillInfo.getTypeId(strings[data]));
+                if (!strings[data].equals("转账") && !strings[data].equals("信用还款"))
+                    billInfo2.setAccountName2(null);//不等于就去掉第二个账户
                 this.setData(billInfo2);
             });
         });
@@ -456,17 +458,7 @@ public class AutoFloat extends XFloatView {
     @Override
     public void dismiss() {
 
-        String cate = Category.getCategory(billInfo2);
-        if (cate.equals("NotFind")) {
 
-
-            MMKV mmkv = MMKV.defaultMMKV();
-            if (mmkv.getBoolean("auto_sort", false)) {
-                Category.setCateJs(billInfo2, billInfo2.getCateName());
-            }
-
-
-        }
         super.dismiss();
 
     }

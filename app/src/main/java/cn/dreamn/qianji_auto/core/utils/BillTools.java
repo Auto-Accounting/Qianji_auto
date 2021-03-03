@@ -108,9 +108,13 @@ public class BillTools {
         } else if (payTool.startsWith("账户")) {
             payTool = payTool.substring(2);
         } else if (payTool.contains("预计入账时间")) {
-            payTool = payTool.substring(0, payTool.indexOf("预计入账时间") - 1);
+            payTool = payTool.substring(0, payTool.indexOf("预计入账时间"));
+        } else if (payTool.contains("入账时间")) {
+            payTool = payTool.substring(0, payTool.indexOf("入账时间"));
         } else if (payTool.contains("）")) {
-            payTool = payTool.substring(0, payTool.indexOf("）"));
+            payTool = payTool.substring(0, payTool.indexOf("）") + 1);
+        } else if (payTool.contains(")")) {
+            payTool = payTool.substring(0, payTool.indexOf(")") + 1);
         }
         return payTool;
     }

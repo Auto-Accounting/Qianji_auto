@@ -159,7 +159,7 @@ public class CallAutoActivity {
         if (!mmkv.getBoolean("auto_style", true)) {
             Logs.i("唤起自动钱迹分类面板");
             billInfo.setCateChoose(true);
-            goQianji(context, billInfo);
+            goApp(context, billInfo);
             return;
         }
         try {
@@ -178,6 +178,21 @@ public class CallAutoActivity {
 
         }
 
+    }
+
+    public static void goApp(Context context, BillInfo billInfo) {
+        String cate = Category.getCategory(billInfo);
+        if (cate.equals("NotFind")) {
+
+
+            MMKV mmkv = MMKV.defaultMMKV();
+            if (mmkv.getBoolean("auto_sort", false)) {
+                Category.setCateJs(billInfo, billInfo.getCateName());
+            }
+
+
+        }
+        goQianji(context, billInfo);
     }
 
     public static void goQianji(Context context, BillInfo billInfo) {
@@ -245,7 +260,7 @@ public class CallAutoActivity {
             Logs.i("账单为 后台交易");
             if (mmkv.getBoolean("autoIncome", false)) {
                 Logs.i("全自动模式->直接对钱迹发起请求");
-                goQianji(context, billInfo);
+                goApp(context, billInfo);
             } else {
                 Logs.i("半自动模式->发出记账通知");
                 //通知处理
@@ -256,7 +271,7 @@ public class CallAutoActivity {
             Logs.i("账单为 前台交易");
             if (mmkv.getBoolean("autoPay", false)) {
                 Logs.i("全自动模式->直接对钱迹发起请求");
-                goQianji(context, billInfo);
+                goApp(context, billInfo);
                 return;
             }
         }
@@ -267,7 +282,7 @@ public class CallAutoActivity {
             if (!mmkv.getBoolean("auto_float_end_double", true)) {
                 Logs.i("倒计时结束直接发起请求");
                 //这是倒计时结束
-                CallAutoActivity.goQianji(context, billInfo);
+                CallAutoActivity.goApp(context, billInfo);
                 return;
             }
             Logs.i("直接弹出悬浮窗");
