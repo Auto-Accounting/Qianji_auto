@@ -41,6 +41,7 @@ public class SmsAdapter extends SmartRecyclerAdapter<Map<String, String>> {
     public static final String KEY_DENY = "deny";
     public static final String KEY_ID = "id";
     public static final String KEY_REGEX = "regex";
+    public static final String KEY_TEXT = "text";
     private OnItemClickListener listener;
 
 

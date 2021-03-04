@@ -37,8 +37,8 @@ public interface OtherDao {
     void setSort(int id, int sort);
 
 
-    @Query("UPDATE  other SET regular=:regular,name=:name,num=:num WHERE id=:id")
-    void update(int id, String regular, String name, String num);
+    @Query("UPDATE  other SET regular=:regular,name=:name,num=:num,text=:text WHERE id=:id")
+    void update(int id, String regular, String name, String num, String text);
 
     @Query("UPDATE  other SET use=1 WHERE id=:id")
     void enable(int id);
@@ -46,8 +46,8 @@ public interface OtherDao {
     @Query("UPDATE  other SET use=0 WHERE id=:id")
     void deny(int id);
 
-    @Query("INSERT INTO other(regular,name,num,use,sort) values(:regex,:name,:num,1,0)")
-    void add(String regex, String name, String num);
+    @Query("INSERT INTO other(regular,name,num,text,use,sort) values(:regex,:name,:num,:text,1,0)")
+    void add(String regex, String name, String num, String text);
 
     @Query("DELETE FROM other")
     void clean();
