@@ -42,7 +42,7 @@ public class SMSBroadcast extends BroadcastReceiver {
                 msg2.append(msg.getDisplayMessageBody());
             }
 
-            Logs.i("--------收到短信-------\n" +
+            Logs.i("短信", "--------收到短信-------\n" +
                     "发件人是：" + user +
                     "\n------短信内容-------\n" +
                     msg2.toString() +

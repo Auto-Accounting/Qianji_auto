@@ -101,7 +101,7 @@ public class AutoFloatTip extends XFloatView {
             if (!mmkv.getBoolean("auto_float_click_double", true)) {
                 Logs.i("直接发起记账请求");
                 //这是倒计时结束
-                CallAutoActivity.goQianji(getContext(), billInfo2);
+                CallAutoActivity.goApp(getContext(), billInfo2);
                 this.clear();
                 return;
             }
@@ -150,7 +150,7 @@ public class AutoFloatTip extends XFloatView {
                 if (!mmkv.getBoolean("auto_float_end_double", true)) {
                     Logs.i("直接发起记账请求");
                     //这是倒计时结束
-                    CallAutoActivity.goQianji(getContext(), billInfo2);
+                    CallAutoActivity.goApp(getContext(), billInfo2);
                     this.clear();
                     return;
                 }

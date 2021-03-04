@@ -111,7 +111,6 @@ public class CallAutoActivity {
         String cate = Category.getCategory(billInfo);
         if (cate.equals("NotFind")) {
             billInfo.setCateName("其它");//设置自动分类
-
         } else {
             billInfo.setCateName(cate);//设置自动分类
         }
@@ -182,6 +181,7 @@ public class CallAutoActivity {
 
     public static void goApp(Context context, BillInfo billInfo) {
         String cate = Category.getCategory(billInfo);
+        Logs.d(cate);
         if (cate.equals("NotFind")) {
 
 

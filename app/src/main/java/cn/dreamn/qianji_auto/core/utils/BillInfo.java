@@ -68,6 +68,7 @@ public class BillInfo {
 
     private String source;//账单来源
 
+    private String extraData;//额外数据来源
 
     private String isSilent;//是否为静默模式
 

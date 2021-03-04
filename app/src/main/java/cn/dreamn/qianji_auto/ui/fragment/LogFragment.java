@@ -1,6 +1,7 @@
 package cn.dreamn.qianji_auto.ui.fragment;
 
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
@@ -27,11 +28,16 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.db.Table.Log;
 import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.ui.adapter.LogAdapter;
+import cn.dreamn.qianji_auto.ui.adapter.SmsAdapter;
+import cn.dreamn.qianji_auto.ui.fragment.sms.EditFragment;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 import static cn.dreamn.qianji_auto.ui.adapter.LogAdapter.KEY_POS;
 import static cn.dreamn.qianji_auto.ui.adapter.LogAdapter.KEY_SUB;
 import static cn.dreamn.qianji_auto.ui.adapter.LogAdapter.KEY_TITLE;
+import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_NUM;
+import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_REGEX;
+import static cn.dreamn.qianji_auto.ui.adapter.SmsAdapter.KEY_TEXT;
 
 
 @Page(name = "日志查询")
@@ -60,9 +66,18 @@ public class LogFragment extends StateFragment {
         map_layout.setColorSchemeColors(0xff0099cc, 0xffff4444, 0xff669900, 0xffaa66cc, 0xffff8800);
 
         mAdapter.setOnItemClickListener((LogAdapter.OnItemClickListener) (item, pos) -> {
+            String key_sub = item.get(KEY_SUB);
+            if (key_sub == null) return;
+            String[] array = new String[]{"复制到剪切板", "删除"};
+            if (key_sub.contains("未识别信息文本")) {
+                array = new String[]{"复制到剪切板", "删除", "创建识别规则"};
+            }
+            if (key_sub.contains("短信")) {
+                array = new String[]{"复制到剪切板", "删除", "创建短信规则"};
+            }
             new MaterialDialog.Builder(getContext())
                     .title(R.string.tip_options)
-                    .items(R.array.menu_values_log)
+                    .items(array)
                     .itemsCallback((dialog, itemView, position, text) -> {
                         switch (position) {
                             case 0:
@@ -72,6 +87,23 @@ public class LogFragment extends StateFragment {
                             case 1:
                                 Logs.del(pos);
                                 refresh();
+                                break;
+                            case 2:
+                                Bundle params = new Bundle();
+                                params.putString("id", "-2");
+                                params.putString("num", "|||||||");
+                                params.putString("regex", item.get(KEY_TITLE));
+                                params.putString("text", item.get(KEY_TITLE));
+
+                                if (key_sub.contains("短信")) {
+                                    params.putString("title", "[自动创建]短信识别");
+                                    openPage(cn.dreamn.qianji_auto.ui.fragment.sms.EditFragment.class, params);
+                                } else {
+                                    params.putString("title", "[自动创建]识别规则");
+                                    openPage(cn.dreamn.qianji_auto.ui.fragment.other.EditFragment.class, params);
+                                }
+
+
                                 break;
                         }
 

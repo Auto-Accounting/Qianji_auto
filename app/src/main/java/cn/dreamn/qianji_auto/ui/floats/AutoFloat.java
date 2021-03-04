@@ -271,7 +271,7 @@ public class AutoFloat extends XFloatView {
                 dialog.show();
             } else {
                 billInfo2.setCateChoose(true);
-                CallAutoActivity.goQianji(getContext(), billInfo2);
+                CallAutoActivity.goApp(getContext(), billInfo2);
                 this.clear();
             }
 
@@ -336,7 +336,7 @@ public class AutoFloat extends XFloatView {
             });
         });
         btn_save.setOnClickListener(v -> {
-            CallAutoActivity.goQianji(getContext(), billInfo2);
+            CallAutoActivity.goApp(getContext(), billInfo2);
             this.clear();
         });
         btn_cancel.setOnClickListener(v -> this.clear());
