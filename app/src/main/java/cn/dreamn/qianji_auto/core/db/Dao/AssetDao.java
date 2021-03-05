@@ -27,6 +27,9 @@ public interface AssetDao {
     @Query("SELECT * FROM asset")
     Asset[] getAll();
 
+    @Query("SELECT * FROM asset WHERE name LIKE 'regex:%'")
+    Asset[] getAllFromRegex();
+
     @Query("SELECT * FROM asset WHERE id=:id")
     Asset[] get(int id);
 

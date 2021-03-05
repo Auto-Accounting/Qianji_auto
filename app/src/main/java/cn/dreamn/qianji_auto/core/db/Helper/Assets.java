@@ -19,12 +19,14 @@ package cn.dreamn.qianji_auto.core.db.Helper;
 
 import android.os.Bundle;
 
-import java.util.ArrayList;
+import com.xuexiang.xutil.common.StringUtils;
 
+import java.util.ArrayList;
+import java.util.regex.Pattern;
+
+import cn.dreamn.qianji_auto.core.db.DbManger;
 import cn.dreamn.qianji_auto.core.db.Table.Asset;
 import cn.dreamn.qianji_auto.core.db.Table.Asset2;
-import cn.dreamn.qianji_auto.core.db.DbManger;
-import cn.dreamn.qianji_auto.core.db.Table.BookName;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 public class Assets {
@@ -110,9 +112,26 @@ public class Assets {
     }
 
     public static String getMap(String assetName) {
-        if (assetName == null) return "";
+        if (StringUtils.isEmptyTrim(assetName)) return "";
         Asset[] assets = DbManger.db.AssetDao().get(assetName);
-        if (assetName.equals("")) return "";
+        // 正则匹配内容  需要在内容中以regex:开头
+        Asset[] assetsArr = DbManger.db.AssetDao().getAllFromRegex();
+        if (assetsArr.length > 0) {
+            for (Asset item : assetsArr) {
+                // 替换掉 'regex:'
+                String pattern = item.name.replaceFirst("regex:", "");
+                if (StringUtils.isEmptyTrim(pattern)) {
+                    continue;
+                }
+                // 匹配
+                boolean isMatch = Pattern.matches(pattern, assetName);
+                if (isMatch) {
+                    Logs.i("资产匹配", String.format("源内容：[%s]，被正则表达式：[%s]，成功匹配。", assetName, pattern));
+                    return item.mapName;
+                }
+            }
+        }
+
         //没有资产创造资产
         if (assets.length <= 0) {
             DbManger.db.AssetDao().add(assetName, assetName);
