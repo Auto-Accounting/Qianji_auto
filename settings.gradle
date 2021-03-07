@@ -1,2 +1,3 @@
+include ':skin_res'
 include ':app'
 rootProject.name = "qianji_auto"

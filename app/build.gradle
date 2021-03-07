@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
+
 }
+
 
 android {
     compileSdkVersion 30
@@ -18,7 +20,15 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+        }
+
+        debug{
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -32,7 +42,31 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.3.0'
-    testImplementation 'junit:junit:4.+'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    //今日头条屏幕适配方案
+    implementation 'me.jessyan:autosize:1.2.1'
+    // XPage
+    implementation 'com.github.xuexiangjys.XPage:xpage-lib:3.1.1'
+    annotationProcessor 'com.github.xuexiangjys.XPage:xpage-compiler:3.1.1'
+    // ButterKnife的sdk
+    implementation 'com.jakewharton:butterknife:10.2.3'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+    // 腾讯MMKV
+    implementation 'com.tencent:mmkv:1.0.23'
+    // 主题
+    implementation 'com.github.LillteZheng:ZSkinPlugin:v1.2'
+    //下拉刷新框架
+    implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-header:1.1.5'
+    implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-layout:1.1.5'
+    //角标
+    implementation 'com.github.czy1121:cornerlabelview:1.0.3'
+    //CookieBar
+    implementation 'com.liuguangqiang.cookie:CookieBar:1.0.1'
+}
+repositories {
+    mavenCentral()
 }

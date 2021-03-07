@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    skin:enable="true">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="165dp"
+        android:src="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:text="自动记账"
+        android:textColor="@color/main_title"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        skin:enable="true" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="3.0 全新改版"
+        android:textColor="@color/skip_title"
+        skin:enable="true" />
+
+    <Button
+        android:id="@+id/button_go_setting"
+        style="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginBottom="100dp"
+
+
+        android:backgroundTint="@color/button_go_setting_bg"
+        android:lineSpacingExtra="10sp"
+        android:stateListAnimator="@null"
+        android:text="进入设置"
+        android:textAppearance="?android:attr/textAppearanceButton"
+        android:textColor="@color/button_go_setting"
+        android:textSize="16sp"
+        skin:enable="true" />
+
+    <include
+        layout="@layout/fragment_helper_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+         />
+
+</RelativeLayout>

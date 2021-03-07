@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    skin:enable="true">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="记账APP"
+        android:textColor="@color/main_title"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        skin:enable="true" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="false"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="自动记账支持多个记账app，请选择您使用的app。" />
+
+    <Button
+        android:id="@+id/button_next"
+        style="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+
+        android:layout_alignParentBottom="true"
+
+
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="60dp"
+        android:backgroundTint="@color/button_go_setting_bg"
+        android:lineSpacingExtra="10sp"
+        android:stateListAnimator="@null"
+        android:text="下一步"
+        android:textAppearance="?android:attr/textAppearanceButton"
+        android:textColor="@color/button_go_setting"
+        android:textSize="16sp"
+        skin:enable="true" />
+
+    <GridView
+        android:id="@+id/app_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/buttom_include"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="90dp"
+        android:columnWidth="80dp"
+        android:gravity="center|center_horizontal"
+        android:horizontalSpacing="0dp"
+        android:numColumns="auto_fit"
+        android:padding="0dp"
+        android:stretchMode="none"
+        android:verticalSpacing="0dp" />
+
+    <include
+        android:id="@+id/buttom_include"
+        layout="@layout/fragment_helper_skip2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+         />
+
+</RelativeLayout>

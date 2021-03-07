@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:paddingBottom="13dp"
+    skin:enable="true">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentBottom="false"
+        android:layout_marginStart="0dp"
+        android:background="@color/skip_title"
+        skin:enable="true" />
+
+    <TextView
+        android:id="@+id/help_skip_last"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="11dp"
+        android:text="上一步"
+        android:textColor="@color/skip_title"
+        skin:enable="true" />
+
+    <cn.dreamn.qianji_auto.ui.views.IconView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="13dp"
+
+        android:layout_marginEnd="-8dp"
+        android:gravity="center|center_horizontal"
+        android:text="&#xe60b;"
+        android:textColor="@color/skip_title"
+        skin:enable="true"
+        skin:tag="textColor" />
+    <TextView
+        android:id="@+id/help_skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="32dp"
+        android:text="跳过设置"
+        android:textColor="@color/skip_title"
+        skin:enable="true" />
+
+    <cn.dreamn.qianji_auto.ui.views.IconView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="-8dp"
+        android:layout_marginTop="13dp"
+
+        android:layout_marginEnd="15dp"
+        android:gravity="center|center_horizontal"
+        android:text="&#xe6e0;"
+        android:textColor="@color/skip_title"
+        skin:enable="true"
+        skin:tag="textColor" />
+
+
+</RelativeLayout>
