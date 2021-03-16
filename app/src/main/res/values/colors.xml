@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="background">#ffffff</color>
+    <color name="background">#f2f2f2</color>
     <color name="skip_title">@color/textGray</color>
     <color name="main_title">@color/black</color>
 
-    <color name="button_go_setting">@color/white</color>
-    <color name="button_go_setting_bg">@color/textBlue_winter</color>
-
+    <color name="background_white">#fff</color>
+    <color name="button_go_setting_bg">#3396fb</color>
+    <color name="colorBlueAlpha50">#805baaed</color>
     <color name="bg_choose_ok">@color/colorWechat_winter</color>
     <color name="icon_title">@color/textBlue</color>
     <color name="disable_bg">@color/textGray</color>
+
+    <color name="succeed">#4CB050</color>
+    <color name="error">@color/red</color>
+    <color name="warnning">@color/textColorPrimary_autumn</color>
+
+
+    <color name="ripper_color">#505baaed</color>
+    <color name="bg_float_edit">#37000000</color>
     <!--custom-->
 
     <color name="backgroundLight">#f7f4f4</color>
@@ -123,7 +131,7 @@
     <color name="colorBlueAlpha20_spring">#335baaed</color>
     <color name="colorBlueAlpha20_summer">#335baaed</color>
     <color name="colorBlueAlpha20_winter">#335baaed</color>
-    <color name="colorBlueAlpha50">#805baaed</color>
+
     <color name="colorBlueAlpha50_autumn">#805baaed</color>
     <color name="colorBlueAlpha50_night">#805baaed</color>
     <color name="colorBlueAlpha50_spring">#805baaed</color>

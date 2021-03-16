@@ -53,7 +53,8 @@ public class AppManager {
      */
     public static void Async(){
         MMKV mmkv=MMKV.defaultMMKV();
-        String app=mmkv.getString("bookApp","com.mutangtech.qianji");
+        mmkv.encode("isAsync",false);//设置为未同步
+        String app=getApp();
         for (IApp iApp : AppList.getInstance().getList()) {
             if(iApp.getPackPageName().equals(app)){
                 iApp.asyncData();
@@ -72,5 +73,20 @@ public class AppManager {
     public static String getApp() {
         MMKV mmkv=MMKV.defaultMMKV();
         return mmkv.getString("bookApp","com.mutangtech.qianji");
+    }
+
+    public static Bundle getAppInfo(){
+        String app=getApp();
+        for (IApp iApp : AppList.getInstance().getList()) {
+            if(iApp.getPackPageName().equals(app)){
+                Bundle bundle=new Bundle();
+                bundle.putString("appName",iApp.getAppName());
+                bundle.putString("appPackage",iApp.getPackPageName());
+                bundle.putInt("appIcon",iApp.getAppIcon());
+                bundle.putString("appAsync",iApp.getAsyncDesc());
+                return bundle;
+            }
+        }
+        return null;
     }
 }

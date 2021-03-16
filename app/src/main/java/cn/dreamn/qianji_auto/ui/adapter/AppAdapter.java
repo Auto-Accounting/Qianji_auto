@@ -28,7 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.czy1121.view.CornerLabelView;
+import androidx.cardview.widget.CardView;
 
 import cn.dreamn.qianji_auto.R;
 
@@ -38,7 +38,7 @@ public class AppAdapter extends ArrayAdapter {
 
     private final CallAdapter callAdapter;
     public interface CallAdapter{
-        void tryRegex(String item,CornerLabelView cornerLabelView);
+        void tryRegex(String item, CardView cardView);
     }
     public AppAdapter(Context context, int resource, Bundle[] bundles,CallAdapter callAdapter) {
         super(context, resource, bundles);
@@ -57,9 +57,10 @@ public class AppAdapter extends ArrayAdapter {
         image.setImageResource(bundle.getInt("appIcon"));
         TextView textView = (TextView) view.findViewById(R.id.item_text);
         textView.setText(bundle.getString("appName"));
-        CornerLabelView cornerLabelView=(CornerLabelView)view.findViewById(R.id.icon_choose);
+        CardView cardView=(CardView)view.findViewById(R.id.card_shadow);
+        //CornerLabelView cornerLabelView=(CornerLabelView)view.findViewById(R.id.icon_choose);
         String packageName=bundle.getString("appPackage");
-        callAdapter.tryRegex(packageName,cornerLabelView);
+        callAdapter.tryRegex(packageName,cardView);
         return view;
 
 

@@ -36,4 +36,9 @@ public class YiMu implements IApp {
     public void asyncData() {
 
     }
+
+    @Override
+    public String getAsyncDesc() {
+        return null;
+    }
 }

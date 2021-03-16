@@ -13,6 +13,8 @@ public class AppList {
         mList.clear();
         mList.add(QianJi.getInstance());
         mList.add(YiMu.getInstance());
+        mList.add(YiYu.getInstance());
+
     }
 
     public synchronized static AppList getInstance() {

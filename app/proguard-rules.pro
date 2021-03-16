@@ -142,3 +142,6 @@
 # 屏幕适配
 -keep class me.jessyan.autosize.** { *; }
 -keep interface me.jessyan.autosize.** { *; }
+
+# 权限请求混淆
+-keep class com.hjq.permissions.** {*;}

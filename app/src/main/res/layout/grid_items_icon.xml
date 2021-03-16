@@ -1,56 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:skin="http://schemas.android.com/android/skin"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="90dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center_horizontal"
-    android:padding="10dp">
-
-    <FrameLayout
-        android:id="@+id/item_image_content"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_centerHorizontal="true"
-
-        tools:ignore="UselessParent">
-
-        <cn.dreamn.qianji_auto.ui.views.IconView
-            android:id="@+id/item_image_icon"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:text="c"
-            android:textColor="@color/icon_title"
-            android:textSize="36sp"
-            skin:enable="true" />
 
 
-        <com.github.czy1121.view.CornerLabelView
-            android:id="@+id/icon_choose"
-            style="@style/CornerLabelView.Default"
-            android:layout_gravity="bottom|right"
-            android:visibility="gone"
-            app:clvFillColor="@color/bg_choose_ok"
-            app:clvFlags="right|bottom"
-            app:clvText1="已选择"
-            app:clvText1Color="@color/button_go_setting"
-            tools:ignore="RtlHardcoded" />
-    </FrameLayout>
 
-    <TextView
-        android:id="@+id/item_text"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:skin="http://schemas.android.com/android/skin"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_shadow"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="false">
 
-        android:layout_below="@+id/item_image_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:text="TextView"
-        android:textColor="@color/main_title"
-        skin:enable="true" />
-</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:gravity="center_horizontal"
+            android:padding="5dp">
+
+
+            <cn.dreamn.qianji_auto.ui.views.IconView
+                android:id="@+id/item_image_icon"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_horizontal"
+                android:text="c"
+                android:textColor="@color/icon_title"
+                android:textSize="36sp"
+                skin:enable="true" />
+
+            <TextView
+                android:id="@+id/item_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_below="@+id/item_image_icon"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="0dp"
+                android:text="TextView"
+                android:textColor="@color/main_title"
+                android:textSize="14sp"
+                skin:enable="true" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

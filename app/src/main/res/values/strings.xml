@@ -1,5 +1,23 @@
 <resources>
     <string name="app_name">自动记账</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_desc">3.0 全新改版</string>
+    <string name="app_help_go_setting">进入设置</string>
+    <string name="app_help_skip">跳过设置</string>
+    <string name="app_help_skip_last">上一步</string>
+    <string name="app_help_1_app_names">记账APP</string>
+    <string name="app_help_1_desc">自动记账支持多个记账app，请选择您使用的app。</string>
+    <string name="app_help_next">下一步</string>
+    <string name="app_help_2_work_mode">工作模式</string>
+    <string name="app_help_2_desc">自动记账支持无障碍与Xposed两种工作模式。\n请选择合适的工作模式。</string>
+
+    <string name="app_help_2_tip">请授予自动记账以下权限</string>
+    <string name="app_help_3_async">数据同步</string>
+    <string name="app_help_3_tip">是否现在同步%s数据？</string>
+    <string name="app_help_3_tip2">数据已同步完成，是否需要重新同步？</string>
+    <string name="app_help_3_button_async">重新同步</string>
+    <string name="app_help_3_async_now">立即同步</string>
+    <string name="githubUrl">https://github.com/dreamncn/Qianji_auto</string>
+    <string name="learnUrl">https://doc.ankio.net/doc/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/#/</string>
+
+
 </resources>

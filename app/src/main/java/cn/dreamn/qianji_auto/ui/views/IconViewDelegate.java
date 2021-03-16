@@ -14,11 +14,11 @@ import com.zhengsr.skinlib.entity.SkinAttr;
 import java.util.Map;
 import java.util.Set;
 
-public class IconViewDelegate extends ICusSkinDelegate<TextView> {
+public class IconViewDelegate extends ICusSkinDelegate<IconView> {
 
 
     @Override
-    public void onApply(TextView view, Map<String, SkinAttr> maps) {
+    public void onApply(IconView view, Map<String, SkinAttr> maps) {
         Set<Map.Entry<String, SkinAttr>> entrySet = maps.entrySet();
         for (Map.Entry<String, SkinAttr> entry : entrySet) {
             String key = entry.getKey();

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<merge xmlns:skin="http://schemas.android.com/android/skin"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:mrl_rippleAlpha="0.5"
+        app:mrl_rippleColor="@color/background_autumn"
+        app:mrl_rippleDelayClick="false"
+        app:mrl_rippleDimension="10dp"
+        app:mrl_rippleDuration="2000"
+        app:mrl_rippleFadeDuration="1000"
+        app:mrl_rippleHover="true"
+        app:mrl_rippleOverlay="true"
+        app:mrl_ripplePersistent="false"
+        app:mrl_rippleRoundedCorners="1dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <cn.dreamn.qianji_auto.ui.views.IconView
+                    android:id="@+id/iv_left_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="10dp"
+                    android:text="&#xe646;"
+                    android:textColor="@color/button_go_setting_bg"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/tv_tilte"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@+id/iv_left_icon"
+                    android:text="关于"
+                    android:textColor="@color/main_title"
+                    android:textSize="14sp" />
+
+                <cn.dreamn.qianji_auto.ui.views.IconView
+                    android:id="@+id/iv_right_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginEnd="10dp"
+                    android:text="&#xe6e0;"
+                    android:textColor="@color/skip_title"
+                    android:textSize="24sp" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </com.balysv.materialripple.MaterialRippleLayout>
+</merge>

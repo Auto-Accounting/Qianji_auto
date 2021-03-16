@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <RelativeLayout
+        xmlns:skin="http://schemas.android.com/android/skin"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:gravity="center_horizontal"
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp"
+        android:paddingRight="20dp"
+        android:id="@+id/layout_supertext"
+        android:paddingBottom="5dp">
+
+        <cn.dreamn.qianji_auto.ui.views.IconView
+            android:id="@+id/icon_header"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentBottom="false"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:includeFontPadding="false"
+            android:text=""
+            android:textColor="@color/icon_title"
+            android:textSize="36sp"
+            skin:enable="true" />
+
+    <cn.dreamn.qianji_auto.ui.views.AdaptionSizeTextView
+        android:id="@+id/item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/icon_isOk"
+        android:layout_toEndOf="@+id/icon_header"
+
+        android:text=""
+        android:textColor="@color/main_title"
+        android:textSize="18sp"
+        skin:enable="true" />
+
+        <cn.dreamn.qianji_auto.ui.views.AdaptionSizeTextView
+            android:id="@+id/item_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/item_title"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/icon_isOk"
+            android:layout_toEndOf="@+id/icon_header"
+            android:gravity="center_vertical"
+            android:text=""
+            android:textColor="@color/skip_title"
+            android:textSize="12sp"
+            skin:enable="true" />
+
+    <cn.dreamn.qianji_auto.ui.views.IconView
+        android:id="@+id/icon_isOk"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="false"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+
+        android:text=""
+        android:textColor="@color/skip_title"
+        android:textSize="24sp"
+        skin:enable="true" />
+</RelativeLayout>

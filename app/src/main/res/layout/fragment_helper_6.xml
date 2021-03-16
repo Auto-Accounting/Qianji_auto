@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_white"
+    skin:enable="true">
+
+    <cn.dreamn.qianji_auto.ui.views.IconView
+        android:id="@+id/iconView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="&#xe637;"
+        android:textColor="@color/button_go_setting_bg"
+        android:textSize="72sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:text="恭喜你"
+        android:textColor="@color/icon_title"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        skin:enable="true" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:padding="20dp"
+        android:text="你可以前往帮助文档进一步了解自动记账。本软件为开源项目，可前往 GitHub 查看源码"
+        android:textColor="@color/skip_title"
+        skin:enable="true" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iconView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="完成所有设置"
+        android:textColor="@color/button_go_setting_bg"
+        android:textSize="32sp"
+        skin:enable="true" />
+
+    <Button
+        android:id="@+id/button_go_setting"
+        style="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginBottom="100dp"
+
+
+        android:backgroundTint="@color/button_go_setting_bg"
+        android:lineSpacingExtra="10sp"
+        android:stateListAnimator="@null"
+        android:text="进入自动记账"
+        android:textAppearance="?android:attr/textAppearanceButton"
+        android:textColor="@color/background_white"
+        android:textSize="16sp"
+        skin:enable="true" />
+
+    <include
+        layout="@layout/fragment_helper_skip3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

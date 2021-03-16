@@ -33,6 +33,8 @@ public class BaseActivity extends XPageActivity {
         initTheme(this);
         super.onCreate(savedInstanceState);
         mUnbinder = ButterKnife.bind(this);
+
+
     }
 
     private void initTheme(Context context) {

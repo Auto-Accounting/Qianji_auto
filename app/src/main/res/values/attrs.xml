@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--左边图标-->
+    <attr name="left_icon" format="string" />
+    <!--左边图标颜色-->
+    <attr name="left_color" format="color" />
+    <!--标题-->
+    <attr name="title_text" format="string" />
+    <!--标题颜色-->
+    <attr name="title_color" format="color" />
+    <!--右边图标-->
+    <attr name="right_icon" format="string" />
+    <!--右边颜色-->
+    <attr name="right_color" format="color" />
+<declare-styleable name="SuperText">
+    <!--左边图标-->
+    <attr name="left_icon" />
+    <!--左边图标颜色-->
+    <attr name="left_color" />
+    <!--标题-->
+    <attr name="title_text"  />
+    <!--标题颜色-->
+    <attr name="title_color"  />
+    <!--说明-->
+    <attr name="sub_text" format="string" />
+    <!--说明颜色-->
+    <attr name="sub_color" format="color" />
+    <!--右边图标-->
+    <attr name="right_icon" />
+    <!--右边颜色-->
+    <attr name="right_color"  />
+    <attr name="select" format="boolean" />
+</declare-styleable>
+
+    <declare-styleable name="SuperText2">
+        <!--左边图标-->
+        <attr name="left_icon" />
+        <!--左边图标颜色-->
+        <attr name="left_color" />
+        <!--标题-->
+        <attr name="title_text"  />
+        <!--标题颜色-->
+        <attr name="title_color"  />
+        <!--右边图标-->
+        <attr name="right_icon"  />
+        <!--右边颜色-->
+        <attr name="right_color"  />
+    </declare-styleable>
+    <declare-styleable name="SuperText3">
+        <!--左边图标-->
+        <attr name="left_icon" />
+        <!--左边图标颜色-->
+        <attr name="left_color" />
+        <!--标题-->
+        <attr name="title_text"  />
+        <!--标题颜色-->
+        <attr name="title_color"  />
+        <!--右边图标-->
+        <attr name="right_icon"  />
+        <!--右边颜色-->
+        <attr name="right_color"  />
+        <attr name="backgroundColor" format="color"/>
+    </declare-styleable>
+    <declare-styleable name="CardViewGrid">
+        <!--左边图标颜色-->
+        <attr name="left_color" />
+        <!--标题-->
+        <attr name="title_text"  />
+        <!--标题颜色-->
+        <attr name="title_color"  />
+        <!--标题背景-->
+        <attr name="title_bg" format="color"/>
+        <!--标题背景-->
+        <attr name="grid_bg" format="color"/>
+    </declare-styleable>
+</resources>

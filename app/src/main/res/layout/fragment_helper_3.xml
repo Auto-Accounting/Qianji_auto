@@ -3,7 +3,7 @@
     xmlns:skin="http://schemas.android.com/android/skin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/background_white"
     skin:enable="true">
 
     <GridView
@@ -33,7 +33,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:text="工作模式"
+        android:text="@string/app_help_2_work_mode"
         android:textColor="@color/main_title"
         android:textSize="28dp"
         android:textStyle="bold"
@@ -45,10 +45,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="false"
-        android:layout_marginTop="25dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:gravity="center"
         android:padding="10dp"
-        android:text="自动记账支持无障碍与Xposed两种工作模式,请选择合适的工作模式。" />
+        android:singleLine="false"
+        android:text="@string/app_help_2_desc" />
 
     <ListView
         android:id="@+id/lv_permission"
@@ -56,8 +59,9 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/buttom_include"
         android:layout_below="@+id/textView4"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="80dp" />
+        android:layout_marginTop="5dp"
+        android:fastScrollEnabled="true"
+        android:layout_marginBottom="65dp" />
 
     <Button
         android:id="@+id/button_next"
@@ -74,9 +78,9 @@
         android:backgroundTint="@color/button_go_setting_bg"
         android:lineSpacingExtra="10sp"
         android:stateListAnimator="@null"
-        android:text="下一步"
+        android:text="@string/app_help_next"
         android:textAppearance="?android:attr/textAppearanceButton"
-        android:textColor="@color/button_go_setting"
+        android:textColor="@color/background_white"
         android:textSize="16sp"
         skin:enable="true" />
 
@@ -93,9 +97,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/mode_list"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="0dp"
         android:gravity="center"
         android:padding="10dp"
-        android:text="请授予自动记账以下权限" />
+        android:text="@string/app_help_2_tip" />
 
 </RelativeLayout>

@@ -17,8 +17,6 @@
 
 package cn.dreamn.qianji_auto.app;
 
-import android.os.Bundle;
-
 public interface IApp {
 
     /**
@@ -53,4 +51,9 @@ public interface IApp {
      * @return
      */
     void asyncData();
+
+    /**
+     * 同步数据的说明性文字
+     */
+    String getAsyncDesc();
 }

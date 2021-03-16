@@ -62,10 +62,15 @@ dependencies {
     //下拉刷新框架
     implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-header:1.1.5'
     implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-layout:1.1.5'
-    //角标
-    implementation 'com.github.czy1121:cornerlabelview:1.0.3'
     //CookieBar
     implementation 'com.liuguangqiang.cookie:CookieBar:1.0.1'
+    //权限授权
+    implementation 'com.hjq:xxpermissions:10.2'
+    //吐司封装
+    implementation 'com.hjq:toast:8.8'
+    //点击涟漪效果
+    implementation 'com.balysv:material-ripple:1.0.2'
+
 }
 repositories {
     mavenCentral()

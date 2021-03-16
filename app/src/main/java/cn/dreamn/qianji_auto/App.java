@@ -3,6 +3,8 @@ package cn.dreamn.qianji_auto;
 import android.app.Application;
 import android.content.Context;
 
+import com.hjq.toast.ToastUtils;
+import com.hjq.toast.style.ToastQQStyle;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.PageConfig;
 import com.xuexiang.xpage.config.AppPageConfig;
@@ -37,6 +39,15 @@ public class App extends Application {
         initFragment();
         initMMKV();
         initTheme();
+        initToast();
+    }
+
+    /**
+     * toast初始化
+     */
+    private void initToast() {
+        ToastUtils.init(this);
+        ToastUtils.initStyle(new ToastQQStyle(getApplicationContext()));
     }
 
     /**

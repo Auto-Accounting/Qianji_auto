@@ -2,15 +2,12 @@ package cn.dreamn.qianji_auto.ui.activity;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
 
 import com.tencent.mmkv.MMKV;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cn.dreamn.qianji_auto.ui.base.BaseActivity;
 import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
+import cn.dreamn.qianji_auto.ui.utils.StatusBarUtil;
 
 
 public class MainActivity extends BaseActivity {
@@ -19,7 +16,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         openMainPage();
-
+        StatusBarUtil.setTransparentForWindow(this);
+        StatusBarUtil.setDarkMode(this);
 
     }
 
@@ -31,7 +29,10 @@ public class MainActivity extends BaseActivity {
             String[] fagments={
                     "引导设置",
                     "记账软件",
-                    "工作模式"
+                    "工作模式",
+                    "数据同步",
+                    "使用习惯",
+                    "完成设置"
             };
 
             //开启设置

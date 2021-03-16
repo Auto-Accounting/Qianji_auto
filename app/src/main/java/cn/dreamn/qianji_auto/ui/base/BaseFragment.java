@@ -19,13 +19,16 @@ package cn.dreamn.qianji_auto.ui.base;
 
 import android.content.res.Configuration;
 import android.os.Parcelable;
+import android.view.KeyEvent;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.hjq.toast.ToastUtils;
 import com.xuexiang.xpage.base.XPageActivity;
 import com.xuexiang.xpage.base.XPageFragment;
+import com.xuexiang.xpage.core.CoreSwitcher;
 import com.xuexiang.xpage.core.PageOption;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xpage.utils.TitleBar;
@@ -45,7 +48,7 @@ import java.io.Serializable;
 public abstract class BaseFragment extends XPageFragment {
 
 
-
+    public long mExitTime;
     @Override
     protected void initPage() {
         initTitle();
@@ -85,6 +88,29 @@ public abstract class BaseFragment extends XPageFragment {
     public void onPause() {
         super.onPause();
 
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+           /* if(isFragmentTop(getPageTitle())){
+                //与上次点击返回键时刻作差
+                if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                    //大于2000ms则认为是误操作，使用Toast进行提示
+                    ToastUtils.show("再按一次退出程序");
+                    //并记录下本次点击“返回键”的时刻，以便下次进行判断
+                    mExitTime = System.currentTimeMillis();
+                } else {
+                    //小于2000ms则认为是用户确实希望退出程序-调用System.exit()方法进行退出
+                    System.exit(0);
+                }
+            }else{
+                popToBack();
+            }
+*/
+            popToBack();
+        }
+        return true;
     }
 
     //==============================页面跳转api===================================//

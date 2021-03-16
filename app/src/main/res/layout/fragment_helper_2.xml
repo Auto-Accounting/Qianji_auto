@@ -3,7 +3,7 @@
     xmlns:skin="http://schemas.android.com/android/skin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/background_white"
     skin:enable="true">
 
     <TextView
@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:text="记账APP"
+        android:text="@string/app_help_1_app_names"
         android:textColor="@color/main_title"
         android:textSize="28dp"
         android:textStyle="bold"
@@ -28,7 +28,7 @@
         android:layout_marginTop="25dp"
         android:gravity="center"
         android:padding="10dp"
-        android:text="自动记账支持多个记账app，请选择您使用的app。" />
+        android:text="@string/app_help_1_desc" />
 
     <Button
         android:id="@+id/button_next"
@@ -45,9 +45,9 @@
         android:backgroundTint="@color/button_go_setting_bg"
         android:lineSpacingExtra="10sp"
         android:stateListAnimator="@null"
-        android:text="下一步"
+        android:text="@string/app_help_next"
         android:textAppearance="?android:attr/textAppearanceButton"
-        android:textColor="@color/button_go_setting"
+        android:textColor="@color/background_white"
         android:textSize="16sp"
         skin:enable="true" />
 

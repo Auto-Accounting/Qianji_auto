@@ -19,23 +19,27 @@ package cn.dreamn.qianji_auto.ui.fragment.helper;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.github.czy1121.view.CornerLabelView;
+import androidx.cardview.widget.CardView;
+
 import com.liuguangqiang.cookie.CookieBar;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xpage.utils.TitleBar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.ui.adapter.AppAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
 import cn.dreamn.qianji_auto.ui.utils.ButtonUtils;
 import cn.dreamn.qianji_auto.ui.utils.ScreenUtils;
 
@@ -82,11 +86,12 @@ public class AppFragment extends BaseFragment {
             app_list.setNumColumns(all);
         }
 
-        final CornerLabelView[] lastCorner = {null};
-        AppAdapter appAdapter=new AppAdapter(getContext(), R.layout.grid_items, bundles, (item, cornerLabelView) -> {
+        List<CardView> cardViews=new ArrayList<>();
+        AppAdapter appAdapter=new AppAdapter(getContext(), R.layout.grid_items, bundles, (item, cardView) -> {
             if(item!=null&&item.equals(AppManager.getApp())){
-                cornerLabelView.setVisibility(View.VISIBLE);
-                lastCorner[0]=cornerLabelView;
+                cardView.setCardElevation(15);
+                if(!cardViews.contains(cardView))
+                    cardViews.add(cardView);
                 ButtonUtils.enable(button_next,getContext());
             }
         });
@@ -94,7 +99,6 @@ public class AppFragment extends BaseFragment {
 
 
         app_list.setOnItemClickListener((parent, view, position, id) -> {
-
             String packageName=bundles[position].getString("appPackage");
             if(packageName==null){
                 new CookieBar.Builder(getActivity())
@@ -107,13 +111,14 @@ public class AppFragment extends BaseFragment {
                 return;
             }
             AppManager.setApp(packageName);
-            CornerLabelView cornerLabelView=(CornerLabelView)view.findViewById(R.id.icon_choose);
+            CardView cardView=(CardView)view.findViewById(R.id.card_shadow);
 
-            if(lastCorner[0] !=null){
-                lastCorner[0].setVisibility(View.GONE);
+            for(int i=0;i<cardViews.size();i++){
+                cardViews.get(i).setCardElevation(0);
             }
-            lastCorner[0] =cornerLabelView;
-            cornerLabelView.setVisibility(View.VISIBLE);
+            if(!cardViews.contains(cardView))
+                cardViews.add(cardView);
+            cardView.setCardElevation(15);
             ButtonUtils.enable(button_next,getContext());
         });
     }
@@ -128,8 +133,7 @@ public class AppFragment extends BaseFragment {
 
             MMKV mmkv=MMKV.defaultMMKV();
             mmkv.encode("first",false);
-            //TODO 跳转主页面
-            openPage(AppFragment.class);
+            openPage(MainFragment.class);
         });
         button_next.setOnClickListener(v->{
             openPage(ModeFragment.class);
@@ -142,14 +146,7 @@ public class AppFragment extends BaseFragment {
     }
 
 
-    /**
-     * 菜单、返回键响应
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        return true;
-    }
+    
 
 
 }

@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-public class IconView extends AppCompatTextView {
+public class IconView extends AdaptionSizeTextView {
 
     public IconView(Context context) {
         super(context);
@@ -26,9 +26,9 @@ public class IconView extends AppCompatTextView {
         this.setTypeface(Typeface.createFromAsset(context.getAssets(),"icon/iconfont.ttf"));
     }
     public void setFont(String fontName){
+        if(fontName==null)return;
         this.setText(Html.fromHtml(fontName,Html.FROM_HTML_MODE_LEGACY));
     }
-
 
 
 }

@@ -4,9 +4,7 @@
        
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="lollipop">#00FFFFFF</item><!--设置状态栏的颜色-->
-        <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+
         <!-- Customize your theme here. -->
         <!--无Title-->
         <item name="android:windowNoTitle">true</item>

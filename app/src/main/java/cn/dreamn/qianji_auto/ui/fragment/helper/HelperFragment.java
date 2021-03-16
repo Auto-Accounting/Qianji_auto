@@ -29,6 +29,7 @@ import com.xuexiang.xpage.utils.TitleBar;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
 
 
 /**
@@ -62,8 +63,8 @@ public class HelperFragment extends BaseFragment {
 
             MMKV mmkv=MMKV.defaultMMKV();
             mmkv.encode("first",false);
-            //TODO 跳转主页面
-            openPage(AppFragment.class);
+
+            openPage(MainFragment.class);
         });
         button_go_setting.setOnClickListener(v-> openPage(AppFragment.class));
     }
@@ -74,14 +75,7 @@ public class HelperFragment extends BaseFragment {
     }
 
 
-    /**
-     * 菜单、返回键响应
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        return true;
-    }
+    
 
 
 }
