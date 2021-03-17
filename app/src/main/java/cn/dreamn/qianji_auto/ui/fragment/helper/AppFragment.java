@@ -140,10 +140,6 @@ public class AppFragment extends BaseFragment {
         });
     }
 
-    @Override
-    protected TitleBar initTitle() {
-        return null;
-    }
 
 
     

@@ -58,7 +58,7 @@
                                 android:textSize="18sp" />
 
                             <TextView
-                                android:id="@+id/app_version"
+                                android:id="@+id/app_log"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="5dp"

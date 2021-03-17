@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.Qianji_auto" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-       
+
 
         <!-- Status bar color. -->
 
@@ -12,8 +12,8 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/colorBlueAlpha20</item>
-        <item name="colorPrimaryVariant">@color/colorBlueAlpha20</item>
+        <item name="colorPrimary">@color/colorBlueAlpha50</item>
+        <item name="colorPrimaryVariant">@color/colorBlueAlpha50</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/colorBlueAlpha50</item>
@@ -24,9 +24,12 @@
         <item name="cookieMessageColor">@color/default_message_color</item>
         <item name="cookieActionColor">@color/default_title_color</item>
         <item name="cookieBackgroundColor">@color/button_go_setting_bg</item>
+
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
-    
-    
+
+
 
 
 </resources>

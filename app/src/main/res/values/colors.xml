@@ -2,23 +2,24 @@
 <resources>
 
     <color name="background">#f2f2f2</color>
-    <color name="skip_title">@color/textGray</color>
-    <color name="main_title">@color/black</color>
+    <color name="background_gray">#f5f6fa</color>
+    <color name="skip_title">#8a8a8a</color>
+    <color name="main_title">#000</color>
 
     <color name="background_white">#fff</color>
     <color name="button_go_setting_bg">#3396fb</color>
-    <color name="colorBlueAlpha50">#805baaed</color>
-    <color name="bg_choose_ok">@color/colorWechat_winter</color>
-    <color name="icon_title">@color/textBlue</color>
-    <color name="disable_bg">@color/textGray</color>
+    <color name="colorBlueAlpha50">#5baaed</color>
+    <color name="bg_choose_ok">#6ac164</color>
+    <color name="icon_title">#5baaed</color>
+    <color name="disable_bg">#8a8a8a</color>
 
     <color name="succeed">#4CB050</color>
-    <color name="error">@color/red</color>
-    <color name="warnning">@color/textColorPrimary_autumn</color>
+    <color name="error">#ff0000</color>
+    <color name="warnning">#ecb541</color>
 
 
-    <color name="ripper_color">#505baaed</color>
-    <color name="bg_float_edit">#37000000</color>
+    <color name="ripper_color">#5baaed</color>
+    <color name="bg_float_edit">#000000</color>
     <!--custom-->
 
     <color name="backgroundLight">#f7f4f4</color>
@@ -535,4 +536,8 @@
     <color name="x_recycler_color_loading_color2">#b1777777</color>
     <color name="x_recycler_color_loading_color3">#ff777777</color>
     <color name="x_recycler_color_text_gray">#ff777777</color>
+    <color name="light_blue_400">#FF29B6F6</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="gray_400">#FFBDBDBD</color>
+    <color name="gray_600">#FF757575</color>
 </resources>

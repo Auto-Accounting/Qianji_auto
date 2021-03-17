@@ -57,7 +57,7 @@ public abstract class BaseFragment extends XPageFragment {
     }
 
     protected TitleBar initTitle() {
-        return TitleUtils.addTitleBarDynamic((ViewGroup) getRootView(), getPageTitle(), v -> popToBack());
+        return null;
     }
 
     @Override

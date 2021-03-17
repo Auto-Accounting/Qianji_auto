@@ -77,10 +77,7 @@ public class ModeFragment extends BaseFragment {
     }
 
 
-    @Override
-    protected TitleBar initTitle() {
-        return null;
-    }
+
 
 
     

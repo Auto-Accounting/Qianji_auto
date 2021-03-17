@@ -87,10 +87,11 @@ public class CardViewGrid extends RelativeLayout {
     public void setData(Bundle[] bundles, BaseFragment baseFragment,int fromData){
         //设置基础列表
         CardAdapter cardAdapter=new CardAdapter(getContext(),R.layout.grid_items_icon, bundles,(item, cardView) -> {
-            ListManager.onListClick(item,baseFragment,fromData);
+           // ListManager.onListClick(item,baseFragment,fromData);
         });
        // title_body.set(lines*80);
         title_body.setAdapter(cardAdapter);
+        title_body.setOnItemClickListener((parent, view, position, id) -> ListManager.onListClick(position,baseFragment,fromData));
     }
 }
 

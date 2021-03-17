@@ -15,13 +15,10 @@
  *
  */
 
-package cn.dreamn.qianji_auto.ui.fragment.helper;
+package cn.dreamn.qianji_auto.ui.fragment.about;
 
-import android.annotation.SuppressLint;
-import android.view.KeyEvent;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
-import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xpage.utils.TitleBar;
@@ -29,50 +26,56 @@ import com.xuexiang.xpage.utils.TitleBar;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
+import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 
 
 /**
  * @author xuexiang
  * @since 2018/11/7 下午1:16
  */
-@Page(name = "引导设置", anim = CoreAnim.slide)
-public class HelperFragment extends BaseFragment {
+@Page(name = "开发人员", anim = CoreAnim.slide)
+public class DevsFragment extends BaseFragment {
 
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.help_skip)
-    TextView help_skip;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.button_go_setting)
-    TextView button_go_setting;
+    @BindView(R.id.title_bar)
+    cn.dreamn.qianji_auto.ui.views.TitleBar title_bar;
+
+    @BindView(R.id.ankio_head)
+    RelativeLayout ankio_head;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_helper_1;
+        return R.layout.fragment_devs;
     }
+
 
     @Override
     protected void initViews() {
-        MMKV mmkv=MMKV.defaultMMKV();
-        mmkv.encode("helper_page",0);
+
     }
 
     @Override
     protected void initListeners() {
-        help_skip.setOnClickListener(v -> {
+        ankio_head.setOnClickListener(v-> WebViewFragment.openUrl(this,"https://www.ankio.net"));
+    }
 
-            MMKV mmkv=MMKV.defaultMMKV();
-            mmkv.encode("first",false);
+    @Override
+    public void onResume() {
+        super.onResume();
 
-            openPage(MainFragment.class);
+    }
+
+    @Override
+    protected TitleBar initTitle() {
+        title_bar.setInner(getActivity());
+        title_bar.setLeftIconOnClickListener(v -> {
+            popToBack();
         });
-        button_go_setting.setOnClickListener(v-> openPage(AppFragment.class));
+        return null;
     }
 
 
 
 
-    
 
 
 }

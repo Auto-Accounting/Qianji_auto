@@ -127,8 +127,7 @@ public class StatusBarUtil {
 
 
         if (view.getPaddingTop() == 0) {
-
-
+           // Log.d("padding", view.getPaddingTop()+"dp");
             view.setPadding(view.getPaddingLeft(), view.getPaddingTop() + getStatusBarHeight(context),
                     view.getPaddingRight(), view.getPaddingBottom());
         }

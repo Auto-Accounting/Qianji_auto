@@ -15,18 +15,19 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        openMainPage();
         StatusBarUtil.setTransparentForWindow(this);
         StatusBarUtil.setDarkMode(this);
+        openMainPage();
+
 
     }
 
     private void openMainPage(){
         //MMKV检查
         MMKV mmkv=MMKV.defaultMMKV();
-        if(mmkv.getBoolean("first",true)){//不是3.0版本
+        if(mmkv.getBoolean("version_3_0",true)){//不是3.0版本
 
-            String[] fagments={
+            String[] fragments={
                     "引导设置",
                     "记账软件",
                     "工作模式",
@@ -36,7 +37,7 @@ public class MainActivity extends BaseActivity {
             };
 
             //开启设置
-            openPage(fagments[mmkv.getInt("helper_page",0)]);
+            openPage(fragments[mmkv.getInt("helper_page",0)]);
         }else{
             openPage(MainFragment.class);
         }

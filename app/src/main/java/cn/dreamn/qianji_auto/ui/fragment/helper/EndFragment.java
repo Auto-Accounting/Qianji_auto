@@ -81,10 +81,7 @@ public class EndFragment extends BaseFragment {
         });
     }
 
-    @Override
-    protected TitleBar initTitle() {
-        return null;
-    }
+
 
 
     

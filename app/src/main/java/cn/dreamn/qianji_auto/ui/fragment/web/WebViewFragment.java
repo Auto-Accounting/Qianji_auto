@@ -2,11 +2,11 @@ package cn.dreamn.qianji_auto.ui.fragment.web;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuInflater;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -16,64 +16,87 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.PopupMenu;
 
 import com.hjq.toast.ToastUtils;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.core.PageOption;
-import com.xuexiang.xpage.utils.TitleBar;
+import com.xuexiang.xpage.enums.CoreAnim;
 
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.ui.base.BaseActivity;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
-import cn.dreamn.qianji_auto.ui.views.SuperText3;
+import cn.dreamn.qianji_auto.ui.utils.StatusBarUtil;
+import cn.dreamn.qianji_auto.ui.views.TitleBar;
+import cn.dreamn.qianji_auto.utils.Tool;
 
 import static cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment.KEY_URL;
 
-@Page(name="WebView", params = {KEY_URL})
+@Page(name="WebView", params = {KEY_URL}, anim = CoreAnim.slide)
 public class WebViewFragment extends BaseFragment {
     public static final String KEY_URL = "KEY_URL" ;
     @BindView(R.id.title_bar)
-    SuperText3 title_bar;
+    TitleBar title_bar;
     @BindView(R.id.webView)
     WebView webView;
-    @BindView(R.id.progressbar)
-    ProgressBar progressBar;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_webview;
     }
 
+    @Override
+    protected com.xuexiang.xpage.utils.TitleBar initTitle() {
+        title_bar.setInner(getActivity());
+
+
+        title_bar.setLeftIconOnClickListener(v -> popToBack());
+        title_bar.setRightIcon("&#xe63d;",16);
+        title_bar.setRightIconOnClickListener(v->{
+            //创建弹出式菜单对象（最低版本11）
+            PopupMenu popup = new PopupMenu(getContext(), v);//第二个参数是绑定的那个view
+            //获取菜单填充器
+            MenuInflater inflater = popup.getMenuInflater();
+            //填充菜单
+            inflater.inflate(R.menu.webview, popup.getMenu());
+            //绑定菜单项的点击事件
+            popup.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()){
+                    case R.id.copy:
+                        Tool.clipboard(getContext(),webView.getUrl());
+                        ToastUtils.show("已复制到剪切板。");
+                        break;
+                    case R.id.web:
+                        Tool.goUrl(getContext(),webView.getUrl());
+                        break;
+                }
+                return false;
+            });
+            //显示(这一行代码不要忘记了)
+            popup.show();
+        });
+        return null;
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void initViews() {
-        ThemeManager themeManager = new ThemeManager(getContext());
-        themeManager.setStatusBar(getActivity(),title_bar,R.color.button_go_setting_bg);
 
-        title_bar.setTitleColor(getContext().getColor(R.color.background_white));
-        title_bar.setLeftIconColor(getContext().getColor(R.color.background_white));
-        title_bar.setLeftIconOnClickListener(v -> {
-            popToBack();
-        });
         webView.loadUrl(getUrl());
         webView.setWebChromeClient(mWebChromeClient);
         webView.setWebViewClient(mWebViewClient);
         WebSettings webSettings=webView.getSettings();
         webSettings.setJavaScriptEnabled(true);//允许使用js
+      //  webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+
+
+
     }
 
-    @Override
-    protected TitleBar initTitle() {
-        return null;
-    }
+
 
     /**
      * 和浏览器相关，包括和JS的交互
@@ -83,7 +106,8 @@ public class WebViewFragment extends BaseFragment {
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
             //网页加载进度
-            progressBar.setProgress(newProgress);
+           // if(progressBar!=null)
+           //     progressBar.setProgress(newProgress);
         }
         @Override
         public void onReceivedTitle(WebView view, String title) {
@@ -110,21 +134,16 @@ public class WebViewFragment extends BaseFragment {
 
 
 
-        @Nullable
-        @Override
-        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-            return super.shouldInterceptRequest(view, request);
-        }
 
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             mTimer.put(url, System.currentTimeMillis());
             if (url.equals(getUrl())) {
-                progressBar.setVisibility(View.GONE);
+             //   progressBar.setVisibility(View.GONE);
               //  pageNavigator(View.GONE);
             } else {
-                progressBar.setVisibility(View.VISIBLE);
+             //   progressBar.setVisibility(View.VISIBLE);
               //  pageNavigator(View.VISIBLE);
             }
         }

@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-
 }
 
 
@@ -70,6 +69,9 @@ dependencies {
     implementation 'com.hjq:toast:8.8'
     //点击涟漪效果
     implementation 'com.balysv:material-ripple:1.0.2'
+    //自定义imgview
+    implementation 'com.github.SheHuan:NiceImageView:1.0.5'
+
 
 }
 repositories {

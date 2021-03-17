@@ -38,7 +38,7 @@ import cn.dreamn.qianji_auto.ui.views.CardViewGrid;
  * @author xuexiang
  * @since 2018/11/7 下午1:16
  */
-@Page(name = "自动记账", anim = CoreAnim.fade)
+@Page(name = "自动记账", anim = CoreAnim.slide)
 public class MainFragment extends BaseFragment {
 
     @BindView(R.id.title_bar)

@@ -46,7 +46,7 @@
         <!--右边颜色-->
         <attr name="right_color"  />
     </declare-styleable>
-    <declare-styleable name="SuperText3">
+    <declare-styleable name="TitleBar">
         <!--左边图标-->
         <attr name="left_icon" />
         <!--左边图标颜色-->
@@ -72,5 +72,17 @@
         <attr name="title_bg" format="color"/>
         <!--标题背景-->
         <attr name="grid_bg" format="color"/>
+    </declare-styleable>
+    <declare-styleable name="CardData">
+        <attr name="lib_title" format="string" />
+        <attr name="lib_author" format="string" />
+
+        <attr name="lib_desc" format="string" />
+        <attr name="lib_license" format="string" />
+        <attr name="lib_title_color" format="color" />
+        <attr name="lib_author_color" format="color" />
+        <attr name="lib_desc_color" format="color" />
+        <attr name="lib_license_color" format="color" />
+        <attr name="lib_bg_color" format="color" />
     </declare-styleable>
 </resources>

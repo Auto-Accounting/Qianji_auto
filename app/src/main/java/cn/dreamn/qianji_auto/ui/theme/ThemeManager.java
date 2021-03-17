@@ -2,6 +2,7 @@ package cn.dreamn.qianji_auto.ui.theme;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.View;
 
@@ -60,17 +61,20 @@ public class ThemeManager {
         }else{
             StatusBarUtil.setLightMode(activity);
         }
-
+        view.setBackgroundTintList(ColorStateList.valueOf(color2));
         view.setBackgroundColor(color2);
         StatusBarUtil.setPaddingTop(mContext,view);
         StatusBarUtil.setColor(activity,color2);
     }
 
     public static int getColor(Context activity,int Color){
+        return activity.getColor(getColorRaw(Color));
+    }
+    public static int getColorRaw(int Color){
         if (ZSkin.isLoadSkin()){
             Color = ZSkin.getColor(Color);
         }
-        return activity.getColor(Color);
+        return Color;
     }
     public boolean isLightColor(int color) {
         double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
