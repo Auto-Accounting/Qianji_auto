@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:skin="http://schemas.android.com/android/skin"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_white"
 
-    skin:enable="true">
+    >
 
     <TextView
         android:id="@+id/textView"
@@ -18,7 +18,7 @@
         android:textColor="@color/main_title"
         android:textSize="28dp"
         android:textStyle="bold"
-        skin:enable="true" />
+         />
 
     <TextView
         android:id="@+id/app_help_4_tip"
@@ -63,7 +63,7 @@
         android:textAppearance="?android:attr/textAppearanceButton"
         android:textColor="@color/background_white"
         android:textSize="16sp"
-        skin:enable="true" />
+         />
 
     <include
         android:id="@+id/buttom_include"

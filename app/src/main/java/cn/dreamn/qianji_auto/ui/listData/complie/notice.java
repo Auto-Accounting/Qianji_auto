@@ -27,7 +27,7 @@ public class notice extends BaseList {
 
     @Override
     public void onClick(BaseFragment baseFragment) {
-       // baseFragment.openPage()
+       // baseFragment.openNewPage()
         Log.d("plugin","click");
     }
 }

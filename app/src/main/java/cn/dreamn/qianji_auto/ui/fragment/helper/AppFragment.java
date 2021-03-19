@@ -18,7 +18,6 @@
 package cn.dreamn.qianji_auto.ui.fragment.helper;
 
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -29,7 +28,6 @@ import com.liuguangqiang.cookie.CookieBar;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xpage.utils.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +69,7 @@ public class AppFragment extends BaseFragment {
         mmkv.encode("helper_page",1);
         ButtonUtils.disable(button_next,getContext());
         setAppList();
+        Listeners();
     }
 
     private void setAppList(){
@@ -124,19 +123,19 @@ public class AppFragment extends BaseFragment {
     }
 
 
-    @Override
-    protected void initListeners() {
+
+    protected void Listeners() {
         help_skip_last.setOnClickListener(v->{
-            openPage(HelperFragment.class);
+            openNewPage(HelperFragment.class);
         });
         help_skip.setOnClickListener(v -> {
 
             MMKV mmkv=MMKV.defaultMMKV();
-            mmkv.encode("first",false);
-            openPage(MainFragment.class);
+            mmkv.encode("version_3_0",false);
+            openNewPage(MainFragment.class);
         });
         button_next.setOnClickListener(v->{
-            openPage(ModeFragment.class);
+            openNewPage(ModeFragment.class);
         });
     }
 

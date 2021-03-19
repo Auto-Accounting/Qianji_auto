@@ -182,6 +182,32 @@ CookieBar is a lightweight library for showing a brief message at the top or bot
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="NiceImageView"
                 app:lib_title_color="@color/main_title" />
+            <cn.dreamn.qianji_auto.ui.views.CardData
+                android:id="@+id/Room"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:lib_author="Android"
+                app:lib_author_color="@color/skip_title"
+                app:lib_bg_color="@color/background_white"
+                app:lib_desc="Room 持久性库在 SQLite 的基础上提供了一个抽象层，让用户能够在充分利用 SQLite 的强大功能的同时，获享更强健的数据库访问机制。"
+                app:lib_desc_color="@color/skip_title"
+                app:lib_license="未知"
+                app:lib_license_color="@color/skip_title"
+                app:lib_title="Room"
+                app:lib_title_color="@color/main_title" />
+            <cn.dreamn.qianji_auto.ui.views.CardData
+                android:id="@+id/Rhino"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:lib_author="Mozilla"
+                app:lib_author_color="@color/skip_title"
+                app:lib_bg_color="@color/background_white"
+                app:lib_desc="Rhino is an open-source implementation of JavaScript written entirely in Java."
+                app:lib_desc_color="@color/skip_title"
+                app:lib_license="MPL-2.0 License"
+                app:lib_license_color="@color/skip_title"
+                app:lib_title="Rhino"
+                app:lib_title_color="@color/main_title" />
 
         </LinearLayout>
     </ScrollView>

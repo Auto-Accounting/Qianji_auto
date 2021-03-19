@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:skin="http://schemas.android.com/android/skin"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:id="@+id/setting_list"
-    skin:enable="true">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +20,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,8 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="前台交易记账模式"
-                    skin:enable="true" />
+                    android:text="前台交易记账模式" />
 
                 <cn.dreamn.qianji_auto.ui.views.SuperText
                     android:id="@+id/pay_all"
@@ -58,10 +58,12 @@
 
 
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,8 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="后台交易记账模式"
-                    skin:enable="true" />
+                    android:text="后台交易记账模式" />
 
                 <cn.dreamn.qianji_auto.ui.views.SuperText
                     android:id="@+id/income_all"
@@ -99,10 +100,12 @@
 
 
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -114,8 +117,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="默认账本"
-                    skin:enable="true" />
+                    android:text="默认账本" />
 
                 <cn.dreamn.qianji_auto.ui.views.SuperText
                     android:id="@+id/default_bookName"
@@ -126,17 +128,16 @@
                     app:title_text="默认账本" />
 
 
-
-
-
             </LinearLayout>
 
 
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -148,8 +149,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="记账备注样式"
-                    skin:enable="true" />
+                    android:text="记账备注样式" />
 
                 <cn.dreamn.qianji_auto.ui.views.SuperText
                     android:id="@+id/remark"
@@ -160,17 +160,16 @@
                     app:title_text="[商户名]-[商户信息]" />
 
 
-
-
-
             </LinearLayout>
 
 
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -182,8 +181,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="自动分类填充"
-                    skin:enable="true" />
+                    android:text="自动分类填充" />
 
                 <cn.dreamn.qianji_auto.ui.views.SuperText
                     android:id="@+id/auto_sort_open"
@@ -208,10 +206,12 @@
 
 
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -223,8 +223,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="悬浮窗倒计时"
-                    skin:enable="true" />
+                    android:text="悬浮窗倒计时" />
 
                 <cn.dreamn.qianji_auto.ui.views.SuperText
                     android:id="@+id/count_down"
@@ -233,6 +232,7 @@
                     app:left_icon="&#xe625; "
                     app:sub_text="小窗口倒计时的时间"
                     app:title_text="倒计时时间：" />
+
                 <SeekBar
                     android:id="@+id/count_down_seekbar"
                     android:layout_width="match_parent"
@@ -244,10 +244,12 @@
 
 
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -259,8 +261,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="悬浮窗点击触发操作"
-                    skin:enable="true" />
+                    android:text="悬浮窗点击触发操作" />
 
                 <cn.dreamn.qianji_auto.ui.views.SuperText
                     android:id="@+id/click_window_record"
@@ -294,7 +295,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -306,8 +308,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="悬浮窗长按触发操作"
-                    skin:enable="true" />
+                    android:text="悬浮窗长按触发操作" />
 
                 <cn.dreamn.qianji_auto.ui.views.SuperText
                     android:id="@+id/long_click_window_record"
@@ -341,7 +342,8 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -353,8 +355,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="悬浮窗倒计时结束触发操作"
-                    skin:enable="true" />
+                    android:text="悬浮窗倒计时结束触发操作" />
 
                 <cn.dreamn.qianji_auto.ui.views.SuperText
                     android:id="@+id/end_window_record"
@@ -384,10 +385,12 @@
 
 
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -399,8 +402,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="通知点击触发操作"
-                    skin:enable="true" />
+                    android:text="通知点击触发操作" />
 
                 <cn.dreamn.qianji_auto.ui.views.SuperText
                     android:id="@+id/notice_click_window_record"
@@ -430,10 +432,12 @@
 
 
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -445,8 +449,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="编辑弹窗样式"
-                    skin:enable="true" />
+                    android:text="编辑弹窗样式" />
 
                 <cn.dreamn.qianji_auto.ui.views.SuperText
                     android:id="@+id/qianji_auto"

@@ -18,8 +18,10 @@
 package cn.dreamn.qianji_auto.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.view.KeyEvent;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hjq.toast.ToastUtils;
 import com.xuexiang.xpage.annotation.Page;
@@ -27,11 +29,15 @@ import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xpage.utils.TitleBar;
 
 import butterknife.BindView;
+import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.fragment.base.MainModeFragment;
 import cn.dreamn.qianji_auto.ui.listData.ListManager;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.views.CardViewGrid;
+import cn.dreamn.qianji_auto.ui.views.IconView;
 
 
 /**
@@ -58,6 +64,15 @@ public class MainFragment extends BaseFragment {
     @BindView(R.id.cv_other)
     CardViewGrid cv_other;
 
+
+    @BindView(R.id.mode_select1)
+    IconView mode_select1;
+    @BindView(R.id.mode_select2)
+    RelativeLayout mode_select2;
+    @BindView(R.id.active_status)
+    TextView active_status;
+    @BindView(R.id.app_log)
+    TextView app_log;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_main_1;
@@ -72,15 +87,28 @@ public class MainFragment extends BaseFragment {
         cv_log.setData(ListManager.getLogLists(),this,2);
         cv_complie.setData(ListManager.getComplieLists(),this,3);
         cv_other.setData(ListManager.getOtherLists(),this,4);
+        app_log.setText(BuildConfig.VERSION_NAME);
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        setActive();
+        super.onHiddenChanged(hidden);
+    }
 
     @Override
     public void onResume() {
+
         super.onResume();
       //  homeBarUtils.setClick(home);
-        setActive();
 
+
+    }
+
+    @Override
+    protected void initListeners() {
+        mode_select1.setOnClickListener(v-> openNewPage(MainModeFragment.class));
+        mode_select2.setOnClickListener(v-> openNewPage(MainModeFragment.class));
     }
 
     @Override
@@ -91,8 +119,20 @@ public class MainFragment extends BaseFragment {
 
     private void setActive() {
 
+        if (AppStatus.isActive(getContext())) {
+         //   Logs.d("已激活");
+            mode_select2.setBackgroundColor(ThemeManager.getColor(getActivity(),R.color.button_go_setting_bg));
+            mode_select2.setBackgroundTintList(ColorStateList.valueOf(ThemeManager.getColor(getActivity(),R.color.button_go_setting_bg)));
+            active_status.setText(String.format("已激活（%s）", AppStatus.getFrameWork(getContext())));
+           active_status.setTextColor(ThemeManager.getColor(getActivity(),R.color.background_white));
 
-
+        } else {
+            mode_select2.setBackgroundColor(ThemeManager.getColor(getActivity(),R.color.disable_bg));
+            mode_select2.setBackgroundTintList(ColorStateList.valueOf(ThemeManager.getColor(getActivity(),R.color.disable_bg)));
+            active_status.setText(String.format("未激活（%s）", AppStatus.getFrameWork(getContext())));
+            active_status.setTextColor(ThemeManager.getColor(getActivity(),R.color.background_white));
+            // TODO 未激活指引激活
+        }
     }
 
     @Override

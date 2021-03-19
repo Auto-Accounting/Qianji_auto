@@ -11,6 +11,7 @@ import cn.dreamn.qianji_auto.ui.listData.baseListData.BaseListManager;
 import cn.dreamn.qianji_auto.ui.listData.complie.ComplieList;
 import cn.dreamn.qianji_auto.ui.listData.logListData.LogList;
 import cn.dreamn.qianji_auto.ui.listData.otherListData.OtherList;
+import cn.dreamn.qianji_auto.ui.listData.permissionData.PermissionList;
 
 public class ListManager {
     /**
@@ -31,6 +32,16 @@ public class ListManager {
     public static Bundle[] getOtherLists(){
         return getList(OtherList.getInstance().getList());
     }
+
+    public static Bundle[] getPermissionXposedLists(){
+        return getList(PermissionList.getInstance().getXposedList());
+    }
+
+    public static Bundle[] getPermissionHelperLists(){
+        return getList(PermissionList.getInstance().getHelperList());
+    }
+
+
     public static Bundle[] getList(List<IList> iLists){
         try{
             List<Bundle> mList = new ArrayList<>();
@@ -38,7 +49,9 @@ public class ListManager {
                 Bundle bundle=new Bundle();
                 bundle.putString("appName",iApp.getName());
                 bundle.putString("appIcon",iApp.getIcon());
+                bundle.putString("appSubName",iApp.getSubName());
                 bundle.putInt("appColor",iApp.getColor());
+                bundle.putInt("appId",iApp.getAppId());
                 bundle.putInt("appSize",iApp.getFontSize());
                 mList.add(bundle);
             }

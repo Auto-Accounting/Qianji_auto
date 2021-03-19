@@ -60,6 +60,10 @@ public class LibsFragment extends BaseFragment {
     CardData materialripple;
     @BindView(R.id.NiceImageView)
     CardData NiceImageView;
+    @BindView(R.id.Room)
+    CardData Room;
+    @BindView(R.id.Rhino)
+    CardData Rhino;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_libs;
@@ -84,6 +88,8 @@ public class LibsFragment extends BaseFragment {
         ToastUtils.setOnClickListener(v-> WebViewFragment.openUrl(this,"https://github.com/getActivity/ToastUtils"));
         materialripple.setOnClickListener(v-> WebViewFragment.openUrl(this,"https://github.com/balysv/material-ripple"));
         NiceImageView.setOnClickListener(v-> WebViewFragment.openUrl(this,"https://github.com/SheHuan/NiceImageView"));
+        Room.setOnClickListener(v->WebViewFragment.openUrl(this,"https://developer.android.google.cn/jetpack/androidx/releases/room?hl=zh_cn#java"));
+        Rhino.setOnClickListener(v->WebViewFragment.openUrl(this,"https://github.com/mozilla/rhino"));
     }
 
     @Override

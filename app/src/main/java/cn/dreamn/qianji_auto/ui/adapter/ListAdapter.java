@@ -64,7 +64,7 @@ public class ListAdapter extends ArrayAdapter {
         TextView textView = (TextView) view.findViewById(R.id.item_title);
         textView.setText(bundle.getString("appName"));
         TextView textView2 = (TextView) view.findViewById(R.id.item_sub);
-        textView2.setText(bundle.getString("appNameSub"));
+        textView2.setText(bundle.getString("appSubName"));
 
         return view;
 

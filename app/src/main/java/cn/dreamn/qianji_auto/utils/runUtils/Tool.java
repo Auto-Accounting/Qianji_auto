@@ -1,10 +1,14 @@
-package cn.dreamn.qianji_auto.utils;
+package cn.dreamn.qianji_auto.utils.runUtils;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Tool {
     public static void clipboard(Context context, String text) {
@@ -27,15 +31,18 @@ public class Tool {
         context.startActivity(intent);
     }
 
-    public static boolean goToMarket(String packageName){
+    public static void goToMarket(String packageName){
         Uri uri = Uri.parse("market://details?id=" + packageName);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         try {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            return true;
-        } catch (Exception e) {
-            return false;
+        } catch (Exception ignored) {
         }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public static String getTime(String s) {
+        return (new SimpleDateFormat(s)).format(new Date(System.currentTimeMillis()));
     }
 
 }

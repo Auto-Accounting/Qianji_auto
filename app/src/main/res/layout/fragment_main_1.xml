@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:skin="http://schemas.android.com/android/skin"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
-    skin:enable="true">
+    >
 
 
     <ScrollView
@@ -68,7 +67,7 @@
                         </LinearLayout>
 
                         <cn.dreamn.qianji_auto.ui.views.IconView
-                            android:id="@+id/iconView2"
+                            android:id="@+id/mode_select1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -129,6 +128,7 @@
                     app:cardElevation="0dp">
 
                     <RelativeLayout
+                        android:id="@+id/mode_select2"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:background="@color/button_go_setting_bg"
@@ -143,7 +143,7 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/textView10"
+                                android:id="@+id/active_status"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="已激活（太极）"

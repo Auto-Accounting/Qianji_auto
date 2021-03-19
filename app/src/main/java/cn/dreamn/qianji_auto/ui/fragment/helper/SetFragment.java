@@ -181,16 +181,16 @@ public class SetFragment extends BaseFragment {
     @Override
     protected void initListeners() {
         help_skip_last.setOnClickListener(v->{
-            openPage(AsyncFragment.class);
+            openNewPage(AsyncFragment.class);
         });
         help_skip.setOnClickListener(v -> {
 
             MMKV mmkv=MMKV.defaultMMKV();
-            mmkv.encode("first",false);
-            openPage(MainFragment.class);
+            mmkv.encode("version_3_0",false);
+            openNewPage(MainFragment.class);
         });
         button_next.setOnClickListener(v->{
-            openPage(EndFragment.class);
+            openNewPage(EndFragment.class);
         });
 
     }

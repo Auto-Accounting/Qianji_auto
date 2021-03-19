@@ -18,13 +18,11 @@
 package cn.dreamn.qianji_auto.ui.fragment.helper;
 
 import android.annotation.SuppressLint;
-import android.view.KeyEvent;
 import android.widget.TextView;
 
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xpage.utils.TitleBar;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
@@ -55,18 +53,19 @@ public class HelperFragment extends BaseFragment {
     protected void initViews() {
         MMKV mmkv=MMKV.defaultMMKV();
         mmkv.encode("helper_page",0);
+        Listeners();
     }
 
-    @Override
-    protected void initListeners() {
+
+    protected void Listeners() {
         help_skip.setOnClickListener(v -> {
 
             MMKV mmkv=MMKV.defaultMMKV();
-            mmkv.encode("first",false);
+            mmkv.encode("version_3_0",false);
 
-            openPage(MainFragment.class);
+            openNewPage(MainFragment.class);
         });
-        button_go_setting.setOnClickListener(v-> openPage(AppFragment.class));
+        button_go_setting.setOnClickListener(v-> openNewPage(AppFragment.class));
     }
 
 

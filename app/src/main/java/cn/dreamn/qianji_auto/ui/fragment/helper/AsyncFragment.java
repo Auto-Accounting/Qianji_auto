@@ -18,7 +18,6 @@
 package cn.dreamn.qianji_auto.ui.fragment.helper;
 
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,13 +25,13 @@ import android.widget.TextView;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xpage.utils.TitleBar;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
+import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 
 @Page(name = "数据同步", anim =  CoreAnim.slide)
@@ -70,7 +69,7 @@ public class AsyncFragment extends BaseFragment {
         Bundle bundle=AppManager.getAppInfo();
         app_help_3_desc.setText(bundle.getString("appAsync"));
         app_help_3_tip.setText(String.format(getString(R.string.app_help_3_tip),bundle.getString("appName")));
-        iv_icon.setImageResource(bundle.getInt("appIcon"));
+        Task.onThread(()->{ iv_icon.setImageResource(bundle.getInt("appIcon"));});
     }
 
 
@@ -80,17 +79,17 @@ public class AsyncFragment extends BaseFragment {
     @Override
     protected void initListeners() {
         help_skip_last.setOnClickListener(v->{
-            openPage(ModeFragment.class);
+            openNewPage(ModeFragment.class);
         });
         help_skip.setOnClickListener(v -> {
 
             MMKV mmkv=MMKV.defaultMMKV();
-            mmkv.encode("first",false);
+            mmkv.encode("version_3_0",false);
 
-            openPage(MainFragment.class);
+            openNewPage(MainFragment.class);
         });
         button_next.setOnClickListener(v->{
-            openPage(SetFragment.class);
+            openNewPage(SetFragment.class);
         });
         button_async.setOnClickListener(v->{
             AppManager.Async();

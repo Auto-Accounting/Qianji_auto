@@ -126,6 +126,12 @@ public class SettingUtils {
         initListen();
     }
 
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+
+    }
+
     private void initListen(){
 
         pay_all.setOnClickListener(v->{

@@ -38,13 +38,6 @@ import com.xuexiang.xpage.utils.TitleUtils;
 import java.io.Serializable;
 
 
-
-/**
- * 基础fragment
- *
- * @author xuexiang
- * @since 2018/5/25 下午3:44
- */
 public abstract class BaseFragment extends XPageFragment {
 
 
@@ -92,22 +85,6 @@ public abstract class BaseFragment extends XPageFragment {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-           /* if(isFragmentTop(getPageTitle())){
-                //与上次点击返回键时刻作差
-                if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                    //大于2000ms则认为是误操作，使用Toast进行提示
-                    ToastUtils.show("再按一次退出程序");
-                    //并记录下本次点击“返回键”的时刻，以便下次进行判断
-                    mExitTime = System.currentTimeMillis();
-                } else {
-                    //小于2000ms则认为是用户确实希望退出程序-调用System.exit()方法进行退出
-                    System.exit(0);
-                }
-            }else{
-                popToBack();
-            }
-*/
             popToBack();
         }
         return true;

@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:skin="http://schemas.android.com/android/skin"
+
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical">
 
@@ -34,7 +34,7 @@
                 android:text="c"
                 android:textColor="@color/icon_title"
                 android:textSize="36sp"
-                skin:enable="true" />
+                 />
 
             <TextView
                 android:id="@+id/item_text"
@@ -47,7 +47,7 @@
                 android:text="TextView"
                 android:textColor="@color/main_title"
                 android:textSize="14sp"
-                skin:enable="true" />
+                 />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

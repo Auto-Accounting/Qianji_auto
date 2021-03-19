@@ -3,7 +3,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:skin="http://schemas.android.com/android/skin"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="80dp"
     android:layout_height="80dp"
@@ -11,6 +11,8 @@
     android:layout_centerHorizontal="false"
     android:layout_centerVertical="false"
     android:layout_gravity="center"
+    android:clickable="false"
+    android:focusableInTouchMode="false"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -35,8 +37,7 @@
                 android:gravity="center_horizontal"
                 android:text="c"
                 android:textColor="@color/icon_title"
-                android:textSize="30sp"
-                skin:enable="true" />
+                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/item_text"
@@ -48,8 +49,7 @@
                 android:layout_marginTop="-5dp"
                 android:text="TextView"
                 android:textColor="@color/main_title"
-                android:textSize="12sp"
-                skin:enable="true" />
+                android:textSize="12sp" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

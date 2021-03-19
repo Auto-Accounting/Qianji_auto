@@ -13,10 +13,10 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 
 public class TitleBar extends RelativeLayout {
-    private final IconView iv_left_icon;
-    private final IconView iv_right_icon;
-    private final TextView tv_tilte;
-    private final RelativeLayout relativeLayout;
+    private  IconView iv_left_icon;
+    private  IconView iv_right_icon;
+    private TextView tv_tilte;
+    private  RelativeLayout relativeLayout;
 
     public TitleBar(Context context, AttributeSet attrs) {
         super(context,attrs);
@@ -46,8 +46,9 @@ public class TitleBar extends RelativeLayout {
             setRightIconColor(context.getColor(rightColor));
             setTitle(titleText);
             setTitleColor(context.getColor(titleColor));
-            }
             typedArray.recycle();
+            }
+
 
 
     }
@@ -119,5 +120,7 @@ public class TitleBar extends RelativeLayout {
     public void setTitleColor(int Color){
         tv_tilte.setTextColor(Color);
     }
+
+
 }
 

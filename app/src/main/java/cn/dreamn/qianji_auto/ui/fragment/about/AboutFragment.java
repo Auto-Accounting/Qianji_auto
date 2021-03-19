@@ -17,12 +17,9 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.about;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
-import android.view.KeyEvent;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hjq.toast.ToastUtils;
@@ -35,11 +32,8 @@ import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
-import cn.dreamn.qianji_auto.ui.listData.ListManager;
-import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
-import cn.dreamn.qianji_auto.ui.views.CardViewGrid;
-import cn.dreamn.qianji_auto.utils.DonateUtil;
-import cn.dreamn.qianji_auto.utils.Tool;
+import cn.dreamn.qianji_auto.utils.supportUtils.DonateUtil;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
 /**
@@ -99,10 +93,10 @@ public class AboutFragment extends BaseFragment {
      item_license.setOnClickListener(v->WebViewFragment.openUrl(this,"https://doc.ankio.net/doc/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/#/LICENSE"));
         item_github.setOnClickListener(v->WebViewFragment.openUrl(this,"https://doc.ankio.net/doc/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/#/Contribution"));
         item_develop.setOnClickListener(v->{
-            openPage(DevsFragment.class);
+            openNewPage(DevsFragment.class);
         });
         item_libs.setOnClickListener(v->{
-            openPage(LibsFragment.class);
+            openNewPage(LibsFragment.class);
         });
         item_update.setOnClickListener(v->{
             //TODO 检查更新

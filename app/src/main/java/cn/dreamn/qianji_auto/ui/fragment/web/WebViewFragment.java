@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuInflater;
-import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -15,7 +14,6 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 
 import androidx.appcompat.widget.PopupMenu;
 
@@ -29,9 +27,8 @@ import java.util.HashMap;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.utils.StatusBarUtil;
 import cn.dreamn.qianji_auto.ui.views.TitleBar;
-import cn.dreamn.qianji_auto.utils.Tool;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 import static cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment.KEY_URL;
 
@@ -67,7 +64,7 @@ public class WebViewFragment extends BaseFragment {
                 switch (item.getItemId()){
                     case R.id.copy:
                         Tool.clipboard(getContext(),webView.getUrl());
-                        ToastUtils.show("已复制到剪切板。");
+                        ToastUtils.show("已复制到剪切板");
                         break;
                     case R.id.web:
                         Tool.goUrl(getContext(),webView.getUrl());

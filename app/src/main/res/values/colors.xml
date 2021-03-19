@@ -12,7 +12,7 @@
     <color name="bg_choose_ok">#6ac164</color>
     <color name="icon_title">#5baaed</color>
     <color name="disable_bg">#8a8a8a</color>
-
+    <color name="gray">#d6d7d7</color>
     <color name="succeed">#4CB050</color>
     <color name="error">#ff0000</color>
     <color name="warnning">#ecb541</color>
@@ -20,6 +20,12 @@
 
     <color name="ripper_color">#5baaed</color>
     <color name="bg_float_edit">#000000</color>
+
+    <color name="float_1">#666666</color>
+    <color name="float_2">#5baaed</color>
+    <color name="float_3">#58c1a8</color>
+    <color name="float_4">#ff0000</color>
+
     <!--custom-->
 
     <color name="backgroundLight">#f7f4f4</color>

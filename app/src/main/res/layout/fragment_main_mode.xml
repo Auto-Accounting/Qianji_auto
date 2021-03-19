@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <cn.dreamn.qianji_auto.ui.views.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backgroundColor="@color/background_white"
+        app:left_color="@color/main_title"
+        app:left_icon="&#xe60b;"
+        app:right_color="@color/main_title"
+        app:title_color="@color/main_title"
+        app:title_text="工作模式"/>
+
+    <ScrollView
+        android:layout_below="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:singleLine="false"
+                android:text="@string/app_help_2_desc" />
+
+            <GridView
+                android:id="@+id/mode_list"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="21dp"
+                android:columnWidth="80dp"
+                android:gravity="center|center_horizontal"
+                android:horizontalSpacing="0dp"
+                android:numColumns="auto_fit"
+                android:padding="0dp"
+                android:stretchMode="none"
+                android:verticalSpacing="0dp">
+
+            </GridView>
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/app_help_2_tip" />
+
+            <ListView
+                android:id="@+id/lv_permission"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fastScrollEnabled="true" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

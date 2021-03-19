@@ -10,6 +10,16 @@ public class BaseList implements IList {
     }
 
     @Override
+    public String getSubName() {
+        return "";
+    }
+
+    @Override
+    public int getAppId() {
+        return 0;
+    }
+
+    @Override
     public String getIcon() {
         return null;
     }

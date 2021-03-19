@@ -64,7 +64,7 @@ public class EndFragment extends BaseFragment {
     @Override
     protected void initListeners() {
         help_skip_last.setOnClickListener(v->{
-            openPage(SetFragment.class);
+            openNewPage(SetFragment.class);
         });
         help_skip_github.setOnClickListener(v->{
             WebViewFragment.openUrl(this,getString(R.string.githubUrl));
@@ -75,9 +75,9 @@ public class EndFragment extends BaseFragment {
         });
         button_go_setting.setOnClickListener(v-> {
             MMKV mmkv=MMKV.defaultMMKV();
-            mmkv.encode("first",false);
+            mmkv.encode("version_3_0",false);
 
-            openPage(MainFragment.class);
+            openNewPage(MainFragment.class);
         });
     }
 

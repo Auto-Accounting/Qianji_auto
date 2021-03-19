@@ -26,7 +26,7 @@ public class about extends BaseList {
 
     @Override
     public void onClick(BaseFragment baseFragment) {
-       // baseFragment.openPage()
-        baseFragment.openPage(AboutFragment.class);
+       // baseFragment.openNewPage()
+        baseFragment.openNewPage(AboutFragment.class);
     }
 }

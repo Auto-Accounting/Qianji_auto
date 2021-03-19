@@ -15,7 +15,7 @@
  *
  */
 
-package cn.dreamn.qianji_auto.utils;
+package cn.dreamn.qianji_auto.utils.supportUtils;
 
 import android.content.Context;
 import android.content.Intent;

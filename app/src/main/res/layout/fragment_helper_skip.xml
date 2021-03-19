@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:skin="http://schemas.android.com/android/skin"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_white"
     android:paddingBottom="13dp"
-    skin:enable="true">
+    >
 
     <View
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         android:layout_alignParentBottom="false"
         android:layout_marginStart="0dp"
         android:background="@color/skip_title"
-        skin:enable="true" />
+         />
 
     <TextView
         android:id="@+id/help_skip"
@@ -26,7 +26,7 @@
         android:layout_marginEnd="32dp"
         android:text="@string/app_help_skip"
         android:textColor="@color/skip_title"
-        skin:enable="true" />
+         />
 
     <cn.dreamn.qianji_auto.ui.views.IconView
         android:layout_width="wrap_content"
@@ -40,8 +40,8 @@
         android:gravity="center|center_horizontal"
         android:text="&#xe6e0;"
         android:textColor="@color/skip_title"
-        skin:enable="true"
-        skin:tag="textColor" />
+
+        />
 
 
 </RelativeLayout>

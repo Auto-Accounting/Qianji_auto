@@ -27,6 +27,8 @@ public interface IList {
      * @return
      */
     String getName();
+    String getSubName();
+    int getAppId();
 
     /**
      * 返回图标

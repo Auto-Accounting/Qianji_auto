@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:skin="http://schemas.android.com/android/skin"
+<merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.balysv.materialripple.MaterialRippleLayout
@@ -42,7 +42,7 @@
             android:text=""
             android:textColor="@color/icon_title"
             android:textSize="36sp"
-            skin:enable="true" />
+             />
 
     <cn.dreamn.qianji_auto.ui.views.AdaptionSizeTextView
         android:id="@+id/item_title"
@@ -58,7 +58,7 @@
         android:text=""
         android:textColor="@color/main_title"
         android:textSize="18sp"
-        skin:enable="true" />
+         />
 
         <cn.dreamn.qianji_auto.ui.views.AdaptionSizeTextView
             android:id="@+id/item_sub"
@@ -74,7 +74,7 @@
             android:text=""
             android:textColor="@color/skip_title"
             android:textSize="12sp"
-            skin:enable="true" />
+             />
 
         <cn.dreamn.qianji_auto.ui.views.IconView
             android:id="@+id/icon_isOk"
@@ -92,7 +92,7 @@
             android:text=""
             android:textColor="@color/skip_title"
             android:textSize="24sp"
-            skin:enable="true" />
+             />
 
     </RelativeLayout>
     </com.balysv.materialripple.MaterialRippleLayout>

@@ -3,6 +3,7 @@ package cn.dreamn.qianji_auto.ui.listData.baseListData;
 import android.util.Log;
 
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.fragment.base.MainSetFragment;
 import cn.dreamn.qianji_auto.ui.listData.BaseList;
 
 public class plugin extends BaseList {
@@ -27,7 +28,7 @@ public class plugin extends BaseList {
 
     @Override
     public void onClick(BaseFragment baseFragment) {
-       // baseFragment.openPage()
-        Log.d("plugin","click");
+       // baseFragment.openNewPage()
+        baseFragment.openNewPage(MainSetFragment.class);
     }
 }

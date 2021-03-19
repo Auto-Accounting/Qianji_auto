@@ -25,11 +25,11 @@ android {
 
         }
 
-        debug{
+       /* debug{
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+        }*/
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -71,7 +71,24 @@ dependencies {
     implementation 'com.balysv:material-ripple:1.0.2'
     //自定义imgview
     implementation 'com.github.SheHuan:NiceImageView:1.0.5'
+    //安卓Room数据库
+    def room_version = "2.2.6"
 
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // optional - RxJava support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation "androidx.room:room-guava:$room_version"
+
+    // optional - Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
+    //内存泄漏监测leak,就需要加上这个依赖
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
+    //rhino
+    implementation project(path: ':rhino-1.7.13')
 
 }
 repositories {

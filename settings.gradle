@@ -1,2 +1,3 @@
+include ':rhino-1.7.13'
 include ':app'
 rootProject.name = "qianji_auto"

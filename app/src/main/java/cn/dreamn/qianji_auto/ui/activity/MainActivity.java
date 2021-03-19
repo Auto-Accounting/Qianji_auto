@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity {
             //开启设置
             openPage(fragments[mmkv.getInt("helper_page",0)]);
         }else{
-            openPage(MainFragment.class);
+            openNewPage(MainFragment.class);
         }
     }
 

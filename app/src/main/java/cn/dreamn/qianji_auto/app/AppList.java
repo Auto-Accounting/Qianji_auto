@@ -14,6 +14,7 @@ public class AppList {
         mList.add(QianJi.getInstance());
         mList.add(YiMu.getInstance());
         mList.add(YiYu.getInstance());
+      //  mList.add()
 
     }
 

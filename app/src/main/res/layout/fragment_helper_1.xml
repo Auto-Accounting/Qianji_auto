@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:skin="http://schemas.android.com/android/skin"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_white"
-    skin:enable="true">
+    >
 
     <ImageView
         android:id="@+id/imageView"
@@ -27,7 +27,7 @@
         android:textColor="@color/main_title"
         android:textSize="28dp"
         android:textStyle="bold"
-        skin:enable="true" />
+         />
 
     <TextView
         android:id="@+id/textView2"
@@ -38,7 +38,7 @@
         android:layout_marginTop="30dp"
         android:text="@string/app_desc"
         android:textColor="@color/skip_title"
-        skin:enable="true" />
+         />
 
     <Button
         android:id="@+id/button_go_setting"
@@ -58,7 +58,7 @@
         android:textAppearance="?android:attr/textAppearanceButton"
         android:textColor="@color/background_white"
         android:textSize="16sp"
-        skin:enable="true" />
+         />
 
     <include
         layout="@layout/fragment_helper_skip"

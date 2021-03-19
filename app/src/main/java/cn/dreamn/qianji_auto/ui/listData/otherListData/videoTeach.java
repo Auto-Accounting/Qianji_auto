@@ -29,7 +29,7 @@ public class videoTeach extends BaseList {
 
     @Override
     public void onClick(BaseFragment baseFragment) {
-       // baseFragment.openPage()
+       // baseFragment.openNewPage()
         WebViewFragment.openUrl(baseFragment,baseFragment.getContext().getString(R.string.biliUrl));
     }
     @Override
