@@ -22,8 +22,9 @@ import android.content.res.ColorStateList;
 import android.view.KeyEvent;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.hjq.toast.ToastUtils;
+
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xpage.utils.TitleBar;
@@ -38,6 +39,7 @@ import cn.dreamn.qianji_auto.ui.listData.ListManager;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.views.CardViewGrid;
 import cn.dreamn.qianji_auto.ui.views.IconView;
+import es.dmoral.toasty.Toasty;
 
 
 /**
@@ -141,7 +143,7 @@ public class MainFragment extends BaseFragment {
 
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
                 //大于2000ms则认为是误操作，使用Toast进行提示
-                ToastUtils.show("再按一次退出程序");
+                Toasty.normal(getContext(), "再按一次退出程序!", Toast.LENGTH_LONG).show();
                 //并记录下本次点击“返回键”的时刻，以便下次进行判断
                 mExitTime = System.currentTimeMillis();
             } else {

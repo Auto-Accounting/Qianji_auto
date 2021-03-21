@@ -21,8 +21,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.hjq.toast.ToastUtils;
+
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xpage.utils.TitleBar;
@@ -34,6 +35,7 @@ import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.utils.supportUtils.DonateUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
+import es.dmoral.toasty.Toasty;
 
 
 /**
@@ -113,7 +115,7 @@ public class AboutFragment extends BaseFragment {
 
             } catch (Exception e) {
                 // 未安装手Q或安装的版本不支持
-                ToastUtils.show("未安装手机QQ或者当前QQ不支持加群。");
+                Toasty.error(getContext(), "未安装手机QQ或者当前QQ不支持加群。", Toast.LENGTH_LONG).show();
             }
         });
         item_tg.setOnClickListener(v->Tool.goUrl(requireContext(),"https://t.me/qianji_auto"));

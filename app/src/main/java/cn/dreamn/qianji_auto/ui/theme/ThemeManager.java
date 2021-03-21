@@ -63,7 +63,7 @@ public class ThemeManager {
         }
         view.setBackgroundTintList(ColorStateList.valueOf(color2));
         view.setBackgroundColor(color2);
-        StatusBarUtil.setPaddingTop(mContext,view);
+       // StatusBarUtil.setPaddingTop(mContext,view);
         StatusBarUtil.setColor(activity,color2);
     }
 

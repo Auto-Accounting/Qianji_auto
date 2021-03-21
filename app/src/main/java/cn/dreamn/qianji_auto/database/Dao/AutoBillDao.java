@@ -37,7 +37,7 @@ public interface AutoBillDao {
     @Query("INSERT INTO autobill(billInfo) values(:billInfo)")
     void add(String billInfo);
 
-    @Query("UPDATE  autobill SET billInfo=:billInfo")
+    @Query("UPDATE  autobill SET billInfo=:billInfo WHERE id=:id")
     void update(int id, String billInfo);
 
     @Query("DELETE FROM autobill")

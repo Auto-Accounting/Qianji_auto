@@ -34,7 +34,6 @@ import cn.dreamn.qianji_auto.R;
 
 public class BaseAdapter extends SmartRecyclerAdapter<Bundle> {
 
-    public OnItemClickListener listener;
 
     public BaseAdapter(int layoutId) {
         super(layoutId);
@@ -53,14 +52,6 @@ public class BaseAdapter extends SmartRecyclerAdapter<Bundle> {
 
     }
 
-    //第二步， 写一个公共的方法
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
 
-    //第一步 定义接口
-    public interface OnItemClickListener {
-        void onClick(Bundle item, int position);
-    }
 }
 

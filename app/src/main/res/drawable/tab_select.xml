@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="5dp" /> <!--圆角-->
+    <solid android:color="@color/main_title" />
+    <!-- tablayout   当设置tabIndicatorHeight ，size height 无效-->
+    <size
+        android:width="21dp"
+        android:height="3dp" />
+</shape>

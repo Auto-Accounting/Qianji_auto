@@ -14,10 +14,11 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.PopupMenu;
 
-import com.hjq.toast.ToastUtils;
+
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.core.PageOption;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -29,6 +30,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.views.TitleBar;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
+import es.dmoral.toasty.Toasty;
 
 import static cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment.KEY_URL;
 
@@ -64,7 +66,8 @@ public class WebViewFragment extends BaseFragment {
                 switch (item.getItemId()){
                     case R.id.copy:
                         Tool.clipboard(getContext(),webView.getUrl());
-                        ToastUtils.show("已复制到剪切板");
+                        Toasty.success(getContext(), "已复制到剪切板!", Toast.LENGTH_LONG).show();
+
                         break;
                     case R.id.web:
                         Tool.goUrl(getContext(),webView.getUrl());

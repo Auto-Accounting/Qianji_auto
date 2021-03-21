@@ -43,6 +43,9 @@ public class Assets {
     public interface getAssets2Bundle{
         void onGet(Bundle[] asset2s);
     }
+    public interface whenFinish{
+        void onFinish();
+    }
     public static void getAllAccount(getAssets2 getAsset) {
         Task.onThread(()-> getAsset.onGet(DbManger.db.Asset2Dao().getAll()));
     }
@@ -65,7 +68,7 @@ public class Assets {
     public static void getAllIcon(getAssets2Bundle getAsset) {
         Task.onThread(()-> {
         Asset2[] assets =  DbManger.db.Asset2Dao().getAll();
-        if (assets.length <= 0){
+        if (assets==null||assets.length <= 0){
             getAsset.onGet(null);
             return;
         }
@@ -96,7 +99,7 @@ public class Assets {
     public static void getMap(getAssets2Strings getAssets) {
         Task.onThread(()-> {
         Asset[] assets =  DbManger.db.AssetDao().getAll();
-        if (assets.length <= 0) {
+        if (assets==null||assets.length <= 0) {
             getAssets.onGet(null);
             return;
         }
@@ -112,24 +115,36 @@ public class Assets {
         Task.onThread(()-> getAsset.onGet(DbManger.db.AssetDao().getAll()));
     }
 
-    public static void delAsset(int id) {
-        Task.onThread(()-> DbManger.db.Asset2Dao().del(id));
+    public static void delAsset(int id,whenFinish when) {
+        Task.onThread(()->{
+            DbManger.db.Asset2Dao().del(id);
+            when.onFinish();
+        });
     }
 
-    public static void addAsset(String assetName) {
-        Task.onThread(()-> DbManger.db.Asset2Dao().add(assetName));
+    public static void addAsset(String assetName,whenFinish finish) {
+        Task.onThread(()-> {
+            DbManger.db.Asset2Dao().add(assetName);
+            finish.onFinish();
+        });
     }
 
-    public static void addAsset(String assetName, String icon, int sort) {
-        Task.onThread(()-> DbManger.db.Asset2Dao().add(assetName, icon, sort));
+    public static void addAsset(String assetName, String icon, int sort,whenFinish finish) {
+        Task.onThread(()-> {
+            DbManger.db.Asset2Dao().add(assetName, icon, sort);
+            finish.onFinish();
+        });
     }
 
     public static void cleanAsset() {
         Task.onThread(()-> DbManger.db.Asset2Dao().clean());
     }
 
-    public static void updAsset(int id, String assetName) {
-        Task.onThread(()-> DbManger.db.Asset2Dao().update(id, assetName));
+    public static void updAsset(int id, String assetName,whenFinish when) {
+        Task.onThread(()-> {
+            DbManger.db.Asset2Dao().update(id, assetName);
+            when.onFinish();
+        });
     }
 
     public static void delMap(int id) {
