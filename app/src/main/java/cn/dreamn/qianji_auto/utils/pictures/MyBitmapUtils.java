@@ -53,9 +53,9 @@ public class MyBitmapUtils {
         // Logs.d("设置图片");
         if (bitmap == null) {
             if (ivPic instanceof ImageView) {
-                ((ImageView) ivPic).setImageResource(R.drawable.ic_null);
+                ((ImageView) ivPic).setImageResource(R.drawable.ic_empty);
             } else {
-                ivPic.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ic_null));
+                ivPic.setBackground(ContextCompat.getDrawable(mContext, R.drawable.ic_empty));
             }
         } else {
 

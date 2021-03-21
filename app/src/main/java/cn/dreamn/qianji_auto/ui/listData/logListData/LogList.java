@@ -12,6 +12,7 @@ public class LogList {
 
     public LogList() {
         mList.clear();
+        mList.add(async.getInstance());
         mList.add(moneyList.getInstance());
         mList.add(notice.getInstance());
         mList.add(sms.getInstance());

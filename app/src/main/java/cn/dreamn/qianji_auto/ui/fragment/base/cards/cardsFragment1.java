@@ -270,18 +270,6 @@ public class cardsFragment1 extends BaseFragment {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
-    protected TitleBar initTitle() {
-
-        return null;
-    }
-
 
 
 

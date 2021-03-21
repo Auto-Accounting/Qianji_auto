@@ -17,18 +17,12 @@
 
 package cn.dreamn.qianji_auto.database.Helper;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ListView;
 
 import com.tencent.mmkv.MMKV;
 
-
 import java.util.ArrayList;
 
-import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.BookName;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
@@ -47,17 +41,20 @@ public class BookNames {
         mmkv.encode("defaultBookName", bookName);
     }
 
-    interface getBookBundle{
+    public interface getBookBundle{
         void onGet(Bundle bundle);
     }
-    interface getBookBundles{
+    public interface getBookBundles{
         void onGet(Bundle[] bundle);
     }
-    interface getBookStrings{
+    public interface getBookStrings{
         void onGet(String[] bundle);
     }
-    interface getBookInt{
+    public interface getBookInt{
         void onGet(int length);
+    }
+    public interface whenFinish{
+        void onFinish();
     }
     public static void getOne(String name,getBookBundle getBook) {
         Task.onThread(()->{
@@ -100,7 +97,15 @@ public class BookNames {
             String bid = bookName.book_id;
             if (bid == null || bid.equals("")) bid = "-1";
             bundle.putString("book_id", bid);
-            bundle.putString("cover", bookName.icon);
+            //http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2
+
+            if(bookName.icon==null|| bookName.icon.equals("")){
+                bundle.putString("cover", "http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
+            }else{
+                bundle.putString("cover", bookName.icon);
+            }
+
+
             bundleArrayList.add(bundle);
         }
 
@@ -120,20 +125,29 @@ public class BookNames {
 
     }
 
-    public static void del(int id) {
-        Task.onThread(()->DbManger.db.BookNameDao().del(id));
+    public static void del(int id,whenFinish when) {
+        Task.onThread(()->{
+            DbManger.db.BookNameDao().del(id);
+            when.onFinish();
+        });
     }
 
-    public static void upd(int id, String bookName) {
-        Task.onThread(()->DbManger.db.BookNameDao().update(id, bookName));
+    public static void upd(int id, String bookName,whenFinish when) {
+        Task.onThread(()->{
+            DbManger.db.BookNameDao().update(id, bookName);
+            when.onFinish();
+        });
     }
 
-    public static void add(String bookName) {
+    public static void add(String bookName,whenFinish when) {
 
-        Task.onThread(()->DbManger.db.BookNameDao().add(bookName, "http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2", String.valueOf(System.currentTimeMillis())));
+        Task.onThread(()->{
+            DbManger.db.BookNameDao().add(bookName, "http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2", String.valueOf(System.currentTimeMillis()));
+            when.onFinish();
+        });
     }
 
-    public static void add(String bookName, String icon,final String book_id) {
+    public static void add(String bookName, String icon,final String book_id,whenFinish when) {
         Task.onThread(()->{
 
         String bid=book_id;
@@ -141,11 +155,15 @@ public class BookNames {
             bid = String.valueOf(System.currentTimeMillis());
         }
         DbManger.db.BookNameDao().add(bookName, icon, bid);
+        when.onFinish();
         });
     }
 
-    public static void clean() {
-        Task.onThread(()->DbManger.db.BookNameDao().clean());
+    public static void clean(whenFinish when) {
+        Task.onThread(()->{
+            DbManger.db.BookNameDao().clean();
+            when.onFinish();
+        });
     }
 
     public static void getAllLen(getBookInt getBook) {
