@@ -17,13 +17,28 @@
 
 package cn.dreamn.qianji_auto.database.Helper;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ListView;
+
+import com.afollestad.materialdialogs.DialogBehavior;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 
 import java.util.ArrayList;
 
+import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.Asset;
 import cn.dreamn.qianji_auto.database.Table.Asset2;
+import cn.dreamn.qianji_auto.ui.adapter.DataSelectListAdapter;
+import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 
@@ -32,7 +47,10 @@ public class Assets {
         void onGet(Asset2[] asset2s);
     }
     public interface getAssets{
-        void onGet(Asset[] asset2s);
+        void onGet(Bundle[] asset2s);
+    }
+    public interface getAssetOne{
+        void onGet(Bundle asset2s);
     }
     public interface getAssets2Strings{
         void onGet(String[] asset2s);
@@ -92,7 +110,7 @@ public class Assets {
             getAssets.onGet(asset2s[0].icon);
             return;
         }
-        getAssets.onGet("");
+        getAssets.onGet("https://pic.dreamn.cn/uPic/2021032022075916162492791616249279427UY2ok6支付.png");
         });
     }
 
@@ -112,7 +130,23 @@ public class Assets {
     }
 
     public static void getAllMap(getAssets getAsset) {
-        Task.onThread(()-> getAsset.onGet(DbManger.db.AssetDao().getAll()));
+        Task.onThread(()-> {
+            Asset[] asset=DbManger.db.AssetDao().getAll();
+            if (asset==null||asset.length <= 0){
+                getAsset.onGet(null);
+                return;
+            }
+
+            ArrayList<Bundle> bundleArrayList = new ArrayList<>();
+            for (Asset asset1 : asset) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", asset1.id);
+                bundle.putString("name", asset1.name);
+                bundle.putString("mapName", asset1.mapName);
+                bundleArrayList.add(bundle);
+            }
+            getAsset.onGet(bundleArrayList.toArray(new Bundle[0]));
+        });
     }
 
     public static void delAsset(int id,whenFinish when) {
@@ -147,12 +181,18 @@ public class Assets {
         });
     }
 
-    public static void delMap(int id) {
-        Task.onThread(()-> DbManger.db.AssetDao().del(id));
+    public static void delMap(int id,whenFinish when) {
+        Task.onThread(()->{
+            DbManger.db.AssetDao().del(id);
+            when.onFinish();
+        });
     }
 
-    public static void addMap(String assetName, String mapName) {
-        Task.onThread(()-> DbManger.db.AssetDao().add(assetName, mapName));
+    public static void addMap(String assetName, String mapName,whenFinish when) {
+        Task.onThread(()-> {
+            DbManger.db.AssetDao().add(assetName, mapName);
+            when.onFinish();
+        });
     }
 
     public static void updMap(int id, String assetName, String mapName) {
@@ -183,5 +223,47 @@ public class Assets {
 
     public static void setSort(int id, int fromPosition) {
         Task.onThread(()-> DbManger.db.Asset2Dao().setSort(id, fromPosition));
+    }
+
+    public static void showAssetSelect(Context context, String title, getAssetOne getOne ) {
+
+        LayoutInflater factory = LayoutInflater.from(context);
+        final View textEntryView = factory.inflate(R.layout.list_data, null);
+
+        //final TextView list_title = textEntryView.findViewById(R.id.list_title);
+
+        final ListView list_view = textEntryView.findViewById(R.id.list_view);
+
+        final Handler mHandler=new Handler(Looper.getMainLooper()){
+            @Override
+            public void handleMessage(Message msg) {
+                Bundle[] assets=(Bundle[])msg.obj;
+                DataSelectListAdapter adapter = new DataSelectListAdapter(context,assets);//listdata和str均可
+                list_view.setAdapter(adapter);
+
+                MaterialDialog dialog = new MaterialDialog(context, MaterialDialog.getDEFAULT_BEHAVIOR());
+                dialog.title(null,title);
+
+                DialogCustomViewExtKt.customView(dialog, null, textEntryView,
+                        false, true, false, false);
+                dialog.show();
+
+
+                list_view.setOnItemClickListener((parent, view, position, id) -> {
+                    getOne.onGet(assets[position]);
+                    dialog.dismiss();
+                });
+            }
+        };
+
+        getAllIcon(asset2s -> {
+            Message message=new Message();
+            message.obj=asset2s;
+            mHandler.sendMessage(message);
+        });
+
+
+
+
     }
 }

@@ -27,4 +27,5 @@ public class Asset {
     public int id;
     public String name;//账户名
     public String mapName;//映射账户名
+
 }

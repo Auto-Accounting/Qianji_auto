@@ -39,6 +39,7 @@ import cn.dreamn.qianji_auto.ui.listData.ListManager;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.views.CardViewGrid;
 import cn.dreamn.qianji_auto.ui.views.IconView;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import es.dmoral.toasty.Toasty;
 
 
@@ -90,7 +91,9 @@ public class MainFragment extends BaseFragment {
         cv_complie.setData(ListManager.getComplieLists(),this,3);
         cv_other.setData(ListManager.getOtherLists(),this,4);
         app_log.setText(BuildConfig.VERSION_NAME);
+        setActive();
     }
+
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -122,13 +125,14 @@ public class MainFragment extends BaseFragment {
     private void setActive() {
 
         if (AppStatus.isActive(getContext())) {
-         //   Logs.d("已激活");
+            Log.d("已激活");
             mode_select2.setBackgroundColor(ThemeManager.getColor(getActivity(),R.color.button_go_setting_bg));
             mode_select2.setBackgroundTintList(ColorStateList.valueOf(ThemeManager.getColor(getActivity(),R.color.button_go_setting_bg)));
             active_status.setText(String.format("已激活（%s）", AppStatus.getFrameWork(getContext())));
            active_status.setTextColor(ThemeManager.getColor(getActivity(),R.color.background_white));
 
         } else {
+            Log.d("未激活");
             mode_select2.setBackgroundColor(ThemeManager.getColor(getActivity(),R.color.disable_bg));
             mode_select2.setBackgroundTintList(ColorStateList.valueOf(ThemeManager.getColor(getActivity(),R.color.disable_bg)));
             active_status.setText(String.format("未激活（%s）", AppStatus.getFrameWork(getContext())));

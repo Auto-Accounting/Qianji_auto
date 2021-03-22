@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:backgroundTint="@color/background"
+    android:orientation="vertical">
+
+    <cn.dreamn.qianji_auto.ui.views.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backgroundColor="@color/background_white"
+        app:left_color="@color/main_title"
+        app:left_icon="&#xe60b;"
+        app:title_color="@color/main_title"
+        app:title_text="资产映射">
+
+
+    </cn.dreamn.qianji_auto.ui.views.TitleBar>
+
+    <com.shehuan.statusview.StatusView
+        android:id="@+id/status"
+        android:layout_below="@id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.scwang.smartrefresh.layout.header.ClassicsHeader>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="10dp"
+                    android:text="实际使用资产 → 对应的记账App资产"
+                    android:textColor="@color/main_title"
+                    android:textSize="14sp" />
+                <com.yanzhenjie.recyclerview.SwipeRecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="Tips:\n使用前必须添加资产映射才能记账到钱迹；\n映射资产需要保持完全一致，否则会报错；"
+                    android:textColor="@color/main_title"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </com.shehuan.statusview.StatusView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
+        android:clickable="true"
+        android:contentDescription=""
+        android:focusable="true"
+        android:src="@drawable/ic_add"
+        tools:srcCompat="@tools:sample/avatars" />
+</RelativeLayout>

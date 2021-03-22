@@ -17,14 +17,25 @@
 
 package cn.dreamn.qianji_auto.database.Helper;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ListView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 import com.tencent.mmkv.MMKV;
 
 import java.util.ArrayList;
 
+import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.BookName;
+import cn.dreamn.qianji_auto.ui.adapter.DataSelectListAdapter;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 
@@ -180,33 +191,45 @@ public class BookNames {
         void onSelect(Bundle bundle);
     }
 
-   /* public static void showBookSelect(Context context, String title, BookSelect bookSelect) {
+    public static void showBookSelect(Context context, String title, BookSelect getOne ) {
 
         LayoutInflater factory = LayoutInflater.from(context);
-        final View textEntryView = factory.inflate(R.layout.float_list2, null);
+        final View textEntryView = factory.inflate(R.layout.list_data, null);
 
         //final TextView list_title = textEntryView.findViewById(R.id.list_title);
 
         final ListView list_view = textEntryView.findViewById(R.id.list_view);
 
-        Bundle[] item = getAllIcon(true);
+        final Handler mHandler=new Handler(Looper.getMainLooper()){
+            @Override
+            public void handleMessage(Message msg) {
+                Bundle[] books=(Bundle[])msg.obj;
+                DataSelectListAdapter adapter = new DataSelectListAdapter(context,books);//listdata和str均可
+                list_view.setAdapter(adapter);
 
-        ListAdapter3 listAdapter3 = new ListAdapter3(context, R.layout.list_item2, item);//listdata和str均可
-        list_view.setAdapter(listAdapter3);
+                MaterialDialog dialog = new MaterialDialog(context, MaterialDialog.getDEFAULT_BEHAVIOR());
+                dialog.title(null,title);
 
-        MaterialDialog dialog = new MaterialDialog.Builder(context)
-                .customView(textEntryView, false)
-                .title(title)
-                .show();
+                DialogCustomViewExtKt.customView(dialog, null, textEntryView,
+                        false, true, false, false);
+                dialog.show();
 
 
-        list_view.setOnItemClickListener((parent, view, position, id) -> {
-            if (bookSelect != null) {
-                bookSelect.onSelect(item[position]);
-                dialog.dismiss();
+                list_view.setOnItemClickListener((parent, view, position, id) -> {
+                    getOne.onSelect(books[position]);
+                    dialog.dismiss();
+                });
             }
+        };
+
+        getAllIcon(false,books -> {
+            Message message=new Message();
+            message.obj=books;
+            mHandler.sendMessage(message);
         });
 
 
-    }*/
+
+
+    }
 }
