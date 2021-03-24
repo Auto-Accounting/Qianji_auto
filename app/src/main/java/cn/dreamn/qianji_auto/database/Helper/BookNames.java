@@ -18,6 +18,7 @@
 package cn.dreamn.qianji_auto.database.Helper;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.BookName;
+import cn.dreamn.qianji_auto.ui.adapter.BookSelectListAdapter;
 import cn.dreamn.qianji_auto.ui.adapter.DataSelectListAdapter;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
@@ -60,6 +62,9 @@ public class BookNames {
     }
     public interface getBookStrings{
         void onGet(String[] bundle);
+    }
+    public interface getBookString{
+        void onGet(String bundle);
     }
     public interface getBookInt{
         void onGet(int length);
@@ -93,7 +98,19 @@ public class BookNames {
             getBook.onGet(result);
         });
     }
+    public static void getIcon(String bookName,getBookString getBook) {
 
+        Task.onThread(()->{
+            BookName[] bookNames = DbManger.db.BookNameDao().get(bookName);
+            if(bookNames.length<=0)
+            {
+                getBook.onGet("http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
+            }else{
+                getBook.onGet(bookNames[0].icon);
+            }
+
+        });
+    }
 
 
     public static void getAllIcon(Boolean add,getBookBundles getBook) {
@@ -204,7 +221,7 @@ public class BookNames {
             @Override
             public void handleMessage(Message msg) {
                 Bundle[] books=(Bundle[])msg.obj;
-                DataSelectListAdapter adapter = new DataSelectListAdapter(context,books);//listdata和str均可
+                BookSelectListAdapter adapter = new BookSelectListAdapter(context,books);//listdata和str均可
                 list_view.setAdapter(adapter);
 
                 MaterialDialog dialog = new MaterialDialog(context, MaterialDialog.getDEFAULT_BEHAVIOR());
@@ -213,12 +230,13 @@ public class BookNames {
                 DialogCustomViewExtKt.customView(dialog, null, textEntryView,
                         false, true, false, false);
                 dialog.show();
-
+                dialog.cancelable(false);
 
                 list_view.setOnItemClickListener((parent, view, position, id) -> {
                     getOne.onSelect(books[position]);
                     dialog.dismiss();
                 });
+               // dialog.setOnCancelListener(dialog1 -> getOne.onSelect(null));
             }
         };
 

@@ -20,8 +20,6 @@ package cn.dreamn.qianji_auto.utils.runUtils;
 import android.net.Uri;
 import android.os.Bundle;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -58,7 +56,6 @@ public class DataUtils {
         }
     }
 
-    @NotNull
     public String toString() {
         StringBuilder ret = new StringBuilder("data://string?");
         Set<String> keySet = bundle.keySet();

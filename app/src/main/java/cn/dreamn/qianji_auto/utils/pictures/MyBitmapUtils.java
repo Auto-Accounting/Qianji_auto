@@ -26,7 +26,10 @@ import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
+
+import com.shehuan.niv.NiceImageView;
 
 import cn.dreamn.qianji_auto.R;
 
@@ -50,6 +53,7 @@ public class MyBitmapUtils {
     }
 
     public static void setImage(Context mContext,View ivPic, Bitmap bitmap) {
+
         // Logs.d("设置图片");
         if (bitmap == null) {
             if (ivPic instanceof ImageView) {

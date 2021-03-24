@@ -19,7 +19,12 @@ package cn.dreamn.qianji_auto.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.KeyEvent;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +37,7 @@ import com.xuexiang.xpage.utils.TitleBar;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.base.MainModeFragment;
@@ -39,6 +45,7 @@ import cn.dreamn.qianji_auto.ui.listData.ListManager;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.views.CardViewGrid;
 import cn.dreamn.qianji_auto.ui.views.IconView;
+import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import es.dmoral.toasty.Toasty;
 
@@ -76,6 +83,11 @@ public class MainFragment extends BaseFragment {
     TextView active_status;
     @BindView(R.id.app_log)
     TextView app_log;
+
+    @BindView(R.id.book_img)
+    RelativeLayout book_img;
+    @BindView(R.id.default_book)
+    TextView default_book;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_main_1;
@@ -139,6 +151,22 @@ public class MainFragment extends BaseFragment {
             active_status.setTextColor(ThemeManager.getColor(getActivity(),R.color.background_white));
             // TODO 未激活指引激活
         }
+        //SetImg
+        String def_book=BookNames.getDefault();
+        default_book.setText(def_book);
+        final Handler mHandler=new Handler(Looper.getMainLooper()){
+            @Override
+            public void handleMessage(Message msg) {
+                MyBitmapUtils.setImage(getContext(),book_img,(Bitmap) msg.obj);
+
+            }
+        };
+
+        BookNames.getIcon(def_book,icon->{
+            MyBitmapUtils myBitmapUtils=new MyBitmapUtils(getContext(),mHandler);
+            myBitmapUtils.disPlay(book_img,icon);
+
+        });
     }
 
     @Override

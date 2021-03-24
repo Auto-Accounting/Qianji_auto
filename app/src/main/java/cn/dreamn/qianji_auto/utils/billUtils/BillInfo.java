@@ -21,7 +21,7 @@ import android.annotation.SuppressLint;
 import android.net.Uri;
 
 
-import org.jetbrains.annotations.NotNull;
+
 
 import java.util.Set;
 
@@ -336,7 +336,7 @@ public class BillInfo {
     }
 
 
-    @NotNull
+
     public String toString() {
 
         String url = "qianji://publicapi/addbill?&type=" + getType(true) + "&money=" + money;

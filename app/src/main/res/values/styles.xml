@@ -28,6 +28,10 @@
        <!-- <item name="android:windowTranslucentStatus">true</item>-->
 
     </style>
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/tab_bg</item>
+        <item name="android:textColor">@color/background_white</item>
+    </style>
 
 
 

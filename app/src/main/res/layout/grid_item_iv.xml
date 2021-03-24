@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="false"
+    android:layout_centerHorizontal="false"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/view_grid_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <com.shehuan.niv.NiceImageView
+                android:id="@+id/item_image_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_round_gray"
+                android:padding="7dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/head_ankio"
+                android:tint="@color/front_color"
+                app:is_circle="true"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <ImageView
+                android:id="@+id/iv_more"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="-10dp"
+                android:layout_marginTop="19dp"
+                android:layout_toEndOf="@+id/item_image_icon"
+                android:background="@drawable/bg_round_gray2"
+                android:padding="2dp"
+                android:src="@drawable/ic_more2"
+                android:tint="@color/deep_gray"
+                tools:ignore="UseAppTint" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/item_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:lines="1"
+            android:maxLength="12"
+            android:text="TextView"
+            android:textColor="@color/deep_gray"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <LinearLayout
+
+
+        android:id="@+id/view_grid_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+
+        <LinearLayout
+            android:id="@+id/three_pos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/bg_three" />
+        </LinearLayout>
+
+
+        <com.yanzhenjie.recyclerview.SwipeRecyclerView
+            android:id="@+id/recycler_view2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:background="@drawable/bg_round_gray3"
+            android:overScrollMode="never"
+            android:padding="15dp">
+
+        </com.yanzhenjie.recyclerview.SwipeRecyclerView>
+
+    </LinearLayout>
+
+</RelativeLayout>

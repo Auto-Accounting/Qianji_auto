@@ -3,12 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginEnd="10dp"
+    android:layout_height="wrap_content"
     android:background="@color/background_white"
-    app:cardCornerRadius="@dimen/radius"
+    app:cardCornerRadius="2dp"
     app:cardElevation="0dp">
 
 
@@ -18,7 +15,7 @@
         android:layout_height="120dp">
 
         <View
-            android:id="@+id/view5"
+            android:id="@+id/view6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/bg_alpha25"
@@ -34,7 +31,6 @@
             android:text=""
             android:textColor="@color/background_white"
             android:textSize="18sp" />
-
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

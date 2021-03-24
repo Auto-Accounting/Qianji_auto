@@ -18,35 +18,98 @@
 package cn.dreamn.qianji_auto.database.Helper;
 
 
+import android.os.Bundle;
+
+import java.util.ArrayList;
+
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.CategoryName;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 public class CategoryNames {
-    interface getCateNameObj{
-        void onGet(CategoryName[] categoryNames);
+    public interface getCateNameObj{
+        void onGet(Bundle[] categoryNames);
     }
-    interface getCateNameStr{
+    public interface getCateNameStr{
         void onGet(String categoryNames);
     }
-    interface getCateNameBoolean{
+    public interface getCateNameBoolean{
         void onGet(boolean isSucceed);
     }
+    private static Bundle toBundle(CategoryName categoryName){
+        Bundle bundle=new Bundle();
+        bundle.putInt("id",categoryName.id);
+        bundle.putString("book_id",categoryName.book_id);
+        bundle.putString("icon",categoryName.icon);
+        bundle.putString("level",categoryName.level);
+        bundle.putString("name",categoryName.name);
+        bundle.putString("parent_id",categoryName.parent_id);
+        bundle.putString("sort",categoryName.sort);
+        bundle.putString("type",categoryName.type);
+
+        return bundle;
+    }
+    private static Bundle[] toBundles(CategoryName[] categoryNames,Bundle add){
+        ArrayList<Bundle> bundleArrayList = new ArrayList<>();
+        for (CategoryName category:categoryNames) {
+            bundleArrayList.add(toBundle(category));
+        }
+        if(add!=null)
+         bundleArrayList.add(add);
+        return bundleArrayList.toArray(new Bundle[0]);
+    }
     public static void getParentByPay(String book_id,getCateNameObj getCateName) {
-        Task.onThread(()-> getCateName.onGet(DbManger.db.CategoryNameDao().get("0",book_id)));
+        Task.onThread(()-> {
+            getCateName.onGet(toBundles(DbManger.db.CategoryNameDao().get("0", book_id),null));
+        });
 
     }
 
     public static void getParentByIncome(String book_id,getCateNameObj getCateName) {
-        Task.onThread(()-> getCateName.onGet(DbManger.db.CategoryNameDao().get("1", book_id)));
+        Task.onThread(()-> getCateName.onGet(toBundles(DbManger.db.CategoryNameDao().get("1", book_id),null)));
     }
 
     public static void getChildrenByPay(String parent_id, String book_id,getCateNameObj getCateName) {
-        Task.onThread(()-> getCateName.onGet(DbManger.db.CategoryNameDao().get("0", parent_id, book_id)));
+        Task.onThread(()-> getCateName.onGet(toBundles(DbManger.db.CategoryNameDao().get("0", parent_id, book_id),null)));
     }
 
     public static void getChildrenByIncome(String parent_id, String book_id,getCateNameObj getCateName) {
-        Task.onThread(()-> getCateName.onGet(DbManger.db.CategoryNameDao().get("1", parent_id, book_id)));
+        Task.onThread(()-> getCateName.onGet(toBundles(DbManger.db.CategoryNameDao().get("1", parent_id, book_id),null)));
+    }
+
+    public static void getChildrens(String parent_id, String book_id,String type,Boolean allow,getCateNameObj getCateName) {
+        Task.onThread(()->{
+            Bundle bundle=null;
+            if(allow){
+         bundle=new Bundle();
+        bundle.putInt("id",-2);
+        bundle.putString("book_id","-2");
+        bundle.putString("icon","https://pic.dreamn.cn/uPic/2021032314475916164820791616482079785ssWEen添加.png");
+        bundle.putString("level","2");
+        bundle.putString("name","添加");
+        bundle.putString("parent_id","-2");
+        bundle.putString("sort","1000");
+        bundle.putString("type",type);
+            }
+        getCateName.onGet(toBundles(DbManger.db.CategoryNameDao().get(type, parent_id, book_id),bundle));
+    });
+    }
+    public static void getChildren(String parent_id, String book_id,String type,Boolean allow,getCateNameObj getCateName) {
+        Task.onThread(()->{
+            Bundle bundle=null;
+            if(allow){
+                bundle=new Bundle();
+                bundle.putInt("id",-2);
+                bundle.putString("book_id","-2");
+                bundle.putString("icon","https://pic.dreamn.cn/uPic/2021032314475916164820791616482079785ssWEen添加.png");
+                bundle.putString("level","2");
+                bundle.putString("name","添加");
+                bundle.putString("parent_id","-2");
+                bundle.putString("sort","1000");
+                bundle.putString("type",type);
+            }
+            getCateName.onGet(toBundles(DbManger.db.CategoryNameDao().getOne(type, parent_id, book_id),bundle));
+        });
     }
 
     public static void getPic(String name, String type, String book_id,getCateNameStr getCateName) {

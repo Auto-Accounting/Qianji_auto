@@ -30,7 +30,8 @@ public interface CategoryNameDao {
 
     @Query("SELECT * FROM categoryname WHERE type=:type AND level='2' AND parent_id=:parent  AND book_id=:book_id  order by CAST(sort as int)")
     CategoryName[] get(String type, String parent, String book_id);
-
+    @Query("SELECT * FROM categoryname WHERE type=:type AND level='2' AND parent_id=:parent  AND book_id=:book_id limit 1")
+    CategoryName[] getOne(String type, String parent, String book_id);
     @Query("DELETE FROM categoryname WHERE id=:id")
     void del(int id);
 

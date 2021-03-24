@@ -92,17 +92,17 @@
                     app:cardCornerRadius="@dimen/radius"
                     app:cardElevation="0dp">
 
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/bg"
-                        app:srcCompat="@drawable/bg" />
-
                     <RelativeLayout
+                        android:id="@+id/book_img"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
+                        <View
+                            android:id="@+id/view7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/bg_alpha25"
+                            android:backgroundTint="@color/bg_alpha25" />
 
                         <TextView
                             android:id="@+id/default_book"
@@ -112,6 +112,7 @@
                             android:text="默认账本"
                             android:textColor="@color/background_white"
                             android:textSize="26sp" />
+
                     </RelativeLayout>
 
                 </androidx.cardview.widget.CardView>

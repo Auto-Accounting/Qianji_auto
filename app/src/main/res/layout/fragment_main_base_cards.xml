@@ -61,12 +61,12 @@
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="资产" />
+                    android:text="支出" />
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="账本" />
+                    android:text="收入" />
 
             </com.google.android.material.tabs.TabLayout>
 
