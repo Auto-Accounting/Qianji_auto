@@ -6,41 +6,49 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.adapter.CategoryAdapter;
-import cn.dreamn.qianji_auto.ui.fragment.base.sorts.sortsFragment1;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import es.dmoral.toasty.Toasty;
 
 public class CategoryUtils {
     SwipeRecyclerView recyclerView;
     CategoryAdapter mAdapter;
-    private List<Bundle> list;
-    private List<Bundle> tempList;
+    private List<Bundle> list=new ArrayList<>();
     private String book_id=null;
     private String type;
     private Context mContext;
-
+    private finishRefresh ff;
     private int topInt=-1;
 
     private static final int HANDLE_ERR = 0;
     private static final int HANDLE_OK = 1;
-    private static final int HANDLE_REFRESH=2;
-    CategoryUtils(SwipeRecyclerView recyclerView,CategoryAdapter mAdapter,String book_id,String type,Context context){
+    Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case HANDLE_ERR:
+                    break;
+                case HANDLE_OK:
+                    mAdapter.refresh(list);//全部刷新
+                    if(ff!=null){
+                        ff.onFinish();
+                    }
+                    break;
+            }
+        }
+    };
+    public CategoryUtils(SwipeRecyclerView recyclerView, String book_id, String type, Context context,Boolean allowChange){
         this.book_id=book_id;
         this.recyclerView=recyclerView;
-        this.mAdapter=mAdapter;
+        this.mAdapter=new CategoryAdapter(context,allowChange);
         this.type=type;
         mContext=context;
     }
@@ -48,19 +56,20 @@ public class CategoryUtils {
 
         @Override
         public int getSpanSize(int i) {
-            Bundle bundle=tempList.get(i);
+            Bundle bundle=list.get(i);
             return bundle.containsKey("change") ?5:1;
         }
     }
 
-    public void show(){
+    public interface finishRefresh{
+        void onFinish();
+    }
 
+    public void show(){
 
         GridLayoutManager layoutManager = new GridLayoutManager(mContext, 5);
         layoutManager.setSpanSizeLookup(new SpecialSpanSizeLookup());
         recyclerView.setLayoutManager(layoutManager);
-
-
         mAdapter=new CategoryAdapter(mContext,true);
         mAdapter.setHasStableIds(true);
         mAdapter.setOnItemClickListener(this::OnItemClickListen);
@@ -69,35 +78,55 @@ public class CategoryUtils {
 
     }
 
+
     private void OnItemClickListen(View view, int position) {
-        if(tempList==null||position >= tempList.size())return;
-        Bundle item= tempList.get(position);
-        int listPos=list.indexOf(item);//获取在list中的pos
-        if(listPos==-1)return;//哥屋恩吧
-        if(topInt==item.getInt("id")){
-            Log.d("view一致,收起面板");
-            mAdapter.setIndex(-1);
-            mAdapter.setSelect(position);
-            tempList=new ArrayList<>(list);
-            mAdapter.refresh(tempList);
-            topInt=-1;
+        if(list==null||position >= list.size())return;
+        Bundle item= list.get(position);
+
+        if(item.getString("name")==null)return;//为null就不响应
+
+        int left = view.getLeft();
+        /*
+         * 1 2 3 4 5 * 插入(6)
+         * 6 7 8 9 10 * 插入
+         * 7 8 9 10 11 (12)
+         * 11 12 13 14  * 插入
+         * 13 14 15 16 17 (18)
+         * */
+
+        int line=position/6;
+        line=line+1;
+        int real=line*6;
+
+
+        //清除上一个控件布局 Strat
+
+        int line2=topInt/6;
+        line2=line2+1;
+        int real2=line2*6;
+        if(real2!=real){//不同布局刷新
+           refreshSub(real2);
+        }
+
+
+        // 清除上一个控件布局 End
+
+        mAdapter.setSelect(position);//选中当前
+        //清除上一个样式
+        mAdapter.notifyItemChanged(topInt);
+        //局部刷新
+       // Log.d("刷新上一个按钮"+topInt+"清除");
+        if(topInt==position){
+            Log.d("view一致");
+            refreshSub(real2);
+            Log.d("刷新二级页面"+(real-1)+"");
+           // mAdapter.notifyItemChanged(position);
+            Log.d("刷新当前按钮"+(position)+"");
+            topInt=position;
             return;
         }
 
-        topInt=item.getInt("id");
-
-
-
-
-
-
-        int left = view.getLeft();
-
-
-        int line=position/5 + 1;
-        int index2=position%5;
-        int real=line*5;
-
+        topInt=position;
 
         Handler mmHandler = new Handler(Looper.getMainLooper()) {
             @Override
@@ -108,37 +137,22 @@ public class CategoryUtils {
                         break;
                     case HANDLE_OK:
 
-                        tempList=new ArrayList<>(list);//重新赋值
-                        //  List<Bundle> bundles2=new ArrayList<>();
-                        int size=list.size();
-                        // Log.d("真实加入的位置"+real+" 实际大小"+size+" 点击位置："+position+" list中"+listPos);
-
-                        if(real>size){
-                            for(int i=0;i<real-size;i++){
-                                Bundle bundle=new Bundle();
-                                tempList.add(bundle);
-                                //  bundles2.add(bundle);
-                            }
-                        }
-                        mAdapter.setSelect(listPos);
-                        mAdapter.setIndex(real);
+                        Log.d("当前选中"+position);
                         Bundle[] bundles=(Bundle[])msg.obj;
                         Bundle bundle=new Bundle();
                         bundle.putInt("id",-1);
+                        bundle.putString("name",null);
                         bundle.putString("book_id",item.getString("book_id"));
-                        bundle.putInt("left", left+8);
+                        bundle.putInt("left", left+11);
                         bundle.putSerializable("data",bundles);
                         bundle.putBoolean("change",true);
-                        tempList.add(bundle);
-                        // tempList.clear();
-
-                        ///  bundles2.add(bundle);
-
-                        // mAdapter.loadMore(bundles2);
-
-                        //  Log.d("当前tempList"+tempList.size()+" mAdapter "+mAdapter.getCount());
-
-                        mAdapter.refresh(tempList);
+                        Log.d("当前修改"+bundle.toString());
+                        list.set(real-1,bundle);
+                        mAdapter.replaceNotNotify(real-1,bundle);
+                        Log.d("刷新当前按钮"+(position)+"");
+                        mAdapter.notifyItemChanged(real-1);
+                        Log.d("刷新二级菜单"+(real-1)+"");
+                        mAdapter.notifyItemChanged(position);
 
                         break;
                 }
@@ -146,11 +160,7 @@ public class CategoryUtils {
         };
 
         CategoryNames.getChildrens(item.getString("self_id"),book_id,item.getString("type"),true,books -> {
-            //  Message m=new Message();
-            //  m.obj=view;
             if(books==null||books.length==0){
-
-                //    m.what=HANDLE_ERR;
                 mmHandler.sendEmptyMessage(HANDLE_ERR);
             }else{
                 Message message=new Message();
@@ -159,31 +169,57 @@ public class CategoryUtils {
                 mmHandler.sendMessage(message);
             }
         });
-
-
     }
-    Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case HANDLE_ERR:
-                    break;
-                case HANDLE_OK:
-                    mAdapter.refresh(list);
-                    break;
-                case HANDLE_REFRESH:
-                    refreshData();
-                    break;
-            }
-        }
-    };
-    private void refreshData(){
-        CategoryNames.getParentByPay(book_id, books -> {
+
+    private void refreshSub(int position){
+        Bundle bundle1=new Bundle();
+        bundle1.putString("name",null);//保留数据
+        bundle1.putBoolean("change",false);//保留数据
+        list.set(position-1,bundle1);
+        mAdapter.replaceNotNotify(position-1,bundle1);
+        mAdapter.notifyItemChanged(position-1);
+    }
+    public void refreshData(String book_id,finishRefresh f){
+        this.book_id=book_id;
+        refreshData(f);
+    }
+    public void refreshData(finishRefresh f){
+        ff=f;
+        CategoryNames.getParents(book_id,type,books -> {
             if(books==null||books.length==0){
                 mHandler.sendEmptyMessage(HANDLE_ERR);
             }else{
-                list= Arrays.asList(books);
-                tempList=new ArrayList<>(list);
+
+                list.clear();
+                int len = books.length;
+                int line=len/5;//共有几行
+                if(len%5!=0)line=line+1;
+                int realLen=line*5+line;//取5的整数
+                for(int i=0;i<len;i++){
+                    list.add(books[i]);
+                    if((i)%5==4){
+                        Bundle bundle=new Bundle();
+                        bundle.putString("name",null);//保留数据
+                        bundle.putBoolean("change",false);//保留数据
+                        list.add(bundle);
+                    }
+
+
+                }
+                // Log.d("还差"+(realLen-list.size())+"条数据");
+                int len2=realLen-list.size()-1;
+                //长度补全
+                for(int j=0;j<len2;j++){
+                    // Log.d("循环次数+"+j);
+                    Bundle bundle=new Bundle();
+                    bundle.putString("name",null);//保留数据
+                    // bundle.putBoolean("change",true);//保留数据
+                    list.add(bundle);
+                }
+                Bundle bundle=new Bundle();
+                bundle.putString("name",null);//保留数据
+                bundle.putBoolean("change",false);//保留数据
+                list.add(bundle);
                 mHandler.sendEmptyMessage(HANDLE_OK);
             }
         });

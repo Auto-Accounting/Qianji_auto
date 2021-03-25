@@ -64,6 +64,12 @@ public class CategoryNames {
         });
 
     }
+    public static void getParents(String book_id,String type,getCateNameObj getCateName) {
+        Task.onThread(()-> {
+            getCateName.onGet(toBundles(DbManger.db.CategoryNameDao().get(type, book_id),null));
+        });
+
+    }
 
     public static void getParentByIncome(String book_id,getCateNameObj getCateName) {
         Task.onThread(()-> getCateName.onGet(toBundles(DbManger.db.CategoryNameDao().get("1", book_id),null)));

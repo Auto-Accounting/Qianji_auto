@@ -221,6 +221,10 @@ public class BookNames {
             @Override
             public void handleMessage(Message msg) {
                 Bundle[] books=(Bundle[])msg.obj;
+                if(books.length==1){
+                    getOne.onSelect(books[0]);
+                    return;
+                }
                 BookSelectListAdapter adapter = new BookSelectListAdapter(context,books);//listdata和str均可
                 list_view.setAdapter(adapter);
 
@@ -240,7 +244,7 @@ public class BookNames {
             }
         };
 
-        getAllIcon(false,books -> {
+        getAllIcon(true,books -> {
             Message message=new Message();
             message.obj=books;
             mHandler.sendMessage(message);

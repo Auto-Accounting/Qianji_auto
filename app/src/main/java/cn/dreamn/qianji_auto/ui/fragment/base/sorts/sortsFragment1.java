@@ -185,9 +185,7 @@ public class sortsFragment1 extends BaseFragment {
 
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 5);
         layoutManager.setSpanSizeLookup(new SpecialSpanSizeLookup());
-
         recyclerView.setLayoutManager(layoutManager);
-
 
         mAdapter=new CategoryAdapter(getContext(),true);
         mAdapter.setHasStableIds(true);

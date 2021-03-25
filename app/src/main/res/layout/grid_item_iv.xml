@@ -9,6 +9,8 @@
     android:layout_height="wrap_content"
     android:layout_centerInParent="false"
     android:layout_centerHorizontal="false"
+    android:background="@color/alpha0"
+    android:backgroundTint="@color/alpha0"
     android:orientation="vertical">
 
 

@@ -10,6 +10,7 @@ import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -53,7 +54,9 @@ public class CategoryAdapter extends BaseAdapter {
 
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Bundle item, int position) {
-        Log.d("刷新当前位置 "+position+"  刷新当前"+item.toString()+"");
+       // Log.d("刷新当前位置 "+position+"  刷新当前"+item.toString()+"");
+       // RelativeLayout relativeLayout = (RelativeLayout) holder.findView(R.id.layout);
+       // relativeLayout.setBackgroundColor(mContext.getColor(R.color.background_white));
         LinearLayout view_1 = (LinearLayout) holder.findViewById(R.id.view_grid_1);
         LinearLayout view_2 = (LinearLayout) holder.findViewById(R.id.view_grid_2);
         if (item.getString("name") == null) {
@@ -79,8 +82,6 @@ public class CategoryAdapter extends BaseAdapter {
         NiceImageView item_image_icon = (NiceImageView) holder.findView(R.id.item_image_icon);
         ImageView iv_more = (ImageView) holder.findView(R.id.iv_more);
         TextView item_text = (TextView) holder.findView(R.id.item_text);
-        // LinearLayout linearLayout = (LinearLayout) holder.findView(R.id.linear);
-
 
 
 

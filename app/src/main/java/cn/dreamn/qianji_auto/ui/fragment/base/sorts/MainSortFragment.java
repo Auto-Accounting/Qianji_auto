@@ -75,7 +75,7 @@ public class MainSortFragment extends BaseFragment {
             //等选择账本之后再显示
             List<Fragment> tabFragments = new ArrayList<>();  //实例化集合
             tabFragments.add(new sortsFragment1(book_id));
-            tabFragments.add(new cardsFragment2());
+            tabFragments.add(new sortsFragment2(bundle,"1"));
             TabAdapter adapter=new TabAdapter(getChildFragmentManager(), tabFragments,new String[]{"支出","收入"}); //参数1为fragment管理器
             viewPager.setAdapter(adapter); //给viewPager设置适配器
             tabLayout.setupWithViewPager(viewPager); //将tabLayout与viewPager建立匹配
