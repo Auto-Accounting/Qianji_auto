@@ -6,12 +6,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
+import android.widget.Adapter;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
@@ -27,24 +29,22 @@ public class CategoryUtils {
     private Context mContext;
     private finishRefresh ff;
     private int topInt=-1;
-
+    private boolean expand=false;
     private static final int HANDLE_ERR = 0;
     private static final int HANDLE_OK = 1;
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case HANDLE_ERR:
-                    break;
-                case HANDLE_OK:
-                    mAdapter.refresh(list);//全部刷新
-                    if(ff!=null){
-                        ff.onFinish();
-                    }
-                    break;
+            if (msg.what == HANDLE_OK) {
+                mAdapter.refresh(list);//全部刷新
+            }
+            if(ff!=null){
+                ff.onFinish(msg.what);
             }
         }
     };
+    private LongClick longClick;
+
     public CategoryUtils(SwipeRecyclerView recyclerView, String book_id, String type, Context context,Boolean allowChange){
         this.book_id=book_id;
         this.recyclerView=recyclerView;
@@ -62,7 +62,7 @@ public class CategoryUtils {
     }
 
     public interface finishRefresh{
-        void onFinish();
+        void onFinish(int state);
     }
 
     public void show(){
@@ -71,113 +71,86 @@ public class CategoryUtils {
         layoutManager.setSpanSizeLookup(new SpecialSpanSizeLookup());
         recyclerView.setLayoutManager(layoutManager);
         mAdapter=new CategoryAdapter(mContext,true);
-        mAdapter.setHasStableIds(true);
+
         mAdapter.setOnItemClickListener(this::OnItemClickListen);
+        mAdapter.setOnItemLongClickListener(this::OnLongClickListen);
         mAdapter.setOpenAnimationEnable(false);
         recyclerView.setAdapter(mAdapter);
 
+
+    }
+
+    private void OnLongClickListen(View view, int position) {
+        if(list==null||position >= list.size())return;
+        Bundle item= list.get(position);
+        if(item.getString("name")==null)return;//为null就不响应
+        if(longClick!=null){
+            longClick.onLongClick(item, position);
+        }
     }
 
 
     private void OnItemClickListen(View view, int position) {
         if(list==null||position >= list.size())return;
         Bundle item= list.get(position);
+        int left = view.getLeft();
+
+        refreshSubData(item,position,left);
+    }
+
+    public void setOnItemClick(CategoryAdapter.Item item){
+        mAdapter.setOnItemListener(item);
+    }
+    public interface LongClick{
+        void onLongClick(Bundle bundle,int pos);
+    }
+    public void setOnLongClick(LongClick longClick){
+        this.longClick=longClick;
+    }
+
+
+
+    private void refreshSubData(Bundle item,int position,int left){
 
         if(item.getString("name")==null)return;//为null就不响应
 
-        int left = view.getLeft();
-        /*
-         * 1 2 3 4 5 * 插入(6)
-         * 6 7 8 9 10 * 插入
-         * 7 8 9 10 11 (12)
-         * 11 12 13 14  * 插入
-         * 13 14 15 16 17 (18)
-         * */
+        int real=getItemPos(position);//当前的item
+        int real2=getItemPos(topInt);//上一个item
 
-        int line=position/6;
-        line=line+1;
-        int real=line*6;
+        Log.d("real "+real+" real2 "+real2);
 
-
-        //清除上一个控件布局 Strat
-
-        int line2=topInt/6;
-        line2=line2+1;
-        int real2=line2*6;
-        if(real2!=real){//不同布局刷新
-           refreshSub(real2);
+        if(real2!=real){//item不同布局则清除上一个
+            closeItem(topInt);
         }
 
-
-        // 清除上一个控件布局 End
-
-        mAdapter.setSelect(position);//选中当前
-        //清除上一个样式
+        // 当前布局设置选中
+        mAdapter.setSelect(position);
+        // 清除上一个布局
         mAdapter.notifyItemChanged(topInt);
-        //局部刷新
-       // Log.d("刷新上一个按钮"+topInt+"清除");
-        if(topInt==position){
-            Log.d("view一致");
-            refreshSub(real2);
-            Log.d("刷新二级页面"+(real-1)+"");
-           // mAdapter.notifyItemChanged(position);
-            Log.d("刷新当前按钮"+(position)+"");
+        //再次点击，如果已展开则收起
+        if(topInt==position&&isOpenItem()){
+            closeItem(topInt);
+
             topInt=position;
             return;
         }
 
         topInt=position;
+        //点击默认展开
+        openItem(position,left);
 
-        Handler mmHandler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case HANDLE_ERR:
-                        //没有数据
-                        break;
-                    case HANDLE_OK:
-
-                        Log.d("当前选中"+position);
-                        Bundle[] bundles=(Bundle[])msg.obj;
-                        Bundle bundle=new Bundle();
-                        bundle.putInt("id",-1);
-                        bundle.putString("name",null);
-                        bundle.putString("book_id",item.getString("book_id"));
-                        bundle.putInt("left", left+11);
-                        bundle.putSerializable("data",bundles);
-                        bundle.putBoolean("change",true);
-                        Log.d("当前修改"+bundle.toString());
-                        list.set(real-1,bundle);
-                        mAdapter.replaceNotNotify(real-1,bundle);
-                        Log.d("刷新当前按钮"+(position)+"");
-                        mAdapter.notifyItemChanged(real-1);
-                        Log.d("刷新二级菜单"+(real-1)+"");
-                        mAdapter.notifyItemChanged(position);
-
-                        break;
-                }
-            }
-        };
-
-        CategoryNames.getChildrens(item.getString("self_id"),book_id,item.getString("type"),true,books -> {
-            if(books==null||books.length==0){
-                mmHandler.sendEmptyMessage(HANDLE_ERR);
-            }else{
-                Message message=new Message();
-                message.obj=books;
-                message.what=HANDLE_OK;
-                mmHandler.sendMessage(message);
-            }
-        });
     }
 
-    private void refreshSub(int position){
-        Bundle bundle1=new Bundle();
-        bundle1.putString("name",null);//保留数据
-        bundle1.putBoolean("change",false);//保留数据
-        list.set(position-1,bundle1);
-        mAdapter.replaceNotNotify(position-1,bundle1);
-        mAdapter.notifyItemChanged(position-1);
+    public void refreshData(String book_id,int parent,finishRefresh f){
+        if(parent!=-2){
+            Bundle data=list.get(parent);
+            Bundle dataItem=data.getBundle("item");
+            int index=list.indexOf(dataItem);
+            closeItem(index);//清除
+            topInt=-1;
+           refreshSubData(dataItem,index,data.getInt("leftRaw"));
+        }else refreshData(book_id,f);
+
     }
     public void refreshData(String book_id,finishRefresh f){
         this.book_id=book_id;
@@ -186,6 +159,9 @@ public class CategoryUtils {
     public void refreshData(finishRefresh f){
         ff=f;
         CategoryNames.getParents(book_id,type,books -> {
+            Log.d("books"+ Arrays.toString(books));
+            mAdapter.setSelect(-1);
+            expand=false;//默认关闭
             if(books==null||books.length==0){
                 mHandler.sendEmptyMessage(HANDLE_ERR);
             }else{
@@ -220,8 +196,78 @@ public class CategoryUtils {
                 bundle.putString("name",null);//保留数据
                 bundle.putBoolean("change",false);//保留数据
                 list.add(bundle);
+                Log.d("输出"+list.toString());
                 mHandler.sendEmptyMessage(HANDLE_OK);
             }
+
         });
+    }
+
+
+    private boolean isOpenItem(){
+        return expand;
+    }
+
+    private int getItemPos(int position){
+        int line=position/6;
+        line=line+1;
+        return line*6;
+    }
+
+    private void openItem(int position,int left){
+
+        Bundle item=list.get(position);
+        Log.d("postion:"+position + " data"+item.toString());
+        if(item==null)return;
+       int real=getItemPos(position);
+
+        Handler mmHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == HANDLE_OK) {
+                    expand = true;
+                    Bundle[] bundles = (Bundle[]) msg.obj;
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("id", -1);
+                    bundle.putBundle("item", item);
+                    bundle.putString("name", null);
+                    bundle.putString("book_id", item.getString("book_id"));
+                    bundle.putInt("left", left + 13);
+                    bundle.putInt("leftRaw", left);
+                    bundle.putSerializable("data", bundles);
+                    bundle.putBoolean("change", true);
+
+                    list.set(real - 1, bundle);
+                    mAdapter.replaceNotNotify(real - 1, bundle);
+
+                    mAdapter.notifyItemChanged(real - 1);
+
+                    mAdapter.notifyItemChanged(position);
+                }
+            }
+        };
+
+        CategoryNames.getChildrens(item.getString("self_id"),book_id,item.getString("type"),true,books -> {
+            Log.d("子类"+ Arrays.toString(books));
+            if(books!=null&&books.length!=0){
+                Message message=new Message();
+                message.obj=books;
+                message.what=HANDLE_OK;
+                mmHandler.sendMessage(message);
+            }
+        });
+    }
+
+    private void closeItem(int position){
+
+        int real=getItemPos(position);
+        Bundle bundle1=new Bundle();
+        bundle1.putString("name",null);//保留数据
+        bundle1.putBoolean("change",false);//保留数据
+        list.set(real-1,bundle1);
+        mAdapter.replaceNotNotify(real-1,bundle1);
+        mAdapter.notifyItemChanged(real-1);
+
+        expand=false;
     }
 }

@@ -17,7 +17,6 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.base.sorts;
 
-import android.os.Bundle;
 import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
@@ -36,8 +35,6 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.ui.adapter.TabAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.fragment.base.cards.cardsFragment1;
-import cn.dreamn.qianji_auto.ui.fragment.base.cards.cardsFragment2;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.views.IconView;
 
@@ -61,7 +58,8 @@ public class MainSortFragment extends BaseFragment {
     IconView iv_left_icon;
     @BindView(R.id.viewpage)
     ViewPager viewPager;
-
+    sortsFragment sf1;
+    sortsFragment sf2;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_main_base_cards;
@@ -71,11 +69,14 @@ public class MainSortFragment extends BaseFragment {
     @Override
     protected void initViews() {
         BookNames.showBookSelect(getContext(), "请选择账本", bundle -> {
-            String book_id=bundle.getString("book_id");
+            sf1=new sortsFragment(bundle,"0");
+            sf2=new sortsFragment(bundle,"1");
+            sf1.setObj(sf2);
+            sf2.setObj(sf1);
             //等选择账本之后再显示
             List<Fragment> tabFragments = new ArrayList<>();  //实例化集合
-            tabFragments.add(new sortsFragment1(book_id));
-            tabFragments.add(new sortsFragment2(bundle,"1"));
+            tabFragments.add(sf1);
+            tabFragments.add(sf2);
             TabAdapter adapter=new TabAdapter(getChildFragmentManager(), tabFragments,new String[]{"支出","收入"}); //参数1为fragment管理器
             viewPager.setAdapter(adapter); //给viewPager设置适配器
             tabLayout.setupWithViewPager(viewPager); //将tabLayout与viewPager建立匹配

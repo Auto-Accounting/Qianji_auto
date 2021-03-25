@@ -45,6 +45,7 @@ public class CategoryNames {
         bundle.putString("name",categoryName.name);
         bundle.putString("parent_id",categoryName.parent_id);
         bundle.putString("sort",categoryName.sort);
+        bundle.putString("self_id",categoryName.self_id);
         bundle.putString("type",categoryName.type);
 
         return bundle;
@@ -92,8 +93,9 @@ public class CategoryNames {
         bundle.putString("book_id","-2");
         bundle.putString("icon","https://pic.dreamn.cn/uPic/2021032314475916164820791616482079785ssWEen添加.png");
         bundle.putString("level","2");
-        bundle.putString("name","添加");
+        bundle.putString("name","添加子类");
         bundle.putString("parent_id","-2");
+                bundle.putString("self_id","-2");
         bundle.putString("sort","1000");
         bundle.putString("type",type);
             }
@@ -109,8 +111,9 @@ public class CategoryNames {
                 bundle.putString("book_id","-2");
                 bundle.putString("icon","https://pic.dreamn.cn/uPic/2021032314475916164820791616482079785ssWEen添加.png");
                 bundle.putString("level","2");
-                bundle.putString("name","添加");
+                bundle.putString("name","添加子类");
                 bundle.putString("parent_id","-2");
+                bundle.putString("self_id","-2");
                 bundle.putString("sort","1000");
                 bundle.putString("type",type);
             }

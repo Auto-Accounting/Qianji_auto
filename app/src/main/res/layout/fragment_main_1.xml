@@ -9,6 +9,60 @@
     >
 
 
+    <RelativeLayout
+        android:id="@+id/title_count"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <RelativeLayout
+            android:id="@+id/title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:background="@color/background_white">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/app_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0dp"
+                    android:text="自动记账"
+                    android:textColor="@color/main_title"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/app_log"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="3.0.0 beta1"
+                    android:textColor="@color/skip_title"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <cn.dreamn.qianji_auto.ui.views.IconView
+                android:id="@+id/mode_select1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="20dp"
+                android:text="&#xe635;"
+                android:textColor="@color/main_title"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -26,66 +80,11 @@
                 android:paddingBottom="20dp">
 
 
-                <RelativeLayout
-                    android:id="@+id/title_count"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <RelativeLayout
-                        android:id="@+id/title_bar"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginTop="0dp"
-                        android:layout_marginBottom="0dp"
-                        android:background="@color/background_white">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="20dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/app_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="0dp"
-                                android:text="自动记账"
-                                android:textColor="@color/main_title"
-                                android:textSize="18sp" />
-
-                            <TextView
-                                android:id="@+id/app_log"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:text="3.0.0 beta1"
-                                android:textColor="@color/skip_title"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
-                        <cn.dreamn.qianji_auto.ui.views.IconView
-                            android:id="@+id/mode_select1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerInParent="true"
-                            android:layout_marginEnd="20dp"
-                            android:text="&#xe632;"
-                            android:textColor="@color/main_title"
-                            android:textSize="18sp" />
-
-                    </RelativeLayout>
-                </RelativeLayout>
-
                 <androidx.cardview.widget.CardView
                     android:id="@+id/book"
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
 
-                    android:layout_below="@+id/title_count"
                     android:layout_marginLeft="@dimen/margin_side"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="@dimen/margin_side"

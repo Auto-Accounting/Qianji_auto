@@ -10,7 +10,6 @@ import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -28,16 +27,16 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
 import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 public class CategoryAdapter extends BaseAdapter {
     private Context mContext;
 
     private final Boolean allow;
 
-    private int index = -1;
     private int select = -1;
     private List<Bundle> list;
+
+    private Item itemListen;
 
     public CategoryAdapter(Context context, Boolean allowChange) {
         super(R.layout.grid_item_iv);
@@ -54,22 +53,20 @@ public class CategoryAdapter extends BaseAdapter {
 
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Bundle item, int position) {
-       // Log.d("刷新当前位置 "+position+"  刷新当前"+item.toString()+"");
-       // RelativeLayout relativeLayout = (RelativeLayout) holder.findView(R.id.layout);
-       // relativeLayout.setBackgroundColor(mContext.getColor(R.color.background_white));
+
         LinearLayout view_1 = (LinearLayout) holder.findViewById(R.id.view_grid_1);
         LinearLayout view_2 = (LinearLayout) holder.findViewById(R.id.view_grid_2);
         if (item.getString("name") == null) {
-            if(item.containsKey("change")){
-                if(item.getBoolean("change")){
+            if (item.containsKey("change")) {
+                if (item.getBoolean("change")) {
                     view_1.setVisibility(View.GONE);
                     view_2.setVisibility(View.VISIBLE);
-                    doItem(item, holder);
-                }else{
+                    doItem(item, holder, position);
+                } else {
                     view_1.setVisibility(View.GONE);
                     view_2.setVisibility(View.GONE);
                 }
-            }else{
+            } else {
                 view_1.setVisibility(View.INVISIBLE);
             }
 
@@ -84,8 +81,6 @@ public class CategoryAdapter extends BaseAdapter {
         TextView item_text = (TextView) holder.findView(R.id.item_text);
 
 
-
-
         final Handler mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
@@ -96,7 +91,7 @@ public class CategoryAdapter extends BaseAdapter {
                         iv_more.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    if(item_image_icon.getTag()==null){
+                    if (item_image_icon.getTag() == null) {
                         MyBitmapUtils.setImage(mContext, item_image_icon, (Bitmap) msg.obj);
                         item_image_icon.setTag(item.getString("icon"));
                     }
@@ -123,13 +118,8 @@ public class CategoryAdapter extends BaseAdapter {
 
         setColor(select == position, item_image_icon, iv_more, item_text);
 
-
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
 
     private void setColor(boolean select, NiceImageView imageView, ImageView imageView1, TextView textView) {
 
@@ -152,22 +142,47 @@ public class CategoryAdapter extends BaseAdapter {
         this.select = index;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
-    }
 
-    private void doItem(Bundle item, SmartViewHolder holder) {
-
+    private void doItem(Bundle item, SmartViewHolder holder, int position1) {
+        final int[] last = {-1};
         LinearLayout three_pos = holder.findViewById(R.id.three_pos);
         SwipeRecyclerView recycler_view2 = holder.findViewById(R.id.recycler_view2);
         CategoryItemAdapter categoryItemAdapter = new CategoryItemAdapter(mContext);
         categoryItemAdapter.setOpenAnimationEnable(false);
         recycler_view2.setLayoutManager(new GridLayoutManager(mContext, 5));
         recycler_view2.setAdapter(categoryItemAdapter);
-        three_pos.setPadding(item.getInt("left"), 0, 0, 0);
+        int left = item.getInt("left");
+        three_pos.setPadding(left, 0, 0, 0);
+
         Bundle[] bundles = (Bundle[]) item.getSerializable("data");
-        categoryItemAdapter.refresh(Arrays.asList(bundles));
+        List<Bundle> list = Arrays.asList(bundles);
+        categoryItemAdapter.refresh(list);
+        categoryItemAdapter.setOnItemClickListener((itemView, position) -> {
+            if (list == null || position >= list.size()) return;
+            Bundle item1 = list.get(position);
+
+            categoryItemAdapter.setSelect(position);
+           // categoryItemAdapter.notifyItemChanged(position);
+            categoryItemAdapter.notifyItemChanged(last[0]);
+            categoryItemAdapter.notifyItemChanged(position);
+            if (last[0] == position) {
+                categoryItemAdapter.setSelect(-1);
+                categoryItemAdapter.notifyItemChanged(position);
+                last[0] = position;
+                return;
+            }
+            last[0] = position;
+            if (itemListen != null)
+                itemListen.onClick(item1, item.getBundle("item"), position1);
+        });
     }
 
+    public interface Item {
+        void onClick(Bundle bundle, Bundle parent, int parentPos);
+    }
+
+    public void setOnItemListener(Item itemListen) {
+        this.itemListen = itemListen;
+    }
 
 }

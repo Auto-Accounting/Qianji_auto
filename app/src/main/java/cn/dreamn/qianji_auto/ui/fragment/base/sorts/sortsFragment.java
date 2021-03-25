@@ -18,6 +18,7 @@
 package cn.dreamn.qianji_auto.ui.fragment.base.sorts;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.input.DialogInputExtKt;
+import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -37,12 +39,16 @@ import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
+import java.util.Arrays;
+
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.ui.adapter.CategoryAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.utils.CategoryUtils;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import es.dmoral.toasty.Toasty;
 
 
@@ -51,7 +57,7 @@ import es.dmoral.toasty.Toasty;
  * @since 2018/11/7 下午1:16
  */
 @Page(name = "收入UI", anim = CoreAnim.slide)
-public class sortsFragment2 extends BaseFragment {
+public class sortsFragment extends BaseFragment {
 
 
     @BindView(R.id.status)
@@ -79,11 +85,22 @@ public class sortsFragment2 extends BaseFragment {
     private static final int HANDLE_OK = 1;
     private static final int HANDLE_REFRESH = 2;
 
+    private sortsFragment other;
 
-    public sortsFragment2(Bundle book, String type) {
+    public sortsFragment(Bundle book, String type) {
         super();
         this.book = book;
         this.type = type;
+    }
+
+    public void setObj(sortsFragment other){
+        this.other=other;
+    }
+
+    public void setBook(Bundle bookData){
+        this.book = bookData;
+        setSwitchData();
+        refreshData(book.getString("book_id"),-2);
     }
 
     @Override
@@ -124,13 +141,13 @@ public class sortsFragment2 extends BaseFragment {
 
         action_switch.setOnClickListener(v -> {
             BookNames.showBookSelect(getContext(), "请选择账本", bundle -> {
-                book = bundle;
-                setSwitchData();
-                refreshData(book.getString("book_id"));
-
+                this.setBook(bundle);
+                other.setBook(bundle);
+                view_hide.setVisibility(View.GONE);
             });
         });
         action_cate.setOnClickListener(v -> {
+            view_hide.setVisibility(View.GONE);
             multiple_actions_down.collapse();
             MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
             dialog.title(null, "请输入分类名称");
@@ -143,9 +160,11 @@ public class sortsFragment2 extends BaseFragment {
 
                             if (isSucceed) {
                                 message.arg1 = 1;
+                                message.arg2 = -2;
                                 message.obj = "添加成功!";
                             } else {
                                 message.arg1 = 0;
+                                message.arg2 = -2;
                                 message.obj = "添加失败！可能该分类已存在！";
                             }
                             mHandler.sendMessage(message);
@@ -155,6 +174,7 @@ public class sortsFragment2 extends BaseFragment {
 
 
             dialog.show();
+
         });
 
     }
@@ -164,18 +184,131 @@ public class sortsFragment2 extends BaseFragment {
     }
 
 
+    @SuppressLint("CheckResult")
     private void initLayout() {
         categoryUtils = new CategoryUtils(recyclerView, book.getString("book_id"), type, getContext(), true);
         categoryUtils.show();
         refreshData();
+        categoryUtils.setOnLongClick((Bundle bundle,int parentPos) -> {
+//其他选择~
+            MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
+            dialog.title(null, "请选择操作("+bundle.getString("name")+")");
+            DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "修改"), null, true, (materialDialog, index, text) -> {
+                switch (index){
+                    case 0:del(bundle,-2);break;
+                    case 1:change(bundle,null,-2);break;
+                }
+                return null;
+            });
+            dialog.show();
+        });
+
+        categoryUtils.setOnItemClick((Bundle bundle, Bundle parent,int parentPos) -> {
+            Log.d("当前点击数据："+bundle.toString()+"\n父类数据："+parent.toString());
+            if(bundle.getInt("id")==-2){
+                multiple_actions_down.collapse();
+                MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
+                dialog.title(null, "请输入子类名称");
+                DialogInputExtKt.input(dialog, "指的是当前分类下的子类名称", null, null, null,
+                        InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS,
+                        null, true, false, (materialDialog, text) -> {
+                            CategoryNames.insert(text.toString(), "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png", "2", type, null, parent.getString("self_id"), parent.getString("book_id"), null, isSucceed -> {
+                                Message message = new Message();
+                                message.what = HANDLE_REFRESH;
+
+                                if (isSucceed) {
+                                    message.arg1 = 1;
+                                    message.arg2 = parentPos;
+                                    message.obj = "添加成功!";
+                                } else {
+                                    message.arg1 = 0;
+                                    message.arg2 = parentPos;
+                                    message.obj = "添加失败！可能该分类已存在！";
+                                }
+                                mHandler.sendMessage(message);
+                            });
+                            return null;
+                        });
+
+
+                dialog.show();
+            }else{
+                //其他选择~
+                MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
+                dialog.title(null, "请选择操作("+parent.getString("name")+"-"+bundle.getString("name")+")");
+                DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "修改"), null, true, (materialDialog, index, text) -> {
+                    switch (index){
+                        case 0:del(bundle,parentPos);break;
+                        case 1:change(bundle,parent.getString("name"),parentPos);break;
+                    }
+                    return null;
+                });
+                dialog.show();
+            }
+        });
     }
 
-    private void refreshData(String book_id) {
-        categoryUtils.refreshData(book_id, () -> mHandler.sendEmptyMessage(HANDLE_OK));
+    @SuppressLint("CheckResult")
+    private void change(Bundle bundle, String parent,int parentPos) {
+        MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
+        dialog.title(null, "请编辑("+parent+"-"+bundle.getString("name")+")");
+        DialogInputExtKt.input(dialog, "请修改分类名称", null, bundle.getString("name"), null,
+                InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS,
+                null, true, false, (materialDialog, text) -> {
+                    CategoryNames.update(bundle.getInt("id"),text.toString(), type, bundle.getString("book_id"), isSucceed -> {
+                        Message message = new Message();
+                        message.what = HANDLE_REFRESH;
+
+                        if (isSucceed) {
+                            message.arg1 = 1;
+                            message.arg2 = parentPos;
+                            message.obj = "修改成功!";
+                        } else {
+                            message.arg1 = 0;
+                            message.arg2 = parentPos;
+                            message.obj = "修改失败！可能该分类已存在！";
+                        }
+                        mHandler.sendMessage(message);
+                    });
+                    return null;
+                });
+
+        dialog.show();
+    }
+
+    private void del(Bundle bundle,int position) {
+        Message message = new Message();
+        message.what = HANDLE_REFRESH;
+
+        message.arg1 = 1;
+        message.arg2 = position;
+        message.obj = "删除成功!";
+        if(bundle.getString("parent_id")==null){
+            MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
+            dialog.title(null, "⚠️警告");
+            dialog.message(null,"删除该分类后，其二级分类也将被删除。",null);
+            dialog.positiveButton(null, "确定删除", materialDialog -> {
+                CategoryNames.del(bundle.getInt("id"));
+                mHandler.sendMessage(message);
+                return null;
+            });
+            dialog.negativeButton(null, "取消删除", materialDialog -> {
+                return null;
+            });
+
+            dialog.show();
+        }else{
+            CategoryNames.del(bundle.getInt("id"));
+            mHandler.sendMessage(message);
+        }
+    }
+
+    private void refreshData(String book_id,int parentPos) {
+        categoryUtils.refreshData(book_id,parentPos, (state) -> mHandler.sendEmptyMessage(state));
     }
 
     private void refreshData() {
-        categoryUtils.refreshData(() -> mHandler.sendEmptyMessage(HANDLE_OK));
+        categoryUtils.refreshData((state) -> mHandler.sendEmptyMessage(state));
     }
 
     Handler mHandler = new Handler(Looper.getMainLooper()) {
@@ -196,7 +329,7 @@ public class sortsFragment2 extends BaseFragment {
                         else
                             Toasty.warning(getContext(), d, Toast.LENGTH_LONG).show();
                     }
-                    refreshData();
+                    refreshData(book.getString("book_id"),msg.arg2);
                     break;
             }
             multiple_actions_down.setVisibility(View.VISIBLE);

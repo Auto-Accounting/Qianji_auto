@@ -1,6 +1,7 @@
 package cn.dreamn.qianji_auto.ui.adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +24,8 @@ import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 
 public class CategoryItemAdapter extends BaseAdapter {
     private Context mContext;
+
+    private int select = -1;
     public CategoryItemAdapter(Context context) {
         super(R.layout.grid_item_iv2);
         mContext=context;
@@ -34,6 +37,7 @@ public class CategoryItemAdapter extends BaseAdapter {
 
         TextView item_text = (TextView) holder.findView(R.id.item_text);
 
+        setColor(select == position, item_image_icon,  item_text);
         final Handler mHandler=new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(Message msg) {
@@ -45,5 +49,23 @@ public class CategoryItemAdapter extends BaseAdapter {
 
         MyBitmapUtils myBitmapUtils=new MyBitmapUtils(mContext,mHandler);
         myBitmapUtils.disPlay(item_image_icon,item.getString("icon"));
+
     }
+    public void setSelect(int index) {
+        this.select = index;
+    }
+    private void setColor(boolean select, NiceImageView imageView,TextView textView) {
+
+        if (!select) {
+            textView.setTextColor(mContext.getColor(R.color.deep_gray));
+            imageView.setBackgroundResource(R.drawable.bg_round_gray);
+            imageView.setImageTintList(ColorStateList.valueOf(mContext.getColor(R.color.front_color)));
+
+        } else {
+            textView.setTextColor(mContext.getColor(R.color.button_go_setting_bg));
+            imageView.setBackgroundResource(R.drawable.bg_round_blue);
+            imageView.setImageTintList(ColorStateList.valueOf(mContext.getColor(R.color.background_white)));
+        }
+    }
+
 }
