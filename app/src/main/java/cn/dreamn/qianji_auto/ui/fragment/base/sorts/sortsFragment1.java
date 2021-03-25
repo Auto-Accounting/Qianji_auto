@@ -18,20 +18,12 @@
 package cn.dreamn.qianji_auto.ui.fragment.base.sorts;
 
 import android.annotation.SuppressLint;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -42,27 +34,20 @@ import com.afollestad.materialdialogs.input.DialogInputExtKt;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.shehuan.niv.NiceImageView;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.Assets;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.adapter.CategoryAdapter;
-import cn.dreamn.qianji_auto.ui.adapter.CategoryItemAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.utils.ScreenUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import es.dmoral.toasty.Toasty;
@@ -83,6 +68,7 @@ public class sortsFragment1 extends BaseFragment {
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
+
     @BindView(R.id.multiple_actions_down)
     FloatingActionsMenu multiple_actions_down;
     @BindView(R.id.action_cate)
@@ -99,16 +85,16 @@ public class sortsFragment1 extends BaseFragment {
 
 
     private CategoryAdapter mAdapter;
-    private List<Bundle> list;
+    private List<Bundle> list=new ArrayList<>();
     private List<Bundle> tempList;
     private String book_id;
     private static final int HANDLE_ERR = 0;
     private static final int HANDLE_OK = 1;
     private static final int HANDLE_REFRESH=2;
-    private List<View> lastView=new ArrayList<>();
-    private View topView=null;
 
-    private int point=-1;//上一次点击位置
+    private int topInt=-1;
+
+
     public sortsFragment1(String book_id) {
         super();
         this.book_id=book_id;
@@ -196,18 +182,20 @@ public class sortsFragment1 extends BaseFragment {
     }
 
     private void initLayout(){
-        mAdapter=new CategoryAdapter(getContext(),true);
+
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 5);
         layoutManager.setSpanSizeLookup(new SpecialSpanSizeLookup());
+
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(mAdapter);
 
-      //  recyclerView.setLongPressDragEnabled(false);
 
+        mAdapter=new CategoryAdapter(getContext(),true);
+        mAdapter.setHasStableIds(true);
         mAdapter.setOnItemClickListener(this::OnItemClickListen);
-        //refreshLayout.setOnRefreshListener(this::loadFromData);
+        mAdapter.setOpenAnimationEnable(false);
+        recyclerView.setAdapter(mAdapter);
         refreshLayout.setEnableRefresh(false);
-        loadFromData(refreshLayout);
+        loadFromData();
     }
     public void onItemLongClick(Bundle item) {
         Log.d("item-long",item.getString("name"));
@@ -241,36 +229,75 @@ public class sortsFragment1 extends BaseFragment {
 
 
 
+    private void updateItem(int position) {
+
+        RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
+        //viewHolder.
+
+    }
+
 
     @SuppressLint("CheckResult")
     private void OnItemClickListen(View view, int position) {
-        if(tempList==null||position >= tempList.size())return;
-        Bundle item= tempList.get(position);
+        if(list==null||position >= list.size())return;
+        Bundle item= list.get(position);
 
-        if(topView==view){
-            mAdapter.setIndex(-1);
-            mAdapter.setSelect(-1);
-            mAdapter.refresh(list);
-            topView=null;
-            return;
-        }else{
-            topView=view;
+        if(item.getString("name")==null)return;//为null就不响应
 
+        int left = view.getLeft();
+        /*
+         * 1 2 3 4 5 * 插入(6)
+         * 6 7 8 9 10 * 插入
+         * 7 8 9 10 11 (12)
+         * 11 12 13 14  * 插入
+         * 13 14 15 16 17 (18)
+         * */
+
+        int line=position/6;
+        line=line+1;
+        int real=line*6;
+
+
+         //清除上一个控件布局 Strat
+
+        int line2=topInt/6;
+        line2=line2+1;
+        int real2=line2*6;
+        if(real2!=real){//不同布局刷新
+            Bundle bundle1=new Bundle();
+            bundle1.putString("name",null);//保留数据
+            bundle1.putBoolean("change",false);//保留数据
+            list.set(real2-1,bundle1);
+            mAdapter.replaceNotNotify(real2-1,bundle1);
+            mAdapter.notifyItemChanged(real2-1);
         }
 
 
+         // 清除上一个控件布局 End
 
+        mAdapter.setSelect(position);//选中当前
+        //清除上一个样式
+        mAdapter.notifyItemChanged(topInt);
+        //局部刷新
+        Log.d("刷新上一个按钮"+topInt+"清除");
+        if(topInt==position){
+            Log.d("view一致");
+            Bundle bundle1=new Bundle();
+            bundle1.putString("name",null);//保留数据
+            bundle1.putBoolean("change",false);//保留数据
+            list.set(real2-1,bundle1);
+            mAdapter.replaceNotNotify(real2-1,bundle1);
+            mAdapter.notifyItemChanged(real2-1);
+            Log.d("刷新二级页面"+(real-1)+"");
+            mAdapter.notifyItemChanged(position);
+            Log.d("刷新当前按钮"+(position)+"");
+            topInt=position;
+            return;
+        }
 
+        topInt=position;
 
-
-        int left = view.getLeft();
-        int width = view.getWidth();
-        int width2=25;
-        int three=left;
-
-        int line=position/5 + 1;
-        int index2=position%5;
-        int real=line*5;
+        Log.d("当前位置"+position+" 实际上子页面的位置为"+real);
 
 
         Handler mmHandler = new Handler(Looper.getMainLooper()) {
@@ -281,27 +308,78 @@ public class sortsFragment1 extends BaseFragment {
                         //没有数据
                         break;
                     case HANDLE_OK:
-                        int listPos=list.indexOf(item);//获取在list中的pos
-                        tempList=new ArrayList<>(list);//重新赋值
-                        int size=list.size();
-                        Log.d("真实加入的位置"+real+" 实际大小"+size+" 点击位置："+position+" list中"+listPos);
 
-                        if(real>size){
-                            for(int i=0;i<real-size;i++){
-                                Bundle bundle=new Bundle();
-                                tempList.add(bundle);
-                            }
-                        }
-                        mAdapter.setSelect(listPos);
-                        mAdapter.setIndex(real);
+                        Log.d("当前选中"+position);
                         Bundle[] bundles=(Bundle[])msg.obj;
                         Bundle bundle=new Bundle();
+                        bundle.putInt("id",-1);
+                        bundle.putString("name",null);
                         bundle.putString("book_id",item.getString("book_id"));
-                        bundle.putInt("left",three);
+                        bundle.putInt("left", left+8);
                         bundle.putSerializable("data",bundles);
                         bundle.putBoolean("change",true);
-                        tempList.add(real,bundle);
-                        mAdapter.refresh(tempList);
+                        Log.d("当前修改"+bundle.toString());
+                        list.set(real-1,bundle);
+                        mAdapter.replaceNotNotify(real-1,bundle);
+                        Log.d("刷新当前按钮"+(position)+"");
+                        mAdapter.notifyItemChanged(real-1);
+                        Log.d("刷新二级菜单"+(real-1)+"");
+                        mAdapter.notifyItemChanged(position);
+
+                        break;
+                }
+            }
+        };
+
+        CategoryNames.getChildrens(item.getString("self_id"),book_id,item.getString("type"),true,books -> {
+            //  Message m=new Message();
+            //  m.obj=view;
+            if(books==null||books.length==0){
+
+                //    m.what=HANDLE_ERR;
+                mmHandler.sendEmptyMessage(HANDLE_ERR);
+            }else{
+                Message message=new Message();
+                message.obj=books;
+                message.what=HANDLE_OK;
+                mmHandler.sendMessage(message);
+            }
+        });
+
+     /*   Handler mmHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case HANDLE_ERR:
+                        //没有数据
+                        break;
+                    case HANDLE_OK:
+
+                      //  tempList=new ArrayList<>(list);//重新赋值
+                      //  List<Bundle> bundles2=new ArrayList<>();
+                      //  int size=list.size();
+                       // Log.d("真实加入的位置"+real+" 实际大小"+size+" 点击位置："+position+" list中"+listPos);
+
+
+                        mAdapter.setSelect(position);
+                       // mAdapter.setIndex(real);
+                        Bundle[] bundles=(Bundle[])msg.obj;
+                        Bundle bundle=new Bundle();
+                        bundle.putInt("id",-1);
+                        bundle.putString("book_id",item.getString("book_id"));
+                        bundle.putInt("left", left+8);
+                        bundle.putSerializable("data",bundles);
+                        bundle.putBoolean("change",true);
+                        list.set(real,bundle);
+                       // tempList.clear();
+
+                      ///  bundles2.add(bundle);
+
+                       // mAdapter.loadMore(bundles2);
+
+                      //  Log.d("当前tempList"+tempList.size()+" mAdapter "+mAdapter.getCount());
+                     //   mAdapter.replace();
+                       mAdapter.replaceNotNotify(real,bundle);
 
                         break;
                 }
@@ -322,7 +400,7 @@ public class sortsFragment1 extends BaseFragment {
                 mmHandler.sendMessage(message);
             }
         });
-
+*/
 
     }
     @SuppressLint("CheckResult")
@@ -388,14 +466,14 @@ public class sortsFragment1 extends BaseFragment {
                             Toasty.warning(getContext(), d, Toast.LENGTH_LONG).show();
                     }
 
-                    loadFromData(refreshLayout);
+                    loadFromData();
                     break;
             }
             multiple_actions_down.setVisibility(View.VISIBLE);
         }
     };
 
-    public void loadFromData(RefreshLayout refreshLayout){
+    public void loadFromData(){
 
         Task.onMain(1000,()->{
             CategoryNames.getParentByPay(book_id,books -> {
@@ -403,8 +481,49 @@ public class sortsFragment1 extends BaseFragment {
                     mHandler.sendEmptyMessage(HANDLE_ERR);
                 }else{
 
-                    list=Arrays.asList(books);
-                    // assests=asset2s;
+                    list.clear();
+                   int len = books.length;
+                   int line=len/5;//共有几行
+                   if(len%5!=0)line=line+1;
+                   int realLen=line*5+line;//取5的整数
+                   // Log.d("数据总长度："+len+" 数据总共几行"+line+" 应该的数据总量"+realLen);
+                    /*
+                    * 1 2 3 4 5
+                    * 插入
+                    * 6 7 8 9 10
+                    * 插入
+                    * 11 12 13 14
+                    * 插入
+                    * */
+                    for(int i=0;i<len;i++){
+                    //    Log.d("当前i"+((i)%5));
+                        list.add(books[i]);
+                        if((i)%5==4){
+                            Bundle bundle=new Bundle();
+                            bundle.putString("name",null);//保留数据
+                            bundle.putBoolean("change",false);//保留数据
+                            list.add(bundle);
+                        }
+
+
+                    }
+                   // Log.d("还差"+(realLen-list.size())+"条数据");
+                    int len2=realLen-list.size()-1;
+                    //长度补全
+                    for(int j=0;j<len2;j++){
+                       // Log.d("循环次数+"+j);
+                        Bundle bundle=new Bundle();
+                        bundle.putString("name",null);//保留数据
+                       // bundle.putBoolean("change",true);//保留数据
+                        list.add(bundle);
+                    }
+                    Bundle bundle=new Bundle();
+                    bundle.putString("name",null);//保留数据
+                    bundle.putBoolean("change",false);//保留数据
+                    list.add(bundle);
+
+                  //  Log.d("bundle"+list.toString());
+                  //  Log.d("数据总长度："+list.size()+" 数据总共几行"+line+" 应该的数据总量"+realLen);
                     tempList=new ArrayList<>(list);
                     mHandler.sendEmptyMessage(HANDLE_OK);
                 }

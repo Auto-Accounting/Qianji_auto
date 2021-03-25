@@ -6,7 +6,6 @@
     android:id="@+id/sub_float"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
     android:orientation="vertical">
 
 

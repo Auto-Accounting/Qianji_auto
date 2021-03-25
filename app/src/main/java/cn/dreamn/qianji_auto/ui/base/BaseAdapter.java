@@ -18,18 +18,12 @@ package cn.dreamn.qianji_auto.ui.base;
  */
 
 
-
-
-
 import android.os.Bundle;
 
 import com.scwang.smartrefresh.layout.adapter.SmartRecyclerAdapter;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import java.util.Collection;
-import java.util.Map;
-
-import cn.dreamn.qianji_auto.R;
 
 
 public class BaseAdapter extends SmartRecyclerAdapter<Bundle> {
