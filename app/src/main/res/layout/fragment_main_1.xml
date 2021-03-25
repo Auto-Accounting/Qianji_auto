@@ -12,7 +12,8 @@
     <RelativeLayout
         android:id="@+id/title_count"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:background="@drawable/bg_layer">
 
         <RelativeLayout
             android:id="@+id/title_bar"
@@ -21,7 +22,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="0dp"
-            android:background="@color/background_white">
+            android:background="@drawable/bg_layer">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -56,11 +57,12 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="20dp"
-                android:text="&#xe635;"
+                android:text="&#xe632;"
                 android:textColor="@color/main_title"
                 android:textSize="18sp" />
 
         </RelativeLayout>
+
     </RelativeLayout>
 
     <ScrollView

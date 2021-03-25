@@ -13,6 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="0dp"
+            android:background="@drawable/bg_layer"
             android:padding="10dp">
 
             <cn.dreamn.qianji_auto.ui.views.IconView
