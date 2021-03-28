@@ -19,6 +19,7 @@ import java.util.List;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.adapter.CategoryAdapter;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 public class CategoryUtils {
     SwipeRecyclerView recyclerView;
@@ -201,6 +202,7 @@ public class CategoryUtils {
             }
 
         });
+
     }
 
 
@@ -264,9 +266,14 @@ public class CategoryUtils {
         Bundle bundle1=new Bundle();
         bundle1.putString("name",null);//保留数据
         bundle1.putBoolean("change",false);//保留数据
-        list.set(real-1,bundle1);
-        mAdapter.replaceNotNotify(real-1,bundle1);
-        mAdapter.notifyItemChanged(real-1);
+       try{
+           list.set(real-1,bundle1);
+           mAdapter.replaceNotNotify(real-1,bundle1);
+           mAdapter.notifyItemChanged(real-1);
+       }catch (Exception e){
+           Log.d("发生越界");
+       }
+
 
         expand=false;
     }

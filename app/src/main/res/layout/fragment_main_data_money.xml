@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:backgroundTint="@color/background"
+    android:orientation="vertical">
+
+    <cn.dreamn.qianji_auto.ui.views.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backgroundColor="@color/background_white"
+        app:left_color="@color/main_title"
+        app:left_icon="&#xe60b;"
+        app:title_color="@color/main_title"
+        app:title_text="账单列表">
+
+
+    </cn.dreamn.qianji_auto.ui.views.TitleBar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_bar"
+        android:layout_marginTop="0dp">
+        <com.shehuan.statusview.StatusView
+            android:id="@+id/status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                android:id="@+id/refreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.scwang.smartrefresh.layout.header.ClassicsHeader>
+        <LinearLayout
+            android:id="@+id/data_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        </com.shehuan.statusview.StatusView>
+    </ScrollView>
+
+</RelativeLayout>

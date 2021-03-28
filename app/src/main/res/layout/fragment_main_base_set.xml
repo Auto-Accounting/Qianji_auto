@@ -13,7 +13,7 @@
         app:left_icon="&#xe60b;"
         app:right_color="@color/main_title"
         app:title_color="@color/main_title"
-        app:title_text="工作模式"/>
+        app:title_text="插件设置"/>
 
     <include
         android:id="@+id/setting_list"

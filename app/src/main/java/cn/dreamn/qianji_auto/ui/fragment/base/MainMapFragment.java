@@ -203,7 +203,7 @@ public class MainMapFragment extends BaseFragment {
                     break;
                 case HANDLE_OK:
                     mAdapter.refresh(list);
-                    statusView.showContentView();
+                    Task.onMain(1000,()->statusView.showContentView());
                     break;
                 case HANDLE_REFRESH:
                     String d=(String)msg.obj;

@@ -49,6 +49,7 @@ import cn.dreamn.qianji_auto.ui.adapter.CategoryAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.utils.CategoryUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import es.dmoral.toasty.Toasty;
 
 
@@ -309,6 +310,7 @@ public class sortsFragment extends BaseFragment {
 
     private void refreshData() {
         categoryUtils.refreshData((state) -> mHandler.sendEmptyMessage(state));
+
     }
 
     Handler mHandler = new Handler(Looper.getMainLooper()) {
@@ -319,7 +321,7 @@ public class sortsFragment extends BaseFragment {
                     statusView.showEmptyView();
                     break;
                 case HANDLE_OK:
-                    statusView.showContentView();
+                    Task.onMain(1000,()->statusView.showContentView());
                     break;
                 case HANDLE_REFRESH:
                     String d = (String) msg.obj;

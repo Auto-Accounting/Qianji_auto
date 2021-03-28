@@ -14,7 +14,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 81
-        versionName "3.0.0b1"
+        versionName "涅槃 3.1 beta1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
