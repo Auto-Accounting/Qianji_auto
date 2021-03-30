@@ -134,14 +134,15 @@ public abstract class AppDatabase extends RoomDatabase {
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             //修改AutoBill表
             database.execSQL("CREATE TABLE BillTemp "+
-                    "( id INTEGER "+" PRIMARY KEY NOT NULL ,"+
-                    " billInfo TEXT "+
+                    "( id INTEGER  PRIMARY KEY NOT NULL ,"+
+                    " billInfo TEXT, "+
+                    " date TEXT "+
                     " ) "
             );
 
             //2.将原来表中的数据复制过来，
-            database.execSQL(" INSERT INTO BillTemp (id,billInfo) " +
-                    "SELECT id,billInfo  FROM AutoBill "
+            database.execSQL(" INSERT INTO BillTemp (id,billInfo,date) " +
+                    "SELECT id,billInfo,'03.09'  FROM AutoBill "
             );
 
             //3. 将原表删除

@@ -10,7 +10,7 @@
     <!--第二层前景 底偏移1dp -->
     <item android:bottom="1dp">
         <shape>
-            <solid android:color="@android:color/white" />
+            <solid android:color="@color/background_white" />
             <corners android:radius="0dp" />
         </shape>
     </item>

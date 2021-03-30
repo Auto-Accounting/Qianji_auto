@@ -22,8 +22,9 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class AutoBill {
-    //账户列表
+    //账单列表
     @PrimaryKey(autoGenerate = true)
     public int id;
     public String billInfo;//识别出来的账单数据集
+    public String date;//账单时间
 }

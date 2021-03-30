@@ -42,7 +42,14 @@ public class Tool {
 
     @SuppressLint("SimpleDateFormat")
     public static String getTime(String s) {
-        return (new SimpleDateFormat(s)).format(new Date(System.currentTimeMillis()));
+        return getTime(s,0);
     }
+    @SuppressLint("SimpleDateFormat")
+    public static String getTime(String s,int day) {
+        long time=System.currentTimeMillis();
+        time=time+day*24*60*60*1000;
+        return (new SimpleDateFormat(s)).format(new Date(time));
+    }
+
 
 }

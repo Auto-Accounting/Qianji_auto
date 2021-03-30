@@ -18,17 +18,73 @@
 package cn.dreamn.qianji_auto.database.Helper;
 
 
+import android.os.Bundle;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.AutoBill;
 import cn.dreamn.qianji_auto.utils.billUtils.BillInfo;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 public class AutoBills {
     public interface getAutoBill{
-        void onGet(AutoBill[] autoBills);
+        void onGet(Bundle[] autoBills);
     }
-    public static void getAll(getAutoBill getAuto) {
-        Task.onThread(()-> getAuto.onGet(DbManger.db.AutoBillDao().getAll()));
+
+
+    public static void getDates(getAutoBill getAuto) {
+        Task.onThread(()->{
+            AutoBill[] autoBills=DbManger.db.AutoBillDao().getAll();
+            if(autoBills!=null&&autoBills.length!=0){
+                Map<String,List<Bundle>> haspMap= new HashMap<>();
+
+
+                for (AutoBill autoBill : autoBills) {
+                    Log.d("hashMap:"+haspMap.toString());
+                    List<Bundle> bundles;
+                   if( haspMap.containsKey(autoBill.date)){
+                       bundles = haspMap.get(autoBill.date);
+                   }else{
+                       bundles = new ArrayList<>();
+                       haspMap.put(autoBill.date,bundles);
+                   }
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("date", autoBill.date);
+                    bundle.putString("billinfo", autoBill.billInfo);
+                    assert bundles != null;
+                    bundles.add(bundle);
+                    haspMap.replace(autoBill.date,bundles);
+                }
+
+                List<Map.Entry<String,List<Bundle>>> list = new ArrayList<>(haspMap.entrySet()); //转换为list
+                list.sort((o1, o2) -> {
+                    Double l=Double.parseDouble(o1.getKey());
+                    Double r=Double.parseDouble(o2.getKey());
+                    return r.compareTo(l);
+                });
+
+
+                List<Bundle> bundles=new ArrayList<>();
+
+                for(int i=0;i<list.size();i++){
+                    Bundle bundle=new Bundle();
+                    bundle.putString("date",list.get(i).getKey());
+                    List<Bundle> bundles1=list.get(i).getValue();
+                    bundle.putSerializable("data", bundles1.toArray(new Bundle[0]));
+                    bundles.add(bundle);
+                }
+
+                getAuto.onGet(bundles.toArray(new Bundle[0]));
+                return;
+            }
+            getAuto.onGet(null);
+        });
 
     }
 

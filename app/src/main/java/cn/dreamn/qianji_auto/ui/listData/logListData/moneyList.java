@@ -3,6 +3,7 @@ package cn.dreamn.qianji_auto.ui.listData.logListData;
 import android.util.Log;
 
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.fragment.data.MoneyFragment;
 import cn.dreamn.qianji_auto.ui.listData.BaseList;
 
 public class moneyList extends BaseList {
@@ -28,6 +29,6 @@ public class moneyList extends BaseList {
     @Override
     public void onClick(BaseFragment baseFragment) {
        // baseFragment.openNewPage()
-        Log.d("plugin","click");
+        baseFragment.openNewPage(MoneyFragment.class);
     }
 }

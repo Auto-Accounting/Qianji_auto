@@ -21,33 +21,30 @@
 
     </cn.dreamn.qianji_auto.ui.views.TitleBar>
 
-    <ScrollView
+    <com.shehuan.statusview.StatusView
+        android:id="@+id/status"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/title_bar"
-        android:layout_marginTop="0dp">
-        <com.shehuan.statusview.StatusView
-            android:id="@+id/status"
+        android:layout_below="@id/title_bar">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.scwang.smartrefresh.layout.SmartRefreshLayout
-                android:id="@+id/refreshLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            android:layout_height="match_parent">
 
             <com.scwang.smartrefresh.layout.header.ClassicsHeader
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
             </com.scwang.smartrefresh.layout.header.ClassicsHeader>
-        <LinearLayout
-            android:id="@+id/data_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-        </com.shehuan.statusview.StatusView>
-    </ScrollView>
+            <com.yanzhenjie.recyclerview.SwipeRecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </com.shehuan.statusview.StatusView>
 
 </RelativeLayout>

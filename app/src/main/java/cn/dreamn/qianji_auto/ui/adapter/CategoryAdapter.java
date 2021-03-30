@@ -162,7 +162,7 @@ public class CategoryAdapter extends BaseAdapter {
             Bundle item1 = list.get(position);
 
             categoryItemAdapter.setSelect(position);
-           // categoryItemAdapter.notifyItemChanged(position);
+            // categoryItemAdapter.notifyItemChanged(position);
             categoryItemAdapter.notifyItemChanged(last[0]);
             categoryItemAdapter.notifyItemChanged(position);
             if (last[0] == position) {
