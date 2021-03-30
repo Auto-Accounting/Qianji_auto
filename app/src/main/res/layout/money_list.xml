@@ -11,6 +11,7 @@
         android:layout_marginStart="@dimen/margin_side"
         android:layout_marginTop="@dimen/margin_side"
         android:layout_marginEnd="@dimen/margin_side"
+        app:cardCornerRadius="@dimen/radius"
         app:cardElevation="0dp">
 
         <LinearLayout

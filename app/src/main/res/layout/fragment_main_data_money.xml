@@ -16,6 +16,8 @@
         app:left_color="@color/main_title"
         app:left_icon="&#xe60b;"
         app:title_color="@color/main_title"
+        app:right_icon="&#xe66d;"
+        app:right_color="@color/main_title"
         app:title_text="账单列表">
 
 

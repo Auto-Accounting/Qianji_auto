@@ -36,6 +36,9 @@ public class AutoBills {
         void onGet(Bundle[] autoBills);
     }
 
+    public interface Finish{
+        void onEnd();
+    }
 
     public static void getDates(getAutoBill getAuto) {
         Task.onThread(()->{
@@ -45,7 +48,7 @@ public class AutoBills {
 
 
                 for (AutoBill autoBill : autoBills) {
-                    Log.d("hashMap:"+haspMap.toString());
+
                     List<Bundle> bundles;
                    if( haspMap.containsKey(autoBill.date)){
                        bundles = haspMap.get(autoBill.date);
@@ -57,6 +60,7 @@ public class AutoBills {
                     Bundle bundle = new Bundle();
                     bundle.putString("date", autoBill.date);
                     bundle.putString("billinfo", autoBill.billInfo);
+                    bundle.putInt("id",autoBill.id);
                     assert bundles != null;
                     bundles.add(bundle);
                     haspMap.replace(autoBill.date,bundles);
@@ -88,8 +92,11 @@ public class AutoBills {
 
     }
 
-    public static void del(int id) {
-        Task.onThread(()->DbManger.db.AutoBillDao().del(id));
+    public static void del(int id,Finish end) {
+        Task.onThread(()->{
+            DbManger.db.AutoBillDao().del(id);
+            end.onEnd();
+        });
     }
 
     public static void add(BillInfo billInfo) {
@@ -100,7 +107,10 @@ public class AutoBills {
         Task.onThread(()->DbManger.db.AutoBillDao().update(id, billInfo.toString()));
     }
 
-    public static void delAll() {
-        Task.onThread(()->DbManger.db.AutoBillDao().delAll());
+    public static void delAll(Finish end) {
+        Task.onThread(()->{
+            DbManger.db.AutoBillDao().delAll();
+            end.onEnd();
+        });
     }
 }

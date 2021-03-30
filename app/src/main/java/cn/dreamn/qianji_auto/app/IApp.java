@@ -17,6 +17,8 @@
 
 package cn.dreamn.qianji_auto.app;
 
+import cn.dreamn.qianji_auto.utils.billUtils.BillInfo;
+
 public interface IApp {
 
     /**
@@ -44,7 +46,7 @@ public interface IApp {
      * 发送数据给app
      * @param str
      */
-    void sendToApp(String str);
+    void sendToApp(BillInfo str);
 
     /**
      * 同步数据

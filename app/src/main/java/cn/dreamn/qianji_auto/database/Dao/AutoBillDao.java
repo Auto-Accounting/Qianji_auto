@@ -25,7 +25,7 @@ import cn.dreamn.qianji_auto.database.Table.AutoBill;
 
 @Dao
 public interface AutoBillDao {
-    @Query("SELECT * FROM autobill order by CAST(date as double) desc")
+    @Query("SELECT * FROM autobill order by CAST(date as double),id desc")
     AutoBill[] getAll();
 
     @Query("SELECT * FROM autobill WHERE id=:id")

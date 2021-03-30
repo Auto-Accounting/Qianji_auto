@@ -1,6 +1,7 @@
 package cn.dreamn.qianji_auto.app;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.utils.billUtils.BillInfo;
 
 public class QianJi implements IApp {
     private static QianJi qianJi;
@@ -28,8 +29,9 @@ public class QianJi implements IApp {
     }
 
     @Override
-    public void sendToApp(String str) {
+    public void sendToApp(BillInfo billInfo) {
         //实现发送给钱迹
+
     }
 
     @Override

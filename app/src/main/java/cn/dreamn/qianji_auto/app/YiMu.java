@@ -1,6 +1,7 @@
 package cn.dreamn.qianji_auto.app;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.utils.billUtils.BillInfo;
 
 public class YiMu implements IApp {
     private static YiMu qianJi;
@@ -28,7 +29,7 @@ public class YiMu implements IApp {
     }
 
     @Override
-    public void sendToApp(String str) {
+    public void sendToApp(BillInfo billInfo) {
         //实现发送给钱迹
     }
 

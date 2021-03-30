@@ -7,6 +7,8 @@ import com.tencent.mmkv.MMKV;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.dreamn.qianji_auto.utils.billUtils.BillInfo;
+
 public class AppManager {
     /**
      * 获取自动记账支持的所有APP
@@ -33,15 +35,15 @@ public class AppManager {
 
     /**
      * 发送数据给支持的app
-     * @param str
+     * @param billInfo
      * @return
      */
-    public static String sendToApp(String str){
+    public static String sendToApp(BillInfo billInfo){
         MMKV mmkv=MMKV.defaultMMKV();
         String app=mmkv.getString("bookApp","com.mutangtech.qianji");
         for (IApp iApp : AppList.getInstance().getList()) {
             if(iApp.getPackPageName().equals(app)){
-                iApp.sendToApp(str);
+                iApp.sendToApp(billInfo);
                 break;
             }
         }

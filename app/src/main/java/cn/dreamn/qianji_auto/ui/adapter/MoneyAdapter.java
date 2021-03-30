@@ -76,11 +76,17 @@ public class MoneyAdapter extends BaseAdapter {
         moneyItemAdapter.refresh(Arrays.asList(datas));
 
         moneyItemAdapter.setOnItemClickListener((itemView, position1) -> {
-            if(itemListen != null && position1 < list.size()){
+            if(itemListen != null && position1 < datas.length){
+           //     Log.d("click "+position1);
                 itemListen.onClick(datas[position1], position1);
             }
         });
-
+        moneyItemAdapter.setOnItemLongClickListener((itemView, position1) -> {
+            if(itemListen != null && position1 < datas.length){
+          //      Log.d("long click "+position1);
+                itemListen.onLongClick(datas[position1], position1);
+            }
+        });
 
 
     }
@@ -90,7 +96,8 @@ public class MoneyAdapter extends BaseAdapter {
 
 
     public interface Item {
-        void onClick(Bundle bundle, int parentPos);
+        void onClick(Bundle bundle, int pos);
+        void onLongClick(Bundle bundle,int pos);
     }
 
     public void setOnItemListener(Item itemListen) {
