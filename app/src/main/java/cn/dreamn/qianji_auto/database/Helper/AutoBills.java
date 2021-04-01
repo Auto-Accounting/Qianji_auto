@@ -27,8 +27,7 @@ import java.util.Map;
 
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.AutoBill;
-import cn.dreamn.qianji_auto.utils.billUtils.BillInfo;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 public class AutoBills {

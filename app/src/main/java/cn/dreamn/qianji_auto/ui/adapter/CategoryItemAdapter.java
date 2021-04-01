@@ -41,8 +41,8 @@ public class CategoryItemAdapter extends BaseAdapter {
         final Handler mHandler=new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(Message msg) {
-                MyBitmapUtils.setImage(mContext,item_image_icon,(Bitmap) msg.obj);
-
+                Object[] objects=(Object[])msg.obj;
+                MyBitmapUtils.setImage(mContext,(View) objects[0],(Bitmap)objects[1]);
             }
         };
         item_text.setText(item.getString("name"));

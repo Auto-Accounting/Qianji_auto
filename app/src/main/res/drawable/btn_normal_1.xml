@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:shape="rectangle"
     tools:ignore="MissingDefaultResource">
-
+    <stroke
+        android:width="0.05dp"
+        android:color="@color/background" />
     <!-- 圆角的半径 -->
     <corners android:radius="300dp"/>
 

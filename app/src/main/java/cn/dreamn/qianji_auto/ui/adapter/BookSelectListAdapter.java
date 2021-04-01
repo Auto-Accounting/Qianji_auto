@@ -59,7 +59,8 @@ public class BookSelectListAdapter extends ArrayAdapter {
         final Handler mHandler=new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(Message msg) {
-                MyBitmapUtils.setImage(mContext,rl_bg,(Bitmap) msg.obj);
+                Object[] objects=(Object[])msg.obj;
+                MyBitmapUtils.setImage(mContext,(View) objects[0],(Bitmap)objects[1]);
             }
         };
         MyBitmapUtils myBitmapUtils=new MyBitmapUtils(mContext,mHandler);

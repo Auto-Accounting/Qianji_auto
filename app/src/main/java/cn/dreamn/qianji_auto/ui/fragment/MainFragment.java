@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -157,7 +158,8 @@ public class MainFragment extends BaseFragment {
         final Handler mHandler=new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(Message msg) {
-                MyBitmapUtils.setImage(getContext(),book_img,(Bitmap) msg.obj);
+                Object[] objects=(Object[])msg.obj;
+                MyBitmapUtils.setImage(getContext(),(View) objects[0],(Bitmap)objects[1]);
 
             }
         };

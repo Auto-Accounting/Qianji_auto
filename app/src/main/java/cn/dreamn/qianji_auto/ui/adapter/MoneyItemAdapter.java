@@ -2,20 +2,14 @@ package cn.dreamn.qianji_auto.ui.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
-import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.AutoBills;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
-import cn.dreamn.qianji_auto.utils.billUtils.BillInfo;
-import cn.dreamn.qianji_auto.utils.billUtils.BillTools;
-import cn.dreamn.qianji_auto.utils.runUtils.Tool;
+import cn.dreamn.qianji_auto.bills.BillInfo;
+import cn.dreamn.qianji_auto.bills.BillTools;
 
 public class MoneyItemAdapter extends BaseAdapter {
     private Context mContext;

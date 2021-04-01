@@ -78,7 +78,7 @@ public class MyBitmapUtils {
 
         if (url == null || url.equals("")) {
             Message message= mHandler.obtainMessage() ;
-            message.obj = null;
+            message.obj = new Object[]{ivPic,null};
             mHandler.sendMessage(message);
             return;
         }
@@ -87,7 +87,7 @@ public class MyBitmapUtils {
             mNetCacheUtils.getBitmapFromNet(ivPic, url);
         } else {
             Message message= mHandler.obtainMessage() ;
-            message.obj = bitmap;
+            message.obj = new Object[]{ivPic,bitmap};
             mHandler.sendMessage(message);
         }
     }

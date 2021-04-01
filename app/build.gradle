@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "31.0.0 rc2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "cn.dreamn.qianji_auto"
@@ -105,6 +105,8 @@ dependencies {
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     //悬浮按钮
     implementation 'com.getbase:floatingactionbutton:1.10.1'
+    //悬浮窗
+    implementation 'com.github.xuexiangjys:XFloatView:1.0.2'
 
 }
 repositories {

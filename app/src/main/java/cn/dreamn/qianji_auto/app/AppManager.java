@@ -1,5 +1,6 @@
 package cn.dreamn.qianji_auto.app;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.tencent.mmkv.MMKV;
@@ -7,7 +8,7 @@ import com.tencent.mmkv.MMKV;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.dreamn.qianji_auto.utils.billUtils.BillInfo;
+import cn.dreamn.qianji_auto.bills.BillInfo;
 
 public class AppManager {
     /**
@@ -38,12 +39,12 @@ public class AppManager {
      * @param billInfo
      * @return
      */
-    public static String sendToApp(BillInfo billInfo){
+    public static String sendToApp(Context context,BillInfo billInfo){
         MMKV mmkv=MMKV.defaultMMKV();
         String app=mmkv.getString("bookApp","com.mutangtech.qianji");
         for (IApp iApp : AppList.getInstance().getList()) {
             if(iApp.getPackPageName().equals(app)){
-                iApp.sendToApp(billInfo);
+                iApp.sendToApp(context,billInfo);
                 break;
             }
         }

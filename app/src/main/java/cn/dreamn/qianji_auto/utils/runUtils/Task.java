@@ -54,6 +54,14 @@ public class Task {
     }
 
     public static void onThread(final Runnable runnable){
-        new Thread(runnable).start();
+        if(isMainThread()){
+            new Thread(runnable).start();
+        }else{
+            runnable.run();
+        }
+
+    }
+    public static boolean isMainThread() {
+        return Looper.getMainLooper() == Looper.myLooper();
     }
 }

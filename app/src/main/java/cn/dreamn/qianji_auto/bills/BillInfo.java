@@ -15,7 +15,7 @@
  *
  */
 
-package cn.dreamn.qianji_auto.utils.billUtils;
+package cn.dreamn.qianji_auto.bills;
 
 import android.annotation.SuppressLint;
 import android.net.Uri;
@@ -63,7 +63,8 @@ public class BillInfo {
 
     private String fromApp;//来源app
 
-    private String noRepAccount;//没有替换的资产名
+    private String rawAccount;//没有替换的资产名
+    private String rawAccount2;//没有替换的资产名
     
     private String shopAccount;//识别出来的收款账户
 
@@ -77,6 +78,8 @@ public class BillInfo {
     private String fee="0";//手续费
 
     private String isSilent;//是否为静默模式
+
+    private String rawMd5;
 
     public static BillInfo parse(String url) {
         Uri mUri = Uri.parse(url);
@@ -127,14 +130,21 @@ public class BillInfo {
                     break;
                 case "fromApp":
                     billInfo.setFromApp(value);
-                case "noRepAccount":
-                    billInfo.setNoRepAccount(value);
+                    break;
+                case "rawAccount":
+                    billInfo.setrawAccount(value);
+                    break;
+                case "rawAccount2":
+                    billInfo.setrawAccount2(value);
                     break;
                 case "extraData":
                     billInfo.setExtraData(value);
                     break;
                 case "fee":
                     billInfo.setFee(value);
+                    break;
+                case "rawMd5":
+                    billInfo.setRawMd5(value);
                     break;
                 default:
                     break;
@@ -146,6 +156,10 @@ public class BillInfo {
 
     }
 
+    public void setRawMd5(String value) {
+        rawMd5=value;
+    }
+
     public void setFee(String value) {
         fee=value;
     }
@@ -154,27 +168,32 @@ public class BillInfo {
         extraData=value;
     }
 
-    public void setNoRepAccount(String value) {
-        noRepAccount=value;
+    public void setrawAccount(String value) {
+        rawAccount=value;
+    }
+    public void setrawAccount2(String value) {
+        rawAccount2=value;
     }
 
     public void setFromApp(String value) {
         fromApp=value;
     }
 
-    public String getFee(String value) {
+    public String getFee() {
         return fee;
     }
 
-    public String getExtraData(String value) {
+    public String getExtraData() {
         return extraData;
     }
 
-    public String getNoRepAccount(String value) {
-        return noRepAccount;
+    public String getrawAccount() {
+        return rawAccount;
     }
-
-    public String getFromApp(String value) {
+    public String getrawAccount2() {
+        return rawAccount2;
+    }
+    public String getFromApp() {
         return fromApp;
     }
 
@@ -230,6 +249,10 @@ public class BillInfo {
             if (getReimbursement()) t = TYPE_PAYMENT_REFUND;
             return t;
         } else return type;
+    }
+
+    public String getRawMd5(){
+        return rawMd5;
     }
 
     public void setType(String type) {
@@ -383,14 +406,20 @@ public class BillInfo {
         if (fromApp != null) {
             url += "&fromApp=" + fromApp;
         }
-        if (noRepAccount != null) {
-            url += "&noRepAccount=" + noRepAccount;
+        if (rawAccount != null) {
+            url += "&rawAccount=" + rawAccount;
+        }
+        if (rawAccount2 != null) {
+            url += "&rawAccount2=" + rawAccount2;
         }
         if (extraData != null) {
             url += "&extraData=" + extraData;
         }
         if (fee != null) {
             url += "&fee=" + fee;
+        }
+        if (rawMd5 != null) {
+            url += "&rawMd5=" + rawMd5;
         }
         return url;
     }
@@ -418,7 +447,7 @@ public class BillInfo {
         }
 
         if (this.accountname != null && this.accountname.equals(this.accountname2)) {
-            Log.i("Qianji_Analyze", "两个账户名称一致不予以记录");
+            Log.i("Qianji_Analyze", "两个账户名称一致或获取的商户名称为空");
             return false;
         }
 

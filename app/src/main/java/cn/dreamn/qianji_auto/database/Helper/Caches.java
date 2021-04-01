@@ -24,13 +24,13 @@ import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 public class Caches {
 
-    interface getCacheObj{
+   public interface getCacheObj{
         void onGet(Cache cache);
     }
-    interface getCaches{
+    public     interface getCaches{
         void onGet(Cache[] cache);
     }
-    interface getCacheString{
+    public     interface getCacheString{
         void onGet(String cache);
     }
     public static void getOne(String name, String type,getCacheObj getCache) {

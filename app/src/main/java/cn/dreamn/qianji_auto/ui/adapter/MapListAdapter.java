@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,7 +39,8 @@ public class MapListAdapter extends BaseAdapter {
         final Handler mHandler=new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(Message msg) {
-                MyBitmapUtils.setImage(mContext,icon_header,(Bitmap) msg.obj);
+                Object[] objects=(Object[])msg.obj;
+                MyBitmapUtils.setImage(mContext,(View) objects[0],(Bitmap)objects[1]);
             }
         };
         MyBitmapUtils myBitmapUtils=new MyBitmapUtils(mContext,mHandler);

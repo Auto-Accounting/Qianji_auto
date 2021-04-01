@@ -15,7 +15,7 @@
  *
  */
 
-package cn.dreamn.qianji_auto.utils.billUtils;
+package cn.dreamn.qianji_auto.bills;
 
 import android.content.Context;
 

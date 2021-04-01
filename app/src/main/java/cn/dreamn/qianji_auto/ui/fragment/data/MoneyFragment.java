@@ -23,9 +23,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,15 +43,11 @@ import java.util.List;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.app.AppManager;
-import cn.dreamn.qianji_auto.database.Helper.Assets;
+import cn.dreamn.qianji_auto.bills.SendDataToApp;
 import cn.dreamn.qianji_auto.database.Helper.AutoBills;
-import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
-import cn.dreamn.qianji_auto.ui.adapter.MapListAdapter;
 import cn.dreamn.qianji_auto.ui.adapter.MoneyAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
-import cn.dreamn.qianji_auto.utils.billUtils.BillInfo;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 import es.dmoral.toasty.Toasty;
@@ -194,7 +187,7 @@ public class MoneyFragment extends BaseFragment {
     }
 
     private void goBillApp(BillInfo billInfo) {
-        AppManager.sendToApp(billInfo);
+        SendDataToApp.callNoAdd(getContext(),billInfo);
     }
 
 

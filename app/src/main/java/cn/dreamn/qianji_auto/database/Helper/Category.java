@@ -20,7 +20,7 @@ package cn.dreamn.qianji_auto.database.Helper;
 
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.Regular;
-import cn.dreamn.qianji_auto.utils.billUtils.BillInfo;
+import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.JsEngine;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -28,7 +28,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class Category {
-    interface getStrings{
+    public interface getStrings{
         void onGet(String str);
     }
 

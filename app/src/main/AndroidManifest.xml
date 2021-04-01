@@ -46,6 +46,12 @@
         <meta-data
             android:name="design_height_in_dp"
             android:value="640" />
+        <!-- 通知监听 -->
+        <receiver
+            android:name=".broadcasts.NotificationClickReceiver">
+        </receiver>
     </application>
+
+
 
 </manifest>

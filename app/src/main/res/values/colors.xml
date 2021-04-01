@@ -23,8 +23,7 @@
     <color name="bg_alpha25">#66000000</color>
     <color name="bg_alpha25_white">#B3FFFFFF</color>
     <color name="ripper_color">#5baaed</color>
-    <color name="bg_float_edit">#000000</color>
-
+    <color name="bg_float_edit">#80000000</color>
     <color name="float_1">#666666</color>
     <color name="float_2">#5baaed</color>
     <color name="float_3">#58c1a8</color>

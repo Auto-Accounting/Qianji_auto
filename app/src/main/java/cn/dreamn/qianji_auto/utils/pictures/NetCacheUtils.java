@@ -102,7 +102,7 @@ public class NetCacheUtils {
 
                 if (result != null) {
                     Message message= mHandler.obtainMessage() ;
-                    message.obj = result;
+                    message.obj = new Object[]{ivPic,result};
                     mHandler.sendMessage(message);
                     //从网络获取图片后,保存至本地缓存
                     mLocalCacheUtils.setBitmapToLocal(url, result);
