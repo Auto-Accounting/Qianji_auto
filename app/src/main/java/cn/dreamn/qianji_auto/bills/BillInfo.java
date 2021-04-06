@@ -188,9 +188,13 @@ public class BillInfo {
     }
 
     public String getrawAccount() {
+        if(rawAccount==null)
+            rawAccount=accountname;
         return rawAccount;
     }
     public String getrawAccount2() {
+        if(rawAccount2==null)
+            rawAccount2=accountname2;
         return rawAccount2;
     }
     public String getFromApp() {

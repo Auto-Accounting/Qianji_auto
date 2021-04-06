@@ -39,6 +39,7 @@ import cn.dreamn.qianji_auto.database.Table.Asset;
 import cn.dreamn.qianji_auto.database.Table.Asset2;
 import cn.dreamn.qianji_auto.ui.adapter.DataSelectListAdapter;
 import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 
@@ -200,14 +201,15 @@ public class Assets {
     }
 
     public static void getMap(String assetName,getAssets2String getAssets) {
+        Log.d("获取map"+assetName);
         Task.onThread(()-> {
             if (assetName == null) {
-                getAssets.onGet(null);
+                getAssets.onGet(assetName);
                 return;
             }
             Asset[] assets = DbManger.db.AssetDao().get(assetName);
             if (assetName.equals("")) {
-                getAssets.onGet(null);
+                getAssets.onGet(assetName);
                 return;
             }
             //没有资产创造资产
@@ -216,7 +218,10 @@ public class Assets {
                 getAssets.onGet(assetName);
                 return;
             }
-            getAssets.onGet(assets[0].mapName);
+            String mapName=assets[0].mapName;
+            if(mapName==null){
+                getAssets.onGet(assetName);
+            }else getAssets.onGet(mapName);
         });
 
     }

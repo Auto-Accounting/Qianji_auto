@@ -72,7 +72,9 @@ public class QianJi implements IApp {
                         long finalT = t;
                         Caches.getCacheData("show_tip","false", cache1 -> {
                             if(!cache1.equals("true")){
+                                Looper.prepare();
                                 Toast.makeText(context, "距离上一次发起请求时间为" + finalT + "s,稍后为您自动记账。", Toast.LENGTH_LONG).show();
+                                Looper.loop();
                                 Caches.AddOrUpdate("show_tip", "true");
                             }
                             new Handler().postDelayed(() -> {

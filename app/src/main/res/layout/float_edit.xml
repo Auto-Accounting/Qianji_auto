@@ -27,7 +27,7 @@
                 android:layout_margin="15dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="修改账单信息，点击保存完成记账"
+                android:text="修改账单信息，点击记账完成记账"
                 android:textColor="@color/main_title"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -312,20 +312,18 @@
                     android:textColor="@color/main_title"
                     android:textSize="14sp" />
 
-                <com.google.android.material.chip.Chip
+                <TextView
                     android:id="@+id/chip_bx"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
                     android:layout_toStartOf="@+id/tv_type"
-                    android:checkable="false"
+                    android:background="@drawable/btn_normal_2"
+
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
                     android:text="报销"
-                    android:textSize="14sp"
-                    app:checkedIconVisible="false"
-                    app:chipIconVisible="false"
-                    app:chipMinHeight="20dp"
-                    app:chipMinTouchTargetSize="20dp"
-                    app:closeIconVisible="false" />
+                    android:textColor="@color/button_go_setting_bg" />
             </RelativeLayout>
 
             <View

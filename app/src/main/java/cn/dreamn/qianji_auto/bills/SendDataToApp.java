@@ -66,6 +66,7 @@ public class SendDataToApp {
     }
 
     public static void checkCache(Handler mHandler,BillInfo billInfo){
+
         String md5= billInfo.getRawMd5();
         Caches.getCacheData(md5, "", cache -> {
             if(!cache.equals("")){
@@ -79,6 +80,7 @@ public class SendDataToApp {
 
 
     public static void callNoAdd(Context context, BillInfo billInfo) {
+     //   Log.d(billInfo.dump());
         Handler mHandler=new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -135,11 +137,12 @@ public class SendDataToApp {
         try {
             Log.d("唤起自动记账面板");
             AutoFloat autoFloat = new AutoFloat(context);
+            Log.d(billInfo.dump());
             autoFloat.setData(billInfo);
             if (ScreenUtils.getScreenWidth(context) > ScreenUtils.getScreenHeight(context)) {
-                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight(context), ScreenUtils.getScreenWidth(context)- StatusBarUtil.getStatusBarHeight(context));
+                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight(context), ScreenUtils.getScreenWidth(context));
             } else {
-                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(context)-StatusBarUtil.getStatusBarHeight(context), ScreenUtils.getScreenHeight(context));
+                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(context), ScreenUtils.getScreenHeight(context));
             }
             autoFloat.show();
         } catch (Exception e) {

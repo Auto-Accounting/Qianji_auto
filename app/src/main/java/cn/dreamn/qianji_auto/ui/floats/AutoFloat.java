@@ -38,6 +38,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.chip.Chip;
 import com.tencent.mmkv.MMKV;
@@ -49,6 +51,7 @@ import cn.dreamn.qianji_auto.bills.BillTools;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
 import cn.dreamn.qianji_auto.database.Helper.Assets;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
+import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -62,7 +65,14 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
  */
 public class AutoFloat extends XFloatView {
 
-    private Handler mMainHandler = new Handler(Looper.getMainLooper());
+    private Handler mMainHandler = new Handler(Looper.getMainLooper()){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            if(msg.what==0){
+                setData(billInfo2);
+            }
+        }
+    };
 
 
 
@@ -82,7 +92,7 @@ public class AutoFloat extends XFloatView {
 
     private LinearLayout ll_type;
     private TextView tv_type;
-    private Chip chip_bx;
+    private TextView chip_bx;
 
     private LinearLayout ll_account1;
     private TextView tv_account1;
@@ -260,25 +270,19 @@ public class AutoFloat extends XFloatView {
         });
         button_fail.setOnClickListener(v -> this.clear());
         chip_bx.setOnClickListener(v -> {
-           /* if (auto_reimbursement.getText().toString().equals("不报销")) {
-                auto_reimbursement.setText("报销");
+            billInfo2.setRrimbursement(chip_bx.getText().toString().equals("不报销"));
+            Category.getCategory(billInfo2, cate -> {
+                if (cate.equals("NotFind")) {
+                    billInfo2.setCateName("其它");//设置自动分类
 
-                billInfo2.setRrimbursement(true);
+                } else {
+                    billInfo2.setCateName(cate);//设置自动分类
+                }
+                //账单修改报销后重新分类
 
-            } else {
-                auto_reimbursement.setText("不报销");
-                billInfo2.setRrimbursement(false);
-            }
-            String cate = Category.getCategory(billInfo2);
-            if (cate.equals("NotFind")) {
-                billInfo2.setCateName("其它");//设置自动分类
+                mMainHandler.sendEmptyMessage(0);
+            });
 
-            } else {
-                billInfo2.setCateName(cate);//设置自动分类
-            }
-            //账单修改报销后重新分类
-
-            this.setData(billInfo2);*/
         });
 
 
@@ -301,6 +305,7 @@ public class AutoFloat extends XFloatView {
 
     @SuppressLint("SetTextI18n")
     public void setData(BillInfo billInfo) {
+
         billInfo2 = billInfo;
 
 
@@ -309,7 +314,7 @@ public class AutoFloat extends XFloatView {
         tv_book.setText(billInfo.getBookName());
         tv_category.setText(billInfo.getCateName());
         tv_type.setText(BillInfo.getTypeName(billInfo.getType()));
-        chip_bx.setCheckable(billInfo.getReimbursement());
+        setCheckable(billInfo.getReimbursement());
         tv_account1.setText(billInfo.getAccountName());
         tv_account2.setText(billInfo.getAccountName2());
         tv_time.setText(billInfo.getTime());
@@ -338,6 +343,11 @@ public class AutoFloat extends XFloatView {
         } else {
             type = "0";
             chip_bx.setVisibility(View.VISIBLE);
+        }
+        if(billInfo.getType().equals(BillInfo.TYPE_PAY)||billInfo.getType().equals(BillInfo.TYPE_INCOME)){
+            ll_fee.setVisibility(View.GONE);
+        }else{
+            ll_fee.setVisibility(View.VISIBLE);
         }
 
 
@@ -461,6 +471,20 @@ public class AutoFloat extends XFloatView {
             ll_time.setVisibility(View.GONE);
         }else if(mmkv.getBoolean("ll_remark",false)){
             ll_remark.setVisibility(View.GONE);
+        }
+    }
+
+    public void setCheckable(boolean check){
+
+
+        if(check){
+            chip_bx.setText("报销");
+           chip_bx.setBackground(getContext().getDrawable(R.drawable.btn_normal_1));
+           chip_bx.setTextColor(getContext().getColor(R.color.background_white));
+        }else{
+            chip_bx.setText("不报销");
+            chip_bx.setBackground(getContext().getDrawable(R.drawable.btn_normal_2));
+            chip_bx.setTextColor(getContext().getColor(R.color.button_go_setting_bg));
         }
     }
 }
