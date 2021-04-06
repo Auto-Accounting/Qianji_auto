@@ -27,7 +27,7 @@ public class ScreenUtils {
                 .getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
-        return outMetrics.heightPixels;
+        return outMetrics.widthPixels;
     }
 
     public static  int getScreenHeight(Context context) {
@@ -35,6 +35,6 @@ public class ScreenUtils {
                 .getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
-        return outMetrics.widthPixels;
+        return outMetrics.heightPixels;
     }
 }

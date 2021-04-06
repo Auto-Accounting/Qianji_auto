@@ -313,7 +313,11 @@ public class AutoFloat extends XFloatView {
         tv_account1.setText(billInfo.getAccountName());
         tv_account2.setText(billInfo.getAccountName2());
         tv_time.setText(billInfo.getTime());
-        tv_remark.setText(billInfo.getRemark());
+        String remark=billInfo.getRemark();
+        if(remark.length()>20){
+            remark=remark.substring(0,20)+"...";
+        }
+        tv_remark.setText(remark);
 
 
         tv_money.setText(BillTools.getCustomBill(billInfo));

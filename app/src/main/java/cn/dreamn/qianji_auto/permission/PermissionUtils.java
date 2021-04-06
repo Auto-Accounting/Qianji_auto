@@ -181,10 +181,7 @@ public class PermissionUtils {
             case Assist:
                 return Accessibility.isAccessibilityEnabled(mContext) ?"1":"0";
             case Sms:
-                return XXPermissions.isGrantedPermission(mContext, new String[]{
-                        Permission.READ_SMS,
-                        Permission.RECEIVE_SMS
-                }) ?"1":"0";
+                return XXPermissions.isGrantedPermission(mContext, Permission.RECEIVE_SMS) ?"1":"0";
 
             case Float:
                 return XXPermissions.isGrantedPermission(mContext, Permission.SYSTEM_ALERT_WINDOW) ?"1":"0";

@@ -34,6 +34,7 @@ import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
 import cn.dreamn.qianji_auto.ui.utils.ScreenUtils;
+import cn.dreamn.qianji_auto.ui.utils.StatusBarUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 import es.dmoral.toasty.Toasty;
@@ -136,9 +137,9 @@ public class SendDataToApp {
             AutoFloat autoFloat = new AutoFloat(context);
             autoFloat.setData(billInfo);
             if (ScreenUtils.getScreenWidth(context) > ScreenUtils.getScreenHeight(context)) {
-                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight(context), ScreenUtils.getScreenWidth(context));
+                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight(context), ScreenUtils.getScreenWidth(context)- StatusBarUtil.getStatusBarHeight(context));
             } else {
-                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(context), ScreenUtils.getScreenHeight(context));
+                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(context)-StatusBarUtil.getStatusBarHeight(context), ScreenUtils.getScreenHeight(context));
             }
             autoFloat.show();
         } catch (Exception e) {
