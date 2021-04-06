@@ -76,36 +76,36 @@ public class AutoFloat extends XFloatView {
 
 
 
-    private LinearLayout layout_money;
+    private RelativeLayout layout_money;
     private TextView tv_money;
 
-    private LinearLayout ll_fee;
+    private RelativeLayout ll_fee;
     private TextView tv_fee;
 
-    private LinearLayout ll_book;
+    private RelativeLayout ll_book;
     private TextView tv_book;
 
-    private LinearLayout ll_category;
+    private RelativeLayout ll_category;
     private ImageView iv_category;
     private TextView tv_category;
 
 
-    private LinearLayout ll_type;
+    private RelativeLayout ll_type;
     private TextView tv_type;
     private TextView chip_bx;
 
-    private LinearLayout ll_account1;
+    private RelativeLayout ll_account1;
     private TextView tv_account1;
     private ImageView iv_account1;
 
-    private LinearLayout ll_account2;
+    private RelativeLayout ll_account2;
     private TextView tv_account2;
     private ImageView iv_account2;
 
-    private LinearLayout ll_time;
+    private RelativeLayout ll_time;
     private TextView tv_time;
 
-    private LinearLayout ll_remark;
+    private RelativeLayout ll_remark;
     private TextView tv_remark;
 
     private Button button_fail;
@@ -196,13 +196,14 @@ public class AutoFloat extends XFloatView {
             //分类选择
         });
         ll_book.setOnClickListener(v -> {
-            BookNames.getAllIcon(true, new BookNames.getBookBundles() {
+            BookNames.showBookSelect(getContext(), "请选择账本", true, new BookNames.BookSelect() {
                 @Override
-                public void onGet(Bundle[] bundle) {
-                    //
+                public void onSelect(Bundle bundle) {
+                    billInfo2.setBookName(bundle.getString("name"));
+                    book_id = bundle.getString("book_id");
+                    mMainHandler.sendEmptyMessage(0);
                 }
             });
-
 /*
             showMenu("请选择账本", 3, bookNameList, data -> {
 

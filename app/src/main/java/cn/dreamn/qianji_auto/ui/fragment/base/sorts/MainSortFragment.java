@@ -68,7 +68,7 @@ public class MainSortFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        BookNames.showBookSelect(getContext(), "请选择账本", bundle -> {
+        BookNames.showBookSelect(getContext(), "请选择账本",false, bundle -> {
             sf1=new sortsFragment(bundle,"0");
             sf2=new sortsFragment(bundle,"1");
             sf1.setObj(sf2);

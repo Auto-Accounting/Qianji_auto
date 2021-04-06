@@ -19,12 +19,14 @@ package cn.dreamn.qianji_auto.database.Helper;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -208,7 +210,7 @@ public class BookNames {
         void onSelect(Bundle bundle);
     }
 
-    public static void showBookSelect(Context context, String title, BookSelect getOne ) {
+    public static void showBookSelect(Context context, String title,boolean isFloat, BookSelect getOne ) {
 
         LayoutInflater factory = LayoutInflater.from(context);
         final View textEntryView = factory.inflate(R.layout.list_data, null);
@@ -233,6 +235,13 @@ public class BookNames {
 
                 DialogCustomViewExtKt.customView(dialog, null, textEntryView,
                         false, true, false, false);
+               if(isFloat){
+                   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                       dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
+                   } else {
+                       dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+                   }
+               }
                 dialog.show();
                 dialog.cancelable(false);
 

@@ -141,7 +141,7 @@ public class sortsFragment extends BaseFragment {
         refreshLayout.setOnRefreshListener(RefreshLayout::finishRefresh);
 
         action_switch.setOnClickListener(v -> {
-            BookNames.showBookSelect(getContext(), "请选择账本", bundle -> {
+            BookNames.showBookSelect(getContext(), "请选择账本",false, bundle -> {
                 this.setBook(bundle);
                 other.setBook(bundle);
                 view_hide.setVisibility(View.GONE);

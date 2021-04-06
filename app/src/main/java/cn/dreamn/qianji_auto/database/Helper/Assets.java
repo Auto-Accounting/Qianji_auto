@@ -41,6 +41,7 @@ import cn.dreamn.qianji_auto.ui.adapter.DataSelectListAdapter;
 import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import es.dmoral.toasty.Toasty;
 
 
 public class Assets {
@@ -243,6 +244,10 @@ public class Assets {
             @Override
             public void handleMessage(Message msg) {
                 Bundle[] assets=(Bundle[])msg.obj;
+                if(assets==null){
+                    Toasty.error(context,"请先添加资产再进行资产映射！",Toasty.LENGTH_LONG).show();
+                    return;
+                }
                 DataSelectListAdapter adapter = new DataSelectListAdapter(context,assets);//listdata和str均可
                 list_view.setAdapter(adapter);
 

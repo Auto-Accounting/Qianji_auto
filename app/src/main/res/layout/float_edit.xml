@@ -33,550 +33,462 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <LinearLayout
+
+        <RelativeLayout
             android:id="@+id/layout_money"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:padding="5dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cn.dreamn.qianji_auto.ui.views.IconView
-                    android:id="@+id/iconView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="10dp"
-                    android:text="&#xe600;"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/textView11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_toEndOf="@+id/iconView2"
-                    android:text="金额"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tv_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="15dp"
-                    android:text="-￥12"
-                    android:textColor="@color/float_4"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <View
-                android:id="@+id/view9"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
+            <cn.dreamn.qianji_auto.ui.views.IconView
+                android:id="@+id/iconView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/line_dash"
-                android:layerType="software"
-                android:paddingEnd="10dp" />
+                android:text="&#xe600;"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@+id/iconView2"
+                android:text="金额"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
 
-        <LinearLayout
+            <TextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="15dp"
+                android:text="-￥12"
+                android:textColor="@color/float_4"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/line_dash"
+            android:layerType="software"
+            />
+
+
+        <RelativeLayout
             android:id="@+id/ll_fee"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:padding="5dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cn.dreamn.qianji_auto.ui.views.IconView
-                    android:id="@+id/iconView21"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="10dp"
-                    android:text="&#xe602;"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_toEndOf="@+id/iconView21"
-                    android:text="手续费"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tv_fee"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="15dp"
-                    android:text="-￥0.01"
-                    android:textColor="@color/float_4"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <View
-                android:id="@+id/view8"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
+            <cn.dreamn.qianji_auto.ui.views.IconView
+                android:id="@+id/iconView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/line_dash"
-                android:layerType="software"
-                android:paddingEnd="10dp" />
+                android:text="&#xe602;"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@+id/iconView21"
+                android:text="手续费"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
 
+            <TextView
+                android:id="@+id/tv_fee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="15dp"
+                android:text="-￥0.01"
+                android:textColor="@color/float_4"
+                android:textSize="14sp" />
+        </RelativeLayout>
 
-        <LinearLayout
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/line_dash"
+            android:layerType="software"
+            />
+
+        <RelativeLayout
             android:id="@+id/ll_book"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:padding="5dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cn.dreamn.qianji_auto.ui.views.IconView
-                    android:id="@+id/iconView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="10dp"
-                    android:text="&#xe610;"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_toEndOf="@+id/iconView3"
-                    android:text="账本"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tv_book"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="15dp"
-                    android:text="默认账本"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
+            <cn.dreamn.qianji_auto.ui.views.IconView
+                android:id="@+id/iconView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/line_dash"
-                android:layerType="software" />
+                android:text="&#xe610;"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@+id/iconView3"
+                android:text="账本"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
 
-        <LinearLayout
+            <TextView
+                android:id="@+id/tv_book"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="15dp"
+                android:text="默认账本"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/line_dash"
+            android:layerType="software"
+            />
+        <RelativeLayout
             android:id="@+id/ll_category"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:padding="5dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
-                    android:id="@+id/iconView99"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="10dp"
-                    android:text="&#xe6a7;"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/textView13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_toEndOf="@+id/iconView99"
-                    android:text="分类"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@+id/iv_category"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@+id/tv_category"
-                    tools:srcCompat="@tools:sample/avatars" />
-
-                <TextView
-                    android:id="@+id/tv_category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="15dp"
-                    android:text="其他"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
+            <cn.dreamn.qianji_auto.ui.views.IconView
+                android:id="@+id/iconView99"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
+                android:text="&#xe6a7;"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@+id/iconView99"
+                android:text="分类"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/iv_category"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginEnd="10dp"
-                android:background="@drawable/line_dash"
-                android:layerType="software" />
+                android:layout_toStartOf="@+id/tv_category"
+                tools:srcCompat="@tools:sample/avatars" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/tv_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="15dp"
+                android:text="其他"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/line_dash"
+            android:layerType="software"
+            />
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/ll_type"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:orientation="vertical"
-            android:padding="5dp">
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cn.dreamn.qianji_auto.ui.views.IconView
-                    android:id="@+id/iconView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="10dp"
-                    android:text="&#xe6a0;"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_toEndOf="@+id/iconView5"
-                    android:text="类型"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tv_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="15dp"
-                    android:text="支出"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/chip_bx"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
-                    android:layout_toStartOf="@+id/tv_type"
-                    android:background="@drawable/btn_normal_2"
-
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:text="报销"
-                    android:textColor="@color/button_go_setting_bg" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
+            <cn.dreamn.qianji_auto.ui.views.IconView
+                android:id="@+id/iconView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/line_dash"
-                android:layerType="software" />
+                android:text="&#xe6a0;"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
 
-        </LinearLayout>
+            <TextView
 
-        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@+id/iconView5"
+                android:text="类型"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:text="支出"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/chip_bx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="15dp"
+                android:layout_toStartOf="@+id/tv_type"
+
+                android:background="@drawable/btn_normal_2"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:text="报销"
+                android:textColor="@color/button_go_setting_bg" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/line_dash"
+            android:layerType="software"
+            />
+        <RelativeLayout
             android:id="@+id/ll_account1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:padding="5dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cn.dreamn.qianji_auto.ui.views.IconView
-                    android:id="@+id/iconView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="10dp"
-                    android:text="&#xe6b2;"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_toEndOf="@+id/iconView4"
-                    android:text="资产"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@+id/iv_account1"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@+id/tv_account1"
-                    tools:srcCompat="@tools:sample/avatars" />
-
-                <TextView
-                    android:id="@+id/tv_account1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="15dp"
-                    android:text="支付宝"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
+            <cn.dreamn.qianji_auto.ui.views.IconView
+                android:id="@+id/iconView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
+                android:text="&#xe6b2;"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@+id/iconView4"
+                android:text="资产"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/iv_account1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginEnd="10dp"
-                android:background="@drawable/line_dash"
-                android:layerType="software" />
+                android:layout_toStartOf="@+id/tv_account1"
+                tools:srcCompat="@tools:sample/avatars" />
 
-        </LinearLayout>
-
-        <LinearLayout
+            <TextView
+                android:id="@+id/tv_account1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="15dp"
+                android:text="支付宝"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/line_dash"
+            android:layerType="software"
+            />
+        <RelativeLayout
             android:id="@+id/ll_account2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:padding="5dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cn.dreamn.qianji_auto.ui.views.IconView
-                    android:id="@+id/iconView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="10dp"
-                    android:text="&#xe6b2;"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_toEndOf="@+id/iconView8"
-                    android:text="变动资产"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@+id/iv_account2"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@+id/tv_account2"
-                    tools:srcCompat="@tools:sample/avatars" />
-
-                <TextView
-                    android:id="@+id/tv_account2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="15dp"
-                    android:text="中国银行"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
+            <cn.dreamn.qianji_auto.ui.views.IconView
+                android:id="@+id/iconView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
+                android:text="&#xe6b2;"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@+id/iconView8"
+                android:text="变动资产"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/iv_account2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginEnd="10dp"
-                android:background="@drawable/line_dash"
-                android:layerType="software" />
+                android:layout_toStartOf="@+id/tv_account2"
+                tools:srcCompat="@tools:sample/avatars" />
 
-        </LinearLayout>
-
-        <LinearLayout
+            <TextView
+                android:id="@+id/tv_account2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="15dp"
+                android:text="中国银行"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/line_dash"
+            android:layerType="software"
+            />
+        <RelativeLayout
             android:id="@+id/ll_time"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:padding="5dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cn.dreamn.qianji_auto.ui.views.IconView
-                    android:id="@+id/iconView34"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="10dp"
-                    android:text="&#xe62c;"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_toEndOf="@+id/iconView34"
-                    android:text="时间"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tv_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="15dp"
-                    android:text="2021-04-15 22:22:22"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
+            <cn.dreamn.qianji_auto.ui.views.IconView
+                android:id="@+id/iconView34"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/line_dash"
-                android:layerType="software" />
+                android:text="&#xe62c;"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
 
-        </LinearLayout>
+            <TextView
 
-        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@+id/iconView34"
+                android:text="时间"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="15dp"
+                android:text="2021-04-15 22:22:22"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/line_dash"
+            android:layerType="software"
+            />
+        <RelativeLayout
             android:id="@+id/ll_remark"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:padding="5dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <cn.dreamn.qianji_auto.ui.views.IconView
-                    android:id="@+id/iconView35"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="10dp"
-                    android:text="&#xe611;"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_toEndOf="@+id/iconView35"
-                    android:text="备注"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tv_remark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="15dp"
-                    android:text="没有备注信息"
-                    android:textColor="@color/main_title"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
+            <cn.dreamn.qianji_auto.ui.views.IconView
+                android:id="@+id/iconView35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/line_dash"
-                android:layerType="software" />
+                android:text="&#xe611;"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
 
-        </LinearLayout>
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@+id/iconView35"
+                android:text="备注"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_remark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="15dp"
+                android:text="没有备注信息"
+                android:textColor="@color/main_title"
+                android:textSize="14sp" />
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/line_dash"
+            android:layerType="software"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
