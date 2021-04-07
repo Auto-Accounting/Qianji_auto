@@ -29,7 +29,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 import com.tencent.mmkv.MMKV;
 
@@ -223,14 +225,19 @@ public class BookNames {
             @Override
             public void handleMessage(Message msg) {
                 Bundle[] books=(Bundle[])msg.obj;
-                if(books.length==1){
+                if(books.length==1&&!isFloat){
                     getOne.onSelect(books[0]);
                     return;
                 }
                 BookSelectListAdapter adapter = new BookSelectListAdapter(context,books);//listdata和str均可
                 list_view.setAdapter(adapter);
 
-                MaterialDialog dialog = new MaterialDialog(context, MaterialDialog.getDEFAULT_BEHAVIOR());
+
+
+                BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+                MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
+
+                dialog.cornerRadius(15f,null);
                 dialog.title(null,title);
 
                 DialogCustomViewExtKt.customView(dialog, null, textEntryView,

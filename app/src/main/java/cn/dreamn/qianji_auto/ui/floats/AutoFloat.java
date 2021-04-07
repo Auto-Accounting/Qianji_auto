@@ -53,6 +53,7 @@ import cn.dreamn.qianji_auto.database.Helper.Assets;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.ui.utils.CategoryUtils;
 import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
@@ -76,36 +77,36 @@ public class AutoFloat extends XFloatView {
 
 
 
-    private RelativeLayout layout_money;
+    private LinearLayout layout_money;
     private TextView tv_money;
 
-    private RelativeLayout ll_fee;
+    private LinearLayout ll_fee;
     private TextView tv_fee;
 
-    private RelativeLayout ll_book;
+    private LinearLayout ll_book;
     private TextView tv_book;
 
-    private RelativeLayout ll_category;
+    private LinearLayout ll_category;
     private ImageView iv_category;
     private TextView tv_category;
 
 
-    private RelativeLayout ll_type;
+    private LinearLayout ll_type;
     private TextView tv_type;
     private TextView chip_bx;
 
-    private RelativeLayout ll_account1;
+    private LinearLayout ll_account1;
     private TextView tv_account1;
     private ImageView iv_account1;
 
-    private RelativeLayout ll_account2;
+    private LinearLayout ll_account2;
     private TextView tv_account2;
     private ImageView iv_account2;
 
-    private RelativeLayout ll_time;
+    private LinearLayout ll_time;
     private TextView tv_time;
 
-    private RelativeLayout ll_remark;
+    private LinearLayout ll_remark;
     private TextView tv_remark;
 
     private Button button_fail;
@@ -194,15 +195,22 @@ public class AutoFloat extends XFloatView {
     protected void initListener() {
         ll_category.setOnClickListener(v -> {
             //分类选择
+            CategoryNames.showCategorySelect(getContext(), "请选择分类", book_id, billInfo2.getType(), true, new CategoryNames.getCateNameOneObj() {
+                @Override
+                public void onGet(Bundle categoryNames) {
+                    if(categoryNames!=null){
+                        billInfo2.setCateName(categoryNames.getString("name"));
+                        mMainHandler.sendEmptyMessage(0);
+                    }
+                }
+            });
         });
         ll_book.setOnClickListener(v -> {
-            BookNames.showBookSelect(getContext(), "请选择账本", true, new BookNames.BookSelect() {
-                @Override
-                public void onSelect(Bundle bundle) {
-                    billInfo2.setBookName(bundle.getString("name"));
-                    book_id = bundle.getString("book_id");
-                    mMainHandler.sendEmptyMessage(0);
-                }
+            Log.d("账本选择");
+            BookNames.showBookSelect(getContext(), "请选择账本", true, bundle -> {
+                billInfo2.setBookName(bundle.getString("name"));
+                book_id = bundle.getString("book_id");
+                mMainHandler.sendEmptyMessage(0);
             });
 /*
             showMenu("请选择账本", 3, bookNameList, data -> {
@@ -214,6 +222,7 @@ public class AutoFloat extends XFloatView {
 
         });
         ll_account1.setOnClickListener(v -> {
+            Log.d("账户1选择");
             Assets.getAllIcon(asset2s -> {
 
             });
@@ -227,6 +236,7 @@ public class AutoFloat extends XFloatView {
             });*/
         });
         ll_account2.setOnClickListener(v -> {
+            Log.d("账户2选择");
              Assets.getAllIcon(asset2s -> {
 
              });
@@ -241,6 +251,7 @@ public class AutoFloat extends XFloatView {
             });*/
         });
         ll_remark.setOnClickListener(v -> {
+            Log.d("请输入备注信息");
            /* showInputDialog("请输入备注信息", billInfo2.getRemark(), data -> {
                 billInfo2.setRemark(data);
                 this.setData(billInfo2);
@@ -248,13 +259,14 @@ public class AutoFloat extends XFloatView {
 
         });
         ll_time.setOnClickListener(v -> {
+            Log.d("请修改时间信息");
             /*showInputDialog("请修改时间信息", billInfo2.getTime(), data -> {
                 billInfo2.setTime(data);
                 this.setData(billInfo2);
             });*/
         });
         tv_type.setOnClickListener(v -> {
-
+            Log.d("请选择收支类型");
             String[] strings = {"支出", "收入", "转账", "信用还款"};
 
 
@@ -340,7 +352,7 @@ public class AutoFloat extends XFloatView {
         String type;
         if (!billInfo.getType().equals(BillInfo.TYPE_PAY)) {
             type = "1";
-            chip_bx.setVisibility(View.GONE);
+            chip_bx.setVisibility(View.INVISIBLE);
         } else {
             type = "0";
             chip_bx.setVisibility(View.VISIBLE);
@@ -373,6 +385,8 @@ public class AutoFloat extends XFloatView {
         });
 
         CategoryNames.getPic(billInfo.getCateName(), type, book_id,pic->{
+            if(pic==null)
+                pic= "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png";
             myBitmapUtils.disPlay(iv_category,pic);
         });
 

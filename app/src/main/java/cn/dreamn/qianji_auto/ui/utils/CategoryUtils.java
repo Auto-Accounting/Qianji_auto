@@ -1,5 +1,6 @@
 package cn.dreamn.qianji_auto.ui.utils;
 
+import android.content.ContentProvider;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,10 +11,13 @@ import android.widget.Adapter;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
@@ -22,34 +26,72 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 public class CategoryUtils {
-    SwipeRecyclerView recyclerView;
-    CategoryAdapter mAdapter;
-    private List<Bundle> list=new ArrayList<>();
-    private String book_id=null;
-    private String type;
-    private Context mContext;
-    private finishRefresh ff;
-    private int topInt=-1;
-    private boolean expand=false;
+    SwipeRecyclerView recyclerView;//列表容器
+    CategoryAdapter mAdapter;//数据处理工具
+    private List<Bundle> list=new ArrayList<>();//数据列表
+    private String book_id;//当前book
+    private String type;//当前类别
+    private Context mContext;//上下文
+    private finishRefresh finish;//刷新结束，回调
+    private int topInt=-1;//当前展开或点击的pos
+    private boolean expand=false;//是否展开
+    private Click click;//点击事件
+    private boolean allowChange;//是否允许修改
     private static final int HANDLE_ERR = 0;
     private static final int HANDLE_OK = 1;
-    Handler mHandler = new Handler(Looper.getMainLooper()) {
+
+
+    //回调接口
+    public interface finishRefresh{
+        void onFinish(int state);
+    }
+    public interface Click{
+        void onParentClick(Bundle bundle,int position);
+        void onItemClick(Bundle bundle,Bundle parent_bundle,int position);
+        void onParentLongClick(Bundle bundle,int position);
+    }
+
+    /**
+     * Instances of static inner classes do not hold an implicit
+     * reference to their outer class.
+     */
+    private static class MyHandler extends Handler {
+        private final WeakReference<CategoryUtils> categoryUtilsWeakReference;
+
+        public MyHandler(CategoryUtils categoryUtilsWeakReference1) {
+            categoryUtilsWeakReference = new WeakReference<>(categoryUtilsWeakReference1);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == HANDLE_OK) {
-                mAdapter.refresh(list);//全部刷新
-            }
-            if(ff!=null){
-                ff.onFinish(msg.what);
+            CategoryUtils categoryUtils = categoryUtilsWeakReference.get();
+            if (categoryUtils != null) {
+                if (msg.what == HANDLE_OK) {
+                    List<Bundle> list=(List<Bundle>)msg.obj;
+                    categoryUtils.getAdapter().refresh(list);//全部刷新
+                }
+                if(categoryUtils.getFinish()!=null){
+                    categoryUtils.getFinish().onFinish(msg.what);
+                }
             }
         }
-    };
-    private LongClick longClick;
+    }
+
+    private final MyHandler mHandler = new MyHandler(this);
+
+    private finishRefresh getFinish() {
+        return finish;
+    }
+
+    private CategoryAdapter getAdapter() {
+        return mAdapter;
+    }
 
     public CategoryUtils(SwipeRecyclerView recyclerView, String book_id, String type, Context context,Boolean allowChange){
         this.book_id=book_id;
         this.recyclerView=recyclerView;
         this.mAdapter=new CategoryAdapter(context,allowChange);
+        this.allowChange=allowChange;
         this.type=type;
         mContext=context;
     }
@@ -62,16 +104,14 @@ public class CategoryUtils {
         }
     }
 
-    public interface finishRefresh{
-        void onFinish(int state);
-    }
+
 
     public void show(){
 
         GridLayoutManager layoutManager = new GridLayoutManager(mContext, 5);
         layoutManager.setSpanSizeLookup(new SpecialSpanSizeLookup());
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter=new CategoryAdapter(mContext,true);
+        mAdapter=new CategoryAdapter(mContext,allowChange);
 
         mAdapter.setOnItemClickListener(this::OnItemClickListen);
         mAdapter.setOnItemLongClickListener(this::OnLongClickListen);
@@ -83,31 +123,35 @@ public class CategoryUtils {
 
     private void OnLongClickListen(View view, int position) {
         if(list==null||position >= list.size())return;
-        Bundle item= list.get(position);
+        Bundle item = list.get(position);
         if(item.getString("name")==null)return;//为null就不响应
-        if(longClick!=null){
-            longClick.onLongClick(item, position);
+        if(click!=null){
+            click.onParentLongClick(item, position);
         }
     }
 
 
     private void OnItemClickListen(View view, int position) {
+
         if(list==null||position >= list.size())return;
         Bundle item= list.get(position);
         int left = view.getLeft();
-
+        if(this.click!=null){
+            click.onParentClick(item,position);
+        }
         refreshSubData(item,position,left);
     }
 
-    public void setOnItemClick(CategoryAdapter.Item item){
-        mAdapter.setOnItemListener(item);
+
+    public void setOnClick(Click item){
+        this.click=item;
+        mAdapter.setOnItemListener((bundle, parent, parentPos) -> {
+            if(click!=null){
+                click.onItemClick(bundle,parent,parentPos);
+            }
+        });
     }
-    public interface LongClick{
-        void onLongClick(Bundle bundle,int pos);
-    }
-    public void setOnLongClick(LongClick longClick){
-        this.longClick=longClick;
-    }
+
 
 
 
@@ -123,7 +167,6 @@ public class CategoryUtils {
         if(real2!=real){//item不同布局则清除上一个
             closeItem(topInt);
         }
-
         // 当前布局设置选中
         mAdapter.setSelect(position);
         // 清除上一个布局
@@ -142,7 +185,17 @@ public class CategoryUtils {
 
     }
 
+    public void clean(){//全部清除
+        list.clear();
+        topInt=-1;
+        if(mAdapter!=null){
+            mAdapter.setSelect(-1);
+            mAdapter.refresh(null);
+        }
+    }
+
     public void refreshData(String book_id,int parent,finishRefresh f){
+
         if(parent!=-2){
             Bundle data=list.get(parent);
             Bundle dataItem=data.getBundle("item");
@@ -158,11 +211,10 @@ public class CategoryUtils {
         refreshData(f);
     }
     public void refreshData(finishRefresh f){
-        ff=f;
+        clean();
+        finish=f;
         CategoryNames.getParents(book_id,type,books -> {
             Log.d("books"+ Arrays.toString(books));
-            mAdapter.setSelect(-1);
-            expand=false;//默认关闭
             if(books==null||books.length==0){
                 mHandler.sendEmptyMessage(HANDLE_ERR);
             }else{
@@ -198,7 +250,10 @@ public class CategoryUtils {
                 bundle.putBoolean("change",false);//保留数据
                 list.add(bundle);
                 Log.d("输出"+list.toString());
-                mHandler.sendEmptyMessage(HANDLE_OK);
+                Message message=new Message();
+                message.what=HANDLE_OK;
+                message.obj=list;
+                mHandler.sendMessage(message);
             }
 
         });
@@ -207,6 +262,7 @@ public class CategoryUtils {
 
 
     private boolean isOpenItem(){
+
         return expand;
     }
 
@@ -226,42 +282,39 @@ public class CategoryUtils {
         Handler mmHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
-                if (msg.what == HANDLE_OK) {
-                    expand = true;
-                    Bundle[] bundles = (Bundle[]) msg.obj;
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id", -1);
-                    bundle.putBundle("item", item);
-                    bundle.putString("name", null);
-                    bundle.putString("book_id", item.getString("book_id"));
-                    bundle.putInt("left", left + 13);
-                    bundle.putInt("leftRaw", left);
-                    bundle.putSerializable("data", bundles);
-                    bundle.putBoolean("change", true);
+                expand = true;
+                Bundle[] bundles = (Bundle[]) msg.obj;
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", -1);
+                bundle.putBundle("item", item);
+                bundle.putString("name", null);
+                bundle.putString("book_id", item.getString("book_id"));
+                bundle.putInt("left", left + 13);
+                bundle.putInt("leftRaw", left);
+                bundle.putSerializable("data", bundles);
+                bundle.putBoolean("change", bundles.length != 0);
 
-                    list.set(real - 1, bundle);
-                    mAdapter.replaceNotNotify(real - 1, bundle);
 
-                    mAdapter.notifyItemChanged(real - 1);
+                list.set(real - 1, bundle);
+                mAdapter.replaceNotNotify(real - 1, bundle);
+                mAdapter.notifyItemChanged(real - 1);
 
-                    mAdapter.notifyItemChanged(position);
-                }
+                mAdapter.notifyItemChanged(position);
             }
         };
 
-        CategoryNames.getChildrens(item.getString("self_id"),book_id,item.getString("type"),true,books -> {
+        CategoryNames.getChildrens(item.getString("self_id"),book_id,item.getString("type"),allowChange,books -> {
             Log.d("子类"+ Arrays.toString(books));
-            if(books!=null&&books.length!=0){
-                Message message=new Message();
-                message.obj=books;
-                message.what=HANDLE_OK;
-                mmHandler.sendMessage(message);
-            }
+            Message message=new Message();
+            message.obj=books;
+            message.what=HANDLE_OK;
+            mmHandler.sendMessage(message);
         });
     }
 
     private void closeItem(int position){
-
+      //  Bundle item=list.get(position);
+        expand=false;
         int real=getItemPos(position);
         Bundle bundle1=new Bundle();
         bundle1.putString("name",null);//保留数据
@@ -275,6 +328,6 @@ public class CategoryUtils {
        }
 
 
-        expand=false;
+
     }
 }

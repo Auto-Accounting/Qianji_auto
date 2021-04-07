@@ -18,17 +18,39 @@
 package cn.dreamn.qianji_auto.database.Helper;
 
 
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.afollestad.materialdialogs.LayoutMode;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
+import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
+import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
+import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.CategoryName;
+import cn.dreamn.qianji_auto.ui.utils.CategoryUtils;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import es.dmoral.toasty.Toasty;
 
 public class CategoryNames {
     public interface getCateNameObj{
         void onGet(Bundle[] categoryNames);
+    }
+    public interface getCateNameOneObj{
+        void onGet(Bundle categoryNames);
     }
     public interface getCateNameStr{
         void onGet(String categoryNames);
@@ -187,5 +209,80 @@ public class CategoryNames {
 
     public static void clean() {
         Task.onThread(()->DbManger.db.CategoryNameDao().clean());
+    }
+
+
+    public static void showCategorySelect(Context context, String title,String book_id,String type, boolean isFloat,getCateNameOneObj  getOne ) {
+
+        AtomicReference<Bundle> cateName=new AtomicReference<>();
+
+        LayoutInflater factory = LayoutInflater.from(context);
+        final View textEntryView = factory.inflate(R.layout.list_category, null);
+
+        //final TextView list_title = textEntryView.findViewById(R.id.list_title);
+
+        final SwipeRecyclerView recycler_view = textEntryView.findViewById(R.id.recycler_view);
+        final Button button=textEntryView.findViewById(R.id.button_next);
+
+        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+        MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getOne.onGet(cateName.get());
+                dialog.dismiss();
+            }
+        });
+        dialog.title(null,title);
+        CategoryUtils categoryUtils=new CategoryUtils(recycler_view,book_id,type,context,false);
+
+        categoryUtils.show();
+        categoryUtils.refreshData(state -> {
+            if(state==0){
+                Toast t=Toasty.error(context,"请在【分类管理】中添加分类后再试！",Toasty.LENGTH_LONG);
+                t.setGravity(Gravity.TOP,0,0);
+                t.show();
+            }else{
+
+                DialogCustomViewExtKt.customView(dialog, null, textEntryView,
+                        false, true, false, false);
+                if(isFloat){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
+                    } else {
+                        dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+                    }
+                }
+
+                dialog.cornerRadius(15f,null);
+                dialog.show();
+                dialog.cancelable(false);
+
+            }
+        });
+
+
+
+        categoryUtils.setOnClick(new CategoryUtils.Click() {
+            @Override
+            public void onParentClick(Bundle bundle, int position) {
+                cateName.set(bundle);
+            }
+
+            @Override
+            public void onItemClick(Bundle bundle, Bundle parent_bundle, int position) {
+                cateName.set(bundle);
+            }
+
+            @Override
+            public void onParentLongClick(Bundle bundle, int position) {
+
+            }
+        });
+
+
+
+
+
     }
 }

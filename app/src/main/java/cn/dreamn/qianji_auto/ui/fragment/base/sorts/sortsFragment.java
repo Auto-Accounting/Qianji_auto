@@ -190,63 +190,72 @@ public class sortsFragment extends BaseFragment {
         categoryUtils = new CategoryUtils(recyclerView, book.getString("book_id"), type, getContext(), true);
         categoryUtils.show();
         refreshData();
-        categoryUtils.setOnLongClick((Bundle bundle,int parentPos) -> {
-//其他选择~
-            MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-            dialog.title(null, "请选择操作("+bundle.getString("name")+")");
-            DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "修改"), null, true, (materialDialog, index, text) -> {
-                switch (index){
-                    case 0:del(bundle,-2);break;
-                    case 1:change(bundle,null,-2);break;
-                }
-                return null;
-            });
-            dialog.show();
-        });
+        categoryUtils.setOnClick(new CategoryUtils.Click() {
+            @Override
+            public void onParentClick(Bundle bundle, int position) {
 
-        categoryUtils.setOnItemClick((Bundle bundle, Bundle parent,int parentPos) -> {
-            Log.d("当前点击数据："+bundle.toString()+"\n父类数据："+parent.toString());
-            if(bundle.getInt("id")==-2){
-                multiple_actions_down.collapse();
-                MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-                dialog.title(null, "请输入子类名称");
-                DialogInputExtKt.input(dialog, "指的是当前分类下的子类名称", null, null, null,
-                        InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS,
-                        null, true, false, (materialDialog, text) -> {
-                            CategoryNames.insert(text.toString(), "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png", "2", type, null, parent.getString("self_id"), parent.getString("book_id"), null, isSucceed -> {
-                                Message message = new Message();
-                                message.what = HANDLE_REFRESH;
+            }
 
-                                if (isSucceed) {
-                                    message.arg1 = 1;
-                                    message.arg2 = parentPos;
-                                    message.obj = "添加成功!";
-                                } else {
-                                    message.arg1 = 0;
-                                    message.arg2 = parentPos;
-                                    message.obj = "添加失败！可能该分类已存在！";
-                                }
-                                mHandler.sendMessage(message);
+            @Override
+            public void onItemClick(Bundle bundle, Bundle parent, int position) {
+                Log.d("当前点击数据："+bundle.toString()+"\n父类数据："+parent.toString());
+                if(bundle.getInt("id")==-2){
+                    multiple_actions_down.collapse();
+                    MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
+                    dialog.title(null, "请输入子类名称");
+                    DialogInputExtKt.input(dialog, "指的是当前分类下的子类名称", null, null, null,
+                            InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS,
+                            null, true, false, (materialDialog, text) -> {
+                                CategoryNames.insert(text.toString(), "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png", "2", type, null, parent.getString("self_id"), parent.getString("book_id"), null, isSucceed -> {
+                                    Message message = new Message();
+                                    message.what = HANDLE_REFRESH;
+
+                                    if (isSucceed) {
+                                        message.arg1 = 1;
+                                        message.arg2 = position;
+                                        message.obj = "添加成功!";
+                                    } else {
+                                        message.arg1 = 0;
+                                        message.arg2 = position;
+                                        message.obj = "添加失败！可能该分类已存在！";
+                                    }
+                                    mHandler.sendMessage(message);
+                                });
+                                return null;
                             });
-                            return null;
-                        });
 
 
-                dialog.show();
-            }else{
-                //其他选择~
+                    dialog.show();
+                }else{
+                    //其他选择~
+                    MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
+                    dialog.title(null, "请选择操作("+parent.getString("name")+"-"+bundle.getString("name")+")");
+                    DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "修改"), null, true, (materialDialog, index, text) -> {
+                        switch (index){
+                            case 0:del(bundle,position);break;
+                            case 1:change(bundle,parent.getString("name"),position);break;
+                        }
+                        return null;
+                    });
+                    dialog.show();
+                }
+            }
+
+            @Override
+            public void onParentLongClick(Bundle bundle, int position) {
                 MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-                dialog.title(null, "请选择操作("+parent.getString("name")+"-"+bundle.getString("name")+")");
+                dialog.title(null, "请选择操作("+bundle.getString("name")+")");
                 DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "修改"), null, true, (materialDialog, index, text) -> {
                     switch (index){
-                        case 0:del(bundle,parentPos);break;
-                        case 1:change(bundle,parent.getString("name"),parentPos);break;
+                        case 0:del(bundle,-2);break;
+                        case 1:change(bundle,null,-2);break;
                     }
                     return null;
                 });
                 dialog.show();
             }
         });
+
     }
 
     @SuppressLint("CheckResult")

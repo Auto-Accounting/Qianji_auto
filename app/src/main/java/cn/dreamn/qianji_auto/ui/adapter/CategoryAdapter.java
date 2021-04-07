@@ -27,6 +27,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
 import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 public class CategoryAdapter extends BaseAdapter {
     private Context mContext;
@@ -53,17 +54,16 @@ public class CategoryAdapter extends BaseAdapter {
 
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Bundle item, int position) {
-
+        //Log.d("绑定数据"+item.toString());
         LinearLayout view_1 = (LinearLayout) holder.findViewById(R.id.view_grid_1);
         LinearLayout view_2 = (LinearLayout) holder.findViewById(R.id.view_grid_2);
         if (item.getString("name") == null) {
             if (item.containsKey("change")) {
+                view_1.setVisibility(View.GONE);
                 if (item.getBoolean("change")) {
-                    view_1.setVisibility(View.GONE);
                     view_2.setVisibility(View.VISIBLE);
                     doItem(item, holder, position);
                 } else {
-                    view_1.setVisibility(View.GONE);
                     view_2.setVisibility(View.GONE);
                 }
             } else {
@@ -92,7 +92,9 @@ public class CategoryAdapter extends BaseAdapter {
                     }
                 } else {
                     if (item_image_icon.getTag() == null) {
-                        MyBitmapUtils.setImage(mContext, item_image_icon, (Bitmap) msg.obj);
+
+                        Object[] objects=(Object[])msg.obj;
+                        MyBitmapUtils.setImage(mContext,(View) objects[0],(Bitmap)objects[1]);
                         item_image_icon.setTag(item.getString("icon"));
                     }
 

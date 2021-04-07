@@ -33,9 +33,13 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/layout_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <RelativeLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -71,7 +75,6 @@
                 android:textColor="@color/float_4"
                 android:textSize="14sp" />
         </RelativeLayout>
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -80,10 +83,14 @@
             android:background="@drawable/line_dash"
             android:layerType="software"
             />
+    </LinearLayout>
 
-
+    <LinearLayout
+        android:id="@+id/ll_fee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <RelativeLayout
-            android:id="@+id/ll_fee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -127,9 +134,13 @@
             android:background="@drawable/line_dash"
             android:layerType="software"
             />
-
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_book"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <RelativeLayout
-            android:id="@+id/ll_book"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -173,8 +184,14 @@
             android:background="@drawable/line_dash"
             android:layerType="software"
             />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <RelativeLayout
-            android:id="@+id/ll_category"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -227,9 +244,14 @@
             android:background="@drawable/line_dash"
             android:layerType="software"
             />
-
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <RelativeLayout
-            android:id="@+id/ll_type"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -293,8 +315,13 @@
             android:background="@drawable/line_dash"
             android:layerType="software"
             />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_account1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <RelativeLayout
-            android:id="@+id/ll_account1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -346,8 +373,13 @@
             android:background="@drawable/line_dash"
             android:layerType="software"
             />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_account2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <RelativeLayout
-            android:id="@+id/ll_account2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -399,8 +431,13 @@
             android:background="@drawable/line_dash"
             android:layerType="software"
             />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <RelativeLayout
-            android:id="@+id/ll_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -444,8 +481,13 @@
             android:background="@drawable/line_dash"
             android:layerType="software"
             />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_remark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <RelativeLayout
-            android:id="@+id/ll_remark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -489,6 +531,7 @@
             android:background="@drawable/line_dash"
             android:layerType="software"
             />
+    </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
