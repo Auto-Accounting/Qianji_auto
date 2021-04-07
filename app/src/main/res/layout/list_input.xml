@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp"
+    android:paddingBottom="10dp">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/md_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxBackgroundColor="@color/background">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/md_input_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            tools:text="Hello, World!" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/button_last"
+            style="@null"
+            android:layout_width="150dp"
+
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/btn_normal_2"
+            android:lineSpacingExtra="10sp"
+            android:stateListAnimator="@null"
+            android:text="取消"
+            android:textColor="@color/button_go_setting_bg"
+            android:textSize="16sp"
+            app:cornerRadius="100dp" />
+
+        <Button
+            android:id="@+id/button_next"
+            style="@null"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/btn_normal_1"
+            android:lineSpacingExtra="10sp"
+            android:stateListAnimator="@null"
+            android:text="确认"
+            android:textAppearance="?android:attr/textAppearanceButton"
+            android:textColor="@color/background_white"
+            android:textSize="16sp"
+            app:cornerRadius="100dp" />
+    </LinearLayout>
+</LinearLayout>

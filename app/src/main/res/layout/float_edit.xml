@@ -185,6 +185,77 @@
             android:layerType="software"
             />
     </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp">
+
+                <cn.dreamn.qianji_auto.ui.views.IconView
+                    android:id="@+id/iconView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:text="&#xe6a0;"
+                    android:textColor="@color/main_title"
+                    android:textSize="14sp" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@+id/iconView5"
+                    android:text="类型"
+                    android:textColor="@color/main_title"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    android:text="支出"
+                    android:textColor="@color/main_title"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/chip_bx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    android:layout_toStartOf="@+id/tv_type"
+
+                    android:background="@drawable/btn_normal_2"
+                    android:paddingStart="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="报销"
+                    android:textColor="@color/button_go_setting_bg" />
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/line_dash"
+                android:layerType="software"
+                />
+        </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_category"
         android:layout_width="match_parent"
@@ -245,77 +316,7 @@
             android:layerType="software"
             />
     </LinearLayout>
-    <LinearLayout
-        android:id="@+id/ll_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <RelativeLayout
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp">
-
-            <cn.dreamn.qianji_auto.ui.views.IconView
-                android:id="@+id/iconView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:text="&#xe6a0;"
-                android:textColor="@color/main_title"
-                android:textSize="14sp" />
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="15dp"
-                android:layout_toEndOf="@+id/iconView5"
-                android:text="类型"
-                android:textColor="@color/main_title"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tv_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="15dp"
-                android:text="支出"
-                android:textColor="@color/main_title"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/chip_bx"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="15dp"
-                android:layout_toStartOf="@+id/tv_type"
-
-                android:background="@drawable/btn_normal_2"
-                android:paddingStart="10dp"
-                android:paddingTop="5dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="5dp"
-                android:text="报销"
-                android:textColor="@color/button_go_setting_bg" />
-        </RelativeLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/line_dash"
-            android:layerType="software"
-            />
-    </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_account1"
         android:layout_width="match_parent"
@@ -539,7 +540,7 @@
             android:padding="10dp">
 
             <Button
-                android:id="@+id/button_fail"
+                android:id="@+id/button_last"
                 style="@null"
                 android:layout_width="150dp"
 

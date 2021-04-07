@@ -19,7 +19,7 @@ public class BillReplace {
             } else {
                 billInfo.setCateName(str);//设置自动分类
             }
-            billInfo.setTime();
+
             billInfo.setBookName(BookNames.getDefault());//设置自动记账的账本名
 
             Assets.getMap(billInfo.getrawAccount(),mapName->{

@@ -19,16 +19,22 @@ package cn.dreamn.qianji_auto.database.Helper;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogBehavior;
+import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 
 import java.util.ArrayList;
@@ -231,7 +237,7 @@ public class Assets {
         Task.onThread(()-> DbManger.db.Asset2Dao().setSort(id, fromPosition));
     }
 
-    public static void showAssetSelect(Context context, String title, getAssetOne getOne ) {
+    public static void showAssetSelect(Context context, String title,boolean isFloat, getAssetOne getOne ) {
 
         LayoutInflater factory = LayoutInflater.from(context);
         final View textEntryView = factory.inflate(R.layout.list_data, null);
@@ -245,15 +251,25 @@ public class Assets {
             public void handleMessage(Message msg) {
                 Bundle[] assets=(Bundle[])msg.obj;
                 if(assets==null){
-                    Toasty.error(context,"请先添加资产再进行资产映射！",Toasty.LENGTH_LONG).show();
+                    Toast t=Toasty.error(context,"请先添加资产！",Toasty.LENGTH_LONG);
+                    t.setGravity(Gravity.TOP,0,0);
+                    t.show();
                     return;
                 }
                 DataSelectListAdapter adapter = new DataSelectListAdapter(context,assets);//listdata和str均可
                 list_view.setAdapter(adapter);
 
-                MaterialDialog dialog = new MaterialDialog(context, MaterialDialog.getDEFAULT_BEHAVIOR());
+                BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+                MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
+                if(isFloat){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
+                    } else {
+                        dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+                    }
+                }
                 dialog.title(null,title);
-
+                dialog.cornerRadius(15f,null);
                 DialogCustomViewExtKt.customView(dialog, null, textEntryView,
                         false, true, false, false);
                 dialog.show();

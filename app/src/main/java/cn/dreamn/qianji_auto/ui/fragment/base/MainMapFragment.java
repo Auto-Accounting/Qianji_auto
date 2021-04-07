@@ -111,7 +111,7 @@ public class MainMapFragment extends BaseFragment {
                     InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS ,
                     null, true, false, (materialDialog, text) -> {
 
-                Assets.showAssetSelect(getContext(), "请选择资产", asset2s -> Assets.addMap(text.toString(),asset2s.getString("name"), () -> {
+                Assets.showAssetSelect(getContext(), "请选择资产",false, asset2s -> Assets.addMap(text.toString(),asset2s.getString("name"), () -> {
                     Message message=new Message();
                     message.obj="添加成功!";
                     message.what=HANDLE_REFRESH;
@@ -162,7 +162,7 @@ public class MainMapFragment extends BaseFragment {
         DialogInputExtKt.input(dialog, "指的是自动记账识别的资产名称", null, assets.getString("name"), null,
                 InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS ,
                 null, true, false, (materialDialog, text) -> {
-              Assets.showAssetSelect(getContext(), "请选择资产", asset2s -> Assets.addMap(text.toString(),asset2s.getString("name"), () -> {
+              Assets.showAssetSelect(getContext(), "请选择资产",false, asset2s -> Assets.addMap(text.toString(),asset2s.getString("name"), () -> {
                         Message message=new Message();
                         message.obj="修改成功!";
                         message.what=HANDLE_REFRESH;

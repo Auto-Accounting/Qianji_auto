@@ -50,6 +50,7 @@ public class SendDataToApp {
             public void handleMessage(@NonNull Message msg) {
                if(msg.what==0){
                    Caches.AddOrUpdate(billInfo.getRawMd5(), "receive");
+                   billInfo.setTime();
                    BillReplace.addMoreInfo(this,billInfo);
                }else if(msg.what==2){
                    BillInfo billInfo2=(BillInfo)msg.obj;

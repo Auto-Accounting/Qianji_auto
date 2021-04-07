@@ -105,6 +105,9 @@ public class Tool {
         time=time+day*24*60*60*1000;
         return (new SimpleDateFormat(s)).format(new Date(time));
     }
-
+    public static String getTime(String s,long time) {
+        return (new SimpleDateFormat(s)).format(new Date(time));
+    }
+//dateTime.getTimeInMillis()
 
 }

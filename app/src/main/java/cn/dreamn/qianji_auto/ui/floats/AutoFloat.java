@@ -23,7 +23,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -32,18 +31,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.chip.Chip;
+import com.afollestad.materialdialogs.LayoutMode;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
+import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
+import com.afollestad.materialdialogs.datetime.DateTimePickerExtKt;
+import com.afollestad.materialdialogs.list.DialogListExtKt;
+import com.google.android.material.textfield.TextInputEditText;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xfloatview.XFloatView;
+
+import java.util.Arrays;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
@@ -53,9 +57,9 @@ import cn.dreamn.qianji_auto.database.Helper.Assets;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
-import cn.dreamn.qianji_auto.ui.utils.CategoryUtils;
 import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
 /**
@@ -66,15 +70,14 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
  */
 public class AutoFloat extends XFloatView {
 
-    private Handler mMainHandler = new Handler(Looper.getMainLooper()){
+    private final Handler mMainHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
-            if(msg.what==0){
+            if (msg.what == 0) {
                 setData(billInfo2);
             }
         }
     };
-
 
 
     private LinearLayout layout_money;
@@ -191,17 +194,15 @@ public class AutoFloat extends XFloatView {
     /**
      * 初始化监听
      */
+    @SuppressLint("CheckResult")
     @Override
     protected void initListener() {
         ll_category.setOnClickListener(v -> {
             //分类选择
-            CategoryNames.showCategorySelect(getContext(), "请选择分类", book_id, billInfo2.getType(), true, new CategoryNames.getCateNameOneObj() {
-                @Override
-                public void onGet(Bundle categoryNames) {
-                    if(categoryNames!=null){
-                        billInfo2.setCateName(categoryNames.getString("name"));
-                        mMainHandler.sendEmptyMessage(0);
-                    }
+            CategoryNames.showCategorySelect(getContext(), "请选择分类", book_id, billInfo2.getType(), true, categoryNames -> {
+                if (categoryNames != null) {
+                    billInfo2.setCateName(categoryNames.getString("name"));
+                    mMainHandler.sendEmptyMessage(0);
                 }
             });
         });
@@ -212,43 +213,36 @@ public class AutoFloat extends XFloatView {
                 book_id = bundle.getString("book_id");
                 mMainHandler.sendEmptyMessage(0);
             });
-/*
-            showMenu("请选择账本", 3, bookNameList, data -> {
-
-                billInfo2.setBookName(bookNameList[data].getString("name"));
-                book_id = bookNameList[data].getString("book_id");
-                this.setData(billInfo2);
-            });*/
 
         });
         ll_account1.setOnClickListener(v -> {
             Log.d("账户1选择");
-            Assets.getAllIcon(asset2s -> {
-
+            Assets.showAssetSelect(getContext(), "请选择资产账户", true, asset2s -> {
+                billInfo2.setAccountName(asset2s.getString("name"));
+                mMainHandler.sendEmptyMessage(0);
             });
-           /* if (assets == null || assets.length <= 0) {
-                XToastUtils.error("资产账户为空，请在资产账户设置中添加账本数据。");
-                return;
-            }
-            showMenu("请选择资产账户", 2, assets, data -> {
-                billInfo2.setAccountName(assets[data].getString("name"));
-                this.setData(billInfo2);
-            });*/
+
         });
         ll_account2.setOnClickListener(v -> {
             Log.d("账户2选择");
-             Assets.getAllIcon(asset2s -> {
+            Assets.showAssetSelect(getContext(), "请选择资产账户", true, asset2s -> {
+                billInfo2.setAccountName2(asset2s.getString("name"));
+                mMainHandler.sendEmptyMessage(0);
+            });
 
-             });
+        });
+        ll_fee.setOnClickListener(v -> {
+            input("请输入手续费", billInfo2.getFee(), new InputData() {
+                @Override
+                public void onClose() {
 
-            /*if (assets == null || assets.length <= 0) {
-                XToastUtils.error("资产账户为空，请在资产账户设置中添加账本数据。");
-                return;
-            }
-            showMenu("请选择资产账户", 2, assets, data -> {
-                billInfo2.setAccountName2(assets[data].getString("name"));
-                this.setData(billInfo2);
-            });*/
+                }
+
+                @Override
+                public void onOK(String data) {
+                    billInfo2.setFee(BillTools.getMoney(data));
+                }
+            });
         });
         ll_remark.setOnClickListener(v -> {
             Log.d("请输入备注信息");
@@ -256,6 +250,17 @@ public class AutoFloat extends XFloatView {
                 billInfo2.setRemark(data);
                 this.setData(billInfo2);
             });*/
+            input("请输入备注信息", billInfo2.getRemark(), new InputData() {
+                @Override
+                public void onClose() {
+
+                }
+
+                @Override
+                public void onOK(String data) {
+                    billInfo2.setRemark(data);
+                }
+            });
 
         });
         ll_time.setOnClickListener(v -> {
@@ -264,8 +269,29 @@ public class AutoFloat extends XFloatView {
                 billInfo2.setTime(data);
                 this.setData(billInfo2);
             });*/
+            BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+            MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
+            // dialog.title(null, "请选择时间：");
+            DateTimePickerExtKt.dateTimePicker(dialog, null, null, false,
+                    false, true,
+                    (materialDialog, dateTime) -> {
+                        billInfo2.setTime(Tool.getTime("yyyy-MM-dd HH:mm:ss", dateTime.getTimeInMillis()));
+                        //Log.d("时间："+ Tool.getTime("yyyy-MM-dd HH:mm:ss",dateTime.getTimeInMillis()));
+                        //  Toast.makeText(this, "Selected date/time: " + dateTime.getTime(), Toast.LENGTH_SHORT).show();
+                        mMainHandler.sendEmptyMessage(0);
+                        return null;
+                    });
+            //
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
+            } else {
+                dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+            }
+
+            dialog.cornerRadius(15f, null);
+            dialog.show();
         });
-        tv_type.setOnClickListener(v -> {
+        ll_type.setOnClickListener(v -> {
             Log.d("请选择收支类型");
             String[] strings = {"支出", "收入", "转账", "信用还款"};
 
@@ -276,6 +302,30 @@ public class AutoFloat extends XFloatView {
                     billInfo2.setAccountName2(null);//不等于就去掉第二个账户
                 this.setData(billInfo2);
             });*/
+
+            BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+            MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
+            dialog.title(null, "请选择收支类型");
+
+
+            DialogListExtKt.listItems(dialog, null, Arrays.asList(strings), null, true, (materialDialog, index, text) -> {
+                billInfo2.setType(BillInfo.getTypeId(text.toString()));
+                if (!text.toString().equals("转账") && !text.toString().equals("信用还款"))
+                    billInfo2.setAccountName2(null);//不等于就去掉第二个账户
+
+
+                mMainHandler.sendEmptyMessage(0);
+                return null;
+            });
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
+            } else {
+                dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+            }
+
+            dialog.cornerRadius(15f, null);
+            dialog.show();
+
         });
         button_next.setOnClickListener(v -> {
             SendDataToApp.goApp(getContext(), billInfo2);
@@ -301,19 +351,44 @@ public class AutoFloat extends XFloatView {
 
     }
 
+    public void input(String title, String defData, InputData inputData) {
+        LayoutInflater factory = LayoutInflater.from(getContext());
+        final View textEntryView = factory.inflate(R.layout.list_input, null);
+        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+        MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
+        dialog.title(null, title);
 
-    /**
-     * @return 设置悬浮框是否吸附在屏幕边缘
-     */
-    @Override
-    protected boolean isAdsorbView() {
-        return false;
-    }
+        TextInputEditText md_input_message = textEntryView.findViewById(R.id.md_input_message);
 
-    @Override
-    public void clear() {
-        super.clear();
-        mMainHandler.removeCallbacksAndMessages(null);
+        md_input_message.setText(defData);
+
+        Button button_next = textEntryView.findViewById(R.id.button_next);
+        Button button_last = textEntryView.findViewById(R.id.button_last);
+
+        button_next.setOnClickListener(v -> {
+            inputData.onOK(md_input_message.getText().toString());
+            //billInfo2.setRemark();
+            mMainHandler.sendEmptyMessage(0);
+            dialog.dismiss();
+        });
+
+        button_last.setOnClickListener(v -> {
+            inputData.onClose();
+            //billInfo2.setRemark();
+            mMainHandler.sendEmptyMessage(0);
+            dialog.dismiss();
+        });
+
+        DialogCustomViewExtKt.customView(dialog, null, textEntryView,
+                false, true, false, false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
+        } else {
+            dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+        }
+
+        dialog.cornerRadius(15f, null);
+        dialog.show();
     }
 
     @SuppressLint("SetTextI18n")
@@ -331,15 +406,15 @@ public class AutoFloat extends XFloatView {
         tv_account1.setText(billInfo.getAccountName());
         tv_account2.setText(billInfo.getAccountName2());
         tv_time.setText(billInfo.getTime());
-        String remark=billInfo.getRemark();
-        if(remark.length()>20){
-            remark=remark.substring(0,20)+"...";
+        String remark = billInfo.getRemark();
+        if (remark.length() > 20) {
+            remark = remark.substring(0, 20) + "...";
         }
         tv_remark.setText(remark);
 
 
         tv_money.setText(BillTools.getCustomBill(billInfo));
-        tv_money.setTextColor(BillTools.getColor(getContext(),billInfo));
+        tv_money.setTextColor(BillTools.getColor(getContext(), billInfo));
 
 
         if (billInfo.getType().equals(BillInfo.TYPE_INCOME) || billInfo.getType().equals(BillInfo.TYPE_PAY) || billInfo.getType().equals(BillInfo.TYPE_PAYMENT_REFUND)) {
@@ -357,51 +432,93 @@ public class AutoFloat extends XFloatView {
             type = "0";
             chip_bx.setVisibility(View.VISIBLE);
         }
-        if(billInfo.getType().equals(BillInfo.TYPE_PAY)||billInfo.getType().equals(BillInfo.TYPE_INCOME)){
+        if (billInfo.getType().equals(BillInfo.TYPE_PAY) || billInfo.getType().equals(BillInfo.TYPE_INCOME)) {
             ll_fee.setVisibility(View.GONE);
-        }else{
+        } else {
             ll_fee.setVisibility(View.VISIBLE);
         }
 
 
-        final Handler mHandler=new Handler(Looper.getMainLooper()){
+        final Handler mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
-                Object[] objects=(Object[])msg.obj;
-                MyBitmapUtils.setImage(getContext(),(View) objects[0],(Bitmap)objects[1]);
+                Object[] objects = (Object[]) msg.obj;
+                MyBitmapUtils.setImage(getContext(), (View) objects[0], (Bitmap) objects[1]);
             }
         };
 
-        MyBitmapUtils myBitmapUtils = new MyBitmapUtils(getContext(),mHandler);
+        MyBitmapUtils myBitmapUtils = new MyBitmapUtils(getContext(), mHandler);
 
         BookNames.getAllLen(length -> {
-            if(length!=0){
-              BookNames.getOne(billInfo.getBookName(), bundle -> {
-                  if (bundle.getString("book_id") != null) {
-                      book_id = bundle.getString("book_id");
-                  }
-              });
+            if (length != 0) {
+                BookNames.getOne(billInfo.getBookName(), bundle -> {
+                    if (bundle.getString("book_id") != null) {
+                        book_id = bundle.getString("book_id");
+                    }
+                });
             }
         });
 
-        CategoryNames.getPic(billInfo.getCateName(), type, book_id,pic->{
-            if(pic==null)
-                pic= "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png";
-            myBitmapUtils.disPlay(iv_category,pic);
+        CategoryNames.getPic(billInfo.getCateName(), type, book_id, pic -> {
+            if (pic == null || pic.equals(""))
+                pic = "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png";
+            myBitmapUtils.disPlay(iv_category, pic);
         });
 
         iv_category.setColorFilter(getContext().getColor(R.color.darkGrey));
 
-        Assets.getPic(billInfo.getAccountName(),asset2s -> {
-            myBitmapUtils.disPlay(iv_account1,asset2s);
+        Assets.getPic(billInfo.getAccountName(), asset2s -> {
+            myBitmapUtils.disPlay(iv_account1, asset2s);
         });
-        Assets.getPic(billInfo.getAccountName2(),asset2s -> {
-            myBitmapUtils.disPlay(iv_account2,asset2s);
+        Assets.getPic(billInfo.getAccountName2(), asset2s -> {
+            myBitmapUtils.disPlay(iv_account2, asset2s);
         });
 
 
         setVisible();
 
+
+    }
+
+    /**
+     * @return 设置悬浮框是否吸附在屏幕边缘
+     */
+    @Override
+    protected boolean isAdsorbView() {
+        return false;
+    }
+
+    @Override
+    public void clear() {
+        super.clear();
+        mMainHandler.removeCallbacksAndMessages(null);
+    }
+
+    public void bindView() {
+        layout_money = findViewById(R.id.layout_money);
+        tv_money = findViewById(R.id.tv_money);
+        ll_fee = findViewById(R.id.ll_fee);
+        tv_fee = findViewById(R.id.tv_fee);
+        ll_book = findViewById(R.id.ll_book);
+        tv_book = findViewById(R.id.tv_book);
+        ll_category = findViewById(R.id.ll_category);
+        iv_category = findViewById(R.id.iv_category);
+        tv_category = findViewById(R.id.tv_category);
+        ll_type = findViewById(R.id.ll_type);
+        tv_type = findViewById(R.id.tv_type);
+        chip_bx = findViewById(R.id.chip_bx);
+        ll_account1 = findViewById(R.id.ll_account1);
+        iv_account1 = findViewById(R.id.iv_account1);
+        tv_account1 = findViewById(R.id.tv_account1);
+        iv_account2 = findViewById(R.id.iv_account2);
+        ll_account2 = findViewById(R.id.ll_account2);
+        tv_account2 = findViewById(R.id.tv_account2);
+        ll_time = findViewById(R.id.ll_time);
+        tv_time = findViewById(R.id.tv_time);
+        ll_remark = findViewById(R.id.ll_remark);
+        tv_remark = findViewById(R.id.tv_remark);
+        button_fail = findViewById(R.id.button_last);
+        button_next = findViewById(R.id.button_next);
 
     }
 
@@ -439,67 +556,47 @@ public class AutoFloat extends XFloatView {
 
     }
 
-    public void bindView(){
-        layout_money=findViewById(R.id.layout_money);
-        tv_money=findViewById(R.id.tv_money);
-        ll_fee=findViewById(R.id.ll_fee);
-        tv_fee=findViewById(R.id.tv_fee);
-        ll_book=findViewById(R.id.ll_book);
-        tv_book=findViewById(R.id.tv_book);
-        ll_category=findViewById(R.id.ll_category);
-        iv_category=findViewById(R.id.iv_category);
-        tv_category=findViewById(R.id.tv_category);
-        ll_type=findViewById(R.id.ll_type);
-        tv_type=findViewById(R.id.tv_type);
-        chip_bx=findViewById(R.id.chip_bx);
-        ll_account1=findViewById(R.id.ll_account1);
-        iv_account1=findViewById(R.id.iv_account1);
-        tv_account1=findViewById(R.id.tv_account1);
-        iv_account2=findViewById(R.id.iv_account2);
-        ll_account2=findViewById(R.id.ll_account2);
-        tv_account2=findViewById(R.id.tv_account2);
-        ll_time=findViewById(R.id.ll_time);
-        tv_time=findViewById(R.id.tv_time);
-        ll_remark=findViewById(R.id.ll_remark);
-        tv_remark=findViewById(R.id.tv_remark);
-        button_fail=findViewById(R.id.button_fail);
-        button_next=findViewById(R.id.button_next);
-
-    }
-    public void setVisible(){
-        MMKV mmkv=MMKV.defaultMMKV();
-        if(mmkv.getBoolean("layout_money",false)){
+    public void setVisible() {
+        MMKV mmkv = MMKV.defaultMMKV();
+        if (mmkv.getBoolean("layout_money", false)) {
             layout_money.setVisibility(View.GONE);
-        }else if(mmkv.getBoolean("ll_fee",false)){
+        } else if (mmkv.getBoolean("ll_fee", false)) {
             ll_fee.setVisibility(View.GONE);
-        }else if(mmkv.getBoolean("ll_book",false)){
+        } else if (mmkv.getBoolean("ll_book", false)) {
             ll_book.setVisibility(View.GONE);
-        }else if(mmkv.getBoolean("ll_category",false)){
+        } else if (mmkv.getBoolean("ll_category", false)) {
             ll_category.setVisibility(View.GONE);
-        }else if(mmkv.getBoolean("ll_type",false)){
+        } else if (mmkv.getBoolean("ll_type", false)) {
             ll_type.setVisibility(View.GONE);
-        }else if(mmkv.getBoolean("ll_account1",false)){
+        } else if (mmkv.getBoolean("ll_account1", false)) {
             ll_account1.setVisibility(View.GONE);
-        }else if(mmkv.getBoolean("ll_account2",false)){
+        } else if (mmkv.getBoolean("ll_account2", false)) {
             ll_account2.setVisibility(View.GONE);
-        }else if(mmkv.getBoolean("ll_time",false)){
+        } else if (mmkv.getBoolean("ll_time", false)) {
             ll_time.setVisibility(View.GONE);
-        }else if(mmkv.getBoolean("ll_remark",false)){
+        } else if (mmkv.getBoolean("ll_remark", false)) {
             ll_remark.setVisibility(View.GONE);
         }
     }
 
-    public void setCheckable(boolean check){
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void setCheckable(boolean check) {
 
 
-        if(check){
+        if (check) {
             chip_bx.setText("报销");
-           chip_bx.setBackground(getContext().getDrawable(R.drawable.btn_normal_1));
-           chip_bx.setTextColor(getContext().getColor(R.color.background_white));
-        }else{
+            chip_bx.setBackground(getContext().getDrawable(R.drawable.btn_normal_1));
+            chip_bx.setTextColor(getContext().getColor(R.color.background_white));
+        } else {
             chip_bx.setText("不报销");
             chip_bx.setBackground(getContext().getDrawable(R.drawable.btn_normal_2));
             chip_bx.setTextColor(getContext().getColor(R.color.button_go_setting_bg));
         }
+    }
+
+    interface InputData {
+        void onClose();
+
+        void onOK(String data);
     }
 }
