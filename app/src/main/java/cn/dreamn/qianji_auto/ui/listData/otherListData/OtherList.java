@@ -12,6 +12,7 @@ public class OtherList {
 
     public OtherList() {
         mList.clear();
+        mList.add(backup.getInstance());
         mList.add(teach.getInstance());
         mList.add(videoTeach.getInstance());
         mList.add(github.getInstance());

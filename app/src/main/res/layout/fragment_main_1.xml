@@ -225,10 +225,32 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cv_log_contain3"
+                    android:id="@+id/cv_log_contain4"
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
                     android:layout_below="@+id/cv_log_contain2"
+                    android:layout_marginStart="@dimen/margin_side"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="@dimen/margin_side"
+                    app:cardCornerRadius="@dimen/radius"
+                    app:cardElevation="0dp">
+
+                    <cn.dreamn.qianji_auto.ui.views.CardViewGrid
+                        android:id="@+id/cv_custom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:grid_bg="@color/background_white"
+                        app:left_color="@color/button_go_setting_bg"
+                        app:title_bg="@color/background_white"
+                        app:title_color="@color/main_title"
+                        app:title_text="自定义" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_log_contain3"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:layout_below="@+id/cv_log_contain4"
                     android:layout_marginStart="@dimen/margin_side"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="@dimen/margin_side"

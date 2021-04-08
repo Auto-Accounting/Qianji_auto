@@ -21,7 +21,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -32,9 +31,9 @@ import cn.dreamn.qianji_auto.database.Helper.AutoBills;
 import cn.dreamn.qianji_auto.database.Helper.Caches;
 import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
+import cn.dreamn.qianji_auto.ui.floats.AutoFloat2;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
 import cn.dreamn.qianji_auto.ui.utils.ScreenUtils;
-import cn.dreamn.qianji_auto.ui.utils.StatusBarUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 import es.dmoral.toasty.Toasty;
@@ -89,7 +88,7 @@ public class SendDataToApp {
                     BillInfo billInfo2=(BillInfo)msg.obj;
                     BillReplace.replaceRemark(billInfo2);
                     if (!billInfo2.isAvaiable()) return;
-                   showFloat(context, billInfo);
+                   showFloatByAlert(context, billInfo);
                 }
             }
         };
@@ -118,10 +117,34 @@ public class SendDataToApp {
             int minLength = str.length() * 20;
 
             autoFloatTip.setWindowManagerParams(ScreenUtils.getScreenWidth(context), ScreenUtils.getScreenHeight(context) / 2 - 100, 350 + minLength, 150);
+
             autoFloatTip.show();
         } catch (Exception e) {
             Log.i("请授予悬浮窗权限！" + e.toString());
-            Toasty.error(context,"请授予悬浮窗权限！",Toasty.LENGTH_LONG).show();
+            Toasty.error(context, "请授予悬浮窗权限！", Toasty.LENGTH_LONG).show();
+        }
+    }
+
+    public static void showFloatByAlert(Context context, BillInfo billInfo) {
+        MMKV mmkv = MMKV.defaultMMKV();
+
+        if (!mmkv.getBoolean("auto_style", true)) {
+            Log.i("唤起自动钱迹分类面板");
+            billInfo.setCateChoose(true);
+            goApp(context, billInfo);
+            return;
+        }
+        try {
+
+            AutoFloat2 autoFloat2 = new AutoFloat2(context);
+            autoFloat2.setData(billInfo);
+            autoFloat2.show();
+
+
+        } catch (Exception e) {
+            Log.i("请授予悬浮窗权限！" + e.toString());
+            Toasty.error(context, "请授予悬浮窗权限！", Toasty.LENGTH_LONG).show();
+
         }
     }
 
@@ -218,7 +241,7 @@ public class SendDataToApp {
         MMKV mmkv = MMKV.defaultMMKV();
         switch (mmkv.getString("end_window","edit")){
             case "edit":
-                showFloat(context, billInfo);
+                showFloatByAlert(context, billInfo);
                 break;
             case "record":
                 goApp(context, billInfo);

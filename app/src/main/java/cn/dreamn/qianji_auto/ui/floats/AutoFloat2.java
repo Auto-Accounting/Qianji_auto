@@ -19,14 +19,11 @@ package cn.dreamn.qianji_auto.ui.floats;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -45,7 +42,6 @@ import com.afollestad.materialdialogs.datetime.DateTimePickerExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.google.android.material.textfield.TextInputEditText;
 import com.tencent.mmkv.MMKV;
-import com.xuexiang.xfloatview.XFloatView;
 
 import java.util.Arrays;
 
@@ -68,18 +64,9 @@ import cn.dreamn.qianji_auto.utils.runUtils.Tool;
  * @author xuexiang
  * @since 2019/1/21 上午11:53
  */
-public class AutoFloat extends XFloatView {
+public class AutoFloat2 {
 
-    private final Handler mMainHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            if (msg.what == 0) {
-                setData(billInfo2);
-            }
-        }
-    };
-
-
+    private final Context context;
     private LinearLayout layout_money;
     private TextView tv_money;
 
@@ -120,82 +107,51 @@ public class AutoFloat extends XFloatView {
     private BillInfo billInfo2;
 
     private String book_id = "-1";
+    private final Handler mMainHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            if (msg.what == 0) {
+                setData(billInfo2);
+            }
+        }
+    };
+    private View mView;
+    private MaterialDialog dialog;
 
     /**
      * 构造器
      *
      * @param context
      */
-    public AutoFloat(Context context) {
+    public AutoFloat2(Context context) {
 
-        super(context);
+        // super(context);
+        this.context = context;
+        initView();
         initData();
+    }
+
+    private void initView() {
+        LayoutInflater factory = LayoutInflater.from(context);
+        mView = factory.inflate(R.layout.float_edit2, null);
+        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+        dialog = new MaterialDialog(context, bottomSheet);
+    }
+
+    private Context getContext() {
+        return context;
     }
 
     private void initData() {
         Log.d("初始化窗口");
         //  Caches.AddOrUpdate("float_lock", "true");
-
-
-    }
-
-    /**
-     * @return 获取根布局的ID
-     */
-    @Override
-    protected int getLayoutId() {
-        return R.layout.float_edit;
-    }
-
-    /**
-     * @return 能否移动或者触摸响应
-     */
-    @Override
-    protected boolean canMoveOrTouch() {
-        return true;
-    }
-
-
-    @SuppressLint("RtlHardcoded")
-    @Override
-    protected WindowManager.LayoutParams getFloatViewLayoutParams() {
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-        // 设置window type
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            params.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
-        } else {
-            params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-        }
-        // 设置图片格式，效果为背景透明
-        params.format = PixelFormat.RGBA_8888;
-        // 设置浮动窗口不可聚焦（实现操作除浮动窗口外的其他可见窗口的操作）
-        params.flags =
-                // LayoutParams.FLAG_NOT_TOUCH_MODAL |
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-        // LayoutParams.FLAG_NOT_TOUCHABLE
-        ;
-        // 调整悬浮窗显示的停靠位置为左侧置顶
-        params.gravity = Gravity.LEFT | Gravity.TOP;
-        params.windowAnimations = android.R.style.Animation_Translucent;
-        params.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-
-        return params;
-    }
-
-    /**
-     * 初始化悬浮控件
-     */
-    @Override
-    protected void initFloatView() {
         bindView();
         setVisible();
+        initListener();
     }
 
-    /**
-     * 初始化监听
-     */
+
     @SuppressLint("CheckResult")
-    @Override
     protected void initListener() {
         ll_category.setOnClickListener(v -> {
             //分类选择
@@ -480,79 +436,57 @@ public class AutoFloat extends XFloatView {
 
     }
 
-    /**
-     * @return 设置悬浮框是否吸附在屏幕边缘
-     */
-    @Override
-    protected boolean isAdsorbView() {
-        return false;
-    }
 
-    @Override
     public void clear() {
-        super.clear();
+        //  super.clear();
         mMainHandler.removeCallbacksAndMessages(null);
+        this.dismiss();
     }
 
     public void bindView() {
-        layout_money = findViewById(R.id.layout_money);
-        tv_money = findViewById(R.id.tv_money);
-        ll_fee = findViewById(R.id.ll_fee);
-        tv_fee = findViewById(R.id.tv_fee);
-        ll_book = findViewById(R.id.ll_book);
-        tv_book = findViewById(R.id.tv_book);
-        ll_category = findViewById(R.id.ll_category);
-        iv_category = findViewById(R.id.iv_category);
-        tv_category = findViewById(R.id.tv_category);
-        ll_type = findViewById(R.id.ll_type);
-        tv_type = findViewById(R.id.tv_type);
-        chip_bx = findViewById(R.id.chip_bx);
-        ll_account1 = findViewById(R.id.ll_account1);
-        iv_account1 = findViewById(R.id.iv_account1);
-        tv_account1 = findViewById(R.id.tv_account1);
-        iv_account2 = findViewById(R.id.iv_account2);
-        ll_account2 = findViewById(R.id.ll_account2);
-        tv_account2 = findViewById(R.id.tv_account2);
-        ll_time = findViewById(R.id.ll_time);
-        tv_time = findViewById(R.id.tv_time);
-        ll_remark = findViewById(R.id.ll_remark);
-        tv_remark = findViewById(R.id.tv_remark);
-        button_fail = findViewById(R.id.button_last);
-        button_next = findViewById(R.id.button_next);
+        layout_money = mView.findViewById(R.id.layout_money);
+        tv_money = mView.findViewById(R.id.tv_money);
+        ll_fee = mView.findViewById(R.id.ll_fee);
+        tv_fee = mView.findViewById(R.id.tv_fee);
+        ll_book = mView.findViewById(R.id.ll_book);
+        tv_book = mView.findViewById(R.id.tv_book);
+        ll_category = mView.findViewById(R.id.ll_category);
+        iv_category = mView.findViewById(R.id.iv_category);
+        tv_category = mView.findViewById(R.id.tv_category);
+        ll_type = mView.findViewById(R.id.ll_type);
+        tv_type = mView.findViewById(R.id.tv_type);
+        chip_bx = mView.findViewById(R.id.chip_bx);
+        ll_account1 = mView.findViewById(R.id.ll_account1);
+        iv_account1 = mView.findViewById(R.id.iv_account1);
+        tv_account1 = mView.findViewById(R.id.tv_account1);
+        iv_account2 = mView.findViewById(R.id.iv_account2);
+        ll_account2 = mView.findViewById(R.id.ll_account2);
+        tv_account2 = mView.findViewById(R.id.tv_account2);
+        ll_time = mView.findViewById(R.id.ll_time);
+        tv_time = mView.findViewById(R.id.tv_time);
+        ll_remark = mView.findViewById(R.id.ll_remark);
+        tv_remark = mView.findViewById(R.id.tv_remark);
+        button_fail = mView.findViewById(R.id.button_last);
+        button_next = mView.findViewById(R.id.button_next);
 
     }
 
-   /* private void showMenu(String title, int type, Object[] list, ListFloat.Callback callBack) {
 
-        ListFloat listFloat = new ListFloat(getContext());
-        listFloat.setData(title, type, list, callBack);
-        if (ScreenUtils.getScreenWidth() > ScreenUtils.getScreenHeight()) {
-            listFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight() - 100, ScreenUtils.getScreenWidth());
-        } else {
-            listFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight() - 100);
-        }
-        listFloat.show();
-    }*/
-
-
-  /*  public void showInputDialog(String title, String def, InputFloat.Callback callBack) {
-        InputFloat inputFloat = new InputFloat(getContext());
-        inputFloat.setData(title, def, getContext().getString(R.string.set_cancel), getContext().getString(R.string.input_ok), null, callBack);
-        if (ScreenUtils.getScreenWidth() > ScreenUtils.getScreenHeight()) {
-            inputFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight() - 100, ScreenUtils.getScreenWidth());
-        } else {
-            inputFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight() - 100);
-        }
-        inputFloat.show();
-
-
-    }*/
-
-    @Override
     public void dismiss() {
+        dialog.dismiss();
 
+    }
 
-        super.dismiss();
+    public void show() {
+        DialogCustomViewExtKt.customView(dialog, null, mView,
+                false, true, false, false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
+        } else {
+            dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+        }
+        dialog.cornerRadius(15f, null);
+        dialog.show();
 
     }
 

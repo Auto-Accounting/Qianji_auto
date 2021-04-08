@@ -25,11 +25,9 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -74,7 +72,8 @@ public class MainFragment extends BaseFragment {
     CardViewGrid cv_complie;
     @BindView(R.id.cv_other)
     CardViewGrid cv_other;
-
+    @BindView(R.id.cv_custom)
+    CardViewGrid cv_custom;
 
     @BindView(R.id.mode_select1)
     IconView mode_select1;
@@ -102,7 +101,8 @@ public class MainFragment extends BaseFragment {
         cv_list.setData(ListManager.getBaseLists(),this,1);
         cv_log.setData(ListManager.getLogLists(),this,2);
         cv_complie.setData(ListManager.getComplieLists(),this,3);
-        cv_other.setData(ListManager.getOtherLists(),this,4);
+        cv_other.setData(ListManager.getOtherLists(), this, 4);
+        cv_custom.setData(ListManager.geCustomLists(), this, 5);
         app_log.setText(BuildConfig.VERSION_NAME);
         setActive();
     }
