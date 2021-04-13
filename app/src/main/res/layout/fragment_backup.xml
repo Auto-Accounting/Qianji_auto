@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <cn.dreamn.qianji_auto.ui.views.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backgroundColor="@color/background_white"
+        app:left_color="@color/main_title"
+        app:left_icon="&#xe60b;"
+        app:title_color="@color/main_title"
+        app:title_text="备份与恢复">
+
+
+    </cn.dreamn.qianji_auto.ui.views.TitleBar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_bar"
+        android:background="@color/background_gray"
+        android:backgroundTint="@color/background_gray">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:text="WebDav配置" />
+
+            <RelativeLayout
+                android:id="@+id/rl_site_url"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/background_white"
+                android:backgroundTint="@color/background_white"
+                android:gravity="center_vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WebDav网址"
+                    android:textColor="@color/main_title"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/site_url"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView14"
+                    android:layout_marginTop="10dp"
+                    android:text="WebDav网址"
+                    android:textColor="@color/skip_title"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_site_username"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/background_white"
+                android:backgroundTint="@color/background_white"
+                android:gravity="center_vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WebDav用户名"
+                    android:textColor="@color/main_title"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/site_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView15"
+                    android:layout_marginTop="10dp"
+                    android:text="WebDav用户名"
+                    android:textColor="@color/skip_title"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_site_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/background_white"
+                android:backgroundTint="@color/background_white"
+                android:gravity="center_vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WebDav密码"
+                    android:textColor="@color/main_title"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/site_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView16"
+                    android:layout_marginTop="10dp"
+                    android:text="WebDav密码"
+                    android:textColor="@color/skip_title"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:text="备份与恢复" />
+
+            <RelativeLayout
+                android:id="@+id/rl_backup_local"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/background_white"
+                android:backgroundTint="@color/background_white"
+                android:gravity="center_vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/backup_local"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="备份到本地"
+                    android:textColor="@color/main_title"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/backup_local"
+                    android:layout_marginTop="10dp"
+                    android:text="将会为您备份到/Download/Qianji/文件夹"
+                    android:textColor="@color/skip_title"
+                    android:textSize="10sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_backup_webdav"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/background_white"
+                android:backgroundTint="@color/background_white"
+                android:gravity="center_vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/backup_webdav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="备份到WebDav"
+                    android:textColor="@color/main_title"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/backup_webdav"
+                    android:layout_marginTop="10dp"
+                    android:text="将会为您备份到WebDav"
+                    android:textColor="@color/skip_title"
+                    android:textSize="10sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_restore_local"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/background_white"
+                android:backgroundTint="@color/background_white"
+                android:gravity="center_vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/restore_local"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="从本地恢复"
+                    android:textColor="@color/main_title"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_restore_webdav"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/background_white"
+                android:backgroundTint="@color/background_white"
+                android:gravity="center_vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/restore_webdav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="从WebDav恢复"
+                    android:textColor="@color/main_title"
+                    android:textSize="14sp" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
+

@@ -1,7 +1,7 @@
 package cn.dreamn.qianji_auto.ui.listData.otherListData;
 
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.fragment.about.AboutFragment;
+import cn.dreamn.qianji_auto.ui.fragment.about.BackUpFragment;
 import cn.dreamn.qianji_auto.ui.listData.BaseList;
 
 public class backup extends BaseList {
@@ -27,6 +27,6 @@ public class backup extends BaseList {
     @Override
     public void onClick(BaseFragment baseFragment) {
         // baseFragment.openNewPage()
-        baseFragment.openNewPage(AboutFragment.class);
+        baseFragment.openNewPage(BackUpFragment.class);
     }
 }

@@ -34,7 +34,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:id="@+id/ankio_head"
+                android:id="@+id/include_set"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"

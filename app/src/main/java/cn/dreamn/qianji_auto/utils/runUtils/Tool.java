@@ -1,6 +1,7 @@
 package cn.dreamn.qianji_auto.utils.runUtils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -95,18 +96,29 @@ public class Tool {
         mNotificationManager.notify((int) (Math.random() * 1000), mNotification);
 
     }
+
     @SuppressLint("SimpleDateFormat")
     public static String getTime(String s) {
-        return getTime(s,0);
+        return getTime(s, 0);
     }
+
     @SuppressLint("SimpleDateFormat")
-    public static String getTime(String s,int day) {
-        long time=System.currentTimeMillis();
-        time=time+day*24*60*60*1000;
+    public static String getTime(String s, int day) {
+        long time = System.currentTimeMillis();
+        time = time + day * 24 * 60 * 60 * 1000;
         return (new SimpleDateFormat(s)).format(new Date(time));
     }
-    public static String getTime(String s,long time) {
+
+    @SuppressLint("SimpleDateFormat")
+    public static String getTime(String s, long time) {
         return (new SimpleDateFormat(s)).format(new Date(time));
+    }
+
+    public static void restartApp(Activity context) {
+        Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+        context.finish();
     }
 //dateTime.getTimeInMillis()
 

@@ -29,6 +29,8 @@ import java.io.FileOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import cn.dreamn.qianji_auto.utils.files.FileUtils;
+
 /**
  * 三级缓存之本地缓存
  */
@@ -37,7 +39,8 @@ public class LocalCacheUtils {
     private static String CACHE_PATH = null;
 
     public LocalCacheUtils(Context context) {
-        CACHE_PATH = context.getExternalCacheDir().getPath() + "/";
+        CACHE_PATH = context.getExternalCacheDir().getPath() + "/pictures/";
+        FileUtils.makeRootDirectory(CACHE_PATH);
     }
 
     /**
@@ -70,12 +73,6 @@ public class LocalCacheUtils {
         try {
             String fileName = md5(url) + ".png";//把图片的url当做文件名,并进行MD5加密
             File file = new File(CACHE_PATH, fileName);
-
-            //通过得到文件的父文件,判断父文件是否存在
-            File parentFile = file.getParentFile();
-            if (!parentFile.exists()) {
-                parentFile.mkdirs();
-            }
 
 
             //把图片保存至本地

@@ -528,7 +528,7 @@ public class AutoFloat2 {
         }
     }
 
-    interface InputData {
+    public interface InputData {
         void onClose();
 
         void onOK(String data);

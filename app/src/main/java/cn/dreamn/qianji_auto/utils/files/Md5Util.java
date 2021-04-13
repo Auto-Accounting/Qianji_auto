@@ -1,4 +1,4 @@
-package cn.dreamn.qianji_auto.utils.runUtils;
+package cn.dreamn.qianji_auto.utils.files;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

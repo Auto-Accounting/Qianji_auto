@@ -25,15 +25,23 @@
         <item name="cookieActionColor">@color/default_title_color</item>
         <item name="cookieBackgroundColor">@color/button_go_setting_bg</item>
 
-       <!-- <item name="android:windowTranslucentStatus">true</item>-->
+        <!-- <item name="android:windowTranslucentStatus">true</item>-->
 
     </style>
+
     <style name="menu_labels_style">
         <item name="android:background">@drawable/tab_bg</item>
         <item name="android:textColor">@color/background_white</item>
     </style>
 
 
-
+    <style name="loading_dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 
 </resources>

@@ -39,7 +39,7 @@ public class DevsFragment extends BaseFragment {
     @BindView(R.id.title_bar)
     cn.dreamn.qianji_auto.ui.views.TitleBar title_bar;
 
-    @BindView(R.id.ankio_head)
+    @BindView(R.id.include_set)
     RelativeLayout ankio_head;
 
     @Override

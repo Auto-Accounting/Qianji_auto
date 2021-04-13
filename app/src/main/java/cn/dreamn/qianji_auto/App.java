@@ -3,7 +3,6 @@ package cn.dreamn.qianji_auto;
 import android.app.Application;
 import android.content.Context;
 
-
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.PageConfig;
 import com.xuexiang.xpage.config.AppPageConfig;
@@ -31,6 +30,19 @@ public class App extends Application {
         super.onCreate();
         initLibs();
     }
+
+    public static String getAppVerName() {
+        return BuildConfig.VERSION_NAME;
+    }
+
+    public static int getAppVerCode() {
+        return BuildConfig.VERSION_CODE;
+    }
+
+    public static String getAppPackage() {
+        return BuildConfig.APPLICATION_ID;
+    }
+
 
     /**
      * 初始化基础库

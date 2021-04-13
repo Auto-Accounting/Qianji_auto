@@ -108,7 +108,10 @@ dependencies {
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     //悬浮窗
     implementation 'com.github.xuexiangjys:XFloatView:1.0.2'
-
+    //网络请求库
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    //WebDav
+    implementation 'com.thegrizzlylabs.sardine-android:sardine-android:0.5'
 }
 repositories {
     mavenCentral()
