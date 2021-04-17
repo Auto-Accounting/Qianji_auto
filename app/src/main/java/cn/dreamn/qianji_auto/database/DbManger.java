@@ -27,6 +27,7 @@ import static cn.dreamn.qianji_auto.database.AppDatabase.MIGRATION_3_4;
 import static cn.dreamn.qianji_auto.database.AppDatabase.MIGRATION_4_5;
 import static cn.dreamn.qianji_auto.database.AppDatabase.MIGRATION_5_6;
 import static cn.dreamn.qianji_auto.database.AppDatabase.MIGRATION_6_7;
+import static cn.dreamn.qianji_auto.database.AppDatabase.MIGRATION_7_8;
 
 
 public class DbManger {
@@ -40,6 +41,7 @@ public class DbManger {
                 addMigrations(MIGRATION_4_5).
                 addMigrations(MIGRATION_5_6).
                 addMigrations(MIGRATION_6_7).
+                addMigrations(MIGRATION_7_8).
                 build();
     }
 }

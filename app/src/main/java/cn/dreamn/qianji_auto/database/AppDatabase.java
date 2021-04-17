@@ -56,7 +56,7 @@ import cn.dreamn.qianji_auto.database.Table.Regular;
         CategoryName.class,
         AppData.class,
         IdentifyRegular.class
-}, version = 7, exportSchema = false)
+}, version = 8, exportSchema = false)
 
 public abstract class AppDatabase extends RoomDatabase {
     public abstract LogDao LogDao();
@@ -224,6 +224,42 @@ public abstract class AppDatabase extends RoomDatabase {
 
             //4.将新建的表改名
             database.execSQL(" ALTER  TABLE TempTable  RENAME to Regular");
+
+            //修改Regular表
+            database.execSQL("CREATE TABLE TempTable " +
+                    "( id INTEGER  PRIMARY KEY NOT NULL ," +
+                    " regular TEXT, " +
+                    " name TEXT ," +
+                    " tableList TEXT ," +
+                    " use INTEGER ," +
+                    " sort INTEGER  default 0 " +
+                    " ) "
+            );
+
+
+            //修改IdentifyRegular表
+            database.execSQL("CREATE TABLE IdentifyRegularTemp" +
+                    "( id INTEGER  PRIMARY KEY NOT NULL ," +
+                    " regular TEXT, " +
+                    " name TEXT, " +
+                    " text TEXT, " +
+                    " identify TEXT," +
+                    " fromApp TEXT," +
+                    " use int default 1, " +
+                    " sort int default 0 " +
+                    " ) "
+            );
+
+            //2.将原来表中的数据复制过来，
+            database.execSQL(" INSERT INTO IdentifyRegular (regular,name,text,use,sort,identify,fromApp) " +
+                    "SELECT regular,name,text,use,sort,identify,fromApp  FROM IdentifyRegular "
+            );
+
+
+            //3. 将原表删除
+            database.execSQL(" DROP TABLE IdentifyRegular ");
+
+            database.execSQL(" ALTER  TABLE IdentifyRegularTemp  RENAME to IdentifyRegular");
         }
     };
 }
