@@ -21,12 +21,11 @@ import androidx.room.Dao;
 import androidx.room.Query;
 
 import cn.dreamn.qianji_auto.database.Table.AppData;
-import cn.dreamn.qianji_auto.database.Table.Log;
 
 @Dao
 public interface AppDataDao {
-    @Query("SELECT * FROM AppData WHERE identify=:identify and fromApp=:fromApp order by id DESC")
-    AppData[] loadAll(String identify,String fromApp);
+    @Query("SELECT * FROM AppData WHERE identify=:identify  order by id DESC")
+    AppData[] loadAll(String identify);
 
 
     @Query("INSERT INTO AppData(rawData,identify,fromApp,time) values(:rawData,:identify,:fromApp,strftime('%s','now'))")
@@ -35,7 +34,7 @@ public interface AppDataDao {
     @Query("DELETE FROM AppData WHERE id=:pos")
     void del(int pos);
 
-    @Query("DELETE FROM AppData WHERE identify=:identify and fromApp=:fromApp")
-    void delAll(String identify,String fromApp);
+    @Query("DELETE FROM AppData WHERE identify=:identify")
+    void delAll(String identify);
 }
 

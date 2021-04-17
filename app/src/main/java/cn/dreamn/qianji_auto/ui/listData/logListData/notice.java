@@ -1,8 +1,7 @@
 package cn.dreamn.qianji_auto.ui.listData.logListData;
 
-import android.util.Log;
-
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment;
 import cn.dreamn.qianji_auto.ui.listData.BaseList;
 
 public class notice extends BaseList {
@@ -27,7 +26,7 @@ public class notice extends BaseList {
 
     @Override
     public void onClick(BaseFragment baseFragment) {
-       // baseFragment.openNewPage()
-        Log.d("plugin","click");
+        baseFragment.openNewPage(NoticeFragment.class);
+        // Log.d("plugin","click");
     }
 }

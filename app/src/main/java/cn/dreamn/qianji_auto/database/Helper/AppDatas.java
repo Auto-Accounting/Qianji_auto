@@ -18,6 +18,9 @@
 package cn.dreamn.qianji_auto.database.Helper;
 
 
+import android.os.Bundle;
+
+import java.util.ArrayList;
 
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.AppData;
@@ -26,25 +29,48 @@ import cn.dreamn.qianji_auto.utils.runUtils.Task;
 public class AppDatas {
 
 
-    public static void add(String identify,String fromApp,String rawData){
-        Task.onThread(()-> DbManger.db.AppDataDao().add(rawData,identify,fromApp));
+    public static void add(String identify, String fromApp, String rawData) {
+        Task.onThread(() -> DbManger.db.AppDataDao().add(rawData, identify, fromApp));
     }
 
     public static void del(Integer pos) {
-        Task.onThread(()-> DbManger.db.AppDataDao().del(pos));
+        Task.onThread(() -> DbManger.db.AppDataDao().del(pos));
     }
 
-
-    public static void delAll(String identify,String fromApp) {
-        Task.onThread(()-> DbManger.db.AppDataDao().delAll(identify,fromApp));
+    public static void delAll(String identify, onEnd end) {
+        Task.onThread(() -> {
+            DbManger.db.AppDataDao().delAll(identify);
+            end.finish();
+        });
     }
 
-    interface onResult{
-        void onGet(AppData[] datas);
+    public static void getAll(String identify, onResult ret) {
+        Task.onThread(() -> {
+            AppData[] data = DbManger.db.AppDataDao().loadAll(identify);
+            ArrayList<Bundle> bundleArrayList = new ArrayList<>();
+            if (data != null && data.length != 0) {
+                for (AppData appData : data) {
+                    Bundle bundle = new Bundle();
+
+                    bundle.putInt("id", appData.id);
+                    bundle.putString("rawData", appData.rawData);
+                    bundle.putString("time", appData.time);
+                    bundle.putString("fromApp", appData.fromApp);
+                    bundle.putString("identify", appData.identify);
+                    bundleArrayList.add(bundle);
+                }
+            }
+
+            ret.onGet(bundleArrayList);
+        });
     }
 
-    public static void getAll(String identify,String fromApp,onResult ret) {
-        Task.onThread(()-> ret.onGet(DbManger.db.AppDataDao().loadAll(identify,fromApp)));
+    public interface onEnd {
+        void finish();
+    }
+
+    public interface onResult {
+        void onGet(ArrayList<Bundle> bundleArrayList);
     }
 }
 
