@@ -153,18 +153,18 @@ public abstract class AppDatabase extends RoomDatabase {
 
 
             //修改Other表
-            database.execSQL("CREATE TABLE IdentifyRegular"+
-                    "( id INTEGER "+" PRIMARY KEY NOT NULL ,"+
-                    " regular TEXT, "+
-                    " name TEXT, "+
-                    " text TEXT, "+
-                    " account1 TEXT, "+
-                    " account2 TEXT, "+
-                    " type TEXT, "+
-                    " silent TEXT, "+
-                    " money TEXT, "+
-                    " fee TEXT ,"+
-                    " shopName TEXT, "+
+            database.execSQL("CREATE TABLE IdentifyRegular" +
+                    "( id INTEGER  PRIMARY KEY NOT NULL ," +
+                    " regular TEXT, " +
+                    " name TEXT, " +
+                    " text TEXT, " +
+                    " account1 TEXT, " +
+                    " account2 TEXT, " +
+                    " type TEXT, " +
+                    " silent TEXT, " +
+                    " money TEXT, " +
+                    " fee TEXT ," +
+                    " shopName TEXT, " +
                     " shopRemark TEXT, "+
                     " source TEXT, "+
                     " identify TEXT,"+
@@ -189,14 +189,41 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL(" DROP TABLE Sms ");
             //创建APPData
             database.execSQL("CREATE TABLE AppData"+
-                    "( id INTEGER "+" PRIMARY KEY NOT NULL ,"+
-                    " rawData TEXT, "+
-                    " fromApp TEXT, "+
-                    " identify TEXT, "+
-                    " time TEXT "+
+                    "( id INTEGER " + " PRIMARY KEY NOT NULL ," +
+                    " rawData TEXT, " +
+                    " fromApp TEXT, " +
+                    " identify TEXT, " +
+                    " time TEXT " +
                     " ) "
             );
 
+        }
+    };
+    static final Migration MIGRATION_7_8 = new Migration(7, 8) {
+
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            //修改Regular表
+            database.execSQL("CREATE TABLE TempTable " +
+                    "( id INTEGER  PRIMARY KEY NOT NULL ," +
+                    " regular TEXT, " +
+                    " name TEXT ," +
+                    " tableList TEXT ," +
+                    " use INTEGER ," +
+                    " sort INTEGER  default 0 " +
+                    " ) "
+            );
+
+            //2.将原来表中的数据复制过来，
+            database.execSQL(" INSERT INTO TempTable (id,regular,name,tableList,use,sort) " +
+                    "SELECT id,regular,name,tableList,use,sort  FROM AutoBill "
+            );
+
+            //3. 将原表删除
+            database.execSQL(" DROP TABLE Regular ");
+
+            //4.将新建的表改名
+            database.execSQL(" ALTER  TABLE TempTable  RENAME to Regular");
         }
     };
 }

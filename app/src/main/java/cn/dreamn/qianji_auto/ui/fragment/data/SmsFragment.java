@@ -55,8 +55,8 @@ import es.dmoral.toasty.Toasty;
  * @author xuexiang
  * @since 2018/11/7 下午1:16
  */
-@Page(name = "通知列表", anim = CoreAnim.slide)
-public class NoticeFragment extends BaseFragment {
+@Page(name = "短信列表", anim = CoreAnim.slide)
+public class SmsFragment extends BaseFragment {
 
     private static final int HANDLE_REFRESH = 2;
     private static final int HANDLE_OK = 0;
@@ -103,8 +103,8 @@ public class NoticeFragment extends BaseFragment {
         statusView.setEmptyView(R.layout.empty_view);
         statusView.setLoadingView(R.layout.loading_view);
 
-        statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, "没有任何通知信息"));
-        statusView.setOnLoadingViewConvertListener(viewHolder -> viewHolder.setText(R.id.load_info, "正在加载通知信息"));
+        statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, "没有任何短信"));
+        statusView.setOnLoadingViewConvertListener(viewHolder -> viewHolder.setText(R.id.load_info, "正在加载短信"));
 
         statusView.showLoadingView();
         initLayout();
@@ -157,7 +157,7 @@ public class NoticeFragment extends BaseFragment {
 
     private void loadFromData(RefreshLayout refreshLayout) {
         Task.onMain(1000, () -> {
-            AppDatas.getAll("notice", datas -> {
+            AppDatas.getAll("sms", datas -> {
                 if (datas == null || datas.size() == 0) {
                     mHandler.sendEmptyMessage(HANDLE_ERR);
                 } else {
@@ -175,11 +175,11 @@ public class NoticeFragment extends BaseFragment {
         });
         title_bar.setRightIconOnClickListener(v -> {
             MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-            dialog.title(null, "是否清空通知列表");
-            dialog.message(null, "即将清空所有通知数据", null);
+            dialog.title(null, "是否清空短信列表");
+            dialog.message(null, "即将清空所有短信数据", null);
             dialog.positiveButton(null, "确定清空", materialDialog -> {
 
-                AppDatas.delAll("notice", () -> {
+                AppDatas.delAll("sms", () -> {
                     Message message = new Message();
                     message.obj = "清除成功！";
                     message.what = HANDLE_REFRESH;

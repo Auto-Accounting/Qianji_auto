@@ -31,6 +31,7 @@ public class IdentifyRegular {
     public String name;//规则名
     public String text;//测试文本
 
+
     public String account1;//账户名称1
     public String account2;//账户名称2
     public String type;//收支类型
@@ -40,6 +41,7 @@ public class IdentifyRegular {
     public String shopName;//商户名称
     public String shopRemark;//商户备注
     public String source;//账单来源
+
     public String identify;//规则属于APP、短信、通知
     public String fromApp;//规则匹配具体APP
 

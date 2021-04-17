@@ -32,6 +32,21 @@
             android:text="TextView"
             android:textColor="@color/main_title"
             android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_ismatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/btn_normal"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="已适配"
+            android:textColor="@color/background_white"
+            android:textSize="13sp" />
     </RelativeLayout>
 
     <TextView
