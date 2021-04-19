@@ -209,14 +209,14 @@ public abstract class AppDatabase extends RoomDatabase {
                     " regular TEXT, " +
                     " name TEXT ," +
                     " tableList TEXT ," +
-                    " use INTEGER ," +
-                    " sort INTEGER  default 0 " +
+                    " use INTEGER not null default 1 ," +
+                    " sort INTEGER not null  default 0 " +
                     " ) "
             );
 
             //2.将原来表中的数据复制过来，
             database.execSQL(" INSERT INTO TempTable (id,regular,name,tableList,use,sort) " +
-                    "SELECT id,regular,name,tableList,use,sort  FROM AutoBill "
+                    "SELECT id,regular,name,tableList,use,sort  FROM Regular "
             );
 
             //3. 将原表删除
@@ -224,17 +224,6 @@ public abstract class AppDatabase extends RoomDatabase {
 
             //4.将新建的表改名
             database.execSQL(" ALTER  TABLE TempTable  RENAME to Regular");
-
-            //修改Regular表
-            database.execSQL("CREATE TABLE TempTable " +
-                    "( id INTEGER  PRIMARY KEY NOT NULL ," +
-                    " regular TEXT, " +
-                    " name TEXT ," +
-                    " tableList TEXT ," +
-                    " use INTEGER ," +
-                    " sort INTEGER  default 0 " +
-                    " ) "
-            );
 
 
             //修改IdentifyRegular表
@@ -245,8 +234,9 @@ public abstract class AppDatabase extends RoomDatabase {
                     " text TEXT, " +
                     " identify TEXT," +
                     " fromApp TEXT," +
-                    " use int default 1, " +
-                    " sort int default 0 " +
+                    " tableList TEXT," +
+                    " use INTEGER not null, " +
+                    " sort INTEGER not null" +
                     " ) "
             );
 

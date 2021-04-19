@@ -47,6 +47,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.AppDatas;
 import cn.dreamn.qianji_auto.ui.adapter.ItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import es.dmoral.toasty.Toasty;
 
@@ -100,6 +101,7 @@ public class SmsFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
+        AutoBillWeb.goToLogin(this);
         statusView.setEmptyView(R.layout.empty_view);
         statusView.setLoadingView(R.layout.loading_view);
 

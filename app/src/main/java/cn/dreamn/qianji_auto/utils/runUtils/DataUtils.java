@@ -21,6 +21,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 
+import androidx.annotation.NonNull;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -59,6 +61,7 @@ public class DataUtils {
         }
     }
 
+    @NonNull
     public String toString() {
         StringBuilder ret = new StringBuilder("data://string?");
         Set<String> keySet = bundle.keySet();
