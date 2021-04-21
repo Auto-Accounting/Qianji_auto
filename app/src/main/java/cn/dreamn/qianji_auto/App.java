@@ -3,6 +3,7 @@ package cn.dreamn.qianji_auto;
 import android.app.Application;
 import android.content.Context;
 
+import com.lei.lib.java.rxcache.RxCache;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.PageConfig;
 import com.xuexiang.xpage.config.AppPageConfig;
@@ -53,7 +54,13 @@ public class App extends Application {
         initTheme();
 
         initDatabase();
+        initCache();
     }
+
+    private void initCache() {
+        RxCache.init(this);
+    }
+
 
     private void initDatabase() {
         DbManger.init(this);
