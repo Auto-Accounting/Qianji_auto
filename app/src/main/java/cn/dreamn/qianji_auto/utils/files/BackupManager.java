@@ -167,10 +167,7 @@ public class BackupManager {
         String dav = url + "/qianji_auto/";
         dav = dav.replace("//", "/");
         try {
-
-
             try {
-
                 if (!sardine.exists(dav)) {
                     sardine.createDirectory(dav);
                 }
@@ -186,8 +183,6 @@ public class BackupManager {
                 message.what = 0;
                 message.obj = data;
                 mHandler.sendMessage(message);
-
-
             } catch (IOException e) {
                 Log.d(e.toString());
                 mHandler.sendEmptyMessage(-1);

@@ -122,6 +122,10 @@ public class BackUpFragment extends BaseFragment {
 
                     @Override
                     public void onOK(String data) {
+                        if (data.length() == 0) {
+                            Toasty.error(getContext(), "未输入WebDav网址！", Toasty.LENGTH_LONG).show();
+                            return;
+                        }
                         mmkv.encode("webdav_url", data);
                         initViews();
                     }
@@ -138,6 +142,10 @@ public class BackUpFragment extends BaseFragment {
 
                 @Override
                 public void onOK(String data) {
+                    if (data.length() == 0) {
+                        Toasty.error(getContext(), "未输入账号！", Toasty.LENGTH_LONG).show();
+                        return;
+                    }
                     mmkv.encode("webdav_name", data);
                     initViews();
                 }
@@ -152,6 +160,10 @@ public class BackUpFragment extends BaseFragment {
 
                 @Override
                 public void onOK(String data) {
+                    if (data.length() == 0) {
+                        Toasty.error(getContext(), "未输入密码！", Toasty.LENGTH_LONG).show();
+                        return;
+                    }
                     mmkv.encode("webdav_password", data);
                     initViews();
                 }
@@ -177,7 +189,12 @@ public class BackUpFragment extends BaseFragment {
                 };
                 dialog.show();
 
-                Task.onThread(() -> BackupManager.backUpToWebDav(getContext(), mmkv.getString("webdav_url", ""), mmkv.getString("webdav_name", ""), mmkv.getString("webdav_password", ""), mHandler));
+                Task.onThread(() -> {
+                    String url = mmkv.getString("webdav_url", "");
+                    String name = mmkv.getString("webdav_name", "");
+                    String password = mmkv.getString("webdav_password", "");
+                    BackupManager.backUpToWebDav(getContext(), url, name, password, mHandler);
+                });
             }
         });
         rl_backup_local.setOnClickListener(new View.OnClickListener() {
