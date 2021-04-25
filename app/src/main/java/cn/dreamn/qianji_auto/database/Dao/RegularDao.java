@@ -37,11 +37,11 @@ public interface RegularDao {
     @Query("UPDATE  regular set sort=:sort WHERE id=:id")
     void setSort(int id, int sort);
 
-    @Query("INSERT INTO regular(regular,cate,name,tableList,use,sort) values(:regular,:cate,:name,:tableList,1,0)")
-    void add(String regular, String name, String cate, String tableList);
+    @Query("INSERT INTO regular(regular,name,tableList,use,sort) values(:regular,:name,:tableList,1,0)")
+    void add(String regular, String name, String tableList);
 
-    @Query("UPDATE  regular SET regular=:regular,name=:name,cate=:cate,tableList=:tableList WHERE id=:id")
-    void update(int id, String regular, String name, String cate, String tableList);
+    @Query("UPDATE  regular SET regular=:regular,name=:name,tableList=:tableList WHERE id=:id")
+    void update(int id, String regular, String name, String tableList);
 
     @Query("UPDATE  regular SET use=1 WHERE id=:id")
     void enable(int id);

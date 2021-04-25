@@ -20,6 +20,7 @@ package cn.dreamn.qianji_auto.database.Helper;
 
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.IdentifyRegular;
+import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 public class identifyRegulars {
@@ -95,7 +96,10 @@ public class identifyRegulars {
                         "             return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+numNum+'|'+accountNum2+'|'+shopNameNum+'|'+clientNum+'|'+sourceNum+'|'+feeNum ;\n" +
                         "       }        ";
 
-                data = String.format(data, value.regular, value.shopRemark, value.account1, value.type, value.money, value.shopName, value.account2, value.silent, value.source,value.fee);
+
+                DataUtils dataUtils = new DataUtils();
+                dataUtils.parse(value.tableList);
+                data = String.format(data, value.regular, dataUtils.get("shopRemark"), dataUtils.get("account1"), dataUtils.get("type"), dataUtils.get("money"), dataUtils.get("shopName"), dataUtils.get("account2"), dataUtils.get("silent"), dataUtils.get("source"), dataUtils.get("fee"));
                 smsList.append(data);
 
 
@@ -139,11 +143,31 @@ public class identifyRegulars {
 
 
     public static void add(String regex, String name, String text,String account1,String account2,String type,String silent,String money,String fee,String shopName,String shopRemark,String source,String identify,String fromApp) {
-        Task.onThread(()-> DbManger.db.IdentifyRegularDao().add(regex,name,text,account1,account2,type,silent,money,fee,shopName,shopRemark,source,identify,fromApp));
+        DataUtils dataUtils = new DataUtils();
+        dataUtils.put("account1", account1);
+        dataUtils.put("account2", account2);
+        dataUtils.put("type", type);
+        dataUtils.put("silent", silent);
+        dataUtils.put("money", money);
+        dataUtils.put("fee", fee);
+        dataUtils.put("shopName", shopName);
+        dataUtils.put("shopRemark", shopRemark);
+        dataUtils.put("source", source);
+        Task.onThread(() -> DbManger.db.IdentifyRegularDao().add(regex, name, text, dataUtils.toString(), identify, fromApp));
     }
 
     public static void change(int id, String regex, String name, String text,String account1,String account2,String type,String silent,String money,String fee,String shopName,String shopRemark,String source,String identify,String fromApp) {
-        Task.onThread(()-> DbManger.db.IdentifyRegularDao().update(id,regex,name,text,account1,account2,type,silent,money,fee,shopName,shopRemark,source,identify,fromApp));
+        DataUtils dataUtils = new DataUtils();
+        dataUtils.put("account1", account1);
+        dataUtils.put("account2", account2);
+        dataUtils.put("type", type);
+        dataUtils.put("silent", silent);
+        dataUtils.put("money", money);
+        dataUtils.put("fee", fee);
+        dataUtils.put("shopName", shopName);
+        dataUtils.put("shopRemark", shopRemark);
+        dataUtils.put("source", source);
+        Task.onThread(() -> DbManger.db.IdentifyRegularDao().update(id, regex, name, text, dataUtils.toString(), identify, fromApp));
     }
 
     public static void del(int id) {

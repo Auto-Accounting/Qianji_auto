@@ -112,6 +112,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
     //WebDav
     implementation 'com.thegrizzlylabs.sardine-android:sardine-android:0.5'
+    //缓存框架
+    implementation 'com.github.LtLei:RxCache:v1.0.0'
 }
 repositories {
     mavenCentral()

@@ -56,7 +56,7 @@ import cn.dreamn.qianji_auto.database.Table.Regular;
         CategoryName.class,
         AppData.class,
         IdentifyRegular.class
-}, version = 7, exportSchema = false)
+}, version = 8, exportSchema = false)
 
 public abstract class AppDatabase extends RoomDatabase {
     public abstract LogDao LogDao();
@@ -153,18 +153,18 @@ public abstract class AppDatabase extends RoomDatabase {
 
 
             //修改Other表
-            database.execSQL("CREATE TABLE IdentifyRegular"+
-                    "( id INTEGER "+" PRIMARY KEY NOT NULL ,"+
-                    " regular TEXT, "+
-                    " name TEXT, "+
-                    " text TEXT, "+
-                    " account1 TEXT, "+
-                    " account2 TEXT, "+
-                    " type TEXT, "+
-                    " silent TEXT, "+
-                    " money TEXT, "+
-                    " fee TEXT ,"+
-                    " shopName TEXT, "+
+            database.execSQL("CREATE TABLE IdentifyRegular" +
+                    "( id INTEGER  PRIMARY KEY NOT NULL ," +
+                    " regular TEXT, " +
+                    " name TEXT, " +
+                    " text TEXT, " +
+                    " account1 TEXT, " +
+                    " account2 TEXT, " +
+                    " type TEXT, " +
+                    " silent TEXT, " +
+                    " money TEXT, " +
+                    " fee TEXT ," +
+                    " shopName TEXT, " +
                     " shopRemark TEXT, "+
                     " source TEXT, "+
                     " identify TEXT,"+
@@ -189,14 +189,67 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL(" DROP TABLE Sms ");
             //创建APPData
             database.execSQL("CREATE TABLE AppData"+
-                    "( id INTEGER "+" PRIMARY KEY NOT NULL ,"+
-                    " rawData TEXT, "+
-                    " fromApp TEXT, "+
-                    " identify TEXT, "+
-                    " time TEXT "+
+                    "( id INTEGER " + " PRIMARY KEY NOT NULL ," +
+                    " rawData TEXT, " +
+                    " fromApp TEXT, " +
+                    " identify TEXT, " +
+                    " time TEXT " +
                     " ) "
             );
 
+        }
+    };
+    static final Migration MIGRATION_7_8 = new Migration(7, 8) {
+
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            //修改Regular表
+            database.execSQL("CREATE TABLE TempTable " +
+                    "( id INTEGER  PRIMARY KEY NOT NULL ," +
+                    " regular TEXT, " +
+                    " name TEXT ," +
+                    " tableList TEXT ," +
+                    " use INTEGER not null default 1 ," +
+                    " sort INTEGER not null  default 0 " +
+                    " ) "
+            );
+
+            //2.将原来表中的数据复制过来，
+            database.execSQL(" INSERT INTO TempTable (id,regular,name,tableList,use,sort) " +
+                    "SELECT id,regular,name,tableList,use,sort  FROM Regular "
+            );
+
+            //3. 将原表删除
+            database.execSQL(" DROP TABLE Regular ");
+
+            //4.将新建的表改名
+            database.execSQL(" ALTER  TABLE TempTable  RENAME to Regular");
+
+
+            //修改IdentifyRegular表
+            database.execSQL("CREATE TABLE IdentifyRegularTemp" +
+                    "( id INTEGER  PRIMARY KEY NOT NULL ," +
+                    " regular TEXT, " +
+                    " name TEXT, " +
+                    " text TEXT, " +
+                    " identify TEXT," +
+                    " fromApp TEXT," +
+                    " tableList TEXT," +
+                    " use INTEGER not null, " +
+                    " sort INTEGER not null" +
+                    " ) "
+            );
+
+            //2.将原来表中的数据复制过来，
+            database.execSQL(" INSERT INTO IdentifyRegular (regular,name,text,use,sort,identify,fromApp) " +
+                    "SELECT regular,name,text,use,sort,identify,fromApp  FROM IdentifyRegular "
+            );
+
+
+            //3. 将原表删除
+            database.execSQL(" DROP TABLE IdentifyRegular ");
+
+            database.execSQL(" ALTER  TABLE IdentifyRegularTemp  RENAME to IdentifyRegular");
         }
     };
 }

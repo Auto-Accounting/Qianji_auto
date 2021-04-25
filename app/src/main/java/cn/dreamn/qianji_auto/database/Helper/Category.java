@@ -18,9 +18,9 @@
 package cn.dreamn.qianji_auto.database.Helper;
 
 
+import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.Regular;
-import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.JsEngine;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -92,7 +92,7 @@ public class Category {
         dataUtils.put("regular_type", BillInfo.getTypeName(billInfo.getType(true)));
         dataUtils.put("regular_sort", sort);
 
-        Category.addCategory(regular, name, sort, dataUtils.toString());
+        Category.addCategory(regular, name, dataUtils.toString());
 
     }
 
@@ -159,23 +159,23 @@ public class Category {
     }
 
     public static void enable(int id) {
-        Task.onThread(()-> DbManger.db.RegularDao().enable(id));
+        Task.onThread(() -> DbManger.db.RegularDao().enable(id));
     }
 
-    public static void getOne(int id,getRegulars getRegular) {
-        Task.onThread(()-> getRegular.onGet( DbManger.db.RegularDao().getOne(id)));
+    public static void getOne(int id, getRegulars getRegular) {
+        Task.onThread(() -> getRegular.onGet(DbManger.db.RegularDao().getOne(id)));
     }
 
-    public static void addCategory(String js, String name, String cate, String tableList) {
-        Task.onThread(()-> DbManger.db.RegularDao().add(js, name, cate, tableList));
+    public static void addCategory(String js, String name, String tableList) {
+        Task.onThread(() -> DbManger.db.RegularDao().add(js, name, tableList));
     }
 
     public static void changeCategory(int id, String js, String name, String cate, String tableList) {
-        Task.onThread(()-> DbManger.db.RegularDao().update(id, js, name, cate, tableList));
+        Task.onThread(() -> DbManger.db.RegularDao().update(id, js, name, tableList));
     }
 
     public static void del(int id) {
-        Task.onThread(()-> DbManger.db.RegularDao().delete(id));
+        Task.onThread(() -> DbManger.db.RegularDao().delete(id));
     }
 
     public static void setSort(int id, int sort) {

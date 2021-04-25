@@ -19,6 +19,9 @@ package cn.dreamn.qianji_auto.utils.runUtils;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
+
+import androidx.annotation.NonNull;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -45,24 +48,27 @@ public class DataUtils {
         bundle.remove(name);
     }
 
-    public void parse(String url) throws UnsupportedEncodingException {
-        Uri mUri = Uri.parse(url);
-        Set<String> params = mUri.getQueryParameterNames();
-        for (String param : params) {
-            String value = mUri.getQueryParameter(param);
-          //  Logs.d(param);
-
-            bundle.putString(param, URLDecoder.decode(value, "UTF-8"));
+    public void parse(String url) {
+        try {
+            Uri mUri = Uri.parse(url);
+            Set<String> params = mUri.getQueryParameterNames();
+            for (String param : params) {
+                String value = mUri.getQueryParameter(param);
+                bundle.putString(param, new String(Base64.decode(URLDecoder.decode(value, "UTF-8"), Base64.DEFAULT)));
+            }
+        } catch (Exception e) {
+            Log.i("数据解析出现错误！" + e.toString());
         }
     }
 
+    @NonNull
     public String toString() {
         StringBuilder ret = new StringBuilder("data://string?");
         Set<String> keySet = bundle.keySet();
         for (String key : keySet) {
             String value = (String) bundle.get(key);
             try {
-                ret.append("&").append(key).append("=").append(URLEncoder.encode(value, "UTF-8"));
+                ret.append("&").append(key).append("=").append(URLEncoder.encode(Base64.encodeToString(value.getBytes(), Base64.DEFAULT), "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

@@ -4,9 +4,9 @@ import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuInflater;
+import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.PopupMenu;
 
-
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.core.PageOption;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -28,15 +27,18 @@ import java.util.HashMap;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.views.TitleBar;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 import es.dmoral.toasty.Toasty;
 
 import static cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment.KEY_URL;
 
+
 @Page(name="WebView", params = {KEY_URL}, anim = CoreAnim.slide)
 public class WebViewFragment extends BaseFragment {
     public static final String KEY_URL = "KEY_URL" ;
+
     @BindView(R.id.title_bar)
     TitleBar title_bar;
     @BindView(R.id.webView)
@@ -125,7 +127,7 @@ public class WebViewFragment extends BaseFragment {
      * 和网页url加载相关，统计加载时间
      */
     protected WebViewClient mWebViewClient = new WebViewClient() {
-        private HashMap<String, Long> mTimer = new HashMap<>();
+        private final HashMap<String, Long> mTimer = new HashMap<>();
 
         @Override
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
@@ -155,8 +157,16 @@ public class WebViewFragment extends BaseFragment {
             if (startTime != null) {
                 long overTime = System.currentTimeMillis();
                 //统计页面的使用时长
-                Log.i("Qianji"," page mUrl:" + url + "  used time:" + (overTime - startTime));
+                //      Log.i("Qianji"," page mUrl:" + url + "  used time:" + (overTime - startTime));
             }
+            if (url.startsWith("https://qianji.ankio.net/login?success=true")) {
+                CookieManager cookieManager = CookieManager.getInstance();
+                String CookieStr = cookieManager.getCookie(url);
+                AutoBillWeb.setCookie(CookieStr);
+                popToBack();
+            }
+
+
         }
 
         @Override
@@ -173,6 +183,7 @@ public class WebViewFragment extends BaseFragment {
                 .putString(KEY_URL, url)
                 .open(baseFragment);
     }
+
     public String getUrl() {
         String target = "";
         Bundle bundle = getArguments();
