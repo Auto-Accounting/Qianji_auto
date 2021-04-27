@@ -14,3 +14,4 @@
 /build
 /captures
 .externalNativeBuild
+rhino-1.7.13/build/.transforms/*
