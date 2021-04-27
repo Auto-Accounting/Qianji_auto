@@ -17,19 +17,13 @@
 
 package cn.dreamn.qianji_auto.core.hook.app.qianji;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.xuexiang.xutil.file.FileUtils;
 
-import cn.dreamn.qianji_auto.core.async_qianji.ExeCommand;
-import de.robv.android.xposed.XposedBridge;
+import java.util.ArrayList;
 
 public class DBHelper {
 
@@ -41,12 +35,13 @@ public class DBHelper {
 
     private final String NEW_PATH = "/data/data/com.mutangtech.qianji/qianjiapp";
 
-    public DBHelper() {
-        String[] commands = new String[]{
-                "cat /data/data/com.mutangtech.qianji/databases/qianjiapp > " + NEW_PATH
-        };
 
-        String str = new ExeCommand().run(commands, 100000000).getResult();
+
+    public DBHelper() {
+
+
+        FileUtils.copyFile(" /data/data/com.mutangtech.qianji/databases/qianjiapp", NEW_PATH, () -> true);
+
         db = SQLiteDatabase.openOrCreateDatabase(NEW_PATH, null);
     }
 

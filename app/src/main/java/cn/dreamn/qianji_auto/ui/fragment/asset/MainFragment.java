@@ -17,11 +17,7 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.asset;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
 import android.view.View;
 
 import com.tencent.mmkv.MMKV;
@@ -32,11 +28,9 @@ import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.async_qianji.Async;
 import cn.dreamn.qianji_auto.core.utils.Status;
 import cn.dreamn.qianji_auto.ui.core.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.asset.category.CategoryFragment;
-import cn.dreamn.qianji_auto.utils.tools.Logs;
 
 
 @Page(name = "资产管理")
