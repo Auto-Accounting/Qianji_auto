@@ -25,9 +25,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.Arrays;
 
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class Utils {
     public static final String SEND_ACTION = "cn.dreamn.qianji_auto.XPOSED";
@@ -128,6 +131,21 @@ public class Utils {
         try {
             verName = mContext.getPackageManager().
                     getPackageInfo(mContext.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return verName;
+    }
+
+    /**
+     * 获取app的版本代码
+     * @return
+     */
+    protected  int getVerCode() {
+        int verName = 0;
+        try {
+            verName = mContext.getPackageManager().
+                    getPackageInfo(mContext.getPackageName(), 0).versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

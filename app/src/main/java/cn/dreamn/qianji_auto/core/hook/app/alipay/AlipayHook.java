@@ -29,32 +29,32 @@ public class AlipayHook extends HookBase {
             //支付宝设置
             hookSetting.init(utils);
         }catch(Exception e){
-
+            utils.log("支付宝设置hook失败："+e.toString());
         }
         try{
             //支付宝安全设置
             hookSafe.init(utils);
         }catch(Exception e){
-
+            utils.log("支付宝安全设置hook失败："+e.toString());
         }
         try{
             //支付宝支付UI
             hookPayUI.init(utils);
         }catch(Exception e){
-
+            utils.log("支付宝支付UI hook失败："+e.toString());
         }
         try{
             //支付宝消息通知
             hookReceive.init(utils);
         }catch(Exception e){
-
+            utils.log("支付宝消息通知hook失败："+e.toString());
         }
         try{
 
             //支付宝红包
             hookRed.init(utils);
         }catch(Exception e){
-
+            utils.log("支付宝红包hook失败："+e.toString());
         }
 
 

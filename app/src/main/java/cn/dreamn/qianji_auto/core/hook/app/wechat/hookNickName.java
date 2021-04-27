@@ -24,15 +24,38 @@ import de.robv.android.xposed.XposedHelpers;
 public class hookNickName {
     public static void init(Utils utils) {
         ClassLoader mAppClassLoader = utils.getClassLoader();
-        //获取昵称
-        XposedHelpers.findAndHookMethod("com.tencent.mm.ui.chatting.d.ad", mAppClassLoader, "setMMTitle", CharSequence.class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) {
-                String UserName = param.args[0].toString();
-                utils.writeData("userName", UserName);
-                utils.log("微信名：" + UserName);
+
+        //使用两种方案获取昵称~
+        try{
+            //获取昵称
+            XposedHelpers.findAndHookMethod( "com.tencent.mm.ui.chatting.d.ad", mAppClassLoader, "setMMTitle", CharSequence.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) {
+                    String UserName = param.args[0].toString();
+                    utils.writeData("userName", UserName);
+                    utils.log("微信名：" + UserName);
+                }
+            });
+        }catch (Error |Exception e){
+            try{
+                //获取昵称
+                XposedHelpers.findAndHookMethod( "com.tencent.mm.ui.chatting.ChattingUIFragment", mAppClassLoader, "setMMTitle", String.class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) {
+                        String UserName = param.args[0].toString();
+                        utils.writeData("userName", UserName);
+                        utils.log("微信名：" + UserName);
+                    }
+                });
+            }catch (Error |Exception e2){
+                utils.log("hook错误！获取不到昵称。错误："+e2.toString());
             }
-        });
+        }
+
+
+        //
     }
+
+
 
 }
