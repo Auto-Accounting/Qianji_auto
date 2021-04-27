@@ -25,16 +25,39 @@ public class AlipayHook extends HookBase {
 
     @Override
     public void hookFirst() throws Error {
-        //支付宝设置
-        hookSetting.init(utils);
-        //支付宝安全设置
-        hookSafe.init(utils);
-        //支付宝支付UI
-        hookPayUI.init(utils);
-        //支付宝消息通知
-        hookReceive.init(utils);
-        //支付宝红包
-        hookRed.init(utils);
+        try{
+            //支付宝设置
+            hookSetting.init(utils);
+        }catch(Exception e){
+
+        }
+        try{
+            //支付宝安全设置
+            hookSafe.init(utils);
+        }catch(Exception e){
+
+        }
+        try{
+            //支付宝支付UI
+            hookPayUI.init(utils);
+        }catch(Exception e){
+
+        }
+        try{
+            //支付宝消息通知
+            hookReceive.init(utils);
+        }catch(Exception e){
+
+        }
+        try{
+
+            //支付宝红包
+            hookRed.init(utils);
+        }catch(Exception e){
+
+        }
+
+
     }
 
 
@@ -50,9 +73,6 @@ public class AlipayHook extends HookBase {
 
     @Override
     public String[] getAppVer() {
-        return new String[]{
-                "10.2.13.9020",
-                "10.2.15.9500",
-        };
+        return null;
     }
 }

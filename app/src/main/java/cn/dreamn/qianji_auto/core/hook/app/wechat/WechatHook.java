@@ -24,16 +24,37 @@ public class WechatHook extends HookBase {
     @Override
     public void hookFirst() throws Error {
         //添加设置
-        hookSetting.init(utils);
-        //获取用户昵称
-        hookNickName.init(utils);
-        //获取支付的一些信息
-        hookPayTools.init(utils);
+       try{
+           hookSetting.init(utils);
+       }catch(Exception e){
 
-        //获取收红包的信息
-        hookRedPackage.init(utils);
-        //获取插入数据库的信息
-        hookMsg.init(utils);
+       }
+        //获取用户昵称
+        try{
+            hookNickName.init(utils);
+        }catch(Exception e){
+
+        }
+        try{
+            //获取支付的一些信息
+            hookPayTools.init(utils);
+        }catch(Exception e){
+
+        }
+        try{
+            //获取收红包的信息
+            hookRedPackage.init(utils);
+        }catch(Exception e){
+
+        }
+        try{
+            //获取插入数据库的信息
+            hookMsg.init(utils);
+        }catch(Exception e){
+
+        }
+
+
 
 
     }
@@ -50,9 +71,7 @@ public class WechatHook extends HookBase {
 
     @Override
     public String[] getAppVer() {
-        return new String[]{
-                "8.0.0", "8.0.1", "8.0.2"
-        };
+        return null;
     }
 
 
