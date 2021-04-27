@@ -26,31 +26,31 @@ public class WechatHook extends HookBase {
         //添加设置
        try{
            hookSetting.init(utils);
-       }catch(Exception e){
+       }catch(Error |Exception e){
            utils.log("微信设置hook失败："+e.toString());
        }
         //获取用户昵称
         try{
             hookNickName.init(utils);
-        }catch(Exception e){
+        }catch(Error |Exception e){
             utils.log("微信用户昵称hook失败："+e.toString());
         }
         try{
             //获取支付的一些信息
             hookPayTools.init(utils);
-        }catch(Exception e){
+        }catch(Error |Exception e){
             utils.log("微信支付信息hook失败："+e.toString());
         }
         try{
             //获取收红包的信息
             hookRedPackage.init(utils);
-        }catch(Exception e){
+        }catch(Error |Exception e){
             utils.log("微信红包hook失败："+e.toString());
         }
         try{
             //获取插入数据库的信息
             hookMsg.init(utils);
-        }catch(Exception e){
+        }catch(Error |Exception e){
             utils.log("微信数据库hook失败："+e.toString());
         }
 
