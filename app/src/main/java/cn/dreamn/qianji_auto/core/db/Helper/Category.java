@@ -33,7 +33,7 @@ public class Category {
            /* V8 runtime = V8.createV8Runtime();
             String result = runtime.executeStringScript(getCategoryRegularJs(shopAccount, shopRemark, type));
 */
-            String result = JsEngine.run(getCategoryRegularJs(billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType(true)), billInfo.getSource(), billInfo.getMoney()));
+            String result = JsEngine.run(getCategoryRegularJs(billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType(true)), billInfo.getSource(), billInfo.getMoney(), billInfo.getTime()));
 
             Logs.d("Qianji_Cate", "自动分类结果：" + result);
             return result;
@@ -95,7 +95,7 @@ public class Category {
     }
 
     //获取所有的js
-    public static String getCategoryRegularJs(String shopAccount, String shopRemark, String type, String source, String money) {
+    public static String getCategoryRegularJs(String shopAccount, String shopRemark, String type, String source, String money, String time) {
         if (shopAccount == null) shopAccount = "";
         if (shopRemark == null) shopRemark = "";
         StringBuilder regList = new StringBuilder();
@@ -108,8 +108,19 @@ public class Category {
 
         String js = "function getCategory(shopName,shopRemark,type,time,source,money){%s return 'NotFind';} getCategory('%s','%s','%s','%s','%s','%s');";
 
-        String time = Tools.getTime("HH");
-        return String.format(js, regList.toString(), shopAccount, shopRemark, type, time, source, money);
+        String time2 = Tools.getTime("HH");
+        //yyyy-MM-dd HH:mm:ss
+        if (time != null) {
+            String[] data = time.split(" ");
+            if (data.length == 2) {
+                String[] data2 = time.split(":");
+                if (data2.length == 3) {
+                    time2 = data2[0];
+                }
+            }
+        }
+
+        return String.format(js, regList.toString(), shopAccount, shopRemark, type, time2, source, money);
     }
 
     //获取所有的js
