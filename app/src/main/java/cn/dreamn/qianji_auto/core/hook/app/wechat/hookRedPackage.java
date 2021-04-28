@@ -59,6 +59,9 @@ public class hookRedPackage {
 
                 Object object = param.args[0];
 
+
+
+
                /* Field[] fields = qVar.getDeclaredFields();
                 for (Field f : fields) {
                     f.setAccessible(true);
@@ -72,7 +75,7 @@ public class hookRedPackage {
                 Field money = qVar.getDeclaredField("eht");
                 Field remark = qVar.getDeclaredField("yPK");
                 Field shopAccount = qVar.getDeclaredField("yVd");
-
+                Field status = qVar.getDeclaredField("AcB");
                 JSONObject jsonObject = new JSONObject();
 
                 double m = Integer.parseInt(money.get(object).toString()) / 100.0d;
@@ -84,15 +87,13 @@ public class hookRedPackage {
                 utils.log("-------红包信息-------", true);
                 utils.log("微信JSON消息：" + jsonObject.toJSONString(), true);
 
-                /**
-                 * TODO 红包
-                 *  if(status.toString().equals("成功领到")){
-                 *                     utils.log("红包已被领取");
-                 *                     return;
-                 *                 }
-                 */
+                if(status.get(object).toString().equals("成功领到")){
+                    utils.log("红包已被领取");
+                    return;
+                }
 
-                Bundle bundle = new Bundle();
+
+              Bundle bundle = new Bundle();
                 bundle.putString("type", Receive.WECHAT);
                 bundle.putString("data", jsonObject.toJSONString());
                 bundle.putString("title", "微信收红包");
