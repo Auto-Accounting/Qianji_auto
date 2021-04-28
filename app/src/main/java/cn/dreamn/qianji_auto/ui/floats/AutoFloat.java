@@ -40,6 +40,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xfloatview.XFloatView;
@@ -210,6 +212,7 @@ public class AutoFloat extends XFloatView {
     /**
      * 初始化监听
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void initListener() {
         category_layout.setOnClickListener(v -> {
@@ -241,6 +244,7 @@ public class AutoFloat extends XFloatView {
                         dialog.cancel();
                     }
 
+                    @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void OnLongClickChild(Bundle parent, Bundle child) {
                         billInfo2.setCateName(child.getString("name"));
@@ -249,6 +253,7 @@ public class AutoFloat extends XFloatView {
                     }
 
 
+                    @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void OnClickChild(Bundle parent, Bundle child) {
                         billInfo2.setCateName(child.getString("name"));
@@ -380,6 +385,7 @@ public class AutoFloat extends XFloatView {
         mMainHandler.removeCallbacksAndMessages(null);
     }
 
+
     public void setData(BillInfo billInfo) {
         billInfo2 = billInfo;
         auto_remark.setText(billInfo.getRemark());
@@ -457,8 +463,6 @@ public class AutoFloat extends XFloatView {
 
     @Override
     public void dismiss() {
-
-
         super.dismiss();
 
     }

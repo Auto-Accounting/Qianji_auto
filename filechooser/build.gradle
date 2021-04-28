@@ -5,7 +5,7 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 30
     defaultConfig {
-        minSdkVersion 22
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 8
         versionName "6.2"

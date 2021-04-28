@@ -173,8 +173,8 @@ public class CallAutoActivity {
             autoFloat.show();
         } catch (Exception e) {
             Logs.i("请授予悬浮窗权限！" + e.toString());
+            e.printStackTrace();
             ToastUtils.toast("请授予悬浮窗权限！");
-
         }
 
     }
@@ -243,15 +243,7 @@ public class CallAutoActivity {
 
     public static void run(Context context, BillInfo billInfo) {
         Logs.i("唤起自动记账面板...");
-        /*Cache cache = Caches.getOne("float_lock", "0");
 
-        Logs.d("Qianji_check", "记账检查...");
-        if (cache != null && cache.cacheData.equals("true")) {
-            Logs.d("Qianji_check", "记账已锁定...退出中");
-            Logs.i("自动记账面板锁定，退出记账。");
-            return;
-        }*/
-//Logs.i("唤起自动记账面板...");
 
         MMKV mmkv = MMKV.defaultMMKV();
 
