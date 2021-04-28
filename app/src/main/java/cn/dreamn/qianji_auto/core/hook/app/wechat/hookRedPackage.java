@@ -56,6 +56,7 @@ public class hookRedPackage {
                     else str=obj.toString();
                      utils.log("属性名:" + f.getName() + " 属性值:" + str);
                 }*/
+
                 Field money = qVar.getDeclaredField("eht");
                 Field remark = qVar.getDeclaredField("yPK");
                 Field shopAccount = qVar.getDeclaredField("yVd");
@@ -65,8 +66,6 @@ public class hookRedPackage {
                 double m = Integer.parseInt(money.get(object).toString()) / 100.0d;
 
                 jsonObject.put("money", String.valueOf(m));
-
-
                 jsonObject.put("remark", remark.get(object).toString());
                 jsonObject.put("shopAccount", shopAccount.get(object).toString());
 

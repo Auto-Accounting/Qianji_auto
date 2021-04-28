@@ -105,14 +105,12 @@ public class Utils {
      */
     public void log(String msg, boolean xp) {
         if (xp) XposedBridge.log("Qianji-" + appName + " -> " + msg);
-        else {
-            //发送到自动记账日志
-            Log.i("Qianji-" + appName, msg);
-            Bundle bundle = new Bundle();
-            bundle.putString("tag", "Qianji-" + appName);
-            bundle.putString("msg", msg);
-            sendBroadcast(SEND_LOG_ACTION, bundle);
-        }
+        //发送到自动记账日志
+        Log.i("Qianji-" + appName, msg);
+        Bundle bundle = new Bundle();
+        bundle.putString("tag", "Qianji-" + appName);
+        bundle.putString("msg", msg);
+        sendBroadcast(SEND_LOG_ACTION, bundle);
     }
 
     private void sendBroadcast(String Action, Bundle bundle) {
