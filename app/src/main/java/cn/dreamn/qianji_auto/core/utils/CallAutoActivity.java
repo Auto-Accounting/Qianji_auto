@@ -140,7 +140,7 @@ public class CallAutoActivity {
             //自适应大小
             String str = BillTools.getCustomBill(billInfo);
 
-            int minLength = str.length() * 20;
+            int minLength = str.length() * 30;
 
             autoFloatTip.setWindowManagerParams(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight() / 2 - 100, 350 + minLength, 150);
             autoFloatTip.show();
@@ -166,9 +166,9 @@ public class CallAutoActivity {
             AutoFloat autoFloat = new AutoFloat(context);
             autoFloat.setData(billInfo);
             if (ScreenUtils.getScreenWidth() > ScreenUtils.getScreenHeight()) {
-                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight() - 100, ScreenUtils.getScreenWidth());
+                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight() - 100 - Nav.getNavigationBarHeight(context), ScreenUtils.getScreenWidth());
             } else {
-                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight() - 100);
+                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight() - 100 - Nav.getNavigationBarHeight(context));
             }
             autoFloat.show();
         } catch (Exception e) {
