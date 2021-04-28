@@ -62,19 +62,19 @@ public class hookRedPackage {
 
 
 
-               /* Field[] fields = qVar.getDeclaredFields();
+                Field[] fields = qVar.getDeclaredFields();
                 for (Field f : fields) {
                     f.setAccessible(true);
                     Object obj= f.get(object);
                     String str;
                     if(obj==null)str="null";
                     else str=obj.toString();
-                     utils.log("属性名:" + f.getName() + " 属性值:" + str);
-                }*/
+                    utils.log("属性名:" + f.getName() + " 属性值:" + str);
+                }
 
-                Field money = qVar.getDeclaredField("eht");
-                Field remark = qVar.getDeclaredField("yPK");
-                Field shopAccount = qVar.getDeclaredField("yVd");
+                Field money = qVar.getDeclaredField("AcI");
+                Field remark = qVar.getDeclaredField("zXl");
+                Field shopAccount = qVar.getDeclaredField("AcD");
                 Field status = qVar.getDeclaredField("AcB");
                 JSONObject jsonObject = new JSONObject();
 
@@ -122,7 +122,7 @@ public class hookRedPackage {
 
                 Object object = param.args[0];
 
-            /*    Field[] fields = qVar.getDeclaredFields();
+              Field[] fields = qVar.getDeclaredFields();
                 for (Field f : fields) {
                     f.setAccessible(true);
                     Object obj= f.get(object);
@@ -130,7 +130,7 @@ public class hookRedPackage {
                     if(obj==null)str="null";
                     else str=obj.toString();
                     utils.log("属性名:" + f.getName() + " 属性值:" + str);
-                }*/
+                }
 
                 Field money = qVar.getDeclaredField("dEs");
                 Field remark = qVar.getDeclaredField("rSK");
