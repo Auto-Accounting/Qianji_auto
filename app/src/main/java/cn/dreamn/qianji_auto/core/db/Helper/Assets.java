@@ -134,7 +134,7 @@ public class Assets {
 
         //没有资产创造资产
         if (assets.length <= 0) {
-            DbManger.db.AssetDao().add(assetName, assetName);
+            // DbManger.db.AssetDao().add(assetName, assetName);
             return assetName;
         }
         return assets[0].mapName;

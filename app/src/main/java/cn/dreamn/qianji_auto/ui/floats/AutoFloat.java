@@ -55,6 +55,8 @@ import cn.dreamn.qianji_auto.core.db.Helper.Assets;
 import cn.dreamn.qianji_auto.core.db.Helper.Caches;
 import cn.dreamn.qianji_auto.core.db.Helper.Category;
 import cn.dreamn.qianji_auto.core.db.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.core.db.Table.Asset;
+import cn.dreamn.qianji_auto.core.db.Table.AutoBill;
 import cn.dreamn.qianji_auto.core.utils.CallAutoActivity;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.BillTools;
@@ -299,7 +301,15 @@ public class AutoFloat extends XFloatView {
                 return;
             }
             showMenu("请选择资产账户", 2, assets, data -> {
-                billInfo2.setAccountName(assets[data].getString("name"));
+                String assetName=assets[data].getString("name");
+                if(
+                        !billInfo2.getAccountName().equals(assetName) &&//选择前后的数据不一样
+                        Assets.getMap(billInfo2.getAccountName()).equals(billInfo2.getAccountName())
+                        //map列表里面仍然是旧数据
+                ){
+                    Assets.addMap(billInfo2.getAccountName(),assetName);
+                }
+                billInfo2.setAccountName(assetName);
                 this.setData(billInfo2);
             });
         });
