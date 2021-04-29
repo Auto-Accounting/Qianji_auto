@@ -17,6 +17,7 @@
 
 package cn.dreamn.qianji_auto.core.hook.app.qianji;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -45,6 +46,22 @@ public class DBHelper {
         db = SQLiteDatabase.openOrCreateDatabase(NEW_PATH, null);
     }
 
+    public String getAllTables(){
+        Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;", null);
+        StringBuilder str= new StringBuilder();
+        while (cursor.moveToNext()) {
+            String str1 = cursor.getString(cursor.getColumnIndex("name"));
+            Cursor cursor2 = db.rawQuery(" PRAGMA TABLE_INFO ("+str1+")", null);
+            StringBuilder str2= new StringBuilder();
+            while (cursor2.moveToNext()) {
+                str2.append(" ").append(cursor.getString(cursor.getColumnIndex("name")));
+            }
+            cursor2.close();
+            str.append("[").append(str1).append("](").append(str2).append(")\n");
+        }
+        cursor.close();
+        return str.toString();
+    }
 
     public ArrayList<Data> getCategory() {
         Cursor cursor = db.rawQuery("select * from category", null);

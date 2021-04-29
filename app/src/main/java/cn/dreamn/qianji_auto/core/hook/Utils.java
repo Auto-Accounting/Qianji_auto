@@ -95,6 +95,7 @@ public class Utils {
      */
     public void log(String msg) {
         Log.i("Qianji-" + appName, msg);
+        log(msg,false);
     }
 
     /**
