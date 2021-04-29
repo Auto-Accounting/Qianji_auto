@@ -58,6 +58,8 @@ public class hookDb {
                 DBHelper dbHelper;
                 try {
                     dbHelper = new DBHelper();
+                    String res=dbHelper.getAllTables();
+                    utils.log("钱迹表格数据："+res);
                     ArrayList<Data> asset = dbHelper.getAsset();
                     ArrayList<Data> category = dbHelper.getCategory();
                     ArrayList<Data> userBook = dbHelper.getUserBook();
