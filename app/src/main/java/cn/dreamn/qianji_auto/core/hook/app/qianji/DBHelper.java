@@ -26,6 +26,8 @@ import com.xuexiang.xutil.file.FileUtils;
 
 import java.util.ArrayList;
 
+import cn.dreamn.qianji_auto.core.hook.Utils;
+
 public class DBHelper {
 
     private static final String DB_NAME = "qianjiapp";
@@ -34,25 +36,33 @@ public class DBHelper {
     //SQLiteDatabase
     private final SQLiteDatabase db;
 
-    private final String NEW_PATH = "/data/data/com.mutangtech.qianji/qianjiapp";
+    private final String NEW_PATH = "/data/data/com.mutangtech.qianji/qianjiapp_auto";
 
-
-
-    public DBHelper() {
-
-
-        FileUtils.copyFile(" /data/data/com.mutangtech.qianji/databases/qianjiapp", NEW_PATH, () -> true);
-
+    @SuppressLint("SdCardPath")
+    public DBHelper(Utils utils) {
+        utils.log("Qianji-Copy 开始复制文件", false);
+        boolean deleted = FileUtils.deleteFile(NEW_PATH);
+        if (deleted) {
+            utils.log("Qianji-Copy 文件删除成功", false);
+        } else {
+            utils.log("Qianji-Copy 文件删除失败", false);
+        }
+        boolean copyed = FileUtils.copyFile("/data/data/com.mutangtech.qianji/databases/qianjiapp", NEW_PATH, () -> true);
+        if (copyed) {
+            utils.log("Qianji-Copy 文件复制成功", false);
+        } else {
+            utils.log("Qianji-Copy 文件复制失败", false);
+        }
         db = SQLiteDatabase.openOrCreateDatabase(NEW_PATH, null);
     }
 
-    public String getAllTables(){
+    public String getAllTables() {
         Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;", null);
-        StringBuilder str= new StringBuilder();
+        StringBuilder str = new StringBuilder();
         while (cursor.moveToNext()) {
             String str1 = cursor.getString(cursor.getColumnIndex("name"));
-            Cursor cursor2 = db.rawQuery(" PRAGMA TABLE_INFO ("+str1+")", null);
-            StringBuilder str2= new StringBuilder();
+            Cursor cursor2 = db.rawQuery(" PRAGMA TABLE_INFO (" + str1 + ")", null);
+            StringBuilder str2 = new StringBuilder();
             while (cursor2.moveToNext()) {
                 str2.append(" ").append(cursor.getString(cursor.getColumnIndex("name")));
             }
@@ -120,10 +130,14 @@ public class DBHelper {
     }
 
     @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        if (db != null) {
-            db.close();
+    protected void finalize() {
+        try {
+            super.finalize();
+            if (db != null) {
+                db.close();
+            }
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
     }
 
