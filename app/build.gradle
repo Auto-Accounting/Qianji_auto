@@ -13,10 +13,10 @@ android {
         applicationId "cn.dreamn.qianji_auto"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
-        versionCode 88
+        versionCode 91
      //   Date date = new Date()
       //  versionName "2.0.13_"+(new Date()).format("_yyyyMMddHHmm").toString()
-        versionName "启航 2.1.0"
+        versionName "启航 2.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
