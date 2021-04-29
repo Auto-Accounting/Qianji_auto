@@ -50,27 +50,24 @@ public class hookDb {
     }
 
     private static void doDbHook(Activity activity, Utils utils) {
-        ClassLoader mAppClassLoader = utils.getClassLoader();
         Intent intent = (Intent) XposedHelpers.callMethod(activity, "getIntent");
         if (intent != null) {
             utils.log("钱迹收到数据:" + intent.getStringExtra("needAsync"));
             if (intent.getStringExtra("needAsync") != null && intent.getStringExtra("needAsync").equals("true")) {
-                DBHelper dbHelper;
+                DBHelper dbHelper = null;
                 try {
-                    dbHelper = new DBHelper();
-                    String res=dbHelper.getAllTables();
-                    utils.log("钱迹表格数据："+res);
+                    dbHelper = new DBHelper(utils);
+                    String res = dbHelper.getAllTables();
+                    utils.log("钱迹表格数据：" + res);
                     ArrayList<Data> asset = dbHelper.getAsset();
                     ArrayList<Data> category = dbHelper.getCategory();
                     ArrayList<Data> userBook = dbHelper.getUserBook();
-                    dbHelper.finalize();
                     Bundle bundle = new Bundle();
                     bundle.putParcelableArrayList("asset", asset);
                     bundle.putParcelableArrayList("category", category);
                     bundle.putParcelableArrayList("userBook", userBook);
                     //  utils.log(bundle.toString());
                     utils.send2auto(bundle);
-
 
                     Toast.makeText(utils.getContext(), "钱迹数据信息获取完毕，现在请返回自动记账。", Toast.LENGTH_LONG).show();
                     XposedHelpers.callMethod(activity, "finish");
@@ -79,10 +76,12 @@ public class hookDb {
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
                     utils.log("钱迹数据获取失败2" + throwable.toString(), false);
+                } finally {
+                    if (dbHelper != null) {
+                        dbHelper.finalize();
+                    }
                 }
-
             }
-
         } else {
             utils.log("intent获取失败");
         }

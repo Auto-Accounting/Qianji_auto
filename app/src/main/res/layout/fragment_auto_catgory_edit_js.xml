@@ -81,7 +81,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     app:mlet_contentText="if(true)return '其它';"
-                    app:mlet_maxCount="100000">
+                    app:mlet_maxCount="1000000">
 
                 </com.xuexiang.xui.widget.edittext.MultiLineEditText>
 

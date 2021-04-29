@@ -17,11 +17,18 @@
 
 package cn.dreamn.qianji_auto.core.db.Helper;
 
+import android.annotation.SuppressLint;
+
+import com.xuexiang.xutil.data.DateUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import cn.dreamn.qianji_auto.core.db.DbManger;
 import cn.dreamn.qianji_auto.core.db.Table.Regular;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.DataUtils;
-import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.utils.tools.JsEngine;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
@@ -95,6 +102,7 @@ public class Category {
     }
 
     //获取所有的js
+    @SuppressLint("SimpleDateFormat")
     public static String getCategoryRegularJs(String shopAccount, String shopRemark, String type, String source, String money, String time) {
         if (shopAccount == null) shopAccount = "";
         if (shopRemark == null) shopRemark = "";
@@ -106,33 +114,47 @@ public class Category {
 
         //   type = BillInfo.getTypeName(type);
 
-        String js = "function getCategory(shopName,shopRemark,type,time,source,money){%s return 'NotFind';} getCategory('%s','%s','%s','%s','%s','%s');";
+        String js = "function getCategory(shopName,shopRemark,type,year,month,day,hour,minute,second,source,money){%s return 'NotFind';} getCategory('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
+        // 格式化时间 用于传参给js
+        Date date = DateUtils.string2Date(time, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        // 注意:1月份的值为0，需加1为现实中月份
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DATE);
+        // 24小时制
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
 
-        String time2 = Tools.getTime("HH");
         //yyyy-MM-dd HH:mm:ss
-        if (time != null) {
-            String[] data = time.split(" ");
-            if (data.length == 2) {
-                String[] data2 = time.split(":");
-                if (data2.length == 3) {
-                    time2 = data2[0];
-                }
-            }
-        }
-
-        return String.format(js, regList.toString(), shopAccount, shopRemark, type, time2, source, money);
+        return String.format(js, regList.toString(), shopAccount, shopRemark, type, year, month, day, hour, minute, second, source, money);
     }
 
     //获取所有的js
+    @SuppressLint("SimpleDateFormat")
     public static String getOneRegularJs(String jsData, String shopAccount, String shopRemark, String type, String time, String source, String money) {
         if (shopAccount == null) shopAccount = "";
         if (shopRemark == null) shopRemark = "";
 
         //type = BillInfo.getTypeName(type);
 
-        String js = "function getCategory(shopName,shopRemark,type,time,source,money){%s return '其它';} getCategory('%s','%s','%s','%s','%s','%s');";
+        String js = "function getCategory(shopName,shopRemark,type,year,month,day,hour,minute,second,source,money){%s return '其它';} getCategory('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
+        // 格式化时间 用于传参给js
+        Date date = DateUtils.string2Date(time, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        // 注意:1月份的值为0，需加1为现实中月份
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day = calendar.get(Calendar.DATE);
+        // 24小时制
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
 
-        return String.format(js, jsData, shopAccount, shopRemark, type, time, source, money);
+        return String.format(js, jsData, shopAccount, shopRemark, type, year, month, day, hour, minute, second, source, money);
     }
 
     /**

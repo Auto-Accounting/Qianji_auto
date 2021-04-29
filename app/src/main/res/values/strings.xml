@@ -285,7 +285,7 @@
     <string name="cate_type_bill">账单类型</string>
     <string name="choose_view">可视化编辑</string>
     <string name="choose_js">Js编辑</string>
-    <string name="js">基础框架：if(条件)return "分类名";   条件可选值为：shopName（商户名）、shopRemark（商户备注）、type（消费类型）、time（当前时间）、source（账单类型）
+    <string name="js">基础框架：if(条件)return "分类名";\n 条件可选值为以下: \n shopName（商户名） shopRemark（商户备注）\n type（消费类型） source（账单类型）\n year（年） month（月） day（日）\n hour（小时） minute（分） second（秒）
 </string>
     <string name="dontAllow">该类型规则使用JS编辑，无法再用可视化编辑</string>
     <string name="qianji_book_sub">钱迹多账本列表</string>
