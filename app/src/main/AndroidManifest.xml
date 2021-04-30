@@ -32,6 +32,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:networkSecurityConfig="@xml/network_config"
+        android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.Qianji_auto">
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>

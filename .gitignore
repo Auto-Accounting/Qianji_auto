@@ -15,5 +15,5 @@
 /captures
 .externalNativeBuild
 .idea/
-rhino-*
+rhino-*/build/
 filechooser

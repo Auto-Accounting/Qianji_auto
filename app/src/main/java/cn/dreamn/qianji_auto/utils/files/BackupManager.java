@@ -177,7 +177,7 @@ public class BackupManager {
                 List<String> data = new ArrayList<>();
                 for (DavResource res : resources) {
                     if (!res.isDirectory() && res.getName().endsWith(".backup"))
-                        data.add(res.getName());
+                        data.add(0, res.getName());
                 }
                 Message message = new Message();
                 message.what = 0;

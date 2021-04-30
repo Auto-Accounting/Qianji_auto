@@ -44,6 +44,7 @@ import com.xuexiang.xpage.utils.TitleBar;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
@@ -123,7 +124,7 @@ public class BackUpFragment extends BaseFragment {
                     @Override
                     public void onOK(String data) {
                         if (data.length() == 0) {
-                            Toasty.error(getContext(), "未输入WebDav网址！", Toasty.LENGTH_LONG).show();
+                            Toasty.error(Objects.requireNonNull(getContext()), "未输入WebDav网址！", Toasty.LENGTH_LONG).show();
                             return;
                         }
                         mmkv.encode("webdav_url", data);
@@ -277,7 +278,6 @@ public class BackUpFragment extends BaseFragment {
                         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
                         MaterialDialog dialog1 = new MaterialDialog(getContext(), bottomSheet);
                         dialog1.title(null, "请选择恢复的云数据");
-
 
                         DialogListExtKt.listItems(dialog1, null, (List<String>) msg.obj, null, true, (materialDialog, index, text) -> {
                             dialog1.dismiss();

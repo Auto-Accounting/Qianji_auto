@@ -149,9 +149,9 @@ public class PermissionUtils {
                 try {
                     XXPermissions.with(mContext)
                             // 不适配 Android 11 可以这样写
-                            .permission(Permission.Group.STORAGE)
+//                            .permission(Permission.Group.STORAGE)
                             // 适配 Android 11 需要这样写，这里无需再写 Permission.Group.STORAGE
-//                            .permission(Permission.MANAGE_EXTERNAL_STORAGE)
+                            .permission(Permission.MANAGE_EXTERNAL_STORAGE)
                             .request(new OnPermissionCallback() {
                                 @Override
                                 public void onGranted(List<String> permissions, boolean all) {
