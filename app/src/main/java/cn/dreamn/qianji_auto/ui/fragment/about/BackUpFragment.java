@@ -44,6 +44,7 @@ import com.xuexiang.xpage.utils.TitleBar;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
@@ -122,6 +123,10 @@ public class BackUpFragment extends BaseFragment {
 
                     @Override
                     public void onOK(String data) {
+                        if (data.length() == 0) {
+                            Toasty.error(Objects.requireNonNull(getContext()), "未输入WebDav网址！", Toasty.LENGTH_LONG).show();
+                            return;
+                        }
                         mmkv.encode("webdav_url", data);
                         initViews();
                     }
@@ -138,6 +143,10 @@ public class BackUpFragment extends BaseFragment {
 
                 @Override
                 public void onOK(String data) {
+                    if (data.length() == 0) {
+                        Toasty.error(getContext(), "未输入账号！", Toasty.LENGTH_LONG).show();
+                        return;
+                    }
                     mmkv.encode("webdav_name", data);
                     initViews();
                 }
@@ -152,6 +161,10 @@ public class BackUpFragment extends BaseFragment {
 
                 @Override
                 public void onOK(String data) {
+                    if (data.length() == 0) {
+                        Toasty.error(getContext(), "未输入密码！", Toasty.LENGTH_LONG).show();
+                        return;
+                    }
                     mmkv.encode("webdav_password", data);
                     initViews();
                 }
@@ -177,7 +190,12 @@ public class BackUpFragment extends BaseFragment {
                 };
                 dialog.show();
 
-                Task.onThread(() -> BackupManager.backUpToWebDav(getContext(), mmkv.getString("webdav_url", ""), mmkv.getString("webdav_name", ""), mmkv.getString("webdav_password", ""), mHandler));
+                Task.onThread(() -> {
+                    String url = mmkv.getString("webdav_url", "");
+                    String name = mmkv.getString("webdav_name", "");
+                    String password = mmkv.getString("webdav_password", "");
+                    BackupManager.backUpToWebDav(getContext(), url, name, password, mHandler);
+                });
             }
         });
         rl_backup_local.setOnClickListener(new View.OnClickListener() {
@@ -260,7 +278,6 @@ public class BackUpFragment extends BaseFragment {
                         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
                         MaterialDialog dialog1 = new MaterialDialog(getContext(), bottomSheet);
                         dialog1.title(null, "请选择恢复的云数据");
-
 
                         DialogListExtKt.listItems(dialog1, null, (List<String>) msg.obj, null, true, (materialDialog, index, text) -> {
                             dialog1.dismiss();

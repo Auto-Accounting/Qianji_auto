@@ -167,10 +167,7 @@ public class BackupManager {
         String dav = url + "/qianji_auto/";
         dav = dav.replace("//", "/");
         try {
-
-
             try {
-
                 if (!sardine.exists(dav)) {
                     sardine.createDirectory(dav);
                 }
@@ -180,14 +177,12 @@ public class BackupManager {
                 List<String> data = new ArrayList<>();
                 for (DavResource res : resources) {
                     if (!res.isDirectory() && res.getName().endsWith(".backup"))
-                        data.add(res.getName());
+                        data.add(0, res.getName());
                 }
                 Message message = new Message();
                 message.what = 0;
                 message.obj = data;
                 mHandler.sendMessage(message);
-
-
             } catch (IOException e) {
                 Log.d(e.toString());
                 mHandler.sendEmptyMessage(-1);
