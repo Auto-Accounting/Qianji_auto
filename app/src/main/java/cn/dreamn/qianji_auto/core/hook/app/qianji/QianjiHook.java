@@ -39,7 +39,7 @@ public class QianjiHook extends HookBase {
         });*/
         hookDb.init(utils);
 
-
+        // TODO hook qianji DaoMaster DaoSession
 
     }
 

@@ -263,7 +263,8 @@ public class EditFragment extends BaseFragment {
             final MaterialEditText cate_shopRemark = textEntryView.findViewById(R.id.cate_shopRemark);
             final RoundButton cate_type = textEntryView.findViewById(R.id.cate_type);
             final RoundButton cate_type2 = textEntryView.findViewById(R.id.cate_type2);
-            cate_time.setText(Tools.getTime("HH"));
+            cate_time.setText(Caches.getOneString("cate_time", Tools.getTime("yyyy-MM-dd HH:mm:ss")));
+            cate_money.setText(Caches.getOneString("cate_money", "0"));
             cate_type.setText("支出");
             cate_type.setOnClickListener(v22 -> {
                 new MaterialDialog.Builder(getContext())
@@ -295,6 +296,8 @@ public class EditFragment extends BaseFragment {
                     .positiveText("测试")
                     .onPositive((dialog, which) -> {
                         String js = getCateJs();
+                        Caches.AddOrUpdate("cate_time", cate_time.getEditValue());
+                        Caches.AddOrUpdate("cate_money", cate_money.getEditValue());
                         Caches.AddOrUpdate("cate_shopName", cate_shopName.getEditValue());
                         Caches.AddOrUpdate("cate_shopRemark", cate_shopRemark.getEditValue());
                         try {
