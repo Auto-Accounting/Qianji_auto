@@ -29,6 +29,7 @@ import cn.dreamn.qianji_auto.core.db.DbManger;
 import cn.dreamn.qianji_auto.core.db.Table.Regular;
 import cn.dreamn.qianji_auto.core.utils.BillInfo;
 import cn.dreamn.qianji_auto.core.utils.DataUtils;
+import cn.dreamn.qianji_auto.core.utils.Tools;
 import cn.dreamn.qianji_auto.utils.tools.JsEngine;
 import cn.dreamn.qianji_auto.utils.tools.Logs;
 
@@ -114,10 +115,19 @@ public class Category {
 
         //   type = BillInfo.getTypeName(type);
 
+        // 没有时间的时候要取当前时间
+        if (time == null) {
+            time = Tools.getTime("yyyy-MM-dd HH:mm:ss");
+        }
+
         String js = "function getCategory(shopName,shopRemark,type,year,month,day,hour,minute,second,source,money){%s return 'NotFind';} getCategory('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
         // 格式化时间 用于传参给js
         Date date = DateUtils.string2Date(time, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         Calendar calendar = Calendar.getInstance();
+        // 这里要重复判断一下  防止给进来的时间格式无法解析
+        if (date == null) {
+            date = new Date();
+        }
         calendar.setTime(date);
         int year = calendar.get(Calendar.YEAR);
         // 注意:1月份的值为0，需加1为现实中月份
@@ -140,10 +150,19 @@ public class Category {
 
         //type = BillInfo.getTypeName(type);
 
+        // 没有时间的时候要取当前时间
+        if (time == null) {
+            time = Tools.getTime("yyyy-MM-dd HH:mm:ss");
+        }
+
         String js = "function getCategory(shopName,shopRemark,type,year,month,day,hour,minute,second,source,money){%s return '其它';} getCategory('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
         // 格式化时间 用于传参给js
         Date date = DateUtils.string2Date(time, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         Calendar calendar = Calendar.getInstance();
+        // 这里要重复判断一下  防止给进来的时间格式无法解析
+        if (date == null) {
+            date = new Date();
+        }
         calendar.setTime(date);
         int year = calendar.get(Calendar.YEAR);
         // 注意:1月份的值为0，需加1为现实中月份
