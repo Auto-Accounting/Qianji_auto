@@ -119,8 +119,8 @@ public class Category {
         if (time == null) {
             time = Tools.getTime("yyyy-MM-dd HH:mm:ss");
         }
-
-        String js = "function getCategory(shopName,shopRemark,type,year,month,day,hour,minute,second,source,money){%s return 'NotFind';} getCategory('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');";
+        //NotFind
+        String js = "function getCategory(shopName,shopRemark,type,year,month,day,hour,minute,second,source,money){ try{ %s return 'NotFind';}catch(e){ return 'NotFind'; } } var result = getCategory('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s'); result == null ? 'NotFind' : result; ";
         // 格式化时间 用于传参给js
         Date date = DateUtils.string2Date(time, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
         Calendar calendar = Calendar.getInstance();
