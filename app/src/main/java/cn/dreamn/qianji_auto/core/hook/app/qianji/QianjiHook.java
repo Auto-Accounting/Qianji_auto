@@ -34,8 +34,6 @@ public class QianjiHook extends HookBase {
         });*/
 
         hookDb.init(utils, mAppClassLoader);
-
-
     }
 
     @Override
