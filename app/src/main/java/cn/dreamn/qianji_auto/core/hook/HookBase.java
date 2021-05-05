@@ -20,7 +20,6 @@ package cn.dreamn.qianji_auto.core.hook;
 import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.widget.Toast;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -47,7 +46,8 @@ public abstract class HookBase implements IHooker {
         if (!getPackPageName().equals(processName)) {
             return;
         }
-        mHookCountIndex = hookCountIndex;
+        // 获取hook顺序
+        mHookCountIndex = getHookIndex();
         hookMainInOtherAppContext();
     }
 
@@ -87,15 +87,14 @@ public abstract class HookBase implements IHooker {
     public void init() {
         utils = new Utils(mContext, mAppClassLoader, getAppName());
         mHookCount = mHookCount + 1;
-       // utils.log("hook id " + mHookCount.toString());
+//        utils.log("hook id " + mHookCount.toString() + "   " + getAppName());
         if (mHookCountIndex != 0 && !mHookCount.equals(mHookCountIndex)) {
             return;
         }
 
-
         Task.onMain(100, () -> {
-            utils.log("应用名称:"+utils.getAppName()+"  当前版本号:"+utils.getVerCode()+"  当前版本名："+utils.getVerName());
-       //     utils.compare(getAppVer());//判断版本
+            utils.log("应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName());
+            //     utils.compare(getAppVer());//判断版本
             // Toast.makeText(mContext, "加载自动记账成功！", Toast.LENGTH_LONG).show();
         });
         try {
@@ -106,10 +105,5 @@ public abstract class HookBase implements IHooker {
 
 
     }
-  
-
-
-   
-
 
 }

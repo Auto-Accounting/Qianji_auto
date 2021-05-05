@@ -56,6 +56,10 @@ public class DBHelper {
         db = SQLiteDatabase.openOrCreateDatabase(NEW_PATH, null);
     }
 
+    public DBHelper(SQLiteDatabase db) {
+        this.db = db;
+    }
+
     public String getAllTables() {
         Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;", null);
         StringBuilder str = new StringBuilder();

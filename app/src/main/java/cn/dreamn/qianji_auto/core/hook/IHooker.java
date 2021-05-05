@@ -45,5 +45,10 @@ public interface IHooker {
      */
     String[] getAppVer();
 
-
+    /**
+     * 获取hook的顺序
+     *
+     * @return
+     */
+    Integer getHookIndex();
 }

@@ -17,12 +17,7 @@
 
 package cn.dreamn.qianji_auto.core.hook.app.qianji;
 
-import android.content.Intent;
-import android.os.Bundle;
-
 import cn.dreamn.qianji_auto.core.hook.HookBase;
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedHelpers;
 
 public class QianjiHook extends HookBase {
 
@@ -37,8 +32,8 @@ public class QianjiHook extends HookBase {
                 utils.log("钱迹自动记账窗口创建。", false);
             }
         });*/
-        hookDb.init(utils);
 
+        hookDb.init(utils, mAppClassLoader);
 
 
     }
@@ -58,4 +53,9 @@ public class QianjiHook extends HookBase {
         return null;
     }
 
+    @Override
+    public Integer getHookIndex() {
+        // 钱迹hook要hook第一个  获取 SQLiteDatabase
+        return 1;
+    }
 }

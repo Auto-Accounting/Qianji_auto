@@ -74,7 +74,8 @@ public class WechatHook extends HookBase {
         return null;
     }
 
-
-
-
+    @Override
+    public Integer getHookIndex() {
+        return 2;
+    }
 }
