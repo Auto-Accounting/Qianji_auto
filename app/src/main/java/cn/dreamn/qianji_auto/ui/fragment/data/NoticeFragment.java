@@ -89,6 +89,7 @@ public class NoticeFragment extends BaseFragment {
                     break;
                 case HANDLE_OK:
                     mAdapter.refresh(list);
+                    Log.d("Qianji-list",list.toString());
                     Task.onMain(1000, () -> statusView.showContentView());
                     break;
                 case HANDLE_REFRESH:
@@ -174,6 +175,7 @@ public class NoticeFragment extends BaseFragment {
                         @Override
                         public void onFailure() {
                             //失败就不显示了
+                            mHandler.sendEmptyMessage(HANDLE_OK);
                         }
 
                         @Override
@@ -190,7 +192,6 @@ public class NoticeFragment extends BaseFragment {
                                     }
                                     for(int i=0;i<datas.size();i++){
                                         try {
-                                            Log.d("Qianji-js-could",code.toString());
                                             String result = JsEngine.run( identifyRegulars.getFunction(datas.get(i).getString("rawData"), code.toString()));
                                             Log.d("Qianji-Notice", "自动云规则执行结果：" + result);
                                             if(!result.startsWith("undefined")){
@@ -202,7 +203,7 @@ public class NoticeFragment extends BaseFragment {
                                                 if(!result.startsWith("undefined")){
                                                     datas.get(finalI).putString("local","true");
                                                 }
-                                                Log.d("Qianji-js-local",str);
+
                                                 Log.d("Qianji-Notice", "自动本地规则执行结果：" + result2);
                                             });
 
@@ -217,10 +218,11 @@ public class NoticeFragment extends BaseFragment {
                                 e.printStackTrace();
                             }
                             list = datas;
-                            Log.d("数据"+datas.toString());
+                            Log.d("数据"+list.toString());
+                            mHandler.sendEmptyMessage(HANDLE_OK);
                         }
                     });
-                    mHandler.sendEmptyMessage(HANDLE_OK);
+
                 }
             });
         });

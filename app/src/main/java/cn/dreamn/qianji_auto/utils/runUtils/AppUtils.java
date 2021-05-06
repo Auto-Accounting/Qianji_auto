@@ -99,11 +99,14 @@ public class AppUtils {
                     .getPackageManager();
             applicationInfo = packageManager.getApplicationInfo(
                     packageName, 0);
+            return getBitmapFromDrawable(packageManager.getApplicationIcon(applicationInfo));
         } catch (PackageManager.NameNotFoundException e) {
             applicationInfo = null;
+            e.printStackTrace();
+            return null;
         }
         // BitmapDrawable bd = (BitmapDrawable) d;
-        return getBitmapFromDrawable(packageManager.getApplicationIcon(applicationInfo));
+
     }
 
     @NonNull

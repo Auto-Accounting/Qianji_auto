@@ -50,7 +50,7 @@ public class identifyRegulars {
                 "                        feeNum=feeNum.replace(rep,repStr);\n" +
                 "                \n" +
                 "                }   \n" +
-                "             return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+numNum+'|'+accountNum2+'|'+shopNameNum+'|'+clientNum+'|'+sourceNum+'|'+feeNum ;\n" +
+                "             return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+accountNum2+'|'+shopNameNum+'|'+clientNum+'|'+sourceNum+'|'+feeNum ;\n" +
                 "       }        ";
 
         return String.format(data, regex, remark, account, type, money, shopName, account2, client,source,fee);
@@ -60,7 +60,7 @@ public class identifyRegulars {
         String js = "function getData(body){ \n" +
                 "        var remark,account,type,money,shopName,account2,client,source,fee ;\n" +
                 "        %s\n" +
-                "return remark+'|'+account+'|'+type+'|'+money+'|'+num+'|'+shopName+'|'+account2+'|'+client+'|'+source+'|'+fee \n" +
+                "return remark+'|'+account+'|'+type+'|'+money+'|'+shopName+'|'+account2+'|'+client+'|'+source+'|'+fee \n" +
                 "};\n" +
                 "getData('%s');";
 
@@ -98,7 +98,7 @@ public class identifyRegulars {
                         "                        feeNum=feeNum.replace(rep,repStr);\n" +
                         "                \n" +
                         "                }   \n" +
-                        "             return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+numNum+'|'+accountNum2+'|'+shopNameNum+'|'+clientNum+'|'+sourceNum+'|'+feeNum ;\n" +
+                        "             return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+accountNum2+'|'+shopNameNum+'|'+clientNum+'|'+sourceNum+'|'+feeNum ;\n" +
                         "       }        ";
 
 
@@ -112,7 +112,7 @@ public class identifyRegulars {
             String js = "function getData(body){ \n" +
                     "        var remark,account,type,money,shopName,account2,client,source,fee ;\n" +
                     "        %s\n" +
-                    "return remark+'|'+account+'|'+type+'|'+money+'|'+num+'|'+shopName+'|'+account2+'|'+client+'|'+source+'|'+fee \n" +
+                    "return remark+'|'+account+'|'+type+'|'+money+'|'+shopName+'|'+account2+'|'+client+'|'+source+'|'+fee \n" +
                     "};\n" +
                     "getData('%s');";
             getStr.onGet(String.format(js, smsList.toString(), Body));
