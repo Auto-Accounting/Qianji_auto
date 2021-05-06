@@ -165,8 +165,16 @@ public class NoticeFragment extends BaseFragment {
                     message.what = HANDLE_REFRESH;
                     message.obj = "删除成功！";
                     mHandler.sendMessage(message);
-                } else {
-                    //TODO openAndSendData
+                } else if(text=="编辑识别规则") {
+                   //TODO open a fragment to edit
+                }else if(text=="创建识别规则") {
+                   // TODO open a fragment to create
+                }else if(text=="下载规则") {
+                  identifyRegulars.add();
+                }else if(text=="上传规则") {
+
+                }else if(text=="申请适配") {
+
                 }
                 return null;
             });
@@ -201,7 +209,7 @@ public class NoticeFragment extends BaseFragment {
                                     //获取数据部分
                                     StringBuilder code= new StringBuilder();
                                     for(int i=0;i<jsonArray.size();i++){
-                                        code.append(jsonArray.getJSONObject(i).getString("data"));
+                                        code.append(jsonArray.getJSONObject(i).getString("data")).append("index++;\n");;
                                     }
                                     for(int i=0;i<datas.size();i++){
                                         try {
@@ -209,12 +217,18 @@ public class NoticeFragment extends BaseFragment {
                                             Log.d("Qianji-Notice", "自动云规则执行结果：" + result);
                                             if(!result.startsWith("undefined")){
                                                 datas.get(i).putString("cloud","true");
+                                                int index=Integer.parseInt(result.substring(result.lastIndexOf("|")));
+                                                Bundle bundle=new Bundle();
+                                               // bundle.putString("name");
+                                                datas.get(i).putString("cloud_data",jsonArray.getJSONObject(index).getString("data"));
                                             }
                                             int finalI = i;
                                             identifyRegulars.getAllRegularJs(datas.get(i).getString("rawData"), "notice", null, str -> {
                                                String result2 = JsEngine.run(str);
                                                 if(!result.startsWith("undefined")){
                                                     datas.get(finalI).putString("local","true");
+                                                    int index=Integer.parseInt(result.substring(result.lastIndexOf("|")));
+                                                    datas.get(finalI).putString("local_data",identifyRegulars.getIndexRegular(index));
                                                 }
 
                                                 Log.d("Qianji-Notice", "自动本地规则执行结果：" + result2);

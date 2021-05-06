@@ -18,17 +18,20 @@
 package cn.dreamn.qianji_auto.database.Helper;
 
 
+import android.os.Bundle;
+
+import java.util.ArrayList;
+
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.IdentifyRegular;
 import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 public class identifyRegulars {
-
-
-
+    private static ArrayList<Bundle> list;
     public static String getRegData(String regex,  String remark, String account, String type, String money,  String shopName, String account2, String client,String source,String fee){
         String data = "pattern= /%s/;\n" +
+
                 "        if(pattern.test(body)){\n" +
                 "                var array = pattern.exec(body);\n" +
                 "                console.log(array);\n" +
@@ -50,17 +53,17 @@ public class identifyRegulars {
                 "                        feeNum=feeNum.replace(rep,repStr);\n" +
                 "                \n" +
                 "                }   \n" +
-                "             return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+accountNum2+'|'+shopNameNum+'|'+clientNum+'|'+sourceNum+'|'+feeNum ;\n" +
+                "             return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+accountNum2+'|'+shopNameNum+'|'+clientNum+'|'+sourceNum+'|'+feeNum+'|'+index\n" +
                 "       }        ";
 
-        return String.format(data, regex, remark, account, type, money, shopName, account2, client,source,fee);
+        return String.format(data+"index++;\n", regex, remark, account, type, money, shopName, account2, client,source,fee);
     }
 
     public static String getFunction(String body,String regex) {
         String js = "function getData(body){ \n" +
-                "        var remark,account,type,money,shopName,account2,client,source,fee ;\n" +
+                "        var remark,account,type,money,shopName,account2,client,source,fee,index=0 ;\n" +
                 "        %s\n" +
-                "return remark+'|'+account+'|'+type+'|'+money+'|'+shopName+'|'+account2+'|'+client+'|'+source+'|'+fee \n" +
+                "return remark+'|'+account+'|'+type+'|'+money+'|'+shopName+'|'+account2+'|'+client+'|'+source+'|'+fee +'|'+index\n" +
                 "};\n" +
                 "getData('%s');";
 
@@ -74,9 +77,11 @@ public class identifyRegulars {
 
         getAll(identify, fromApp, identifyRegulars -> {
             StringBuilder smsList = new StringBuilder();
+            ArrayList<Bundle> arrayList=new ArrayList();
             for (IdentifyRegular value : identifyRegulars) {
 
                 String data = "pattern= /%s/;\n" +
+
                         "        if(pattern.test(body)){\n" +
                         "                var array = pattern.exec(body);\n" +
                         "                console.log(array);\n" +
@@ -98,21 +103,28 @@ public class identifyRegulars {
                         "                        feeNum=feeNum.replace(rep,repStr);\n" +
                         "                \n" +
                         "                }   \n" +
-                        "             return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+accountNum2+'|'+shopNameNum+'|'+clientNum+'|'+sourceNum+'|'+feeNum ;\n" +
+                        "             return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+accountNum2+'|'+shopNameNum+'|'+clientNum+'|'+sourceNum+'|'+feeNum+'|'+index\n" +
                         "       }        ";
 
 
                 DataUtils dataUtils = new DataUtils();
                 dataUtils.parse(value.tableList);
                 data = String.format(data, value.regular, dataUtils.get("shopRemark"), dataUtils.get("account1"), dataUtils.get("type"), dataUtils.get("money"), dataUtils.get("shopName"), dataUtils.get("account2"), dataUtils.get("silent"), dataUtils.get("source"), dataUtils.get("fee"));
-                smsList.append(data);
-
-
+                smsList.append(data).append("index++;\n");
+               Bundle bundle=new Bundle();
+               bundle.putString("name",value.name);
+                bundle.putString("text",value.text);
+                bundle.putString("regular",value.regular);
+                bundle.putString("tableList",value.tableList);
+                bundle.putString("identify",value.identify);
+                bundle.putString("fromApp",value.fromApp);
+                arrayList.add(bundle);
             }
+            list= new ArrayList<>(arrayList);
             String js = "function getData(body){ \n" +
-                    "        var remark,account,type,money,shopName,account2,client,source,fee ;\n" +
+                    "        var remark,account,type,money,shopName,account2,client,source,fee,index=0 ;\n" +
                     "        %s\n" +
-                    "return remark+'|'+account+'|'+type+'|'+money+'|'+shopName+'|'+account2+'|'+client+'|'+source+'|'+fee \n" +
+                    "return remark+'|'+account+'|'+type+'|'+money+'|'+shopName+'|'+account2+'|'+client+'|'+source+'|'+fee+'|'+index\n" +
                     "};\n" +
                     "getData('%s');";
             getStr.onGet(String.format(js, smsList.toString(), Body));
@@ -122,6 +134,13 @@ public class identifyRegulars {
 
     }
 
+
+    public static Bundle getIndexRegular(int i){
+        if(list!=null&&list.size()>i){
+            return list.get(i);
+        }
+        return null;
+    }
 
     public interface getAll{
         void onGet(IdentifyRegular[] identifyRegulars);
