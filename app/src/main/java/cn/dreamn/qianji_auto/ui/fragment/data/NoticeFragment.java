@@ -129,7 +129,7 @@ public class NoticeFragment extends BaseFragment {
         //点击click
         if (list != null && list.size() > i) {
             Bundle item = list.get(i);
-            String[] strings = {"删除", "创建识别规则"};
+            String[] strings = {"删除", "创建识别规则","申请适配"};
 
             BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
             MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
