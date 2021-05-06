@@ -19,6 +19,7 @@ import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -69,22 +70,30 @@ public class AutoBillWeb {
 }
     public static void getDataWeb(String name, String type, String app, WebCallback callback) {
         String url = "https://qianji.ankio.net/api_data.json";
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
+                .newBuilder();
         String param="";
         if (name != null) {
-            param += "&name=" + name;
+            urlBuilder.addQueryParameter("name", name);
         }
         if (type != null) {
-            param += "&type=" + type;
+            urlBuilder.addQueryParameter("type", type);
         }
         if (app != null) {
-            param += "&app=" + app;
+            urlBuilder.addQueryParameter("app", app);
         }
         url+="?"+param;
         OkHttpClient okHttpClient = new OkHttpClient();
         final CacheControl.Builder builder = new CacheControl.Builder();
         builder.maxAge(30, TimeUnit.MINUTES);
         CacheControl cache = builder.build();
-        final Request request = new Request.Builder().cacheControl(cache).url(url).build();
+
+
+
+
+
+
+        final Request request = new Request.Builder().cacheControl(cache).url(urlBuilder.build()).get().build();
         final Call call = okHttpClient.newCall(request);//
         call.enqueue(new Callback() {
             @Override

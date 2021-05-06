@@ -21,9 +21,11 @@ package cn.dreamn.qianji_auto.database.Helper;
 import android.os.Bundle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.AppData;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 public class AppDatas {
@@ -47,6 +49,7 @@ public class AppDatas {
     public static void getAll(String identify, onResult ret) {
         Task.onThread(() -> {
             AppData[] data = DbManger.db.AppDataDao().loadAll(identify);
+
             ArrayList<Bundle> bundleArrayList = new ArrayList<>();
             if (data != null && data.length != 0) {
                 for (AppData appData : data) {

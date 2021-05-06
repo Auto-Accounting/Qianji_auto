@@ -217,6 +217,7 @@ public class NoticeFragment extends BaseFragment {
                                 e.printStackTrace();
                             }
                             list = datas;
+                            Log.d("数据"+datas.toString());
                         }
                     });
                     mHandler.sendEmptyMessage(HANDLE_OK);
