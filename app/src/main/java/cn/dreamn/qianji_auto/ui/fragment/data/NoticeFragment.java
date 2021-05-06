@@ -138,7 +138,20 @@ public class NoticeFragment extends BaseFragment {
         //点击click
         if (list != null && list.size() > i) {
             Bundle item = list.get(i);
-            String[] strings = {"删除", "创建识别规则","申请适配"};
+            String[] strings;
+            String bool=item.getString("cloud");
+            if(bool!=null){
+                strings = new String[]{"删除", "创建识别规则", "下载规则"};
+            }else{
+                bool=item.getString("local");
+                if(bool!=null){
+                    strings = new String[]{"删除", "编辑识别规则", "上传规则"};
+                }else{
+                     strings = new String[]{"删除", "创建识别规则", "申请适配"};
+                }
+            }
+
+
 
             BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
             MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);

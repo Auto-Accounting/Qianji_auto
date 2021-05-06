@@ -1,6 +1,8 @@
 package cn.dreamn.qianji_auto.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ public class ItemListAdapter extends BaseAdapter {
         mContext = context;
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Bundle item, int position) {
 
@@ -37,14 +40,18 @@ public class ItemListAdapter extends BaseAdapter {
         //已适配 未适配
         String bool=item.getString("cloud");
         if(bool!=null){
+            tv_could.setBackground(mContext.getDrawable(R.drawable.btn_normal));
             tv_could.setText("云端已适配");
         }else{
+            tv_could.setBackground(mContext.getDrawable(R.drawable.btn_normal_3));
             tv_could.setText("云端未适配");
         }
         String bool2=item.getString("local");
         if(bool2!=null){
+            tv_local.setBackground(mContext.getDrawable(R.drawable.btn_normal));
             tv_local.setText("本地已适配");
         }else{
+            tv_local.setBackground(mContext.getDrawable(R.drawable.btn_normal_3));
             tv_local.setText("本地未适配");
         }
     }
