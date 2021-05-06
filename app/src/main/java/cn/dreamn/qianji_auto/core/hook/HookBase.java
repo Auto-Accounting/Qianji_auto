@@ -93,7 +93,7 @@ public abstract class HookBase implements IHooker {
         }
 
         Task.onMain(100, () -> {
-            utils.log("应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName());
+            utils.log("自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName());
             //     utils.compare(getAppVer());//判断版本
             // Toast.makeText(mContext, "加载自动记账成功！", Toast.LENGTH_LONG).show();
         });

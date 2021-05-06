@@ -34,7 +34,8 @@ import de.robv.android.xposed.XposedHelpers;
 public class hookDb {
     private static SQLiteDatabase db = null;
 
-    public static void init(Utils utils, ClassLoader mAppClassLoader) {
+    public static void init(Utils utils) {
+        ClassLoader mAppClassLoader = utils.getClassLoader();
         XposedHelpers.findAndHookConstructor("com.mutangtech.qianji.data.model.DaoMaster", mAppClassLoader, SQLiteDatabase.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -44,20 +45,21 @@ public class hookDb {
                 // 验证一下是否有效
                 if (database.isOpen()) {
                     db = database;
+                    XposedHelpers.findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
+                        protected void beforeHookedMethod(MethodHookParam param) {
+                            Activity activity = (Activity) param.thisObject;
+                            final String activityClzName = activity.getClass().getName();
+                            utils.log(activityClzName);
+                            if (activityClzName.contains("com.mutangtech.qianji.ui.main.MainActivity")) {
+                                doDbHook(activity, utils);
+                            }
+                        }
+                    });
                 }
             }
         });
 
-        XposedHelpers.findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
-            protected void beforeHookedMethod(MethodHookParam param) {
-                Activity activity = (Activity) param.thisObject;
-                final String activityClzName = activity.getClass().getName();
-                utils.log(activityClzName);
-                if (activityClzName.contains("com.mutangtech.qianji.ui.main.MainActivity")) {
-                    doDbHook(activity, utils);
-                }
-            }
-        });
+
 
 
     }
