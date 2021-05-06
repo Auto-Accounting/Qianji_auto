@@ -219,6 +219,12 @@ public class NoticeFragment extends BaseFragment {
                                                 datas.get(i).putString("cloud","true");
                                                 int index=Integer.parseInt(result.substring(result.lastIndexOf("|")));
                                                 Bundle bundle=new Bundle();
+                                                bundle.putString("name",jsonArray.getJSONObject(i).getString("data"));
+                                                bundle.putString("text",jsonArray.getJSONObject(i).getString("data"));
+                                                bundle.putString("regular",jsonArray.getJSONObject(i).getString("data"));
+                                                bundle.putString("tableList",jsonArray.getJSONObject(i).getString("data"));
+                                                bundle.putString("identify",jsonArray.getJSONObject(i).getString("data"));
+                                                bundle.putString("fromApp",jsonArray.getJSONObject(i).getString("data"));
                                                // bundle.putString("name");
                                                 datas.get(i).putString("cloud_data",jsonArray.getJSONObject(index).getString("data"));
                                             }
