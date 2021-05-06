@@ -40,7 +40,7 @@ public class Category {
                     getStr.onGet(result);
                 } catch (Exception e) {
                     Log.i(" 自动分类执行出错！" + e.toString());
-                    getStr.onGet( "NotFind");
+                    getStr.onGet( "NotFound");
                 }
             });
 
@@ -108,7 +108,7 @@ public class Category {
            }
 
 
-           String js = "function getCategory(shopName,shopRemark,type,time,source,money){%s return 'NotFind';} getCategory('%s','%s','%s','%s','%s','%s');";
+           String js = "function getCategory(shopName,shopRemark,type,time,source,money){%s return 'NotFound';} getCategory('%s','%s','%s','%s','%s','%s');";
 
            String time = Tool.getTime("HH");
            getStr.onGet(String.format(js, regList.toString(), billInfo.getShopAccount(), billInfo.getShopRemark(), billInfo.getType(true), time, billInfo.getSource(), billInfo.getMoney()));

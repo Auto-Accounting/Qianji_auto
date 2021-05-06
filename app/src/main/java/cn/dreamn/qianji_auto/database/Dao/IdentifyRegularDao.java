@@ -31,6 +31,10 @@ public interface IdentifyRegularDao {
     @Query("SELECT * FROM IdentifyRegular WHERE  identify=:identify and fromApp=:App  order by sort,use")
     IdentifyRegular[] loadAll(String identify, String App);
 
+
+    @Query("SELECT * FROM IdentifyRegular WHERE  identify=:identify order by sort,use")
+    IdentifyRegular[] loadAll(String identify);
+
     @Query("DELETE FROM IdentifyRegular WHERE id=:id")
     void delete(int id);
 

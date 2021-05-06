@@ -31,6 +31,8 @@ import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
@@ -39,14 +41,20 @@ import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xpage.utils.TitleBar;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
+
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.AppDatas;
+import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.database.Table.IdentifyRegular;
 import cn.dreamn.qianji_auto.ui.adapter.ItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
+import cn.dreamn.qianji_auto.utils.runUtils.JsEngine;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import es.dmoral.toasty.Toasty;
 
@@ -161,7 +169,56 @@ public class NoticeFragment extends BaseFragment {
                 if (datas == null || datas.size() == 0) {
                     mHandler.sendEmptyMessage(HANDLE_ERR);
                 } else {
-                    list = datas;
+
+                    AutoBillWeb.getDataWeb(null, "notice", null, new AutoBillWeb.WebCallback() {
+                        @Override
+                        public void onFailure() {
+                            //失败就不显示了
+                        }
+
+                        @Override
+                        public void onSuccessful(String data) {
+                            Log.d("网页返回结果->  "+data);
+                            try{
+                                JSONObject jsonObject = JSONObject.parseObject(data);
+                                if(jsonObject.getInteger("code")==0){
+                                    JSONArray jsonArray=jsonObject.getJSONArray("data");
+                                    //获取数据部分
+                                    StringBuilder code= new StringBuilder();
+                                    for(int i=0;i<jsonArray.size();i++){
+                                        code.append(jsonArray.getJSONObject(i).getString("data"));
+                                    }
+                                    for(int i=0;i<datas.size();i++){
+                                        try {
+                                            Log.d("Qianji-js-could",code.toString());
+                                            String result = JsEngine.run( identifyRegulars.getFunction(datas.get(i).getString("rawData"), code.toString()));
+                                            Log.d("Qianji-Notice", "自动云规则执行结果：" + result);
+                                            if(!result.startsWith("undefined")){
+                                                datas.get(i).putString("cloud","true");
+                                            }
+                                            int finalI = i;
+                                            identifyRegulars.getAllRegularJs(datas.get(i).getString("rawData"), "notice", null, str -> {
+                                               String result2 = JsEngine.run(str);
+                                                if(!result.startsWith("undefined")){
+                                                    datas.get(finalI).putString("local","true");
+                                                }
+                                                Log.d("Qianji-js-local",str);
+                                                Log.d("Qianji-Notice", "自动本地规则执行结果：" + result2);
+                                            });
+
+                                        } catch (Exception e) {
+                                            Log.i("js执行出错！" + e.toString());
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                            }catch(Exception|Error e){
+                                Log.i("JSON解析错误！！" + e.toString());
+                                e.printStackTrace();
+                            }
+                            list = datas;
+                        }
+                    });
                     mHandler.sendEmptyMessage(HANDLE_OK);
                 }
             });

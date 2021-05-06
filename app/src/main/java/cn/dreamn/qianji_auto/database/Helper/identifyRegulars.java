@@ -26,13 +26,8 @@ import cn.dreamn.qianji_auto.utils.runUtils.Task;
 public class identifyRegulars {
 
 
-    public static void getFunction(String regex, String body, String remark, String account, String type, String money,  String shopName, String account2, String client,String source,String fee,getString getStr) {
-        String js = "function getData(body){ \n" +
-                "        var remark,account,type,money,shopName,account2,client,source,fee ;\n" +
-                "        %s\n" +
-                "return remark+'|'+account+'|'+type+'|'+money+'|'+num+'|'+shopName+'|'+account2+'|'+client+'|'+source+'|'+fee \n" +
-                "};\n" +
-                "getData('%s');";
+
+    public static String getRegData(String regex,  String remark, String account, String type, String money,  String shopName, String account2, String client,String source,String fee){
         String data = "pattern= /%s/;\n" +
                 "        if(pattern.test(body)){\n" +
                 "                var array = pattern.exec(body);\n" +
@@ -58,8 +53,18 @@ public class identifyRegulars {
                 "             return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+numNum+'|'+accountNum2+'|'+shopNameNum+'|'+clientNum+'|'+sourceNum+'|'+feeNum ;\n" +
                 "       }        ";
 
-        String data2 = String.format(data, regex, remark, account, type, money, shopName, account2, client,source,fee);
-        getStr.onGet(String.format(js, data2, body));
+        return String.format(data, regex, remark, account, type, money, shopName, account2, client,source,fee);
+    }
+
+    public static String getFunction(String body,String regex) {
+        String js = "function getData(body){ \n" +
+                "        var remark,account,type,money,shopName,account2,client,source,fee ;\n" +
+                "        %s\n" +
+                "return remark+'|'+account+'|'+type+'|'+money+'|'+num+'|'+shopName+'|'+account2+'|'+client+'|'+source+'|'+fee \n" +
+                "};\n" +
+                "getData('%s');";
+
+        return String.format(js, regex, body);
 
     }
 
@@ -118,17 +123,22 @@ public class identifyRegulars {
     }
 
 
-    interface getAll{
+    public interface getAll{
         void onGet(IdentifyRegular[] identifyRegulars);
     }
 
-    interface getString{
+    public interface getString{
         void onGet(String str);
     }
 
     public static void getAll(String identify,String fromApp,getAll getA) {
         Task.onThread(()-> {
-            getA.onGet(DbManger.db.IdentifyRegularDao().loadAll(identify,fromApp));
+            if(fromApp==null){
+                getA.onGet(DbManger.db.IdentifyRegularDao().loadAll(identify));
+            }else{
+                getA.onGet(DbManger.db.IdentifyRegularDao().loadAll(identify,fromApp));
+            }
+
 
         });
     }

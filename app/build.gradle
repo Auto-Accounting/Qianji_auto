@@ -116,7 +116,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
     //WebDav
     implementation 'com.thegrizzlylabs.sardine-android:sardine-android:0.5'
-
+    //FastJSON
+    implementation 'com.alibaba:fastjson:1.2.75'
 }
 repositories {
     mavenCentral()
