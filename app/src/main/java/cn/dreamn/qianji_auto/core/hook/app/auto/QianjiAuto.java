@@ -17,7 +17,6 @@
 
 package cn.dreamn.qianji_auto.core.hook.app.auto;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 
 import cn.dreamn.qianji_auto.core.hook.HookBase;
@@ -49,5 +48,8 @@ public class QianjiAuto extends HookBase {
     public String[] getAppVer() {
         return null;
     }
-
+    @Override
+    public Integer getHookIndex() {
+        return 2;
+    }
 }

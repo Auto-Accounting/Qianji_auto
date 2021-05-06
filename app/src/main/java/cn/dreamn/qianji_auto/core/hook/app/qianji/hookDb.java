@@ -19,21 +19,34 @@ package cn.dreamn.qianji_auto.core.hook.app.qianji;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.xuexiang.xutil.common.StringUtils;
 
-import cn.dreamn.qianji_auto.core.hook.Task;
+import java.util.ArrayList;
+
 import cn.dreamn.qianji_auto.core.hook.Utils;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class hookDb {
-    public static void init(Utils utils) {
+    private static SQLiteDatabase db = null;
 
+    public static void init(Utils utils, ClassLoader mAppClassLoader) {
+        XposedHelpers.findAndHookConstructor("com.mutangtech.qianji.data.model.DaoMaster", mAppClassLoader, SQLiteDatabase.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                utils.log("HOOK 钱迹数据库对象", false);
+                super.beforeHookedMethod(param);
+                SQLiteDatabase database = (SQLiteDatabase) param.args[0];
+                // 验证一下是否有效
+                if (database.isOpen()) {
+                    db = database;
+                }
+            }
+        });
 
         XposedHelpers.findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
             protected void beforeHookedMethod(MethodHookParam param) {
@@ -56,9 +69,23 @@ public class hookDb {
             if (intent.getStringExtra("needAsync") != null && intent.getStringExtra("needAsync").equals("true")) {
                 DBHelper dbHelper = null;
                 try {
-                    dbHelper = new DBHelper(utils);
-                    String res = dbHelper.getAllTables();
-                    utils.log("钱迹表格数据：" + res);
+                    String allTable = "";
+                    if (db != null) {
+                        utils.log("db构建资产同步查询", false);
+                        dbHelper = new DBHelper(db);
+                        allTable = dbHelper.getAllTables();
+                    }
+                    // 测试一下前面的对象有效
+                    if (StringUtils.isEmptyTrim(allTable)) {
+                        utils.log("钱迹数据库对象无法获取到数据，尝试文件模式");
+                        dbHelper = null;
+                    }
+
+                    if (dbHelper == null) {
+                        dbHelper = new DBHelper(utils);
+                    }
+
+                    utils.log("钱迹表格数据：" + allTable);
                     ArrayList<Data> asset = dbHelper.getAsset();
                     ArrayList<Data> category = dbHelper.getCategory();
                     ArrayList<Data> userBook = dbHelper.getUserBook();
@@ -85,6 +112,11 @@ public class hookDb {
         } else {
             utils.log("intent获取失败");
         }
+    }
+
+
+    public void hookQianjiApp() {
+
     }
 
 
