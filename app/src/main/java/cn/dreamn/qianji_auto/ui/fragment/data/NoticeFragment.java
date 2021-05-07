@@ -22,9 +22,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.afollestad.materialdialogs.LayoutMode;
@@ -53,6 +55,7 @@ import cn.dreamn.qianji_auto.database.Table.IdentifyRegular;
 import cn.dreamn.qianji_auto.ui.adapter.ItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
+import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.JsEngine;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
@@ -159,6 +162,7 @@ public class NoticeFragment extends BaseFragment {
 
 
             DialogListExtKt.listItems(dialog, null, Arrays.asList(strings), null, true, (materialDialog, index, text) -> {
+               Log.d("click "+text);
                 if (index == 0) {
                     AppDatas.del(item.getInt("id"));
                     Message message = new Message();
@@ -170,11 +174,78 @@ public class NoticeFragment extends BaseFragment {
                 }else if(text=="创建识别规则") {
                    // TODO open a fragment to create
                 }else if(text=="下载规则") {
-                  identifyRegulars.add();
+                  Bundle bundle =  item.getBundle("cloud_data");
+                    DataUtils dataUtils=new DataUtils();
+                    dataUtils.parse(bundle.getString("tableList"));
+                  identifyRegulars.add(bundle.getString("regular"),bundle.getString("name"),bundle.getString("text"),dataUtils.get("account1"),dataUtils.get("account2"),dataUtils.get("type"),dataUtils.get("silent"),dataUtils.get("money"),dataUtils.get("fee"),dataUtils.get("shopName"),dataUtils.get("shopRemark"),dataUtils.get("source"),bundle.getString("identify"),bundle.getString("fromApp"));
+                  Toasty.info(getContext(),"导入成功").show();
+                  mHandler.sendEmptyMessage(HANDLE_REFRESH);
                 }else if(text=="上传规则") {
-
+                    //TODO Support
                 }else if(text=="申请适配") {
 
+                    JSONObject jsonObject=new JSONObject();
+                    jsonObject.put("name","适配申请");
+                    jsonObject.put("text",item.getString("rawData"));
+                    jsonObject.put("data","");
+                    jsonObject.put("tableList","");
+                    jsonObject.put("identify",item.getString("identify"));
+                    jsonObject.put("fromApp",item.getString("fromApp"));
+                    jsonObject.put("isCate","0");
+                    jsonObject.put("description","适配申请");
+                    String result= Base64.encodeToString(jsonObject.toString().getBytes(),Base64.NO_WRAP);
+                    BaseFragment baseFragment=this;
+                    Handler mHandler=new Handler(Looper.getMainLooper()){
+                        @Override
+                        public void handleMessage(@NonNull Message msg) {
+                            switch (msg.what){
+                                case -1:
+                                    Toasty.error(getContext(),"访问服务器失败！").show();
+                                    break;
+                                case 1:
+                                    AutoBillWeb.goToLogin(baseFragment);
+                                    break;
+                                case 2:
+                                    Toasty.error(getContext(),(String)msg.obj).show();
+                                    break;
+                                case 0:
+                                    Toasty.success(getContext(),(String)msg.obj).show();
+                                    break;
+                            }
+                        }
+                    };
+                   Task.onThread(()->{
+                       AutoBillWeb.getSupport(result, new AutoBillWeb.WebCallback() {
+                           @Override
+                           public void onFailure() {
+                              mHandler.sendEmptyMessage(-1);
+                           }
+
+                           @Override
+                           public void onSuccessful(String data) {
+                               Log.d("响应数据："+data);
+                               JSONObject jsonObject1=JSONObject.parseObject(data);
+                               switch (jsonObject1.getInteger("code")){
+                                   case 402:
+                                       mHandler.sendEmptyMessage(1);
+                                       break;
+                                   case 403:
+                                   case 404:
+                                       Message message=new Message();
+                                       message.what=2;
+                                       message.obj=jsonObject1.getString("msg");
+                                       mHandler.sendMessage(message);
+                                       break;
+                                   case 0:
+                                       Message message1=new Message();
+                                       message1.what=0;
+                                       message1.obj=jsonObject1.getString("msg");
+                                       mHandler.sendMessage(message1);
+                                       break;
+                               }
+                           }
+                       });
+                   });
                 }
                 return null;
             });
@@ -219,14 +290,14 @@ public class NoticeFragment extends BaseFragment {
                                                 datas.get(i).putString("cloud","true");
                                                 int index=Integer.parseInt(result.substring(result.lastIndexOf("|")));
                                                 Bundle bundle=new Bundle();
-                                                bundle.putString("name",jsonArray.getJSONObject(i).getString("data"));
-                                                bundle.putString("text",jsonArray.getJSONObject(i).getString("data"));
+                                                bundle.putString("name",jsonArray.getJSONObject(i).getString("name"));
+                                                bundle.putString("text",jsonArray.getJSONObject(i).getString("text"));
                                                 bundle.putString("regular",jsonArray.getJSONObject(i).getString("data"));
-                                                bundle.putString("tableList",jsonArray.getJSONObject(i).getString("data"));
-                                                bundle.putString("identify",jsonArray.getJSONObject(i).getString("data"));
-                                                bundle.putString("fromApp",jsonArray.getJSONObject(i).getString("data"));
+                                                bundle.putString("tableList",jsonArray.getJSONObject(i).getString("tableList"));
+                                                bundle.putString("identify",jsonArray.getJSONObject(i).getString("identify"));
+                                                bundle.putString("fromApp",jsonArray.getJSONObject(i).getString("fromApp"));
                                                // bundle.putString("name");
-                                                datas.get(i).putString("cloud_data",jsonArray.getJSONObject(index).getString("data"));
+                                                datas.get(i).putBundle("cloud_data",bundle);
                                             }
                                             int finalI = i;
                                             identifyRegulars.getAllRegularJs(datas.get(i).getString("rawData"), "notice", null, str -> {
@@ -234,7 +305,7 @@ public class NoticeFragment extends BaseFragment {
                                                 if(!result.startsWith("undefined")){
                                                     datas.get(finalI).putString("local","true");
                                                     int index=Integer.parseInt(result.substring(result.lastIndexOf("|")));
-                                                    datas.get(finalI).putString("local_data",identifyRegulars.getIndexRegular(index));
+                                                    datas.get(finalI).putBundle("local_data",identifyRegulars.getIndexRegular(index));
                                                 }
 
                                                 Log.d("Qianji-Notice", "自动本地规则执行结果：" + result2);
