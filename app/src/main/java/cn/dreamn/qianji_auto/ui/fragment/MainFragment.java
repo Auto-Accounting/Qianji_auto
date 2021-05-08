@@ -46,6 +46,7 @@ import cn.dreamn.qianji_auto.ui.fragment.base.MainModeFragment;
 import cn.dreamn.qianji_auto.ui.fragment.base.MainSetFragment;
 import cn.dreamn.qianji_auto.ui.fragment.base.cards.MainCardFragment;
 import cn.dreamn.qianji_auto.ui.fragment.base.sorts.MainSortFragment;
+import cn.dreamn.qianji_auto.ui.fragment.data.LogFragment;
 import cn.dreamn.qianji_auto.ui.fragment.data.MoneyFragment;
 import cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
@@ -276,7 +277,7 @@ public class MainFragment extends BaseFragment {
             NoticeFragment.openWithType(this, "notice");
         });
         rl_log.setOnClickListener(v->{
-
+            openNewPage(LogFragment.class);
         });
         rl_auto_sort.setOnClickListener(v->{
 

@@ -149,7 +149,7 @@ public class LogFragment extends BaseFragment {
             //获取菜单填充器
             MenuInflater inflater = popup.getMenuInflater();
             //填充菜单
-            inflater.inflate(R.menu.webview, popup.getMenu());
+            inflater.inflate(R.menu.log, popup.getMenu());
             //绑定菜单项的点击事件
             popup.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
