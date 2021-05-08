@@ -992,9 +992,9 @@
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
-                            android:gravity="center_horizontal"
-                            android:focusable="true"
                             android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_horizontal"
                             android:padding="5dp">
 
                             <cn.dreamn.qianji_auto.ui.views.IconView
@@ -1027,8 +1027,8 @@
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
-                            android:focusable="true"
                             android:clickable="true"
+                            android:focusable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -1055,6 +1055,77 @@
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
+
+                        <RelativeLayout
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="5dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_horizontal"
+                            android:padding="5dp">
+
+                            <cn.dreamn.qianji_auto.ui.views.IconView
+                                android:id="@+id/item_image_icon84"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:gravity="center_horizontal"
+                                android:text=""
+                                android:textColor="@color/icon_title"
+                                android:textSize="@dimen/main_card_body_icon_size" />
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_below="@+id/item_image_icon84"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="0dp"
+                                android:text=""
+                                android:textColor="@color/main_title"
+                                android:textSize="@dimen/main_card_body_text_size" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="5dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_horizontal"
+                            android:padding="5dp">
+
+                            <cn.dreamn.qianji_auto.ui.views.IconView
+                                android:id="@+id/item_image_icon83"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:gravity="center_horizontal"
+                                android:text=""
+                                android:textColor="@color/icon_title"
+                                android:textSize="@dimen/main_card_body_icon_size" />
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_below="@+id/item_image_icon83"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="0dp"
+                                android:text=""
+                                android:textColor="@color/main_title"
+                                android:textSize="@dimen/main_card_body_text_size" />
+
+                        </RelativeLayout>
+
                     </GridLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -1171,6 +1242,76 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="待审核"
+                                android:textColor="@color/main_title"
+                                android:textSize="@dimen/main_card_body_text_size" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="5dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_horizontal"
+                            android:padding="5dp">
+
+                            <cn.dreamn.qianji_auto.ui.views.IconView
+                                android:id="@+id/item_image_icon82"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:gravity="center_horizontal"
+                                android:text=""
+                                android:textColor="@color/icon_title"
+                                android:textSize="@dimen/main_card_body_icon_size" />
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_below="@+id/item_image_icon82"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="0dp"
+                                android:text=""
+                                android:textColor="@color/main_title"
+                                android:textSize="@dimen/main_card_body_text_size" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="80dp"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="5dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_horizontal"
+                            android:padding="5dp">
+
+                            <cn.dreamn.qianji_auto.ui.views.IconView
+                                android:id="@+id/item_image_icon81"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:gravity="center_horizontal"
+                                android:text=""
+                                android:textColor="@color/icon_title"
+                                android:textSize="@dimen/main_card_body_icon_size" />
+
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_below="@+id/item_image_icon81"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="0dp"
+                                android:text=""
                                 android:textColor="@color/main_title"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
