@@ -44,13 +44,13 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/tv_tip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:text="捕获通知信息，用于从通知中获取支付信息。"
+                    android:text=""
                     android:textColor="@color/main_title"
                     android:textSize="14sp" />
 

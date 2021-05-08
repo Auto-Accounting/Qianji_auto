@@ -24,6 +24,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Base64;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,10 +40,10 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
+import com.xuexiang.xpage.core.PageOption;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xpage.utils.TitleBar;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
-
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +52,6 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.AppDatas;
 import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
-import cn.dreamn.qianji_auto.database.Table.IdentifyRegular;
 import cn.dreamn.qianji_auto.ui.adapter.ItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
@@ -61,14 +61,18 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import es.dmoral.toasty.Toasty;
 
+import static cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment.KEY_DATA;
+
 
 /**
  * @author xuexiang
  * @since 2018/11/7 下午1:16
  */
-@Page(name = "通知列表", anim = CoreAnim.slide)
+@Page(name = "通知列表", params = {KEY_DATA}, anim = CoreAnim.slide)
+
 public class NoticeFragment extends BaseFragment {
 
+    public static final String KEY_DATA = "KEY_DATA";
     private static final int HANDLE_REFRESH = 2;
     private static final int HANDLE_OK = 0;
     private static final int HANDLE_ERR = -1;
@@ -76,6 +80,8 @@ public class NoticeFragment extends BaseFragment {
     cn.dreamn.qianji_auto.ui.views.TitleBar title_bar;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.tv_tip)
+    TextView tv_tip;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recycler_view;
     @BindView(R.id.status)
@@ -105,18 +111,65 @@ public class NoticeFragment extends BaseFragment {
         }
     };
 
+    public static void openWithType(BaseFragment baseFragment, String type) {
+        //sms notice app
+        PageOption.to(NoticeFragment.class)
+                .setNewActivity(true)
+                .putString(KEY_DATA, type)
+                .open(baseFragment);
+    }
+
+    private String getType() {
+        String target = "";
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            target = bundle.getString(KEY_DATA);
+        }
+        return target;
+    }
+
+    private String getName() {
+        switch (getType()) {
+            case "sms":
+                return "短信";
+            case "notice":
+                return "通知";
+            case "app":
+                return "app";
+        }
+        return "";
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_notice;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void initViews() {
+
+        switch (getType()) {
+            case "sms":
+                title_bar.setTitle("短信列表");
+                tv_tip.setText("捕获短信信息，用于从银行短信中获取交易信息。");
+                break;
+            case "notice":
+                title_bar.setTitle("通知列表");
+                tv_tip.setText("捕获通知信息，用于从通知中获取交易信息。");
+                break;
+            case "app":
+                title_bar.setTitle("App数据列表");
+                tv_tip.setText("捕获App内部信息，用于从App中获取交易信息。");
+                break;
+        }
+
+
         statusView.setEmptyView(R.layout.empty_view);
         statusView.setLoadingView(R.layout.loading_view);
 
-        statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, "没有任何通知信息"));
-        statusView.setOnLoadingViewConvertListener(viewHolder -> viewHolder.setText(R.id.load_info, "正在加载通知信息"));
+        statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, "没有任何" + getName() + "信息"));
+        statusView.setOnLoadingViewConvertListener(viewHolder -> viewHolder.setText(R.id.load_info, "正在加载" + getName() + "信息"));
 
         statusView.showLoadingView();
         initLayout();
@@ -258,12 +311,12 @@ public class NoticeFragment extends BaseFragment {
 
     private void loadFromData(RefreshLayout refreshLayout) {
         Task.onMain(1000, () -> {
-            AppDatas.getAll("notice", datas -> {
+            AppDatas.getAll(getType(), datas -> {
                 if (datas == null || datas.size() == 0) {
                     mHandler.sendEmptyMessage(HANDLE_ERR);
                 } else {
 
-                    AutoBillWeb.getDataWeb(null, "notice", null, new AutoBillWeb.WebCallback() {
+                    AutoBillWeb.getDataWeb(null, getType(), null, new AutoBillWeb.WebCallback() {
                         @Override
                         public void onFailure() {
                             //失败就不显示了
@@ -272,20 +325,20 @@ public class NoticeFragment extends BaseFragment {
 
                         @Override
                         public void onSuccessful(String data) {
-                            Log.d("网页返回结果->  "+data);
-                            try{
+                            Log.d("网页返回结果->  " + data);
+                            try {
                                 JSONObject jsonObject = JSONObject.parseObject(data);
                                 if(jsonObject.getInteger("code")==0){
                                     JSONArray jsonArray=jsonObject.getJSONArray("data");
                                     //获取数据部分
                                     StringBuilder code= new StringBuilder();
                                     for(int i=0;i<jsonArray.size();i++){
-                                        code.append(jsonArray.getJSONObject(i).getString("data")).append("index++;\n");;
+                                        code.append(jsonArray.getJSONObject(i).getString("data")).append("index++;\n");
                                     }
                                     for(int i=0;i<datas.size();i++){
                                         try {
                                             String result = JsEngine.run( identifyRegulars.getFunction(datas.get(i).getString("rawData"), code.toString()));
-                                            Log.d("Qianji-Notice", "自动云规则执行结果：" + result);
+                                            Log.d("Qianji-Could", "自动云规则执行结果：" + result);
                                             if(!result.startsWith("undefined")){
                                                 datas.get(i).putString("cloud","true");
                                                 int index=Integer.parseInt(result.substring(result.lastIndexOf("|")));
@@ -308,7 +361,7 @@ public class NoticeFragment extends BaseFragment {
                                                     datas.get(finalI).putBundle("local_data",identifyRegulars.getIndexRegular(index));
                                                 }
 
-                                                Log.d("Qianji-Notice", "自动本地规则执行结果：" + result2);
+                                                Log.d("Qianji-Local", "自动本地规则执行结果：" + result2);
                                             });
 
                                         } catch (Exception e) {

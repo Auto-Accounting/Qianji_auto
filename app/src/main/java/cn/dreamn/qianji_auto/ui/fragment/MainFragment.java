@@ -47,6 +47,7 @@ import cn.dreamn.qianji_auto.ui.fragment.base.MainSetFragment;
 import cn.dreamn.qianji_auto.ui.fragment.base.cards.MainCardFragment;
 import cn.dreamn.qianji_auto.ui.fragment.base.sorts.MainSortFragment;
 import cn.dreamn.qianji_auto.ui.fragment.data.MoneyFragment;
+import cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.views.IconView;
@@ -270,13 +271,13 @@ public class MainFragment extends BaseFragment {
            //年度账单
         });
         rl_app_log.setOnClickListener(v->{
-
+            NoticeFragment.openWithType(this, "app");
         });
         rl_sms_log.setOnClickListener(v->{
-
+            NoticeFragment.openWithType(this, "sms");
         });
         rl_notice_log.setOnClickListener(v->{
-
+            NoticeFragment.openWithType(this, "notice");
         });
         rl_log.setOnClickListener(v->{
 
