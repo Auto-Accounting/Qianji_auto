@@ -17,14 +17,11 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.helper;
 
-import android.annotation.SuppressLint;
-import android.view.KeyEvent;
 import android.widget.TextView;
 
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xpage.utils.TitleBar;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
@@ -40,10 +37,8 @@ import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 @Page(name = "完成设置", anim = CoreAnim.slide)
 public class EndFragment extends BaseFragment {
 
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.help_skip)
     TextView help_skip;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.button_go_setting)
     TextView button_go_setting;
     @BindView(R.id.help_skip_last)
