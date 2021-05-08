@@ -35,7 +35,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
-import com.shehuan.statusview.StatusViewConvertListener;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
@@ -52,10 +51,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import es.dmoral.toasty.Toasty;
 
 
-/**
- * @author xuexiang
- * @since 2018/11/7 下午1:16
- */
+
 @Page(name = "账本", anim = CoreAnim.slide)
 public class cardsFragment2 extends BaseFragment {
 
@@ -85,11 +81,11 @@ public class cardsFragment2 extends BaseFragment {
         statusView.setEmptyView(R.layout.empty_view);
         statusView.setLoadingView(R.layout.loading_view);
 
-        statusView.setOnEmptyViewConvertListener((StatusViewConvertListener) viewHolder -> {
-            viewHolder.setText(R.id.empty_info,"你还没有任何账本哦！\n钱迹免费用户不需要添加账本。");
+        statusView.setOnEmptyViewConvertListener(viewHolder -> {
+            viewHolder.setText(R.id.empty_info, "你还没有任何账本哦！\n钱迹免费用户不需要添加账本。");
         });
-        statusView.setOnLoadingViewConvertListener((StatusViewConvertListener) viewHolder -> {
-            viewHolder.setText(R.id.load_info,"正在加载账本信息");
+        statusView.setOnLoadingViewConvertListener(viewHolder -> {
+            viewHolder.setText(R.id.load_info, "正在加载账本信息");
         });
         floatingActionButton.setVisibility(View.GONE);
         statusView.showLoadingView();
@@ -139,7 +135,7 @@ public class cardsFragment2 extends BaseFragment {
     private void OnItemClickListen(View view, int position) {
         if(list==null||position >= list.size())return;
 
-        Bundle bookName=(Bundle)list.get(position);
+        Bundle bookName = list.get(position);
 
         MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
         dialog.title(null, "请选择操作("+bookName.getString("name")+")");

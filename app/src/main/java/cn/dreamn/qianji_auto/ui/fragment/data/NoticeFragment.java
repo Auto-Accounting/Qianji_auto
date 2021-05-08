@@ -64,10 +64,6 @@ import es.dmoral.toasty.Toasty;
 import static cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment.KEY_DATA;
 
 
-/**
- * @author xuexiang
- * @since 2018/11/7 下午1:16
- */
 @Page(name = "通知列表", params = {KEY_DATA}, anim = CoreAnim.slide)
 
 public class NoticeFragment extends BaseFragment {

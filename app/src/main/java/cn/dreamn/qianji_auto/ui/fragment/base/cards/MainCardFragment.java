@@ -18,14 +18,8 @@
 package cn.dreamn.qianji_auto.ui.fragment.base.cards;
 
 import android.widget.RelativeLayout;
-import android.widget.TableLayout;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -44,10 +38,6 @@ import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.views.IconView;
 
 
-/**
- * @author xuexiang
- * @since 2018/11/7 下午1:16
- */
 @Page(name = "主页资产管理", anim = CoreAnim.slide)
 public class MainCardFragment extends BaseFragment {
 

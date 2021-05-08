@@ -18,6 +18,11 @@
 package cn.dreamn.qianji_auto.utils.runUtils;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
+
+import com.tencent.mmkv.MMKV;
+
+import java.util.ArrayList;
 
 import cn.dreamn.qianji_auto.database.DbManger;
 
@@ -25,33 +30,87 @@ import cn.dreamn.qianji_auto.database.DbManger;
 public class Log {
 
     public static int timeout = 24 * 60 * 60;
+    public static int MODE_CLOSE = 0;//关闭日志
+    public static int MODE_SIMPLE = 1;//简单记录
+    public static int MODE_MORE = 2;//详细记录
 
     public static void d(String msg) {
+        MMKV mmkv = MMKV.defaultMMKV();
+        int mode = mmkv.getInt("log_mode", 1);
         String defaultTag = "Qianji-Auto";
-        Task.onThread(()-> android.util.Log.i(defaultTag, msg));
+        Task.onThread(() -> {
+            android.util.Log.i(defaultTag, msg);
+            if (mode != 0 && mode != 1) {
+                DbManger.db.LogDao().add(msg, "自动记账", getTime());
+                DbManger.db.LogDao().deleteTimeout(timeout);
+            }
+        });
+
     }
 
     public static void d(String TAG, String msg) {
-        Task.onThread(()-> android.util.Log.i(TAG, msg));
+        MMKV mmkv = MMKV.defaultMMKV();
+        int mode = mmkv.getInt("log_mode", 1);
+        Task.onThread(() -> {
+            android.util.Log.i(TAG, msg);
+            if (mode != 0 && mode != 1) {
+                DbManger.db.LogDao().add(msg, TAG, getTime());
+                DbManger.db.LogDao().deleteTimeout(timeout);
+            }
+        });
     }
 
     public static void i(String msg) {
+        MMKV mmkv = MMKV.defaultMMKV();
+        int mode = mmkv.getInt("log_mode", 1);
         String defaultTag = "Qianji-Auto";
-
-        Task.onThread(()->{
+        Task.onThread(() -> {
             android.util.Log.i(defaultTag, msg);
-            DbManger.db.LogDao().add(msg, "自动记账", getTime());
-            DbManger.db.LogDao().deleteTimeout(timeout);
+            if (mode != 0) {
+                DbManger.db.LogDao().add(msg, "自动记账", getTime());
+                DbManger.db.LogDao().deleteTimeout(timeout);
+            }
         });
 
     }
 
     public static void i(String TAG, String msg) {
 
-        Task.onThread(()->{
+        MMKV mmkv = MMKV.defaultMMKV();
+        int mode = mmkv.getInt("log_mode", 1);
+        Task.onThread(() -> {
             android.util.Log.i(TAG, msg);
+            if (mode != 0) {
+                DbManger.db.LogDao().add(msg, TAG, getTime());
+                DbManger.db.LogDao().deleteTimeout(timeout);
+            }
+        });
+    }
+
+    public static void m(String msg) {
+        MMKV mmkv = MMKV.defaultMMKV();
+        int mode = mmkv.getInt("log_mode", 1);
+        String defaultTag = "Qianji-Auto";
+        Task.onThread(() -> {
+            android.util.Log.i(defaultTag, msg);
+
+            DbManger.db.LogDao().add(msg, "自动记账", getTime());
+            DbManger.db.LogDao().deleteTimeout(timeout);
+
+        });
+
+    }
+
+    public static void m(String TAG, String msg) {
+
+        MMKV mmkv = MMKV.defaultMMKV();
+        int mode = mmkv.getInt("log_mode", 1);
+        Task.onThread(() -> {
+            android.util.Log.i(TAG, msg);
+
             DbManger.db.LogDao().add(msg, TAG, getTime());
             DbManger.db.LogDao().deleteTimeout(timeout);
+
         });
     }
 
@@ -69,21 +128,42 @@ public class Log {
         });
     }
 
-
-    public static void delAll() {
-        Task.onThread(()-> {
+    public static void delAll(onDelOk ok) {
+        Task.onThread(() -> {
             DbManger.db.LogDao().delAll();
+            ok.ok();
         });
-    }
-
-    interface onResult{
-        void getLog(cn.dreamn.qianji_auto.database.Table.Log[] logs);
     }
 
     public static void getAll(onResult ret) {
-        Task.onThread(()->{
-            ret.getLog(DbManger.db.LogDao().loadAll());
+        Task.onThread(()-> {
+
+            cn.dreamn.qianji_auto.database.Table.Log[] logs = DbManger.db.LogDao().loadAll();
+            if (logs == null || logs.length <= 0) {
+                ret.getLog(null);
+                return;
+            }
+
+            ArrayList<Bundle> bundleArrayList = new ArrayList<>();
+            for (cn.dreamn.qianji_auto.database.Table.Log log : logs) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", log.pos);
+                bundle.putString("time", log.time2);
+                bundle.putString("title", log.title);
+                bundle.putString("sub", log.sub);
+                bundleArrayList.add(bundle);
+            }
+            ret.getLog(bundleArrayList.toArray(new Bundle[0]));
         });
+
+    }
+
+    public interface onDelOk {
+        void ok();
+    }
+
+    public interface onResult {
+        void getLog(Bundle[] logs);
     }
 }
 

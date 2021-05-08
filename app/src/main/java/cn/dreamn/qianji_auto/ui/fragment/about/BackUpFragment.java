@@ -57,10 +57,6 @@ import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 import es.dmoral.toasty.Toasty;
 
 
-/**
- * @author xuexiang
- * @since 2018/11/7 下午1:16
- */
 @Page(name = "备份与恢复", anim = CoreAnim.slide)
 public class BackUpFragment extends BaseFragment {
 

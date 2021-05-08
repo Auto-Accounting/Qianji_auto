@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/sendLog"
+        android:title="发送完整日志" />
+    <item
+        android:id="@+id/cleanLog"
+        android:title="清空日志" />
+    <item
+        android:id="@+id/logMode"
+        android:title="修改日志模式" />
+</menu>

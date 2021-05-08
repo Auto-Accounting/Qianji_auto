@@ -39,10 +39,6 @@ import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.views.IconView;
 
 
-/**
- * @author xuexiang
- * @since 2018/11/7 下午1:16
- */
 @Page(name = "主页分类管理", anim = CoreAnim.slide)
 public class MainSortFragment extends BaseFragment {
 

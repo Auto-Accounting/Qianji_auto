@@ -30,10 +30,6 @@ import cn.dreamn.qianji_auto.ui.utils.SettingUtils;
 import cn.dreamn.qianji_auto.ui.views.SuperText;
 
 
-/**
- * @author xuexiang
- * @since 2018/11/7 下午1:16
- */
 @Page(name = "主页插件设置", anim = CoreAnim.slide)
 public class MainSetFragment extends BaseFragment {
 

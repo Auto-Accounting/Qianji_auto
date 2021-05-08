@@ -36,10 +36,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
-import com.shehuan.statusview.StatusViewConvertListener;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xpage.utils.TitleBar;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 import com.yanzhenjie.recyclerview.touch.OnItemMoveListener;
 
@@ -56,10 +54,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import es.dmoral.toasty.Toasty;
 
 
-/**
- * @author xuexiang
- * @since 2018/11/7 下午1:16
- */
+
 @Page(name = "资产", anim = CoreAnim.slide)
 public class cardsFragment1 extends BaseFragment {
 
@@ -91,11 +86,11 @@ public class cardsFragment1 extends BaseFragment {
         statusView.setEmptyView(R.layout.empty_view);
         statusView.setLoadingView(R.layout.loading_view);
 
-        statusView.setOnEmptyViewConvertListener((StatusViewConvertListener) viewHolder -> {
-            viewHolder.setText(R.id.empty_info,"资产都没有，还想记账？\n快去添加一个！");
+        statusView.setOnEmptyViewConvertListener(viewHolder -> {
+            viewHolder.setText(R.id.empty_info, "资产都没有，还想记账？\n快去添加一个！");
         });
-        statusView.setOnLoadingViewConvertListener((StatusViewConvertListener) viewHolder -> {
-            viewHolder.setText(R.id.load_info,"正在加载资产信息");
+        statusView.setOnLoadingViewConvertListener(viewHolder -> {
+            viewHolder.setText(R.id.load_info, "正在加载资产信息");
         });
         floatingActionButton.setVisibility(View.GONE);
         statusView.showLoadingView();
@@ -150,10 +145,10 @@ public class cardsFragment1 extends BaseFragment {
                 Collections.swap(list, fromPosition, toPosition);
                 mAdapter.notifyItemMoved(fromPosition, toPosition);
                 //   Logs.d(mDataList.get(toPosition).get(KEY_TITLE)+"key id"+mDataList.get(toPosition).get(KEY_ID)+" to"+toPosition);
-                ((Bundle) list.get(fromPosition)).getInt("id");
+                list.get(fromPosition).getInt("id");
 
-                Assets.setSort(((Bundle) list.get(fromPosition)).getInt("id"), fromPosition);
-                Assets.setSort(((Bundle) list.get(toPosition)).getInt("id"), toPosition);
+                Assets.setSort(list.get(fromPosition).getInt("id"), fromPosition);
+                Assets.setSort(list.get(toPosition).getInt("id"), toPosition);
 
                 // 返回true，表示数据交换成功，ItemView可以交换位置。
                 return true;
@@ -174,7 +169,7 @@ public class cardsFragment1 extends BaseFragment {
     private void OnItemClickListen(View view, int position) {
         if(list==null||position >= list.size())return;
 
-        Bundle assest=(Bundle)list.get(position);
+        Bundle assest = list.get(position);
 
         MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
         dialog.title(null, "请选择操作("+assest.getString("name")+")");

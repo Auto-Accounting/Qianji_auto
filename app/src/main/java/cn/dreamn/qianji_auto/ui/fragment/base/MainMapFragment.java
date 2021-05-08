@@ -35,7 +35,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
-import com.shehuan.statusview.StatusViewConvertListener;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xpage.utils.TitleBar;
@@ -53,10 +52,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import es.dmoral.toasty.Toasty;
 
 
-/**
- * @author xuexiang
- * @since 2018/11/7 下午1:16
- */
+
 @Page(name = "主页资产映射", anim = CoreAnim.slide)
 public class MainMapFragment extends BaseFragment {
     @BindView(R.id.title_bar)
@@ -87,11 +83,11 @@ public class MainMapFragment extends BaseFragment {
         statusView.setEmptyView(R.layout.empty_view);
         statusView.setLoadingView(R.layout.loading_view);
 
-        statusView.setOnEmptyViewConvertListener((StatusViewConvertListener) viewHolder -> {
-            viewHolder.setText(R.id.empty_info,"你还没有进行任何资产映射！\n做了资产映射才能更好地记账。");
+        statusView.setOnEmptyViewConvertListener(viewHolder -> {
+            viewHolder.setText(R.id.empty_info, "你还没有进行任何资产映射！\n做了资产映射才能更好地记账。");
         });
-        statusView.setOnLoadingViewConvertListener((StatusViewConvertListener) viewHolder -> {
-            viewHolder.setText(R.id.load_info,"正在加载资产映射");
+        statusView.setOnLoadingViewConvertListener(viewHolder -> {
+            viewHolder.setText(R.id.load_info, "正在加载资产映射");
         });
         floatingActionButton.setVisibility(View.GONE);
         statusView.showLoadingView();

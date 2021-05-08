@@ -19,7 +19,6 @@ package cn.dreamn.qianji_auto.ui.fragment.base;
 
 import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
@@ -29,15 +28,9 @@ import com.xuexiang.xpage.utils.TitleBar;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
-import cn.dreamn.qianji_auto.ui.utils.ButtonUtils;
 import cn.dreamn.qianji_auto.ui.utils.ModeUtils;
 
 
-/**
- * @author xuexiang
- * @since 2018/11/7 下午1:16
- */
 @Page(name = "主页模式选择", anim = CoreAnim.slide)
 public class MainModeFragment extends BaseFragment {
 

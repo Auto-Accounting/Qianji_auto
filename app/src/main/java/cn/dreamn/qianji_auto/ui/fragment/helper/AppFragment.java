@@ -42,10 +42,7 @@ import cn.dreamn.qianji_auto.ui.utils.ButtonUtils;
 import cn.dreamn.qianji_auto.ui.utils.ScreenUtils;
 
 
-/**
- * @author xuexiang
- * @since 2018/11/7 下午1:16
- */
+
 @Page(name = "记账软件", anim = CoreAnim.slide)
 public class AppFragment extends BaseFragment {
 
@@ -110,7 +107,7 @@ public class AppFragment extends BaseFragment {
                 return;
             }
             AppManager.setApp(packageName);
-            CardView cardView=(CardView)view.findViewById(R.id.card_shadow);
+            CardView cardView = view.findViewById(R.id.card_shadow);
 
             for(int i=0;i<cardViews.size();i++){
                 cardViews.get(i).setCardElevation(0);

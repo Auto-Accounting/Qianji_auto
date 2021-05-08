@@ -56,10 +56,6 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import es.dmoral.toasty.Toasty;
 
 
-/**
- * @author xuexiang
- * @since 2018/11/7 下午1:16
- */
 @Page(name = "自动记账", anim = CoreAnim.slide)
 public class MainFragment extends BaseFragment {
 

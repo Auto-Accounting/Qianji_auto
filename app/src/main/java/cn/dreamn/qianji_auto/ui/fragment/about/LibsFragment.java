@@ -28,10 +28,6 @@ import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.views.CardData;
 
 
-/**
- * @author xuexiang
- * @since 2018/11/7 下午1:16
- */
 @Page(name = "开源库列表", anim = CoreAnim.slide)
 public class LibsFragment extends BaseFragment {
 

@@ -29,10 +29,6 @@ import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 
 
-/**
- * @author xuexiang
- * @since 2018/11/7 下午1:16
- */
 @Page(name = "开发人员", anim = CoreAnim.slide)
 public class DevsFragment extends BaseFragment {
 

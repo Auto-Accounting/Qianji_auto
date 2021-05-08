@@ -30,10 +30,6 @@ import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
 
 
-/**
- * @author xuexiang
- * @since 2018/11/7 下午1:16
- */
 @Page(name = "引导设置", anim = CoreAnim.slide)
 public class HelperFragment extends BaseFragment {
 
