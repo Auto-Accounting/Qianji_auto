@@ -1,54 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:orientation="vertical">
 
-        xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_shadow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
         android:layout_margin="5dp"
-        app:cardElevation="0dp"
-        app:cardUseCompatPadding="false">
+        android:gravity="center_horizontal"
+        android:padding="5dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
+
+        <cn.dreamn.qianji_auto.ui.views.IconView
+            android:id="@+id/item_image_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
             android:gravity="center_horizontal"
-            android:padding="5dp">
+            android:text="c"
+            android:textColor="@color/icon_title"
+            android:textSize="36sp" />
 
+        <TextView
+            android:id="@+id/item_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-            <cn.dreamn.qianji_auto.ui.views.IconView
-                android:id="@+id/item_image_icon"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center_horizontal"
-                android:text="c"
-                android:textColor="@color/icon_title"
-                android:textSize="36sp"
-                 />
+            android:layout_below="@+id/item_image_icon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:text="TextView"
+            android:textColor="@color/main_title"
+            android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/item_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_below="@+id/item_image_icon"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="0dp"
-                android:text="TextView"
-                android:textColor="@color/main_title"
-                android:textSize="14sp"
-                 />
-
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 </LinearLayout>

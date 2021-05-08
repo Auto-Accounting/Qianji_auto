@@ -2,4 +2,8 @@
 <resources>
     <dimen name="radius" >8dp</dimen>
     <dimen name="margin_side" >10dp</dimen>
+    <dimen name="main_card_title_size" >16sp</dimen>
+    <dimen name="main_card_title_left_width" >3dp</dimen>
+    <dimen name="main_card_body_icon_size" >30sp</dimen>
+    <dimen name="main_card_body_text_size" >12sp</dimen>
 </resources>

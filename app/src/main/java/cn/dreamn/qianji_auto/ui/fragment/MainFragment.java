@@ -63,7 +63,7 @@ public class MainFragment extends BaseFragment {
     RelativeLayout linearLayout;
     @BindView(R.id.title_count)
     RelativeLayout title_count;
-
+/*
     @BindView(R.id.cv_list)
     CardViewGrid cv_list;
     @BindView(R.id.cv_log)
@@ -73,7 +73,7 @@ public class MainFragment extends BaseFragment {
     @BindView(R.id.cv_other)
     CardViewGrid cv_other;
     @BindView(R.id.cv_custom)
-    CardViewGrid cv_custom;
+    CardViewGrid cv_custom;*/
 
     @BindView(R.id.mode_select1)
     IconView mode_select1;
@@ -90,7 +90,7 @@ public class MainFragment extends BaseFragment {
     TextView default_book;
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_main_1;
+        return R.layout.fragment_main_2;
     }
 
     @SuppressLint("ResourceAsColor")
@@ -98,11 +98,11 @@ public class MainFragment extends BaseFragment {
     protected void initViews() {
         ThemeManager themeManager = new ThemeManager(getContext());
         themeManager.setStatusBar(getActivity(), title_count, R.color.background_white);
-        cv_list.setData(ListManager.getBaseLists(),this,1);
+      /*  cv_list.setData(ListManager.getBaseLists(),this,1);
         cv_log.setData(ListManager.getLogLists(),this,2);
         cv_complie.setData(ListManager.getComplieLists(),this,3);
         cv_other.setData(ListManager.getOtherLists(), this, 4);
-        cv_custom.setData(ListManager.geCustomLists(), this, 5);
+        cv_custom.setData(ListManager.geCustomLists(), this, 5);*/
         app_log.setText(BuildConfig.VERSION_NAME);
         setActive();
     }
