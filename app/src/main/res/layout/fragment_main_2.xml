@@ -200,6 +200,7 @@
                     </RelativeLayout>
 
                     <GridLayout
+                        android:id="@+id/gl_base"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
@@ -208,10 +209,14 @@
                         android:columnCount="4">
 
                         <RelativeLayout
+                            android:id="@+id/rl_set"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -240,11 +245,14 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_asset"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
                             android:gravity="center_horizontal"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:padding="5dp">
 
 
@@ -274,12 +282,16 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_map"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
-                            android:padding="5dp">
+                            android:padding="5dp"
+                            >
 
 
                             <cn.dreamn.qianji_auto.ui.views.IconView
@@ -307,10 +319,13 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_sort"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -355,7 +370,8 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:background="@color/background_white">
+                        android:background="@color/background_white"
+                       >
 
                         <View
                             android:id="@+id/view73"
@@ -382,18 +398,22 @@
                     </RelativeLayout>
 
                     <GridLayout
+                        android:id='@+id/gl_bill'
                         android:layout_width="match_parent"
+
                         android:layout_height="wrap_content"
 
                         android:layout_marginTop="50dp"
-
                         android:columnCount="4">
 
                         <RelativeLayout
+                            android:id="@+id/rl_async"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -422,10 +442,13 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_bill"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -456,10 +479,13 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_bill_check"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -488,10 +514,13 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_year"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -562,6 +591,7 @@
                     </RelativeLayout>
 
                     <GridLayout
+                        android:id='@+id/gl_log'
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
@@ -571,10 +601,13 @@
 
 
                         <RelativeLayout
+                            android:id="@+id/rl_app_log"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -604,10 +637,13 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_sms_log"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -637,10 +673,13 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_notice_log"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -670,10 +709,14 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_log"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
+
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -747,17 +790,20 @@
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
+                        android:id='@+id/gl_regex'
                         android:layout_marginTop="50dp"
 
                         android:columnCount="4">
 
                         <RelativeLayout
+                            android:id="@+id/rl_auto_sort"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
                             android:gravity="center_horizontal"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:padding="5dp">
 
                             <cn.dreamn.qianji_auto.ui.views.IconView
@@ -785,10 +831,13 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_app"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -819,10 +868,13 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_sms"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -850,10 +902,13 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_notice"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -926,17 +981,20 @@
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
+                        android:id='@+id/gl_custom'
                         android:layout_marginTop="50dp"
 
                         android:columnCount="4">
 
                         <RelativeLayout
+                            android:id="@+id/rl_float"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
                             android:gravity="center_horizontal"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:padding="5dp">
 
                             <cn.dreamn.qianji_auto.ui.views.IconView
@@ -964,10 +1022,13 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_skin"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -1040,16 +1101,19 @@
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
+                        android:id='@+id/gl_admin'
                         android:layout_marginTop="50dp"
 
                         android:columnCount="4">
 
                         <RelativeLayout
+                            android:id="@+id/rl_wait"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -1078,10 +1142,13 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_check"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -1154,17 +1221,20 @@
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
+                        android:id='@+id/gl_others'
                         android:layout_marginTop="50dp"
 
                         android:columnCount="4">
 
                         <RelativeLayout
+                            android:id="@+id/rl_backup"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
                             android:gravity="center_horizontal"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:padding="5dp">
 
                             <cn.dreamn.qianji_auto.ui.views.IconView
@@ -1192,10 +1262,13 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_text_teach"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -1224,11 +1297,14 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_video_teach"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
                             android:gravity="center_horizontal"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:padding="5dp">
 
 
@@ -1256,11 +1332,14 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_github"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
                             android:gravity="center_horizontal"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:padding="5dp">
 
 
@@ -1288,10 +1367,13 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/rl_about"
                             android:layout_width="wrap_content"
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
+                            android:focusable="true"
+                            android:clickable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 

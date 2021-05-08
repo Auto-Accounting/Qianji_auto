@@ -39,10 +39,16 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.fragment.about.AboutFragment;
+import cn.dreamn.qianji_auto.ui.fragment.about.BackUpFragment;
+import cn.dreamn.qianji_auto.ui.fragment.base.MainMapFragment;
 import cn.dreamn.qianji_auto.ui.fragment.base.MainModeFragment;
-import cn.dreamn.qianji_auto.ui.listData.ListManager;
+import cn.dreamn.qianji_auto.ui.fragment.base.MainSetFragment;
+import cn.dreamn.qianji_auto.ui.fragment.base.cards.MainCardFragment;
+import cn.dreamn.qianji_auto.ui.fragment.base.sorts.MainSortFragment;
+import cn.dreamn.qianji_auto.ui.fragment.data.MoneyFragment;
+import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
-import cn.dreamn.qianji_auto.ui.views.CardViewGrid;
 import cn.dreamn.qianji_auto.ui.views.IconView;
 import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -74,6 +80,70 @@ public class MainFragment extends BaseFragment {
     CardViewGrid cv_other;
     @BindView(R.id.cv_custom)
     CardViewGrid cv_custom;*/
+
+
+    @BindView(R.id.rl_set)
+    RelativeLayout rl_set;
+
+    @BindView(R.id.rl_asset)
+    RelativeLayout rl_asset;
+
+    @BindView(R.id.rl_map)
+    RelativeLayout rl_map;
+
+    @BindView(R.id.rl_sort)
+    RelativeLayout rl_sort;
+
+    @BindView(R.id.rl_async)
+    RelativeLayout rl_async;
+
+    @BindView(R.id.rl_bill)
+    RelativeLayout rl_bill;
+
+    @BindView(R.id.rl_bill_check)
+    RelativeLayout rl_bill_check;
+
+    @BindView(R.id.rl_year)
+    RelativeLayout rl_year;
+
+    @BindView(R.id.rl_app_log)
+    RelativeLayout rl_app_log;
+
+    @BindView(R.id.rl_sms_log)
+    RelativeLayout rl_sms_log;
+
+    @BindView(R.id.rl_notice_log)
+    RelativeLayout rl_notice_log;
+
+    @BindView(R.id.rl_log)
+    RelativeLayout rl_log;
+
+    @BindView(R.id.rl_auto_sort)
+    RelativeLayout rl_auto_sort;
+    @BindView(R.id.rl_app)
+    RelativeLayout rl_app;
+    @BindView(R.id.rl_sms)
+    RelativeLayout rl_sms;
+    @BindView(R.id.rl_notice)
+    RelativeLayout rl_notice;
+    @BindView(R.id.rl_float)
+    RelativeLayout rl_float;
+    @BindView(R.id.rl_skin)
+    RelativeLayout rl_skin;
+    @BindView(R.id.rl_wait)
+    RelativeLayout rl_wait;
+    @BindView(R.id.rl_check)
+    RelativeLayout rl_check;
+    @BindView(R.id.rl_backup)
+    RelativeLayout rl_backup;
+    @BindView(R.id.rl_text_teach)
+    RelativeLayout rl_text_teach;
+    @BindView(R.id.rl_video_teach)
+    RelativeLayout rl_video_teach;
+    @BindView(R.id.rl_github)
+    RelativeLayout rl_github;
+    @BindView(R.id.rl_about)
+    RelativeLayout rl_about;
 
     @BindView(R.id.mode_select1)
     IconView mode_select1;
@@ -127,6 +197,7 @@ public class MainFragment extends BaseFragment {
     protected void initListeners() {
         mode_select1.setOnClickListener(v-> openNewPage(MainModeFragment.class));
         mode_select2.setOnClickListener(v-> openNewPage(MainModeFragment.class));
+        initGridLayout();
     }
 
     @Override
@@ -171,6 +242,85 @@ public class MainFragment extends BaseFragment {
         });
     }
 
+
+    public void initGridLayout(){
+        rl_set.setOnClickListener(v->{
+            openNewPage(MainSetFragment.class);
+        });
+        rl_map.setOnClickListener(v->{
+            openNewPage(MainMapFragment.class);
+        });
+        rl_asset.setOnClickListener(v->{
+            openNewPage(MainCardFragment.class);
+        });
+        rl_sort.setOnClickListener(v->{
+            openNewPage(MainSortFragment.class);
+        });
+
+        rl_async.setOnClickListener(v->{
+            //TODO 数据同步
+        });
+        rl_bill.setOnClickListener(v->{
+            openNewPage(MoneyFragment.class);
+        });
+        rl_bill_check.setOnClickListener(v->{
+            //账单核对
+        });
+        rl_year.setOnClickListener(v->{
+           //年度账单
+        });
+        rl_app_log.setOnClickListener(v->{
+
+        });
+        rl_sms_log.setOnClickListener(v->{
+
+        });
+        rl_notice_log.setOnClickListener(v->{
+
+        });
+        rl_log.setOnClickListener(v->{
+
+        });
+        rl_auto_sort.setOnClickListener(v->{
+
+        });
+        rl_app.setOnClickListener(v->{
+
+        });
+        rl_sms.setOnClickListener(v->{
+
+        });
+        rl_notice.setOnClickListener(v->{
+
+        });
+        rl_float.setOnClickListener(v->{
+
+        });
+        rl_skin.setOnClickListener(v->{
+
+        });
+        rl_wait.setOnClickListener(v->{
+
+        });
+        rl_check.setOnClickListener(v->{
+
+        });
+        rl_backup.setOnClickListener(v->{
+            openNewPage(BackUpFragment.class);
+        });
+        rl_text_teach.setOnClickListener(v->{
+            WebViewFragment.openUrl(this,getContext().getString(R.string.learnUrl));
+        });
+        rl_video_teach.setOnClickListener(v->{
+            WebViewFragment.openUrl(this,getContext().getString(R.string.biliUrl));
+        });
+        rl_github.setOnClickListener(v->{
+            WebViewFragment.openUrl(this,getContext().getString(R.string.githubUrl));
+        });
+        rl_about.setOnClickListener(v->{
+            openNewPage(AboutFragment.class);
+        });
+    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {

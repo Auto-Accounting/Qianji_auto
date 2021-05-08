@@ -25,7 +25,7 @@ import cn.dreamn.qianji_auto.ui.listData.ListManager;
 public class ModeUtils {
     private BaseFragment baseFragment;
     private ListView lv_permission;
-    private GridView mode_list;;
+    private GridView mode_list;
     public ModeUtils(BaseFragment baseFragment1,GridView mode_list1,ListView lv_permission1){
         baseFragment=baseFragment1;
         mode_list=mode_list1;
@@ -55,12 +55,13 @@ public class ModeUtils {
         width=width-40;//真实可分配大小
         mode_list.setColumnWidth(ScreenUtils.dip2px(baseFragment.getContext(),(float) width/2));
         mode_list.setNumColumns(2);
-
         MMKV mmkv=MMKV.defaultMMKV();
 
         List<CardView> cardViews=new ArrayList<>();
         ModeAdapter modeAdapter=new ModeAdapter(baseFragment.getContext(), R.layout.grid_items, bundles, (item, cardView) -> {
             if(item!=null&&item.equals(mmkv.getString("helper_choose","xposed"))){
+                if(cardView==null)
+                    return;
                 cardView.setCardElevation(15);
                 if(!cardViews.contains(cardView))
                     cardViews.add(cardView);

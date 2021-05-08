@@ -61,18 +61,6 @@
         <attr name="right_color"  />
         <attr name="backgroundColor" format="color"/>
     </declare-styleable>
-    <declare-styleable name="CardViewGrid">
-        <!--左边图标颜色-->
-        <attr name="left_color" />
-        <!--标题-->
-        <attr name="title_text"  />
-        <!--标题颜色-->
-        <attr name="title_color"  />
-        <!--标题背景-->
-        <attr name="title_bg" format="color"/>
-        <!--标题背景-->
-        <attr name="grid_bg" format="color"/>
-    </declare-styleable>
     <declare-styleable name="CardData">
         <attr name="lib_title" format="string" />
         <attr name="lib_author" format="string" />
