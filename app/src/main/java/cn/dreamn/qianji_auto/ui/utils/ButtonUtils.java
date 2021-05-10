@@ -2,11 +2,7 @@ package cn.dreamn.qianji_auto.ui.utils;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.os.Build;
-import android.util.Log;
 import android.widget.Button;
-
-import androidx.annotation.RequiresApi;
 
 import com.zhengsr.skinlib.ZSkin;
 
@@ -17,11 +13,11 @@ public class ButtonUtils {
 
     public static  void disable(Button button, Context context){
         int color=R.color.disable_bg;
-      //  Log.d("APP","color"+color);
+      //  Log.m("APP","color"+color);
         if (ZSkin.isLoadSkin()){
             color = ZSkin.getColor(color);
         }
-     //   Log.d("APP","color2"+color);
+        //   Log.m("APP","color2"+color);
         button.setBackgroundTintList(ColorStateList.valueOf(context.getColor(color)));
         button.setEnabled(false);
     }

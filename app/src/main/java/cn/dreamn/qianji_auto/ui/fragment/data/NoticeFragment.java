@@ -94,7 +94,7 @@ public class NoticeFragment extends BaseFragment {
                     break;
                 case HANDLE_OK:
                     mAdapter.refresh(list);
-                    Log.d("Qianji-list",list.toString());
+                    Log.m("Qianji-list", list.toString());
                     Task.onMain(1000, () -> statusView.showContentView());
                     break;
                 case HANDLE_REFRESH:
@@ -211,7 +211,7 @@ public class NoticeFragment extends BaseFragment {
 
 
             DialogListExtKt.listItems(dialog, null, Arrays.asList(strings), null, true, (materialDialog, index, text) -> {
-               Log.d("click "+text);
+                Log.m("click " + text);
                 if (index == 0) {
                     AppDatas.del(item.getInt("id"));
                     Message message = new Message();
@@ -272,7 +272,7 @@ public class NoticeFragment extends BaseFragment {
 
                            @Override
                            public void onSuccessful(String data) {
-                               Log.d("响应数据："+data);
+                               Log.m("响应数据：" + data);
                                JSONObject jsonObject1=JSONObject.parseObject(data);
                                switch (jsonObject1.getInteger("code")){
                                    case 402:
@@ -321,7 +321,7 @@ public class NoticeFragment extends BaseFragment {
 
                         @Override
                         public void onSuccessful(String data) {
-                            Log.d("网页返回结果->  " + data);
+                            Log.m("网页返回结果->  " + data);
                             try {
                                 JSONObject jsonObject = JSONObject.parseObject(data);
                                 if(jsonObject.getInteger("code")==0){
@@ -334,7 +334,7 @@ public class NoticeFragment extends BaseFragment {
                                     for(int i=0;i<datas.size();i++){
                                         try {
                                             String result = JsEngine.run( identifyRegulars.getFunction(datas.get(i).getString("rawData"), code.toString()));
-                                            Log.d("Qianji-Could", "自动云规则执行结果：" + result);
+                                            Log.i("Qianji-Could", "自动云规则执行结果：" + result);
                                             if(!result.startsWith("undefined")){
                                                 datas.get(i).putString("cloud","true");
                                                 int index=Integer.parseInt(result.substring(result.lastIndexOf("|")));
@@ -357,7 +357,7 @@ public class NoticeFragment extends BaseFragment {
                                                     datas.get(finalI).putBundle("local_data",identifyRegulars.getIndexRegular(index));
                                                 }
 
-                                                Log.d("Qianji-Local", "自动本地规则执行结果：" + result2);
+                                                Log.i("Qianji-Local", "自动本地规则执行结果：" + result2);
                                             });
 
                                         } catch (Exception e) {
@@ -371,7 +371,7 @@ public class NoticeFragment extends BaseFragment {
                                 e.printStackTrace();
                             }
                             list = datas;
-                            Log.d("数据"+list.toString());
+                            Log.m("数据" + list.toString());
                             mHandler.sendEmptyMessage(HANDLE_OK);
                         }
                     });

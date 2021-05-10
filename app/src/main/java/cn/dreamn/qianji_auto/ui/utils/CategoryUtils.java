@@ -1,42 +1,37 @@
 package cn.dreamn.qianji_auto.ui.utils;
 
-import android.content.ContentProvider;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
-import android.widget.Adapter;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.adapter.CategoryAdapter;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 public class CategoryUtils {
     SwipeRecyclerView recyclerView;//列表容器
     CategoryAdapter mAdapter;//数据处理工具
-    private List<Bundle> list=new ArrayList<>();//数据列表
+    private final List<Bundle> list = new ArrayList<>();//数据列表
     private String book_id;//当前book
-    private String type;//当前类别
-    private Context mContext;//上下文
+    private final String type;//当前类别
+    private final Context mContext;//上下文
     private finishRefresh finish;//刷新结束，回调
-    private int topInt=-1;//当前展开或点击的pos
-    private boolean expand=false;//是否展开
+    private int topInt = -1;//当前展开或点击的pos
+    private boolean expand = false;//是否展开
     private Click click;//点击事件
-    private boolean allowChange;//是否允许修改
+    private final boolean allowChange;//是否允许修改
     private static final int HANDLE_ERR = 0;
     private static final int HANDLE_OK = 1;
 
@@ -162,7 +157,7 @@ public class CategoryUtils {
         int real=getItemPos(position);//当前的item
         int real2=getItemPos(topInt);//上一个item
 
-        Log.d("real "+real+" real2 "+real2);
+        Log.m("real " + real + " real2 " + real2);
 
         if(real2!=real){//item不同布局则清除上一个
             closeItem(topInt);
@@ -214,7 +209,7 @@ public class CategoryUtils {
         clean();
         finish=f;
         CategoryNames.getParents(book_id,type,books -> {
-            Log.d("books"+ Arrays.toString(books));
+            Log.m("books" + Arrays.toString(books));
             if(books==null||books.length==0){
                 mHandler.sendEmptyMessage(HANDLE_ERR);
             }else{
@@ -235,11 +230,11 @@ public class CategoryUtils {
 
 
                 }
-                // Log.d("还差"+(realLen-list.size())+"条数据");
+                // Log.m("还差"+(realLen-list.size())+"条数据");
                 int len2=realLen-list.size()-1;
                 //长度补全
                 for(int j=0;j<len2;j++){
-                    // Log.d("循环次数+"+j);
+                    // Log.m("循环次数+"+j);
                     Bundle bundle=new Bundle();
                     bundle.putString("name",null);//保留数据
                     // bundle.putBoolean("change",true);//保留数据
@@ -249,7 +244,7 @@ public class CategoryUtils {
                 bundle.putString("name",null);//保留数据
                 bundle.putBoolean("change",false);//保留数据
                 list.add(bundle);
-                Log.d("输出"+list.toString());
+                Log.m("输出" + list.toString());
                 Message message=new Message();
                 message.what=HANDLE_OK;
                 message.obj=list;
@@ -272,12 +267,11 @@ public class CategoryUtils {
         return line*6;
     }
 
-    private void openItem(int position,int left){
+    private void openItem(int position,int left) {
 
-        Bundle item=list.get(position);
-        Log.d("postion:"+position + " data"+item.toString());
-        if(item==null)return;
-       int real=getItemPos(position);
+        Bundle item = list.get(position);
+        Log.m("postion:" + position + " data" + item.toString());
+        int real = getItemPos(position);
 
         Handler mmHandler = new Handler(Looper.getMainLooper()) {
             @Override
@@ -304,7 +298,7 @@ public class CategoryUtils {
         };
 
         CategoryNames.getChildrens(item.getString("self_id"),book_id,item.getString("type"),allowChange,books -> {
-            Log.d("子类"+ Arrays.toString(books));
+            Log.m("子类" + Arrays.toString(books));
             Message message=new Message();
             message.obj=books;
             message.what=HANDLE_OK;

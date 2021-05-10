@@ -46,7 +46,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.ui.adapter.DataListAdapter;
+import cn.dreamn.qianji_auto.ui.adapter.LogAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
@@ -66,7 +66,7 @@ public class LogFragment extends BaseFragment {
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
-    private DataListAdapter mAdapter;
+    private LogAdapter mAdapter;
     private List<Bundle> list;
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -211,7 +211,7 @@ public class LogFragment extends BaseFragment {
     }
 
     private void initLayout() {
-        mAdapter = new DataListAdapter(getContext());
+        mAdapter = new LogAdapter(getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAdapter);
         refreshLayout.setOnRefreshListener(this::loadFromData);
@@ -221,19 +221,14 @@ public class LogFragment extends BaseFragment {
 
     public void loadFromData(RefreshLayout refreshLayout) {
 
-        Task.onMain(1000, () -> {
-            Log.getAll(new Log.onResult() {
-                @Override
-                public void getLog(Bundle[] logs) {
-                    if (logs == null || logs.length == 0) {
-                        mHandler.sendEmptyMessage(HANDLE_ERR);
-                    } else {
-                        list = Arrays.asList(logs);
-                        mHandler.sendEmptyMessage(HANDLE_OK);
-                    }
-                }
-            });
-        });
+        Task.onMain(1000, () -> Log.getAll(logs -> {
+            if (logs == null || logs.length == 0) {
+                mHandler.sendEmptyMessage(HANDLE_ERR);
+            } else {
+                list = Arrays.asList(logs);
+                mHandler.sendEmptyMessage(HANDLE_OK);
+            }
+        }));
     }
 
 

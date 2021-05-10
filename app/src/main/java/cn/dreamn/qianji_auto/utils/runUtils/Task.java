@@ -19,7 +19,7 @@ package cn.dreamn.qianji_auto.utils.runUtils;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
+
 
 
 
@@ -36,7 +36,7 @@ public class Task {
             try {
                 runnable.run();
             } catch (Exception e) {
-                Log.d("task",e.toString());
+                Log.m("task", e.toString());
             }
         };
         sMainHandler.postDelayed(run, msec);

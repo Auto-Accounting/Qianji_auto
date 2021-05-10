@@ -18,7 +18,6 @@
 package cn.dreamn.qianji_auto.database.Helper;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,7 +30,6 @@ import android.view.WindowManager;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogBehavior;
 import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
@@ -44,7 +42,6 @@ import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.Asset;
 import cn.dreamn.qianji_auto.database.Table.Asset2;
 import cn.dreamn.qianji_auto.ui.adapter.DataSelectListAdapter;
-import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import es.dmoral.toasty.Toasty;
@@ -208,8 +205,8 @@ public class Assets {
     }
 
     public static void getMap(String assetName,getAssets2String getAssets) {
-        Log.d("获取map"+assetName);
-        Task.onThread(()-> {
+        Log.m("获取map" + assetName);
+        Task.onThread(() -> {
             if (assetName == null) {
                 getAssets.onGet(assetName);
                 return;

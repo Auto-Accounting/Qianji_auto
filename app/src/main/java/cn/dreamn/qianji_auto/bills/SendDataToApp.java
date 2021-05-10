@@ -80,7 +80,7 @@ public class SendDataToApp {
 
 
     public static void callNoAdd(Context context, BillInfo billInfo) {
-     //   Log.d(billInfo.dump());
+     //   Log.m(billInfo.dump());
         Handler mHandler=new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -107,7 +107,7 @@ public class SendDataToApp {
     //显示角标
     public static void showTip(Context context, BillInfo billInfo) {
         try {
-            Log.d("唤起自动记账面板角标");
+            Log.i("唤起自动记账面板角标");
             AutoFloatTip autoFloatTip = new AutoFloatTip(context);
             autoFloatTip.setData(billInfo);
 
@@ -159,9 +159,9 @@ public class SendDataToApp {
             return;
         }
         try {
-            Log.d("唤起自动记账面板");
+            Log.i("唤起自动记账面板");
             AutoFloat autoFloat = new AutoFloat(context);
-            Log.d(billInfo.dump());
+            Log.i(billInfo.dump());
             autoFloat.setData(billInfo);
             if (ScreenUtils.getScreenWidth(context) > ScreenUtils.getScreenHeight(context)) {
                 autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight(context), ScreenUtils.getScreenWidth(context));

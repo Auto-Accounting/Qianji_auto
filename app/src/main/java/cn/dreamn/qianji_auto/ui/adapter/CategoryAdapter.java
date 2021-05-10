@@ -27,10 +27,9 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
 import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 public class CategoryAdapter extends BaseAdapter {
-    private Context mContext;
+    private final Context mContext;
 
     private final Boolean allow;
 
@@ -54,7 +53,7 @@ public class CategoryAdapter extends BaseAdapter {
 
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Bundle item, int position) {
-        //Log.d("绑定数据"+item.toString());
+        //Log.i("绑定数据"+item.toString());
         LinearLayout view_1 = (LinearLayout) holder.findViewById(R.id.view_grid_1);
         LinearLayout view_2 = (LinearLayout) holder.findViewById(R.id.view_grid_2);
         if (item.getString("name") == null) {

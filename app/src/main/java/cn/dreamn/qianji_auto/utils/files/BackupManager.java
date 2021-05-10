@@ -82,7 +82,7 @@ public class BackupManager {
         String newFileName = Environment.getExternalStorageDirectory().getPath() + "/Download/QianJiAuto/" + FileUtils.getFileName(fileName);
         FileUtils.makeRootDirectory(Environment.getExternalStorageDirectory().getPath() + "/Download/QianJiAuto/");
         FileUtils.copyFile(fileName, newFileName);
-        Log.d(fileName);
+        Log.m(fileName);
         FileUtils.del(fileName);
         Message message = new Message();
         message.obj = newFileName;

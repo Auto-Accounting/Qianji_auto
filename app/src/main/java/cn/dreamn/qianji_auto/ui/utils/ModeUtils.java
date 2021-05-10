@@ -2,7 +2,6 @@ package cn.dreamn.qianji_auto.ui.utils;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
@@ -21,19 +20,22 @@ import cn.dreamn.qianji_auto.ui.adapter.ListAdapter;
 import cn.dreamn.qianji_auto.ui.adapter.ModeAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.listData.ListManager;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 public class ModeUtils {
-    private BaseFragment baseFragment;
-    private ListView lv_permission;
-    private GridView mode_list;
-    public ModeUtils(BaseFragment baseFragment1,GridView mode_list1,ListView lv_permission1){
-        baseFragment=baseFragment1;
-        mode_list=mode_list1;
-        lv_permission=lv_permission1;
+    private final BaseFragment baseFragment;
+    private final ListView lv_permission;
+    private final GridView mode_list;
+
+    public ModeUtils(BaseFragment baseFragment1, GridView mode_list1, ListView lv_permission1) {
+        baseFragment = baseFragment1;
+        mode_list = mode_list1;
+        lv_permission = lv_permission1;
     }
 
-    public interface onModeSet{
+    public interface onModeSet {
         void onSet();
+
         void onPermission();
     }
 
@@ -97,7 +99,7 @@ public class ModeUtils {
         }
         int totalHeight = 0;
         for (int i = 0; i < listAdapter.getCount(); i++) {
-            Log.d("mode",i+"个");
+            Log.m("mode", i + "个");
             View listItem = listAdapter.getView(i, null, listView);
             listItem.measure(1, 1);
             totalHeight += listItem.getMeasuredHeight();

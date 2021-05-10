@@ -7,7 +7,7 @@ import org.mozilla.javascript.Scriptable;
 public class JsEngine {
     public static String run(String jsCode) {
 
-        Log.d("js运行代码",jsCode);
+        Log.m("js运行代码", jsCode);
 
         Context rhino = Context.enter();
 

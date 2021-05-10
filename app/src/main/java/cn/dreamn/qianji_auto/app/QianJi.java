@@ -122,7 +122,7 @@ public class QianJi implements IApp {
         if (billInfo.getFee() != null && !billInfo.getFee().equals("")) {
             url += "&fee=" + billInfo.getFee();
         }
-        Log.d("钱迹URL:" + url);
+        Log.i("钱迹URL:" + url);
         return url;
     }
 

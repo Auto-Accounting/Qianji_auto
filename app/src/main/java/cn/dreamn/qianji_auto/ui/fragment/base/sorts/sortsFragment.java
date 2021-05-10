@@ -192,7 +192,7 @@ public class sortsFragment extends BaseFragment {
 
             @Override
             public void onItemClick(Bundle bundle, Bundle parent, int position) {
-                Log.d("当前点击数据："+bundle.toString()+"\n父类数据："+parent.toString());
+                Log.m("当前点击数据：" + bundle.toString() + "\n父类数据：" + parent.toString());
                 if(bundle.getInt("id")==-2){
                     multiple_actions_down.collapse();
                     MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());

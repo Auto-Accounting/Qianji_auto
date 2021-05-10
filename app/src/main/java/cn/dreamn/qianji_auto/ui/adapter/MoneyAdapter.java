@@ -2,10 +2,6 @@ package cn.dreamn.qianji_auto.ui.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,13 +15,11 @@ import java.util.Collection;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.AutoBills;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class MoneyAdapter extends BaseAdapter {
-    private Context mContext;
+    private final Context mContext;
 
     private Item itemListen;
 
@@ -77,13 +71,13 @@ public class MoneyAdapter extends BaseAdapter {
 
         moneyItemAdapter.setOnItemClickListener((itemView, position1) -> {
             if(itemListen != null && position1 < datas.length){
-           //     Log.d("click "+position1);
+                //     Log.m("click "+position1);
                 itemListen.onClick(datas[position1], position1);
             }
         });
         moneyItemAdapter.setOnItemLongClickListener((itemView, position1) -> {
             if(itemListen != null && position1 < datas.length){
-          //      Log.d("long click "+position1);
+                //      Log.m("long click "+position1);
                 itemListen.onLongClick(datas[position1], position1);
             }
         });

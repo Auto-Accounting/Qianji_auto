@@ -36,11 +36,11 @@ public class Category {
             getCategoryRegularJs(billInfo,string->{
                 try {
                 String result = JsEngine.run(string);
-                    Log.d("Qianji_Cate", "自动分类结果：" + result);
+                    Log.m("Qianji_Cate", "自动分类结果：" + result);
                     getStr.onGet(result);
                 } catch (Exception e) {
-                    Log.i(" 自动分类执行出错！" + e.toString());
-                    getStr.onGet( "NotFound");
+                    Log.d(" 自动分类执行出错！" + e.toString());
+                    getStr.onGet("NotFound");
                 }
             });
 

@@ -143,7 +143,7 @@ public class AutoFloat2 {
     }
 
     private void initData() {
-        Log.d("初始化窗口");
+        Log.m("初始化窗口");
         //  Caches.AddOrUpdate("float_lock", "true");
         bindView();
         setVisible();
@@ -163,7 +163,7 @@ public class AutoFloat2 {
             });
         });
         ll_book.setOnClickListener(v -> {
-            Log.d("账本选择");
+            Log.m("账本选择");
             BookNames.showBookSelect(getContext(), "请选择账本", true, bundle -> {
                 billInfo2.setBookName(bundle.getString("name"));
                 book_id = bundle.getString("book_id");
@@ -172,7 +172,7 @@ public class AutoFloat2 {
 
         });
         ll_account1.setOnClickListener(v -> {
-            Log.d("账户1选择");
+            Log.m("账户1选择");
             Assets.showAssetSelect(getContext(), "请选择资产账户", true, asset2s -> {
                 billInfo2.setAccountName(asset2s.getString("name"));
                 mMainHandler.sendEmptyMessage(0);
@@ -180,7 +180,7 @@ public class AutoFloat2 {
 
         });
         ll_account2.setOnClickListener(v -> {
-            Log.d("账户2选择");
+            Log.m("账户2选择");
             Assets.showAssetSelect(getContext(), "请选择资产账户", true, asset2s -> {
                 billInfo2.setAccountName2(asset2s.getString("name"));
                 mMainHandler.sendEmptyMessage(0);
@@ -201,7 +201,7 @@ public class AutoFloat2 {
             });
         });
         ll_remark.setOnClickListener(v -> {
-            Log.d("请输入备注信息");
+            Log.m("请输入备注信息");
            /* showInputDialog("请输入备注信息", billInfo2.getRemark(), data -> {
                 billInfo2.setRemark(data);
                 this.setData(billInfo2);
@@ -220,7 +220,7 @@ public class AutoFloat2 {
 
         });
         ll_time.setOnClickListener(v -> {
-            Log.d("请修改时间信息");
+            Log.m("请修改时间信息");
             /*showInputDialog("请修改时间信息", billInfo2.getTime(), data -> {
                 billInfo2.setTime(data);
                 this.setData(billInfo2);
@@ -248,7 +248,7 @@ public class AutoFloat2 {
             dialog.show();
         });
         ll_type.setOnClickListener(v -> {
-            Log.d("请选择收支类型");
+            Log.m("请选择收支类型");
             String[] strings = {"支出", "收入", "转账", "信用还款"};
 
 
