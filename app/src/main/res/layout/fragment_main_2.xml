@@ -1073,8 +1073,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:gravity="center_horizontal"
-                                android:text=""
-                                android:textColor="@color/icon_title"
+                                android:text="&#xe635;"
+                                android:textColor="@color/alpha0"
                                 android:textSize="@dimen/main_card_body_icon_size" />
 
                             <TextView
@@ -1086,7 +1086,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text=""
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/alpha0"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -1108,8 +1108,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:gravity="center_horizontal"
-                                android:text=""
-                                android:textColor="@color/icon_title"
+                                android:text="&#xe635;"
+                                android:textColor="@color/alpha0"
                                 android:textSize="@dimen/main_card_body_icon_size" />
 
                             <TextView
@@ -1121,7 +1121,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text=""
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/alpha0"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -1264,8 +1264,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:gravity="center_horizontal"
-                                android:text=""
-                                android:textColor="@color/icon_title"
+                                android:text="&#xe635;"
+                                android:textColor="@color/alpha0"
                                 android:textSize="@dimen/main_card_body_icon_size" />
 
                             <TextView
@@ -1276,8 +1276,8 @@
                                 android:layout_below="@+id/item_image_icon82"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
-                                android:text=""
-                                android:textColor="@color/main_title"
+                                android:text="0"
+                                android:textColor="@color/alpha0"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -1299,8 +1299,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:gravity="center_horizontal"
-                                android:text=""
-                                android:textColor="@color/icon_title"
+                                android:text="&#xe635;"
+                                android:textColor="@color/alpha0"
                                 android:textSize="@dimen/main_card_body_icon_size" />
 
                             <TextView
@@ -1311,8 +1311,8 @@
                                 android:layout_below="@+id/item_image_icon81"
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
-                                android:text=""
-                                android:textColor="@color/main_title"
+                                android:text="1"
+                                android:textColor="@color/alpha0"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
