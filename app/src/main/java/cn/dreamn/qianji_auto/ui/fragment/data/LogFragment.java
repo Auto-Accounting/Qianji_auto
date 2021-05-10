@@ -231,5 +231,4 @@ public class LogFragment extends BaseFragment {
         }));
     }
 
-
 }
