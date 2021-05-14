@@ -18,6 +18,11 @@
 package cn.dreamn.qianji_auto.database.Helper;
 
 
+import android.os.Bundle;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.Regular;
@@ -131,14 +136,31 @@ public class Category {
 
     /**
      * js demo
-     *  if(type==0)return "啊啊啊"
-     *     if(shopName.startsWith("王记"))return "早餐"
-     *     if(shopRemark.endsWith("迎选购"))return "主主主主"
-     *     if(shopRemark.indexOf("迎选购")!=-1)return "主12主主主"
-     *     if(shopRemark=="新老顾客欢")return "滚滚"
-     *     if((/新老/g).test(shopName))return "ddd"
-     *     return "其它"
+     * if(type==0)return "啊啊啊"
+     * if(shopName.startsWith("王记"))return "早餐"
+     * if(shopRemark.endsWith("迎选购"))return "主主主主"
+     * if(shopRemark.indexOf("迎选购")!=-1)return "主12主主主"
+     * if(shopRemark=="新老顾客欢")return "滚滚"
+     * if((/新老/g).test(shopName))return "ddd"
+     * return "其它"
      */
+    public static void getAll(Regex getRegular) {
+        Task.onThread(() -> {
+            Regular[] regular = DbManger.db.RegularDao().loadAll();
+            List<Bundle> bundleList = new ArrayList<>();
+            for (Regular regular1 : regular) {
+                Bundle bundle = new Bundle();
+                bundle.putString("name", regular1.name);
+                bundle.putInt("id", regular1.id);
+                bundle.putInt("sort", regular1.sort);
+                bundle.putString("regular", regular1.regular);
+                bundle.putString("tableList", regular1.tableList);
+                bundleList.add(bundle);
+            }
+            getRegular.onGet(bundleList.toArray(new Bundle[0]));
+        });
+    }
+
     /**
      * js demo
      * if(title.contents("123"))//标题 contents 、not contents、indexof、endof、regular（匹配到）
@@ -147,24 +169,22 @@ public class Category {
      * * return "okk"
      */
 
-    interface getRegulars{
-        void onGet(Regular[] regulars);
+    public interface Regex {
+        void onGet(Bundle[] bundle);
     }
-    public static void getAll(getRegulars getRegular) {
-        Task.onThread(()-> getRegular.onGet( DbManger.db.RegularDao().loadAll()));
+
+    public interface Finish {
+        void onFinish();
     }
 
     public static void deny(int id) {
-        Task.onThread(()-> DbManger.db.RegularDao().deny(id));
+        Task.onThread(() -> DbManger.db.RegularDao().deny(id));
     }
 
     public static void enable(int id) {
         Task.onThread(() -> DbManger.db.RegularDao().enable(id));
     }
 
-    public static void getOne(int id, getRegulars getRegular) {
-        Task.onThread(() -> getRegular.onGet(DbManger.db.RegularDao().getOne(id)));
-    }
 
     public static void addCategory(String js, String name, String tableList) {
         Task.onThread(() -> DbManger.db.RegularDao().add(js, name, tableList));
