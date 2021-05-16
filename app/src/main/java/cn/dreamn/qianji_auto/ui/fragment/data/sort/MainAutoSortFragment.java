@@ -79,8 +79,6 @@ public class MainAutoSortFragment extends BaseFragment {
 
     @Override
     public void onResume() {
-
-
         super.onResume();
 
     }

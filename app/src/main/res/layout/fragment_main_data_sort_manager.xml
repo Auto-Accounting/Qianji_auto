@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
+
     android:background="@color/background"
     android:backgroundTint="@color/background"
     android:orientation="vertical">
@@ -44,11 +44,11 @@
 
         app:fab_labelStyle="@style/menu_labels_style"
 
-        fab:fab_addButtonColorNormal="@color/button_go_setting_bg"
-        fab:fab_addButtonColorPressed="@color/button_go_setting_bg"
-        fab:fab_addButtonPlusIconColor="@color/background_white"
-        fab:fab_addButtonSize="normal"
-        fab:fab_expandDirection="up"
+        app:fab_addButtonColorNormal="@color/button_go_setting_bg"
+        app:fab_addButtonColorPressed="@color/button_go_setting_bg"
+        app:fab_addButtonPlusIconColor="@color/background_white"
+        app:fab_addButtonSize="normal"
+        app:fab_expandDirection="up"
         tools:ignore="RelativeOverlap">
 
 
@@ -60,9 +60,9 @@
             app:fabSize="auto"
             app:fab_icon="@drawable/ic_cate"
             app:fab_size="mini"
-            fab:fab_addButtonColorPressed="@color/button_go_setting_bg"
-            fab:fab_colorNormal="@color/button_go_setting_bg"
-            fab:fab_title="添加分类" />
+            app:fab_addButtonColorPressed="@color/button_go_setting_bg"
+            app:fab_colorNormal="@color/button_go_setting_bg"
+            app:fab_title="添加分类规则" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/action_import"
@@ -72,18 +72,18 @@
             app:fab_icon="@drawable/ic_switch"
             app:fab_size="mini"
             app:fab_title="导入"
-            fab:fab_colorNormal="@color/button_go_setting_bg" />
+            app:fab_colorNormal="@color/button_go_setting_bg" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/action_export"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            fab:fabSize="auto"
-            fab:fab_colorNormal="@color/button_go_setting_bg"
-            fab:fab_icon="@drawable/ic_switch"
-            fab:fab_size="mini"
-            fab:fab_title="导出" />
+            app:fabSize="auto"
+            app:fab_colorNormal="@color/button_go_setting_bg"
+            app:fab_icon="@drawable/ic_switch"
+            app:fab_size="mini"
+            app:fab_title="导出" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
