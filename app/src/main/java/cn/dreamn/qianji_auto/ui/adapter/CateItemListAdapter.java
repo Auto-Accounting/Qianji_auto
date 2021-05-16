@@ -15,6 +15,7 @@ import cn.dreamn.qianji_auto.ui.views.IconView;
 public class CateItemListAdapter extends BaseAdapter {
     private final Context mContext;
 
+    private MoreClick moreClick;
     public CateItemListAdapter(Context context) {
 
         super(R.layout.cate_list_item);
@@ -55,6 +56,19 @@ public class CateItemListAdapter extends BaseAdapter {
         } else {
             view_auto.setBackgroundColor(color);
         }
+        icon_info.setOnClickListener(v -> {
+            if (moreClick != null)
+                moreClick.onClick(item);
+        });
 
+    }
+
+    public void setOnMoreClick(MoreClick moreClick) {
+        if (moreClick != null)
+            this.moreClick = moreClick;
+    }
+
+    public interface MoreClick {
+        void onClick(Bundle item);
     }
 }
