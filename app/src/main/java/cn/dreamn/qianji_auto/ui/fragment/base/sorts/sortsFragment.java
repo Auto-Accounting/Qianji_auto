@@ -66,7 +66,7 @@ public class sortsFragment extends BaseFragment {
     FloatingActionsMenu multiple_actions_down;
     @BindView(R.id.action_cate)
     FloatingActionButton action_cate;
-    @BindView(R.id.action_switch)
+    @BindView(R.id.action_import)
     FloatingActionButton action_switch;
 
     @BindView(R.id.view_hide)

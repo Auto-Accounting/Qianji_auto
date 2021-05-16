@@ -31,7 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.input.DialogInputExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
@@ -64,8 +64,8 @@ public class localFragment extends BaseFragment {
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
-    @BindView(R.id.floatingActionButton)
-    FloatingActionButton floatingActionButton;
+    @BindView(R.id.multiple_actions_down)
+    FloatingActionsMenu floatingActionButton;
     private BookListAdapter mAdapter;
     private List<Bundle> list;
     Handler mHandler = new Handler(Looper.getMainLooper()) {
@@ -92,7 +92,7 @@ public class localFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_main_base_cards_page1;
+        return R.layout.fragment_main_data_sort_manager;
     }
 
     @Override

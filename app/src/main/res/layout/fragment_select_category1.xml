@@ -77,7 +77,7 @@
             fab:fab_title="添加分类" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/action_switch"
+            android:id="@+id/action_import"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fabSize="auto"
