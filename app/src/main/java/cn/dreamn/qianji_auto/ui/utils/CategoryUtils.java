@@ -117,7 +117,7 @@ public class CategoryUtils {
     }
 
     private void OnLongClickListen(View view, int position) {
-        if(list==null||position >= list.size())return;
+        if (position >= list.size()) return;
         Bundle item = list.get(position);
         if(item.getString("name")==null)return;//为null就不响应
         if(click!=null){
@@ -128,7 +128,7 @@ public class CategoryUtils {
 
     private void OnItemClickListen(View view, int position) {
 
-        if(list==null||position >= list.size())return;
+        if (position >= list.size()) return;
         Bundle item= list.get(position);
         int left = view.getLeft();
         if(this.click!=null){
@@ -213,8 +213,6 @@ public class CategoryUtils {
             if(books==null||books.length==0){
                 mHandler.sendEmptyMessage(HANDLE_ERR);
             }else{
-
-                list.clear();
                 int len = books.length;
                 int line=len/5;//共有几行
                 if(len%5!=0)line=line+1;

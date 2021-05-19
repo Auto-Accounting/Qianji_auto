@@ -293,6 +293,7 @@ public class sortsFragment extends BaseFragment {
             dialog.message(null,"删除该分类后，其二级分类也将被删除。",null);
             dialog.positiveButton(null, "确定删除", materialDialog -> {
                 CategoryNames.del(bundle.getInt("id"));
+
                 mHandler.sendMessage(message);
                 return null;
             });

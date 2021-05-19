@@ -54,16 +54,16 @@ public class CategoryAdapter extends BaseAdapter {
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Bundle item, int position) {
         //Log.i("绑定数据"+item.toString());
-        LinearLayout view_1 = (LinearLayout) holder.findViewById(R.id.view_grid_1);
-        LinearLayout view_2 = (LinearLayout) holder.findViewById(R.id.view_grid_2);
+        LinearLayout view_1 = holder.findViewById(R.id.view_grid_1);
+        LinearLayout view_2 = holder.findViewById(R.id.view_grid_2);
+        view_1.setVisibility(View.VISIBLE);
+        view_2.setVisibility(View.GONE);
         if (item.getString("name") == null) {
             if (item.containsKey("change")) {
                 view_1.setVisibility(View.GONE);
                 if (item.getBoolean("change")) {
                     view_2.setVisibility(View.VISIBLE);
                     doItem(item, holder, position);
-                } else {
-                    view_2.setVisibility(View.GONE);
                 }
             } else {
                 view_1.setVisibility(View.INVISIBLE);
@@ -72,8 +72,6 @@ public class CategoryAdapter extends BaseAdapter {
             return;
         }
 
-        view_1.setVisibility(View.VISIBLE);
-        view_2.setVisibility(View.GONE);
 
         NiceImageView item_image_icon = (NiceImageView) holder.findView(R.id.item_image_icon);
         ImageView iv_more = (ImageView) holder.findView(R.id.iv_more);
