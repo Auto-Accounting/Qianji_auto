@@ -27,6 +27,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
 import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 public class CategoryAdapter extends BaseAdapter {
     private final Context mContext;
@@ -157,9 +158,10 @@ public class CategoryAdapter extends BaseAdapter {
         List<Bundle> list = Arrays.asList(bundles);
         categoryItemAdapter.refresh(list);
         categoryItemAdapter.setOnItemClickListener((itemView, position) -> {
-            if (list == null || position >= list.size()) return;
+            if (position >= list.size()) return;
             Bundle item1 = list.get(position);
-
+            Log.d("last", "[1]" + last[0]);
+            Log.d("last", "[position]" + position);
             categoryItemAdapter.setSelect(position);
             // categoryItemAdapter.notifyItemChanged(position);
             categoryItemAdapter.notifyItemChanged(last[0]);
@@ -167,7 +169,7 @@ public class CategoryAdapter extends BaseAdapter {
             if (last[0] == position) {
                 categoryItemAdapter.setSelect(-1);
                 categoryItemAdapter.notifyItemChanged(position);
-                last[0] = position;
+                last[0] = -1;
                 return;
             }
             last[0] = position;
