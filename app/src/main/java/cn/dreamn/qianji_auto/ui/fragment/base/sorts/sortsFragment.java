@@ -197,6 +197,7 @@ public class sortsFragment extends BaseFragment {
                     multiple_actions_down.collapse();
                     MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
                     dialog.title(null, "请输入子类名称");
+                    dialog.cancelable(true);
                     DialogInputExtKt.input(dialog, "指的是当前分类下的子类名称", null, null, null,
                             InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS,
                             null, true, false, (materialDialog, text) -> {
