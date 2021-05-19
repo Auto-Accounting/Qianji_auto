@@ -94,6 +94,7 @@ public class CategoryUtils {
 
         @Override
         public int getSpanSize(int i) {
+            if (list.size() <= i) return 1;
             Bundle bundle=list.get(i);
             return bundle.containsKey("change") ?5:1;
         }
