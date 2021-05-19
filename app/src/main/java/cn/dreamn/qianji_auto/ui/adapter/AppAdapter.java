@@ -14,7 +14,6 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 
 public class AppAdapter extends ArrayAdapter {
@@ -37,17 +36,15 @@ public class AppAdapter extends ArrayAdapter {
 
         @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.grid_items, null, false);
 
-        ImageView image = (ImageView) view.findViewById(R.id.item_image_icon);
-       // image.setImageResource(bundle.getInt("appIcon"));
-        Task.onThread(()->{
-            image.setImageResource(bundle.getInt("appIcon"));
-        });
-        TextView textView = (TextView) view.findViewById(R.id.item_text);
+        ImageView image = view.findViewById(R.id.item_image_icon);
+        // image.setImageResource(bundle.getInt("appIcon"));
+        image.setImageResource(bundle.getInt("appIcon"));
+        TextView textView = view.findViewById(R.id.item_text);
         textView.setText(bundle.getString("appName"));
-        CardView cardView=(CardView)view.findViewById(R.id.card_shadow);
+        CardView cardView = view.findViewById(R.id.card_shadow);
         //CornerLabelView cornerLabelView=(CornerLabelView)view.findViewById(R.id.icon_choose);
-        String packageName=bundle.getString("appPackage");
-        callAdapter.tryRegex(packageName,cardView);
+        String packageName = bundle.getString("appPackage");
+        callAdapter.tryRegex(packageName, cardView);
         return view;
 
 
