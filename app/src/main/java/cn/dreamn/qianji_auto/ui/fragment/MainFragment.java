@@ -18,6 +18,7 @@
 package cn.dreamn.qianji_auto.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.os.Handler;
@@ -331,7 +332,9 @@ public class MainFragment extends BaseFragment {
                 mExitTime = System.currentTimeMillis();
             } else {
                 //小于2000ms则认为是用户确实希望退出程序-调用System.exit()方法进行退出
-                System.exit(0);
+                Intent home = new Intent(Intent.ACTION_MAIN);
+                home.addCategory(Intent.CATEGORY_HOME);
+                startActivity(home);
             }
         }
         return true;

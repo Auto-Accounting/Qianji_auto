@@ -193,7 +193,7 @@ public class localFragment extends BaseFragment {
                 dialog.show();
             } catch (Exception | Error e) {
                 e.printStackTrace();
-                Log.d("出错了，可能是权限未给全！" + e.toString());
+                Log.i("出错了，可能是权限未给全！" + e.toString());
             }
         });
         action_export.setOnClickListener(v -> {
