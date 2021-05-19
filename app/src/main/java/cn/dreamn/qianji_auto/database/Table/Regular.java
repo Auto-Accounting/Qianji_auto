@@ -28,7 +28,7 @@ public class Regular {
     public String regular;//翻译后的规则
     public String name;
     public String tableList;
-
+    public String des;
     public int use = 1;//是否启用该规则
     public int sort = 0;//排序
 

@@ -41,8 +41,8 @@ public interface IdentifyRegularDao {
     @Query("UPDATE  IdentifyRegular set sort=:sort WHERE id=:id")
     void setSort(int id, int sort);
 
-    @Query("UPDATE  IdentifyRegular SET regular=:regular,name=:name,text=:text,tableList=:tableList,identify=:identify,fromApp=:fromApp WHERE id=:id")
-    void update(int id, String regular, String name, String text, String tableList, String identify, String fromApp);
+    @Query("UPDATE  IdentifyRegular SET regular=:regular,name=:name,text=:text,tableList=:tableList,identify=:identify,fromApp=:fromApp,des=:des WHERE id=:id")
+    void update(int id, String regular, String name, String text, String tableList, String identify, String fromApp, String des);
 
     @Query("UPDATE  IdentifyRegular SET use=1 WHERE id=:id")
     void enable(int id);
@@ -50,8 +50,8 @@ public interface IdentifyRegularDao {
     @Query("UPDATE  IdentifyRegular SET use=0 WHERE id=:id")
     void deny(int id);
 
-    @Query("INSERT INTO IdentifyRegular(regular,name,text,use,sort,tableList,identify,fromApp) values(:regex,:name,:text,1,0,:tableList,:identify,:fromApp)")
-    void add(String regex, String name, String text, String tableList, String identify, String fromApp);
+    @Query("INSERT INTO IdentifyRegular(regular,name,text,use,sort,tableList,identify,fromApp,des) values(:regex,:name,:text,1,0,:tableList,:identify,:fromApp,:des)")
+    void add(String regex, String name, String text, String tableList, String identify, String fromApp, String des);
 
     @Query("DELETE FROM IdentifyRegular WHERE identify=:identify and fromApp=:App")
     void clean(String identify, String App);

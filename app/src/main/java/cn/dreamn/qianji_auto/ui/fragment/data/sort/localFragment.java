@@ -22,14 +22,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.text.InputType;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.input.DialogInputExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -46,7 +44,7 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.Category;
-import cn.dreamn.qianji_auto.ui.adapter.BookListAdapter;
+import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import es.dmoral.toasty.Toasty;
@@ -66,7 +64,7 @@ public class localFragment extends BaseFragment {
     SwipeRecyclerView recyclerView;
     @BindView(R.id.multiple_actions_down)
     FloatingActionsMenu floatingActionButton;
-    private BookListAdapter mAdapter;
+    private CateItemListAdapter mAdapter;
     private List<Bundle> list;
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -124,7 +122,7 @@ public class localFragment extends BaseFragment {
     }
 
     private void initLayout() {
-        mAdapter = new BookListAdapter(getContext());
+        mAdapter = new CateItemListAdapter(getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this::OnItemClickListen);
@@ -149,26 +147,7 @@ public class localFragment extends BaseFragment {
 
     }
 
-    @SuppressLint("CheckResult")
-    private void change(Bundle bookName) {
-        MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-        dialog.title(null, "请修改账本名称");
-        DialogInputExtKt.input(dialog, "指的是记账app中的账本名称", null, bookName.getString("name"), null,
-                InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS,
-                null, true, false, (materialDialog, text) -> {
-                    BookNames.upd(bookName.getInt("id"), text.toString(), () -> {
-                        Message message = new Message();
-                        message.obj = "修改成功!";
-                        message.what = HANDLE_REFRESH;
-                        mHandler.sendMessage(message);
-                    });
 
-                    return null;
-                });
-
-
-        dialog.show();
-    }
 
     private void del(Bundle bookName) {
         MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());

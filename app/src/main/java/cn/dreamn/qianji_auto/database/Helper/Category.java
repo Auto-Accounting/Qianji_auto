@@ -79,7 +79,7 @@ public class Category {
 
         dataUtils.put("regular_billtype", billInfo.getSource());
 
-        dataUtils.put("regular_name", "[自动生成]" + billInfo.getSource());
+        dataUtils.put("regular_name", billInfo.getSource());
         dataUtils.put("regular_time1_link", "");
         dataUtils.put("regular_time1", "");
         dataUtils.put("regular_time2_link", "");
@@ -97,7 +97,7 @@ public class Category {
         dataUtils.put("regular_type", BillInfo.getTypeName(billInfo.getType(true)));
         dataUtils.put("regular_sort", sort);
 
-        Category.addCategory(regular, name, dataUtils.toString());
+        Category.addCategory(regular, name, dataUtils.toString(), "[自动生成]");
 
     }
 
@@ -153,6 +153,7 @@ public class Category {
                 bundle.putString("name", regular1.name);
                 bundle.putInt("id", regular1.id);
                 bundle.putInt("sort", regular1.sort);
+                bundle.putString("des", regular1.des);
                 bundle.putString("regular", regular1.regular);
                 bundle.putString("tableList", regular1.tableList);
                 bundleList.add(bundle);
@@ -186,8 +187,8 @@ public class Category {
     }
 
 
-    public static void addCategory(String js, String name, String tableList) {
-        Task.onThread(() -> DbManger.db.RegularDao().add(js, name, tableList));
+    public static void addCategory(String js, String name, String tableList, String des) {
+        Task.onThread(() -> DbManger.db.RegularDao().add(js, name, tableList, des));
     }
 
     public static void changeCategory(int id, String js, String name, String cate, String tableList) {

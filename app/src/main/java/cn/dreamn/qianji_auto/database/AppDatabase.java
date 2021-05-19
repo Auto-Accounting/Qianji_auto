@@ -56,7 +56,7 @@ import cn.dreamn.qianji_auto.database.Table.Regular;
         CategoryName.class,
         AppData.class,
         IdentifyRegular.class
-}, version = 8, exportSchema = false)
+}, version = 9, exportSchema = false)
 
 public abstract class AppDatabase extends RoomDatabase {
     public abstract LogDao LogDao();
@@ -250,6 +250,16 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL(" DROP TABLE IdentifyRegular ");
 
             database.execSQL(" ALTER  TABLE IdentifyRegularTemp  RENAME to IdentifyRegular");
+        }
+    };
+
+    static final Migration MIGRATION_8_9 = new Migration(8, 9) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+
+            database.execSQL("ALTER TABLE Regular ADD COLUMN  des TEXT  ");
+            database.execSQL("ALTER TABLE IdentifyRegular ADD COLUMN des TEXT   ");
+
         }
     };
 }

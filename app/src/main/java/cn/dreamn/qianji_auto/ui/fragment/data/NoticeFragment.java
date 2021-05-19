@@ -226,8 +226,8 @@ public class NoticeFragment extends BaseFragment {
                   Bundle bundle =  item.getBundle("cloud_data");
                     DataUtils dataUtils=new DataUtils();
                     dataUtils.parse(bundle.getString("tableList"));
-                  identifyRegulars.add(bundle.getString("regular"),bundle.getString("name"),bundle.getString("text"),dataUtils.get("account1"),dataUtils.get("account2"),dataUtils.get("type"),dataUtils.get("silent"),dataUtils.get("money"),dataUtils.get("fee"),dataUtils.get("shopName"),dataUtils.get("shopRemark"),dataUtils.get("source"),bundle.getString("identify"),bundle.getString("fromApp"));
-                  Toasty.info(getContext(),"导入成功").show();
+                    identifyRegulars.add(bundle.getString("regular"), bundle.getString("name"), bundle.getString("text"), dataUtils.get("account1"), dataUtils.get("account2"), dataUtils.get("type"), dataUtils.get("silent"), dataUtils.get("money"), dataUtils.get("fee"), dataUtils.get("shopName"), dataUtils.get("shopRemark"), dataUtils.get("source"), bundle.getString("identify"), bundle.getString("fromApp"), bundle.getString("des"));
+                    Toasty.info(getContext(), "导入成功").show();
                   mHandler.sendEmptyMessage(HANDLE_REFRESH);
                 }else if(text=="上传规则") {
                     //TODO Support
@@ -344,7 +344,8 @@ public class NoticeFragment extends BaseFragment {
                                                 bundle.putString("regular",jsonArray.getJSONObject(i).getString("data"));
                                                 bundle.putString("tableList",jsonArray.getJSONObject(i).getString("tableList"));
                                                 bundle.putString("identify",jsonArray.getJSONObject(i).getString("identify"));
-                                                bundle.putString("fromApp",jsonArray.getJSONObject(i).getString("fromApp"));
+                                                bundle.putString("fromApp", jsonArray.getJSONObject(i).getString("fromApp"));
+                                                bundle.putString("des", jsonArray.getJSONObject(i).getString("description"));
                                                // bundle.putString("name");
                                                 datas.get(i).putBundle("cloud_data",bundle);
                                             }

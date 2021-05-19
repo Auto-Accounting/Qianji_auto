@@ -171,7 +171,7 @@ public class identifyRegulars {
     }
 
 
-    public static void add(String regex, String name, String text,String account1,String account2,String type,String silent,String money,String fee,String shopName,String shopRemark,String source,String identify,String fromApp) {
+    public static void add(String regex, String name, String text, String account1, String account2, String type, String silent, String money, String fee, String shopName, String shopRemark, String source, String identify, String fromApp, String des) {
         DataUtils dataUtils = new DataUtils();
         dataUtils.put("account1", account1);
         dataUtils.put("account2", account2);
@@ -182,10 +182,10 @@ public class identifyRegulars {
         dataUtils.put("shopName", shopName);
         dataUtils.put("shopRemark", shopRemark);
         dataUtils.put("source", source);
-        Task.onThread(() -> DbManger.db.IdentifyRegularDao().add(regex, name, text, dataUtils.toString(), identify, fromApp));
+        Task.onThread(() -> DbManger.db.IdentifyRegularDao().add(regex, name, text, dataUtils.toString(), identify, fromApp, des));
     }
 
-    public static void change(int id, String regex, String name, String text,String account1,String account2,String type,String silent,String money,String fee,String shopName,String shopRemark,String source,String identify,String fromApp) {
+    public static void change(int id, String regex, String name, String text, String account1, String account2, String type, String silent, String money, String fee, String shopName, String shopRemark, String source, String identify, String fromApp, String des) {
         DataUtils dataUtils = new DataUtils();
         dataUtils.put("account1", account1);
         dataUtils.put("account2", account2);
@@ -196,7 +196,7 @@ public class identifyRegulars {
         dataUtils.put("shopName", shopName);
         dataUtils.put("shopRemark", shopRemark);
         dataUtils.put("source", source);
-        Task.onThread(() -> DbManger.db.IdentifyRegularDao().update(id, regex, name, text, dataUtils.toString(), identify, fromApp));
+        Task.onThread(() -> DbManger.db.IdentifyRegularDao().update(id, regex, name, text, dataUtils.toString(), identify, fromApp, des));
     }
 
     public static void del(int id) {
