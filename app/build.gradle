@@ -10,7 +10,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "cn.dreamn.qianji_auto"
+        applicationId "cn.dreamn.qianji"
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 100

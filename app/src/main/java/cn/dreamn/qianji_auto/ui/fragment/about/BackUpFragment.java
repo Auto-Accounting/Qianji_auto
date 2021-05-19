@@ -48,10 +48,12 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloat2;
 import cn.dreamn.qianji_auto.ui.views.LoadingDialog;
 import cn.dreamn.qianji_auto.utils.files.BackupManager;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 import es.dmoral.toasty.Toasty;
@@ -217,39 +219,45 @@ public class BackUpFragment extends BaseFragment {
             }
         });
         rl_restore_local.setOnClickListener(v -> {
+            PermissionUtils permissionUtils = new PermissionUtils(getContext());
+            permissionUtils.grant(PermissionUtils.Storage);
+            try {
+                BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+                MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
+                dialog.title(null, "请选择自动记账配置文件");
 
-            BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-            MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-            dialog.title(null, "请选择自动记账配置文件");
+                DialogFileChooserExtKt.fileChooser(dialog, getContext(), Environment.getExternalStorageDirectory(), file -> {
+                            return file.isDirectory() || (file.isFile() && file.getName().endsWith("backup"));
+                        },
+                        true, R.string.files_default_empty_text, false, null,
+                        (materialDialog, file) -> {
+                            //Log.d(file.getAbsolutePath());
+                            BackupManager.init(getContext());
+                            LoadingDialog dialog2 = new LoadingDialog(getContext(), "数据恢复中...");
+                            Handler mHandler = new Handler(Looper.getMainLooper()) {
+                                @Override
+                                public void handleMessage(@NonNull Message msg) {
+                                    dialog2.close();
+                                    if (msg.what == -1) {
+                                        //失败
+                                        Toasty.error(getContext(), "恢复失败！", Toasty.LENGTH_LONG).show();
+                                    } else {
+                                        Toasty.success(getContext(), "恢复成功！", Toasty.LENGTH_LONG).show();
+                                        Tool.restartApp(getActivity());
+                                    }
 
-            DialogFileChooserExtKt.fileChooser(dialog, getContext(), Environment.getExternalStorageDirectory(), file -> {
-                        return file.isDirectory() || (file.isFile() && file.getName().endsWith("backup"));
-                    },
-                    true, R.string.files_default_empty_text, false, null,
-                    (materialDialog, file) -> {
-                        //Log.d(file.getAbsolutePath());
-                        BackupManager.init(getContext());
-                        LoadingDialog dialog2 = new LoadingDialog(getContext(), "数据恢复中...");
-                        Handler mHandler = new Handler(Looper.getMainLooper()) {
-                            @Override
-                            public void handleMessage(@NonNull Message msg) {
-                                dialog2.close();
-                                if (msg.what == -1) {
-                                    //失败
-                                    Toasty.error(getContext(), "恢复失败！", Toasty.LENGTH_LONG).show();
-                                } else {
-                                    Toasty.success(getContext(), "恢复成功！", Toasty.LENGTH_LONG).show();
-                                    Tool.restartApp(getActivity());
                                 }
+                            };
+                            dialog2.show();
+                            Task.onThread(() -> BackupManager.restoreFromLocal(file.getAbsolutePath(), getContext(), mHandler));
+                            return null;
+                        });
 
-                            }
-                        };
-                        dialog2.show();
-                        Task.onThread(() -> BackupManager.restoreFromLocal(file.getAbsolutePath(), getContext(), mHandler));
-                        return null;
-                    });
-
-            dialog.show();
+                dialog.show();
+            } catch (Exception | Error e) {
+                e.printStackTrace();
+                Log.d("出错了，可能是权限未给全！" + e.toString());
+            }
 
 
         });

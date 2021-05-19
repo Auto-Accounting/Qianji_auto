@@ -9,22 +9,23 @@
         body{
             padding: 0;
             margin: 0;
-            background-color: white;
+            background-color: #F2F2F2;
         }
         label{
             display: block;
-            margin-bottom: 10px;
             font-size: 18px;
+            padding: 5px 0;
         }
         select {
-            border: solid 1px #0e90d2;
-            background-color: #5A98DE;
+            border: 1px solid #3396FB;
+            background-color: #F2F2F2;
             font-size: 18px;
             text-align: center;
             text-align-last: center;
             height: 40px;
+            color: #3396FB;
             padding: 0 10px;
-            border-radius: 3px;
+            border-radius: 10px;
             outline-style: none;
             appearance:none;
             -moz-appearance:none;
@@ -47,7 +48,7 @@
         }
         button{
             width: 30%;
-            border-radius: 3px;
+            border-radius: 10px;
             height: 40px;
             line-height: 40px;
             text-align: center;
@@ -56,31 +57,74 @@
             font-size: 18px;
             color: #fff;
             cursor: pointer;
-            background-color: #5A98DE;
+            background-color: #3396FB;
         }
         option:first-child{
             font-weight: bolder;
         }
         option{
-            width: 100%;
             background-color: white;
             color: black;
         }
+
         .rule{
+            width: 100%;
             margin: 0 auto;
-            padding: 0 0.8em;
             box-sizing: border-box;
         }
-        .rule div{
-            margin: 5px 0 25px 0;
+        .rule_content{
+            width: 100%;
+            text-align: center;
+            background-color: white;
+            padding: 10px 0;
+            margin-bottom: 5px;
         }
-        .rule div div{
-            margin: 0 0 8px 0;
+        .rule_content1 input,.rule_content1 select{
             width: 100%;
         }
+        .rule_content2 select{
+            width: 25%;
+         }
+        .rule_content2 input{
+            width: 70%;
+            margin-left: 5%;
+        }
+        .rule_content3{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 35px;
+        }
+        .rule_content3 span{
+            width:25%;
+            text-align: left;
+            line-height: 35px;
+        }
+        .rule_content3 label{
+            width:5%;
+            text-align: center;
+            font-size: 24px;
+            color: #8A8A8A;
+            line-height: 35px;
+        }
+        .rule_content3 select{
+            width: 70%;
+            border: none;
+            background-color: white;
+            text-align: right;
+            text-align-last: right;
+            padding-right: 5%;
+            color: #AAAAAA;
+            line-height: 35px;
+        }
+        .rule_content select:last-child{
+            padding-right: 10%;
+        }
+
         .buttons{
             margin: 0 auto;
             text-align: center;
+            padding-top: 5px;
         }
         .buttons button{
             height: 40px;
@@ -90,32 +134,53 @@
         .button1{
             margin-right: 10%;
         }
-        .time_condition select ,.price_condition select ,.price_condition select ,.merchant_name select ,.merchant_remark select{
-            width: 25%;
-        }
-        .time_condition input ,.price_condition input ,.price_condition input ,.merchant_name input ,.merchant_remark input{
-            width: 73%;
-            margin-left: 2%;
-        }
-        .sort_name input, .consumption_type select ,.bill_type select{
-            width: 100%;
-        }
+
         @media screen and (min-width:992px){
             .rule{
                 width: 50%;
             }
+            .rule_content div{
+                width: 95%;
+                margin: 0 auto;
+            }
+            label{
+                width: 95%;
+                margin: 10px auto;
+            }
+            .buttons{
+                width: 95%;
+            }
+
         }
         @media screen and (min-width:768px) and (max-width:992px) {
             .rule{
+                width: 80%;
+            }
+            .rule_content div{
+                width: 95%;
+                margin: 0 auto;
+            }
+            label{
+                width:95%;
+                margin: 10px auto;
+            }
+            .buttons{
                 width: 95%;
             }
         }
         @media screen and (max-width:768px){
-            .rule{
-                width: 100%;
+            .rule_content div{
+                width: 95%;
+                margin: 0 auto;
+            }
+            label{
+                width: 95%;
+                margin: 10px auto;
+            }
+            .buttons{
+                width: 95%;
             }
         }
-
     </style>
 </head>
 <body>
@@ -123,91 +188,131 @@
     <form action="">
         <div class="sort_name">
             <label for="sort_name">规则名称</label>
-            <input id="sort_name" placeholder="分类规则名称" type="text">
+            <div class="rule_content">
+                <div class="rule_content1">
+                    <input id="sort_name" placeholder="分类规则名称" type="text">
+                </div>
+            </div>
         </div>
 
         <div class="time_condition">
-            <label>时间条件满足</label>
-            <div>
-                <select id="time_condition1" name="time_condition">
-                    <option selected> =</option>
-                    <option> <</option>
-                    <option> <</option>
-                    <option> !=</option>
-                </select><input id="time_condition2" placeholder="仅可输入数字，24小时计数法" type="time">
+            <label>时间满足条件</label>
+            <div class="rule_content">
+                <div class="rule_content2">
+                    <select id="time_condition1" name="time_condition">
+                        <option selected> =</option>
+                        <option> <</option>
+                        <option> <</option>
+                        <option> !=</option>
+                    </select><input id="time_condition2" placeholder="仅可输入数字，24小时计数法" type="time">
+                </div>
             </div>
-            <div>
-                <select id="time_condition3" name="time_condition2">
-                    <option selected> =</option>
-                    <option> <</option>
-                    <option> <</option>
-                    <option> !=</option>
-                </select><input id="time_condition4" placeholder="仅可输入数字，24小时计数法" type="time">
+            <div class="rule_content">
+                <div class="rule_content2">
+                    <select id="time_condition3" name="time_condition2">
+                        <option selected> =</option>
+                        <option> <</option>
+                        <option> <</option>
+                        <option> !=</option>
+                    </select><input id="time_condition4" placeholder="仅可输入数字，24小时计数法" type="time">
+                </div>
             </div>
         </div>
 
         <div class="price_condition">
-            <label>金额条件满足</label>
-            <div>
-                <select id="price_condition1" name="price_condition1">
-                    <option selected> =</option>
-                    <option> <</option>
-                    <option> <</option>
-                    <option> !=</option>
-                </select><input id="price_condition2" placeholder="仅可输入数字" type="number">
+            <label>金额满足条件</label>
+            <div class="rule_content">
+                <div class="rule_content2">
+                    <select id="price_condition1" name="price_condition1">
+                        <option selected> =</option>
+                        <option> <</option>
+                        <option> <</option>
+                        <option> !=</option>
+                    </select><input id="price_condition2" placeholder="仅可输入数字" type="number">
+                </div>
             </div>
-            <div>
-                <select id="price_condition3" name="price_condition3">
-                    <option selected> =</option>
-                    <option> <</option>
-                    <option> <</option>
-                    <option> !=</option>
-                </select><input id="price_condition4" placeholder="仅可输入数字" type="number">
+            <div class="rule_content">
+                <div class="rule_content2">
+                    <select id="price_condition3" name="price_condition3">
+                        <option selected> =</option>
+                        <option> <</option>
+                        <option> <</option>
+                        <option> !=</option>
+                    </select><input id="price_condition4" placeholder="仅可输入数字" type="number">
+                </div>
             </div>
         </div>
 
         <div class="merchant_name">
-            <label>商户名称条件满足</label>
-            <div>
-                <select id="merchant_name1" name="merchant_name1">
-                    <option selected> =</option>
-                    <option> <</option>
-                    <option> <</option>
-                    <option> !=</option>
-                </select><input id="merchant_name2" type="text">
+            <label>商户名称满足条件</label>
+            <div class="rule_content">
+                <div class="rule_content2">
+                    <select id="merchant_name1" name="merchant_name1">
+                        <option selected> =</option>
+                        <option> <</option>
+                        <option> <</option>
+                        <option> !=</option>
+                    </select><input id="merchant_name2" type="text">
+                </div>
             </div>
         </div>
 
         <div class="merchant_remark">
-            <label>时间条件满足</label>
-            <div>
-                <select id="merchant_remark1" name="merchant_remark1">
-                    <option selected> =</option>
-                    <option> <</option>
-                    <option> <</option>
-                    <option> !=</option>
-                </select><input id="merchant_remark2" type="text">
+            <label>商户备注满足条件</label>
+            <div class="rule_content">
+                <div class="rule_content2">
+                    <select id="merchant_remark1" name="merchant_remark1">
+                        <option selected> =</option>
+                        <option> <</option>
+                        <option> <</option>
+                        <option> !=</option>
+                    </select><input id="merchant_remark2" type="text">
+                </div>
             </div>
         </div>
 
         <div class="consumption_type">
-            <label>消费类型条件满足</label>
-            <select id="consumption_type" name="consumption_type">
-                <option selected> =</option>
-                <option> <</option>
-                <option> <</option>
-                <option> !=</option>
-            </select>
+            <div class="rule_content position">
+                <div class="rule_content3">
+                    <span>消费类型为</span>
+                    <select id="consumption_type" name="consumption_type">
+                        <option selected> 支出</option>
+                        <option> <</option>
+                        <option> <</option>
+                        <option> !=</option>
+                    </select>
+                    <label for="consumption_type"> > </label>
+                </div>
+            </div>
         </div>
 
         <div class="bill_type">
-            <label>账单类型条件满足</label>
-            <select id="bill_type" name="bill_type">
-                <option selected> =</option>
-                <option> <</option>
-                <option> <</option>
-                <option> !=</option>
-            </select>
+            <div class="rule_content position">
+                <div class="rule_content3">
+                    <span>账单类型为</span>
+                    <select id="bill_type" name="bill_type">
+                        <option selected> 任意</option>
+                        <option> <</option>
+                        <option> <</option>
+                        <option> !=</option>
+                    </select>
+                    <label for="bill_type"> > </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="sort">
+            <div class="rule_content position">
+                <div class="rule_content3">
+                    <span>分类为</span>
+                    <button style="color: #5A98DE;border: 1px solid #3396FB;background-color: #F2F2F2;line-height: 35px"
+                            value="你好">
+                        <img alt=""
+                             src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2F1812.img.pp.sohu.com.cn%2Fimages%2Fblog%2F2009%2F11%2F18%2F18%2F8%2F125b6560a6ag214.jpg&refer=http%3A%2F%2F1812.img.pp.sohu.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624005801&t=d7dd801e79a811a9f9157f50a9ff11c0"
+                             style="width: 16px;height: 16px;margin-right: 5px"/><b>你好</b>
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="buttons">

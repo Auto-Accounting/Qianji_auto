@@ -52,10 +52,12 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.Category;
+import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.utils.files.FileUtils;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import es.dmoral.toasty.Toasty;
 
@@ -137,55 +139,62 @@ public class localFragment extends BaseFragment {
             WebViewFragment.openUrl(this, "file:///android_asset/html/category/index.html");
         });
         action_import.setOnClickListener(v -> {
-            // 导入
-            BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-            MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-            dialog.title(null, "请选择自动记账分类配置文件");
+            PermissionUtils permissionUtils = new PermissionUtils(getContext());
+            permissionUtils.grant(PermissionUtils.Storage);
+            try {
+                // 导入
+                BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+                MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
+                dialog.title(null, "请选择自动记账分类配置文件");
 
-            DialogFileChooserExtKt.fileChooser(dialog, getContext(), Environment.getExternalStorageDirectory(), file -> file.isDirectory() || (file.isFile() && file.getName().endsWith("ankio.category.backup")),
-                    true, R.string.files_default_empty_text, false, null,
-                    (materialDialog, file) -> {
-                        //Log.d(file.getAbsolutePath());
-                        String data = FileUtils.get(file.getAbsolutePath());
-                        JSONObject jsonObject = JSONObject.parseObject(data);
-                        String from = jsonObject.getString("from");
+                DialogFileChooserExtKt.fileChooser(dialog, getContext(), Environment.getExternalStorageDirectory(), file -> file.isDirectory() || (file.isFile() && file.getName().endsWith("ankio.category.backup")),
+                        true, R.string.files_default_empty_text, false, null,
+                        (materialDialog, file) -> {
+                            //Log.d(file.getAbsolutePath());
+                            String data = FileUtils.get(file.getAbsolutePath());
+                            JSONObject jsonObject = JSONObject.parseObject(data);
+                            String from = jsonObject.getString("from");
 
-                        if (!from.equals("Category")) {
-                            Toasty.error(getContext(), "该文件不是有效的自动分类配置数据文件").show();
-                            return null;
-                        }
-                        JSONArray jsonArray = jsonObject.getJSONArray("data");
+                            if (!from.equals("Category")) {
+                                Toasty.error(getContext(), "该文件不是有效的自动分类配置数据文件").show();
+                                return null;
+                            }
+                            JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                        BottomSheet bottomSheet2 = new BottomSheet(LayoutMode.WRAP_CONTENT);
-                        MaterialDialog dialog2 = new MaterialDialog(getContext(), bottomSheet2);
-                        dialog2.cornerRadius(15f, null);
-                        dialog2.title(null, "恢复提醒");
-                        dialog2.message(null, "是否覆盖原有数据（清空不保留）？", null);
-                        dialog2.negativeButton(null, "不清空", (a) -> null);
-                        dialog2.positiveButton(null, "清空", (a) -> {
-                            Category.clear();
-                            return null;
-                        });
-                        dialog2.setOnCancelListener(dialog1 -> {
-                            Task.onThread(() -> {
-                                for (int i = 0; i < jsonArray.size(); i++) {
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                    Category.addCategory(new String(Base64.decode(jsonObject1.getString("regular"), Base64.NO_WRAP)), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des"));
-                                }
-                                Message message = new Message();
-                                message.what = HANDLE_REFRESH;
-                                message.obj = "恢复成功！";
-                                mHandler.sendMessage(message);
+                            BottomSheet bottomSheet2 = new BottomSheet(LayoutMode.WRAP_CONTENT);
+                            MaterialDialog dialog2 = new MaterialDialog(getContext(), bottomSheet2);
+                            dialog2.cornerRadius(15f, null);
+                            dialog2.title(null, "恢复提醒");
+                            dialog2.message(null, "是否覆盖原有数据（清空不保留）？", null);
+                            dialog2.negativeButton(null, "不清空", (a) -> null);
+                            dialog2.positiveButton(null, "清空", (a) -> {
+                                Category.clear();
+                                return null;
                             });
+                            dialog2.setOnCancelListener(dialog1 -> {
+                                Task.onThread(() -> {
+                                    for (int i = 0; i < jsonArray.size(); i++) {
+                                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                        Category.addCategory(new String(Base64.decode(jsonObject1.getString("regular"), Base64.NO_WRAP)), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des"));
+                                    }
+                                    Message message = new Message();
+                                    message.what = HANDLE_REFRESH;
+                                    message.obj = "恢复成功！";
+                                    mHandler.sendMessage(message);
+                                });
 
 
+                            });
+                            dialog2.show();
+                            return null;
                         });
-                        dialog2.show();
-                        return null;
-                    });
 
-            dialog.cornerRadius(15f, null);
-            dialog.show();
+                dialog.cornerRadius(15f, null);
+                dialog.show();
+            } catch (Exception | Error e) {
+                e.printStackTrace();
+                Log.d("出错了，可能是权限未给全！" + e.toString());
+            }
         });
         action_export.setOnClickListener(v -> {
 
@@ -217,14 +226,50 @@ public class localFragment extends BaseFragment {
     private void OnItemClickListen(View view, int position) {
         if (list == null || position >= list.size()) return;
 
-        Bundle bookName = list.get(position);
+        Bundle cate = list.get(position);
 
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
         MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
         dialog.cornerRadius(15f, null);
-        dialog.title(null, "请选择操作(" + bookName.getString("name") + ")");
-        DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "可视化编辑", "js编辑", "上传到云端"), null, true, (materialDialog, index, text) -> {
-            //TODO 可视化操作
+        String disable = "禁用";
+        if (cate.getInt("use") != 1) {
+            disable = "启用";
+        }
+        dialog.title(null, "请选择操作(" + cate.getString("title") + ")");
+        DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "可视化编辑", "js编辑", "上传到云端", disable), null, true, (materialDialog, index, text) -> {
+            switch (index) {
+                case 0:
+                    Category.del(cate.getInt("id"), () -> {
+                        Message message = new Message();
+                        message.obj = "删除成功";
+                        message.what = HANDLE_REFRESH;
+                        mHandler.sendMessage(message);
+                    });
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    //TODO send2Cloud
+                    break;
+                case 4:
+                    if (text == "禁用") {
+                        Category.deny(cate.getInt("id"), () -> {
+                            Message message = new Message();
+                            message.obj = "禁用成功";
+                            message.what = HANDLE_REFRESH;
+                            mHandler.sendMessage(message);
+                        });
+                    } else {
+                        Category.enable(cate.getInt("id"), () -> {
+                            Message message = new Message();
+                            message.obj = "启用成功";
+                            message.what = HANDLE_REFRESH;
+                            mHandler.sendMessage(message);
+                        });
+                    }
+            }
             return null;
         });
         dialog.show();

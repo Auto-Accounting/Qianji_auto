@@ -153,6 +153,7 @@ public class Category {
                 bundle.putString("name", regular1.name);
                 bundle.putInt("id", regular1.id);
                 bundle.putInt("sort", regular1.sort);
+                bundle.putInt("use", regular1.use);
                 bundle.putString("des", regular1.des);
                 bundle.putString("regular", regular1.regular);
                 bundle.putString("tableList", regular1.tableList);
@@ -178,12 +179,18 @@ public class Category {
         void onFinish();
     }
 
-    public static void deny(int id) {
-        Task.onThread(() -> DbManger.db.RegularDao().deny(id));
+    public static void deny(int id, Finish finish) {
+        Task.onThread(() -> {
+            DbManger.db.RegularDao().deny(id);
+            finish.onFinish();
+        });
     }
 
-    public static void enable(int id) {
-        Task.onThread(() -> DbManger.db.RegularDao().enable(id));
+    public static void enable(int id, Finish finish) {
+        Task.onThread(() -> {
+            DbManger.db.RegularDao().enable(id);
+            finish.onFinish();
+        });
     }
 
 
@@ -195,16 +202,19 @@ public class Category {
         Task.onThread(() -> DbManger.db.RegularDao().update(id, js, name, tableList));
     }
 
-    public static void del(int id) {
-        Task.onThread(() -> DbManger.db.RegularDao().delete(id));
+    public static void del(int id, Finish finish) {
+        Task.onThread(() -> {
+            DbManger.db.RegularDao().delete(id);
+            finish.onFinish();
+        });
     }
 
     public static void setSort(int id, int sort) {
-        Task.onThread(()-> DbManger.db.RegularDao().setSort(id, sort));
+        Task.onThread(() -> DbManger.db.RegularDao().setSort(id, sort));
     }
 
 
     public static void clear() {
-        Task.onThread(()-> DbManger.db.RegularDao().clean());
+        Task.onThread(() -> DbManger.db.RegularDao().clean());
     }
 }
