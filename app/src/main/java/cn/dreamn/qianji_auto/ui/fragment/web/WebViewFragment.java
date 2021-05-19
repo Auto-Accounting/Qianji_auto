@@ -55,45 +55,47 @@ public class WebViewFragment extends BaseFragment {
 
 
         title_bar.setLeftIconOnClickListener(v -> popToBack());
-        title_bar.setRightIcon("&#xe63d;",16);
-        title_bar.setRightIconOnClickListener(v->{
-            //创建弹出式菜单对象（最低版本11）
-            PopupMenu popup = new PopupMenu(getContext(), v);//第二个参数是绑定的那个view
-            //获取菜单填充器
-            MenuInflater inflater = popup.getMenuInflater();
-            //填充菜单
-            inflater.inflate(R.menu.webview, popup.getMenu());
-            //绑定菜单项的点击事件
-            popup.setOnMenuItemClickListener(item -> {
-                switch (item.getItemId()){
-                    case R.id.copy:
-                        Tool.clipboard(getContext(),webView.getUrl());
-                        Toasty.success(getContext(), "已复制到剪切板!", Toast.LENGTH_LONG).show();
 
-                        break;
-                    case R.id.web:
-                        Tool.goUrl(getContext(),webView.getUrl());
-                        break;
-                }
-                return false;
-            });
-            //显示(这一行代码不要忘记了)
-            popup.show();
-        });
         return null;
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void initViews() {
+        String url = getUrl();
+        if (!url.startsWith("https://qianji.ankio.net") && !url.startsWith("file:///android_asset/")) {
+            title_bar.setRightIcon("&#xe63d;", 16);
+            title_bar.setRightIconOnClickListener(v -> {
+                //创建弹出式菜单对象（最低版本11）
+                PopupMenu popup = new PopupMenu(getContext(), v);//第二个参数是绑定的那个view
+                //获取菜单填充器
+                MenuInflater inflater = popup.getMenuInflater();
+                //填充菜单
+                inflater.inflate(R.menu.webview, popup.getMenu());
+                //绑定菜单项的点击事件
+                popup.setOnMenuItemClickListener(item -> {
+                    switch (item.getItemId()) {
+                        case R.id.copy:
+                            Tool.clipboard(getContext(), webView.getUrl());
+                            Toasty.success(getContext(), "已复制到剪切板!", Toast.LENGTH_LONG).show();
 
-        webView.loadUrl(getUrl());
+                            break;
+                        case R.id.web:
+                            Tool.goUrl(getContext(), webView.getUrl());
+                            break;
+                    }
+                    return false;
+                });
+                //显示(这一行代码不要忘记了)
+                popup.show();
+            });
+        }
+        webView.loadUrl(url);
         webView.setWebChromeClient(mWebChromeClient);
         webView.setWebViewClient(mWebViewClient);
-        WebSettings webSettings=webView.getSettings();
+        WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);//允许使用js
-      //  webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-
+        //  webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
 
     }

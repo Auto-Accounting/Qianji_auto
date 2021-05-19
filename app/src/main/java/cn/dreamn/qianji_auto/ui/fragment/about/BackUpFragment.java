@@ -307,6 +307,7 @@ public class BackUpFragment extends BaseFragment {
 
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
         MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
+        dialog.cornerRadius(15f, null);
         dialog.title(null, title);
 
 
@@ -316,7 +317,6 @@ public class BackUpFragment extends BaseFragment {
         });
 
 
-        dialog.cornerRadius(15f, null);
         dialog.show();
     }
 
