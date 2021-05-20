@@ -18,7 +18,6 @@
 package cn.dreamn.qianji_auto.database.Helper;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,7 +40,6 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.BookName;
 import cn.dreamn.qianji_auto.ui.adapter.BookSelectListAdapter;
-import cn.dreamn.qianji_auto.ui.adapter.DataSelectListAdapter;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 
@@ -130,7 +128,6 @@ public class BookNames {
             if (bid == null || bid.equals("")) bid = "-1";
             bundle.putString("book_id", bid);
             //http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2
-
             if(bookName.icon==null|| bookName.icon.equals("")){
                 bundle.putString("cover", "http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
             }else{

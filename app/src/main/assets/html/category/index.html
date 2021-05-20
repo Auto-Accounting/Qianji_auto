@@ -5,183 +5,7 @@
           name="viewport">
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
     <title>规则编辑</title>
-    <style>
-        body{
-            padding: 0;
-            margin: 0;
-            background-color: #F2F2F2;
-        }
-        label{
-            display: block;
-            font-size: 18px;
-            padding: 5px 0;
-        }
-        select {
-            border: 1px solid #3396FB;
-            background-color: #F2F2F2;
-            font-size: 18px;
-            text-align: center;
-            text-align-last: center;
-            height: 40px;
-            color: #3396FB;
-            padding: 0 10px;
-            border-radius: 10px;
-            outline-style: none;
-            appearance:none;
-            -moz-appearance:none;
-            -webkit-appearance:none;
-        }
-        input{
-            outline-style: none;
-            border-left-width: 0;
-            border-right-width: 0;
-            border-top-width: 0;
-            border-bottom-width: 2px;
-            border-bottom-color: #9F9F9F;
-            background-color: white;
-            height: 40px;
-            padding: 0;
-            font-size: 18px;
-        }
-        input::-webkit-input-placeholder{
-            font-size:16px;
-        }
-        button{
-            width: 30%;
-            border-radius: 10px;
-            height: 40px;
-            line-height: 40px;
-            text-align: center;
-            outline-style: none;
-            border: none;
-            font-size: 18px;
-            color: #fff;
-            cursor: pointer;
-            background-color: #3396FB;
-        }
-        option:first-child{
-            font-weight: bolder;
-        }
-        option{
-            background-color: white;
-            color: black;
-        }
-
-        .rule{
-            width: 100%;
-            margin: 0 auto;
-            box-sizing: border-box;
-        }
-        .rule_content{
-            width: 100%;
-            text-align: center;
-            background-color: white;
-            padding: 10px 0;
-            margin-bottom: 5px;
-        }
-        .rule_content1 input,.rule_content1 select{
-            width: 100%;
-        }
-        .rule_content2 select{
-            width: 25%;
-         }
-        .rule_content2 input{
-            width: 70%;
-            margin-left: 5%;
-        }
-        .rule_content3{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 40px;
-        }
-        .rule_content3 span{
-            width:30%;
-            text-align: left;
-            line-height: 40px;
-        }
-        .rule_content3 label{
-            width:5%;
-            text-align: center;
-            font-size: 24px;
-            color: #8A8A8A;
-            line-height: 40px;
-        }
-        .rule_content3 select{
-            width: 65%;
-            border: none;
-            background-color: white;
-            text-align: right;
-            text-align-last: right;
-            padding-right: 5%;
-            color: #AAAAAA;
-            line-height: 40px;
-        }
-        .rule_content select:last-child{
-            padding-right: 10%;
-        }
-
-        .buttons{
-            margin: 0 auto;
-            text-align: center;
-            padding-top: 5px;
-        }
-        .buttons button{
-            height: 40px;
-            line-height: 40px;
-            font-size: 18px;
-        }
-        .button1{
-            margin-right: 10%;
-        }
-
-        @media screen and (min-width:992px){
-            .rule{
-                width: 50%;
-            }
-            .rule_content div{
-                width: 95%;
-                margin: 0 auto;
-            }
-            label{
-                width: 95%;
-                margin: 10px auto;
-            }
-            .buttons{
-                width: 95%;
-            }
-
-        }
-        @media screen and (min-width:768px) and (max-width:992px) {
-            .rule{
-                width: 80%;
-            }
-            .rule_content div{
-                width: 95%;
-                margin: 0 auto;
-            }
-            label{
-                width:95%;
-                margin: 10px auto;
-            }
-            .buttons{
-                width: 95%;
-            }
-        }
-        @media screen and (max-width:768px){
-            .rule_content div{
-                width: 95%;
-                margin: 0 auto;
-            }
-            label{
-                width: 95%;
-                margin: 10px auto;
-            }
-            .buttons{
-                width: 95%;
-            }
-        }
-    </style>
+    <link href="./css/rule.css" rel="stylesheet">
 </head>
 <body>
 <div class="rule">
@@ -262,8 +86,8 @@
             <div class="rule_content">
                 <div class="rule_content2">
                     <select id="merchant_remark1" name="merchant_remark1">
-                        <option selected> =</option>
-                        <option> <</option>
+                        <option selected> 正则匹配到</option>
+                        <option> 包涵</option>
                         <option> <</option>
                         <option> !=</option>
                     </select><input id="merchant_remark2" type="text">
@@ -276,12 +100,11 @@
                 <div class="rule_content3">
                     <span>消费类型为</span>
                     <select id="consumption_type" name="consumption_type">
-                        <option selected> 支出</option>
-                        <option> <</option>
-                        <option> <</option>
-                        <option> !=</option>
+                        <option selected value="0"> 支出</option>
+                        <option value="1"> 收入</option>
+
                     </select>
-                    <label for="consumption_type"> > </label>
+                    <img alt="" src="./images/right.png"/>
                 </div>
             </div>
         </div>
@@ -296,7 +119,7 @@
                         <option> <</option>
                         <option> !=</option>
                     </select>
-                    <label for="bill_type"> > </label>
+                    <img alt="" src="./images/right.png"/>
                 </div>
             </div>
         </div>
@@ -305,11 +128,10 @@
             <div class="rule_content position">
                 <div class="rule_content3">
                     <span>分类为</span>
-                    <button style="color: #5A98DE;border: 1px solid #3396FB;background-color: #F2F2F2;line-height: 40px"
-                            value="你好">
-                        <img alt=""
-                             src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2F1812.img.pp.sohu.com.cn%2Fimages%2Fblog%2F2009%2F11%2F18%2F18%2F8%2F125b6560a6ag214.jpg&refer=http%3A%2F%2F1812.img.pp.sohu.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1624005801&t=d7dd801e79a811a9f9157f50a9ff11c0"
-                             style="width: 16px;height: 16px;margin-right: 5px"/><b>你好</b>
+                    <button id="category" value="你好">
+                        <img alt="" class="imgIcon" id="iconImg"
+                             src="https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png"
+                             style="width: 16px;height: 16px;margin-right: 5px"/><b id="cateValue">其他</b>
                     </button>
                 </div>
             </div>
@@ -321,5 +143,27 @@
         </div>
     </form>
 </div>
+<script src="../jquery/jquery.js"></script>
+<script>
+    $(function () {
+        $("#category").on("click", function (e) {
+
+			window.AndroidJS.SelectCategory($("#consumption_type").val());
+
+
+        });
+    })
+
+    function setData(){
+    }
+
+	function setCategory(str,icon) {
+		$("#cateValue").html(str)
+		$("#iconImg").attr("src",icon)
+	}
+
+
+
+</script>
 </body>
 </html>
