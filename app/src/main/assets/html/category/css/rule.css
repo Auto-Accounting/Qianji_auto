@@ -179,7 +179,17 @@ option{
         width: 95%;
     }
 }
-
+textarea{
+    width: 100%;
+    outline-style: none;
+    border: 2px solid #F2F2F2;
+    min-height: 20px;
+    max-height: 70px;
+    font-size: 18px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-user-modify: read-write-plaintext-only;
+}
 .imgIcon{
 			/*反转元素*/
 

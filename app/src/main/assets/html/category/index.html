@@ -17,6 +17,13 @@
                     <input id="sort_name" placeholder="分类规则名称" type="text">
                 </div>
             </div>
+
+            <div class="rule_content">
+                <div class="rule_content1">
+                    <textarea cols="30" id="sort_remark" name="sort_remark" placeholder="请输入内容..."
+                              rows="5"></textarea>
+                </div>
+            </div>
         </div>
 
         <div class="time_condition">
@@ -146,11 +153,8 @@
 <script src="../jquery/jquery.js"></script>
 <script>
     $(function () {
-        $("#category").on("click", function (e) {
-
+        $("#category").on("click", function (e)
 			window.AndroidJS.SelectCategory($("#consumption_type").val());
-
-
         });
     })
 
