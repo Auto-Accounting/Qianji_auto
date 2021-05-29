@@ -37,26 +37,28 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="false"
             android:layout_centerVertical="true"
-            android:layout_marginStart="0dp"
+            android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/view_table"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:padding="2dp"
                 android:text="TextView"
-                android:textColor="@color/main_title" />
+                android:textColor="@color/main_title"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_des"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginTop="0dp"
                 android:text="TextView"
                 android:textColor="@color/skip_title"
                 android:textSize="13sp" />
@@ -65,7 +67,7 @@
 
         <cn.dreamn.qianji_auto.ui.views.IconView
             android:id="@+id/icon_info"
-            android:layout_width="wrap_content"
+            android:layout_width="20sp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"

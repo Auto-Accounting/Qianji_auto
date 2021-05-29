@@ -519,10 +519,11 @@
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
-                            android:focusable="true"
                             android:clickable="true"
+                            android:focusable="true"
                             android:gravity="center_horizontal"
-                            android:padding="5dp">
+                            android:padding="5dp"
+                            android:visibility="invisible">
 
                             <cn.dreamn.qianji_auto.ui.views.IconView
                                 android:id="@+id/item_image_icon72"
@@ -946,6 +947,7 @@
                     android:layout_marginStart="@dimen/margin_side"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="@dimen/margin_side"
+                    android:visibility="gone"
                     app:cardCornerRadius="@dimen/radius"
                     app:cardElevation="0dp">
 
@@ -979,9 +981,9 @@
                     </RelativeLayout>
 
                     <GridLayout
+                        android:id='@+id/gl_custom'
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id='@+id/gl_custom'
                         android:layout_marginTop="50dp"
 
                         android:columnCount="4">
@@ -1137,6 +1139,7 @@
                     android:layout_marginStart="@dimen/margin_side"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="@dimen/margin_side"
+                    android:visibility="gone"
                     app:cardCornerRadius="@dimen/radius"
                     app:cardElevation="0dp">
 
@@ -1170,9 +1173,9 @@
                     </RelativeLayout>
 
                     <GridLayout
+                        android:id='@+id/gl_admin'
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id='@+id/gl_admin'
                         android:layout_marginTop="50dp"
 
                         android:columnCount="4">
@@ -1183,8 +1186,8 @@
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
-                            android:focusable="true"
                             android:clickable="true"
+                            android:focusable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 
@@ -1218,8 +1221,8 @@
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
-                            android:focusable="true"
                             android:clickable="true"
+                            android:focusable="true"
                             android:gravity="center_horizontal"
                             android:padding="5dp">
 

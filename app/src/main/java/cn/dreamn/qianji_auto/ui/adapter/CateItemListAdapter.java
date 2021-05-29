@@ -32,7 +32,7 @@ public class CateItemListAdapter extends BaseAdapter {
         TextView tv_des = (TextView) holder.findView(R.id.tv_des);
         IconView icon_info = (IconView) holder.findView(R.id.icon_info);
 
-        tv_title.setText(item.getString("title"));
+        tv_title.setText(item.getString("name"));
         String des = item.getString("des");
         boolean isAuto = false;
         if (des != null) {

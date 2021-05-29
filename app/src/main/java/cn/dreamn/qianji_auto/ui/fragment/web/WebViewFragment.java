@@ -31,6 +31,7 @@ import java.util.HashMap;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
+import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
@@ -197,23 +198,28 @@ public class WebViewFragment extends BaseFragment {
 
             }
         };
-        if (url.startsWith("file:///android_asset/html/category/index.html")) {
+        if (url.startsWith("file:///android_asset/html/Category/index.html")) {
             //== webview 与js交互=========================
             //定义提供html页面调用的方法
             final Object appToJsObject = new Object() {
-                @JavascriptInterface
-                public void GetAppInfo() {//获取app信息
-                    doJsFunction("backInfo()");
-                }
+
 
                 @JavascriptInterface
-                public void Test() {
-                    //测试规则
-                }
+                public void Save(String data, String js, String name, String des, String id) {
+                    if (id.equals("")) {
+                        //存储规则
+                        Category.addCategory(js, name, data, des, () -> {
+                            Toasty.success(getContext(), "存储成功！").show();
+                            popToBack();
+                        });
+                    } else {
+                        //存储规则
+                        Category.changeCategory(Integer.parseInt(id), js, name, data, des, () -> {
+                            Toasty.success(getContext(), "修改成功！").show();
+                            popToBack();
+                        });
+                    }
 
-                @JavascriptInterface
-                public void Save() {
-                    //存储规则
                 }
 
                 @JavascriptInterface
@@ -223,7 +229,7 @@ public class WebViewFragment extends BaseFragment {
                     BookNames.showBookSelect(getContext(), "选择账本", false, bundle -> {
                         Log.d("账本信息", bundle.toString());
                         CategoryNames.showCategorySelect(getContext(), "选择分类", bundle.getString("book_id"), type, false, categoryNames -> {
-                            doJsFunction("setCategory('" + categoryNames.getString("name") + "','" + categoryNames.getString("icon") + "')");
+                            doJsFunction(String.format("setCategory('%s','%s')", categoryNames.getString("name"), categoryNames.getString("icon")));
                         });
                     });
                 }

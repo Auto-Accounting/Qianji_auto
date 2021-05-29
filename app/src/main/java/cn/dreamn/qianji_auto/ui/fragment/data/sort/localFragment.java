@@ -114,6 +114,12 @@ public class localFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mHandler.sendEmptyMessage(HANDLE_REFRESH);
+    }
+
+    @Override
     protected void initViews() {
         statusView.setEmptyView(R.layout.empty_view);
         statusView.setLoadingView(R.layout.loading_view);
@@ -136,7 +142,7 @@ public class localFragment extends BaseFragment {
             refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
         });
         action_cate.setOnClickListener(v -> {
-            WebViewFragment.openUrl(this, "file:///android_asset/html/category/index.html");
+            WebViewFragment.openUrl(this, "file:///android_asset/html/Category/index.html");
         });
         action_import.setOnClickListener(v -> {
             PermissionUtils permissionUtils = new PermissionUtils(getContext());
@@ -175,7 +181,12 @@ public class localFragment extends BaseFragment {
                                 Task.onThread(() -> {
                                     for (int i = 0; i < jsonArray.size(); i++) {
                                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                        Category.addCategory(new String(Base64.decode(jsonObject1.getString("regular"), Base64.NO_WRAP)), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des"));
+                                        Category.addCategory(new String(Base64.decode(jsonObject1.getString("regular"), Base64.NO_WRAP)), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des"), new Category.Finish() {
+                                            @Override
+                                            public void onFinish() {
+
+                                            }
+                                        });
                                     }
                                     Message message = new Message();
                                     message.what = HANDLE_REFRESH;
@@ -212,7 +223,7 @@ public class localFragment extends BaseFragment {
                 BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
                 MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
                 dialog.cornerRadius(15f, null);
-                dialog.title(null, item.getString("title"));
+                dialog.title(null, item.getString("name"));
                 dialog.message(null, item.getString("des"), null);
                 dialog.show();
             }
@@ -235,7 +246,7 @@ public class localFragment extends BaseFragment {
         if (cate.getInt("use") != 1) {
             disable = "启用";
         }
-        dialog.title(null, "请选择操作(" + cate.getString("title") + ")");
+        dialog.title(null, "请选择操作(" + cate.getString("name") + ")");
         DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "可视化编辑", "js编辑", "上传到云端", disable), null, true, (materialDialog, index, text) -> {
             switch (index) {
                 case 0:
@@ -247,6 +258,8 @@ public class localFragment extends BaseFragment {
                     });
                     break;
                 case 1:
+                    WebViewFragment.openUrl(this, "file:///android_asset/html/Category/index.html?id=" + cate.getInt("id") + "&data=" + Base64.encodeToString(cate.getString("tableList").getBytes(), Base64.NO_WRAP));
+
                     break;
                 case 2:
                     break;

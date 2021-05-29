@@ -57,7 +57,7 @@ public class Category {
             return;
         }
         // String time = Tools.getTime("HH");
-        String name = "[自动生成]" + billInfo.getSource();
+        String name = billInfo.getSource();
         // String sort = "其它";
         String str = "";
 
@@ -97,7 +97,12 @@ public class Category {
         dataUtils.put("regular_type", BillInfo.getTypeName(billInfo.getType(true)));
         dataUtils.put("regular_sort", sort);
 
-        Category.addCategory(regular, name, dataUtils.toString(), "[自动生成]");
+        Category.addCategory(regular, name, dataUtils.toString(), "[自动生成]", new Finish() {
+            @Override
+            public void onFinish() {
+
+            }
+        });
 
     }
 
@@ -106,32 +111,77 @@ public class Category {
 
         StringBuilder regList = new StringBuilder();
 
-       Task.onThread(()->{
+       Task.onThread(()-> {
            Regular[] regular = DbManger.db.RegularDao().load();
            for (Regular value : regular) {
                regList.append(value.regular);
            }
 
+           String jsInner = "\n" +
+                   "const isInTimeInner = function (minTime, maxTime,timeHour,timeMinute) {\n" +
+                   "\n" +
+                   "    let regT = /([01\\b]\\d|2[0-3]):([0-5]\\d)/;\n" +
+                   "    const t1 = minTime.match(regT);\n" +
+                   "    const t2 = maxTime.match(regT);\n" +
+                   "    if(t1==null||t2==null||t1.length<3||t2.length<3){\n" +
+                   "        return false;\n" +
+                   "    }\n" +
+                   "    const h1 = parseInt(t1[1]), h2 =  parseInt(t2[1]), m1 =  parseInt(t1[2]), m2 =  parseInt(t2[2]);\n" +
+                   "    if (h1 > h2)\n" +
+                   "        return (timeHour === h1 && timeMinute >= m1) || timeHour > h1 || timeHour < h2 || timeHour === h2 && timeMinute <= m2;\n" +
+                   "    else if (h1 < h2)\n" +
+                   "        return (timeHour === h1 && timeMinute >= m1) || (timeHour > h1 && timeHour < h2) || timeHour === h2 && timeMinute <= m2;\n" +
+                   "    else if (h1 === h2) {\n" +
+                   "        if (m1 < m2)\n" +
+                   "            return timeHour === h1 && timeMinute >= m1 && timeMinute <= m2;\n" +
+                   "        else if (m1 > m2)\n" +
+                   "            return (timeHour === h1 && timeMinute >= m1 || timeMinute <= m2) || (timeHour !== h1);\n" +
+                   "        else\n" +
+                   "            return m1 === m2 && timeMinute === m1 && timeHour === h1;\n" +
+                   "    }\n" +
+                   "};";
+           String js = "function getCategory(shopName,shopRemark,type,hour,minute,source,money){%s  %s return '其它';} getCategory('%s','%s','%s',%s,%s,'%s','%s');";
 
-           String js = "function getCategory(shopName,shopRemark,type,time,source,money){%s return 'NotFound';} getCategory('%s','%s','%s','%s','%s','%s');";
-
-           String time = Tool.getTime("HH");
-           getStr.onGet(String.format(js, regList.toString(), billInfo.getShopAccount(), billInfo.getShopRemark(), billInfo.getType(true), time, billInfo.getSource(), billInfo.getMoney()));
+           String hour = Tool.getTime("HH");
+           String minute = Tool.getTime("mm");
+           getStr.onGet(String.format(js, jsInner, regList.toString(), billInfo.getShopAccount(), billInfo.getShopRemark(), billInfo.getType(true), hour, minute, billInfo.getSource(), billInfo.getMoney()));
        });
 
 
     }
 
     //获取所有的js
-    public static String getOneRegularJs(String jsData, String shopAccount, String shopRemark, String type, String time, String source, String money) {
+    public static String getOneRegularJs(String jsData, String shopAccount, String shopRemark, String type, String hour, String minute, String source, String money) {
         if (shopAccount == null) shopAccount = "";
         if (shopRemark == null) shopRemark = "";
 
         //type = BillInfo.getTypeName(type);
 
-        String js = "function getCategory(shopName,shopRemark,type,time,source,money){%s return '其它';} getCategory('%s','%s','%s','%s','%s','%s');";
-
-        return String.format(js, jsData, shopAccount, shopRemark, type, time, source, money);
+        String jsInner = "\n" +
+                "const isInTimeInner = function (minTime, maxTime,timeHour,timeMinute) {\n" +
+                "\n" +
+                "    let regT = /([01\\b]\\d|2[0-3]):([0-5]\\d)/;\n" +
+                "    const t1 = minTime.match(regT);\n" +
+                "    const t2 = maxTime.match(regT);\n" +
+                "    if(t1==null||t2==null||t1.length<3||t2.length<3){\n" +
+                "        return false;\n" +
+                "    }\n" +
+                "    const h1 = parseInt(t1[1]), h2 =  parseInt(t2[1]), m1 =  parseInt(t1[2]), m2 =  parseInt(t2[2]);\n" +
+                "    if (h1 > h2)\n" +
+                "        return (timeHour === h1 && timeMinute >= m1) || timeHour > h1 || timeHour < h2 || timeHour === h2 && timeMinute <= m2;\n" +
+                "    else if (h1 < h2)\n" +
+                "        return (timeHour === h1 && timeMinute >= m1) || (timeHour > h1 && timeHour < h2) || timeHour === h2 && timeMinute <= m2;\n" +
+                "    else if (h1 === h2) {\n" +
+                "        if (m1 < m2)\n" +
+                "            return timeHour === h1 && timeMinute >= m1 && timeMinute <= m2;\n" +
+                "        else if (m1 > m2)\n" +
+                "            return (timeHour === h1 && timeMinute >= m1 || timeMinute <= m2) || (timeHour !== h1);\n" +
+                "        else\n" +
+                "            return m1 === m2 && timeMinute === m1 && timeHour === h1;\n" +
+                "    }\n" +
+                "};";
+        String js = "function getCategory(shopName,shopRemark,type,hour,minute,source,money){%s  %s return '其它';} getCategory('%s','%s','%s',%s,%s,'%s','%s');";
+        return String.format(js, jsInner, jsData, shopAccount, shopRemark, type, hour, minute, source, money);
     }
 
     /**
@@ -194,12 +244,18 @@ public class Category {
     }
 
 
-    public static void addCategory(String js, String name, String tableList, String des) {
-        Task.onThread(() -> DbManger.db.RegularDao().add(js, name, tableList, des));
+    public static void addCategory(String js, String name, String tableList, String des, Finish finish) {
+        Task.onThread(() -> {
+            DbManger.db.RegularDao().add(js, name, tableList, des);
+            finish.onFinish();
+        });
     }
 
-    public static void changeCategory(int id, String js, String name, String cate, String tableList) {
-        Task.onThread(() -> DbManger.db.RegularDao().update(id, js, name, tableList));
+    public static void changeCategory(int id, String js, String name, String tableList, String des, Finish finish) {
+        Task.onThread(() -> {
+            DbManger.db.RegularDao().update(id, js, name, tableList, des);
+            finish.onFinish();
+        });
     }
 
     public static void del(int id, Finish finish) {
