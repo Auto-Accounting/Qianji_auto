@@ -85,4 +85,8 @@ public class AppInfo {
 
         return BuildConfig.VERSION_NAME;
     }
+
+    public static String getAppPackage() {
+        return BuildConfig.APPLICATION_ID;
+    }
 }

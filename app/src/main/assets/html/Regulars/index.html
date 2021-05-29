@@ -1,0 +1,106 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>文本识别规则编辑</title>
+    <link href="../Public/css/regulars.css" rel="stylesheet">
+</head>
+<body>
+<div class="rule">
+    <form action="">
+        <div class="sort_name">
+            <label for="sort_name">规则名称</label>
+            <div class="rule_content">
+                <div class="rule_content1">
+                    <input id="sort_name" placeholder="分类规则名称" type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="sort_remark">
+            <label for="sort_remark">测试文本</label>
+            <div class="rule_content">
+                <div class="rule_content1">
+                    <textarea cols="30" id="sort_remark" name="sort_remark" placeholder="请输入测试内容..."
+                              rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="regular_expression">
+            <label for="regular_expression">正则表达式</label>
+            <div class="rule_content">
+                <div class="rule_content1">
+                    <textarea cols="30" id="regular_expression" name="regular_expression"
+                              placeholder="请输入正则表达式..." rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="project_location">
+            <label>匹配项目所在位置</label>
+            <div class="rule_content">
+                <div class="rule_content2">
+                    <label for="card_num">尾号</label>
+                    <input id="card_num" placeholder="可输入数字或中文" type="text">
+                </div>
+
+                <div class="rule_content2">
+                    <label for="account_name1">账户名称1</label>
+                    <input id="account_name1" placeholder="可输入数字或中文" type="text">
+                </div>
+
+                <div class="rule_content2">
+                    <label for="account_name2">账户名称2</label>
+                    <input id="account_name2" placeholder="可输入数字或中文" type="text">
+                </div>
+
+                <div class="rule_content2">
+                    <label for="consumption_type">收支类型</label>
+                    <select id="consumption_type" name="consumption_type">
+                        <option selected value="0"> 支出</option>
+                        <option value="1"> 收入</option>
+                    </select>
+                </div>
+
+                <div class="rule_content2">
+                    <label for="backstage_transaction">后台交易</label>
+                    <select id="backstage_transaction" name="backstage_transaction">
+                        <option selected value="0"> 是</option>
+                        <option value="1"> 否</option>
+                    </select>
+                </div>
+
+                <div class="rule_content2">
+                    <label for="price">金额</label>
+                    <input id="price" placeholder="可输入数字" step="any" type="number">
+                </div>
+
+                <div class="rule_content2">
+                    <label for="commission">手续费</label>
+                    <input id="commission" placeholder="可输入数字" step="any" type="number">
+                </div>
+
+                <div class="rule_content2">
+                    <label for="merchant_name">商户名称</label>
+                    <input id="merchant_name" placeholder="可输入数字或中文" type="text">
+                </div>
+
+                <div class="rule_content2">
+                    <label for="merchant_remark">商户备注</label>
+                    <input id="merchant_remark" placeholder="可输入数字或中文" type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="button1" name="测试">测试</button>
+            <button name="保存">保存</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

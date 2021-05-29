@@ -85,6 +85,17 @@
             app:fab_size="mini"
             app:fab_title="导出" />
 
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_delAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:fabSize="auto"
+            app:fab_colorNormal="@color/button_go_setting_bg"
+            app:fab_icon="@drawable/ic_delete"
+            app:fab_size="mini"
+            app:fab_title="全部删除" />
+
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 

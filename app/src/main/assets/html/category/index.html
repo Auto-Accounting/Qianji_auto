@@ -251,7 +251,7 @@
 <!--<script src="../Public/jquery/category.js"></script>-->
 <script>
     $(function () {
-        setData();
+
         $("#category").on("click", function (e) {
             try {
                 window.AndroidJS.SelectCategory($("#consumption_type").val());
@@ -279,6 +279,7 @@
             $("#tip").css("display", "none")
         })
         $("#test").on("click", function (e) {
+         //   console.log(e)
             $("#myModal").css("display", "block")
             //  window.AndroidJS.Test(getData());
         });
@@ -309,6 +310,7 @@
         $("#save").on("click", function (e) {
             window.AndroidJS.Save(getData(),getJs(),$("#sort_name").val(),$("#sort_remark").val(),$("#cate_id").val());
         });
+        setData();
     })
     String.format = function () {
         let s = arguments[0];

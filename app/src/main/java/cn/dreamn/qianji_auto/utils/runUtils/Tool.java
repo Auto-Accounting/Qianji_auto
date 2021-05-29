@@ -13,15 +13,20 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.FileProvider;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.broadcasts.NotificationClickReceiver;
+import cn.dreamn.qianji_auto.utils.files.FileUtils;
 
 public class Tool {
     public static void clipboard(Context context, String text) {
@@ -119,6 +124,33 @@ public class Tool {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
         context.finish();
+    }
+
+    public static void shareFile(Context context, String filePath) {
+        Intent shareIntent2 = new Intent();
+        Uri uri = FileProvider.getUriForFile(context, "cn.dreamn.qianji_auto.fileprovider", new File(filePath));
+        // grantUriPermission(getPackageName(),uri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        shareIntent2.putExtra(Intent.EXTRA_STREAM, uri);
+        //重点:针对7.0以上的操作
+
+        shareIntent2.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        shareIntent2.setClipData(ClipData.newRawUri(MediaStore.EXTRA_OUTPUT, uri));
+        shareIntent2.setAction(Intent.ACTION_SEND);
+        shareIntent2.setType("*/*");
+        context.startActivity(Intent.createChooser(shareIntent2, "分享到"));
+    }
+
+    public static void writeToCache(Context mContext, String fileName, String data) {
+        String path = mContext.getExternalCacheDir().getPath() + "/";
+        String file = path + fileName;
+        FileUtils.makeRootDirectory(path);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(data.getBytes());
+            fos.close();
+        } catch (Exception e) {
+            Log.i("写入缓存异常！" + e);
+        }
     }
 //dateTime.getTimeInMillis()
 

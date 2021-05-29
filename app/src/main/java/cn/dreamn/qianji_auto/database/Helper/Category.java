@@ -273,4 +273,11 @@ public class Category {
     public static void clear() {
         Task.onThread(() -> DbManger.db.RegularDao().clean());
     }
+
+    public static void clear(Finish finish) {
+        Task.onThread(() -> {
+            DbManger.db.RegularDao().clean();
+            finish.onFinish();
+        });
+    }
 }
