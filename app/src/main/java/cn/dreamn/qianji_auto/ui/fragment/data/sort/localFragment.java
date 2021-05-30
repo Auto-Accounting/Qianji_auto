@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -44,8 +45,10 @@ import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
+import com.yanzhenjie.recyclerview.touch.OnItemMoveListener;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -334,6 +337,32 @@ public class localFragment extends BaseFragment {
             dialog.message(null, item.getString("des"), null);
             dialog.show();
         });
+        recyclerView.setLongPressDragEnabled(true);
+        recyclerView.setOnItemMoveListener(new OnItemMoveListener() {
+            @Override
+            public boolean onItemMove(RecyclerView.ViewHolder srcHolder, RecyclerView.ViewHolder targetHolder) {
+                // 此方法在Item拖拽交换位置时被调用。
+                // 第一个参数是要交换为之的Item，第二个是目标位置的Item。
+
+                // 交换数据，并更新adapter。
+                int fromPosition = srcHolder.getAdapterPosition();
+                int toPosition = targetHolder.getAdapterPosition();
+                Collections.swap(list, fromPosition, toPosition);
+                mAdapter.notifyItemMoved(fromPosition, toPosition);
+                //  Logs.d(mDataList.get(toPosition).get(SmsAdapter.KEY_TITLE)+"key id"+mDataList.get(toPosition).get(SmsAdapter.KEY_ID)+" to"+toPosition);
+                Category.setSort(list.get(fromPosition).getInt("id"), fromPosition);
+                Category.setSort(list.get(toPosition).getInt("id"), toPosition);
+
+                // 返回true，表示数据交换成功，ItemView可以交换位置。
+                return true;
+            }
+
+            @Override
+            public void onItemDismiss(RecyclerView.ViewHolder viewHolder) {
+
+            }
+
+        });// 监听拖拽，更新UI。
         refreshLayout.setOnRefreshListener(this::loadFromData);
         refreshLayout.setEnableRefresh(true);
         loadFromData(refreshLayout);
