@@ -58,6 +58,7 @@ import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
+import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.views.LoadingDialog;
 import cn.dreamn.qianji_auto.utils.files.FileUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -349,7 +350,6 @@ public class localFragment extends BaseFragment {
                 int toPosition = targetHolder.getAdapterPosition();
                 Collections.swap(list, fromPosition, toPosition);
                 mAdapter.notifyItemMoved(fromPosition, toPosition);
-                //  Logs.d(mDataList.get(toPosition).get(SmsAdapter.KEY_TITLE)+"key id"+mDataList.get(toPosition).get(SmsAdapter.KEY_ID)+" to"+toPosition);
                 Category.setSort(list.get(fromPosition).getInt("id"), fromPosition);
                 Category.setSort(list.get(toPosition).getInt("id"), toPosition);
 
@@ -403,7 +403,17 @@ public class localFragment extends BaseFragment {
                     WebViewFragment.openUrl(this, "file:///android_asset/html/Category/js.html?id=" + cate.getInt("id") + "&data=" + cate.getString("regular") + "&name=" + cate.getString("name") + "&des=" + cate.getString("des"));
                     break;
                 case 3:
-                    //TODO send2Cloud
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("name", cate.getString("name"));
+                    jsonObject.put("text", "");
+                    jsonObject.put("data", cate.getString("regular"));
+                    jsonObject.put("tableList", cate.getString("tableList"));
+                    jsonObject.put("identify", "");
+                    jsonObject.put("fromApp", "");
+                    jsonObject.put("isCate", "1");
+                    jsonObject.put("description", cate.getString("des"));
+                    String result = Base64.encodeToString(jsonObject.toString().getBytes(), Base64.NO_WRAP);
+                    AutoBillWeb.httpSend(getContext(), this, "send", result);
                     break;
                 case 4:
                     if (text == "禁用") {

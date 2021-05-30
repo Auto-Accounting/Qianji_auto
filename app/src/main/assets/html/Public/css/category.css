@@ -50,6 +50,7 @@ button{
     color: #fff;
     cursor: pointer;
     background-color: #3396FB;
+    -webkit-tap-highlight-color:transparent;  /*去除点击后蓝色阴影效果*/
 }
 option:first-child{
     font-weight: bolder;
@@ -85,11 +86,19 @@ textarea{
     width: 100%;
 }
 .rule_content2 select{
-    width: 25%;
+    width: 30%;
+}
+.time_button{
+    width: 30%;
+    border: 1px solid #3396FB;
+    background-color: #F2F2F2;
+    font-size: 18px;
+    color: #3396FB;
+    -webkit-tap-highlight-color:transparent;
 }
 .rule_content2 input{
-    width: 70%;
-    margin-left: 5%;
+    width: 65%;
+    margin-left: 3%;
 }
 .rule_content3{
     display: flex;
@@ -125,8 +134,13 @@ textarea{
     background-color: #F2F2F2;
     line-height: 40px;
 }
-.rule_content select:last-child{
-    padding-right: 10%;
+
+.rule_content3 input{
+    width: 65%;
+}
+.bill_select{
+    border-bottom: 2px solid #F2F2F2 !important;
+    border-radius: 0;
 }
 
 .buttons{
@@ -158,7 +172,9 @@ textarea{
     .buttons{
         width: 95%;
     }
-
+    .modal-content{
+        width: 50%;
+    }
 }
 @media screen and (min-width:768px) and (max-width:992px) {
     .rule{
@@ -175,6 +191,9 @@ textarea{
     .buttons{
         width: 95%;
     }
+    .modal-content{
+        width: 80%;
+    }
 }
 @media screen and (max-width:768px){
     .rule_content div{
@@ -187,6 +206,9 @@ textarea{
     }
     .buttons{
         width: 95%;
+    }
+    .modal-content{
+        width: 100%;
     }
 }
 
@@ -221,7 +243,9 @@ textarea{
     position: fixed;
     bottom: 0;
     background-color: #fefefe;
-    width: 100%;
+    margin: auto;
+    right: 0;
+    left: 0;
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;

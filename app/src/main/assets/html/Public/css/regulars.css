@@ -47,6 +47,7 @@ button{
     color: #fff;
     cursor: pointer;
     background-color: #3396FB;
+    -webkit-tap-highlight-color:transparent;
 }
 option:first-child{
     font-weight: bolder;

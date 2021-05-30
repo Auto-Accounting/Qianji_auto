@@ -27,7 +27,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.afollestad.materialdialogs.LayoutMode;
@@ -55,6 +54,7 @@ import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.adapter.ItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
+import cn.dreamn.qianji_auto.ui.views.LoadingDialog;
 import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.JsEngine;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -233,68 +233,19 @@ public class NoticeFragment extends BaseFragment {
                     //TODO Support
                 }else if(text=="申请适配") {
 
-                    JSONObject jsonObject=new JSONObject();
-                    jsonObject.put("name","适配申请");
-                    jsonObject.put("text",item.getString("rawData"));
-                    jsonObject.put("data","");
-                    jsonObject.put("tableList","");
-                    jsonObject.put("identify",item.getString("identify"));
-                    jsonObject.put("fromApp",item.getString("fromApp"));
-                    jsonObject.put("isCate","0");
-                    jsonObject.put("description","适配申请");
-                    String result= Base64.encodeToString(jsonObject.toString().getBytes(),Base64.NO_WRAP);
-                    BaseFragment baseFragment=this;
-                    Handler mHandler=new Handler(Looper.getMainLooper()){
-                        @Override
-                        public void handleMessage(@NonNull Message msg) {
-                            switch (msg.what){
-                                case -1:
-                                    Toasty.error(getContext(),"访问服务器失败！").show();
-                                    break;
-                                case 1:
-                                    AutoBillWeb.goToLogin(baseFragment);
-                                    break;
-                                case 2:
-                                    Toasty.error(getContext(),(String)msg.obj).show();
-                                    break;
-                                case 0:
-                                    Toasty.success(getContext(),(String)msg.obj).show();
-                                    break;
-                            }
-                        }
-                    };
-                   Task.onThread(()->{
-                       AutoBillWeb.getSupport(result, new AutoBillWeb.WebCallback() {
-                           @Override
-                           public void onFailure() {
-                              mHandler.sendEmptyMessage(-1);
-                           }
-
-                           @Override
-                           public void onSuccessful(String data) {
-                               Log.m("响应数据：" + data);
-                               JSONObject jsonObject1=JSONObject.parseObject(data);
-                               switch (jsonObject1.getInteger("code")){
-                                   case 402:
-                                       mHandler.sendEmptyMessage(1);
-                                       break;
-                                   case 403:
-                                   case 404:
-                                       Message message=new Message();
-                                       message.what=2;
-                                       message.obj=jsonObject1.getString("msg");
-                                       mHandler.sendMessage(message);
-                                       break;
-                                   case 0:
-                                       Message message1=new Message();
-                                       message1.what=0;
-                                       message1.obj=jsonObject1.getString("msg");
-                                       mHandler.sendMessage(message1);
-                                       break;
-                               }
-                           }
-                       });
-                   });
+                    LoadingDialog dialog1 = new LoadingDialog(getContext(), "正在提交申请，请稍候...");
+                    dialog1.show();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("name", "适配申请");
+                    jsonObject.put("text", item.getString("rawData"));
+                    jsonObject.put("data", "");
+                    jsonObject.put("tableList", "");
+                    jsonObject.put("identify", item.getString("identify"));
+                    jsonObject.put("fromApp", item.getString("fromApp"));
+                    jsonObject.put("isCate", "0");
+                    jsonObject.put("description", "适配申请");
+                    String result = Base64.encodeToString(jsonObject.toString().getBytes(), Base64.NO_WRAP);
+                    AutoBillWeb.httpSend(getContext(), this, "support", result);
                 }
                 return null;
             });

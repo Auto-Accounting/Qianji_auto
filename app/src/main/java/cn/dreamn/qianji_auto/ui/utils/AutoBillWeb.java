@@ -1,21 +1,26 @@
 package cn.dreamn.qianji_auto.ui.utils;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 
+import androidx.annotation.NonNull;
+
+import com.alibaba.fastjson.JSONObject;
 import com.tencent.mmkv.MMKV;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
+import cn.dreamn.qianji_auto.ui.views.LoadingDialog;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import okhttp3.Cache;
+import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import es.dmoral.toasty.Toasty;
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -112,14 +117,100 @@ public class AutoBillWeb {
             }
         });
     }
+
     public interface WebCallback {
         void onFailure();
+
         void onSuccessful(String data);
     }
 
 
-    public static void sendData() {
+    public static void httpSend(Context context, BaseFragment baseFragment, String support, String data) {
+        LoadingDialog dialog = new LoadingDialog(context, "正在提交，请稍候...");
+        dialog.show();
+        Handler mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                dialog.close();
+                switch (msg.what) {
+                    case -1:
+                        Toasty.error(context, "访问服务器失败！").show();
+                        break;
+                    case 1:
+                        AutoBillWeb.goToLogin(baseFragment);
+                        break;
+                    case 2:
+                        Toasty.error(context, (String) msg.obj).show();
+                        break;
+                    case 0:
+                        Toasty.success(context, (String) msg.obj).show();
+                        break;
+                }
+            }
+        };
+        Task.onThread(() -> {
+            AutoBillWeb.sendData(support, data, new AutoBillWeb.WebCallback() {
+                @Override
+                public void onFailure() {
+                    mHandler.sendEmptyMessage(-1);
+                }
 
+                @Override
+                public void onSuccessful(String data) {
+                    Log.m("响应数据：" + data);
+                    com.alibaba.fastjson.JSONObject jsonObject1 = JSONObject.parseObject(data);
+                    switch (jsonObject1.getInteger("code")) {
+                        case 402:
+                            mHandler.sendEmptyMessage(1);
+                            break;
+                        case 403:
+                        case 404:
+                            Message message = new Message();
+                            message.what = 2;
+                            message.obj = jsonObject1.getString("msg");
+                            mHandler.sendMessage(message);
+                            break;
+                        case 0:
+                            Message message1 = new Message();
+                            message1.what = 0;
+                            message1.obj = jsonObject1.getString("msg");
+                            mHandler.sendMessage(message1);
+                            break;
+                    }
+                }
+            });
+        });
+
+    }
+
+    public static void sendData(String support, String data, WebCallback webCallback) {
+
+        String url = "https://qianji.ankio.net/api_" + support + ".json";
+
+
+        Log.d(data);
+
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
+                .newBuilder();
+        urlBuilder.addQueryParameter("data", data);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final Request request = new Request.Builder()
+                .url(urlBuilder.build())
+                .addHeader("Cookie", getCookie())//添加登录cookie访问，直接获取连接是不需要cookie的
+                .get()//默认就是GET请求，可以不写
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                webCallback.onFailure();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                webCallback.onSuccessful(response.body().string());
+            }
+        });
     }
 
     public static void getSupport(String data,WebCallback webCallback) {
