@@ -16,6 +16,7 @@ let Base64 = {
     }
 };
 
+
 //let encoded = Base64.encode("哈ha"); // "5ZOIaGE="
 //let decoded = Base64.decode(encoded); // "哈ha"
 class DataUtils{

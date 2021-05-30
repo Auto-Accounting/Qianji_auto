@@ -152,6 +152,7 @@ public class localFragment extends BaseFragment {
     @SuppressLint("CheckResult")
     @Override
     protected void initListeners() {
+
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
         });
@@ -214,7 +215,7 @@ public class localFragment extends BaseFragment {
                             });
 
                             dialog2.setOnDismissListener(dialog1 -> {
-                                loadDialog = new LoadingDialog(getContext(), "数据导出中...");
+                                loadDialog = new LoadingDialog(getContext(), "数据导入中...");
                                 loadDialog.show();
                                 Task.onThread(() -> {
                                     for (int i = 0; i < jsonArray.size(); i++) {
@@ -370,7 +371,7 @@ public class localFragment extends BaseFragment {
                     break;
                 case 2:
 
-                    WebViewFragment.openUrl(this, "file:///android_asset/html/Category/js.html?id=" + cate.getInt("id") + "&data=" + Base64.encodeToString(cate.getString("regular").getBytes(), Base64.NO_WRAP));
+                    WebViewFragment.openUrl(this, "file:///android_asset/html/Category/js.html?id=" + cate.getInt("id") + "&data=" + cate.getString("regular") + "&name=" + cate.getString("name") + "&des=" + cate.getString("des"));
                     break;
                 case 3:
                     //TODO send2Cloud

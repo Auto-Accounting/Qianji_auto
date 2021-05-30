@@ -32,7 +32,22 @@
             </div>
         </div>
         <input id="cate_id" style="display: none" type="text">
+        <div class="sort_name">
+            <label>Js编辑器风格</label>
+            <div class="rule_content">
+                <div class="rule_content3">
+                    <button>自动换行</button>
+                    <div class="testswitch">
+                        <input class="testswitch-checkbox" id="js_style" type="checkbox">
+                        <label class="testswitch-label" for="js_style">
+                            <span class="testswitch-inner" data-off="OFF" data-on="ON"></span>
+                            <span class="testswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
 
+        </div>
         <div class="sort_name">
             <label for="sort_name">JS代码</label>
             <div>
@@ -177,7 +192,6 @@ if(true)return '其它';</textarea>
         matchBrackets: true,
         lineWrapping: true,
     });
-
 </script>
 <script>
     $(function () {
@@ -266,15 +280,35 @@ if(true)return '其它';</textarea>
             const pair = vars[i].split("=");
             if(pair[0] === variable){return pair[1];}
         }
-        return "";
+        return undefined;
     }
+    $("#js_style").on('click', function(){
+        if ($("#js_style").is(':checked')) {
+          //  setCookie("lineWrapping","true",365)
+            editor.setOption("lineWrapping",true)
+        } else {
+        //    setCookie("lineWrapping","false",365)
+            editor.setOption("lineWrapping",false)
+        }
+    });
+
     function setData() {
         let data = getQueryVariable("data");
         const id = getQueryVariable("id");
-        if(data!==undefined&&id!==undefined){
+        const name=getQueryVariable("name");
+        const des=getQueryVariable("des");
+       /* const bool=getCookie("lineWrapping")==="true";
+        $("#js_style").prop("checked",bool)
+        editor.setOption("lineWrapping",bool)*/
+        if(data!==undefined&&id!==undefined&&name!==undefined&&des!==undefined){
+
             $("#cate_id").val(id);
             data=Base64.decode(data)
-            editor.getTextArea().value=data;
+            editor.setValue(data)
+
+            $("#sort_name").val(decodeURIComponent(name));
+
+            $("#sort_remark").val(decodeURIComponent(des));
            // $("#code").html(data)
         }
 
@@ -330,7 +364,6 @@ if(true)return '其它';</textarea>
         var js = "function getCategory(shopName,shopRemark,type,hour,minute,source,money){%s  %s return '其它';} getCategory('%s','%s','%s',%s,%s,'%s','%s');";
         return String.format(js, jsInner, jsData, shopAccount, shopRemark, type, hour, minute, source, money);
     }
-
 
 </script>
 

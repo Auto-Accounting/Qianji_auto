@@ -198,7 +198,7 @@ public class WebViewFragment extends BaseFragment {
 
             }
         };
-        if (url.startsWith("file:///android_asset/html/Category/index.html")) {
+        if (url.startsWith("file:///android_asset/html/Category/")) {
             //== webview 与js交互=========================
             //定义提供html页面调用的方法
             final Object appToJsObject = new Object() {
