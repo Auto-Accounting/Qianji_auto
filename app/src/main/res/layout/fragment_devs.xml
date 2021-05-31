@@ -271,6 +271,126 @@
                     android:textSize="18sp"
                     android:visibility="invisible" />
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/head_6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="@color/background_white"
+                android:backgroundTint="@color/background_white"
+                android:gravity="center_vertical"
+                android:padding="10dp">
+
+                <com.shehuan.niv.NiceImageView
+                    android:id="@+id/iv_77"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/head_6"
+                    app:is_circle="true"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@+id/iv_77"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text="陌上桑"
+                        android:textColor="@color/main_title"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text="图标重绘"
+                        android:textColor="@color/skip_title"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <cn.dreamn.qianji_auto.ui.views.IconView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    android:text="&#xe6e0;"
+                    android:textColor="@color/skip_title"
+                    android:textSize="18sp"
+                    android:visibility="invisible" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/head_7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="@color/background_white"
+                android:backgroundTint="@color/background_white"
+                android:gravity="center_vertical"
+                android:padding="10dp">
+
+                <com.shehuan.niv.NiceImageView
+                    android:id="@+id/iv_88"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/head_7"
+                    app:is_circle="true"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_toEndOf="@+id/iv_88"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text="Cough"
+                        android:textColor="@color/main_title"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:text="前端设计&amp;开发"
+                        android:textColor="@color/skip_title"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <cn.dreamn.qianji_auto.ui.views.IconView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    android:text="&#xe6e0;"
+                    android:textColor="@color/skip_title"
+                    android:textSize="18sp"
+                    android:visibility="invisible" />
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

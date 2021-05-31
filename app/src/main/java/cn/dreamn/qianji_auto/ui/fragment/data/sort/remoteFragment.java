@@ -111,10 +111,10 @@ public class remoteFragment extends BaseFragment {
         statusView.setLoadingView(R.layout.loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.empty_info, "资产都没有，还想记账？\n快去添加一个！");
+            viewHolder.setText(R.id.empty_info, "云端暂无任何自动分类规则");
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.load_info, "正在加载资产信息");
+            viewHolder.setText(R.id.load_info, "正在加载自动分类规则");
         });
         statusView.showLoadingView();
         initLayout();
