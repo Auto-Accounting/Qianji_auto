@@ -65,7 +65,7 @@ public class MainAutoSortFragment extends BaseFragment {
         List<Fragment> tabFragments = new ArrayList<>();  //实例化集合
 
         tabFragments.add(new localFragment());
-        tabFragments.add(new cardsFragment1());
+        tabFragments.add(new remoteFragment());
         TabAdapter adapter = new TabAdapter(getChildFragmentManager(), tabFragments, new String[]{"本地", "云端"}); //参数1为fragment管理器
         viewPager.setAdapter(adapter); //给viewPager设置适配器
         tabLayout.setupWithViewPager(viewPager); //将tabLayout与viewPager建立匹配

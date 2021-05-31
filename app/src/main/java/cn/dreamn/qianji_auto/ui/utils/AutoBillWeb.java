@@ -213,30 +213,6 @@ public class AutoBillWeb {
         });
     }
 
-    public static void getSupport(String data,WebCallback webCallback) {
-        String url = "https://qianji.ankio.net/api_support.json";
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
-                .newBuilder();
-        urlBuilder.addQueryParameter("data", data);
-        OkHttpClient okHttpClient = new OkHttpClient();
-        final Request request = new Request.Builder()
-                .url(urlBuilder.build())
-                .addHeader("Cookie",getCookie())//添加登录cookie访问，直接获取连接是不需要cookie的
-                .get()//默认就是GET请求，可以不写
-                .build();
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                webCallback.onFailure();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                webCallback.onSuccessful(response.body().string());
-            }
-        });
-    }
 
     public static void goToLogin(BaseFragment baseFragment) {
         WebViewFragment.openUrl(baseFragment, "https://qianji.ankio.net/login");

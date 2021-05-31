@@ -223,12 +223,27 @@ public class NoticeFragment extends BaseFragment {
                 }else if(text=="创建识别规则") {
                    // TODO open a fragment to create
                 }else if(text=="下载规则") {
-                  Bundle bundle =  item.getBundle("cloud_data");
-                    DataUtils dataUtils=new DataUtils();
+                    Bundle bundle = item.getBundle("cloud_data");
+                    DataUtils dataUtils = new DataUtils();
                     dataUtils.parse(bundle.getString("tableList"));
-                    identifyRegulars.add(bundle.getString("regular"), bundle.getString("name"), bundle.getString("text"), dataUtils.get("account1"), dataUtils.get("account2"), dataUtils.get("type"), dataUtils.get("silent"), dataUtils.get("money"), dataUtils.get("fee"), dataUtils.get("shopName"), dataUtils.get("shopRemark"), dataUtils.get("source"), bundle.getString("identify"), bundle.getString("fromApp"), bundle.getString("des"));
+                    identifyRegulars.add(
+                            bundle.getString("regular"),
+                            bundle.getString("name"),
+                            bundle.getString("text"),
+                            dataUtils.get("account1"),
+                            dataUtils.get("account2"),
+                            dataUtils.get("type"),
+                            dataUtils.get("silent"),
+                            dataUtils.get("money"),
+                            dataUtils.get("fee"),
+                            dataUtils.get("shopName"),
+                            dataUtils.get("shopRemark"),
+                            dataUtils.get("source"),
+                            bundle.getString("identify"),
+                            bundle.getString("fromApp"),
+                            bundle.getString("des"));
                     Toasty.info(getContext(), "导入成功").show();
-                  mHandler.sendEmptyMessage(HANDLE_REFRESH);
+                    mHandler.sendEmptyMessage(HANDLE_REFRESH);
                 }else if(text=="上传规则") {
                     //TODO Support
                 }else if(text=="申请适配") {

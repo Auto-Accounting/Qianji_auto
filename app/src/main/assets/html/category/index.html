@@ -30,16 +30,14 @@
             <label>时间条件范围</label>
             <div class="rule_content">
                 <div class="rule_content2">
-                    <select id="time_condition1" name="time_condition">
-                        <option selected value="min"> 最小</option>
-                    </select><input id="time_condition2" placeholder="仅可输入数字，24小时计数法" type="time">
+                    <button class="time_button">最小</button>
+                    <input id="time_condition2" placeholder="仅可输入数字，24小时计数法" type="time">
                 </div>
             </div>
             <div class="rule_content">
                 <div class="rule_content2">
-                    <select id="time_condition3" name="time_condition2">
-                        <option selected value="max"> 最大</option>
-                    </select><input id="time_condition4" placeholder="仅可输入数字，24小时计数法" type="time">
+                    <button class="time_button">最大</button>
+                    <input id="time_condition4" placeholder="仅可输入数字，24小时计数法" type="time">
                 </div>
             </div>
         </div>
@@ -210,7 +208,7 @@
 
                     <div class="rule_content3">
                         <button>消费类型</button>
-                        <select id="bill_type">
+                        <select class="bill_select" id="bill_type">
                             <option selected value="0"> 支出</option>
                             <option value="1"> 收入</option>
 
