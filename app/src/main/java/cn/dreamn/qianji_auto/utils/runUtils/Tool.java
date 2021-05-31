@@ -128,7 +128,7 @@ public class Tool {
 
     public static void shareFile(Context context, String filePath) {
         Intent shareIntent2 = new Intent();
-        Uri uri = FileProvider.getUriForFile(context, "cn.dreamn.qianji_auto.fileprovider", new File(filePath));
+        Uri uri = FileProvider.getUriForFile(context, "cn.dreamn.qianji_auto.fileprovider.share", new File(filePath));
         // grantUriPermission(getPackageName(),uri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
         shareIntent2.putExtra(Intent.EXTRA_STREAM, uri);
         //重点:针对7.0以上的操作

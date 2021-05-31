@@ -498,8 +498,6 @@ com.xuexiang.xpage.AutoPageConfiguration:
     private static final java.lang.String PAGE_CONFIG_CLASS_NAME_SUFFIX
 cn.dreamn.qianji_auto.ui.utils.AutoBillWeb:
     public void <init>()
-    public static void getCategoryWeb(java.lang.String,cn.dreamn.qianji_auto.ui.utils.AutoBillWeb$WebCallback)
-    public static void sendData()
 io.reactivex.functions.LongConsumer
 kotlin.SafePublicationLazyImpl$Companion
 kotlin.collections.MapsKt__MapsJVMKt:
@@ -3709,10 +3707,6 @@ kotlinx.coroutines.DeferredCoroutine
 io.reactivex.internal.operators.mixed.MaybeFlatMapPublisher$FlatMapPublisherSubscriber
 io.reactivex.internal.operators.observable.ObservableInternalHelper$ObserverOnComplete
 io.reactivex.internal.operators.observable.ObservableWindowBoundary
-cn.dreamn.qianji_auto.ui.fragment.data.sort.cardsFragment1:
-    private static final int HANDLE_ERR
-    private static final int HANDLE_OK
-    private static final int HANDLE_REFRESH
 io.reactivex.internal.operators.mixed.SingleFlatMapObservable$FlatMapObserver
 cn.dreamn.qianji_auto.ui.adapter.CardAdapter$CallAdapter
 cn.dreamn.qianji_auto.database.Dao.AssetDao_Impl:
@@ -5840,6 +5834,11 @@ okhttp3.HttpUrl$Companion:
     public final okhttp3.HttpUrl -deprecated_parse(java.lang.String)
     public final okhttp3.HttpUrl -deprecated_get(java.net.URL)
     public final okhttp3.HttpUrl -deprecated_get(java.net.URI)
+cn.dreamn.qianji_auto.ui.fragment.data.sort.remoteFragment:
+    private static final int HANDLE_ERR
+    private static final int HANDLE_OK
+    private static final int HANDLE_REFRESH
+    private static final int HANDLE_NO_REFRESH
 io.reactivex.observers.BaseTestConsumer$TestWaitStrategy$1
 kotlinx.coroutines.flow.FlowKt__MigrationKt$combine$$inlined$unsafeFlow$2
 org.mozilla.javascript.NativeGenerator:
@@ -6638,8 +6637,6 @@ kotlinx.coroutines.flow.FlowKt__ZipKt$combineTransform$$inlined$combineTransform
 io.reactivex.subjects.UnicastSubject
 kotlin.streams.jdk8.StreamsKt$asSequence$$inlined$Sequence$2
 cn.dreamn.qianji_auto.database.Dao.RegularDao_Impl:
-    public void setSort(int,int)
-    public void update(int,java.lang.String,java.lang.String,java.lang.String)
     public cn.dreamn.qianji_auto.database.Table.Regular[] getOne(int)
 kotlinx.coroutines.flow.FlowKt__TransformKt$unsafeTransform$$inlined$unsafeFlow$2$lambda$1
 io.reactivex.internal.operators.observable.ObservableBufferTimed$BufferExactBoundedObserver
@@ -9384,11 +9381,7 @@ kotlinx.coroutines.channels.ChannelsKt__Channels_commonKt$singleOrNull$3
 com.afollestad.materialdialogs.datetime.DatePickerExtKt
 cn.dreamn.qianji_auto.database.Helper.Category:
     public void <init>()
-    public static java.lang.String getOneRegularJs(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
-    public static void changeCategory(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
-    public static void setSort(int,int)
-    private static synthetic void lambda$setSort$8(int,int)
-    private static synthetic void lambda$changeCategory$6(int,java.lang.String,java.lang.String,java.lang.String)
+    public static java.lang.String getOneRegularJs(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
 org.mozilla.javascript.ast.Block:
     public void <init>(int,int)
     public java.lang.String toSource(int)
@@ -10432,7 +10425,6 @@ okhttp3.Cookie$Companion:
     public static final synthetic boolean access$domainMatch(okhttp3.Cookie$Companion,java.lang.String,java.lang.String)
     public static final synthetic boolean access$pathMatch(okhttp3.Cookie$Companion,okhttp3.HttpUrl,java.lang.String)
 io.reactivex.internal.operators.observable.ObservableBufferExactBoundary$BufferBoundaryObserver
-cn.dreamn.qianji_auto.ui.utils.AutoBillWeb$1
 javax.xml.stream.events.EntityReference
 okhttp3.internal.connection.RealConnectionPool$Companion:
     public final okhttp3.internal.connection.RealConnectionPool get(okhttp3.ConnectionPool)
@@ -11105,8 +11097,6 @@ cn.dreamn.qianji_auto.database.Dao.AppDataDao_Impl:
     public void add(java.lang.String,java.lang.String,java.lang.String)
 cn.dreamn.qianji_auto.permission.AutoStart$1
 cn.dreamn.qianji_auto.database.Dao.RegularDao:
-    public abstract void setSort(int,int)
-    public abstract void update(int,java.lang.String,java.lang.String,java.lang.String)
     public abstract cn.dreamn.qianji_auto.database.Table.Regular[] getOne(int)
 kotlinx.coroutines.Deferred
 io.reactivex.internal.operators.maybe.MaybeMergeArray$SimpleQueueWithConsumerIndex
@@ -11927,13 +11917,10 @@ kotlinx.coroutines.flow.FlowKt__DistinctKt$distinctUntilChanged$$inlined$distinc
 cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment:
     public static final java.lang.String KEY_URL
 cn.dreamn.qianji_auto.ui.fragment.data.sort.localFragment:
-    private void del(android.os.Bundle)
-    private static synthetic kotlin.Unit lambda$del$18(com.afollestad.materialdialogs.MaterialDialog)
-    private synthetic kotlin.Unit lambda$del$17(android.os.Bundle,com.afollestad.materialdialogs.MaterialDialog)
-    private synthetic void lambda$null$16()
     private static final int HANDLE_ERR
     private static final int HANDLE_OK
     private static final int HANDLE_REFRESH
+    private static final int HANDLE_OUT
 kotlin.PropertyReferenceDelegatesKt
 io.reactivex.internal.operators.flowable.FlowableInternalHelper$SubscriberOnComplete
 butterknife.ViewCollections:
@@ -13096,6 +13083,7 @@ cn.dreamn.qianji_auto.setting.AppInfo:
     public void <init>()
     public static long getAppVerCode()
     public static java.lang.String getAppVerName()
+    public static java.lang.String getAppPackage()
 io.reactivex.internal.operators.observable.ObservableWindow$WindowExactObserver
 kotlin.jvm.JvmSynthetic
 android.support.v4.media.session.MediaSessionCompat$Callback
@@ -15588,9 +15576,6 @@ io.reactivex.internal.operators.observable.ObservableSubscribeOn:
     public final io.reactivex.Scheduler scheduler
 kotlin.reflect.KProperty:
     public abstract kotlin.reflect.KProperty$Getter getGetter()
-cn.dreamn.qianji_auto.database.Dao.RegularDao_Impl:
-    public final androidx.room.SharedSQLiteStatement __preparedStmtOfSetSort
-    public final androidx.room.SharedSQLiteStatement __preparedStmtOfUpdate
 io.reactivex.internal.operators.flowable.FlowableConcatMap$BaseConcatMapSubscriber
 okhttp3.internal.http2.Http2Stream:
     public static final okhttp3.internal.http2.Http2Stream$Companion Companion
@@ -16080,6 +16065,8 @@ okhttp3.Dns:
 cn.dreamn.qianji_auto.database.Dao.RegularDao_Impl$7:
     public final synthetic cn.dreamn.qianji_auto.database.Dao.RegularDao_Impl this$0
 io.reactivex.internal.operators.flowable.FlowableConcatMap$ConcatMapSupport
+cn.dreamn.qianji_auto.ui.fragment.data.sort.localFragment$2:
+    public final synthetic cn.dreamn.qianji_auto.ui.fragment.data.sort.localFragment this$0
 org.mozilla.javascript.ast.WithStatement:
     public int lp
     public int rp
@@ -16121,8 +16108,6 @@ cn.dreamn.qianji_auto.utils.runUtils.Log:
     public static int MODE_CLOSE
     public static int MODE_SIMPLE
     public static int MODE_MORE
-cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment$3:
-    public final synthetic cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment this$0
 cn.dreamn.qianji_auto.database.Dao.AppDataDao_Impl$3:
     public final synthetic cn.dreamn.qianji_auto.database.Dao.AppDataDao_Impl this$0
 kotlin.ranges.LongProgression:

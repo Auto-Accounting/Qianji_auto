@@ -54,7 +54,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="cn.dreamn.qianji_auto.fileprovider"
+            android:authorities="cn.dreamn.qianji_auto.fileprovider.share"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -62,7 +62,7 @@
                 android:resource="@xml/file_provider_paths" />
         </provider>
         <!-- 通知监听 -->
-        <receiver android:name=".broadcasts.NotificationClickReceiver"></receiver>
+        <receiver android:name=".broadcasts.NotificationClickReceiver" />
     </application>
 
 
