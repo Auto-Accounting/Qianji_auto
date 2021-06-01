@@ -484,10 +484,11 @@
                             android:layout_height="80dp"
                             android:layout_columnWeight="1"
                             android:layout_margin="5dp"
-                            android:focusable="true"
                             android:clickable="true"
+                            android:focusable="true"
                             android:gravity="center_horizontal"
-                            android:padding="5dp">
+                            android:padding="5dp"
+                            android:visibility="invisible">
 
                             <cn.dreamn.qianji_auto.ui.views.IconView
                                 android:id="@+id/item_image_icon71"

@@ -326,6 +326,7 @@ textarea{
     border-radius: 20px;
     padding: 0 !important;
     margin: 0 !important;
+    -webkit-tap-highlight-color:transparent;
 }
 
 .testswitch-inner {

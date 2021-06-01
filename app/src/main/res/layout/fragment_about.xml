@@ -216,7 +216,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="10dp"
                         android:layout_toStartOf="@+id/iconView10"
-                        android:text="目前有4位"
+                        android:text="目前有6位"
                         android:textColor="@color/skip_title" />
 
                     <TextView

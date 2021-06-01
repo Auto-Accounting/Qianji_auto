@@ -189,7 +189,7 @@ public class MainFragment extends BaseFragment {
 
         super.onResume();
       //  homeBarUtils.setClick(home);
-
+        setActive();
 
     }
 
