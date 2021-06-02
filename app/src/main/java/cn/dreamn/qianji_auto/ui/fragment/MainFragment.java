@@ -50,6 +50,7 @@ import cn.dreamn.qianji_auto.ui.fragment.base.sorts.MainSortFragment;
 import cn.dreamn.qianji_auto.ui.fragment.data.LogFragment;
 import cn.dreamn.qianji_auto.ui.fragment.data.MoneyFragment;
 import cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment;
+import cn.dreamn.qianji_auto.ui.fragment.data.regulars.MainAutoLearnFragment;
 import cn.dreamn.qianji_auto.ui.fragment.data.sort.MainAutoSortFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
@@ -285,13 +286,13 @@ public class MainFragment extends BaseFragment {
             openNewPage(MainAutoSortFragment.class);
         });
         rl_app.setOnClickListener(v->{
-
+            MainAutoLearnFragment.openWithType(this, "app");
         });
         rl_sms.setOnClickListener(v->{
-
+            MainAutoLearnFragment.openWithType(this, "sms");
         });
         rl_notice.setOnClickListener(v->{
-
+            MainAutoLearnFragment.openWithType(this, "notice");
         });
         rl_float.setOnClickListener(v->{
 

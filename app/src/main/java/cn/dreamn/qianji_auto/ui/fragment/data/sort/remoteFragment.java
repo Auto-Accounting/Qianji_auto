@@ -77,7 +77,7 @@ public class remoteFragment extends BaseFragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case HANDLE_ERR:
-                    statusView.showEmptyView();
+                    if (statusView != null) statusView.showEmptyView();
                     break;
                 case HANDLE_OK:
                     mAdapter.refresh(list);

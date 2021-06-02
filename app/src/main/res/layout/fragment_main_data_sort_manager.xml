@@ -62,7 +62,7 @@
             app:fab_size="mini"
             app:fab_addButtonColorPressed="@color/button_go_setting_bg"
             app:fab_colorNormal="@color/button_go_setting_bg"
-            app:fab_title="添加分类规则" />
+            app:fab_title="添加规则" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/action_import"

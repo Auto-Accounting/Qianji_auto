@@ -95,8 +95,10 @@ public class Category {
         dataUtils.put("regular_shopRemark", billInfo.getShopRemark());
 
         dataUtils.put("regular_type", BillInfo.getTypeName(billInfo.getType(true)));
+        dataUtils.put("bill_type1", "");
+        dataUtils.put("bill_type2", "");
+        dataUtils.put("iconImg", sort);
         dataUtils.put("regular_sort", sort);
-
         Category.addCategory(regular, name, dataUtils.toString(), "[自动生成]", new Finish() {
             @Override
             public void onFinish() {

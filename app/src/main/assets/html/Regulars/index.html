@@ -5,7 +5,10 @@
           name="viewport">
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
     <title>文本识别规则编辑</title>
+
+    <link href="../Public/css/regular22.css" rel="stylesheet">
     <link href="../Public/css/regulars.css" rel="stylesheet">
+    <link href="../Public/css/tip.css" rel="stylesheet">
 </head>
 <body>
 <div class="rule">
@@ -18,24 +21,49 @@
                 </div>
             </div>
         </div>
-
-        <div class="sort_remark">
-            <label for="sort_remark">测试文本</label>
+        <div class="sort_name">
+            <label for="sort_des">规则说明</label>
             <div class="rule_content">
                 <div class="rule_content1">
-                    <textarea cols="30" id="sort_remark" name="sort_remark" placeholder="请输入测试内容..."
-                              rows="5"></textarea>
+                    <input id="sort_des" placeholder="规则说明" type="text">
                 </div>
             </div>
         </div>
+        <div class="sort_name">
+            <label for="sort_app">适用App</label>
+            <select id="sort_app" name="sort_app">
+                <option selected value="0"> 短信</option>
+            </select>
+        </div>
 
-        <div class="regular_expression">
-            <label for="regular_expression">正则表达式</label>
-            <div class="rule_content">
-                <div class="rule_content1">
-                    <textarea cols="30" id="regular_expression" name="regular_expression"
-                              placeholder="请输入正则表达式..." rows="5"></textarea>
+        <div class="sort_remark">
+            <label>正则测试</label>
+        </div>
+        <div class="main " style="background-color: #fff">
+            <div class="inner">
+                <div id="preset_regex">
+                    <h4>常用正则：</h4>
+                    <ul class="clearfix">
+                        <li><a data-regex="\d+(\.\d+)?" href="#">匹配浮点数（常用于金额）</a></li>
+                        <li><a data-regex="[\u4e00-\u9fa5]+" href="#">匹配中文</a></li>
+                        <li><a data-regex="[\s\S]*" href="#">匹配任意字符</a></li>
+                        <li><a data-regex=".*" href="#">匹配任意不换行字符</a></li>
+                    </ul>
                 </div>
+                <h4>正则表达式：</h4>
+                <div class="regex-wrapper mgb10">
+                    <textarea cols="100" id="regex_input" rows="3" style="display: none;"
+                              tabindex="1"></textarea>
+                </div>
+                <h4>测试数据：</h4>
+                <div class="str-wrapper">
+                    <textarea cols="100" id="str_input" rows="10" style="display: none;"
+                              tabindex="2"></textarea>
+                </div>
+                <h3 style="display: none">共找到 <var id="result_count">0</var> 处匹配结果</h3>
+                <pre id="result_content" style="display: none"></pre>
+                <h3>共找到 <var id="result_count2">0</var> 处分组结果</h3>
+                <pre id="result_content2"></pre>
             </div>
         </div>
 
@@ -102,5 +130,35 @@
         </div>
     </form>
 </div>
+<script src="../Public/jquery/jquery.js"></script>
+<script src="../Public/jquery/1.js"></script>
+<script src="../Public/jquery/2.js"></script>
+<script>
+    $("#result_count").bind("DOMNodeInserted",function(e){
+        var data = $("#regex_input").val();
+        var pattern = eval("/"+data+"/");
+        var str="";
+        var len=1;
+        if(pattern.test($("#str_input").val())){
+            var array = pattern.exec($("#str_input").val());
+            len=array.length;
+
+            for(var i=1;i<len;i++){
+                str+="<b>【"+i+"】</b> "+array[i]+"<br>"
+            }
+
+        }
+        $("#result_count2").html((len-1).toString());
+        $("#result_content2").html(str);
+    })
+
+
+
+
+
+
+
+
+</script>
 </body>
 </html>
