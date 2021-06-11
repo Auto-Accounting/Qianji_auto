@@ -21,8 +21,6 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
-import java.util.List;
-
 import cn.dreamn.qianji_auto.BuildConfig;
 
 
@@ -30,27 +28,64 @@ public class AppInfo {
 
 
     public static String getAppVersionName(Context context, String packageName) {
-        PackageManager packageManager = context.getPackageManager();
-        List<PackageInfo> packageInfos = packageManager.getInstalledPackages(0);
-        for (PackageInfo packageInfo : packageInfos) {
-            if (packageInfo.packageName.equals(packageName)) {
-                return packageInfo.versionName;
-            }
+
+        PackageInfo packageInfo;
+        try {
+            packageInfo = context.getPackageManager().getPackageInfo(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            packageInfo = null;
+            e.printStackTrace();
         }
+        //System.out.println("没有安装");
+        //System.out.println("已经安装");
+        if (packageInfo != null) {
+            return packageInfo.versionName;
+        }
+
         return "";
+    }
+
+    /*
+     * check the app is installed
+     */
+    private static boolean isAppInstalled(Context context, String packagename) {
+        PackageInfo packageInfo;
+        try {
+            packageInfo = context.getPackageManager().getPackageInfo(packagename, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            packageInfo = null;
+            e.printStackTrace();
+        }
+        //System.out.println("没有安装");
+        //System.out.println("已经安装");
+        return packageInfo != null;
     }
 
     //判断是否安装某个框架
     public static String getFrameWork(Context context) {
         String farmework = "";//判断加载的框架
-        String[] appName = {"taichi", "edxposed", "lsposed", "bug", "Dreamn", "xposed"};
-        String[] appPackage = {"me.weishu.exp", "org.meowcat.edxposed.manager", "io.github.lsposed.manager", "com.bug.xposed", "de.robv.android.xposed.installer"};
+        String[] appName =
+                {
+                        "taichi",
+                        "edxposed",
+                        "lsposed",
+                        "bug",
+                        "Dreamn",
+                        "xposed"
+                };
+        String[] appPackage = {
+                "me.weishu.exp",
+                "org.meowcat.edxposed.manager",
+                "io.github.lsposed.manager",
+                "com.bug.xposed",
+                "com.bug.dreamn",
+                "de.robv.android.xposed.installer"
+        };
 
         for (int i = 0; i < appName.length; i++) {
 
-            if (!getAppVersionName(context, appPackage[i]).equals("")) {
-                farmework = appName[i];//框架已经安装
-                break;
+            if (isAppInstalled(context, appPackage[i])) {
+                farmework = appName[i];
             }
         }
 

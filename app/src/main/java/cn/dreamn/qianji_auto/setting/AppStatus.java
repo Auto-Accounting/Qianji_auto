@@ -35,6 +35,7 @@ import java.util.Objects;
 
 
 public class AppStatus {
+
     public static boolean isActive(Context context) {
         if (getActiveMode().equals("helper")) {
             return defaultActive(context);

@@ -145,8 +145,8 @@
         var len=1;
         if(pattern.test($("#str_input").val())){
             var array = pattern.exec($("#str_input").val());
+            console.log(array)
             len=array.length;
-
             for(var i=1;i<len;i++){
                 str+="<b>【"+i+"】</b> "+array[i]+"<br>"
             }
