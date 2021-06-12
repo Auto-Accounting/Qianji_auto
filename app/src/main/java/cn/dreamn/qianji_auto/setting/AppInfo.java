@@ -20,8 +20,16 @@ package cn.dreamn.qianji_auto.setting;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.text.TextUtils;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
+import java.util.Set;
 
 import cn.dreamn.qianji_auto.BuildConfig;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 
 public class AppInfo {
@@ -45,6 +53,46 @@ public class AppInfo {
         return "";
     }
 
+
+    private static boolean method_pm(String targets) {
+        Set<String> packages = new HashSet<>();
+        try {
+            java.lang.Process p = Runtime.getRuntime().exec("pm list packages");
+            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream(), StandardCharsets.UTF_8));
+            String line;
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (line.length() > 8) {
+                    String prefix = line.substring(0, 8);
+                    if (prefix.equalsIgnoreCase("package:")) {
+                        line = line.substring(8).trim();
+                        if (!TextUtils.isEmpty(line))
+                            packages.add(line);
+                    }
+                }
+            }
+            br.close();
+            p.destroy();
+        } catch (Exception e) {
+            Log.d("install", targets + " Error " + e.toString());
+        }
+        if (packages.isEmpty()) packages = null;
+        //    Log.d("install",packages.toString());
+        return findPackages(packages, targets);
+    }
+
+
+    private static boolean findPackages(Set<String> packages, String targets) {
+        if (packages == null) return false;
+        for (String name : packages) {
+            //   Log.d("install","name "+name+" packages " +targets);
+            if (name.contains(targets))
+                return true;
+        }
+
+        return false;
+    }
+
     /*
      * check the app is installed
      */
@@ -54,7 +102,8 @@ public class AppInfo {
             packageInfo = context.getPackageManager().getPackageInfo(packagename, 0);
         } catch (PackageManager.NameNotFoundException e) {
             packageInfo = null;
-            e.printStackTrace();
+
+            Log.d("install", packagename + " Error " + e.toString());
         }
         //System.out.println("没有安装");
         //System.out.println("已经安装");
@@ -76,16 +125,16 @@ public class AppInfo {
         String[] appPackage = {
                 "me.weishu.exp",
                 "org.meowcat.edxposed.manager",
-                "io.github.lsposed.manager",
+                "org.lsposed.manager",
                 "com.bug.xposed",
-                "com.bug.dreamn",
+                "top.canyie.dreamland.manager",
                 "de.robv.android.xposed.installer"
         };
 
         for (int i = 0; i < appName.length; i++) {
-
-            if (isAppInstalled(context, appPackage[i])) {
+            if (method_pm(appPackage[i])) {
                 farmework = appName[i];
+                break;
             }
         }
 
