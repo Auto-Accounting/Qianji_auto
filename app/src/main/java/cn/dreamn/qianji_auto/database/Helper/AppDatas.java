@@ -21,11 +21,9 @@ package cn.dreamn.qianji_auto.database.Helper;
 import android.os.Bundle;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.AppData;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 public class AppDatas {
@@ -43,6 +41,20 @@ public class AppDatas {
         Task.onThread(() -> {
             DbManger.db.AppDataDao().delAll(identify);
             end.finish();
+        });
+    }
+
+    public static void deny(int id, Category.Finish finish) {
+        Task.onThread(() -> {
+            DbManger.db.AppDataDao().deny(id);
+            finish.onFinish();
+        });
+    }
+
+    public static void enable(int id, Category.Finish finish) {
+        Task.onThread(() -> {
+            DbManger.db.AppDataDao().enable(id);
+            finish.onFinish();
         });
     }
 

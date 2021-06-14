@@ -33,9 +33,11 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.views.TitleBar;
+import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 import es.dmoral.toasty.Toasty;
@@ -198,10 +200,11 @@ public class WebViewFragment extends BaseFragment {
 
             }
         };
+
         if (url.startsWith("file:///android_asset/html/Category/")) {
             //== webview 与js交互=========================
             //定义提供html页面调用的方法
-            final Object appToJsObject = new Object() {
+            Object appToJsObject = new Object() {
 
 
                 @JavascriptInterface
@@ -235,9 +238,59 @@ public class WebViewFragment extends BaseFragment {
                 }
             };
 
+
+            webView.addJavascriptInterface(appToJsObject, "AndroidJS");
+        } else if (url.startsWith("file:///android_asset/html/Regulars/")) {
+            //== webview 与js交互=========================
+            //定义提供html页面调用的方法
+            Object appToJsObject = new Object() {
+
+
+                @JavascriptInterface
+                public void Save(String data, String id) {
+                    DataUtils dataUtils = new DataUtils();
+                    dataUtils.parse(data);
+
+                    if (id.equals("undefined")) {
+                        identifyRegulars.add(
+                                dataUtils.get("regular"),
+                                dataUtils.get("name"),
+                                dataUtils.get("text"),
+                                dataUtils.get("tableList"),
+                                dataUtils.get("identify"),
+                                dataUtils.get("fromApp"),
+                                dataUtils.get("des"),
+                                () -> {
+                                    Toasty.success(getContext(), "存储成功！").show();
+                                    popToBack();
+                                });
+
+                    } else {
+                        identifyRegulars.change(
+                                Integer.parseInt(id),
+                                dataUtils.get("regular"),
+                                dataUtils.get("name"),
+                                dataUtils.get("text"),
+                                dataUtils.get("tableList"),
+                                dataUtils.get("identify"),
+                                dataUtils.get("fromApp"),
+                                dataUtils.get("des"),
+                                () -> {
+                                    Toasty.success(getContext(), "修改成功！").show();
+                                    popToBack();
+                                });
+
+                    }
+
+                }
+
+
+            };
+
             webView.addJavascriptInterface(appToJsObject, "AndroidJS");
 
         }
+
     }
 
     //定义公共方法调用页面js方法

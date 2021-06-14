@@ -201,26 +201,20 @@ public class identifyRegulars {
         void onFinish();
     }
 
-    public static void change(int id, String regex, String name, String text, String account1, String account2, String type, String silent, String money, String fee, String shopName, String shopRemark, String source, String identify, String fromApp, String des) {
-        DataUtils dataUtils = new DataUtils();
-        dataUtils.put("account1", account1);
-        dataUtils.put("account2", account2);
-        dataUtils.put("type", type);
-        dataUtils.put("silent", silent);
-        dataUtils.put("money", money);
-        dataUtils.put("fee", fee);
-        dataUtils.put("shopName", shopName);
-        dataUtils.put("shopRemark", shopRemark);
-        dataUtils.put("source", source);
-        Task.onThread(() -> DbManger.db.IdentifyRegularDao().update(id, regex, name, text, dataUtils.toString(), identify, fromApp, des));
+    public static void change(int id, String regex, String name, String text, String tableList, String identify, String fromApp, String des, Finish finish) {
+
+        Task.onThread(() -> {
+            DbManger.db.IdentifyRegularDao().update(id, regex, name, text, tableList, identify, fromApp, des);
+            finish.onFinish();
+        });
     }
 
     public static void del(int id) {
-        Task.onThread(()-> DbManger.db.IdentifyRegularDao().delete(id));
+        Task.onThread(() -> DbManger.db.IdentifyRegularDao().delete(id));
     }
 
     public static void setSort(int id, int sort) {
-        Task.onThread(()-> DbManger.db.IdentifyRegularDao().setSort(id, sort));
+        Task.onThread(() -> DbManger.db.IdentifyRegularDao().setSort(id, sort));
     }
 
     public static void clear(String identify,String fromApp) {

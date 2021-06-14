@@ -3,6 +3,10 @@ body{
     margin: 0;
     background-color: #F2F2F2;
 }
+form {
+    margin: 0;
+    padding: 0;
+}
 label{
     display: block;
     font-size: 18px;
@@ -39,15 +43,17 @@ button{
     width: 30%;
     border-radius: 10px;
     height: 40px;
-    line-height: 40px;
     text-align: center;
     outline-style: none;
-    border: none;
     font-size: 18px;
-    color: #fff;
+    border: none;
     cursor: pointer;
     background-color: #3396FB;
+    color: #fff;
     -webkit-tap-highlight-color:transparent;
+}
+button:hover{
+    color: #fff;
 }
 option:first-child{
     font-weight: bolder;
@@ -67,7 +73,12 @@ textarea{
     overflow-y: auto;
     -webkit-user-modify: read-write-plaintext-only;
 }
-
+.textarea{
+    padding: 5px 0;
+}
+.sort_rule_remark, .sort_package1{
+    padding-bottom: 5px;
+}
 .rule{
     width: 100%;
     margin: 0 auto;
@@ -77,7 +88,6 @@ textarea{
     width: 100%;
     text-align: center;
     background-color: white;
-    padding: 10px 0;
     margin-bottom: 5px;
 }
 .rule_content1 input,.rule_content1 select{
@@ -86,13 +96,19 @@ textarea{
 .rule_content2 label{
     width: 28%;
     border: 1px solid #3396FB;
-    <!--color: #3396FB;-->
     background-color: #F2F2F2;
+    color: #3396FB;
     display: inline-block;
     border-radius: 10px;
 }
-.rule_content2 input,.rule_content2 select{
+.rule_content2 input{
     width: 70%;
+}
+.rule_content2 select{
+    width: 70%;
+    border: 1px solid #3396FB;
+    background-color: #F2F2F2;
+    color: #3396FB;
 }
 .rule_content3{
     display: flex;
@@ -107,12 +123,9 @@ textarea{
 .buttons{
     margin: 0 auto;
     text-align: center;
-    padding-top: 5px;
-}
-.buttons button{
-    height: 40px;
-    line-height: 40px;
-    font-size: 18px;
+    width: 100%;
+    padding: 5px 0;
+    background-color: white;
 }
 .button1{
     margin-right: 10%;
@@ -130,10 +143,6 @@ textarea{
         width: 95%;
         margin: 10px auto;
     }
-    .buttons{
-        width: 95%;
-    }
-
 }
 @media screen and (min-width:768px) and (max-width:992px) {
     .rule{
@@ -147,9 +156,6 @@ textarea{
         width:95%;
         margin: 10px auto;
     }
-    .buttons{
-        width: 95%;
-    }
 }
 @media screen and (max-width:768px){
     .rule_content div{
@@ -159,8 +165,5 @@ textarea{
     label{
         width: 95%;
         margin: 10px auto;
-    }
-    .buttons{
-        width: 95%;
     }
 }

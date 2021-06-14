@@ -20,6 +20,7 @@
     <string name="learnUrl">https://doc.ankio.net/doc/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/#/</string>
     <string name="biliUrl"><![CDATA[https://player.bilibili.com/player.html?aid=289448844&bvid=BV1Hf4y147Yi&cid=303785417&page=1]]></string>
     <string name="QQ_Group">165652170</string>
+    <string name="files_default_empty_text">这里空空如也</string>
 
 
 </resources>

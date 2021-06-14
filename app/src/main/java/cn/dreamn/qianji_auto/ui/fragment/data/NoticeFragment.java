@@ -55,6 +55,7 @@ import cn.dreamn.qianji_auto.ui.adapter.ItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.views.LoadingDialog;
+import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.JsEngine;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
@@ -289,8 +290,23 @@ public class NoticeFragment extends BaseFragment {
                                     JSONArray jsonArray=jsonObject.getJSONArray("data");
                                     //获取数据部分
                                     StringBuilder code= new StringBuilder();
-                                    for(int i=0;i<jsonArray.size();i++){
-                                        code.append(jsonArray.getJSONObject(i).getString("data")).append("index++;\n");
+                                    for(int i=0;i<jsonArray.size();i++) {
+                                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                        DataUtils dataUtils = new DataUtils();
+                                        dataUtils.parse(jsonObject1.getString("tableList"));
+                                        String js = identifyRegulars.getRegData(
+                                                jsonObject1.getString("data"),
+                                                dataUtils.get("shopRemark"),
+                                                dataUtils.get("account1"),
+                                                dataUtils.get("type"),
+                                                dataUtils.get("money"),
+                                                dataUtils.get("shopName"),
+                                                dataUtils.get("account2"),
+                                                dataUtils.get("silent"),
+                                                dataUtils.get("source"),
+                                                dataUtils.get("fee")
+                                        );
+                                        code.append(js).append("index++;\n");
                                     }
                                     for(int i=0;i<datas.size();i++){
                                         try {
@@ -311,12 +327,12 @@ public class NoticeFragment extends BaseFragment {
                                                 datas.get(i).putBundle("cloud_data",bundle);
                                             }
                                             int finalI = i;
-                                            identifyRegulars.getAllRegularJs(datas.get(i).getString("rawData"), "notice", null, str -> {
-                                               String result2 = JsEngine.run(str);
-                                                if(!result.startsWith("undefined")){
-                                                    datas.get(finalI).putString("local","true");
-                                                    int index=Integer.parseInt(result.substring(result.lastIndexOf("|")));
-                                                    datas.get(finalI).putBundle("local_data",identifyRegulars.getIndexRegular(index));
+                                            identifyRegulars.getAllRegularJs(datas.get(i).getString("rawData"), getType(), null, str -> {
+                                                String result2 = JsEngine.run(str);
+                                                if (!result.startsWith("undefined")) {
+                                                    datas.get(finalI).putString("local", "true");
+                                                    int index = Integer.parseInt(result.substring(result.lastIndexOf("|")));
+                                                    datas.get(finalI).putBundle("local_data", identifyRegulars.getIndexRegular(index));
                                                 }
 
                                                 Log.i("Qianji-Local", "自动本地规则执行结果：" + result2);

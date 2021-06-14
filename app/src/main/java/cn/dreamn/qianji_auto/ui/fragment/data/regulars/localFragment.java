@@ -23,7 +23,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Base64;
 import android.view.View;
 import android.widget.Toast;
 
@@ -53,6 +52,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.database.Helper.AppDatas;
 import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
@@ -60,8 +60,10 @@ import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
+import cn.dreamn.qianji_auto.ui.utils.B64;
 import cn.dreamn.qianji_auto.ui.views.LoadingDialog;
 import cn.dreamn.qianji_auto.utils.files.FileUtils;
+import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
@@ -225,13 +227,13 @@ public class localFragment extends BaseFragment {
                                     for (int i = 0; i < jsonArray.size(); i++) {
                                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                         identifyRegulars.add(
-                                                new String(Base64.decode(jsonObject1.getString("regular"), Base64.NO_WRAP)),
-                                                jsonObject1.getString("name"),
-                                                jsonObject1.getString("text"),
-                                                jsonObject1.getString("tableList"),
-                                                jsonObject1.getString("identify"),
-                                                jsonObject1.getString("fromApp"),
-                                                jsonObject1.getString("des"),
+                                                B64.decode(jsonObject1.getString("regular")),
+                                                B64.decode(jsonObject1.getString("name")),
+                                                B64.decode(jsonObject1.getString("text")),
+                                                B64.decode(jsonObject1.getString("tableList")),
+                                                B64.decode(jsonObject1.getString("identify")),
+                                                B64.decode(jsonObject1.getString("fromApp")),
+                                                B64.decode(jsonObject1.getString("des")),
                                                 new identifyRegulars.Finish() {
                                                     @Override
                                                     public void onFinish() {
@@ -273,13 +275,13 @@ public class localFragment extends BaseFragment {
                     for (Bundle regular : bundle) {
                         //        Category.addCategory(new String(Base64.decode(jsonObject1.getString("regular"), Base64.NO_WRAP)), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des")
                         JSONObject jsonObject1 = new JSONObject();
-                        jsonObject1.put("name", regular.getString("name"));
-                        jsonObject1.put("regular", Base64.encode(regular.getString("regular").getBytes(), Base64.NO_WRAP));
-                        jsonObject1.put("tableList", regular.getString("tableList"));
-                        jsonObject1.put("des", regular.getString("des"));
-                        jsonObject1.put("fromApp", regular.getString("fromApp"));
-                        jsonObject1.put("identify", regular.getString("identify"));
-                        jsonObject1.put("text", regular.getString("text"));
+                        jsonObject1.put("name", (regular.getString("name")));
+                        jsonObject1.put("regular", B64.encode(regular.getString("regular")));
+                        jsonObject1.put("tableList", B64.encode(regular.getString("tableList")));
+                        jsonObject1.put("des", (regular.getString("des")));
+                        jsonObject1.put("fromApp", (regular.getString("fromApp")));
+                        jsonObject1.put("identify", (regular.getString("identify")));
+                        jsonObject1.put("text", (regular.getString("text")));
                         jsonArray.add(jsonObject1);
                     }
                     jsonObject.put("data", jsonArray);
@@ -404,7 +406,17 @@ public class localFragment extends BaseFragment {
                     break;
                 case 1:
 
-                    WebViewFragment.openUrl(this, "file:///android_asset/html/Category/index.html?id=" + cate.getInt("id") + "&data=" + Base64.encodeToString(cate.getString("tableList").getBytes(), Base64.NO_WRAP));
+                    DataUtils dataUtils = new DataUtils();
+                    dataUtils.put("name", cate.getString("name"));
+                    dataUtils.put("text", cate.getString("text"));
+                    dataUtils.put("regular", cate.getString("regular"));
+                    dataUtils.put("fromApp", cate.getString("fromApp"));
+
+                    dataUtils.put("des", cate.getString("des"));
+                    dataUtils.put("identify", cate.getString("identify"));
+                    dataUtils.put("tableList", cate.getString("tableList"));
+
+                    WebViewFragment.openUrl(this, "file:///android_asset/html/Regulars/index.html?id=" + cate.getInt("id") + "&type=" + this.type + "&data=" + B64.encode(dataUtils.toString()));
                     break;
                 case 2:
                     JSONObject jsonObject = new JSONObject();
@@ -416,19 +428,19 @@ public class localFragment extends BaseFragment {
                     jsonObject.put("fromApp", cate.getString("fromApp"));
                     jsonObject.put("isCate", "0");
                     jsonObject.put("description", cate.getString("des"));
-                    String result = Base64.encodeToString(jsonObject.toString().getBytes(), Base64.NO_WRAP);
+                    String result = B64.encode(jsonObject.toString());
                     AutoBillWeb.httpSend(getContext(), this, "send", result);
                     break;
                 case 3:
                     if (text == "禁用") {
-                        Category.deny(cate.getInt("id"), () -> {
+                        AppDatas.deny(cate.getInt("id"), () -> {
                             Message message = new Message();
                             message.obj = "禁用成功";
                             message.what = HANDLE_REFRESH;
                             mHandler.sendMessage(message);
                         });
                     } else {
-                        Category.enable(cate.getInt("id"), () -> {
+                        AppDatas.enable(cate.getInt("id"), () -> {
                             Message message = new Message();
                             message.obj = "启用成功";
                             message.what = HANDLE_REFRESH;

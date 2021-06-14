@@ -1,20 +1,17 @@
+/*
 let Base64 = {
     encode(str) {
         // first we use encodeURIComponent to get percent-encoded UTF-8,
         // then we convert the percent encodings into raw bytes which
         // can be fed into btoa.
-        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
-            function toSolidBytes(match, p1) {
-                return String.fromCharCode('0x' + p1);
-            }));
+        return encode(str,"base16");
     },
     decode(str) {
         // Going backwards: from bytestream, to percent-encoding, to original string.
-        return decodeURIComponent(atob(str).split('').map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
+        return decode(str,"base16");
     }
 };
+*/
 
 
 //let encoded = Base64.encode("哈ha"); // "5ZOIaGE="
@@ -22,23 +19,24 @@ let Base64 = {
 class DataUtils{
     jsData={};
     put(key,value){
-        this.jsData[key]=value;
+        this.jsData[key]=encodeURIComponent(value);
      }
 
      get(key){
-         return this.jsData[key]
+        console.log(this.jsData[key])
+         return decodeURIComponent(this.jsData[key])
      }
      parse(str){
-         const myURL = new URL(str);
-       //  console.log(myURL)
-         const searchParams = new URLSearchParams(myURL.search);
-        // console.log(searchParams)
-         const that = this;
-         searchParams.forEach(function(k,v){
-            //encodeURIComponent(Base64.encode(
-          //   console.log(k,v)
-             that.jsData[v]=Base64.decode(decodeURIComponent(k));
-        })
+
+         var vars = str.split("&");
+       //  console.log(vars)
+         for (var i=1;i<vars.length;i++) {
+             var index=vars[i].indexOf("=");
+            // console.log(vars[i].substr(0,index),vars[i].substr(index+1))
+             this.jsData[vars[i].substr(0,index)]=Base64.decode(decodeURIComponent(vars[i].substr(index+1)));
+             //if(pair[0] === variable){return pair[1];}
+         }
+
     }
     toString(){
         let str1 = "data://string?";
