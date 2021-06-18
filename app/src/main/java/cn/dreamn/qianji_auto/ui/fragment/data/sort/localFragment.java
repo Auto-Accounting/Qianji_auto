@@ -23,7 +23,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Base64;
 import android.view.View;
 import android.widget.Toast;
 
@@ -59,6 +58,7 @@ import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
+import cn.dreamn.qianji_auto.ui.utils.B64;
 import cn.dreamn.qianji_auto.ui.views.LoadingDialog;
 import cn.dreamn.qianji_auto.utils.files.FileUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -225,7 +225,7 @@ public class localFragment extends BaseFragment {
                                     for (int i = 0; i < jsonArray.size(); i++) {
                                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 
-                                        Category.addCategory(new String(Base64.decode(jsonObject1.getString("regular"), Base64.NO_WRAP)), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des"), new Category.Finish() {
+                                        Category.addCategory(B64.decode(jsonObject1.getString("regular")), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des"), new Category.Finish() {
                                             @Override
                                             public void onFinish() {
                                                 Log.d("finish data" + jsonObject1.toString());
@@ -267,7 +267,7 @@ public class localFragment extends BaseFragment {
                         //        Category.addCategory(new String(Base64.decode(jsonObject1.getString("regular"), Base64.NO_WRAP)), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des")
                         JSONObject jsonObject1 = new JSONObject();
                         jsonObject1.put("name", regular.getString("name"));
-                        jsonObject1.put("regular", Base64.encode(regular.getString("regular").getBytes(), Base64.NO_WRAP));
+                        jsonObject1.put("regular", B64.encode(regular.getString("regular")));
                         jsonObject1.put("tableList", regular.getString("tableList"));
                         jsonObject1.put("des", regular.getString("des"));
                         jsonArray.add(jsonObject1);
@@ -395,12 +395,13 @@ public class localFragment extends BaseFragment {
                 case 1:
                     if (cate.getString("tableList") == null || cate.getString("tableList").equals("")) {
                         Toasty.error(getContext(), "该规则使用js编辑，无法进行可视化编辑。").show();
+                        break;
                     }
-                    WebViewFragment.openUrl(this, "file:///android_asset/html/Category/index.html?id=" + cate.getInt("id") + "&data=" + Base64.encodeToString(cate.getString("tableList").getBytes(), Base64.NO_WRAP));
+                    WebViewFragment.openUrl(this, "file:///android_asset/html/Category/index.html?id=" + cate.getInt("id") + "&data=" + B64.encode(cate.getString("tableList")));
                     break;
                 case 2:
 
-                    WebViewFragment.openUrl(this, "file:///android_asset/html/Category/js.html?id=" + cate.getInt("id") + "&data=" + cate.getString("regular") + "&name=" + cate.getString("name") + "&des=" + cate.getString("des"));
+                    WebViewFragment.openUrl(this, "file:///android_asset/html/Category/js.html?id=" + cate.getInt("id") + "&data=" + B64.encode(cate.getString("regular")) + "&name=" + cate.getString("name") + "&des=" + cate.getString("des"));
                     break;
                 case 3:
                     JSONObject jsonObject = new JSONObject();
@@ -412,7 +413,7 @@ public class localFragment extends BaseFragment {
                     jsonObject.put("fromApp", "");
                     jsonObject.put("isCate", "1");
                     jsonObject.put("description", cate.getString("des"));
-                    String result = Base64.encodeToString(jsonObject.toString().getBytes(), Base64.NO_WRAP);
+                    String result = B64.encode(jsonObject.toString());
                     AutoBillWeb.httpSend(getContext(), this, "send", result);
                     break;
                 case 4:

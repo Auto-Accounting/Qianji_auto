@@ -184,7 +184,9 @@ if(true)return '其它';</textarea>
     </div>
 </div>
 <script src="../Public/jquery/jquery.js"></script>
+<script src="../Public/jquery/base16.js"></script>
 <script src="../Public/jquery/DataUtils.js"></script>
+
 <!--<script src="../Public/jquery/category.js"></script>-->
 <script>
     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
@@ -304,6 +306,7 @@ if(true)return '其它';</textarea>
 
             $("#cate_id").val(id);
             data=Base64.decode(data)
+            console.log(data)
             editor.setValue(data)
 
             $("#sort_name").val(decodeURIComponent(name));

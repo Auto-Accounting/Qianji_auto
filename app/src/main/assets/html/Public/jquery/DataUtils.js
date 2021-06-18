@@ -1,4 +1,6 @@
 /*
+
+*/
 let Base64 = {
     encode(str) {
         // first we use encodeURIComponent to get percent-encoded UTF-8,
@@ -11,8 +13,6 @@ let Base64 = {
         return decode(str,"base16");
     }
 };
-*/
-
 
 //let encoded = Base64.encode("哈ha"); // "5ZOIaGE="
 //let decoded = Base64.decode(encoded); // "哈ha"
