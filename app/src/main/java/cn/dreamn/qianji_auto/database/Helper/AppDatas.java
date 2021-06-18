@@ -44,20 +44,6 @@ public class AppDatas {
         });
     }
 
-    public static void deny(int id, Category.Finish finish) {
-        Task.onThread(() -> {
-            DbManger.db.AppDataDao().deny(id);
-            finish.onFinish();
-        });
-    }
-
-    public static void enable(int id, Category.Finish finish) {
-        Task.onThread(() -> {
-            DbManger.db.AppDataDao().enable(id);
-            finish.onFinish();
-        });
-    }
-
     public static void getAll(String identify, onResult ret) {
         Task.onThread(() -> {
             AppData[] data = DbManger.db.AppDataDao().loadAll(identify);

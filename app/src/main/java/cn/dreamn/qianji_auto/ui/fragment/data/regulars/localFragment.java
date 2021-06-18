@@ -52,7 +52,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.AppDatas;
 import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
@@ -228,12 +227,12 @@ public class localFragment extends BaseFragment {
                                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                         identifyRegulars.add(
                                                 B64.decode(jsonObject1.getString("regular")),
-                                                B64.decode(jsonObject1.getString("name")),
-                                                B64.decode(jsonObject1.getString("text")),
+                                                (jsonObject1.getString("name")),
+                                                (jsonObject1.getString("text")),
                                                 B64.decode(jsonObject1.getString("tableList")),
-                                                B64.decode(jsonObject1.getString("identify")),
-                                                B64.decode(jsonObject1.getString("fromApp")),
-                                                B64.decode(jsonObject1.getString("des")),
+                                                (jsonObject1.getString("identify")),
+                                                (jsonObject1.getString("fromApp")),
+                                                (jsonObject1.getString("des")),
                                                 new identifyRegulars.Finish() {
                                                     @Override
                                                     public void onFinish() {
@@ -397,7 +396,7 @@ public class localFragment extends BaseFragment {
         DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "可视化编辑", "上传到云端", disable), null, true, (materialDialog, index, text) -> {
             switch (index) {
                 case 0:
-                    Category.del(cate.getInt("id"), () -> {
+                    identifyRegulars.del(cate.getInt("id"), () -> {
                         Message message = new Message();
                         message.obj = "删除成功";
                         message.what = HANDLE_REFRESH;
@@ -433,14 +432,15 @@ public class localFragment extends BaseFragment {
                     break;
                 case 3:
                     if (text == "禁用") {
-                        AppDatas.deny(cate.getInt("id"), () -> {
+                        identifyRegulars.deny(cate.getInt("id"), () -> {
                             Message message = new Message();
                             message.obj = "禁用成功";
                             message.what = HANDLE_REFRESH;
                             mHandler.sendMessage(message);
                         });
+
                     } else {
-                        AppDatas.enable(cate.getInt("id"), () -> {
+                        identifyRegulars.enable(cate.getInt("id"), () -> {
                             Message message = new Message();
                             message.obj = "启用成功";
                             message.what = HANDLE_REFRESH;

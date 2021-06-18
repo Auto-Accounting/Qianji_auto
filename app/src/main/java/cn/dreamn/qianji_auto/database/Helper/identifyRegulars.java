@@ -185,12 +185,18 @@ public class identifyRegulars {
         });
     }
 
-    public static void deny(int id) {
-        Task.onThread(() -> DbManger.db.IdentifyRegularDao().deny(id));
+    public static void deny(int id, Finish finish) {
+        Task.onThread(() -> {
+            DbManger.db.IdentifyRegularDao().deny(id);
+            finish.onFinish();
+        });
     }
 
-    public static void enable(int id) {
-        Task.onThread(() -> DbManger.db.IdentifyRegularDao().enable(id));
+    public static void enable(int id, Finish finish) {
+        Task.onThread(() -> {
+            DbManger.db.IdentifyRegularDao().enable(id);
+            finish.onFinish();
+        });
     }
 
     public interface getAll {
@@ -209,15 +215,18 @@ public class identifyRegulars {
         });
     }
 
-    public static void del(int id) {
-        Task.onThread(() -> DbManger.db.IdentifyRegularDao().delete(id));
+    public static void del(int id, Finish finish) {
+        Task.onThread(() -> {
+            DbManger.db.IdentifyRegularDao().delete(id);
+            finish.onFinish();
+        });
     }
 
     public static void setSort(int id, int sort) {
         Task.onThread(() -> DbManger.db.IdentifyRegularDao().setSort(id, sort));
     }
 
-    public static void clear(String identify,String fromApp) {
-        Task.onThread(()-> DbManger.db.IdentifyRegularDao().clean(identify,fromApp));
+    public static void clear(String identify, String fromApp) {
+        Task.onThread(() -> DbManger.db.IdentifyRegularDao().clean(identify, fromApp));
     }
 }

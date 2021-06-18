@@ -701,24 +701,25 @@ io.reactivex.internal.operators.flowable.FlowableConcatArray$ConcatArraySubscrib
 io.reactivex.internal.operators.flowable.FlowableDoAfterNext$DoAfterConditionalSubscriber
 cn.dreamn.qianji_auto.database.Helper.identifyRegulars:
     public void <init>()
-    public static java.lang.String getRegData(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
     public static void deny(int)
     public static void enable(int)
-    public static void change(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
     public static void del(int)
-    public static void setSort(int,int)
     public static void clear(java.lang.String,java.lang.String)
     private static synthetic void lambda$clear$8(java.lang.String,java.lang.String)
-    private static synthetic void lambda$setSort$7(int,int)
     private static synthetic void lambda$del$6(int)
-    private static synthetic void lambda$change$5(int,java.lang.String,java.lang.String,java.lang.String,cn.dreamn.qianji_auto.utils.runUtils.DataUtils,java.lang.String,java.lang.String,java.lang.String)
-    private static synthetic void lambda$enable$3(int)
-    private static synthetic void lambda$deny$2(int)
+    private static synthetic void lambda$enable$4(int)
+    private static synthetic void lambda$deny$3(int)
 io.reactivex.internal.operators.completable.CompletableAmb
 es.dmoral.toasty.Toasty$Config
 io.reactivex.internal.operators.flowable.FlowableReplay$ScheduledReplayBufferTask
 org.mozilla.javascript.xmlimpl.QName
 org.mozilla.javascript.tools.idswitch.IdValuePair
+cn.dreamn.qianji_auto.ui.fragment.data.regulars.remoteFragment:
+    private java.lang.String getName()
+    private static final int HANDLE_ERR
+    private static final int HANDLE_OK
+    private static final int HANDLE_REFRESH
+    private static final int HANDLE_NO_REFRESH
 io.reactivex.annotations.Nullable
 org.mozilla.javascript.tools.debugger.treetable.TreeTableModelAdapter$3
 io.reactivex.internal.operators.flowable.FlowableBufferBoundarySupplier$BufferBoundarySupplierSubscriber
@@ -5604,6 +5605,7 @@ com.scwang.smartrefresh.layout.adapter.SmartViewHolder:
 org.mozilla.javascript.tools.debugger.FilePopupMenu
 kotlinx.coroutines.flow.FlowKt__TransformKt$scan$$inlined$unsafeFlow$1$lambda$1$1
 kotlinx.coroutines.channels.ClosedSendChannelException
+cn.dreamn.qianji_auto.utils.runUtils.Base64$DecInputStream
 io.reactivex.observers.ResourceObserver
 kotlinx.coroutines.flow.FlowKt__LimitKt$dropWhile$$inlined$unsafeFlow$1$lambda$1$1
 okhttp3.Headers$Companion:
@@ -6078,8 +6080,8 @@ kotlin.jvm.internal.Intrinsics:
     public static void checkHasClass(java.lang.String)
     public static void checkHasClass(java.lang.String,java.lang.String)
 kotlinx.coroutines.flow.FlowKt__CollectKt$collect$3
-kotlinx.coroutines.flow.FlowKt__MergeKt
 kotlinx.coroutines.ResumeOnCompletion
+kotlinx.coroutines.flow.FlowKt__MergeKt
 com.bea.xml.stream.events.CharactersEvent
 io.reactivex.internal.operators.observable.ObservableTimeoutTimed$TimeoutObserver
 com.yanzhenjie.recyclerview.Horizontal:
@@ -6893,8 +6895,6 @@ io.reactivex.annotations.BackpressureSupport
 io.reactivex.internal.operators.flowable.FlowableOnBackpressureLatest
 cn.dreamn.qianji_auto.database.Dao.IdentifyRegularDao_Impl:
     public void delete(int)
-    public void setSort(int,int)
-    public void update(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
     public void enable(int)
     public void deny(int)
     public void clean(java.lang.String,java.lang.String)
@@ -9067,6 +9067,7 @@ io.reactivex.internal.operators.completable.CompletableFromSingle
 io.reactivex.internal.operators.observable.ObservableLastSingle$LastObserver
 io.reactivex.internal.operators.observable.ObservablePublishSelector$TargetObserver
 kotlinx.coroutines.test.TestCoroutineContext$Dispatcher$invokeOnTimeout$1
+cn.dreamn.qianji_auto.utils.runUtils.Base64$EncOutputStream
 io.reactivex.internal.operators.maybe.MaybeMergeArray
 kotlinx.coroutines.flow.FlowKt__ErrorsKt$catchImpl$1
 org.mozilla.javascript.ast.DoLoop:
@@ -9080,6 +9081,8 @@ cn.dreamn.qianji_auto.database.Dao.BookNameDao_Impl:
     public void clean()
     public cn.dreamn.qianji_auto.database.Table.BookName[] getAll(int)
 okio.-DeflaterSinkExtensions
+cn.dreamn.qianji_auto.ui.fragment.data.regulars.MainAutoLearnFragment:
+    private java.lang.String getName()
 io.reactivex.internal.operators.flowable.FlowableLimit
 io.reactivex.Scheduler$PeriodicDirectTask
 kotlin.internal.InlineOnly
@@ -9287,8 +9290,6 @@ io.reactivex.internal.operators.observable.ObservableObserveOn:
 cn.dreamn.qianji_auto.database.Dao.IdentifyRegularDao:
     public abstract cn.dreamn.qianji_auto.database.Table.IdentifyRegular[] load(java.lang.String,java.lang.String)
     public abstract void delete(int)
-    public abstract void setSort(int,int)
-    public abstract void update(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
     public abstract void enable(int)
     public abstract void deny(int)
     public abstract void clean(java.lang.String,java.lang.String)
@@ -9950,6 +9951,8 @@ kotlin.jvm.internal.ClassReference:
     public boolean isInner()
     public boolean isCompanion()
     public boolean isFun()
+cn.dreamn.qianji_auto.ui.utils.B64:
+    public void <init>()
 org.mozilla.javascript.tools.debugger.SwingGui$2
 org.intellij.lang.annotations.MagicConstant
 com.xuexiang.xfloatview.BuildConfig
@@ -10839,6 +10842,12 @@ butterknife.internal.ListenerMethod
 io.reactivex.internal.operators.maybe.MaybeDoOnEvent
 kotlin.ranges.UIntRange$Companion
 io.reactivex.internal.operators.completable.CompletableToSingle$ToSingle
+cn.dreamn.qianji_auto.utils.runUtils.Base64$Decoder:
+    static synthetic int[] access$000()
+    public byte[] decode(java.lang.String)
+    public int decode(byte[],byte[])
+    public java.nio.ByteBuffer decode(java.nio.ByteBuffer)
+    public java.io.InputStream wrap(java.io.InputStream)
 com.afollestad.materialdialogs.utils.MDUtil$waitForHeight$1:
     public final java.lang.Integer getLastHeight()
     public final void setLastHeight(java.lang.Integer)
@@ -11910,6 +11919,14 @@ kotlin.contracts.Returns
 kotlinx.coroutines.SchedulerTaskKt
 kotlinx.coroutines.InternalCoroutinesApi
 io.reactivex.internal.operators.flowable.FlowableDistinctUntilChanged$DistinctUntilChangedSubscriber
+cn.dreamn.qianji_auto.utils.runUtils.Base64$Encoder:
+    synthetic void <init>(boolean,byte[],int,boolean,cn.dreamn.qianji_auto.utils.runUtils.Base64$1)
+    public int encode(byte[],byte[])
+    public java.lang.String encodeToString(byte[])
+    public java.nio.ByteBuffer encode(java.nio.ByteBuffer)
+    public java.io.OutputStream wrap(java.io.OutputStream)
+    public cn.dreamn.qianji_auto.utils.runUtils.Base64$Encoder withoutPadding()
+    private static final int MIMELINEMAX
 io.reactivex.internal.operators.flowable.FlowableOnBackpressureDrop
 org.xmlpull.v1.wrapper.XmlPullParserWrapper
 kotlin.jvm.JvmDefault
@@ -12398,6 +12415,13 @@ io.reactivex.internal.operators.flowable.FlowableTakeLastTimed$TakeLastTimedSubs
 io.reactivex.processors.PublishProcessor$PublishSubscription
 org.mozilla.javascript.tools.shell.JSConsole
 kotlinx.coroutines.flow.FlowKt__BuildersKt$asFlow$$inlined$unsafeFlow$2
+cn.dreamn.qianji_auto.utils.runUtils.Base64:
+    private void <init>()
+    public static cn.dreamn.qianji_auto.utils.runUtils.Base64$Encoder getUrlEncoder()
+    public static cn.dreamn.qianji_auto.utils.runUtils.Base64$Encoder getMimeEncoder()
+    public static cn.dreamn.qianji_auto.utils.runUtils.Base64$Encoder getMimeEncoder(int,byte[])
+    public static cn.dreamn.qianji_auto.utils.runUtils.Base64$Decoder getUrlDecoder()
+    public static cn.dreamn.qianji_auto.utils.runUtils.Base64$Decoder getMimeDecoder()
 com.afollestad.materialdialogs.input.InputUtilExtKt$postRun$1
 kotlin.collections.builders.ListBuilderKt
 io.reactivex.internal.operators.completable.CompletableOnErrorComplete
@@ -13009,6 +13033,11 @@ io.reactivex.internal.util.MergerBiFunction
 kotlinx.coroutines.internal.SegmentQueue
 io.reactivex.internal.operators.observable.ObservableDelay$DelayObserver$OnError
 org.mozilla.javascript.tools.debugger.Dim
+cn.dreamn.qianji_auto.ui.fragment.data.regulars.localFragment:
+    private static final int HANDLE_ERR
+    private static final int HANDLE_OK
+    private static final int HANDLE_REFRESH
+    private static final int HANDLE_OUT
 kotlinx.coroutines.flow.FlowKt__CountKt$count$$inlined$collect$1
 io.reactivex.internal.operators.flowable.FlowableDelaySubscriptionOther$MainSubscriber$OtherSubscriber
 kotlinx.coroutines.flow.FlowKt__ReduceKt$reduce$1
@@ -13081,6 +13110,8 @@ com.afollestad.materialdialogs.bottomsheets.GridIconDialogAdapter:
 io.reactivex.internal.operators.observable.ObservableSkip
 cn.dreamn.qianji_auto.setting.AppInfo:
     public void <init>()
+    public static java.lang.String getAppVersionName(android.content.Context,java.lang.String)
+    private static boolean isAppInstalled(android.content.Context,java.lang.String)
     public static long getAppVerCode()
     public static java.lang.String getAppVerName()
     public static java.lang.String getAppPackage()
@@ -14730,6 +14761,7 @@ butterknife.OnTouch:
     public abstract int[] value()
 io.reactivex.internal.operators.flowable.FlowableReplay$MulticastFlowable
 kotlinx.coroutines.channels.ChannelsKt__Channels_commonKt$toCollection$1
+cn.dreamn.qianji_auto.utils.runUtils.Base64$1
 android.support.v4.media.session.ParcelableVolumeInfo:
     public void <init>(int,int,int,int,int)
 io.reactivex.internal.operators.maybe.MaybeDefer
@@ -15169,6 +15201,8 @@ io.reactivex.internal.util.OpenHashSet:
     public java.lang.Object[] keys
 okhttp3.internal.connection.RealConnectionPool:
     public static final okhttp3.internal.connection.RealConnectionPool$Companion Companion
+cn.dreamn.qianji_auto.ui.fragment.data.regulars.remoteFragment:
+    public final java.lang.String type
 com.xuexiang.xpage.base.XPageActivity$4:
     public final synthetic com.xuexiang.xpage.base.XPageActivity this$0
 cn.dreamn.qianji_auto.database.Dao.IdentifyRegularDao_Impl$4:
@@ -15181,11 +15215,6 @@ kotlinx.coroutines.internal.LockFreeLinkedListKt:
     public static final java.lang.Object LIST_EMPTY
     public static final java.lang.Object REMOVE_PREPARED
 io.reactivex.processors.FlowableProcessor
-cn.dreamn.qianji_auto.database.Table.IdentifyRegular:
-    public int id
-    public java.lang.String des
-    public int use
-    public int sort
 com.github.ybq.android.spinkit.style.DoubleBounce$Bounce:
     public final synthetic com.github.ybq.android.spinkit.style.DoubleBounce this$0
 com.shehuan.statusview.StatusViewBuilder:
@@ -15369,6 +15398,8 @@ okhttp3.Authenticator:
 com.xuexiang.xpage.base.XPageActivity$3:
     public final synthetic com.xuexiang.xpage.base.XPageFragment val$opener
     public final synthetic com.xuexiang.xpage.base.XPageActivity this$0
+cn.dreamn.qianji_auto.ui.fragment.data.regulars.localFragment$2:
+    public final synthetic cn.dreamn.qianji_auto.ui.fragment.data.regulars.localFragment this$0
 cn.dreamn.qianji_auto.database.Dao.AutoBillDao_Impl$2:
     public final synthetic cn.dreamn.qianji_auto.database.Dao.AutoBillDao_Impl this$0
 okhttp3.internal.http2.Http2Connection$ReaderRunnable$ping$$inlined$execute$1:
@@ -15465,6 +15496,9 @@ org.mozilla.javascript.v8dtoa.DiyFp:
     public static final synthetic boolean $assertionsDisabled
 com.scwang.smartrefresh.layout.SmartRefreshLayout$FlingRunnable:
     public int mFrame
+cn.dreamn.qianji_auto.database.Table.AppData:
+    public int use
+    public int sort
 kotlin.jvm.internal.markers.KMutableList
 io.reactivex.internal.operators.flowable.FlowableObserveOn:
     public final io.reactivex.Scheduler scheduler
@@ -15603,8 +15637,6 @@ okhttp3.internal.http2.Http2Stream$Companion
 okio.Timeout$Companion
 cn.dreamn.qianji_auto.database.Dao.IdentifyRegularDao_Impl:
     public final androidx.room.SharedSQLiteStatement __preparedStmtOfDelete
-    public final androidx.room.SharedSQLiteStatement __preparedStmtOfSetSort
-    public final androidx.room.SharedSQLiteStatement __preparedStmtOfUpdate
     public final androidx.room.SharedSQLiteStatement __preparedStmtOfEnable
     public final androidx.room.SharedSQLiteStatement __preparedStmtOfDeny
     public final androidx.room.SharedSQLiteStatement __preparedStmtOfClean
@@ -15845,6 +15877,9 @@ io.reactivex.internal.operators.flowable.FlowableFlatMapMaybe:
     public final int maxConcurrency
 cn.dreamn.qianji_auto.database.Dao.RegularDao_Impl$3:
     public final synthetic cn.dreamn.qianji_auto.database.Dao.RegularDao_Impl this$0
+cn.dreamn.qianji_auto.utils.runUtils.Base64$Decoder:
+    public static final cn.dreamn.qianji_auto.utils.runUtils.Base64$Decoder RFC4648_URLSAFE
+    public static final cn.dreamn.qianji_auto.utils.runUtils.Base64$Decoder RFC2045
 kotlin.reflect.KProperty1:
     public abstract java.lang.Object get(java.lang.Object)
 cn.dreamn.qianji_auto.database.Dao.LogDao_Impl$4:
@@ -15925,6 +15960,9 @@ com.shehuan.statusview.StatusView:
     public final void setIcon(int,int,com.shehuan.statusview.ViewHolder)
 butterknife.internal.Utils:
     public static final android.util.TypedValue VALUE
+cn.dreamn.qianji_auto.utils.runUtils.Base64$Encoder:
+    public static final cn.dreamn.qianji_auto.utils.runUtils.Base64$Encoder RFC4648_URLSAFE
+    public static final cn.dreamn.qianji_auto.utils.runUtils.Base64$Encoder RFC2045
 kotlinx.coroutines.JobSupport$addLastAtomic$$inlined$addLastIf$1:
     public final synthetic kotlinx.coroutines.internal.LockFreeLinkedListNode $node
 io.reactivex.functions.BiPredicate
@@ -15967,6 +16005,8 @@ cn.dreamn.qianji_auto.database.Dao.BookNameDao_Impl$1:
 com.yanzhenjie.recyclerview.widget.DefaultItemDecoration:
     public static final synthetic boolean $assertionsDisabled
 kotlin.reflect.KMutableProperty2
+cn.dreamn.qianji_auto.database.Dao.AppDataDao_Impl$4:
+    public final synthetic cn.dreamn.qianji_auto.database.Dao.AppDataDao_Impl this$0
 okhttp3.Authenticator$Companion
 okhttp3.internal.Util:
     public static final okhttp3.RequestBody EMPTY_REQUEST
@@ -16021,6 +16061,8 @@ okhttp3.internal.http2.Settings$Companion
 io.reactivex.internal.subscribers.SinglePostCompleteSubscriber
 cn.dreamn.qianji_auto.ui.utils.SettingUtils:
     public android.content.Context mContext
+cn.dreamn.qianji_auto.database.Dao.AppDataDao_Impl$5:
+    public final synthetic cn.dreamn.qianji_auto.database.Dao.AppDataDao_Impl this$0
 kotlin.collections.SetsKt
 kotlin.reflect.KMutableProperty2$Setter
 io.reactivex.internal.subscribers.DeferredScalarSubscriber

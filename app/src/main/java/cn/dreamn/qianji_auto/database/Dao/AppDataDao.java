@@ -24,7 +24,7 @@ import cn.dreamn.qianji_auto.database.Table.AppData;
 
 @Dao
 public interface AppDataDao {
-    @Query("SELECT * FROM AppData WHERE identify=:identify and use=1  order by sort,id")
+    @Query("SELECT * FROM AppData WHERE identify=:identify  order by id")
     AppData[] loadAll(String identify);
 
 
@@ -36,11 +36,5 @@ public interface AppDataDao {
 
     @Query("DELETE FROM AppData WHERE identify=:identify")
     void delAll(String identify);
-
-    @Query("UPDATE  AppData SET use=1 WHERE id=:id")
-    void enable(int id);
-
-    @Query("UPDATE  AppData SET use=0 WHERE id=:id")
-    void deny(int id);
 }
 

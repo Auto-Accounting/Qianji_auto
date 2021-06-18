@@ -29,6 +29,7 @@ public class AppData {
     public String identify;//属于APP、短信、通知
     public String fromApp;//源自APP
     public String time;//时间
+    //整错了...
     public int use = 1;//是否启用该规则
     public int sort = 0;//排序
 }
