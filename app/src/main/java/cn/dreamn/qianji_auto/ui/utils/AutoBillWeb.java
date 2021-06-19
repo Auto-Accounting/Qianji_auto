@@ -72,7 +72,37 @@ public class AutoBillWeb {
                 }
             }
         });
-}
+    }
+
+    public static void getUpdate(WebCallback callback) {
+        String url = "https://pan.ankio.net/d/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6%E7%89%88%E6%9C%AC%E6%9B%B4%E6%96%B0/version.json";
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final CacheControl.Builder builder = new CacheControl.Builder();
+        builder.maxAge(30, TimeUnit.MINUTES);
+        CacheControl cache = builder.build();
+        final Request request = new Request.Builder().cacheControl(cache).url(url).build();
+        final Call call = okHttpClient.newCall(request);//
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFailure();
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String string = response.body().string();
+                    callback.onSuccessful(string);
+                } else {
+                    callback.onFailure();
+                    Log.d("服务器响应错误");
+                }
+            }
+        });
+    }
+
     public static void getDataWeb(String name, String type, String app, WebCallback callback) {
         String url = "https://qianji.ankio.net/api_data.json";
         HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
