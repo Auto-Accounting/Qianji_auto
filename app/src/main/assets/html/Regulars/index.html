@@ -309,8 +309,8 @@
 
         const dataUtils = new DataUtils();
         dataUtils.put("name", $("#sort_name").val())
-        dataUtils.put("text", $("#str_input").val())
-        dataUtils.put("regular", $("#regex_input").val())
+        dataUtils.put("text", $("#str_input").html())
+        dataUtils.put("regular", $("#regex_input").html())
         dataUtils.put("fromApp", $("#sort_package").val())
 
         dataUtils.put("des", $("#sort_remark").val())

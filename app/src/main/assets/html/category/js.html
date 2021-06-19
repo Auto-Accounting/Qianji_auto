@@ -235,7 +235,7 @@ if(true)return '其它';</textarea>
                 Toast("名称不能为空", 2000);
                 return "";
             }
-            const js = $("#code").html();
+            const js = $("#code").val();
             if(js==="")
                 return;
             let regT = /([01\b]\d|2[0-3]):([0-5]\d)/;
@@ -307,8 +307,10 @@ if(true)return '其它';</textarea>
             $("#cate_id").val(id);
             data=Base64.decode(data)
             console.log(data)
+            $("#code").val(data)
             editor.setValue(data)
-
+//    dataUtils.put("text", $("#str_input").html())
+    //        dataUtils.put("regular", $("#regex_input").html())
             $("#sort_name").val(decodeURIComponent(name));
 
             $("#sort_remark").val(decodeURIComponent(des));
