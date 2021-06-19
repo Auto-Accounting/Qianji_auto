@@ -41,7 +41,7 @@ class DataUtils{
     toString(){
         let str1 = "data://string?";
         for(const i in this.jsData) {
-            str1+="&"+i+"="+encodeURIComponent(Base64.encode(this.jsData[i]));
+            str1+="&"+i+"="+(Base64.encode(decodeURIComponent(this.jsData[i])));
        }
         return str1;
     }

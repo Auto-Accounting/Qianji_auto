@@ -46,7 +46,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.Assets;
 import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
@@ -128,10 +127,10 @@ public class remoteFragment extends BaseFragment {
         statusView.setLoadingView(R.layout.loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.empty_info, "云端暂无任何自动分类规则");
+            viewHolder.setText(R.id.empty_info, "云端暂无任何" + getName() + "规则");
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.load_info, "正在加载自动分类规则");
+            viewHolder.setText(R.id.load_info, "正在加载" + getName() + "规则");
         });
         statusView.showLoadingView();
         initLayout();
@@ -193,22 +192,8 @@ public class remoteFragment extends BaseFragment {
 
     public void loadFromData(RefreshLayout refreshLayout) {
 
-        Task.onMain(1000, () -> {
-            Assets.getAllIcon(asset2s -> {
 
-                if (asset2s == null || asset2s.length == 0) {
-                    mHandler.sendEmptyMessage(HANDLE_ERR);
-                } else {
-                    list = Arrays.asList(asset2s);
-                    // assests=asset2s;
-
-                    mHandler.sendEmptyMessage(HANDLE_OK);
-                }
-            });
-        });
-
-
-        AutoBillWeb.getCategoryWeb(null, new AutoBillWeb.WebCallback() {
+        AutoBillWeb.getDataWeb(null, this.type, null, new AutoBillWeb.WebCallback() {
             @Override
             public void onFailure() {
                 //失败就不显示了
