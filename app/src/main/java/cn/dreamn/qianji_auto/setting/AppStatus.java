@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
-
 public class AppStatus {
 
     public static boolean isActive(Context context) {
@@ -47,6 +46,7 @@ public class AppStatus {
         return mmkv.getString("helper_choose", "xposed");
     }
 
+
     public static String getFrameWork(Context context) {
         if (getActiveMode().equals("helper")) {
             return "无障碍";
@@ -54,15 +54,16 @@ public class AppStatus {
     }
 
     private static boolean defaultActive(Context context) {
-       // return ApiUtil.isAccessibilityServiceOn(context, AutoReadAccessibilityService.class);
+        // return ApiUtil.isAccessibilityServiceOn(context, AutoReadAccessibilityService.class);
         // TODO 判断无障碍是否启用
         return false;
     }
 
-    private static boolean xposedActive(Context context) {
-        String farmwork = AppInfo.getFrameWork(context);
-        if (farmwork.equals("太极")) return taichiActive(context);
-        if (farmwork.equals("应用转生")) return bugActive(context);
+    public static boolean xposedActive(Context context) {
+        String farmework = AppInfo.getFrameWork(context);
+
+        if (farmework.equals("太极")) return taichiActive(context);
+        if (farmework.equals("应用转生")) return bugActive(context);
         return false;
     }
 

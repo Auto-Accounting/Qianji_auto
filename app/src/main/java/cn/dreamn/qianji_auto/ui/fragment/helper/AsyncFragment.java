@@ -92,7 +92,7 @@ public class AsyncFragment extends BaseFragment {
             openNewPage(SetFragment.class);
         });
         button_async.setOnClickListener(v->{
-            AppManager.Async();
+            AppManager.Async(getContext());
         });
     }
 

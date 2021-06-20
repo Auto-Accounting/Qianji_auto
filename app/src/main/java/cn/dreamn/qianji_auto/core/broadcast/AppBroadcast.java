@@ -20,8 +20,13 @@ package cn.dreamn.qianji_auto.core.broadcast;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.tencent.mmkv.MMKV;
+
+import cn.dreamn.qianji_auto.app.AppManager;
+import cn.dreamn.qianji_auto.ui.activity.MainActivity;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 
 public class AppBroadcast extends BroadcastReceiver {
@@ -32,7 +37,10 @@ public class AppBroadcast extends BroadcastReceiver {
         MMKV mmkv = MMKV.defaultMMKV();
         if (!mmkv.getBoolean("needAsync", false)) return;
         mmkv.encode("needAsync", false);
+        Bundle extData = intent.getExtras();
+        if (extData == null) return;
 
+        AppManager.AsyncEnd(context, extData);
 
        /* Bundle extData = intent.getExtras();
         if (extData == null) return;
@@ -62,12 +70,12 @@ public class AppBroadcast extends BroadcastReceiver {
                 Bundle m = d.get();
                 BookNames.add(m.getString("name"), m.getString("cover"), m.getString("id"));
             }
-            Intent intent1 = new Intent();
-            intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent1.setClass(context, MainActivity.class);
-            context.startActivity(intent1);
-            Logs.i("钱迹数据同步完毕");
-        }*/
 
+        }*/
+        Intent intent1 = new Intent();
+        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent1.setClass(context, MainActivity.class);
+        context.startActivity(intent1);
+        Log.i("钱迹数据同步完毕");
     }
 }

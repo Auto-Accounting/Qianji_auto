@@ -70,7 +70,7 @@ public class DBHelper {
     }
 
     public ArrayList<Data> getCategory(String userId) {
-        Cursor cursor = db.rawQuery("select * from category where USER_ID =" + userId, null);
+        Cursor cursor = db.rawQuery("select * from category where USER_ID = '" + userId + "'", null);
         ArrayList<Data> data = new ArrayList<>();
         while (cursor.moveToNext()) {
             Bundle bundle = new Bundle();
@@ -92,7 +92,7 @@ public class DBHelper {
     }
 
     public ArrayList<Data> getAsset(String userId) {
-        Cursor cursor = db.rawQuery("select * from user_asset where STATUS = 0 and USERID =" + userId, null);
+        Cursor cursor = db.rawQuery("select * from user_asset where STATUS = 0 and USERID = '" + userId + "'", null);
         ArrayList<Data> data = new ArrayList<>();
         while (cursor.moveToNext()) {
             Bundle bundle = new Bundle();
@@ -111,7 +111,7 @@ public class DBHelper {
     }
 
     public ArrayList<Data> getUserBook(String userId) {
-        Cursor cursor = db.rawQuery("select * from user_book and USERID =" + userId, null);
+        Cursor cursor = db.rawQuery("select * from user_book where USERID = '" + userId + "'", null);
         ArrayList<Data> data = new ArrayList<>();
         while (cursor.moveToNext()) {
             Bundle bundle = new Bundle();
@@ -127,7 +127,7 @@ public class DBHelper {
     }
 
     public ArrayList<Data> getBills(String userId) {
-        Cursor cursor = db.rawQuery("select * from user_bill where USERID =" + userId, null);
+        Cursor cursor = db.rawQuery("select * from user_bill where USERID = '" + userId + "'", null);
         ArrayList<Data> data = new ArrayList<>();
         while (cursor.moveToNext()) {
             Bundle bundle = new Bundle();

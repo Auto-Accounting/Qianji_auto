@@ -18,6 +18,7 @@
 package cn.dreamn.qianji_auto.app;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import cn.dreamn.qianji_auto.bills.BillInfo;
 
@@ -56,14 +57,14 @@ public interface IApp {
      *
      * @return
      */
-    void asyncDataBefore();
+    void asyncDataBefore(Context context);
 
     /**
      * 同步数据(通过广播获取)
      *
      * @return
      */
-    void asyncDataAfter();
+    void asyncDataAfter(Context context, Bundle billInfo);
 
     /**
      * 同步数据的说明性文字

@@ -52,21 +52,38 @@ public class AppManager {
     }
 
     /*
-    * 进行数据同步
+     * 进行数据同步
      */
-    public static void Async(){
-        MMKV mmkv=MMKV.defaultMMKV();
-        mmkv.encode("isAsync",false);//设置为未同步
-        String app=getApp();
+    public static void Async(Context context) {
+        MMKV mmkv = MMKV.defaultMMKV();
+        mmkv.encode("isAsync", false);//设置为未同步
+        String app = getApp();
+        //   Log.i("选择的App",app);
         for (IApp iApp : AppList.getInstance().getList()) {
-            if(iApp.getPackPageName().equals(app)){
-                iApp.asyncDataBefore();
+            // Log.i("遍历的App",iApp.getPackPageName());
+            if (iApp.getPackPageName().equals(app)) {
+                iApp.asyncDataBefore(context);
                 break;
             }
         }
 
     }
 
+    /*
+     * 进行数据同步
+     */
+    public static void AsyncEnd(Context context, Bundle bundle) {
+        MMKV mmkv = MMKV.defaultMMKV();
+        mmkv.encode("isAsync", true);//设置为未同步
+        String app = getApp();
+        for (IApp iApp : AppList.getInstance().getList()) {
+            if (iApp.getPackPageName().equals(app)) {
+                iApp.asyncDataAfter(context, bundle);
+                break;
+            }
+        }
+
+    }
 
     public static void setApp(String appPackage){
         MMKV mmkv=MMKV.defaultMMKV();

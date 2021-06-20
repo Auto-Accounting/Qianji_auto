@@ -1,6 +1,9 @@
 package cn.dreamn.qianji_auto.app;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -8,11 +11,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.liuguangqiang.cookie.CookieBar;
 import com.tencent.mmkv.MMKV;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.database.Helper.Caches;
+import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
@@ -47,7 +52,7 @@ public class QianJi implements IApp {
         Handler mHandler=new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
-                if(msg.what==0){
+                if (msg.what == 0) {
                     Caches.AddOrUpdate("show_tip", "false");
                     Caches.AddOrUpdate("float_time", String.valueOf(System.currentTimeMillis()));
                     Tool.goUrl(context, getQianJi(billInfo));
@@ -55,16 +60,38 @@ public class QianJi implements IApp {
                 }
             }
         };
-        delay(context, mHandler);
+        //如果不是xp模式需要延时
+        if (!AppStatus.xposedActive(context)) {
+            delay(context, mHandler);
+        } else {
+            mHandler.sendEmptyMessage(0);
+        }
+
     }
 
     @Override
-    public void asyncDataBefore() {
-
+    public void asyncDataBefore(Context context) {
+        if (AppStatus.xposedActive(context)) {
+            Intent intent = new Intent();
+            intent.setClassName("com.mutangtech.qianji", "com.mutangtech.qianji.ui.main.MainActivity");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("needAsync", "true");
+            MMKV mmkv = MMKV.defaultMMKV();
+            mmkv.encode("needAsync", true);
+            context.startActivity(intent);
+        } else {
+            new CookieBar.Builder((Activity) context)
+                    .setTitle("无法进行同步")
+                    .setIcon(R.mipmap.ic_launcher)
+                    .setMessage(String.format("钱迹只支持已激活用户同步，无障碍用户需要手动配置。"))
+                    .setAction("我知道了", () -> {
+                    }).setDuration(10000)
+                    .show();
+        }
     }
 
     @Override
-    public void asyncDataAfter() {
+    public void asyncDataAfter(Context context, Bundle billInfo) {
 
     }
 
@@ -108,6 +135,7 @@ public class QianJi implements IApp {
         if (mmkv.getBoolean("lazy_mode", true)) {
             return url;
         }
+
         if (billInfo.getTime() != null) {
             url += "&time=" + billInfo.getTime();
         }
