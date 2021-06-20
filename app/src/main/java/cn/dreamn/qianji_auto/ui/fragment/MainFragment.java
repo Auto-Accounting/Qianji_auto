@@ -25,28 +25,16 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.afollestad.materialdialogs.LayoutMode;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
-import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xpage.utils.TitleBar;
 
 import butterknife.BindView;
-import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
@@ -70,7 +58,6 @@ import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.views.IconView;
 import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 import es.dmoral.toasty.Toasty;
 
 
@@ -183,74 +170,10 @@ public class MainFragment extends BaseFragment {
     protected void initViews() {
         ThemeManager themeManager = new ThemeManager(getContext());
         themeManager.setStatusBar(getActivity(), title_count, R.color.background_white);
-      /*  cv_list.setData(ListManager.getBaseLists(),this,1);
-        cv_log.setData(ListManager.getLogLists(),this,2);
-        cv_complie.setData(ListManager.getComplieLists(),this,3);
-        cv_other.setData(ListManager.getOtherLists(), this, 4);
-        cv_custom.setData(ListManager.geCustomLists(), this, 5);*/
+
         app_log.setText(BuildConfig.VERSION_NAME);
         setActive();
-        Handler mHandler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                //新版本更新
-                JSONObject jsonObject = (JSONObject) msg.obj;
-
-
-                LayoutInflater factory = LayoutInflater.from(getContext());
-                final View textEntryView = factory.inflate(R.layout.list_msg, null);
-                BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-                MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-                dialog.title(null, "新版本 " + jsonObject.getString("version"));
-
-                TextView textView_body = textEntryView.findViewById(R.id.textView_body);
-                textView_body.setText(jsonObject.getString("log"));
-
-
-                Button button_next = textEntryView.findViewById(R.id.button_next);
-                Button button_last = textEntryView.findViewById(R.id.button_last);
-
-                button_next.setOnClickListener(v -> {
-
-                    Tool.goUrl(getContext(), jsonObject.getString("download"));
-                    dialog.dismiss();
-                });
-
-                button_last.setOnClickListener(v -> {
-
-                    dialog.dismiss();
-                });
-
-                DialogCustomViewExtKt.customView(dialog, null, textEntryView,
-                        false, true, false, false);
-
-                dialog.cornerRadius(15f, null);
-                dialog.show();
-            }
-        };
-        AutoBillWeb.getUpdate(new AutoBillWeb.WebCallback() {
-            @Override
-            public void onFailure() {
-
-            }
-
-            @Override
-            public void onSuccessful(String data) {
-                //
-                JSONObject jsonObject = JSONArray.parseObject(data);
-                MMKV mmkv = MMKV.defaultMMKV();
-                String channel = mmkv.getString("version_channel", "stable");
-                JSONObject jsonObject1 = jsonObject.getJSONObject("alpha");
-                if (App.getAppVerCode() < jsonObject1.getInteger("verNum")) {
-                    Message message = new Message();
-                    message.obj = jsonObject1;
-                    mHandler.sendMessage(message);
-                }
-
-
-                Log.i("更新数据：" + data);
-            }
-        });
+        AutoBillWeb.update(getContext());
     }
 
 
@@ -297,7 +220,7 @@ public class MainFragment extends BaseFragment {
             mode_select2.setBackgroundTintList(ColorStateList.valueOf(ThemeManager.getColor(getActivity(),R.color.disable_bg)));
             active_status.setText(String.format("未激活（%s）", AppStatus.getFrameWork(getContext())));
             active_status.setTextColor(ThemeManager.getColor(getActivity(),R.color.background_white));
-            // TODO 未激活指引激活
+
         }
         //SetImg
         String def_book=BookNames.getDefault();

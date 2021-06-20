@@ -4,9 +4,18 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.afollestad.materialdialogs.LayoutMode;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
+import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tencent.mmkv.MMKV;
 
@@ -15,11 +24,14 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import cn.dreamn.qianji_auto.App;
+import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.views.LoadingDialog;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 import es.dmoral.toasty.Toasty;
 import okhttp3.CacheControl;
 import okhttp3.Call;
@@ -146,6 +158,82 @@ public class AutoBillWeb {
                 }
             }
         });
+    }
+
+    public static void update(Context context) {
+        update(context, null);
+    }
+
+    public static void update(Context context, CallbackWith callback) {
+        Handler mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                //新版本更新
+                JSONObject jsonObject = (JSONObject) msg.obj;
+
+
+                LayoutInflater factory = LayoutInflater.from(context);
+                final View textEntryView = factory.inflate(R.layout.list_msg, null);
+                BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+                MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
+                dialog.title(null, "新版本 " + jsonObject.getString("version"));
+
+                TextView textView_body = textEntryView.findViewById(R.id.textView_body);
+                textView_body.setText(jsonObject.getString("log"));
+
+
+                Button button_next = textEntryView.findViewById(R.id.button_next);
+                Button button_last = textEntryView.findViewById(R.id.button_last);
+
+                button_next.setOnClickListener(v -> {
+
+                    Tool.goUrl(context, jsonObject.getString("download"));
+                    dialog.dismiss();
+                });
+
+                button_last.setOnClickListener(v -> {
+
+                    dialog.dismiss();
+                });
+
+                DialogCustomViewExtKt.customView(dialog, null, textEntryView,
+                        false, true, false, false);
+
+                dialog.cornerRadius(15f, null);
+                dialog.show();
+            }
+        };
+        AutoBillWeb.getUpdate(new AutoBillWeb.WebCallback() {
+            @Override
+            public void onFailure() {
+
+            }
+
+            @Override
+            public void onSuccessful(String data) {
+                //
+                JSONObject jsonObject = JSONArray.parseObject(data);
+                MMKV mmkv = MMKV.defaultMMKV();
+                String channel = mmkv.getString("version_channel", "stable");
+                JSONObject jsonObject1 = jsonObject.getJSONObject(channel);
+                if (App.getAppVerCode() < jsonObject1.getInteger("verNum")) {
+                    Message message = new Message();
+                    message.obj = jsonObject1;
+                    mHandler.sendMessage(message);
+                } else {
+                    if (callback != null) {
+                        callback.onUpdateEnd();
+                    }
+                }
+
+
+                Log.i("更新数据：" + data);
+            }
+        });
+    }
+
+    public interface CallbackWith {
+        void onUpdateEnd();
     }
 
     public interface WebCallback {
