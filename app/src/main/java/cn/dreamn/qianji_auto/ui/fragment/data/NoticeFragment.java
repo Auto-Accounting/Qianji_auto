@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Base64;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +53,7 @@ import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.adapter.ItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
+import cn.dreamn.qianji_auto.ui.utils.B64;
 import cn.dreamn.qianji_auto.ui.views.LoadingDialog;
 import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.JsEngine;
@@ -241,7 +241,17 @@ public class NoticeFragment extends BaseFragment {
                             });
 
                 }else if(text=="上传规则") {
-                    //TODO Support
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("name", item.getString("name"));
+                    jsonObject.put("text", item.getString("text"));
+                    jsonObject.put("data", item.getString("regular"));
+                    jsonObject.put("tableList", item.getString("tableList"));
+                    jsonObject.put("identify", item.getString("identify"));
+                    jsonObject.put("fromApp", item.getString("fromApp"));
+                    jsonObject.put("isCate", "0");
+                    jsonObject.put("description", item.getString("des"));
+                    String result = B64.encode(jsonObject.toString());
+                    AutoBillWeb.httpSend(getContext(), this, "send", result);
                 }else if(text=="申请适配") {
 
                     LoadingDialog dialog1 = new LoadingDialog(getContext(), "正在提交申请，请稍候...");
@@ -255,7 +265,7 @@ public class NoticeFragment extends BaseFragment {
                     jsonObject.put("fromApp", item.getString("fromApp"));
                     jsonObject.put("isCate", "0");
                     jsonObject.put("description", "适配申请");
-                    String result = Base64.encodeToString(jsonObject.toString().getBytes(), Base64.NO_WRAP);
+                    String result = B64.encode(jsonObject.toString());
                     AutoBillWeb.httpSend(getContext(), this, "support", result);
                 }
                 return null;
