@@ -190,6 +190,7 @@ public class NoticeFragment extends BaseFragment {
         //点击click
         if (list != null && list.size() > i) {
             Bundle item = list.get(i);
+            Log.d("item", item.toString());
             String[] strings;
             String bool=item.getString("cloud");
             if(bool!=null){
@@ -241,6 +242,7 @@ public class NoticeFragment extends BaseFragment {
                             });
 
                 }else if(text=="上传规则") {
+
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("name", item.getString("name"));
                     jsonObject.put("text", item.getString("text"));

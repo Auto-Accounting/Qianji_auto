@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="xposed_scope">
+        <item>cn.dreamn.qianji_auto</item>
+
+        <item>com.mutangtech.qianji</item>
+        <item>com.tencent.mm</item>
+        <item>com.tencent.mobileqq</item>
+        <item>com.eg.android.AlipayGphone</item>
+        <item>com.jingdong.app.mall</item>
+        <item>com.unionpay</item>
+
+    </string-array>
+</resources>

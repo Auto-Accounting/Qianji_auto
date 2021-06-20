@@ -1,4 +1,4 @@
-package cn.dreamn.qianji_auto.broadcasts;
+package cn.dreamn.qianji_auto.core.broadcast;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

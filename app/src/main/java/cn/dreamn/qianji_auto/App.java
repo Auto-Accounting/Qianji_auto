@@ -3,7 +3,6 @@ package cn.dreamn.qianji_auto;
 import android.app.Application;
 import android.content.Context;
 
-
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.PageConfig;
 import com.xuexiang.xpage.config.AppPageConfig;
@@ -11,6 +10,7 @@ import com.xuexiang.xpage.config.AppPageConfig;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.ui.base.BaseActivity;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
+import cn.dreamn.qianji_auto.utils.runUtils.CrashHandler;
 
 
 public class App extends Application {
@@ -55,6 +55,8 @@ public class App extends Application {
 
         initDatabase();
 
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
     }
 
 

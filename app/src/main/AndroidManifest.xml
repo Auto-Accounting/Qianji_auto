@@ -36,6 +36,7 @@
         android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.Qianji_auto"
         tools:targetApi="n">
+        <activity android:name=".ui.activity.ErrorActivity" />
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,6 +53,38 @@
             android:name="design_height_in_dp"
             android:value="640" />
 
+        <!--Xposed模块标识-->
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="自动记账，支持无障碍与Xposed模式,不限于钱迹~其他应用请开发者自行适配后提交PR" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="30" />
+
+        <meta-data
+            android:name="xposedscope"
+            android:resource="@array/xposed_scope" />
+
+
+        <!--无障碍需要的服务信息-->
+        <!-- <service android:name=".core.helper.AutoBillService" />
+         <service
+             android:name=".core.helper.AutoReadAccessibilityService"
+             android:description="@string/accessibility_service_description"
+             android:label="@string/accessibility_service_label"
+             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+             <intent-filter>
+                 <action android:name="android.accessibilityservice.AccessibilityService" />
+             </intent-filter>
+             <meta-data
+                 android:name="android.accessibilityservice"
+                 android:resource="@xml/accessibility_service_config" />
+         </service>-->
+
+        <!--对外提供文件分享-->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="cn.dreamn.qianji_auto.fileprovider.share"
@@ -61,8 +94,42 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider_paths" />
         </provider>
-        <!-- 通知监听 -->
-        <receiver android:name=".broadcasts.NotificationClickReceiver" />
+        <!--无障碍开机启动广播-->
+        <receiver android:name=".core.broadcast.BootBroadcast">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <!--短信读取广播-->
+        <receiver
+            android:name=".core.broadcast.SMSBroadcast"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter android:priority="1000">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        <!--Xposed消息回调广播-->
+        <receiver
+            android:name=".core.broadcast.XposedBroadcast"
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="cn.dreamn.qianji_auto.XPOSED" />
+                <action android:name="cn.dreamn.qianji_auto.XPOSED_LOG" />
+            </intent-filter>
+        </receiver>
+        <!--记账App数据交互广播-->
+        <receiver
+            android:name=".core.broadcast.AppBroadcast"
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="cn.dreamn.qianji_auto.QIANJI" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 通知监听广播 -->
+        <receiver android:name=".core.broadcast.NotificationClickReceiver" />
     </application>
 
 

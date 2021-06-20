@@ -25,7 +25,7 @@ import java.util.Date;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
-import cn.dreamn.qianji_auto.broadcasts.NotificationClickReceiver;
+import cn.dreamn.qianji_auto.core.broadcast.NotificationClickReceiver;
 import cn.dreamn.qianji_auto.utils.files.FileUtils;
 
 public class Tool {

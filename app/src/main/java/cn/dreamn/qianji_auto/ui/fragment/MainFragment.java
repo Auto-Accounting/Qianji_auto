@@ -257,6 +257,8 @@ public class MainFragment extends BaseFragment {
         });
 
         rl_async.setOnClickListener(v->{
+            String a = null;
+            Log.d("i", a);
             //TODO 数据同步
         });
         rl_bill.setOnClickListener(v->{

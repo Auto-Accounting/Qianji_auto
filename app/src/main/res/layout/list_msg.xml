@@ -8,58 +8,71 @@
     android:paddingEnd="10dp"
     android:paddingBottom="10dp">
 
-    <TextView
-        android:id="@+id/textView_body"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="0dp"
-        android:layout_marginBottom="5dp"
-        android:layout_weight="1"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="20dp"
-        android:text="TextView"
-        android:textSize="16sp" />
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="20dp"
+                android:text="TextView"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <Button
+                    android:id="@+id/button_last"
+                    style="@null"
+                    android:layout_width="150dp"
+
+                    android:layout_height="45dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/btn_normal_2"
+                    android:lineSpacingExtra="10sp"
+                    android:stateListAnimator="@null"
+                    android:text="取消"
+                    android:textColor="@color/button_go_setting_bg"
+                    android:textSize="16sp"
+                    app:cornerRadius="100dp" />
+
+                <Button
+                    android:id="@+id/button_next"
+                    style="@null"
+                    android:layout_width="150dp"
+                    android:layout_height="45dp"
+
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/btn_normal_1"
+                    android:lineSpacingExtra="10sp"
+                    android:stateListAnimator="@null"
+                    android:text="更新"
+                    android:textAppearance="?android:attr/textAppearanceButton"
+                    android:textColor="@color/background_white"
+                    android:textSize="16sp"
+                    app:cornerRadius="100dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <Button
-            android:id="@+id/button_last"
-            style="@null"
-            android:layout_width="150dp"
-
-            android:layout_height="45dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/btn_normal_2"
-            android:lineSpacingExtra="10sp"
-            android:stateListAnimator="@null"
-            android:text="取消"
-            android:textColor="@color/button_go_setting_bg"
-            android:textSize="16sp"
-            app:cornerRadius="100dp" />
-
-        <Button
-            android:id="@+id/button_next"
-            style="@null"
-            android:layout_width="150dp"
-            android:layout_height="45dp"
-
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/btn_normal_1"
-            android:lineSpacingExtra="10sp"
-            android:stateListAnimator="@null"
-            android:text="更新"
-            android:textAppearance="?android:attr/textAppearanceButton"
-            android:textColor="@color/background_white"
-            android:textSize="16sp"
-            app:cornerRadius="100dp" />
-    </LinearLayout>
 </LinearLayout>
