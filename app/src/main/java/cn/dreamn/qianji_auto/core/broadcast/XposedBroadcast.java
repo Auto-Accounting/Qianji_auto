@@ -20,11 +20,24 @@ package cn.dreamn.qianji_auto.core.broadcast;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 
 public class XposedBroadcast extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        String action = intent.getAction();
+        if (action == null) return;
+
+        if (action.equals("cn.dreamn.qianji_auto.XPOSED_LOG")) {
+            Bundle extData = intent.getExtras();
+            if (extData == null) return;
+            String tag = extData.getString("tag");
+            String msg = extData.getString("msg");
+            Log.i(tag, msg);
+        }
         /*String action = intent.getAction();
         if (action == null) return;
 
