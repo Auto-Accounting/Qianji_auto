@@ -60,7 +60,7 @@ public class AppManager {
         String app=getApp();
         for (IApp iApp : AppList.getInstance().getList()) {
             if(iApp.getPackPageName().equals(app)){
-                iApp.asyncData();
+                iApp.asyncDataBefore();
                 break;
             }
         }

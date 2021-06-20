@@ -69,8 +69,8 @@ public class DBHelper {
         return str.toString();
     }
 
-    public ArrayList<Data> getCategory() {
-        Cursor cursor = db.rawQuery("select * from category", null);
+    public ArrayList<Data> getCategory(String userId) {
+        Cursor cursor = db.rawQuery("select * from category where USER_ID =" + userId, null);
         ArrayList<Data> data = new ArrayList<>();
         while (cursor.moveToNext()) {
             Bundle bundle = new Bundle();
@@ -91,14 +91,16 @@ public class DBHelper {
         return data;
     }
 
-    public ArrayList<Data> getAsset() {
-        Cursor cursor = db.rawQuery("select * from user_asset where TYPE <> 5 and STATUS = 0", null);
+    public ArrayList<Data> getAsset(String userId) {
+        Cursor cursor = db.rawQuery("select * from user_asset where STATUS = 0 and USERID =" + userId, null);
         ArrayList<Data> data = new ArrayList<>();
         while (cursor.moveToNext()) {
             Bundle bundle = new Bundle();
             bundle.putInt("sort", cursor.getInt(cursor.getColumnIndex("SORT")));
             bundle.putString("name", cursor.getString(cursor.getColumnIndex("NAME")));
             bundle.putString("icon", cursor.getString(cursor.getColumnIndex("ICON")));
+            bundle.putString("type", cursor.getString(cursor.getColumnIndex("TYPE")));
+            bundle.putString("info", cursor.getString(cursor.getColumnIndex("LOAN_INFO")));
             Data data1 = new Data();
             data1.set(bundle);
             data.add(data1);
@@ -108,14 +110,31 @@ public class DBHelper {
         return data;
     }
 
-    public ArrayList<Data> getUserBook() {
-        Cursor cursor = db.rawQuery("select * from user_book ", null);
+    public ArrayList<Data> getUserBook(String userId) {
+        Cursor cursor = db.rawQuery("select * from user_book and USERID =" + userId, null);
         ArrayList<Data> data = new ArrayList<>();
         while (cursor.moveToNext()) {
             Bundle bundle = new Bundle();
             bundle.putString("id", cursor.getString(cursor.getColumnIndex("BOOK_ID")));
             bundle.putString("name", cursor.getString(cursor.getColumnIndex("NAME")));
             bundle.putString("cover", cursor.getString(cursor.getColumnIndex("COVER")));
+            Data data1 = new Data();
+            data1.set(bundle);
+            data.add(data1);
+        }
+        cursor.close();
+        return data;
+    }
+
+    public ArrayList<Data> getBills(String userId) {
+        Cursor cursor = db.rawQuery("select * from user_bill where USERID =" + userId, null);
+        ArrayList<Data> data = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            Bundle bundle = new Bundle();
+            bundle.putString("id", cursor.getString(cursor.getColumnIndex("billid")));
+            bundle.putString("remark", cursor.getString(cursor.getColumnIndex("REMARK")));
+            bundle.putString("money", cursor.getString(cursor.getColumnIndex("MONEY")));
+            bundle.putString("descinfo", cursor.getString(cursor.getColumnIndex("DESCINFO")));
             Data data1 = new Data();
             data1.set(bundle);
             data.add(data1);

@@ -43,7 +43,6 @@ public class ErrorActivity extends AppCompatActivity {
         setContentView(R.layout.activty_err_msg);
         initView();
 
-
     }
 
     private void initView() {

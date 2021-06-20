@@ -46,15 +46,24 @@ public interface IApp {
 
     /**
      * 发送数据给app
+     *
      * @param str
      */
-    void sendToApp(Context context,BillInfo str);
+    void sendToApp(Context context, BillInfo str);
 
     /**
-     * 同步数据
+     * 同步数据(发出请求)
+     *
      * @return
      */
-    void asyncData();
+    void asyncDataBefore();
+
+    /**
+     * 同步数据(通过广播获取)
+     *
+     * @return
+     */
+    void asyncDataAfter();
 
     /**
      * 同步数据的说明性文字

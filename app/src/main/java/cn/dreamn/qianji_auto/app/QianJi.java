@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.tencent.mmkv.MMKV;
+
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.database.Helper.Caches;
@@ -53,25 +55,31 @@ public class QianJi implements IApp {
                 }
             }
         };
-        delay(context,mHandler);
+        delay(context, mHandler);
     }
 
     @Override
-    public void asyncData() {
+    public void asyncDataBefore() {
 
     }
 
-    private void delay(Context context,Handler mHandler){
-        Task.onMain(()->{
-            Caches.getCacheData("float_time","",cache -> {
+    @Override
+    public void asyncDataAfter() {
+
+    }
+
+    private void delay(Context context, Handler mHandler) {
+
+        Task.onMain(() -> {
+            Caches.getCacheData("float_time", "", cache -> {
                 if (!cache.equals("")) {
                     long time = Long.parseLong(cache);
                     long t = System.currentTimeMillis() - time;
                     t = t / 1000;
-                    if (t < 11) {
+                    if (t < 4) {
                         long finalT = t;
-                        Caches.getCacheData("show_tip","false", cache1 -> {
-                            if(!cache1.equals("true")){
+                        Caches.getCacheData("show_tip", "false", cache1 -> {
+                            if (!cache1.equals("true")) {
                                 Looper.prepare();
                                 Toast.makeText(context, "距离上一次发起请求时间为" + finalT + "s,稍后为您自动记账。", Toast.LENGTH_LONG).show();
                                 Looper.loop();
@@ -95,7 +103,11 @@ public class QianJi implements IApp {
 
 
         String url = "qianji://publicapi/addbill?&type=" + billInfo.getType(true) + "&money=" + billInfo.getMoney();
-
+        MMKV mmkv = MMKV.defaultMMKV();
+        //懒人模式
+        if (mmkv.getBoolean("lazy_mode", true)) {
+            return url;
+        }
         if (billInfo.getTime() != null) {
             url += "&time=" + billInfo.getTime();
         }

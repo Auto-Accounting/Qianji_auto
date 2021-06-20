@@ -24,15 +24,6 @@ public class QianjiHook extends HookBase {
 
     @Override
     public void hookFirst() throws Error {
-        /*Class<?> AddBillIntentAct = XposedHelpers.findClass("com.mutangtech.qianji.bill.auto.AddBillIntentAct", mAppClassLoader);
-        XposedHelpers.findAndHookMethod(AddBillIntentAct, "onCreate", Bundle.class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                super.beforeHookedMethod(param);
-                utils.log("钱迹自动记账窗口创建。", false);
-            }
-        });*/
-
         hookDb.init(utils);
     }
 

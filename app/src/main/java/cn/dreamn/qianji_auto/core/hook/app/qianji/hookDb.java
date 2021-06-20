@@ -25,6 +25,7 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
@@ -58,86 +59,95 @@ public class hookDb {
 
     }
 
-
+    // hook钱迹数据库
     public static void hookQianjiApp(Utils utils) {
         ClassLoader mAppClassLoader = utils.getClassLoader();
         XposedHelpers.findAndHookConstructor("com.mutangtech.qianji.data.model.DaoMaster", mAppClassLoader, SQLiteDatabase.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                utils.log("HOOK 钱迹数据库对象", false);
                 super.beforeHookedMethod(param);
                 SQLiteDatabase database = (SQLiteDatabase) param.args[0];
-                // 验证一下是否有效
-                if (database.isOpen()) {
+                // 获取数据库操作对象
+                final DBHelper[] dbHelper = new DBHelper[1];
+                if (database != null && database.isOpen()) {
                     db = database;
-                    XposedHelpers.findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
-                        protected void beforeHookedMethod(MethodHookParam param) {
-                            Activity activity = (Activity) param.thisObject;
-                            final String activityClzName = activity.getClass().getName();
-                            utils.log(activityClzName);
-                            if (activityClzName.contains("com.mutangtech.qianji.ui.main.MainActivity")) {
-                                Intent intent = (Intent) XposedHelpers.callMethod(activity, "getIntent");
-                                if (intent != null) {
-                                    utils.log("钱迹收到数据:" + intent.getStringExtra("needAsync"));
-                                    if (intent.getStringExtra("needAsync") != null && intent.getStringExtra("needAsync").equals("true")) {
-                                        DBHelper dbHelper = null;
-                                        try {
-                                            String allTable = "";
-                                            if (db != null) {
-                                                utils.log("db构建资产同步查询", false);
-                                                dbHelper = new DBHelper(db);
-                                                allTable = dbHelper.getAllTables();
-                                            }
-                                            // 测试一下前面的对象有效
-                                            if (allTable == null) {
-                                                utils.log("钱迹数据库对象无法获取到数据，尝试文件模式");
-                                                dbHelper = null;
-                                            }
+                    utils.log("使用钱迹对象获取信息", false);
+                    dbHelper[0] = new DBHelper(db);
+                } else {
+                    utils.log("钱迹数据库对象无法获取到数据，尝试文件模式", false);
+                    dbHelper[0] = new DBHelper(utils);
+                }
+                //获取用户ID,根据用户ID获取对应的资产等信息
+                String userId = "u10001";
 
-                                            if (dbHelper == null) {
-                                                dbHelper = new DBHelper(utils);
-                                            }
+                Class<?> loginClass = mAppClassLoader.loadClass("com.mutangtech.qianji.app.f.b");
+                //获取loginClass
+                Method getInstance = loginClass.getDeclaredMethod("getInstance");
+                //反射调用单例模式
+                Object object = getInstance.invoke(null);
+                //获取对象
+                Method getLoginUserID = loginClass.getMethod("getLoginUserID");
+                //获取UserID方法
+                String uid = (String) getLoginUserID.invoke(object);
+                //获取最终的UID
+                if (uid != null && !uid.equals("")) {
+                    userId = uid;
+                }
+                utils.log("获取到用户ID:" + userId);
 
-                                            utils.log("钱迹表格数据：" + allTable);
-                                            ArrayList<Data> asset = dbHelper.getAsset();
-                                            ArrayList<Data> category = dbHelper.getCategory();
-                                            ArrayList<Data> userBook = dbHelper.getUserBook();
-                                            Bundle bundle = new Bundle();
-                                            bundle.putParcelableArrayList("asset", asset);
-                                            bundle.putParcelableArrayList("category", category);
-                                            bundle.putParcelableArrayList("userBook", userBook);
-                                            //  utils.log(bundle.toString());
-                                            utils.send2auto(bundle);
+                String allTable = dbHelper[0].getAllTables();
+                // 测试一下前面的对象有效
+                if (allTable == null) {
+                    utils.log("钱迹获取数据失败");
+                    dbHelper[0].finalize();
+                    return;
+                }
 
-                                            Toast.makeText(utils.getContext(), "钱迹数据信息获取完毕，现在请返回自动记账。", Toast.LENGTH_LONG).show();
-                                            XposedHelpers.callMethod(activity, "finish");
-                                        } catch (Exception e) {
-                                            utils.log("钱迹数据获取失败" + e.toString(), false);
-                                        } catch (Throwable throwable) {
-                                            throwable.printStackTrace();
-                                            utils.log("钱迹数据获取失败2" + throwable.toString(), false);
-                                        } finally {
-                                            if (dbHelper != null) {
-                                                dbHelper.finalize();
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    utils.log("intent获取失败");
+                String finalUserId = userId;
+                XposedHelpers.findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
+                    protected void beforeHookedMethod(MethodHookParam param) {
+                        Activity activity = (Activity) param.thisObject;
+                        final String activityClzName = activity.getClass().getName();
+                        if (activityClzName.contains("com.mutangtech.qianji.ui.main.MainActivity")) {
+                            Intent intent = (Intent) XposedHelpers.callMethod(activity, "getIntent");
+                            if (intent != null) {
+                                String needAsync = intent.getStringExtra("needAsync");
+                                if (needAsync == null) {
+                                    return;
                                 }
+                                utils.log("钱迹收到同步信号:" + intent.getStringExtra("needAsync"));
+                                ArrayList<Data> asset = dbHelper[0].getAsset(finalUserId);
+                                ArrayList<Data> category = dbHelper[0].getCategory(finalUserId);
+                                ArrayList<Data> userBook = dbHelper[0].getUserBook(finalUserId);
+                                ArrayList<Data> billInfo = dbHelper[0].getBills(finalUserId);
+                                Bundle bundle = new Bundle();
+                                bundle.putParcelableArrayList("asset", asset);
+                                bundle.putParcelableArrayList("category", category);
+                                bundle.putParcelableArrayList("userBook", userBook);
+                                bundle.putParcelableArrayList("billInfo", billInfo);
+                                //  utils.log(bundle.toString());
+                                utils.send2auto(bundle);
+
+                                Toast.makeText(utils.getContext(), "钱迹数据信息获取完毕，现在返回自动记账。", Toast.LENGTH_LONG).show();
+                                XposedHelpers.callMethod(activity, "finish");
+
+                                dbHelper[0].finalize();
+                            } else {
+                                utils.log("intent获取失败");
                             }
                         }
-                    });
-                }
+                    }
+                });
             }
         });
     }
 
+    //hook钱迹timeout
     public static void hookQianjiTimeout(Utils utils) {
         XposedHelpers.findAndHookMethod("com.mutangtech.qianji.a", utils.getClassLoader(), "timeoutApp", String.class, long.class, XC_MethodReplacement.returnConstant(true));
     }
 
-    //hook钱迹timeout
+    //hook钱迹error信息
 
     public static void hookQianjiError(Utils utils) throws ClassNotFoundException {
         ClassLoader mAppClassLoader = utils.getClassLoader();
@@ -151,7 +161,7 @@ public class hookDb {
                 if (string != null) {
                     String url = "https://pan.ankio.net";
                     if (string.contains("bookname")) {
-
+                        // TODO 根据不同错误信息给出解决方案地址
                     } else if (string.contains("accountname")) {
 
                     }
