@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.bills.BillInfo;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 public class AppManager {
     /**
@@ -56,7 +57,7 @@ public class AppManager {
      */
     public static void Async(Context context) {
         MMKV mmkv = MMKV.defaultMMKV();
-        mmkv.encode("isAsync", false);//设置为未同步
+        mmkv.encode("needAsync", true);//设置为同步
         String app = getApp();
         //   Log.i("选择的App",app);
         for (IApp iApp : AppList.getInstance().getList()) {
@@ -74,10 +75,11 @@ public class AppManager {
      */
     public static void AsyncEnd(Context context, Bundle bundle) {
         MMKV mmkv = MMKV.defaultMMKV();
-        mmkv.encode("isAsync", true);//设置为未同步
+        mmkv.encode("needAsync", false);//设置为未同步
         String app = getApp();
         for (IApp iApp : AppList.getInstance().getList()) {
             if (iApp.getPackPageName().equals(app)) {
+                Log.d("收到广播的同步消息");
                 iApp.asyncDataAfter(context, bundle);
                 break;
             }

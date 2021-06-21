@@ -37,6 +37,7 @@ import com.xuexiang.xpage.utils.TitleBar;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
@@ -257,9 +258,7 @@ public class MainFragment extends BaseFragment {
         });
 
         rl_async.setOnClickListener(v->{
-            String a = null;
-            Log.d("i", a);
-            //TODO 数据同步
+            AppManager.Async(getContext());
         });
         rl_bill.setOnClickListener(v->{
             openNewPage(MoneyFragment.class);

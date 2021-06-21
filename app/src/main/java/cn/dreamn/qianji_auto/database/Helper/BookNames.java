@@ -179,24 +179,29 @@ public class BookNames {
     public static void add(String bookName, String icon,final String book_id,whenFinish when) {
         Task.onThread(()->{
 
-        String bid=book_id;
-        if (bid == null || bid.equals("")) {
-            bid = String.valueOf(System.currentTimeMillis());
-        }
-        DbManger.db.BookNameDao().add(bookName, icon, bid);
-        when.onFinish();
-        });
-    }
-
-    public static void clean(whenFinish when) {
-        Task.onThread(()->{
-            DbManger.db.BookNameDao().clean();
+            String bid = book_id;
+            if (bid == null || bid.equals("")) {
+                bid = String.valueOf(System.currentTimeMillis());
+            }
+            DbManger.db.BookNameDao().add(bookName, icon, bid);
             when.onFinish();
         });
     }
 
+    public static void clean() {
+        clean(null);
+    }
+
+    public static void clean(whenFinish when) {
+        Task.onThread(() -> {
+            DbManger.db.BookNameDao().clean();
+            if (when != null)
+                when.onFinish();
+        });
+    }
+
     public static void getAllLen(getBookInt getBook) {
-        Task.onThread(()->{
+        Task.onThread(() -> {
         BookName[] bookNames = DbManger.db.BookNameDao().getAll();
         getBook.onGet(bookNames.length);
 

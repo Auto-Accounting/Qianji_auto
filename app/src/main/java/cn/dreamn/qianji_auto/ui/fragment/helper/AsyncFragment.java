@@ -101,7 +101,7 @@ public class AsyncFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         MMKV mmkv=MMKV.defaultMMKV();
-        if(mmkv.getBoolean("isAsync",false)){
+        if (mmkv.getBoolean("needAsync", false)) {
             app_help_3_tip.setText(getString(R.string.app_help_3_tip2));
             button_async.setText(getString(R.string.app_help_3_button_async));
         }

@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 
+import cn.dreamn.qianji_auto.BuildConfig;
 import de.robv.android.xposed.XposedBridge;
 
 public class Utils {
@@ -113,7 +114,7 @@ public class Utils {
 
     private void sendBroadcast(String Action, Bundle bundle) {
         Intent intent = new Intent(Action);
-        intent.setPackage("cn.dreamn.qianji_auto");
+        intent.setPackage(BuildConfig.APPLICATION_ID);
         intent.putExtras(bundle);
         intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
         mContext.sendBroadcast(intent, null);

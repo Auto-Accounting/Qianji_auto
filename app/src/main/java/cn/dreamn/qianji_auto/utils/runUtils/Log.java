@@ -35,6 +35,7 @@ public class Log {
     public static int MODE_MORE = 2;//详细记录
 
     public static void d(String msg) {
+        if (msg == null) return;
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
         String defaultTag = "Qianji-Auto";
@@ -49,9 +50,11 @@ public class Log {
     }
 
     public static void d(String TAG, String msg) {
+        if (msg == null) return;
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
         Task.onThread(() -> {
+
             android.util.Log.i(TAG, msg);
             if (mode != 0 && mode != 1) {
                 DbManger.db.LogDao().add(msg, TAG, getTime());
@@ -61,6 +64,7 @@ public class Log {
     }
 
     public static void i(String msg) {
+        if (msg == null) return;
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
         String defaultTag = "Qianji-Auto";
@@ -75,7 +79,7 @@ public class Log {
     }
 
     public static void i(String TAG, String msg) {
-
+        if (msg == null) return;
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
         Task.onThread(() -> {
@@ -88,6 +92,7 @@ public class Log {
     }
 
     public static void m(String msg) {
+        if (msg == null) return;
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
         String defaultTag = "Qianji-Auto";
@@ -102,7 +107,7 @@ public class Log {
     }
 
     public static void m(String TAG, String msg) {
-
+        if (msg == null) return;
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
         Task.onThread(() -> {

@@ -25,7 +25,6 @@ import android.os.Bundle;
 import com.tencent.mmkv.MMKV;
 
 import cn.dreamn.qianji_auto.app.AppManager;
-import cn.dreamn.qianji_auto.ui.activity.MainActivity;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 
@@ -33,49 +32,31 @@ public class AppBroadcast extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        if (action == null) return;
         MMKV mmkv = MMKV.defaultMMKV();
-        if (!mmkv.getBoolean("needAsync", false)) return;
+        if (action == null) {
+            mmkv.encode("needAsync", false);
+            Log.d("action 为空");
+            return;
+        }
+
+        if (!mmkv.getBoolean("needAsync", false)) {
+            Log.d("不在接收同步的范围之内！");
+            return;
+        }
         mmkv.encode("needAsync", false);
         Bundle extData = intent.getExtras();
-        if (extData == null) return;
 
+        if (extData == null) {
+            Log.d("数据为空？");
+            return;
+        }
+        Log.d("收到数据");
         AppManager.AsyncEnd(context, extData);
 
-       /* Bundle extData = intent.getExtras();
-        if (extData == null) return;
-
-        ArrayList<Data> asset = extData.getParcelableArrayList("asset");
-
-        ArrayList<Data> category = extData.getParcelableArrayList("category");
-
-        ArrayList<Data> userBook = extData.getParcelableArrayList("userBook");
-        if (asset != null && category != null && userBook != null) {
-            Logs.i("钱迹数据信息有效");
-            Assets.cleanAsset();
-            for (int i = 0; i < asset.size(); i++) {
-                Data d = asset.get(i);
-                Bundle m = d.get();
-                Assets.addAsset(m.getString("name"), m.getString("icon"), m.getInt("sort"));
-            }
-            CategoryNames.clean();
-            for (int i = 0; i < category.size(); i++) {
-                Data d = category.get(i);
-                Bundle m = d.get();
-                CategoryNames.insert(m.getString("name"), m.getString("icon"), m.getString("level"), m.getString("type"), m.getString("id"), m.getString("parent"), m.getString("book_id"), m.getString("sort"));
-            }
-            BookNames.clean();
-            for (int i = 0; i < userBook.size(); i++) {
-                Data d = userBook.get(i);
-                Bundle m = d.get();
-                BookNames.add(m.getString("name"), m.getString("cover"), m.getString("id"));
-            }
-
-        }*/
-        Intent intent1 = new Intent();
+        /*Intent intent1 = new Intent();
         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent1.setClass(context, MainActivity.class);
-        context.startActivity(intent1);
+        context.startActivity(intent1);*/
         Log.i("钱迹数据同步完毕");
     }
 }

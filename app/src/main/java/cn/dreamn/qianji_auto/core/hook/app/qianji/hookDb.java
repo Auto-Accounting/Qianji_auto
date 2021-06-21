@@ -86,6 +86,7 @@ public class hookDb {
                 SQLiteDatabase database = (SQLiteDatabase) param.args[0];
                 // 获取数据库操作对象
                 final DBHelper[] dbHelper = new DBHelper[1];
+
                 if (database != null && database.isOpen()) {
                     db = database;
                     utils.log("使用钱迹对象获取信息", false);

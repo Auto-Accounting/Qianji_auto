@@ -19,7 +19,10 @@ import java.util.ArrayList;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.core.hook.app.qianji.Data;
+import cn.dreamn.qianji_auto.database.Helper.Assets;
+import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.Caches;
+import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
@@ -108,6 +111,38 @@ public class QianJi implements IApp {
             return;
         }
         //插入数据库
+
+        //处理分类数据
+        CategoryNames.clean();
+        for (int i = 0; i < category.size(); i++) {
+            Data d = category.get(i);
+            Bundle m = d.get();
+            CategoryNames.insert(m.getString("name"), m.getString("icon"), m.getString("level"), m.getString("type"), m.getString("id"), m.getString("parent"), m.getString("book_id"), m.getString("sort"), isSucceed -> {
+                Log.d("分类数据处理结果:" + isSucceed);
+            });
+        }
+        //处理资产数据
+        Assets.cleanAsset();
+        for (int i = 0; i < asset.size(); i++) {
+            Data d = asset.get(i);
+            Bundle m = d.get();
+            if (m.getString("type").equals("5"))
+                break;
+            Assets.addAsset(m.getString("name"), m.getString("icon"), m.getInt("sort"), () -> {
+                // 处理结束
+                Log.d("资产数据处理完~");
+            });
+
+        }
+        BookNames.clean();
+        for (int i = 0; i < userBook.size(); i++) {
+            Data d = userBook.get(i);
+            Bundle m = d.get();
+            BookNames.add(m.getString("name"), m.getString("cover"), m.getString("id"), () -> {
+                Log.d("账本数据处理完~");
+            });
+        }
+        //获取账单数据
         // TODO 插入数据库
 
     }

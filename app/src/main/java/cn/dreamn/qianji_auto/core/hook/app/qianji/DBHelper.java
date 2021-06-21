@@ -32,6 +32,7 @@ public class DBHelper {
     //SQLiteDatabase
     private final SQLiteDatabase db;
     private final String NEW_PATH = "/data/data/com.mutangtech.qianji/qianjiapp_copy";
+    private boolean isObj = false;
 
     @SuppressLint("SdCardPath")
     public DBHelper(Utils utils) {
@@ -48,6 +49,7 @@ public class DBHelper {
 
     public DBHelper(SQLiteDatabase db) {
         this.db = db;
+        this.isObj = true;
     }
 
     public String getAllTables() {
@@ -146,7 +148,7 @@ public class DBHelper {
     protected void finalize() {
         try {
             super.finalize();
-            if (db != null) {
+            if (db != null && !isObj) {
                 db.close();
             }
         } catch (Throwable throwable) {
