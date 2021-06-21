@@ -1,24 +1,24 @@
 package cn.dreamn.qianji_auto.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
-import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 
 public class BookListAdapter extends BaseAdapter {
-    private Context mContext;
+    private final Context mContext;
     public BookListAdapter(Context context) {
 
         super(R.layout.book_item);
@@ -33,15 +33,21 @@ public class BookListAdapter extends BaseAdapter {
         TextView item_title = (TextView) holder.findView(R.id.item_title);
 
         item_title.setText(item.getString("name"));
-        final Handler mHandler=new Handler(Looper.getMainLooper()){
-            @Override
-            public void handleMessage(Message msg) {
-                Object[] objects=(Object[])msg.obj;
-                MyBitmapUtils.setImage(mContext,(View) objects[0],(Bitmap)objects[1]);
-            }
-        };
-        MyBitmapUtils myBitmapUtils=new MyBitmapUtils(mContext,mHandler);
-        myBitmapUtils.disPlay(rl_bg,item.getString("cover"));
+
+        Glide.with(mContext)
+                .load(item.getString("cover"))
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        rl_bg.setBackground(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
+
 
     }
 }

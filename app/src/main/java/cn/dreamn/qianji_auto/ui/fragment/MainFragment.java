@@ -20,16 +20,18 @@ package cn.dreamn.qianji_auto.ui.fragment;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
+import android.graphics.drawable.Drawable;
 import android.view.KeyEvent;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xpage.utils.TitleBar;
@@ -57,7 +59,6 @@ import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.views.IconView;
-import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import es.dmoral.toasty.Toasty;
 
@@ -217,27 +218,31 @@ public class MainFragment extends BaseFragment {
 
         } else {
             Log.d("未激活");
-            mode_select2.setBackgroundColor(ThemeManager.getColor(getActivity(),R.color.disable_bg));
-            mode_select2.setBackgroundTintList(ColorStateList.valueOf(ThemeManager.getColor(getActivity(),R.color.disable_bg)));
+            mode_select2.setBackgroundColor(ThemeManager.getColor(getActivity(), R.color.disable_bg));
+            mode_select2.setBackgroundTintList(ColorStateList.valueOf(ThemeManager.getColor(getActivity(), R.color.disable_bg)));
             active_status.setText(String.format("未激活（%s）", AppStatus.getFrameWork(getContext())));
-            active_status.setTextColor(ThemeManager.getColor(getActivity(),R.color.background_white));
+            active_status.setTextColor(ThemeManager.getColor(getActivity(), R.color.background_white));
 
         }
         //SetImg
-        String def_book=BookNames.getDefault();
+        String def_book = BookNames.getDefault();
         default_book.setText(def_book);
-        final Handler mHandler=new Handler(Looper.getMainLooper()){
-            @Override
-            public void handleMessage(Message msg) {
-                Object[] objects=(Object[])msg.obj;
-                MyBitmapUtils.setImage(getContext(),(View) objects[0],(Bitmap)objects[1]);
 
-            }
-        };
 
-        BookNames.getIcon(def_book,icon->{
-            MyBitmapUtils myBitmapUtils=new MyBitmapUtils(getContext(),mHandler);
-            myBitmapUtils.disPlay(book_img,icon);
+        BookNames.getIcon(def_book, icon -> {
+            Glide.with(getContext())
+                    .load(icon)
+                    .into(new CustomTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                            book_img.setBackground(resource);
+                        }
+
+                        @Override
+                        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                        }
+                    });
 
         });
     }

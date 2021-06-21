@@ -19,7 +19,6 @@ package cn.dreamn.qianji_auto.ui.floats;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -40,6 +39,7 @@ import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 import com.afollestad.materialdialogs.datetime.DateTimePickerExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
+import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.tencent.mmkv.MMKV;
 
@@ -53,7 +53,6 @@ import cn.dreamn.qianji_auto.database.Helper.Assets;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
-import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
@@ -395,15 +394,6 @@ public class AutoFloat2 {
         }
 
 
-        final Handler mHandler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                Object[] objects = (Object[]) msg.obj;
-                MyBitmapUtils.setImage(getContext(), (View) objects[0], (Bitmap) objects[1]);
-            }
-        };
-
-        MyBitmapUtils myBitmapUtils = new MyBitmapUtils(getContext(), mHandler);
 
         BookNames.getAllLen(length -> {
             if (length != 0) {
@@ -418,16 +408,26 @@ public class AutoFloat2 {
         CategoryNames.getPic(billInfo.getCateName(), type, book_id, pic -> {
             if (pic == null || pic.equals(""))
                 pic = "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png";
-            myBitmapUtils.disPlay(iv_category, pic);
+            //  myBitmapUtils.disPlay(iv_category, pic);
+            Glide.with(getContext())
+                    .load(pic)
+                    .into(iv_category);
+
         });
 
         iv_category.setColorFilter(getContext().getColor(R.color.darkGrey));
 
         Assets.getPic(billInfo.getAccountName(), asset2s -> {
-            myBitmapUtils.disPlay(iv_account1, asset2s);
+            //  myBitmapUtils.disPlay(iv_account1, asset2s);
+            Glide.with(getContext())
+                    .load(asset2s)
+                    .into(iv_account1);
         });
         Assets.getPic(billInfo.getAccountName2(), asset2s -> {
-            myBitmapUtils.disPlay(iv_account2, asset2s);
+            //  myBitmapUtils.disPlay(iv_account2, asset2s);
+            Glide.with(getContext())
+                    .load(asset2s)
+                    .into(iv_account2);
         });
 
 

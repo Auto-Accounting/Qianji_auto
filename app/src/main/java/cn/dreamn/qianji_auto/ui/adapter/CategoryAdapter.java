@@ -2,7 +2,6 @@ package cn.dreamn.qianji_auto.ui.adapter;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.adapter.SmartRecyclerAdapter;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 import com.shehuan.niv.NiceImageView;
@@ -26,7 +26,6 @@ import java.util.List;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
-import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 public class CategoryAdapter extends BaseAdapter {
@@ -88,14 +87,6 @@ public class CategoryAdapter extends BaseAdapter {
                     } else {
                         iv_more.setVisibility(View.VISIBLE);
                     }
-                } else {
-                    if (item_image_icon.getTag() == null) {
-
-                        Object[] objects=(Object[])msg.obj;
-                        MyBitmapUtils.setImage(mContext,(View) objects[0],(Bitmap)objects[1]);
-                        item_image_icon.setTag(item.getString("icon"));
-                    }
-
                 }
 
             }
@@ -113,8 +104,10 @@ public class CategoryAdapter extends BaseAdapter {
         });
         item_text.setText(item.getString("name"));
 
-        MyBitmapUtils myBitmapUtils = new MyBitmapUtils(mContext, mHandler);
-        myBitmapUtils.disPlay(item_image_icon, item.getString("icon"));
+        Glide.with(mContext)
+                .load(item.getString("icon"))
+                .into(item_image_icon);
+
 
         setColor(select == position, item_image_icon, iv_more, item_text);
 

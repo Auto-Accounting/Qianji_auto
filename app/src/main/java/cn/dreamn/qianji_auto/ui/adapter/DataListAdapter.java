@@ -1,24 +1,18 @@
 package cn.dreamn.qianji_auto.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
-import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 
 public class DataListAdapter extends BaseAdapter {
-    private Context mContext;
+    private final Context mContext;
     public DataListAdapter(Context context) {
 
         super(R.layout.data_item);
@@ -33,15 +27,11 @@ public class DataListAdapter extends BaseAdapter {
         TextView item_title = (TextView) holder.findView(R.id.item_title);
 
         item_title.setText(item.getString("name"));
-        final Handler mHandler=new Handler(Looper.getMainLooper()){
-            @Override
-            public void handleMessage(Message msg) {
-                Object[] objects=(Object[])msg.obj;
-                MyBitmapUtils.setImage(mContext,(View) objects[0],(Bitmap)objects[1]);
-            }
-        };
-        MyBitmapUtils myBitmapUtils=new MyBitmapUtils(mContext,mHandler);
-        myBitmapUtils.disPlay(icon_header,item.getString("icon"));
+
+        Glide.with(mContext)
+                .load(item.getString("icon"))
+                .into(icon_header);
+
 
     }
 }

@@ -2,28 +2,18 @@ package cn.dreamn.qianji_auto.ui.adapter;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.GridLayoutManager;
-
+import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 import com.shehuan.niv.NiceImageView;
-import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
-import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 
 public class CategoryItemAdapter extends BaseAdapter {
-    private Context mContext;
+    private final Context mContext;
 
     private int select = -1;
     public CategoryItemAdapter(Context context) {
@@ -37,18 +27,14 @@ public class CategoryItemAdapter extends BaseAdapter {
 
         TextView item_text = (TextView) holder.findView(R.id.item_text);
 
-        setColor(select == position, item_image_icon,  item_text);
-        final Handler mHandler=new Handler(Looper.getMainLooper()){
-            @Override
-            public void handleMessage(Message msg) {
-                Object[] objects=(Object[])msg.obj;
-                MyBitmapUtils.setImage(mContext,(View) objects[0],(Bitmap)objects[1]);
-            }
-        };
+        setColor(select == position, item_image_icon, item_text);
+
         item_text.setText(item.getString("name"));
 
-        MyBitmapUtils myBitmapUtils=new MyBitmapUtils(mContext,mHandler);
-        myBitmapUtils.disPlay(item_image_icon,item.getString("icon"));
+
+        Glide.with(mContext)
+                .load(item.getString("icon"))
+                .into(item_image_icon);
 
     }
     public void setSelect(int index) {

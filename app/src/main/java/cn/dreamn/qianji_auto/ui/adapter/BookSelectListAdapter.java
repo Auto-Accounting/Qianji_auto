@@ -3,11 +3,8 @@ package cn.dreamn.qianji_auto.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +12,14 @@ import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 
 
 public class BookSelectListAdapter extends ArrayAdapter {
@@ -33,20 +36,26 @@ public class BookSelectListAdapter extends ArrayAdapter {
         Bundle bundle = (Bundle) getItem(position);
 
         @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.book_item2, null, false);
-        RelativeLayout rl_bg = (RelativeLayout) view.findViewById(R.id.rl_bg);
+        RelativeLayout rl_bg = view.findViewById(R.id.rl_bg);
 
-        TextView item_title = (TextView) view.findViewById(R.id.item_title);
+        TextView item_title = view.findViewById(R.id.item_title);
 
         item_title.setText(bundle.getString("name"));
-        final Handler mHandler=new Handler(Looper.getMainLooper()){
-            @Override
-            public void handleMessage(Message msg) {
-                Object[] objects=(Object[])msg.obj;
-                MyBitmapUtils.setImage(mContext,(View) objects[0],(Bitmap)objects[1]);
-            }
-        };
-        MyBitmapUtils myBitmapUtils=new MyBitmapUtils(mContext,mHandler);
-        myBitmapUtils.disPlay(rl_bg,bundle.getString("cover"));
+
+        Glide.with(mContext)
+                .load(bundle.getString("cover"))
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        rl_bg.setBackground(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });
+
         return view;
 
 

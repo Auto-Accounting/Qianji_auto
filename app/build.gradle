@@ -120,9 +120,11 @@ dependencies {
     //FastJSON
     implementation 'com.alibaba:fastjson:1.2.75'
     //Xposed组件库
-
     compileOnly 'de.robv.android.xposed:api:82'
     compileOnly 'de.robv.android.xposed:api:82:sources'
+    //图片加载库
+    implementation "com.github.bumptech.glide:glide:4.11.0"
+    annotationProcessor "com.github.bumptech.glide:compiler:4.11.0"
 }
 repositories {
     mavenCentral()

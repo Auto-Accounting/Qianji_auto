@@ -1,25 +1,19 @@
 package cn.dreamn.qianji_auto.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.Assets;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
-import cn.dreamn.qianji_auto.utils.pictures.MyBitmapUtils;
 
 public class MapListAdapter extends BaseAdapter {
-    private Context mContext;
+    private final Context mContext;
     public MapListAdapter(Context context) {
 
         super(R.layout.map_item);
@@ -36,14 +30,10 @@ public class MapListAdapter extends BaseAdapter {
 
         item_title2.setText(item.getString("name"));
         item_title.setText(item.getString("mapName"));
-        final Handler mHandler=new Handler(Looper.getMainLooper()){
-            @Override
-            public void handleMessage(Message msg) {
-                Object[] objects=(Object[])msg.obj;
-                MyBitmapUtils.setImage(mContext,(View) objects[0],(Bitmap)objects[1]);
-            }
-        };
-        MyBitmapUtils myBitmapUtils=new MyBitmapUtils(mContext,mHandler);
-        Assets.getPic(item.getString("mapName"), asset2s -> myBitmapUtils.disPlay(icon_header,asset2s));
+        Assets.getPic(item.getString("mapName"), asset2s -> {
+            Glide.with(mContext)
+                    .load(asset2s)
+                    .into(icon_header);
+        });
     }
 }
