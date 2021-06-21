@@ -1,11 +1,11 @@
 package cn.dreamn.qianji_auto.ui.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 public class ScreenUtils {
+
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
      */

@@ -3,6 +3,7 @@ package cn.dreamn.qianji_auto.ui.theme;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.view.View;
 
@@ -19,18 +20,21 @@ import cn.dreamn.qianji_auto.ui.views.SuperText;
 import cn.dreamn.qianji_auto.ui.views.SuperTextDelegate;
 
 public class ThemeManager {
-    private Context mContext;
-    private MMKV mmkv;
-    public ThemeManager(Context context){
-        mContext=context;
-        mmkv=MMKV.defaultMMKV();
+    private final Context mContext;
+    private final MMKV mmkv;
+
+    public ThemeManager(Context context) {
+        mContext = context;
+        mmkv = MMKV.defaultMMKV();
     }
-    public static void init(){
-        ZSkin.addDelegate(IconView.class,new IconViewDelegate());
-        ZSkin.addDelegate(SuperText.class,new SuperTextDelegate());
+
+    public static void init() {
+        ZSkin.addDelegate(IconView.class, new IconViewDelegate());
+        ZSkin.addDelegate(SuperText.class, new SuperTextDelegate());
     }
-    public void setTheme(){
-        replaceInApp(mmkv.getString("theme","default"));
+
+    public void setTheme() {
+        replaceInApp(mmkv.getString("theme", "default"));
     }
 
     private void replace(String skinName){
@@ -71,14 +75,19 @@ public class ThemeManager {
         return activity.getColor(getColorRaw(Color));
     }
     public static int getColorRaw(int Color){
-        if (ZSkin.isLoadSkin()){
+        if (ZSkin.isLoadSkin()) {
             Color = ZSkin.getColor(Color);
         }
         return Color;
     }
+
     public boolean isLightColor(int color) {
         double darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255;
         // It's a dark color
         return darkness < 0.5; // It's a light color（true)
+    }
+
+    public static boolean isDarkMode(Context context) {
+        return Configuration.UI_MODE_NIGHT_YES == (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK);
     }
 }
