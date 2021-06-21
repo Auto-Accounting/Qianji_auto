@@ -305,6 +305,7 @@ public class hookDb {
                 itemSummerText.setText(BuildConfig.VERSION_NAME);
                 itemSummerText.setGravity(Gravity.CENTER_VERTICAL);
                 itemSummerText.setPadding(0, 0, defHPadding, 0);
+                itemSummerText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
                 itemSummerText.setTextColor(isDarkMode ? 0xFF656565 : 0xFF999999);
 
 
