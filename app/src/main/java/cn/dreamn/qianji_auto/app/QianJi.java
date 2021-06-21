@@ -14,8 +14,11 @@ import androidx.annotation.NonNull;
 import com.liuguangqiang.cookie.CookieBar;
 import com.tencent.mmkv.MMKV;
 
+import java.util.ArrayList;
+
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
+import cn.dreamn.qianji_auto.core.hook.app.qianji.Data;
 import cn.dreamn.qianji_auto.database.Helper.Caches;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -91,7 +94,21 @@ public class QianJi implements IApp {
     }
 
     @Override
-    public void asyncDataAfter(Context context, Bundle billInfo) {
+    public void asyncDataAfter(Context context, Bundle extData) {
+
+        ArrayList<Data> asset = extData.getParcelableArrayList("asset");
+
+        ArrayList<Data> category = extData.getParcelableArrayList("category");
+
+        ArrayList<Data> userBook = extData.getParcelableArrayList("userBook");
+
+        ArrayList<Data> billInfo = extData.getParcelableArrayList("billInfo");
+        if (asset == null || category == null || userBook == null || billInfo == null) {
+            Log.i("钱迹数据信息无效");
+            return;
+        }
+        //插入数据库
+        // TODO 插入数据库
 
     }
 

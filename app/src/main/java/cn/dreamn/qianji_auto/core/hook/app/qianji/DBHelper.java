@@ -29,11 +29,9 @@ import cn.dreamn.qianji_auto.utils.files.FileUtils;
 
 public class DBHelper {
 
-    private static final String DB_NAME = "qianjiapp";
     //SQLiteDatabase
     private final SQLiteDatabase db;
     private final String NEW_PATH = "/data/data/com.mutangtech.qianji/qianjiapp_copy";
-    public String err = "";
 
     @SuppressLint("SdCardPath")
     public DBHelper(Utils utils) {
