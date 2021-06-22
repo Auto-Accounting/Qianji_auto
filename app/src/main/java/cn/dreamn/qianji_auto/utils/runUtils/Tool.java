@@ -2,6 +2,7 @@ package cn.dreamn.qianji_auto.utils.runUtils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -151,6 +152,12 @@ public class Tool {
         } catch (Exception e) {
             Log.i("写入缓存异常！" + e);
         }
+    }
+
+    public static void stopApp(Context context, String packageName) {
+        ActivityManager mActivityManager = (ActivityManager)
+                context.getSystemService(Context.ACTIVITY_SERVICE);
+        mActivityManager.killBackgroundProcesses(packageName);
     }
 //dateTime.getTimeInMillis()
 

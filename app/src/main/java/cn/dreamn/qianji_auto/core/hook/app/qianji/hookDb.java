@@ -140,12 +140,12 @@ public class hookDb {
                                 ArrayList<Data> asset = dbHelper[0].getAsset(finalUserId);
                                 ArrayList<Data> category = dbHelper[0].getCategory(finalUserId);
                                 ArrayList<Data> userBook = dbHelper[0].getUserBook(finalUserId);
-                                ArrayList<Data> billInfo = dbHelper[0].getBills(finalUserId);
+                             //   ArrayList<Data> billInfo = dbHelper[0].getBills(finalUserId);
                                 Bundle bundle = new Bundle();
                                 bundle.putParcelableArrayList("asset", asset);
                                 bundle.putParcelableArrayList("category", category);
                                 bundle.putParcelableArrayList("userBook", userBook);
-                                bundle.putParcelableArrayList("billInfo", billInfo);
+                                //   bundle.putParcelableArrayList("billInfo", billInfo);
                                 //  utils.log(bundle.toString());
                                 utils.send2auto(bundle);
 
@@ -153,6 +153,8 @@ public class hookDb {
                                 XposedHelpers.callMethod(activity, "finish");
 
                                 dbHelper[0].finalize();
+
+
                             } else {
                                 utils.log("intent获取失败");
                             }

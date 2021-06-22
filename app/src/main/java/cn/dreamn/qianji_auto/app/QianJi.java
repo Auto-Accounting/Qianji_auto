@@ -26,6 +26,7 @@ import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
+import es.dmoral.toasty.Toasty;
 
 public class QianJi implements IApp {
     private static QianJi qianJi;
@@ -77,6 +78,8 @@ public class QianJi implements IApp {
     @Override
     public void asyncDataBefore(Context context) {
         if (AppStatus.xposedActive(context)) {
+            //杀死其他应用
+            //  Tool.stopApp(context,"com.mutangtech.qianji");
             Intent intent = new Intent();
             intent.setClassName("com.mutangtech.qianji", "com.mutangtech.qianji.ui.main.MainActivity");
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -97,15 +100,24 @@ public class QianJi implements IApp {
 
     @Override
     public void asyncDataAfter(Context context, Bundle extData) {
-
+        //Toasty.info(context,"收到钱迹数据！正在后台同步中...").show();
         ArrayList<Data> asset = extData.getParcelableArrayList("asset");
 
         ArrayList<Data> category = extData.getParcelableArrayList("category");
 
         ArrayList<Data> userBook = extData.getParcelableArrayList("userBook");
 
-        ArrayList<Data> billInfo = extData.getParcelableArrayList("billInfo");
-        if (asset == null || category == null || userBook == null || billInfo == null) {
+        //   ArrayList<Data> billInfo = extData.getParcelableArrayList("billInfo");
+        //  Tool.stopApp(context,"com.mutangtech.qianji");
+
+        Handler mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                Toasty.success(context, "同步成功！").show();
+            }
+        };
+
+        if (asset == null || category == null || userBook == null) {
             Log.i("钱迹数据信息无效");
             return;
         }
@@ -171,7 +183,7 @@ public class QianJi implements IApp {
 
             Log.i("账本数据处理完毕");
 
-
+            mHandler.sendEmptyMessage(0);
         });
 
 /*

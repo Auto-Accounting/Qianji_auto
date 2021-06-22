@@ -31,6 +31,7 @@ import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class ErrorActivity extends AppCompatActivity {
 
@@ -67,13 +68,13 @@ public class ErrorActivity extends AppCompatActivity {
                 //  Tool.goUrl(context, jsonObject.getString("download"));
                 dialog.dismiss();
                 // TODO Report Err
-                //  Tool.restartApp(this);
+                Tool.restartApp(this);
             });
 
             button_last.setOnClickListener(v -> {
 
                 dialog.dismiss();
-                //  Tool.restartApp(this);
+                Tool.restartApp(this);
             });
 
             DialogCustomViewExtKt.customView(dialog, null, textEntryView,
