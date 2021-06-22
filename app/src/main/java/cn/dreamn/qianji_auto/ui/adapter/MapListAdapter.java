@@ -2,8 +2,13 @@ package cn.dreamn.qianji_auto.ui.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
@@ -30,10 +35,18 @@ public class MapListAdapter extends BaseAdapter {
 
         item_title2.setText(item.getString("name"));
         item_title.setText(item.getString("mapName"));
+        Handler mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                Glide.with(mContext)
+                        .load((String) msg.obj)
+                        .into(icon_header);
+            }
+        };
         Assets.getPic(item.getString("mapName"), asset2s -> {
-            Glide.with(mContext)
-                    .load(asset2s)
-                    .into(icon_header);
+            Message message = new Message();
+            message.obj = asset2s;
+            mHandler.sendMessage(message);
         });
     }
 }

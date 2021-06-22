@@ -394,7 +394,6 @@ public class AutoFloat2 {
         }
 
 
-
         BookNames.getAllLen(length -> {
             if (length != 0) {
                 BookNames.getOne(billInfo.getBookName(), bundle -> {
@@ -405,29 +404,53 @@ public class AutoFloat2 {
             }
         });
 
+
+        Handler mHandler1 = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                Glide.with(getContext())
+                        .load((String) msg.obj)
+                        .into(iv_category);
+            }
+        };
         CategoryNames.getPic(billInfo.getCateName(), type, book_id, pic -> {
             if (pic == null || pic.equals(""))
                 pic = "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png";
             //  myBitmapUtils.disPlay(iv_category, pic);
-            Glide.with(getContext())
-                    .load(pic)
-                    .into(iv_category);
+            Message message = new Message();
+            message.obj = pic;
+            mHandler1.sendMessage(message);
 
         });
 
         iv_category.setColorFilter(getContext().getColor(R.color.darkGrey));
-
+        Handler mHandler2 = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                Glide.with(getContext())
+                        .load((String) msg.obj)
+                        .into(iv_account1);
+            }
+        };
         Assets.getPic(billInfo.getAccountName(), asset2s -> {
             //  myBitmapUtils.disPlay(iv_account1, asset2s);
-            Glide.with(getContext())
-                    .load(asset2s)
-                    .into(iv_account1);
+            Message message = new Message();
+            message.obj = asset2s;
+            mHandler2.sendMessage(message);
         });
+        Handler mHandler3 = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                Glide.with(getContext())
+                        .load((String) msg.obj)
+                        .into(iv_account2);
+            }
+        };
         Assets.getPic(billInfo.getAccountName2(), asset2s -> {
             //  myBitmapUtils.disPlay(iv_account2, asset2s);
-            Glide.with(getContext())
-                    .load(asset2s)
-                    .into(iv_account2);
+            Message message = new Message();
+            message.obj = asset2s;
+            mHandler3.sendMessage(message);
         });
 
 

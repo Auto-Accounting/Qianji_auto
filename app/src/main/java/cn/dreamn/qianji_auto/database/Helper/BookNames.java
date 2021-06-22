@@ -251,8 +251,9 @@ public class BookNames {
                        dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
                    }
                }
-                dialog.show();
                 dialog.cancelable(false);
+                dialog.show();
+
 
                 list_view.setOnItemClickListener((parent, view, position, id) -> {
                     getOne.onSelect(books[position]);

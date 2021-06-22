@@ -62,8 +62,10 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
+
         if (!handleException(ex) && mDefaultHandler != null) {
             // 如果用户没有处理则让系统默认的异常处理器来处理
+            Log.d("异常处理有问题~");
             mDefaultHandler.uncaughtException(thread, ex);
         } else {
             try {
@@ -112,6 +114,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 mContext.startActivity(intent);
 
                 Looper.loop();
+
             }
         }.start();
 

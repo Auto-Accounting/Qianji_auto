@@ -21,6 +21,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -228,21 +231,28 @@ public class MainFragment extends BaseFragment {
         String def_book = BookNames.getDefault();
         default_book.setText(def_book);
 
+        Handler mHandler3 = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                Glide.with(getContext())
+                        .load(msg.obj)
+                        .into(new CustomTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                book_img.setBackground(resource);
+                            }
 
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                            }
+                        });
+            }
+        };
         BookNames.getIcon(def_book, icon -> {
-            Glide.with(getContext())
-                    .load(icon)
-                    .into(new CustomTarget<Drawable>() {
-                        @Override
-                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                            book_img.setBackground(resource);
-                        }
-
-                        @Override
-                        public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                        }
-                    });
+            Message message = new Message();
+            message.obj = icon;
+            mHandler3.sendMessage(message);
 
         });
     }
