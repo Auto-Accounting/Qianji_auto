@@ -153,7 +153,6 @@ public class Tool {
             Log.i("写入缓存异常！" + e);
         }
     }
-
     public static void stopApp(Context context, String packageName) {
         ActivityManager mActivityManager = (ActivityManager)
                 context.getSystemService(Context.ACTIVITY_SERVICE);

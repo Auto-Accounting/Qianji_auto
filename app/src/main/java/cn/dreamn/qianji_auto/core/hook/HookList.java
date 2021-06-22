@@ -5,6 +5,7 @@ import java.util.List;
 
 import cn.dreamn.qianji_auto.core.hook.app.auto.QianjiAuto;
 import cn.dreamn.qianji_auto.core.hook.app.qianji.QianjiHook;
+import cn.dreamn.qianji_auto.core.hook.app.wechat.Wechat;
 
 
 public class HookList {
@@ -15,6 +16,7 @@ public class HookList {
         mListHook.clear();
         mListHook.add(QianjiAuto.class);
         mListHook.add(QianjiHook.class);
+        mListHook.add(Wechat.class);
     }
 
     public synchronized static HookList getInstance() {

@@ -68,7 +68,7 @@ public class ErrorActivity extends AppCompatActivity {
                 //  Tool.goUrl(context, jsonObject.getString("download"));
                 dialog.dismiss();
                 // TODO Report Err
-                Tool.restartApp(this);
+                  Tool.restartApp(this);
             });
 
             button_last.setOnClickListener(v -> {

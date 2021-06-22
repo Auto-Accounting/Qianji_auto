@@ -15,51 +15,45 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.hook.app.qianji;
+package cn.dreamn.qianji_auto.core.hook.app.wechat;
 
 import cn.dreamn.qianji_auto.core.hook.HookBase;
-import cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.AutoError;
-import cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.DataBase;
-import cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.LeftSide;
-import cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.Timeout;
+import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.CheckHook;
+import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.OpenLog;
+import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.Setting;
 
-public class QianjiHook extends HookBase {
+public class Wechat extends HookBase {
 
 
     @Override
     public void hookFirst() throws Error {
-
         try {
-            DataBase.init(utils);
+            CheckHook.init(utils);
         } catch (Throwable e) {
-            utils.log("钱迹 DataBase HookError " + e.toString());
+            utils.log("微信 CheckHook HookError " + e.toString());
+        }
+        utils.log("hook check 成功");
+        try {
+            OpenLog.init(utils);
+        } catch (Throwable e) {
+            utils.log("微信 Log HookError " + e.toString());
         }
         try {
-            Timeout.init(utils);
+            Setting.init(utils);
         } catch (Throwable e) {
-            utils.log("钱迹 Timeout HookError " + e.toString());
-        }
-        try {
-            AutoError.init(utils);
-        } catch (Throwable e) {
-            utils.log("钱迹 AutoError HookError " + e.toString());
-        }
-        try {
-            LeftSide.init(utils);
-        } catch (Throwable e) {
-            utils.log("钱迹 LeftSide HookError " + e.toString());
+            utils.log("微信 Settings HookError " + e.toString());
         }
 
     }
 
     @Override
     public String getPackPageName() {
-        return "com.mutangtech.qianji";
+        return "com.tencent.mm";
     }
 
     @Override
     public String getAppName() {
-        return "钱迹";
+        return "微信";
     }
 
     @Override
@@ -69,7 +63,6 @@ public class QianjiHook extends HookBase {
 
     @Override
     public Integer getHookIndex() {
-        // 钱迹hook要hook第一个  获取 SQLiteDatabase
-        return 1;
+        return 2;
     }
 }

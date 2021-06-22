@@ -145,7 +145,7 @@ public class DBHelper {
     }
 
     @Override
-    protected void finalize() {
+    public void finalize() {
         try {
             super.finalize();
             if (db != null && !isObj) {
