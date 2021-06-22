@@ -19,10 +19,9 @@ import java.util.ArrayList;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.core.hook.app.qianji.Data;
-import cn.dreamn.qianji_auto.database.Helper.Assets;
-import cn.dreamn.qianji_auto.database.Helper.BookNames;
+import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Helper.Caches;
-import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.database.Table.CategoryName;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
@@ -110,8 +109,72 @@ public class QianJi implements IApp {
             Log.i("钱迹数据信息无效");
             return;
         }
-        //插入数据库
 
+        Task.onThread(() -> {
+            DbManger.db.CategoryNameDao().clean();
+            for (int i = 0; i < category.size(); i++) {
+                Data d = category.get(i);
+                Bundle m = d.get();
+                String name = m.getString("name");
+                String icon = m.getString("icon");
+                String level = m.getString("level");
+                String type = m.getString("type");
+                String self_id = m.getString("id");
+                String parent_id = m.getString("parent");
+                String book_id = m.getString("book_id");
+                String sort = m.getString("sort");
+                if (self_id == null || self_id.equals("")) {
+                    self_id = String.valueOf(System.currentTimeMillis());
+                }
+                if (sort == null || sort.equals("")) {
+                    sort = "500";
+                }
+                String self = self_id;
+                String s = sort;
+                CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type, book_id);
+                if (categoryNames.length != 0) {
+                    break;
+                }
+                DbManger.db.CategoryNameDao().add(name, icon, level, type, self, parent_id, book_id, s);
+
+            }
+            Log.i("分类数据处理完毕");
+
+
+            //资产数据处理
+            DbManger.db.Asset2Dao().clean();
+
+            for (int i = 0; i < asset.size(); i++) {
+                Data d = asset.get(i);
+                Bundle m = d.get();
+                Log.d(m.getString("name") + "->type->" + m.getString("type"));
+                if (m.getString("type").equals("5"))
+                    continue;
+                DbManger.db.Asset2Dao().add(m.getString("name"), m.getString("icon"), m.getInt("sort"));
+
+            }
+            Log.i("资产数据处理完毕");
+
+            DbManger.db.BookNameDao().clean();
+            for (int i = 0; i < userBook.size(); i++) {
+                Data d = userBook.get(i);
+                Bundle m = d.get();
+                String bookName = m.getString("name");
+                String icon = m.getString("cover");
+                String bid = m.getString("id");
+                if (bid == null || bid.equals("")) {
+                    bid = String.valueOf(System.currentTimeMillis());
+                }
+                DbManger.db.BookNameDao().add(bookName, icon, bid);
+
+            }
+
+            Log.i("账本数据处理完毕");
+
+
+        });
+
+/*
         //处理分类数据
         CategoryNames.clean();
         for (int i = 0; i < category.size(); i++) {
@@ -119,10 +182,10 @@ public class QianJi implements IApp {
             Bundle m = d.get();
             CategoryNames.insert(m.getString("name"), m.getString("icon"), m.getString("level"), m.getString("type"), m.getString("id"), m.getString("parent"), m.getString("book_id"), m.getString("sort"), isSucceed -> {
                 Log.d("分类数据处理结果:" + isSucceed);
-            });
-        }
+            })*/
+
         //处理资产数据
-        Assets.cleanAsset();
+      /*  Assets.cleanAsset();
         for (int i = 0; i < asset.size(); i++) {
             Data d = asset.get(i);
             Bundle m = d.get();
@@ -133,15 +196,8 @@ public class QianJi implements IApp {
                 Log.d("资产数据处理完~");
             });
 
-        }
-        BookNames.clean();
-        for (int i = 0; i < userBook.size(); i++) {
-            Data d = userBook.get(i);
-            Bundle m = d.get();
-            BookNames.add(m.getString("name"), m.getString("cover"), m.getString("id"), () -> {
-                Log.d("账本数据处理完~");
-            });
-        }
+        }*/
+
         //获取账单数据
         // TODO 插入数据库
 

@@ -41,7 +41,6 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.CategoryName;
 import cn.dreamn.qianji_auto.ui.utils.CategoryUtils;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import es.dmoral.toasty.Toasty;
 
@@ -176,6 +175,7 @@ public class CategoryNames {
 
 
     }
+
 
     public static void update(int id, String name, String type, String book_id,getCateNameBoolean getCateName) {
         Task.onThread(()-> {

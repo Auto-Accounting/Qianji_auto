@@ -25,6 +25,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,17 +77,7 @@ public class MainFragment extends BaseFragment {
     RelativeLayout linearLayout;
     @BindView(R.id.title_count)
     RelativeLayout title_count;
-/*
-    @BindView(R.id.cv_list)
-    CardViewGrid cv_list;
-    @BindView(R.id.cv_log)
-    CardViewGrid cv_log;
-    @BindView(R.id.cv_complie)
-    CardViewGrid cv_complie;
-    @BindView(R.id.cv_other)
-    CardViewGrid cv_other;
-    @BindView(R.id.cv_custom)
-    CardViewGrid cv_custom;*/
+
 
 
     @BindView(R.id.rl_set)
@@ -165,6 +156,11 @@ public class MainFragment extends BaseFragment {
     RelativeLayout book_img;
     @BindView(R.id.default_book)
     TextView default_book;
+
+
+    @BindView(R.id.view_headImg)
+    View view_headImg;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_main_2;
@@ -199,8 +195,21 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void initListeners() {
-        mode_select1.setOnClickListener(v-> openNewPage(MainModeFragment.class));
-        mode_select2.setOnClickListener(v-> openNewPage(MainModeFragment.class));
+        book_img.setOnClickListener(v -> {
+            Log.d("click");
+            Handler mHandler = new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(@NonNull Message msg) {
+                    setHeadImg();
+                }
+            };
+            BookNames.showBookSelect(getContext(), "请选择账本", false, bundle -> {
+                BookNames.change(bundle.getString("name"));
+                mHandler.sendEmptyMessage(0);
+            });
+        });
+        mode_select1.setOnClickListener(v -> openNewPage(MainModeFragment.class));
+        mode_select2.setOnClickListener(v -> openNewPage(MainModeFragment.class));
         initGridLayout();
     }
 
@@ -228,6 +237,10 @@ public class MainFragment extends BaseFragment {
 
         }
         //SetImg
+        setHeadImg();
+    }
+
+    public void setHeadImg() {
         String def_book = BookNames.getDefault();
         default_book.setText(def_book);
 
@@ -257,15 +270,14 @@ public class MainFragment extends BaseFragment {
         });
     }
 
-
-    public void initGridLayout(){
-        rl_set.setOnClickListener(v->{
+    public void initGridLayout() {
+        rl_set.setOnClickListener(v -> {
             openNewPage(MainSetFragment.class);
         });
-        rl_map.setOnClickListener(v->{
+        rl_map.setOnClickListener(v -> {
             openNewPage(MainMapFragment.class);
         });
-        rl_asset.setOnClickListener(v->{
+        rl_asset.setOnClickListener(v -> {
             openNewPage(MainCardFragment.class);
         });
         rl_sort.setOnClickListener(v->{
@@ -335,6 +347,8 @@ public class MainFragment extends BaseFragment {
         rl_about.setOnClickListener(v->{
             openNewPage(AboutFragment.class);
         });
+
+
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
