@@ -81,6 +81,13 @@ public class Utils {
         sendBroadcast(SEND_ACTION, bundle);
     }
 
+    public void sendString(String str) {
+        Bundle bundle = new Bundle();
+        bundle.putString("data", str);
+        log("广播给自动记账：" + str, true);
+        sendBroadcast(SEND_ACTION, bundle);
+    }
+
     public void send2auto(Bundle bundle) {
         log("APP数据广播给自动记账：" + bundle.toString(), true);
         sendBroadcast(SEND_ACTION_APP, bundle);
@@ -123,7 +130,7 @@ public class Utils {
     /**
      * 获取版本名
      */
-    protected String getVerName() {
+    public String getVerName() {
         String verName = "";
         try {
             verName = mContext.getPackageManager().
@@ -139,7 +146,7 @@ public class Utils {
      *
      * @return
      */
-    protected int getVerCode() {
+    public int getVerCode() {
         int verName = 0;
         try {
             verName = mContext.getPackageManager().

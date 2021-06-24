@@ -19,7 +19,8 @@ package cn.dreamn.qianji_auto.core.hook.app.wechat;
 
 import cn.dreamn.qianji_auto.core.hook.HookBase;
 import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.CheckHook;
-import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.OpenLog;
+import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.LoginInfo;
+import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.RedPackage;
 import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.Setting;
 
 public class Wechat extends HookBase {
@@ -33,15 +34,25 @@ public class Wechat extends HookBase {
             utils.log("微信 CheckHook HookError " + e.toString());
         }
         utils.log("hook check 成功");
-        try {
+       /* try {
             OpenLog.init(utils);
         } catch (Throwable e) {
             utils.log("微信 Log HookError " + e.toString());
+        }*/
+        try {
+            LoginInfo.init(utils);
+        } catch (Throwable e) {
+            utils.log("微信 LoginInfo HookError " + e.toString());
         }
         try {
             Setting.init(utils);
         } catch (Throwable e) {
             utils.log("微信 Settings HookError " + e.toString());
+        }
+        try {
+            RedPackage.init(utils);
+        } catch (Throwable e) {
+            utils.log("微信 RedPackage HookError " + e.toString());
         }
 
     }
