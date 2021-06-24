@@ -54,7 +54,6 @@ import cn.dreamn.qianji_auto.ui.adapter.ItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.utils.B64;
-import cn.dreamn.qianji_auto.ui.views.LoadingDialog;
 import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.JsEngine;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -256,8 +255,6 @@ public class NoticeFragment extends BaseFragment {
                     AutoBillWeb.httpSend(getContext(), this, "send", result);
                 }else if(text=="申请适配") {
 
-                    LoadingDialog dialog1 = new LoadingDialog(getContext(), "正在提交申请，请稍候...");
-                    dialog1.show();
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("name", "适配申请");
                     jsonObject.put("text", item.getString("rawData"));
