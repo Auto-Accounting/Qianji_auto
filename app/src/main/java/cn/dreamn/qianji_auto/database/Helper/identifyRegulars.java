@@ -21,16 +21,55 @@ package cn.dreamn.qianji_auto.database.Helper;
 import android.os.Bundle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.IdentifyRegular;
 import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
+import cn.dreamn.qianji_auto.utils.runUtils.JsEngine;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 public class identifyRegulars {
     private static ArrayList<Bundle> list;
-    public static String getRegData(String regex,  String remark, String account, String type, String money,  String shopName, String account2, String client,String source,String fee){
+
+    public static void run(String identify, String app, String data, BundleGet get) {
+        getAllRegularJs(data, identify, app, str -> {
+            //获得所有Js
+            String result = JsEngine.run(str);
+            if (!result.startsWith("undefined")) {
+                //remark+'|'+account+'|'+type+'|'+money+'|'+shopName+'|'+account2+'|'+client+'|'+source+'|'+fee +'|'+index
+                String[] strs = result.split("\\|");
+                Log.i("strs", Arrays.toString(strs));
+                if (strs.length < 10) {
+                    get.onGet(null);
+                    return;
+                }
+                BillInfo billInfo = new BillInfo();
+                billInfo.setRemark(strs[0]);
+                billInfo.setAccountName(strs[1]);
+                billInfo.setType(strs[2]);
+                billInfo.setMoney(strs[3]);
+                billInfo.setShopAccount(strs[4]);
+                billInfo.setAccountName2(strs[5]);
+                billInfo.setSilent(strs[6].equals("true"));
+                billInfo.setSource(strs[7]);
+                billInfo.setFee(strs[8]);
+                get.onGet(billInfo);
+            } else {
+                Log.i("js执行结果为NULL");
+                get.onGet(null);
+            }
+        });
+    }
+
+    public interface BundleGet {
+        void onGet(BillInfo billInfo);
+    }
+
+    public static String getRegData(String regex, String remark, String account, String type, String money, String shopName, String account2, String client, String source, String fee) {
         String data = "pattern= /%s/;\n" +
 
                 "        if(pattern.test(body)){\n" +

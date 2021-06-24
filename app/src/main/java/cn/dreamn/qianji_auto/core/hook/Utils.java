@@ -37,15 +37,21 @@ public class Utils {
     private final Context mContext;
     private final ClassLoader mAppClassLoader;
     private final String appName;
+    private final String packageName;
 
-    public Utils(Context context, ClassLoader classLoader, String name) {
+    public Utils(Context context, ClassLoader classLoader, String name, String packageName) {
         mContext = context;
         mAppClassLoader = classLoader;
         appName = name;
+        this.packageName = packageName;
     }
 
     public String getAppName() {
         return appName;
+    }
+
+    public String getPackageName() {
+        return packageName;
     }
 
     public ClassLoader getClassLoader() {
@@ -82,8 +88,13 @@ public class Utils {
     }
 
     public void sendString(String str) {
+        sendString(str, "app");
+    }
+
+    public void sendString(String str, String identify) {
         Bundle bundle = new Bundle();
         bundle.putString("data", str);
+        bundle.putString("app_identify", identify);
         log("广播给自动记账：" + str, true);
         sendBroadcast(SEND_ACTION, bundle);
     }
@@ -120,6 +131,7 @@ public class Utils {
     }
 
     private void sendBroadcast(String Action, Bundle bundle) {
+        bundle.putString("app_package", getPackageName());
         Intent intent = new Intent(Action);
         intent.setPackage(BuildConfig.APPLICATION_ID);
         intent.putExtras(bundle);

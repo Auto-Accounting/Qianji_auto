@@ -116,6 +116,11 @@ public class Tool {
     }
 
     @SuppressLint("SimpleDateFormat")
+    public static String getShortTime(int date, String format) {
+        return (new SimpleDateFormat(format)).format(new Date(date));
+    }
+
+    @SuppressLint("SimpleDateFormat")
     public static String getTime(String s, long time) {
         return (new SimpleDateFormat(s)).format(new Date(time));
     }

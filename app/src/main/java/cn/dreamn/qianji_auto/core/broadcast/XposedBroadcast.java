@@ -21,7 +21,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 
+import androidx.annotation.NonNull;
+
+import cn.dreamn.qianji_auto.bills.BillInfo;
+import cn.dreamn.qianji_auto.bills.SendDataToApp;
+import cn.dreamn.qianji_auto.database.Helper.AppDatas;
+import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 
@@ -37,6 +46,29 @@ public class XposedBroadcast extends BroadcastReceiver {
             String tag = extData.getString("tag");
             String msg = extData.getString("msg");
             Log.i(tag, msg);
+        } else if (action.equals("cn.dreamn.qianji_auto.XPOSED")) {
+            Bundle extData = intent.getExtras();
+            if (extData == null) return;
+            String data = extData.getString("data");
+            String identify = extData.getString("app_identify");
+            String app = extData.getString("app_package");
+            String log = "自动记账收到数据：\n源自：" + app + "\n数据：" + data;
+            Log.i("自动记账（Xp）", log);
+            AppDatas.add(identify, app, data);
+            Handler mHandler = new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(@NonNull Message msg) {
+                    SendDataToApp.call(context, (BillInfo) msg.obj);
+                }
+            };
+            identifyRegulars.run(identify, app, data, billInfo -> {
+                if (billInfo != null) {
+                    Message message = new Message();
+                    message.obj = billInfo;
+                    mHandler.sendMessage(message);
+                }
+
+            });
         }
         /*String action = intent.getAction();
         if (action == null) return;

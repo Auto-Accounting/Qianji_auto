@@ -28,7 +28,7 @@ public interface AppDataDao {
     AppData[] loadAll(String identify);
 
 
-    @Query("INSERT INTO AppData(rawData,identify,fromApp,time) values(:rawData,:identify,:fromApp,strftime('%s','now'))")
+    @Query("INSERT INTO AppData(rawData,identify,fromApp,time,sort,use) values(:rawData,:identify,:fromApp,strftime('%s','now'),1,1)")
     void add(String rawData, String identify, String fromApp);
 
     @Query("DELETE FROM AppData WHERE id=:pos")

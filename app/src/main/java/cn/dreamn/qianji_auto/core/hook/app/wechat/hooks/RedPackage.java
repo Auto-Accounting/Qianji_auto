@@ -91,7 +91,6 @@ public class RedPackage {
         Field shopAccount = qVar.getDeclaredField(Info.redPackage.shop(utils));
         Field status = qVar.getDeclaredField(Info.redPackage.status(utils));
         Field groups = qVar.getDeclaredField(Info.redPackage.groups(utils));
-        //  Field uid = qVar.getDeclaredField(Info.redPackage.uid(utils));
         double m = Integer.parseInt(money.get(object).toString()) / 100.0d;
 
         //增加 isGroup

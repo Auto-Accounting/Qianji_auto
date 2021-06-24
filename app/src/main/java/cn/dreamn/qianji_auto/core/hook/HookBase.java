@@ -85,7 +85,7 @@ public abstract class HookBase implements IHooker {
 
 
     public void init() {
-        utils = new Utils(mContext, mAppClassLoader, getAppName());
+        utils = new Utils(mContext, mAppClassLoader, getAppName(), getPackPageName());
         mHookCount = mHookCount + 1;
 //        utils.log("hook id " + mHookCount.toString() + "   " + getAppName());
         if (mHookCountIndex != 0 && !mHookCount.equals(mHookCountIndex)) {

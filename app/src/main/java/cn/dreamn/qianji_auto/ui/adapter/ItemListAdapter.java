@@ -11,6 +11,7 @@ import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
 import cn.dreamn.qianji_auto.utils.runUtils.AppUtils;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class ItemListAdapter extends BaseAdapter {
     private final Context mContext;
@@ -32,9 +33,10 @@ public class ItemListAdapter extends BaseAdapter {
         TextView tv_could = (TextView) holder.findView(R.id.tv_could);
         TextView tv_local = (TextView) holder.findView(R.id.tv_local);
         tv_data.setText(item.getString("rawData"));
-        tv_date.setText(item.getString("time"));
+        tv_date.setText(Tool.getShortTime(Integer.parseInt(item.getString("time")) * 1000, "yyyy-MM-dd HH:mm:ss"));
         iv_appIcon.setImageBitmap(AppUtils.getBitmap(mContext, item.getString("fromApp")));
         tv_appName.setText(AppUtils.getAppName(mContext, item.getString("fromApp")));
+
         //已适配 未适配
         String bool = item.getString("cloud");
         if (bool != null) {
