@@ -20,9 +20,6 @@ package cn.dreamn.qianji_auto.bills;
 import android.annotation.SuppressLint;
 import android.net.Uri;
 
-
-
-
 import java.util.Set;
 
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -429,8 +426,10 @@ public class BillInfo {
     }
 
     public boolean isAvaiable() {
+        if (this.fee != null && this.fee.equals(""))
+            this.fee = "0";
         //检查手续费
-        if (this.fee !=null && Float.parseFloat(this.fee)>Float.parseFloat(this.money)) {
+        if (this.fee != null && Float.parseFloat(this.fee) > Float.parseFloat(this.money)) {
             Log.i("Qianji_Analyze", "手续费错误" + this.time);
             return false;
         }

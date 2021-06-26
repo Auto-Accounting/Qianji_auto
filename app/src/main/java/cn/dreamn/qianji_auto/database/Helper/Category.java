@@ -45,6 +45,7 @@ public class Category {
                     getStr.onGet(result);
                 } catch (Exception e) {
                     Log.d(" 自动分类执行出错！" + e.toString());
+                    e.printStackTrace();
                     getStr.onGet("NotFound");
                 }
             });
@@ -121,10 +122,10 @@ public class Category {
 
            String jsInner = "\n" +
                    "const isInTimeInner = function (minTime, maxTime,timeHour,timeMinute) {\n" +
-                   "\n" +
-                   "    let regT = /([01\\b]\\d|2[0-3]):([0-5]\\d)/;\n" +
-                   "    const t1 = minTime.match(regT);\n" +
-                   "    const t2 = maxTime.match(regT);\n" +
+                   // "    let regT = /([01\\b]\\d|2[0-3]):([0-5]\\d)/;\n" +
+                   //   "    let regT = /123/;\n" +
+                   "    const t1 = minTime.match(/([01\\\\b]\\\\d|2[0-3]):([0-5]\\\\d)/);\n" +
+                   "    const t2 = maxTime.match(/([01\\\\b]\\\\d|2[0-3]):([0-5]\\\\d)/);\n" +
                    "    if(t1==null||t2==null||t1.length<3||t2.length<3){\n" +
                    "        return false;\n" +
                    "    }\n" +
@@ -161,8 +162,7 @@ public class Category {
 
         String jsInner = "\n" +
                 "const isInTimeInner = function (minTime, maxTime,timeHour,timeMinute) {\n" +
-                "\n" +
-                "    let regT = /([01\\b]\\d|2[0-3]):([0-5]\\d)/;\n" +
+                "    let regT = /([01\\b]\\d|2[0-3]):([0-5]\\d)/\n" +
                 "    const t1 = minTime.match(regT);\n" +
                 "    const t2 = maxTime.match(regT);\n" +
                 "    if(t1==null||t2==null||t1.length<3||t2.length<3){\n" +
