@@ -24,7 +24,7 @@ import cn.dreamn.qianji_auto.database.Table.AppData;
 
 @Dao
 public interface AppDataDao {
-    @Query("SELECT * FROM AppData WHERE identify=:identify  order by id")
+    @Query("SELECT * FROM AppData WHERE identify=:identify  order by id  desc")
     AppData[] loadAll(String identify);
 
 

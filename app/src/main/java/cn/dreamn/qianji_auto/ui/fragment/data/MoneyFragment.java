@@ -128,13 +128,13 @@ public class MoneyFragment extends BaseFragment {
         }
     };
     private void loadFromData(RefreshLayout refreshLayout) {
-        Task.onMain(1000,()->{
+        Task.onThread(() -> {
             AutoBills.getDates(datas -> {
-                if(datas==null||datas.length==0){
+                if (datas == null || datas.length == 0) {
                     mHandler.sendEmptyMessage(HANDLE_ERR);
-                }else{
-                    list= Arrays.asList(datas);
-                   // Log.d(list.toString());
+                } else {
+                    list = Arrays.asList(datas);
+                    // Log.d(list.toString());
                     mHandler.sendEmptyMessage(HANDLE_OK);
                 }
             });

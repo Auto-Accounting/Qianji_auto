@@ -221,7 +221,7 @@ public class LogFragment extends BaseFragment {
 
     public void loadFromData(RefreshLayout refreshLayout) {
 
-        Task.onMain(1000, () -> Log.getAll(logs -> {
+        Task.onThread(() -> Log.getAll(logs -> {
             if (logs == null || logs.length == 0) {
                 mHandler.sendEmptyMessage(HANDLE_ERR);
             } else {

@@ -116,7 +116,8 @@ public class Tool {
     }
 
     @SuppressLint("SimpleDateFormat")
-    public static String getShortTime(int date, String format) {
+    public static String getShortTime(long date, String format) {
+
         return (new SimpleDateFormat(format)).format(new Date(date));
     }
 

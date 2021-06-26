@@ -192,7 +192,7 @@
         if(jsArrElement==="1")return "收入"
         if(jsArrElement==="2")return "转账"
         if(jsArrElement==="3")return "信用还款"
-        return "";
+        return jsArrElement;
     }
 
     $("#test").on("click", function (e) {
@@ -236,7 +236,7 @@
         var len=1;
         if(pattern.test($("#str_input").val())){
             var array = pattern.exec($("#str_input").val());
-            console.log(array)
+           // console.log(array)
             len=array.length;
             for(var i=1;i<len;i++){
                 str+="<b>【"+i+"】</b> "+array[i]+"<br>"
@@ -268,7 +268,7 @@
         let data = getQueryVariable("data");
         const id = getQueryVariable("id");
         //const type= getQueryVariable("type");
-        if(data!==undefined&&id!==undefined){
+        if(data!==undefined){
             data=Base64.decode(data);
             console.log(data)
             const dataUtils = new DataUtils();
@@ -310,7 +310,7 @@
         const dataUtils = new DataUtils();
         dataUtils.put("name", $("#sort_name").val())
         dataUtils.put("text", $("#str_input").html())
-        dataUtils.put("regular", $("#regex_input").html())
+        dataUtils.put("regular", $("#regex_input").val())
         dataUtils.put("fromApp", $("#sort_package").val())
 
         dataUtils.put("des", $("#sort_remark").val())
@@ -323,7 +323,6 @@
 
             "        if(pattern.test(body)){\n" +
             "                var array = pattern.exec(body);\n" +
-            "                console.log(array);\n" +
             "                var remarkNum='%s',accountNum='%s',typeNum='%s',moneyNum='%s',shopNameNum='%s',accountNum2='%s',clientNum='%s',sourceNum='%s',feeNum='%s';\n" +
             "                \n" +
             "                for(var i=1;i<array.length;i++){\n" +
@@ -358,7 +357,7 @@
             Toast("正则不能为空", 2000);
             return "";
         }
-        if ($("#sort_remark").val() === "") {
+        if ($("#str_input").val() === "") {
             Toast("测试文本不能为空", 2000);
             return "";
         }

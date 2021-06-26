@@ -32,7 +32,6 @@ import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -49,13 +48,12 @@ import java.util.List;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.AppDatas;
-import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.adapter.ItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.utils.B64;
 import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
-import cn.dreamn.qianji_auto.utils.runUtils.JsEngine;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import es.dmoral.toasty.Toasty;
@@ -93,7 +91,8 @@ public class NoticeFragment extends BaseFragment {
                     break;
                 case HANDLE_OK:
                     mAdapter.refresh(list);
-                    Log.m("Qianji-list", list.toString());
+                    if (list != null)
+                        Log.m("Qianji-list", list.toString());
                     Task.onMain(1000, () -> statusView.showContentView());
                     break;
                 case HANDLE_REFRESH:
@@ -191,7 +190,7 @@ public class NoticeFragment extends BaseFragment {
             Bundle item = list.get(i);
             Log.d("item", item.toString());
             String[] strings;
-            String bool=item.getString("cloud");
+        /*    String bool=item.getString("cloud");
             if(bool!=null){
                 strings = new String[]{"删除", "创建识别规则", "下载规则"};
             }else{
@@ -201,8 +200,8 @@ public class NoticeFragment extends BaseFragment {
                 }else{
                      strings = new String[]{"删除", "创建识别规则", "申请适配"};
                 }
-            }
-
+            }*/
+            strings = new String[]{"删除", "创建识别规则", "申请适配"};
 
 
             BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
@@ -218,11 +217,34 @@ public class NoticeFragment extends BaseFragment {
                     message.what = HANDLE_REFRESH;
                     message.obj = "删除成功！";
                     mHandler.sendMessage(message);
-                } else if(text=="编辑识别规则") {
+                } /*else if(text=="编辑识别规则") {
                    //TODO open a fragment to edit
-                }else if(text=="创建识别规则") {
-                   // TODO open a fragment to create
-                }else if(text=="下载规则") {
+                }*/ else if (text == "创建识别规则") {
+
+                    DataUtils dataUtils2 = new DataUtils();
+                    dataUtils2.put("account1", "");
+                    dataUtils2.put("account2", "");
+                    dataUtils2.put("type", "0");
+                    dataUtils2.put("source", "");
+                    dataUtils2.put("silent", "1");
+                    dataUtils2.put("money", "");
+                    dataUtils2.put("fee", "");
+                    dataUtils2.put("shopName", "");
+                    dataUtils2.put("shopRemark", "");
+
+                    DataUtils dataUtils = new DataUtils();
+
+                    dataUtils.put("name", "规则创建");
+                    dataUtils.put("text", item.getString("rawData"));
+                    dataUtils.put("regular", item.getString("rawData"));
+                    dataUtils.put("fromApp", item.getString("fromApp"));
+
+                    dataUtils.put("des", "");
+                    dataUtils.put("identify", getType());
+                    dataUtils.put("tableList", dataUtils2.toString());
+
+                    WebViewFragment.openUrl(this, "file:///android_asset/html/Regulars/index.html?type=" + getType() + "&data=" + B64.encode(dataUtils.toString()));
+                }/*else if(text=="下载规则") {
                     Bundle bundle = item.getBundle("cloud_data");
 
                     identifyRegulars.add(
@@ -253,7 +275,7 @@ public class NoticeFragment extends BaseFragment {
                     jsonObject.put("description", item.getString("des"));
                     String result = B64.encode(jsonObject.toString());
                     AutoBillWeb.httpSend(getContext(), this, "send", result);
-                }else if(text=="申请适配") {
+                }*/ else if (text == "申请适配") {
 
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("name", "适配申请");
@@ -277,13 +299,14 @@ public class NoticeFragment extends BaseFragment {
     }
 
     private void loadFromData(RefreshLayout refreshLayout) {
-        Task.onMain(1000, () -> {
+        Task.onThread(() -> {
             AppDatas.getAll(getType(), datas -> {
                 if (datas == null || datas.size() == 0) {
                     mHandler.sendEmptyMessage(HANDLE_ERR);
                 } else {
-
-                    AutoBillWeb.getDataWeb(null, getType(), null, new AutoBillWeb.WebCallback() {
+                    list = datas;
+                    mHandler.sendEmptyMessage(HANDLE_OK);
+                    /*AutoBillWeb.getDataWeb(null, getType(), null, new AutoBillWeb.WebCallback() {
                         @Override
                         public void onFailure() {
                             //失败就不显示了
@@ -361,7 +384,7 @@ public class NoticeFragment extends BaseFragment {
                             Log.m("数据" + list.toString());
                             mHandler.sendEmptyMessage(HANDLE_OK);
                         }
-                    });
+                    });*/
 
                 }
             });

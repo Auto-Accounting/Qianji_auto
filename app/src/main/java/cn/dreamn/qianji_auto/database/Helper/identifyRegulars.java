@@ -54,7 +54,7 @@ public class identifyRegulars {
                 billInfo.setMoney(strs[3]);
                 billInfo.setShopAccount(strs[4]);
                 billInfo.setAccountName2(strs[5]);
-                billInfo.setSilent(strs[6].equals("true"));
+                billInfo.setSilent(strs[6].equals("1"));
                 billInfo.setSource(strs[7]);
                 billInfo.setFee(strs[8]);
                 get.onGet(billInfo);
@@ -74,7 +74,6 @@ public class identifyRegulars {
 
                 "        if(pattern.test(body)){\n" +
                 "                var array = pattern.exec(body);\n" +
-                "                console.log(array);\n" +
                 "                var remarkNum='%s',accountNum='%s',typeNum='%s',moneyNum='%s',shopNameNum='%s',accountNum2='%s',clientNum='%s',sourceNum='%s',feeNum='%s';\n" +
                 "                \n" +
                 "                for(var i=1;i<array.length;i++){\n" +
@@ -124,7 +123,6 @@ public class identifyRegulars {
 
                         "        if(pattern.test(body)){\n" +
                         "                var array = pattern.exec(body);\n" +
-                        "                console.log(array);\n" +
                         "                var remarkNum='%s',accountNum='%s',typeNum='%s',moneyNum='%s',shopNameNum='%s',accountNum2='%s',clientNum='%s',sourceNum='%s',feeNum='%s';\n" +
                         "                \n" +
                         "                for(var i=1;i<array.length;i++){\n" +
@@ -183,6 +181,7 @@ public class identifyRegulars {
     }
 
     public static void getAll(String identify,String fromApp,getAll getA) {
+
         Task.onThread(()-> {
             IdentifyRegular[] identifyRegular;
             if (fromApp == null) {

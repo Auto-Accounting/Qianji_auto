@@ -214,12 +214,12 @@ public class MainMapFragment extends BaseFragment {
 
     public void loadFromData(RefreshLayout refreshLayout){
 
-        Task.onMain(1000,()->{
-            Assets.getAllMap( assets -> {
-                if(assets==null||assets.length==0){
+        Task.onThread(() -> {
+            Assets.getAllMap(assets -> {
+                if (assets == null || assets.length == 0) {
                     mHandler.sendEmptyMessage(HANDLE_ERR);
-                }else{
-                    list= Arrays.asList(assets);
+                } else {
+                    list = Arrays.asList(assets);
 
                     mHandler.sendEmptyMessage(HANDLE_OK);
                 }

@@ -213,12 +213,12 @@ public class cardsFragment2 extends BaseFragment {
 
     public void loadFromData(RefreshLayout refreshLayout){
 
-        Task.onMain(1000,()->{
-            BookNames.getAllIcon(false,books -> {
-                if(books==null||books.length==0){
+        Task.onThread(() -> {
+            BookNames.getAllIcon(false, books -> {
+                if (books == null || books.length == 0) {
                     mHandler.sendEmptyMessage(HANDLE_ERR);
-                }else{
-                    list= Arrays.asList(books);
+                } else {
+                    list = Arrays.asList(books);
                     // assests=asset2s;
 
                     mHandler.sendEmptyMessage(HANDLE_OK);

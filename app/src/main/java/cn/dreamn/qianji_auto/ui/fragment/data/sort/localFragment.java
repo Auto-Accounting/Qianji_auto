@@ -442,7 +442,7 @@ public class localFragment extends BaseFragment {
 
     public void loadFromData(RefreshLayout refreshLayout) {
 
-        Task.onMain(1000, () -> {
+        Task.onThread(() -> {
             Category.getAll(regulars -> {
                 if (regulars == null || regulars.length == 0) {
                     mHandler.sendEmptyMessage(HANDLE_ERR);

@@ -457,7 +457,7 @@ public class localFragment extends BaseFragment {
 
     public void loadFromData(RefreshLayout refreshLayout) {
 
-        Task.onMain(1000, () -> {
+        Task.onThread(() -> {
             identifyRegulars.getAll(type, null, regulars -> {
                 if (regulars == null || regulars.length == 0) {
                     mHandler.sendEmptyMessage(HANDLE_ERR);

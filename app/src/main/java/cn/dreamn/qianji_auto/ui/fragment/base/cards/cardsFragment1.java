@@ -250,14 +250,14 @@ public class cardsFragment1 extends BaseFragment {
 
     public void loadFromData(RefreshLayout refreshLayout){
 
-        Task.onMain(1000,()->{
+        Task.onThread(() -> {
             Assets.getAllIcon(asset2s -> {
 
-                if(asset2s==null||asset2s.length==0){
+                if (asset2s == null || asset2s.length == 0) {
                     mHandler.sendEmptyMessage(HANDLE_ERR);
-                }else{
-                     list=Arrays.asList(asset2s);
-                   // assests=asset2s;
+                } else {
+                    list = Arrays.asList(asset2s);
+                    // assests=asset2s;
 
                     mHandler.sendEmptyMessage(HANDLE_OK);
                 }

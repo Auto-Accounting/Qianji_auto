@@ -46,7 +46,8 @@
             android:paddingEnd="5dp"
             android:text="已适配"
             android:textColor="@color/background_white"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_local"
@@ -60,7 +61,8 @@
             android:paddingEnd="5dp"
             android:text="已适配"
             android:textColor="@color/background_white"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <TextView
