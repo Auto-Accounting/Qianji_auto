@@ -32,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.ContextThemeWrapper;
 
 import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -65,7 +66,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.Tool;
  */
 public class AutoFloat2 {
 
-    private final Context context;
+    private Context context;
     private LinearLayout layout_money;
     private TextView tv_money;
 
@@ -131,10 +132,14 @@ public class AutoFloat2 {
     }
 
     private void initView() {
-        LayoutInflater factory = LayoutInflater.from(context);
+
+        ContextThemeWrapper ctx = new ContextThemeWrapper(context, R.style.Theme_AppCompat);
+        context = ctx;
+        LayoutInflater factory = LayoutInflater.from(ctx);
         mView = factory.inflate(R.layout.float_edit2, null);
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
         dialog = new MaterialDialog(context, bottomSheet);
+        dialog.cancelable(false);
     }
 
     private Context getContext() {

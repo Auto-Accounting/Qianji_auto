@@ -14,10 +14,6 @@ import com.zhengsr.skinlib.utils.ZUtils;
 import java.io.File;
 
 import cn.dreamn.qianji_auto.ui.utils.StatusBarUtil;
-import cn.dreamn.qianji_auto.ui.views.IconView;
-import cn.dreamn.qianji_auto.ui.views.IconViewDelegate;
-import cn.dreamn.qianji_auto.ui.views.SuperText;
-import cn.dreamn.qianji_auto.ui.views.SuperTextDelegate;
 
 public class ThemeManager {
     private final Context mContext;
@@ -29,12 +25,13 @@ public class ThemeManager {
     }
 
     public static void init() {
-        ZSkin.addDelegate(IconView.class, new IconViewDelegate());
-        ZSkin.addDelegate(SuperText.class, new SuperTextDelegate());
+        // ZSkin.addDelegate(IconView.class, new IconViewDelegate());
+        //   ZSkin.addDelegate(SuperText.class, new SuperTextDelegate());
     }
 
     public void setTheme() {
-        replaceInApp(mmkv.getString("theme", "default"));
+
+        //replaceInApp(mmkv.getString("theme", "default"));
     }
 
     private void replace(String skinName){

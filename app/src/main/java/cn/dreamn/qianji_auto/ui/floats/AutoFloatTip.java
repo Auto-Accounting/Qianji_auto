@@ -40,7 +40,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
  */
 public class AutoFloatTip extends XFloatView {
 
-    private Handler mMainHandler = new Handler(Looper.getMainLooper());
+    private final Handler mMainHandler = new Handler(Looper.getMainLooper());
 
     private RelativeLayout tip;
     private TextView money;
@@ -97,7 +97,7 @@ public class AutoFloatTip extends XFloatView {
     protected void initListener() {
         MMKV mmkv = MMKV.defaultMMKV();
         tip.setOnClickListener(v -> {
-
+            Log.i(mmkv.getString("click_window", "edit"));
             switch (mmkv.getString("click_window","edit")){
                 case "edit":
                     SendDataToApp.showFloat(getContext(),billInfo2);
@@ -112,9 +112,10 @@ public class AutoFloatTip extends XFloatView {
             open = false;
         });
         tip.setOnLongClickListener(v->{
+            Log.i(mmkv.getString("long_click_window", "edit"));
             switch (mmkv.getString("long_click_window","edit")){
                 case "edit":
-                    SendDataToApp.showFloat(getContext(),billInfo2);
+                    SendDataToApp.showFloatByAlert(getContext(), billInfo2);
                     break;
                 case "record":
                     SendDataToApp.goApp(getContext(),billInfo2);
