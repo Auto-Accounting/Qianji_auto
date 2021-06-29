@@ -26,7 +26,7 @@ public class autostart extends BaseList {
 
     @Override
     public String getIcon() {
-        return "&#xe6e2;";
+        return "&#xe62f;";
     }
 
     @Override

@@ -1,11 +1,9 @@
 package cn.dreamn.qianji_auto.ui.views;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,21 +17,21 @@ public class SuperText extends RelativeLayout {
     private final RelativeLayout layout_supertext;
 
     public SuperText(Context context, AttributeSet attrs) {
-        super(context,attrs);
+        super(context, attrs);
 
-        LayoutInflater.from(context).inflate(R.layout.list_items,this,true);
-        icon_header = (IconView) findViewById(R.id.icon_header);
-        icon_isOk = (IconView) findViewById(R.id.icon_isOk);
-        item_title = (TextView) findViewById(R.id.item_title);
-        item_sub = (TextView) findViewById(R.id.item_sub);
-        layout_supertext = (RelativeLayout) findViewById(R.id.layout_supertext);
+        LayoutInflater.from(context).inflate(R.layout.list_items, this, true);
+        icon_header = findViewById(R.id.icon_header);
+        icon_isOk = findViewById(R.id.icon_isOk);
+        item_title = findViewById(R.id.item_title);
+        item_sub = findViewById(R.id.item_sub);
+        layout_supertext = findViewById(R.id.layout_supertext);
 
-        TypedArray typedArray=context.obtainStyledAttributes(attrs,R.styleable.SuperText);
-        if(typedArray!=null){
-            int leftColor=typedArray.getResourceId(R.styleable.SuperText_left_color, R.color.button_go_setting_bg);
-            int rightColor=typedArray.getResourceId(R.styleable.SuperText_right_color, R.color.button_go_setting_bg);
-            int titleColor=typedArray.getResourceId(R.styleable.SuperText_title_color, R.color.main_title);
-            int subColor=typedArray.getResourceId(R.styleable.SuperText_sub_color, R.color.skip_title);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SuperText);
+        if (typedArray != null) {
+            int leftColor = typedArray.getResourceId(R.styleable.SuperText_left_color, R.color.button_go_setting_bg);
+            int rightColor = typedArray.getResourceId(R.styleable.SuperText_right_color, R.color.button_go_setting_bg);
+            int titleColor = typedArray.getResourceId(R.styleable.SuperText_title_color, R.color.main_title);
+            int subColor = typedArray.getResourceId(R.styleable.SuperText_sub_color, R.color.skip_title);
             String leftIcon = typedArray.getString(R.styleable.SuperText_left_icon);
             String rightIcon = typedArray.getString(R.styleable.SuperText_right_icon);
             String titleText = typedArray.getString(R.styleable.SuperText_title_text);
@@ -65,7 +63,7 @@ public class SuperText extends RelativeLayout {
     public void setSelect(boolean isSelected){
         if(isSelected){
             icon_isOk.setTextColor(getResources().getColor(R.color.succeed));
-            icon_isOk.setFont("&#xe701;");
+            icon_isOk.setFont("&#xe626;");
         }else{
             icon_isOk.setFont("");
         }

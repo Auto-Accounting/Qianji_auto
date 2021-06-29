@@ -30,7 +30,6 @@ import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.database.Helper.AutoBills;
 import cn.dreamn.qianji_auto.database.Helper.Caches;
 import cn.dreamn.qianji_auto.database.Helper.Category;
-import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloat2;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
 import cn.dreamn.qianji_auto.ui.utils.ScreenUtils;
@@ -149,34 +148,6 @@ public class SendDataToApp {
         }
     }
 
-    //显示悬浮记账
-    public static void showFloat(Context context, BillInfo billInfo) {
-        MMKV mmkv = MMKV.defaultMMKV();
-
-        if (!mmkv.getBoolean("auto_style", true)) {
-            Log.i("唤起自动钱迹分类面板");
-            billInfo.setCateChoose(true);
-            goApp(context, billInfo);
-            return;
-        }
-        try {
-            Log.i("唤起自动记账面板");
-            AutoFloat autoFloat = new AutoFloat(context);
-            Log.i(billInfo.dump());
-            autoFloat.setData(billInfo);
-            if (ScreenUtils.getScreenWidth(context) > ScreenUtils.getScreenHeight(context)) {
-                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenHeight(context), ScreenUtils.getScreenWidth(context));
-            } else {
-                autoFloat.setWindowManagerParams(0, 0, ScreenUtils.getScreenWidth(context), ScreenUtils.getScreenHeight(context));
-            }
-            autoFloat.show();
-        } catch (Exception e) {
-            Log.i("请授予悬浮窗权限！" + e.toString());
-            Toasty.error(context,"请授予悬浮窗权限！",Toasty.LENGTH_LONG).show();
-
-        }
-
-    }
 
     public static void goApp(Context context, BillInfo billInfo) {
         Handler mHandler=new Handler(Looper.getMainLooper()){

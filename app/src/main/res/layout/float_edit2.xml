@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="10dp"
-                    android:text="&#xe600;"
+                    android:text="&#xe63c;"
                     android:textColor="@color/main_title"
                     android:textSize="14sp" />
 
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="10dp"
-                    android:text="&#xe602;"
+                    android:text="&#xe621;"
                     android:textColor="@color/main_title"
                     android:textSize="14sp" />
 

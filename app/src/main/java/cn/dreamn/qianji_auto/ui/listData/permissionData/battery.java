@@ -26,7 +26,7 @@ public class battery extends BaseList {
 
     @Override
     public String getIcon() {
-        return "&#xe604;";
+        return "&#xe624;";
     }
 
     @Override

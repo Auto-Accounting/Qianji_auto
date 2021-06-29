@@ -26,7 +26,7 @@ public class background extends BaseList {
 
     @Override
     public String getIcon() {
-        return "&#xe6b1;";
+        return "&#xe63d;";
     }
 
     @Override

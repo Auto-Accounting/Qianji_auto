@@ -157,3 +157,5 @@
 -keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
   *** rewind();
 }
+-keep public class * extends de.robv.android.xposed.IXposedHookLoadPackage
+-keep class cn.dreamn.qianji_auto.core.hook.*

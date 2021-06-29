@@ -26,7 +26,7 @@ public class helper extends BaseList {
 
     @Override
     public String getIcon() {
-        return "&#xe61b;";
+        return "&#xe625;";
     }
 
     @Override

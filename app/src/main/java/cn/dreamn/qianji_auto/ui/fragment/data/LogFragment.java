@@ -142,7 +142,7 @@ public class LogFragment extends BaseFragment {
 
 
         title_bar.setLeftIconOnClickListener(v -> popToBack());
-        title_bar.setRightIcon("&#xe63d;", 16);
+        title_bar.setRightIcon("&#xe60c;", 16);
         title_bar.setRightIconOnClickListener(v -> {
             //创建弹出式菜单对象（最低版本11）
             PopupMenu popup = new PopupMenu(getContext(), v);//第二个参数是绑定的那个view
