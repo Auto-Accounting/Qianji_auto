@@ -44,6 +44,7 @@ public class SendDataToApp {
 
 
     public static void call(Context context, BillInfo billInfo) {
+        Log.i(billInfo.toString());
         Handler mHandler=new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {

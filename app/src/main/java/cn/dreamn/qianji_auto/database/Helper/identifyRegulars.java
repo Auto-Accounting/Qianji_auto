@@ -40,7 +40,7 @@ public class identifyRegulars {
             //获得所有Js
             String result = JsEngine.run(str);
             if (!result.startsWith("undefined")) {
-                //remark+'|'+account+'|'+type+'|'+money+'|'+shopName+'|'+account2+'|'+client+'|'+source+'|'+fee +'|'+index
+                //  return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+accountNum2+'|'+shopNameNum+'|'+clientNum+'|'+sourceNum+'|'+feeNum+'|'+index
                 String[] strs = result.split("\\|");
                 Log.i("strs", Arrays.toString(strs));
                 if (strs.length < 10) {
@@ -48,15 +48,17 @@ public class identifyRegulars {
                     return;
                 }
                 BillInfo billInfo = new BillInfo();
+                Log.i(strs[0]);
                 billInfo.setRemark(strs[0]);
-                billInfo.setAccountName(strs[1]);
+                billInfo.setrawAccount(strs[1]);
                 billInfo.setType(strs[2]);
                 billInfo.setMoney(strs[3]);
-                billInfo.setShopAccount(strs[4]);
-                billInfo.setAccountName2(strs[5]);
-                billInfo.setSilent(strs[6].equals("1"));
+                billInfo.setShopAccount(strs[5]);
+                billInfo.setrawAccount2(strs[4]);
+                billInfo.setSilent(strs[6].equals("0"));
                 billInfo.setSource(strs[7]);
                 billInfo.setFee(strs[8]);
+
                 get.onGet(billInfo);
             } else {
                 Log.i("js执行结果为NULL");

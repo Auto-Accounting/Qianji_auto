@@ -92,7 +92,7 @@ public class RedPackage {
         Field status = qVar.getDeclaredField(Info.redPackage.status(utils));
         Field groups = qVar.getDeclaredField(Info.redPackage.groups(utils));
         double m = Integer.parseInt(money.get(object).toString()) / 100.0d;
-        if (m == 0)
+        if (m == 0)//金额为0直接忽略
             return;
         //增加 isGroup
         String data = "money=%s,remark=%s,status=%s,shop=%s,totals=%s,title=微信收到红包";

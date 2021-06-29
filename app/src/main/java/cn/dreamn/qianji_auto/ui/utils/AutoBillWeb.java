@@ -52,7 +52,38 @@ public class AutoBillWeb {
         mmkv.encode("login_cookie", cookie);
     }
 
+    public static void sendLog(String log, WebCallback callback) {
+        String url = "https://qianji.ankio.net/api_log.json";
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
+                .newBuilder();
+        urlBuilder.addQueryParameter("log", B64.encode(log));
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final CacheControl.Builder builder = new CacheControl.Builder();
+        builder.maxAge(30, TimeUnit.MINUTES);
+        CacheControl cache = builder.build();
 
+
+        final Request request = new Request.Builder().cacheControl(cache).url(urlBuilder.build()).get().build();
+        final Call call = okHttpClient.newCall(request);//
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                callback.onFailure();
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String string = response.body().string();
+                    callback.onSuccessful(string);
+                } else {
+                    callback.onFailure();
+                    Log.d("服务器响应错误");
+                }
+            }
+        });
+    }
 
 
     public static void getCategoryWeb(String name, WebCallback callback) {

@@ -52,13 +52,16 @@ public class XposedBroadcast extends BroadcastReceiver {
             String data = extData.getString("data");
             String identify = extData.getString("app_identify");
             String app = extData.getString("app_package");
+            String appName = extData.getString("app_name");
             String log = "自动记账收到数据：\n源自：" + app + "\n数据：" + data;
             Log.i("自动记账（Xp）", log);
             AppDatas.add(identify, app, data);
             Handler mHandler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(@NonNull Message msg) {
-                    SendDataToApp.call(context, (BillInfo) msg.obj);
+                    BillInfo billInfo = (BillInfo) msg.obj;
+                    billInfo.setFromApp(appName);
+                    SendDataToApp.call(context, billInfo);
                 }
             };
             identifyRegulars.run(identify, app, data, billInfo -> {
