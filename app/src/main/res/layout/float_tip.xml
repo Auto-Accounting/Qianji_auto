@@ -16,55 +16,53 @@
   -->
 
 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tip"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_layout_tip"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp"
+    tools:ignore="MissingConstraints">
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/tip"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/icon_font"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="-10dp"
+        android:src="@drawable/logo_qianji" />
+
+    <TextView
+        android:id="@+id/money"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_layout_tip"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        tools:ignore="MissingConstraints">
+        android:layout_marginEnd="0dp"
+        android:layout_toStartOf="@+id/time"
+        android:background="@color/transparent"
+        android:gravity="right|center_vertical|center_horizontal|center|end"
+        android:minWidth="100dp"
+        android:text="0.00"
+        android:textColor="@color/darkGrey"
+        android:textSize="20sp"
+        tools:ignore="RtlHardcoded,TextViewEdits" />
 
-        <ImageView
-            android:id="@+id/icon_font"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="-10dp"
-            android:src="@drawable/logo_qianji" />
-
-        <TextView
-            android:id="@+id/money"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="0dp"
-            android:layout_toStartOf="@+id/time"
-            android:background="@color/transparent"
-            android:gravity="right|center_vertical|center_horizontal|center|end"
-            android:minWidth="100dp"
-            android:text="0.00"
-            android:textColor="@color/darkGrey"
-            android:textSize="20sp"
-            tools:ignore="RtlHardcoded,TextViewEdits" />
-
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="1dp"
-            android:background="@color/transparent"
-            android:gravity="right|center_vertical|center_horizontal|center|end"
-            android:minWidth="20dp"
-            android:text="0s"
-            android:textColor="@color/colorSwipeThree_night"
-            android:textSize="14sp"
-            tools:ignore="RtlHardcoded,TextViewEdits" />
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="1dp"
+        android:background="@color/transparent"
+        android:gravity="right|center_vertical|center_horizontal|center|end"
+        android:minWidth="20dp"
+        android:text="0s"
+        android:textColor="@color/colorSwipeThree_night"
+        android:textSize="14sp"
+        tools:ignore="RtlHardcoded,TextViewEdits" />
 
 
-    </RelativeLayout>
+</RelativeLayout>
 
 

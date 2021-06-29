@@ -133,7 +133,7 @@ public class AutoFloat2 {
 
     private void initView() {
 
-        ContextThemeWrapper ctx = new ContextThemeWrapper(context, R.style.Theme_AppCompat);
+        ContextThemeWrapper ctx = new ContextThemeWrapper(context, R.style.Theme_AppCompat_Light_NoActionBar);
         context = ctx;
         LayoutInflater factory = LayoutInflater.from(ctx);
         mView = factory.inflate(R.layout.float_edit2, null);

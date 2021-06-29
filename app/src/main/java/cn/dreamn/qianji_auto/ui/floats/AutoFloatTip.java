@@ -97,6 +97,7 @@ public class AutoFloatTip extends XFloatView {
     protected void initListener() {
         MMKV mmkv = MMKV.defaultMMKV();
         tip.setOnClickListener(v -> {
+            Log.i("you click me");
             Log.i(mmkv.getString("click_window", "edit"));
             switch (mmkv.getString("click_window","edit")){
                 case "edit":
@@ -112,6 +113,7 @@ public class AutoFloatTip extends XFloatView {
             open = false;
         });
         tip.setOnLongClickListener(v->{
+            Log.i("you  long click me");
             Log.i(mmkv.getString("long_click_window", "edit"));
             switch (mmkv.getString("long_click_window","edit")){
                 case "edit":
