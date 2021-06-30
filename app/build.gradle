@@ -2,8 +2,6 @@ plugins {
     id 'com.android.application'
 }
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-
 
 android {
     compileSdkVersion 30
@@ -41,6 +39,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        //noinspection DataBindingWithoutKapt
+        dataBinding = true
+    }
 }
 
 dependencies {
@@ -72,7 +75,7 @@ dependencies {
     //CookieBar
     implementation 'com.liuguangqiang.cookie:CookieBar:1.0.1'
     //权限授权
-    implementation 'com.hjq:xxpermissions:10.2'
+    implementation 'com.github.getActivity:XXPermissions:11.5'
     //吐司封装
     implementation 'com.github.GrenderG:Toasty:1.5.0'
     //点击涟漪效果

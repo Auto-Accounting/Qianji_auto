@@ -55,7 +55,6 @@ public class BackupManager {
             //压缩到缓存
             ZipUtils.zip("/data/data/" + BuildConfig.APPLICATION_ID + "/", filename2);
 
-
             DataUtils dataUtils = new DataUtils();
             dataUtils.put("code", App.getAppVerCode());
             dataUtils.put("name", App.getAppVerName());
