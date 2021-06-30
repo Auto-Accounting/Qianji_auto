@@ -159,4 +159,4 @@
 }
 -keep class de.robv.android.xposed.*{ *; }
 -keep class cn.dreamn.qianji_auto.core.hook.*{ *; }
--keep class cn.dreamn.qianji_auto.setting.AppStatus
+-keep class cn.dreamn.qianji_auto.setting.AppStatus{*;}
