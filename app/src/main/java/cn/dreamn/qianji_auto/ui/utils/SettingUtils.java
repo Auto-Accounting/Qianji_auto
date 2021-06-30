@@ -1,10 +1,22 @@
 package cn.dreamn.qianji_auto.ui.utils;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 
+import com.afollestad.materialdialogs.LayoutMode;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
+import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
+import com.google.android.material.textfield.TextInputEditText;
 import com.tencent.mmkv.MMKV;
 
+import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.bills.Remark;
+import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.ui.views.SuperText;
 
 public class SettingUtils {
@@ -150,11 +162,45 @@ public class SettingUtils {
             mmkv.encode("autoIncome", false);
             initUi();
         });
-        default_bookName.setOnClickListener(v->{
-            //TODO 弹出bookName窗口进行选择
+        default_bookName.setOnClickListener(v-> {
+            BookNames.showBookSelect(mContext, "请选择账本", false, new BookNames.BookSelect() {
+                @Override
+                public void onSelect(Bundle bundle) {
+                    BookNames.change(bundle.getString("name"));
+                    initUi();
+                }
+            });
         });
-        remark.setOnClickListener(v->{
-            //TODO 弹出编辑窗口
+        remark.setOnClickListener(v-> {
+            LayoutInflater factory = LayoutInflater.from(mContext);
+            final View textEntryView = factory.inflate(R.layout.list_input, null);
+            BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+            MaterialDialog dialog = new MaterialDialog(mContext, bottomSheet);
+            dialog.title(null, "请输入备注格式");
+
+            TextInputEditText md_input_message = textEntryView.findViewById(R.id.md_input_message);
+
+            md_input_message.setText(Remark.getRemarkTpl());
+
+            Button button_next = textEntryView.findViewById(R.id.button_next);
+            Button button_last = textEntryView.findViewById(R.id.button_last);
+
+            button_next.setOnClickListener(v2 -> {
+                Remark.setTpl(md_input_message.getText().toString());
+                initUi();
+                dialog.dismiss();
+
+            });
+
+            button_last.setOnClickListener(v2 -> {
+                dialog.dismiss();
+            });
+
+            DialogCustomViewExtKt.customView(dialog, null, textEntryView,
+                    false, true, false, false);
+
+            dialog.cornerRadius(15f, null);
+            dialog.show();
         });
         auto_sort_open.setOnClickListener(v->{
             mmkv.encode("auto_sort", true);
@@ -267,25 +313,26 @@ public class SettingUtils {
             pay_half.setSelect(true);
         }
 
-        if(mmkv.getBoolean("autoIncome",false)){
+        if (mmkv.getBoolean("autoIncome", false)) {
             income_all.setSelect(true);
             income_half.setSelect(false);
-        }else{
+        } else {
             income_all.setSelect(false);
             income_half.setSelect(true);
         }
-        // TODO bookName类
-        // TODO remark类
 
-        if(mmkv.getBoolean("auto_sort",true)){
+        default_bookName.setTitle(BookNames.getDefault());
+        remark.setTitle(Remark.getRemarkTpl());
+
+        if (mmkv.getBoolean("auto_sort", true)) {
             auto_sort_open.setSelect(true);
             auto_sort_close.setSelect(false);
-        }else{
+        } else {
             auto_sort_open.setSelect(false);
             auto_sort_close.setSelect(true);
         }
-        int time=mmkv.getInt("auto_timeout",10);
-        count_down.setTitle("倒计时时间："+time+"秒");
+        int time = mmkv.getInt("auto_timeout", 10);
+        count_down.setTitle("倒计时时间：" + time + "秒");
         count_down_seekbar.setProgress(time);
 
         switch (mmkv.getString("click_window","edit")){

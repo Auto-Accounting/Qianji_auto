@@ -39,7 +39,6 @@ public class Data implements Parcelable {
 
         @Override
         public Data[] newArray(int size) {
-            // TODO Auto-generated method stub
             return new Data[size];
         }
     };

@@ -217,9 +217,7 @@ public class NoticeFragment extends BaseFragment {
                     message.what = HANDLE_REFRESH;
                     message.obj = "删除成功！";
                     mHandler.sendMessage(message);
-                } /*else if(text=="编辑识别规则") {
-                   //TODO open a fragment to edit
-                }*/ else if (text == "创建识别规则") {
+                } else if (text == "创建识别规则") {
 
                     DataUtils dataUtils2 = new DataUtils();
                     dataUtils2.put("account1", "");
