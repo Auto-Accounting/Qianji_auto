@@ -157,6 +157,9 @@
 -keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
   *** rewind();
 }
+# xposed相关混淆
 -keep class de.robv.android.xposed.*{ *; }
 -keep class cn.dreamn.qianji_auto.core.hook.*{ *; }
 -keep class cn.dreamn.qianji_auto.setting.AppStatus{*;}
+#rhino混淆
+-keep class org.mozilla.javascript.*{*;}
