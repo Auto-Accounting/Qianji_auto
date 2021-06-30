@@ -94,10 +94,14 @@ public class RedPackage {
         double m = Integer.parseInt(money.get(object).toString()) / 100.0d;
         if (m == 0)//金额为0直接忽略
             return;
+        String remarkStr = remark.get(object).toString();
+        if (remarkStr == null || remarkStr.equals("")) {
+            remarkStr = "大吉大利，恭喜发财";
+        }
         //增加 isGroup
         String data = "money=%s,remark=%s,status=%s,shop=%s,totals=%s,title=微信收到红包";
 
-        data = String.format(data, m, remark.get(object).toString(), status.get(object).toString(), shopAccount.get(object).toString(), groups.get(object).toString());
+        data = String.format(data, m, remarkStr, status.get(object).toString(), shopAccount.get(object).toString(), groups.get(object).toString());
 
         utils.log("红包数据：" + data);
 
