@@ -122,7 +122,7 @@ public class BackUpFragment extends BaseFragment {
                     @Override
                     public void onOK(String data) {
                         if (data.length() == 0) {
-                            Toasty.error(Objects.requireNonNull(getContext()), "未输入WebDav网址！", Toasty.LENGTH_LONG).show();
+                            Toasty.error(mRootView.getContext(), "未输入WebDav网址！", Toasty.LENGTH_LONG).show();
                             return;
                         }
                         mmkv.encode("webdav_url", data);
@@ -222,17 +222,23 @@ public class BackUpFragment extends BaseFragment {
             PermissionUtils permissionUtils = new PermissionUtils(getContext());
             permissionUtils.grant(PermissionUtils.Storage);
             try {
+
+                if (permissionUtils.isGrant(PermissionUtils.StorageReadExt).equals("0")) {
+                    permissionUtils.grant(PermissionUtils.StorageReadExt);
+                    return;
+                }
+
                 BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-                MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
+                MaterialDialog dialog = new MaterialDialog(mRootView.getContext(), bottomSheet);
                 dialog.title(null, "请选择自动记账配置文件");
 
-                DialogFileChooserExtKt.fileChooser(dialog, getContext(), Environment.getExternalStorageDirectory(), file -> {
+                DialogFileChooserExtKt.fileChooser(dialog, mRootView.getContext(), Environment.getExternalStorageDirectory(), file -> {
                             return file.isDirectory() || (file.isFile() && file.getName().endsWith("backup"));
                         },
                         true, R.string.files_default_empty_text, false, null,
                         (materialDialog, file) -> {
                             //Log.d(file.getAbsolutePath());
-                            BackupManager.init(getContext());
+                            BackupManager.init(mRootView.getContext());
                             LoadingDialog dialog2 = new LoadingDialog(getContext(), "数据恢复中...");
                             Handler mHandler = new Handler(Looper.getMainLooper()) {
                                 @Override

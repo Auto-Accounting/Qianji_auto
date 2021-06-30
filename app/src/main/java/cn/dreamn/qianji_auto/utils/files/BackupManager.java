@@ -52,7 +52,7 @@ public class BackupManager {
 
         try {
             //压缩到缓存
-            ZipUtils.zip("/data/data/cn.dreamn.qianji_auto/", filename2);
+            ZipUtils.zip("/data/data/cn.dreamn.qianji/", filename2);
 
 
             DataUtils dataUtils = new DataUtils();

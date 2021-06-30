@@ -3,6 +3,7 @@ package cn.dreamn.qianji_auto;
 import android.app.Application;
 import android.content.Context;
 
+import com.hjq.permissions.XXPermissions;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.PageConfig;
 import com.xuexiang.xpage.config.AppPageConfig;
@@ -57,9 +58,9 @@ public class App extends Application {
 
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(this);
+
+        XXPermissions.setScopedStorage(true);
     }
-
-
 
 
     private void initDatabase() {
@@ -75,10 +76,11 @@ public class App extends Application {
         //添加自定义组件换肤
     }
 
-    private void initMMKV(){
+    private void initMMKV() {
         MMKV.initialize(this);
     }
-    private void initFragment(){
+
+    private void initFragment() {
         PageConfig.getInstance()
                 //页面注册
                 .setPageConfiguration(context -> {
