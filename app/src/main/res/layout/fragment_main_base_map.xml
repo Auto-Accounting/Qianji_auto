@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         app:backgroundColor="@color/background_white"
         app:left_color="@color/main_title"
-        app:left_icon="&#xe60b;"
+        app:left_icon="&#xe62e;"
         app:title_color="@color/main_title"
         app:title_text="资产映射">
 
@@ -60,7 +60,6 @@
                     android:overScrollMode="never" />
 
                 <TextView
-                    android:id="@+id/textView9"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"

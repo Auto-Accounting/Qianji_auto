@@ -64,7 +64,7 @@
 
         android:layout_marginEnd="15dp"
         android:gravity="center|center_horizontal"
-        android:text="&#xe6e0;"
+        android:text="&#xe62d;"
         android:textColor="@color/skip_title"
 
          />

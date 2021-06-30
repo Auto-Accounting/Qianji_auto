@@ -32,7 +32,6 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/app_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
@@ -201,7 +200,6 @@
                     </RelativeLayout>
 
                     <GridLayout
-                        android:id="@+id/gl_base"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
@@ -399,7 +397,6 @@
                     </RelativeLayout>
 
                     <GridLayout
-                        android:id='@+id/gl_bill'
                         android:layout_width="match_parent"
 
                         android:layout_height="wrap_content"
@@ -533,7 +530,7 @@
                                 android:layout_height="50dp"
                                 android:layout_centerHorizontal="true"
                                 android:gravity="center_horizontal"
-                                android:text="&#xe62b;"
+                                android:text="&#xe610;"
                                 android:textColor="@color/icon_title"
                                 android:textSize="@dimen/main_card_body_icon_size" />
 
@@ -594,7 +591,6 @@
                     </RelativeLayout>
 
                     <GridLayout
-                        android:id='@+id/gl_log'
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
@@ -730,7 +726,7 @@
                                 android:layout_height="50dp"
                                 android:layout_centerHorizontal="true"
                                 android:gravity="center_horizontal"
-                                android:text="&#xe6ad;"
+                                android:text="&#xe63e;"
                                 android:textColor="@color/icon_title"
                                 android:textSize="@dimen/main_card_body_icon_size" />
 
@@ -793,7 +789,6 @@
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id='@+id/gl_regex'
                         android:layout_marginTop="50dp"
 
                         android:columnCount="4">
@@ -983,7 +978,6 @@
                     </RelativeLayout>
 
                     <GridLayout
-                        android:id='@+id/gl_custom'
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="50dp"
@@ -1007,7 +1001,7 @@
                                 android:layout_height="50dp"
                                 android:layout_centerHorizontal="true"
                                 android:gravity="center_horizontal"
-                                android:text="&#xe6d7;"
+                                android:text="&#xe603;"
                                 android:textColor="@color/icon_title"
                                 android:textSize="@dimen/main_card_body_icon_size" />
 
@@ -1134,201 +1128,9 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cv_log_contain5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/cv_log_contain3"
-                    android:layout_marginStart="@dimen/margin_side"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="@dimen/margin_side"
-                    android:visibility="gone"
-                    app:cardCornerRadius="@dimen/radius"
-                    app:cardElevation="0dp">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@color/background_white">
-
-                        <View
-                            android:id="@+id/view63"
-                            android:layout_width="@dimen/main_card_title_left_width"
-                            android:layout_height="15dp"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerHorizontal="false"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="10dp"
-                            android:background="@color/button_go_setting_bg"
-                            android:backgroundTint="@color/button_go_setting_bg" />
-
-                        <TextView
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="12dp"
-                            android:layout_toEndOf="@+id/view63"
-                            android:text="管理员板块"
-                            android:textColor="@color/main_title"
-                            android:textSize="@dimen/main_card_title_size"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-
-                    <GridLayout
-                        android:id='@+id/gl_admin'
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="50dp"
-
-                        android:columnCount="4">
-
-                        <RelativeLayout
-                            android:id="@+id/rl_wait"
-                            android:layout_width="wrap_content"
-                            android:layout_height="80dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="5dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:gravity="center_horizontal"
-                            android:padding="5dp">
-
-                            <cn.dreamn.qianji_auto.ui.views.IconView
-                                android:id="@+id/item_image_icon61"
-                                android:layout_width="wrap_content"
-                                android:layout_height="50dp"
-                                android:layout_centerHorizontal="true"
-                                android:gravity="center_horizontal"
-                                android:text="&#xe608;"
-                                android:textColor="@color/icon_title"
-                                android:textSize="@dimen/main_card_body_icon_size" />
-
-                            <TextView
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-
-                                android:layout_below="@+id/item_image_icon61"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="0dp"
-                                android:text="待适配"
-                                android:textColor="@color/main_title"
-                                android:textSize="@dimen/main_card_body_text_size" />
-
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:id="@+id/rl_check"
-                            android:layout_width="wrap_content"
-                            android:layout_height="80dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="5dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:gravity="center_horizontal"
-                            android:padding="5dp">
-
-
-                            <cn.dreamn.qianji_auto.ui.views.IconView
-                                android:id="@+id/item_image_icon62"
-                                android:layout_width="wrap_content"
-                                android:layout_height="50dp"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginBottom="0dp"
-                                android:gravity="center_horizontal"
-                                android:text="&#xe650;"
-                                android:textColor="@color/icon_title"
-                                android:textSize="@dimen/main_card_body_icon_size" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/item_image_icon62"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="0dp"
-                                android:text="待审核"
-                                android:textColor="@color/main_title"
-                                android:textSize="@dimen/main_card_body_text_size" />
-
-                        </RelativeLayout>
-
-                        <RelativeLayout
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="80dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="5dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:gravity="center_horizontal"
-                            android:padding="5dp">
-
-                            <cn.dreamn.qianji_auto.ui.views.IconView
-                                android:id="@+id/item_image_icon82"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:gravity="center_horizontal"
-                                android:text="&#xe635;"
-                                android:textColor="@color/alpha0"
-                                android:textSize="@dimen/main_card_body_icon_size" />
-
-                            <TextView
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-
-                                android:layout_below="@+id/item_image_icon82"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="0dp"
-                                android:text="0"
-                                android:textColor="@color/alpha0"
-                                android:textSize="@dimen/main_card_body_text_size" />
-
-                        </RelativeLayout>
-
-                        <RelativeLayout
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="80dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="5dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:gravity="center_horizontal"
-                            android:padding="5dp">
-
-                            <cn.dreamn.qianji_auto.ui.views.IconView
-                                android:id="@+id/item_image_icon81"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:gravity="center_horizontal"
-                                android:text="&#xe635;"
-                                android:textColor="@color/alpha0"
-                                android:textSize="@dimen/main_card_body_icon_size" />
-
-                            <TextView
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-
-                                android:layout_below="@+id/item_image_icon81"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="0dp"
-                                android:text="1"
-                                android:textColor="@color/alpha0"
-                                android:textSize="@dimen/main_card_body_text_size" />
-
-                        </RelativeLayout>
-                    </GridLayout>
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cv_log_contain4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/cv_log_contain5"
                     android:layout_marginStart="@dimen/margin_side"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="@dimen/margin_side"
@@ -1367,7 +1169,6 @@
                     <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id='@+id/gl_others'
                         android:layout_marginTop="50dp"
 
                         android:columnCount="4">
@@ -1426,7 +1227,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="0dp"
                                 android:gravity="center_horizontal"
-                                android:text="&#xe62d;"
+                                android:text="&#xe615;"
                                 android:textColor="@color/icon_title"
                                 android:textSize="@dimen/main_card_body_icon_size" />
 
@@ -1461,7 +1262,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="0dp"
                                 android:gravity="center_horizontal"
-                                android:text="&#xe60c;"
+                                android:text="&#xe633;"
                                 android:textColor="@color/icon_title"
                                 android:textSize="@dimen/main_card_body_icon_size" />
 

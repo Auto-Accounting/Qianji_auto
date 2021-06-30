@@ -36,7 +36,9 @@
         android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.Qianji_auto"
         tools:targetApi="n">
-        <activity android:name=".ui.activity.ErrorActivity" />
+        <activity
+            android:name=".ui.activity.ErrorActivity"
+            android:theme="@android:style/Theme.Translucent" />
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

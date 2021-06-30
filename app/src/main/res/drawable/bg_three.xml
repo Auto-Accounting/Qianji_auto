@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/shape_id">
+    <item>
         <!-- 正三角 -->
         <rotate
             android:fromDegrees="45"
@@ -8,7 +8,7 @@
             android:pivotX="-40%"
             android:pivotY="80%">
             <shape android:shape="rectangle">
-                <solid android:color="@color/background_deep_gray"/>
+                <solid android:color="@color/background_deep_gray" />
             </shape>
         </rotate>
     </item>

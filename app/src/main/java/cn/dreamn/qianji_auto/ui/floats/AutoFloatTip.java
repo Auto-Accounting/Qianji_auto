@@ -101,7 +101,7 @@ public class AutoFloatTip extends XFloatView {
             Log.i(mmkv.getString("click_window", "edit"));
             switch (mmkv.getString("click_window","edit")){
                 case "edit":
-                    SendDataToApp.showFloat(getContext(),billInfo2);
+                    SendDataToApp.showFloatByAlert(getContext(), billInfo2);
                     break;
                 case "record":
                     SendDataToApp.goApp(getContext(),billInfo2);

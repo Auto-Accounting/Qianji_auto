@@ -350,7 +350,8 @@ kotlinx.coroutines.flow.FlowKt__MigrationKt$combine$$inlined$combine$2$1
 com.bumptech.glide.gifdecoder.GifHeader:
     public static final int NETSCAPE_LOOP_COUNT_FOREVER
     public static final int NETSCAPE_LOOP_COUNT_DOES_NOT_EXIST
-cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.LeftSide
+cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.LeftSide:
+    public void <init>()
 kotlinx.coroutines.channels.AbstractChannel$onReceive$1
 kotlinx.coroutines.flow.FlowKt__CollectKt$collectIndexed$2$emit$1
 kotlin.collections.ByteIterator
@@ -869,7 +870,6 @@ kotlinx.coroutines.channels.ChannelsKt__Channels_commonKt$filterNotTo$1
 butterknife.internal.ImmutableList
 io.reactivex.internal.operators.observable.ObservableBuffer
 io.reactivex.internal.operators.maybe.MaybeEmpty
-cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.Setting$1
 io.reactivex.internal.observers.FutureObserver
 kotlinx.coroutines.flow.FlowKt__TransformKt$scan$$inlined$unsafeFlow$1
 io.reactivex.internal.operators.flowable.FlowableIntervalRange
@@ -1016,7 +1016,6 @@ kotlin.reflect.KClasses
 android.support.v4.media.session.MediaSessionCompatApi24
 io.reactivex.Notification
 org.xmlpull.v1.builder.XmlElement
-cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.DataBase$1$1
 org.mozilla.javascript.v8dtoa.DoubleConversion:
     private void <init>()
     private static final long kSignMask
@@ -1073,7 +1072,6 @@ io.reactivex.internal.operators.observable.ObservableCache$CacheDisposable
 io.reactivex.internal.operators.completable.CompletableAmb$Amb
 io.reactivex.internal.operators.maybe.MaybeSubscribeOn$SubscribeTask
 io.reactivex.internal.operators.flowable.FlowableSequenceEqual$EqualCoordinatorHelper
-cn.dreamn.qianji_auto.core.hook.app.wechat.Wechat
 io.reactivex.internal.operators.observable.ObservableSkipUntil$SkipUntil
 com.yanzhenjie.recyclerview.widget.BorderItemDecoration:
     public void <init>(int)
@@ -4145,13 +4143,13 @@ com.bumptech.glide.util.pool.StateVerifier:
     private static final boolean DEBUG
 io.reactivex.internal.operators.observable.ObservableScanSeed$ScanSeedObserver
 org.mozilla.javascript.xmlimpl.XMLCtor
-cn.dreamn.qianji_auto.core.hook.app.wechat.Info$redPackage$1
 com.bumptech.glide.load.model.stream.MediaStoreVideoThumbLoader$Factory:
     public void teardown()
 kotlinx.coroutines.flow.FlowKt__ReduceKt$fold$$inlined$collect$1$1
 kotlin.jvm.internal.TypeReference$WhenMappings
 io.reactivex.internal.operators.maybe.MaybeDelaySubscriptionOtherPublisher$OtherSubscriber
-cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.CheckHook
+cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.CheckHook:
+    public void <init>()
 kotlinx.coroutines.SelectAwaitOnCompletion
 com.xuexiang.xpage.core.PageOption:
     public static com.xuexiang.xpage.core.PageOption to(java.lang.String)
@@ -4228,12 +4226,12 @@ okhttp3.Headers$Builder:
     public final okhttp3.Headers$Builder set(java.lang.String,java.util.Date)
     public final okhttp3.Headers$Builder set(java.lang.String,java.time.Instant)
     public final java.lang.String get(java.lang.String)
-cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.Timeout
+cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.Timeout:
+    public void <init>()
 com.bumptech.glide.request.transition.ViewPropertyTransition$Animator
 cn.dreamn.qianji_auto.ui.theme.ThemeManager:
     private void replace(java.lang.String)
     private void replaceInApp(java.lang.String)
-    public static boolean isDarkMode(android.content.Context)
 kotlin.collections.MapsKt___MapsKt:
     public static final java.util.List toList(java.util.Map)
     public static final java.util.List flatMap(java.util.Map,kotlin.jvm.functions.Function1)
@@ -4427,7 +4425,6 @@ org.mozilla.javascript.NativeNumber:
     private static final int Id_toPrecision
     private static final int MAX_PROTOTYPE_ID
 io.reactivex.internal.operators.observable.ObservableConcatMap$ConcatMapDelayErrorObserver$DelayErrorInnerObserver
-cn.dreamn.qianji_auto.core.hook.Utils
 kotlinx.coroutines.channels.LazyBroadcastCoroutine
 okhttp3.Cache:
     private final void abortQuietly(okhttp3.internal.cache.DiskLruCache$Editor)
@@ -4848,7 +4845,8 @@ com.afollestad.date.DatePickerKt
 kotlin.internal.PlatformDependent
 org.mozilla.classfile.ClassFileWriter$StackMapTable
 kotlinx.coroutines.flow.FlowKt__ZipKt$combineTransform$1$1
-cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.RedPackage
+cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.RedPackage:
+    public void <init>()
 com.bumptech.glide.load.engine.DataCacheKey:
     com.bumptech.glide.load.Key getSourceKey()
 io.reactivex.internal.operators.flowable.FlowableObserveOn$ObserveOnConditionalSubscriber
@@ -5347,7 +5345,6 @@ kotlinx.coroutines.channels.ArrayBroadcastChannel$Subscriber
 kotlinx.coroutines.sync.Mutex$DefaultImpls
 kotlin.sequences.MergingSequence
 kotlin.internal.ContractsDsl
-cn.dreamn.qianji_auto.core.hook.ui.ViewUtil$1
 okhttp3.internal.connection.Exchange:
     public final okhttp3.Headers trailers()
     public final okhttp3.internal.ws.RealWebSocket$Streams newWebSocketStreams()
@@ -7195,7 +7192,8 @@ android.support.v4.media.session.IMediaSession$Stub:
 io.reactivex.internal.operators.single.SingleMaterialize
 io.reactivex.internal.operators.maybe.MaybeFromCallable:
     protected void subscribeActual(io.reactivex.MaybeObserver)
-cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.DataBase
+cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.DataBase:
+    public void <init>()
 kotlinx.coroutines.flow.FlowKt__EmittersKt$invokeSafely$1
 io.reactivex.internal.operators.completable.CompletableErrorSupplier
 kotlinx.coroutines.channels.ChannelsKt__Channels_commonKt$last$1
@@ -7639,7 +7637,8 @@ kotlin.io.FileTreeWalk$FileTreeWalkIterator$TopDownDirectoryState
 okio.Utf8
 kotlinx.coroutines.channels.TickerChannelsKt
 com.thegrizzlylabs.sardineandroid.DavAce
-cn.dreamn.qianji_auto.core.hook.app.qianji.DBHelper
+cn.dreamn.qianji_auto.core.hook.app.qianji.DBHelper:
+    public java.util.ArrayList getBills(java.lang.String)
 io.reactivex.internal.operators.single.SingleFlatMapMaybe$FlatMapMaybeObserver
 kotlinx.coroutines.SupervisorJobImpl
 io.reactivex.internal.operators.observable.ObservableSingleMaybe
@@ -8155,7 +8154,8 @@ io.reactivex.internal.operators.observable.ObservableWindowTimed$WindowSkipObser
 kotlinx.coroutines.flow.FlowKt__ZipKt$combineTransform$7$2
 kotlinx.coroutines.internal.SynchronizedKt
 com.afollestad.materialdialogs.files.BuildConfig
-cn.dreamn.qianji_auto.core.hook.app.wechat.Info$redPackage
+cn.dreamn.qianji_auto.core.hook.app.wechat.Info$redPackage:
+    public void <init>()
 org.mozilla.javascript.tools.debugger.EvalTextArea
 kotlinx.coroutines.flow.FlowKt__MergeKt$unsafeTransform$$inlined$unsafeFlow$1$lambda$1$1
 kotlinx.coroutines.flow.internal.CombineKt$combineTransformInternal$2$invokeSuspend$$inlined$select$lambda$4
@@ -11499,7 +11499,6 @@ kotlinx.coroutines.JobSupportKt:
 kotlinx.coroutines.flow.FlowKt__MigrationKt$combineLatest$$inlined$combine$3
 org.xmlpull.v1.builder.impl.XmlCommentImpl
 com.bumptech.glide.ListPreloader$PreloadSizeProvider
-cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.DataBase$1
 butterknife.BindString:
     public abstract int value()
 kotlinx.coroutines.channels.ChannelsKt__Channels_commonKt$drop$1
@@ -12020,7 +12019,8 @@ cn.dreamn.qianji_auto.ui.fragment.base.sorts.sortsFragment:
     private static final int HANDLE_OK
     private static final int HANDLE_REFRESH
 kotlinx.coroutines.flow.FlowKt__MergeKt$unsafeTransform$$inlined$unsafeFlow$2
-cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.LoginInfo
+cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.LoginInfo:
+    public void <init>()
 kotlinx.coroutines.flow.FlowKt__DistinctKt$distinctUntilChangedBy$$inlined$unsafeFlow$3$lambda$1$1
 kotlin.jvm.JvmRecord
 org.mozilla.javascript.ast.Scope:
@@ -12251,7 +12251,8 @@ okhttp3.internal.http2.Http2Connection:
 io.reactivex.internal.operators.flowable.FlowableBufferExactBoundary$BufferBoundarySubscriber
 io.reactivex.internal.operators.observable.ObservableFlatMapMaybe:
     protected void subscribeActual(io.reactivex.Observer)
-cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.Setting
+cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.Setting:
+    public void <init>()
 org.mozilla.javascript.v8dtoa.FastDtoa:
     static final int kFastDtoaMaximalLength
     static final int minimal_target_exponent
@@ -12282,7 +12283,6 @@ org.mozilla.javascript.ast.KeywordLiteral:
     public boolean isBooleanLiteral()
     public java.lang.String toSource(int)
     public void visit(org.mozilla.javascript.ast.NodeVisitor)
-cn.dreamn.qianji_auto.core.hook.app.auto.QianjiAuto
 kotlin.NumbersKt__BigIntegersKt
 kotlin.text.StringsKt__IndentKt$prependIndent$1
 io.reactivex.internal.operators.flowable.FlowableBufferBoundary$BufferBoundarySubscriber$BufferOpenSubscriber
@@ -12491,7 +12491,6 @@ com.bumptech.glide.load.model.stream.HttpUriLoader$Factory:
 kotlinx.coroutines.flow.FlowKt__ZipKt$combine$$inlined$unsafeFlow$5
 io.reactivex.internal.operators.maybe.MaybeDelaySubscriptionOtherPublisher
 kotlinx.coroutines.flow.FlowKt__MigrationKt$combine$$inlined$combine$1$1
-cn.dreamn.qianji_auto.core.hook.IHooker
 io.reactivex.internal.operators.maybe.MaybeUsing$UsingObserver
 com.thegrizzlylabs.sardineandroid.DavPrincipal
 kotlinx.coroutines.channels.TickerMode
@@ -12727,7 +12726,6 @@ org.mozilla.javascript.Interpreter:
 org.mozilla.javascript.ImplementationVersion
 android.support.v4.media.session.MediaControllerCompatApi24
 kotlinx.coroutines.JobSupport$children$1
-cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.RedPackage$2
 kotlin.coroutines.ContinuationInterceptor$DefaultImpls:
     public static java.lang.Object fold(kotlin.coroutines.ContinuationInterceptor,java.lang.Object,kotlin.jvm.functions.Function2)
     public static kotlin.coroutines.CoroutineContext plus(kotlin.coroutines.ContinuationInterceptor,kotlin.coroutines.CoroutineContext)
@@ -13079,7 +13077,6 @@ com.bumptech.glide.util.pool.StateVerifier$DebugStateVerifier
 io.reactivex.internal.operators.observable.ObservableGroupBy
 io.reactivex.internal.subscribers.QueueDrainSubscriberPad2
 kotlin.jvm.Strictfp
-cn.dreamn.qianji_auto.core.hook.HookBase$2
 com.bumptech.glide.load.model.UnitModelLoader$Factory:
     public void teardown()
 org.mozilla.javascript.JavaAdapter$JavaAdapterSignature
@@ -13282,7 +13279,6 @@ kotlinx.coroutines.channels.ConflatedBroadcastChannel$Closed
 org.mozilla.javascript.tools.debugger.FileWindow
 kotlinx.coroutines.flow.FlowKt__ZipKt$combine$$inlined$combine$3$1
 kotlin.jvm.internal.IntCompanionObject
-cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.RedPackage$1
 io.reactivex.internal.operators.observable.ObservableWindowBoundarySelector$OperatorWindowBoundaryOpenObserver
 kotlinx.coroutines.flow.FlowKt__DistinctKt$distinctUntilChangedBy$$inlined$unsafeFlow$2$1
 io.reactivex.internal.operators.mixed.FlowableConcatMapCompletable$ConcatMapCompletableObserver
@@ -13355,7 +13351,29 @@ com.scwang.smartrefresh.layout.adapter.SmartViewHolder$1
 com.bumptech.glide.load.resource.bitmap.BitmapDrawableResource
 io.reactivex.internal.operators.observable.ObservableGenerate$GeneratorDisposable
 kotlinx.coroutines.InvokeOnCancel
-cn.dreamn.qianji_auto.core.hook.ui.ViewUtil
+cn.dreamn.qianji_auto.core.hook.ui.ViewUtil:
+    public void <init>()
+    public static int generateViewId()
+    public static int initId(android.view.View)
+    public static void performActionClick(android.view.View)
+    public static android.graphics.drawable.Drawable genBackgroundDefaultDrawable()
+    public static android.graphics.drawable.Drawable genBackgroundDefaultDrawable(int)
+    private static java.lang.String getViewBaseDesc(android.view.View)
+    public static java.lang.String getViewInfo(android.view.View)
+    public static void recursiveLoopChildren(android.view.View)
+    public static void recursiveLoopChildren(android.view.ViewGroup)
+    public static void getChildViewsByType(android.view.ViewGroup,java.lang.String,java.util.List)
+    public static void getChildViews(android.view.ViewGroup,java.util.List)
+    public static void removeFromSuperView(android.view.View)
+    public static java.lang.String viewsDesc(java.util.List)
+    public static int findChildViewPosition(android.view.ViewGroup,android.view.View)
+    public static java.util.List getWindowManagerViews()
+    private static java.util.List viewsFromWM(java.lang.Class,java.lang.Object)
+    public static boolean isShown(android.view.View)
+    public static boolean isViewVisibleInScreen(android.view.View)
+    public static android.view.ViewGroup getTopestView(android.view.View)
+    private static android.view.ViewGroup getTopestView(android.view.View,android.view.ViewGroup)
+    private static java.lang.Class sRecycleViewClz
 kotlinx.coroutines.EventLoopImplBase$DelayedResumeTask
 io.reactivex.internal.fuseable.QueueDisposable
 kotlinx.coroutines.internal.LockFreeTaskQueueCore$Companion:
@@ -13398,7 +13416,6 @@ com.bumptech.glide.request.SingleRequest:
     private static final java.lang.String GLIDE_TAG
 io.reactivex.internal.functions.Functions$ClassFilter
 kotlin.collections.ArraysKt___ArraysKt$asIterable$$inlined$Iterable$6
-cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.LeftSide$1
 kotlinx.coroutines.EventLoopImplBase:
     public static final synthetic void access$setCompleted$p(kotlinx.coroutines.EventLoopImplBase,boolean)
     public void scheduleResumeAfterDelay(long,kotlinx.coroutines.CancellableContinuation)
@@ -13638,7 +13655,6 @@ com.yanzhenjie.recyclerview.widget.StickyNestedScrollView:
     public static final java.lang.String FLAG_HASTRANSPARENCY
     private static final int DEFAULT_SHADOW_HEIGHT
 io.reactivex.internal.operators.mixed.FlowableConcatMapCompletable$ConcatMapCompletableObserver$ConcatMapInnerObserver
-cn.dreamn.qianji_auto.core.hook.HookMain
 io.reactivex.internal.operators.observable.ObservableIntervalRange$IntervalRangeObserver
 io.reactivex.internal.operators.maybe.MaybeIgnoreElement
 io.reactivex.flowables.GroupedFlowable
@@ -13895,7 +13911,6 @@ io.reactivex.internal.subscribers.ForEachWhileSubscriber
 kotlinx.coroutines.flow.internal.ChannelFlowOperatorImpl
 io.reactivex.internal.operators.maybe.MaybeDelaySubscriptionOtherPublisher$DelayMaybeObserver
 kotlin.PreconditionsKt
-cn.dreamn.qianji_auto.core.hook.HookBase$1
 org.mozilla.javascript.IdFunctionObjectES6:
     private static final int Id_length
     private static final int Id_name
@@ -14283,7 +14298,6 @@ com.bumptech.glide.load.engine.cache.MemoryCache:
     public abstract long getMaxSize()
     public abstract void setSizeMultiplier(float)
 io.reactivex.internal.operators.flowable.FlowableSkip$SkipSubscriber
-cn.dreamn.qianji_auto.core.hook.HookBase
 kotlin.comparisons.ComparisonsKt___ComparisonsKt:
     public static final java.lang.Object maxOf(java.lang.Object,java.lang.Object,java.lang.Object,java.util.Comparator)
     public static final java.lang.Object maxOf(java.lang.Object,java.lang.Object,java.util.Comparator)
@@ -15053,7 +15067,6 @@ com.bumptech.glide.load.model.DataUrlLoader$StreamFactory:
     public void teardown()
 com.bumptech.glide.request.RequestFutureTarget
 io.reactivex.internal.operators.flowable.FlowableReplay$ConnectableFlowableReplay
-cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.AutoError$1
 kotlin.DeepRecursiveScopeImpl$crossFunctionCompletion$$inlined$Continuation$1
 okhttp3.MultipartReader$Companion
 kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15237,7 +15250,6 @@ okhttp3.internal.http.ExchangeCodec$Companion:
 kotlin.jvm.internal.ArrayIteratorsKt
 kotlin.jvm.internal.KTypeBase
 kotlin.ExperimentalUnsignedTypes
-cn.dreamn.qianji_auto.core.hook.app.qianji.QianjiHook
 butterknife.OnItemClick:
     public abstract int[] value()
 com.bumptech.glide.load.engine.bitmap_recycle.SizeStrategy$KeyPool
@@ -15866,7 +15878,6 @@ io.reactivex.internal.schedulers.ComputationScheduler$FixedSchedulerPool:
     public io.reactivex.internal.schedulers.ComputationScheduler$PoolWorker getEventLoop()
     public void createWorkers(int,io.reactivex.internal.schedulers.SchedulerMultiWorkerSupport$WorkerCallback)
     long n
-cn.dreamn.qianji_auto.core.hook.HookList
 com.afollestad.materialdialogs.internal.main.DialogScrollView:
     public synthetic void <init>(android.content.Context,android.util.AttributeSet,int,kotlin.jvm.internal.DefaultConstructorMarker)
 io.reactivex.internal.operators.single.SingleMap
@@ -15912,8 +15923,6 @@ android.support.v4.media.MediaBrowserCompat$MediaBrowserImplBase$3
 io.reactivex.internal.observers.QueueDrainSubscriberPad0
 io.reactivex.internal.operators.single.SingleObserveOn
 kotlinx.coroutines.flow.internal.ChannelFlowOperator$collectWithContextUndispatched$2
-cn.dreamn.qianji_auto.core.hook.app.qianji.Data:
-    public void set(android.os.Bundle)
 org.jetbrains.annotations.Contract
 io.reactivex.internal.queue.MpscLinkedQueue
 com.github.ybq.android.spinkit.animation.interpolator.PathInterpolatorCompatBase:
@@ -15930,7 +15939,6 @@ kotlinx.coroutines.flow.internal.ChannelFlowMerge$collectTo$$inlined$collect$1$1
 com.bumptech.glide.load.engine.cache.DiskCacheAdapter:
     public void delete(com.bumptech.glide.load.Key)
     public void clear()
-cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.LoginInfo$1
 com.yanzhenjie.recyclerview.SwipeRecyclerView:
     public boolean isSwipeItemMenuEnabled()
     public boolean isSwipeItemMenuEnabled(int)
@@ -15986,7 +15994,8 @@ android.support.v4.media.MediaBrowserCompat$CustomActionCallback:
     public void <init>()
 io.reactivex.internal.subscribers.QueueDrainSubscriberPad3
 io.reactivex.internal.operators.observable.ObservableIntervalRange
-cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.AutoError
+cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.AutoError:
+    public void <init>()
 io.reactivex.subjects.UnicastSubject$UnicastQueueDisposable
 kotlin.collections.ReversedList
 kotlin.ranges.LongProgression:
@@ -16628,6 +16637,8 @@ org.mozilla.javascript.ast.Comment:
     public org.mozilla.javascript.Token$CommentType commentType
 cn.dreamn.qianji_auto.database.Dao.AssetDao_Impl$3:
     public final synthetic cn.dreamn.qianji_auto.database.Dao.AssetDao_Impl this$0
+cn.dreamn.qianji_auto.core.hook.app.qianji.DBHelper:
+    public final java.lang.String NEW_PATH
 com.github.ybq.android.spinkit.style.ChasingDots$Dot:
     public final synthetic com.github.ybq.android.spinkit.style.ChasingDots this$0
 cn.dreamn.qianji_auto.database.Table.Log:
@@ -16996,6 +17007,8 @@ kotlin.ranges.CharRange:
 okhttp3.internal.http2.Http2Connection$pushResetLater$$inlined$execute$1:
     public final synthetic java.lang.String $name
     public final synthetic boolean $cancelable
+cn.dreamn.qianji_auto.core.hook.ui.ViewUtil:
+    public static final java.util.concurrent.atomic.AtomicInteger sNextGeneratedId
 kotlin.text.MatchGroup
 cn.dreamn.qianji_auto.database.Dao.AutoBillDao_Impl$1:
     public final synthetic cn.dreamn.qianji_auto.database.Dao.AutoBillDao_Impl this$0

@@ -35,7 +35,6 @@
         android:text="让自动记账更熟悉你。" />
 
     <include
-        android:id="@+id/setting_list"
         layout="@layout/setting_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

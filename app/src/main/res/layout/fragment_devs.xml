@@ -62,7 +62,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
@@ -71,7 +70,6 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/textView7"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
@@ -88,13 +86,12 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
-                    android:text="&#xe6e0;"
+                    android:text="&#xe62d;"
                     android:textColor="@color/skip_title"
                     android:textSize="18sp" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/head_3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -122,7 +119,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_6"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
@@ -131,7 +127,6 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/tv_8"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
@@ -148,14 +143,13 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
-                    android:text="&#xe6e0;"
+                    android:text="&#xe62d;"
                     android:textColor="@color/skip_title"
                     android:textSize="18sp"
                     android:visibility="invisible" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/head_4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -206,14 +200,13 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
-                    android:text="&#xe6e0;"
+                    android:text="&#xe62d;"
                     android:textColor="@color/skip_title"
                     android:textSize="18sp"
                     android:visibility="invisible" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/head_5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -266,14 +259,13 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
-                    android:text="&#xe6e0;"
+                    android:text="&#xe62d;"
                     android:textColor="@color/skip_title"
                     android:textSize="18sp"
                     android:visibility="invisible" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/head_6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -326,14 +318,13 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
-                    android:text="&#xe6e0;"
+                    android:text="&#xe62d;"
                     android:textColor="@color/skip_title"
                     android:textSize="18sp"
                     android:visibility="invisible" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/head_7"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -386,7 +377,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
-                    android:text="&#xe6e0;"
+                    android:text="&#xe62d;"
                     android:textColor="@color/skip_title"
                     android:textSize="18sp"
                     android:visibility="invisible" />

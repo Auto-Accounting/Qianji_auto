@@ -157,5 +157,6 @@
 -keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
   *** rewind();
 }
--keep public class * extends de.robv.android.xposed.IXposedHookLoadPackage
--keep class cn.dreamn.qianji_auto.core.hook.*
+-keep class de.robv.android.xposed.*{ *; }
+-keep class cn.dreamn.qianji_auto.core.hook.*{ *; }
+-keep class cn.dreamn.qianji_auto.setting.AppStatus

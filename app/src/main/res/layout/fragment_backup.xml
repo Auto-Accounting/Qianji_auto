@@ -32,7 +32,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView17"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -136,7 +135,6 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/textView18"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -218,7 +216,6 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/restore_local"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="从本地恢复"
@@ -240,7 +237,6 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/restore_webdav"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="从WebDav恢复"

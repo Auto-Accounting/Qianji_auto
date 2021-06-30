@@ -128,10 +128,7 @@ public class MainFragment extends BaseFragment {
     RelativeLayout rl_float;
     @BindView(R.id.rl_skin)
     RelativeLayout rl_skin;
-    @BindView(R.id.rl_wait)
-    RelativeLayout rl_wait;
-    @BindView(R.id.rl_check)
-    RelativeLayout rl_check;
+
     @BindView(R.id.rl_backup)
     RelativeLayout rl_backup;
     @BindView(R.id.rl_text_teach)
@@ -326,12 +323,7 @@ public class MainFragment extends BaseFragment {
         rl_skin.setOnClickListener(v->{
 
         });
-        rl_wait.setOnClickListener(v->{
 
-        });
-        rl_check.setOnClickListener(v->{
-
-        });
         rl_backup.setOnClickListener(v->{
             openNewPage(BackUpFragment.class);
         });

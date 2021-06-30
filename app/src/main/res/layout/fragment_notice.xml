@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         app:backgroundColor="@color/background_white"
         app:left_color="@color/main_title"
-        app:left_icon="&#xe60b;"
-        app:right_icon="&#xe66d;"
+        app:left_icon="&#xe62e;"
+        app:right_icon="&#xe623;"
         app:title_color="@color/main_title"
         app:title_text="通知列表">
 

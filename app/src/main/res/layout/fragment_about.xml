@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         app:backgroundColor="@color/background_white"
         app:left_color="@color/main_title"
-        app:left_icon="&#xe60b;"
+        app:left_icon="&#xe62e;"
         app:title_color="@color/main_title"
         app:title_text="关于">
 
@@ -55,14 +55,12 @@
                 android:padding="60dp">
 
                 <ImageView
-                    android:id="@+id/imageView3"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:src="@mipmap/ic_launcher"
                     app:srcCompat="@mipmap/ic_launcher" />
 
                 <TextView
-                    android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
@@ -112,7 +110,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
-                        android:text="&#xe6e0;"
+                        android:text="&#xe62d;"
                         android:textColor="@color/skip_title" />
 
                     <TextView
@@ -126,7 +124,6 @@
                         android:textColor="@color/skip_title" />
 
                     <TextView
-                        android:id="@+id/textView12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
@@ -160,7 +157,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
-                        android:text="&#xe6e0;"
+                        android:text="&#xe62d;"
                         android:textColor="@color/skip_title" />
 
                     <TextView
@@ -207,7 +204,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
-                        android:text="&#xe6e0;"
+                        android:text="&#xe62d;"
                         android:textColor="@color/skip_title" />
 
                     <TextView
@@ -253,7 +250,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
-                        android:text="&#xe6e0;"
+                        android:text="&#xe62d;"
                         android:textColor="@color/skip_title" />
 
                     <TextView
@@ -301,7 +298,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
-                        android:text="&#xe6e0;"
+                        android:text="&#xe62d;"
                         android:textColor="@color/skip_title" />
 
                     <TextView
@@ -347,7 +344,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
-                        android:text="&#xe6e0;"
+                        android:text="&#xe62d;"
                         android:textColor="@color/skip_title" />
 
                     <TextView
@@ -394,7 +391,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
-                        android:text="&#xe6e0;"
+                        android:text="&#xe62d;"
                         android:textColor="@color/skip_title" />
 
                     <TextView
@@ -440,7 +437,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
-                        android:text="&#xe6e0;"
+                        android:text="&#xe62d;"
                         android:textColor="@color/skip_title" />
 
                     <TextView
@@ -487,7 +484,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
-                        android:text="&#xe6e0;"
+                        android:text="&#xe62d;"
                         android:textColor="@color/skip_title" />
 
                     <TextView

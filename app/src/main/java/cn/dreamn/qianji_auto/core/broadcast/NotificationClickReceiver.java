@@ -26,7 +26,7 @@ public class NotificationClickReceiver extends BroadcastReceiver {
         MMKV mmkv=MMKV.defaultMMKV();
         switch (mmkv.getString("notice_click_window","edit")){
             case "edit":
-                SendDataToApp.showFloat(context,billInfo);
+                SendDataToApp.showFloatByAlert(context, billInfo);
                 break;
             case "record":
                SendDataToApp.goApp(context,billInfo);
