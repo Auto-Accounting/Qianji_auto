@@ -18,8 +18,10 @@
 package cn.dreamn.qianji_auto.ui.floats;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,6 +29,7 @@ import com.tencent.mmkv.MMKV;
 import com.xuexiang.xfloatview.XFloatView;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.BillTools;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
@@ -85,6 +88,9 @@ public class AutoFloatTip extends XFloatView {
      */
     @Override
     protected void initFloatView() {
+        Bundle appinfo = AppManager.getAppInfo();
+        ImageView logo = findViewById(R.id.logo);
+        logo.setImageResource(appinfo.getInt("appIcon"));
         tip = findViewById(R.id.tip);
         money = findViewById(R.id.money);
         time = findViewById(R.id.time);
