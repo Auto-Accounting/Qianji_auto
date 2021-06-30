@@ -1332,7 +1332,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginBottom="0dp"
                                 android:gravity="center_horizontal"
-                                android:text="&#xe62e;"
+                                android:text="&#xe646;"
                                 android:textColor="@color/icon_title"
                                 android:textSize="@dimen/main_card_body_icon_size" />
 
