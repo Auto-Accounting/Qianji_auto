@@ -49,7 +49,7 @@ public class identifyRegulars {
                 }
                 BillInfo billInfo = new BillInfo();
                 Log.i(strs[0]);
-                billInfo.setRemark(strs[0]);
+                billInfo.setShopRemark(strs[0]);
                 billInfo.setrawAccount(strs[1]);
                 billInfo.setType(strs[2]);
                 billInfo.setMoney(strs[3]);
