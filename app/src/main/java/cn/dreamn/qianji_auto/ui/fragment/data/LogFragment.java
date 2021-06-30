@@ -25,6 +25,7 @@ import android.os.Message;
 import android.view.MenuInflater;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -50,6 +51,7 @@ import cn.dreamn.qianji_auto.ui.adapter.LogAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 import es.dmoral.toasty.Toasty;
 
 @Page(name = "日志", anim = CoreAnim.slide)
@@ -154,8 +156,21 @@ public class LogFragment extends BaseFragment {
             popup.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.sendLog:
+                        Handler mHandler2 = new Handler(Looper.getMainLooper()) {
+                            @Override
+                            public void handleMessage(@NonNull Message msg) {
+                                Tool.shareFile(getContext(), Tool.getCacheFileName(getContext(), "log.log"));
+                            }
+                        };
                         //写出日志到临时文件
-                        // TODO 写到临时文件
+                        Task.onThread(() -> {
+                            StringBuilder l = new StringBuilder();
+                            for (Bundle bundle : list) {
+                                l.append("[").append(bundle.getString("time")).append("]").append("[").append(bundle.getString("sub")).append("]").append(bundle.getString("title")).append("\n");
+                            }
+                            Tool.writeToCache(getContext(), "log.log", l.toString());
+                            mHandler2.sendEmptyMessage(0);
+                        });
                         break;
                     case R.id.cleanLog:
                         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);

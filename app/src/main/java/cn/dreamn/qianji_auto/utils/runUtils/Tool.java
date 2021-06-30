@@ -151,6 +151,7 @@ public class Tool {
         String path = mContext.getExternalCacheDir().getPath() + "/";
         String file = path + fileName;
         FileUtils.makeRootDirectory(path);
+        FileUtils.del(file);
         try {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(data.getBytes());
@@ -159,10 +160,16 @@ public class Tool {
             Log.i("写入缓存异常！" + e);
         }
     }
+
     public static void stopApp(Context context, String packageName) {
         ActivityManager mActivityManager = (ActivityManager)
                 context.getSystemService(Context.ACTIVITY_SERVICE);
         mActivityManager.killBackgroundProcesses(packageName);
+    }
+
+    public static String getCacheFileName(Context mContext, String fileName) {
+        String path = mContext.getExternalCacheDir().getPath() + "/";
+        return path + fileName;
     }
 //dateTime.getTimeInMillis()
 
