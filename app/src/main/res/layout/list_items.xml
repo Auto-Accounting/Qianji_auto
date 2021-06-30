@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.balysv.materialripple.MaterialRippleLayout
-        android:layout_width="match_parent"
-        app:mrl_rippleColor="@color/ripper_color"
-    app:mrl_rippleDimension="10dp"
-    app:mrl_rippleOverlay="true"
-    app:mrl_rippleAlpha="0.5"
-    app:mrl_rippleDuration="2000"
-    app:mrl_rippleFadeDuration="1000"
-    app:mrl_rippleHover="true"
-    app:mrl_rippleDelayClick="false"
-    app:mrl_ripplePersistent="false"
-    app:mrl_rippleRoundedCorners="1dp"
-        android:layout_height="wrap_content">
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
@@ -95,5 +81,5 @@
              />
 
     </RelativeLayout>
-    </com.balysv.materialripple.MaterialRippleLayout>
+
 </merge>

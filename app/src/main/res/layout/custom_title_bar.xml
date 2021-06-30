@@ -23,9 +23,9 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:layout_marginStart="10dp"
-                android:text="&#xe646;"
+                android:text="&#xe62e;"
                 android:textColor="@color/button_go_setting_bg"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tv_tilte"
