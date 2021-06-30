@@ -62,7 +62,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
     // 腾讯MMKV
-    implementation 'com.tencent:mmkv:1.0.23'
+    implementation 'com.tencent:mmkv:1.2.10'
     // 主题
     implementation 'com.github.LillteZheng:ZSkinPlugin:v1.2'
     //下拉刷新框架
@@ -81,11 +81,11 @@ dependencies {
     implementation 'com.github.SheHuan:NiceImageView:1.0.5'
 
     //安卓Room数据库
-    def room_version = "2.2.6"
+    def room_version = '2.3.0'
 
     //noinspection GradleDependency
     implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+    annotationProcessor "androidx.room:room-compiler:2.3.0"
 
     // optional - RxJava support for Room
     //noinspection GradleDependency
@@ -97,9 +97,9 @@ dependencies {
 
     // optional - Test helpers
     //noinspection GradleDependency
-    testImplementation "androidx.room:room-testing:$room_version"
+    testImplementation "androidx.room:room-testing:2.3.0"
     //内存泄漏监测leak,就需要加上这个依赖
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
     //rhino
     implementation project(path: ':rhino-1.7.13')
     //多状态组件
@@ -110,7 +110,7 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:files:3.3.0'
     implementation 'com.afollestad.material-dialogs:color:3.3.0'
     implementation 'com.afollestad.material-dialogs:bottomsheets:3.3.0'
-    implementation 'com.afollestad.material-dialogs:datetime:3.1.1'
+    implementation 'com.afollestad.material-dialogs:datetime:3.3.0'
     //动画
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     //悬浮按钮
@@ -118,17 +118,17 @@ dependencies {
     //悬浮窗
     implementation 'com.github.xuexiangjys:XFloatView:1.0.2'
     //网络请求库
-    implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation('com.squareup.okhttp3:okhttp:5.0.0-alpha.2')
     //WebDav
     implementation 'com.thegrizzlylabs.sardine-android:sardine-android:0.5'
     //FastJSON
-    implementation 'com.alibaba:fastjson:1.2.75'
+    implementation 'com.alibaba:fastjson:1.2.76'
     //Xposed组件库
     compileOnly 'de.robv.android.xposed:api:82'
     compileOnly 'de.robv.android.xposed:api:82:sources'
     //图片加载库
-    implementation "com.github.bumptech.glide:glide:4.11.0"
-    annotationProcessor "com.github.bumptech.glide:compiler:4.11.0"
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 }
 repositories {
     mavenCentral()

@@ -258,7 +258,7 @@ public class AutoBillWeb {
                 }
 
 
-                Log.i("更新数据：" + data);
+                Log.m("更新数据：" + data);
             }
         });
     }

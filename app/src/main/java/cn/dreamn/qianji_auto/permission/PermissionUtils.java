@@ -222,7 +222,7 @@ public class PermissionUtils {
                     .getMethod("getApplicationAutoStart", Context.class, String.class);
             return (int) method.invoke(null,context,packageName) == 0 ? "0":"1"; //0已允许, 1已拒绝
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         //如果系统更新改了api可能导致没法判断
         return "-1";
