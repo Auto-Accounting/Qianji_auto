@@ -120,7 +120,8 @@ public class AppInfo {
                         "lsposed",
                         "bug",
                         "Dreamn",
-                        "xposed"
+                        "xposed",
+                        "lsposed_old",
                 };
         String[] appPackage = {
                 "me.weishu.exp",
@@ -128,7 +129,8 @@ public class AppInfo {
                 "org.lsposed.manager",
                 "com.bug.xposed",
                 "top.canyie.dreamland.manager",
-                "de.robv.android.xposed.installer"
+                "de.robv.android.xposed.installer",
+                "io.github.lsposed.manager"
         };
 
         for (int i = 0; i < appName.length; i++) {
@@ -148,6 +150,8 @@ public class AppInfo {
                 return "EdXposed";
             case "lsposed":
                 return "LSPosed";
+            case "lsposed_old":
+                return "LSPosed旧版";
             case "xposed":
                 return "Xposed";
             case "Dreamn":

@@ -67,6 +67,7 @@ public class BackupManager {
             return filename;
         } catch (Exception e) {
             Log.i("备份出错" + e.toString());
+            e.printStackTrace();
         }
 
 
