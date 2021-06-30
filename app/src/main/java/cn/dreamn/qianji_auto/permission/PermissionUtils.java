@@ -152,7 +152,9 @@ public class PermissionUtils {
 //                            .permission(Permission.Group.STORAGE)
                             // 适配 Android 11 需要这样写，这里无需再写 Permission.Group.STORAGE
 
+
                             .permission(Permission.MANAGE_EXTERNAL_STORAGE)
+
                             .request(new OnPermissionCallback() {
                                 @Override
                                 public void onGranted(List<String> permissions, boolean all) {
@@ -172,8 +174,10 @@ public class PermissionUtils {
                                     }
                                 }
                             });
-                } catch (Exception exception) {
-                    exception.getStackTrace();
+
+                }catch (Exception exception)
+                {
+                    exception.printStackTrace();
                 }
                 break;
             case StorageReadExt:

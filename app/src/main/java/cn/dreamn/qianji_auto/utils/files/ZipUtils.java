@@ -474,7 +474,6 @@ public final class ZipUtils {
         //提供了一个数据项压缩成一个ZIP归档输出流
         ZipOutputStream out = null;
         try {
-
             File outFile = new File(dest);//源文件或者目录
             File fileOrDirectory = new File(src);//压缩文件路径
             out = new ZipOutputStream(new FileOutputStream(outFile));
@@ -484,10 +483,13 @@ public final class ZipUtils {
             } else {
                 //返回一个文件或空阵列。
                 File[] entries = fileOrDirectory.listFiles();
-                for (File entry : entries) {
-                    // 递归压缩，更新curPaths
-                    zipFileOrDirectory(out, entry, "");
+                if (entries != null) {
+                    for (File entry : entries) {
+                        // 递归压缩，更新curPaths
+                        zipFileOrDirectory(out, entry, "");
+                    }
                 }
+
             }
         } catch (IOException ex) {
             ex.printStackTrace();

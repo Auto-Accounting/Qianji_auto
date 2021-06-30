@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import cn.dreamn.qianji_auto.App;
+import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -52,8 +53,7 @@ public class BackupManager {
 
         try {
             //压缩到缓存
-            ZipUtils.zip("/data/data/cn.dreamn.qianji/", filename2);
-
+            ZipUtils.zip("/data/data/" + BuildConfig.APPLICATION_ID + "/", filename2);
 
             DataUtils dataUtils = new DataUtils();
             dataUtils.put("code", App.getAppVerCode());
@@ -134,7 +134,7 @@ public class BackupManager {
 
             String filename2 = context.getExternalCacheDir().getPath();
             List<File> s = ZipUtils.unzipFile(filePath, filename2);
-            ZipUtils.unzip(s.get(0).toString(), "/data/data/cn.dreamn.qianji_auto/");
+            ZipUtils.unzip(s.get(0).toString(), "/data/data/" + BuildConfig.APPLICATION_ID + "/");
             FileUtils.del(s.get(0).toString());
             FileUtils.del(filePath);
             return "ok";
