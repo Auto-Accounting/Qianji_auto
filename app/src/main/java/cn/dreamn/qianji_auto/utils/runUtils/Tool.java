@@ -50,12 +50,14 @@ public class Tool {
         context.startActivity(intent);
     }
 
-    public static void goToMarket(String packageName){
+    public static void goToMarket(Context context, String packageName) {
         Uri uri = Uri.parse("market://details?id=" + packageName);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         try {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        } catch (Exception ignored) {
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
