@@ -175,7 +175,7 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
         dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
                     Log.i("filechooser", "返回键响应");
                     onBackPressed();
                 }
@@ -229,15 +229,15 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
         select.setText(positiveBtnNameStr);
         File currLoc;
         internalList.clear();
+        FileListItem parent = null;
         if (properties.offset.isDirectory() && validateOffsetPath()) {
+            parent = new FileListItem();
             currLoc = new File(properties.offset.getAbsolutePath());
-            FileListItem parent = new FileListItem();
             parent.setFilename(context.getString(R.string.label_parent_dir));
             parent.setDirectory(true);
             parent.setLocation(Objects.requireNonNull(currLoc.getParentFile())
                     .getAbsolutePath());
             parent.setTime(currLoc.lastModified());
-            internalList.add(parent);
         } else if (properties.root.exists() && properties.root.isDirectory()) {
             currLoc = new File(properties.root.getAbsolutePath());
         } else {
@@ -248,6 +248,11 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
         setTitle();
         internalList = Utility.prepareFileListEntries(internalList, currLoc, filter,
                 properties.show_hidden_files);
+
+        if (parent != null) {
+            internalList.add(0, parent);
+        }
+
         mFileListAdapter.notifyDataSetChanged();
         listView.setOnItemClickListener(this);
     }
@@ -269,17 +274,22 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
                     setTitle();
                     dir_path.setText(currLoc.getAbsolutePath());
                     internalList.clear();
+                    FileListItem parent = null;
                     if (!currLoc.getName().equals(properties.root.getName())) {
-                        FileListItem parent = new FileListItem();
+                        parent = new FileListItem();
                         parent.setFilename(context.getString(R.string.label_parent_dir));
                         parent.setDirectory(true);
                         parent.setLocation(Objects.requireNonNull(currLoc
                                 .getParentFile()).getAbsolutePath());
                         parent.setTime(currLoc.lastModified());
-                        internalList.add(parent);
                     }
                     internalList = Utility.prepareFileListEntries(internalList, currLoc, filter,
                             properties.show_hidden_files);
+
+                    if (parent != null) {
+                        internalList.add(0, parent);
+                    }
+
                     mFileListAdapter.notifyDataSetChanged();
                 } else {
                     Toast.makeText(context, R.string.error_dir_access,
@@ -446,17 +456,20 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
                 dname.setText(currLoc.getName());
                 dir_path.setText(currLoc.getAbsolutePath());
                 internalList.clear();
+                FileListItem parent = null;
                 if (!currLoc.getName().equals(properties.root.getName())) {
-                    FileListItem parent = new FileListItem();
+                    parent = new FileListItem();
                     parent.setFilename(context.getString(R.string.label_parent_dir));
                     parent.setDirectory(true);
                     parent.setLocation(Objects.requireNonNull(currLoc.getParentFile())
                             .getAbsolutePath());
                     parent.setTime(currLoc.lastModified());
-                    internalList.add(parent);
                 }
                 internalList = Utility.prepareFileListEntries(internalList, currLoc, filter,
                         properties.show_hidden_files);
+                if (parent != null) {
+                    internalList.add(0, parent);
+                }
                 mFileListAdapter.notifyDataSetChanged();
             }
             setTitle();
