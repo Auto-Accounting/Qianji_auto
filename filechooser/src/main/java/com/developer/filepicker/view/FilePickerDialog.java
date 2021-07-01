@@ -3,7 +3,6 @@ package com.developer.filepicker.view;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,7 +84,6 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
     private void initViews() {
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
         dialog = new MaterialDialog(context, bottomSheet);
-
         dialog.cornerRadius(15f, null);
         LayoutInflater factory = LayoutInflater.from(context);
         final View dialog_main = factory.inflate(R.layout.dialog_main, null);
@@ -175,8 +173,9 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
         dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
             public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                    Log.i("filechooser", "返回键响应");
+                    //Log.i("filechooser", "返回键响应");
                     onBackPressed();
                 }
                 return false;

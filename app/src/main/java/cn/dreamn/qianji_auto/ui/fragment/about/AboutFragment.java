@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -133,8 +134,7 @@ public class AboutFragment extends BaseFragment {
 
         });
         item_update.setOnLongClickListener(v -> {
-            BottomSheet bottomSheet2 = new BottomSheet(LayoutMode.WRAP_CONTENT);
-            MaterialDialog dialog2 = new MaterialDialog(getContext(), bottomSheet2);
+
             MMKV mmkv = MMKV.defaultMMKV();
             String channel = mmkv.getString("version_channel", "stable");
             String channelName = "稳定版";
@@ -149,7 +149,10 @@ public class AboutFragment extends BaseFragment {
                     channelName = "公开测试版";
                     break;
             }
+            BottomSheet bottomSheet2 = new BottomSheet(LayoutMode.WRAP_CONTENT);
+            MaterialDialog dialog2 = new MaterialDialog(getContext(), bottomSheet2);
             dialog2.title(null, "检测版本(" + channelName + ")");
+            dialog2.cornerRadius(15f, null);
             DialogListExtKt.listItems(dialog2, null, Arrays.asList("稳定版", "内部测试版", "公开测试版"), null, true, (materialDialog, index, text) -> {
                 String[] s = new String[]{"stable", "alpha", "beta"};
                 mmkv.encode("version_channel", s[index]);
@@ -159,7 +162,25 @@ public class AboutFragment extends BaseFragment {
             dialog2.show();
             return false;
         });
-        item_support.setOnClickListener(v -> DonateUtil.openAlipayPayPage(getContext()));
+        item_support.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               /* if(AppStatus.xposedActive(getContext())){
+                    BottomSheet bottomSheet2 = new BottomSheet(LayoutMode.WRAP_CONTENT);
+                    MaterialDialog dialog2 = new MaterialDialog(getContext(), bottomSheet2);
+                    dialog2.title(null, "请选择捐赠渠道");
+                    dialog2.cornerRadius(15f,null);
+                    DialogListExtKt.listItems(dialog2, null, Arrays.asList("支付宝", "微信", "QQ"), null, true, (materialDialog, index, text) -> {
+                        String[] s = new String[]{"stable", "alpha", "beta"};
+                        mmkv.encode("version_channel", s[index]);
+                        Toasty.success(getContext(), "设置成功！").show();
+                        return null;
+                    });
+                    dialog2.show();
+                }*/
+                DonateUtil.openAlipayPayPage(getContext());
+            }
+        });
         item_group.setOnClickListener(v -> {
             String key = "ifoJ5lHBaEqX-dloMkG4d3Ra89zXCLti";
             Intent intent = new Intent();
@@ -174,8 +195,8 @@ public class AboutFragment extends BaseFragment {
                 Toasty.error(getContext(), "未安装手机QQ或者当前QQ不支持加群。", Toast.LENGTH_LONG).show();
             }
         });
-        item_tg.setOnClickListener(v->Tool.goUrl(requireContext(),"https://t.me/qianji_auto"));
-        item_star.setOnClickListener(v-> Tool.goToMarket(BuildConfig.APPLICATION_ID));
+        item_tg.setOnClickListener(v -> Tool.goUrl(requireContext(), "https://t.me/qianji_auto"));
+        item_star.setOnClickListener(v -> Tool.goToMarket(requireContext(), BuildConfig.APPLICATION_ID));
     }
 
     @Override
