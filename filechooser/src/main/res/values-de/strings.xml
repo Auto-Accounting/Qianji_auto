@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_dir_access">Zugriff auf Verzeichnis fehlgeschlagen</string>
+    <string name="cancel_button_label">Abbrechen</string>
+    <string name="choose_button_label">Auswählen</string>
+    <string name="label_parent_directory">Übergeordnetes Verzeichnis</string>
+    <string name="last_edit">Zuletzt bearbeitet: %1$s, %2$s</string>
+</resources>

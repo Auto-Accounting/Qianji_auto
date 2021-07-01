@@ -34,15 +34,16 @@ import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
-import com.afollestad.materialdialogs.files.DialogFileChooserExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
+import com.developer.filepicker.model.DialogConfigs;
+import com.developer.filepicker.model.DialogProperties;
+import com.developer.filepicker.view.FilePickerDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xpage.utils.TitleBar;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -196,63 +197,62 @@ public class BackUpFragment extends BaseFragment {
                 });
             }
         });
-        rl_backup_local.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BackupManager.init(getContext());
-                LoadingDialog dialog = new LoadingDialog(getContext(), "数据备份中...");
-                Handler mHandler = new Handler(Looper.getMainLooper()) {
-                    @Override
-                    public void handleMessage(@NonNull Message msg) {
-                        dialog.close();
-                        if (msg.what == -1) {
-                            //失败
-                            Toasty.error(getContext(), "备份失败！", Toasty.LENGTH_LONG).show();
-                        } else {
-                            Toasty.success(getContext(), "备份成功，备份文件到" + msg.obj + "！", Toasty.LENGTH_LONG).show();
-                        }
-
+        rl_backup_local.setOnClickListener(v -> {
+            BackupManager.init(getContext());
+            LoadingDialog dialog = new LoadingDialog(getContext(), "数据备份中...");
+            Handler mHandler = new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(@NonNull Message msg) {
+                    dialog.close();
+                    if (msg.what == -1) {
+                        //失败
+                        Toasty.error(getContext(), "备份失败！", Toasty.LENGTH_LONG).show();
+                    } else {
+                        Toasty.success(getContext(), "备份成功，备份文件到" + msg.obj + "！", Toasty.LENGTH_LONG).show();
                     }
-                };
-                dialog.show();
-                Task.onThread(() -> BackupManager.backUpToLocal(getContext(), mHandler));
-            }
+
+                }
+            };
+            dialog.show();
+            Task.onThread(() -> BackupManager.backUpToLocal(getContext(), mHandler));
         });
         rl_restore_local.setOnClickListener(v -> {
             PermissionUtils permissionUtils = new PermissionUtils(getContext());
             permissionUtils.grant(PermissionUtils.Storage);
             try {
-                BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-                MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-                dialog.title(null, "请选择自动记账配置文件");
-                File initialFolder = new File(Environment.getExternalStorageDirectory(), "Download");
 
-                DialogFileChooserExtKt.fileChooser(dialog, getContext(), initialFolder, file -> file.isDirectory() || (file.isFile() && file.getName().endsWith("backup")),
-                        true, R.string.files_default_empty_text, false, null,
-                        (materialDialog, file) -> {
-                            //Log.d(file.getAbsolutePath());
-                            BackupManager.init(getContext());
-                            LoadingDialog dialog2 = new LoadingDialog(getContext(), "数据恢复中...");
-                            Handler mHandler = new Handler(Looper.getMainLooper()) {
-                                @Override
-                                public void handleMessage(@NonNull Message msg) {
-                                    dialog2.close();
-                                    if (msg.what == -1) {
-                                        //失败
-                                        Toasty.error(getContext(), "恢复失败！", Toasty.LENGTH_LONG).show();
-                                    } else {
-                                        Toasty.success(getContext(), "恢复成功！", Toasty.LENGTH_LONG).show();
-                                        Tool.restartApp(getActivity());
-                                    }
+                final DialogProperties properties = new DialogProperties();
 
-                                }
-                            };
-                            dialog2.show();
-                            Task.onThread(() -> BackupManager.restoreFromLocal(file.getAbsolutePath(), getContext(), mHandler));
-                            return null;
-                        });
-
+                //Instantiate FilePickerDialog with Context and DialogProperties.
+                FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
+                dialog.setTitle("请选择备份文件");
+                dialog.setPositiveBtnName("选中");
+                dialog.setNegativeBtnName("关闭");
+                properties.extensions = new String[]{".auto.backup"};
+                properties.root = Environment.getExternalStorageDirectory();
+                properties.offset = Environment.getExternalStorageDirectory();
+                properties.show_hidden_files = false;
+                properties.selection_mode = DialogConfigs.SINGLE_MODE;
+                properties.error_dir = Environment.getExternalStorageDirectory();
+                dialog.setProperties(properties);
                 dialog.show();
+
+                Handler mHandler = new Handler(Looper.getMainLooper()) {
+                    @Override
+                    public void handleMessage(@NonNull Message msg) {
+                        dialog.dismiss();
+                        if (msg.what == -1) {
+                            //失败
+                            Toasty.error(getContext(), "恢复失败！", Toasty.LENGTH_LONG).show();
+                        } else {
+                            Toasty.success(getContext(), "恢复成功！", Toasty.LENGTH_LONG).show();
+                            Tool.restartApp(getActivity());
+                        }
+
+                    }
+                };
+
+                dialog.setDialogSelectionListener(files -> Task.onThread(() -> BackupManager.restoreFromLocal(files[0], getContext(), mHandler)));
             } catch (Exception | Error e) {
                 e.printStackTrace();
                 Log.d("出错了，可能是权限未给全！" + e.toString());

@@ -48,7 +48,7 @@ public class BackupManager {
         int minute = cal.get(Calendar.MINUTE);
         int second = cal.get(Calendar.SECOND);
 
-        @SuppressLint("DefaultLocale") String filename = String.format("%s/Qianji_Auto_%02d%02d%02d%02d%02d%02d.backup", CACHE_PATH, year, month, day, hour, minute, second);
+        @SuppressLint("DefaultLocale") String filename = String.format("%s/Qianji_Auto_%02d%02d%02d%02d%02d%02d.auto.backup", CACHE_PATH, year, month, day, hour, minute, second);
         String filename2 = context.getExternalCacheDir().getPath() + "/raw.bp";
 
         try {
@@ -177,7 +177,7 @@ public class BackupManager {
                 resources = sardine.list(dav);//如果是目录一定别忘记在后面加上一个斜杠
                 List<String> data = new ArrayList<>();
                 for (DavResource res : resources) {
-                    if (!res.isDirectory() && res.getName().endsWith(".backup"))
+                    if (!res.isDirectory() && res.getName().endsWith(".auto.backup"))
                         data.add(0, res.getName());
                 }
                 Message message = new Message();
