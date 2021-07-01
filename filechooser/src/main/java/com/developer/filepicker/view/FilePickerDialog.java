@@ -39,7 +39,6 @@ import java.util.Objects;
 /**
  * @author akshay sunil masram
  */
-@SuppressWarnings("unused")
 public class FilePickerDialog implements AdapterView.OnItemClickListener {
 
     private final Context context;
@@ -55,7 +54,6 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
     private String positiveBtnNameStr = null;
     private String negativeBtnNameStr = null;
 
-    private BottomSheet bottomSheet = null;
     private MaterialDialog dialog = null;
 
     public FilePickerDialog(Context context) {
@@ -85,8 +83,9 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
 
 
     private void initViews() {
-        bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
         dialog = new MaterialDialog(context, bottomSheet);
+
         dialog.cornerRadius(15f, null);
         LayoutInflater factory = LayoutInflater.from(context);
         final View dialog_main = factory.inflate(R.layout.dialog_main, null);

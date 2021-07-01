@@ -35,6 +35,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
+import com.developer.filepicker.controller.DialogSelectionListener;
 import com.developer.filepicker.model.DialogConfigs;
 import com.developer.filepicker.model.DialogProperties;
 import com.developer.filepicker.view.FilePickerDialog;
@@ -223,7 +224,6 @@ public class BackUpFragment extends BaseFragment {
 
                 final DialogProperties properties = new DialogProperties();
 
-                //Instantiate FilePickerDialog with Context and DialogProperties.
                 FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
                 dialog.setTitle("请选择备份文件");
                 dialog.setPositiveBtnName("选中");
@@ -240,7 +240,7 @@ public class BackUpFragment extends BaseFragment {
                 Handler mHandler = new Handler(Looper.getMainLooper()) {
                     @Override
                     public void handleMessage(@NonNull Message msg) {
-                        dialog.dismiss();
+
                         if (msg.what == -1) {
                             //失败
                             Toasty.error(getContext(), "恢复失败！", Toasty.LENGTH_LONG).show();
@@ -252,7 +252,13 @@ public class BackUpFragment extends BaseFragment {
                     }
                 };
 
-                dialog.setDialogSelectionListener(files -> Task.onThread(() -> BackupManager.restoreFromLocal(files[0], getContext(), mHandler)));
+                dialog.setDialogSelectionListener(new DialogSelectionListener() {
+                    @Override
+                    public void onSelectedFilePaths(String[] files) {
+                        dialog.dismiss();
+                        Task.onThread(() -> BackupManager.restoreFromLocal(files[0], getContext(), mHandler));
+                    }
+                });
             } catch (Exception | Error e) {
                 e.printStackTrace();
                 Log.d("出错了，可能是权限未给全！" + e.toString());

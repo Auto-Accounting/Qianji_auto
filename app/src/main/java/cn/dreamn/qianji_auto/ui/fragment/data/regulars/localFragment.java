@@ -26,16 +26,20 @@ import android.os.Message;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
-import com.afollestad.materialdialogs.files.DialogFileChooserExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.developer.filepicker.controller.DialogSelectionListener;
+import com.developer.filepicker.model.DialogConfigs;
+import com.developer.filepicker.model.DialogProperties;
+import com.developer.filepicker.view.FilePickerDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -189,71 +193,99 @@ public class localFragment extends BaseFragment {
             PermissionUtils permissionUtils = new PermissionUtils(getContext());
             permissionUtils.grant(PermissionUtils.Storage);
             try {
-                // 导入
-                BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-                MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-                dialog.title(null, "请选择自动记账" + getName() + "识别规则配置文件");
-
-                DialogFileChooserExtKt.fileChooser(dialog, getContext(), Environment.getExternalStorageDirectory(), file -> file.isDirectory() || (file.isFile() && file.getName().endsWith("ankio." + this.type + ".backup")),
-                        true, R.string.files_default_empty_text, false, null,
-                        (materialDialog, file) -> {
-                            //Log.d(file.getAbsolutePath());
-                            String data = FileUtils.get(file.getAbsolutePath());
-                            JSONObject jsonObject = JSONObject.parseObject(data);
-                            String from = jsonObject.getString("from");
-
-                            if (!from.equals(this.type)) {
-                                Toasty.error(getContext(), "该文件不是有效的" + getName() + "配置数据文件").show();
-                                return null;
-                            }
-                            JSONArray jsonArray = jsonObject.getJSONArray("data");
-
-                            BottomSheet bottomSheet2 = new BottomSheet(LayoutMode.WRAP_CONTENT);
-                            MaterialDialog dialog2 = new MaterialDialog(getContext(), bottomSheet2);
-                            dialog2.cornerRadius(15f, null);
-                            dialog2.title(null, "恢复提醒");
-                            dialog2.message(null, "是否覆盖原有数据（清空不保留）？", null);
-                            dialog2.negativeButton(null, "不清空", (a) -> null);
-                            dialog2.positiveButton(null, "清空", (a) -> {
-                                Category.clear();
-                                return null;
-                            });
-
-                            dialog2.setOnDismissListener(dialog1 -> {
-                                loadDialog = new LoadingDialog(getContext(), "数据导入中...");
-                                loadDialog.show();
-                                Task.onThread(() -> {
-                                    for (int i = 0; i < jsonArray.size(); i++) {
-                                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                        identifyRegulars.add(
-                                                B64.decode(jsonObject1.getString("regular")),
-                                                (jsonObject1.getString("name")),
-                                                (jsonObject1.getString("text")),
-                                                B64.decode(jsonObject1.getString("tableList")),
-                                                (jsonObject1.getString("identify")),
-                                                (jsonObject1.getString("fromApp")),
-                                                (jsonObject1.getString("des")),
-                                                new identifyRegulars.Finish() {
-                                                    @Override
-                                                    public void onFinish() {
-                                                        Log.d("finish data" + jsonObject1.toString());
-                                                    }
-                                                });
-                                    }
-                                    Message message = new Message();
-                                    message.what = HANDLE_REFRESH;
-                                    message.obj = "恢复成功！";
-                                    mHandler.sendMessage(message);
-                                });
 
 
-                            });
-                            dialog2.show();
+                final DialogProperties properties = new DialogProperties();
+
+                FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
+                dialog.setTitle("请选择自动记账" + getName() + "识别规则配置文件");
+                dialog.setPositiveBtnName("选中");
+                dialog.setNegativeBtnName("关闭");
+                properties.extensions = new String[]{".auto." + this.type + ".backup"};
+                properties.root = Environment.getExternalStorageDirectory();
+                properties.offset = Environment.getExternalStorageDirectory();
+                properties.show_hidden_files = false;
+                properties.selection_mode = DialogConfigs.SINGLE_MODE;
+                properties.error_dir = Environment.getExternalStorageDirectory();
+                dialog.setProperties(properties);
+                dialog.show();
+
+                Handler mHandler = new Handler(Looper.getMainLooper()) {
+                    @Override
+                    public void handleMessage(@NonNull Message msg) {
+                        dialog.dismiss();
+                        if (msg.what == -1) {
+                            //失败
+                            Toasty.error(getContext(), "恢复失败！", Toasty.LENGTH_LONG).show();
+                        } else {
+                            Toasty.success(getContext(), "恢复成功！", Toasty.LENGTH_LONG).show();
+                            Tool.restartApp(getActivity());
+                        }
+
+                    }
+                };
+
+                dialog.setDialogSelectionListener(new DialogSelectionListener() {
+                    @Override
+                    public void onSelectedFilePaths(String[] files) {
+                        dialog.dismiss();
+                        String file = files[0];
+                        String data = FileUtils.get(file);
+                        JSONObject jsonObject = JSONObject.parseObject(data);
+                        String from = jsonObject.getString("from");
+
+                        if (!from.equals(getType())) {
+                            Toasty.error(getContext(), "该文件不是有效的" + getName() + "配置数据文件").show();
+                            return;
+                        }
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                        BottomSheet bottomSheet2 = new BottomSheet(LayoutMode.WRAP_CONTENT);
+                        MaterialDialog dialog2 = new MaterialDialog(getContext(), bottomSheet2);
+                        dialog2.cornerRadius(15f, null);
+                        dialog2.title(null, "恢复提醒");
+                        dialog2.message(null, "是否覆盖原有数据（清空不保留）？", null);
+                        dialog2.negativeButton(null, "不清空", (a) -> null);
+                        dialog2.positiveButton(null, "清空", (a) -> {
+                            Category.clear();
+
                             return null;
                         });
+                        dialog2.setOnDismissListener(dialog1 -> {
+                            loadDialog = new LoadingDialog(getContext(), "数据导入中...");
+                            loadDialog.show();
+                            Task.onThread(() -> {
+                                for (int i = 0; i < jsonArray.size(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    identifyRegulars.add(
+                                            B64.decode(jsonObject1.getString("regular")),
+                                            (jsonObject1.getString("name")),
+                                            (jsonObject1.getString("text")),
+                                            B64.decode(jsonObject1.getString("tableList")),
+                                            (jsonObject1.getString("identify")),
+                                            (jsonObject1.getString("fromApp")),
+                                            (jsonObject1.getString("des")),
+                                            new identifyRegulars.Finish() {
+                                                @Override
+                                                public void onFinish() {
+                                                    Log.d("finish data" + jsonObject1.toString());
+                                                }
+                                            });
+                                }
+                                Message message = new Message();
+                                message.what = HANDLE_REFRESH;
+                                message.obj = "恢复成功！";
 
-                dialog.cornerRadius(15f, null);
-                dialog.show();
+                                mHandler.sendMessage(message);
+                            });
+
+
+                        });
+                        dialog2.show();
+                    }
+                });
+
+
             } catch (Exception | Error e) {
                 e.printStackTrace();
                 Log.i("出错了，可能是权限未给全！" + e.toString());
@@ -284,7 +316,7 @@ public class localFragment extends BaseFragment {
                         jsonArray.add(jsonObject1);
                     }
                     jsonObject.put("data", jsonArray);
-                    String fileName = Tool.getTime("yyyyMMddHHmmss") + ".ankio." + this.type + ".backup";
+                    String fileName = Tool.getTime("yyyyMMddHHmmss") + ".auto." + this.type + ".backup";
                     Tool.writeToCache(getContext(), fileName, jsonObject.toJSONString());
                     switch (index) {
                         case 0:
@@ -334,6 +366,10 @@ public class localFragment extends BaseFragment {
             });
             dialog2.show();
         });
+    }
+
+    private String getType() {
+        return this.type;
     }
 
     private void initLayout() {
