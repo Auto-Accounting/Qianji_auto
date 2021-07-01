@@ -42,9 +42,9 @@ import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xpage.utils.TitleBar;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
@@ -122,7 +122,7 @@ public class BackUpFragment extends BaseFragment {
                     @Override
                     public void onOK(String data) {
                         if (data.length() == 0) {
-                            Toasty.error(mRootView.getContext(), "未输入WebDav网址！", Toasty.LENGTH_LONG).show();
+                            Toasty.error(getContext(), "未输入WebDav网址！", Toasty.LENGTH_LONG).show();
                             return;
                         }
                         mmkv.encode("webdav_url", data);
@@ -222,23 +222,16 @@ public class BackUpFragment extends BaseFragment {
             PermissionUtils permissionUtils = new PermissionUtils(getContext());
             permissionUtils.grant(PermissionUtils.Storage);
             try {
-
-                if (permissionUtils.isGrant(PermissionUtils.StorageReadExt).equals("0")) {
-                    permissionUtils.grant(PermissionUtils.StorageReadExt);
-                    return;
-                }
-
                 BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-                MaterialDialog dialog = new MaterialDialog(mRootView.getContext(), bottomSheet);
+                MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
                 dialog.title(null, "请选择自动记账配置文件");
+                File initialFolder = new File(Environment.getExternalStorageDirectory(), "Download");
 
-                DialogFileChooserExtKt.fileChooser(dialog, mRootView.getContext(), Environment.getExternalStorageDirectory(), file -> {
-                            return file.isDirectory() || (file.isFile() && file.getName().endsWith("backup"));
-                        },
+                DialogFileChooserExtKt.fileChooser(dialog, getContext(), initialFolder, file -> file.isDirectory() || (file.isFile() && file.getName().endsWith("backup")),
                         true, R.string.files_default_empty_text, false, null,
                         (materialDialog, file) -> {
                             //Log.d(file.getAbsolutePath());
-                            BackupManager.init(mRootView.getContext());
+                            BackupManager.init(getContext());
                             LoadingDialog dialog2 = new LoadingDialog(getContext(), "数据恢复中...");
                             Handler mHandler = new Handler(Looper.getMainLooper()) {
                                 @Override

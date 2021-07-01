@@ -147,11 +147,39 @@ public class PermissionUtils {
 
             case Storage:
                 try {
+
                     XXPermissions.with(mContext)
                             // 不适配 Android 11 可以这样写
 //                            .permission(Permission.Group.STORAGE)
                             // 适配 Android 11 需要这样写，这里无需再写 Permission.Group.STORAGE
 
+                            .permission(Permission.Group.STORAGE)
+
+                            .request(new OnPermissionCallback() {
+                                @Override
+                                public void onGranted(List<String> permissions, boolean all) {
+                                    if (all) {
+                                        Toasty.success(mContext, "获取存储权限成功", Toast.LENGTH_LONG, true).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onDenied(List<String> permissions, boolean never) {
+                                    if (never) {
+                                        Toasty.error(mContext, "被永久拒绝授权，请手动授予存储权限", Toast.LENGTH_LONG, true).show();
+                                        // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                                        XXPermissions.startPermissionActivity(mContext, permissions);
+                                    } else {
+                                        Toasty.error(mContext, "获取存储权限失败", Toast.LENGTH_LONG, true).show();
+                                    }
+                                }
+                            });
+
+
+                    XXPermissions.with(mContext)
+                            // 不适配 Android 11 可以这样写
+//                            .permission(Permission.Group.STORAGE)
+                            // 适配 Android 11 需要这样写，这里无需再写 Permission.Group.STORAGE
 
                             .permission(Permission.MANAGE_EXTERNAL_STORAGE)
 

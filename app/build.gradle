@@ -11,8 +11,8 @@ android {
         applicationId "cn.dreamn.qianji"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 104
-        versionName "涅槃 3.0.0 alpha2"
+        versionCode 105
+        versionName "涅槃 3.0.0 alpha3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
@@ -42,7 +42,7 @@ android {
 
     buildFeatures {
         //noinspection DataBindingWithoutKapt
-        dataBinding = true
+       // dataBinding = true
     }
 }
 
