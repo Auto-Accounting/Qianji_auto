@@ -54,6 +54,10 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation project(path: ':filechooser')
+    implementation project(path: ':material-dialogs-core')
+    implementation project(path: ':material-dialogs-bottomsheets')
+    implementation project(path: ':material-dialogs-input')
+    implementation project(path: ':material-dialogs-datetime')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -109,11 +113,11 @@ dependencies {
     //多状态组件
     implementation 'com.github.SheHuan:StatusView:1.0.5'
     //material-dialogs
-    implementation 'com.afollestad.material-dialogs:core:3.3.0'
+/*    implementation 'com.afollestad.material-dialogs:core:3.3.0'
     implementation 'com.afollestad.material-dialogs:input:3.3.0'
-    implementation 'com.afollestad.material-dialogs:color:3.3.0'
-    implementation 'com.afollestad.material-dialogs:bottomsheets:3.3.0'
-    implementation 'com.afollestad.material-dialogs:datetime:3.3.0'
+    implementation 'com.afollestad.material-dialogs:color:3.3.0'*/
+/*
+    implementation 'com.afollestad.material-dialogs:datetime:3.3.0'*/
     //动画
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     //悬浮按钮
@@ -132,6 +136,21 @@ dependencies {
     //图片加载库
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+    /*//
+    implementation(name: 'material-dialogs-core', ext: 'aar')
+    implementation(name: 'material-dialogs-bottomsheets', ext: 'aar')
+    implementation(name: 'material-dialogs-input', ext: 'aar')
+    implementation(name: 'material-dialogs-datetime', ext: 'aar')*/
+  /*  compile(name:'material-dialogs-core', ext:'aar')
+    compile(name:'material-dialogs-bottomsheets', ext:'aar')
+    compile(name:'material-dialogs-input', ext:'aar')
+    compile(name:'material-dialogs-datetime', ext:'aar')*/
+    implementation("com.afollestad:date-picker:0.6.1")
+   /* implementation project(path: ':material-dialogs-core')
+    implementation project(path: ':material-dialogs-bottomsheets')
+    implementation project(path: ':material-dialogs-input')
+    implementation project(path: ':material-dialogs-datetime')*/
 }
 repositories {
     mavenCentral()

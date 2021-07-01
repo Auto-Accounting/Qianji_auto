@@ -82,8 +82,10 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
 
 
     private void initViews() {
-        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+        BottomSheet bottomSheet = new BottomSheet(LayoutMode.MATCH_PARENT);
+        bottomSheet.setRatio(1f);
         dialog = new MaterialDialog(context, bottomSheet);
+        //   bottomSheet.getDialogLayout(dialog.getView()).setButtonsLayout();
         dialog.cornerRadius(15f, null);
         LayoutInflater factory = LayoutInflater.from(context);
         final View dialog_main = factory.inflate(R.layout.dialog_main, null);

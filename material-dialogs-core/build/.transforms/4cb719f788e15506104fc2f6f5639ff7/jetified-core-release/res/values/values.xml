@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <attr format="color" name="md_background_color"/>
+    <attr format="enum" name="md_button_casing">
+    <enum name="upper" value="1"/>
+    <enum name="literal" value="2"/>
+  </attr>
+    <attr format="reference" name="md_button_selector"/>
+    <attr format="color" name="md_color_button_text"/>
+    <attr format="color" name="md_color_content"/>
+    <attr format="color" name="md_color_hint"/>
+    <attr format="color" name="md_color_title"/>
+    <attr format="color" name="md_color_widget"/>
+    <attr format="color" name="md_color_widget_unchecked"/>
+    <attr format="dimension" name="md_corner_radius"/>
+    <attr format="color" name="md_divider_color"/>
+    <attr format="reference" name="md_font_body"/>
+    <attr format="reference" name="md_font_button"/>
+    <attr format="reference" name="md_font_title"/>
+    <attr format="reference" name="md_item_selector"/>
+    <attr format="float" name="md_line_spacing_body"/>
+    <attr format="color" name="md_ripple_color"/>
+    <color name="md_btn_selected">#33969696</color>
+    <color name="md_btn_selected_dark">#40CBCBCB</color>
+    <color name="md_disabled_text_dark_theme">#C2C2C2</color>
+    <color name="md_disabled_text_light_theme">#818181</color>
+    <color name="md_divider_dark_theme">#3B3C3F</color>
+    <color name="md_divider_light_theme">#E0E0E0</color>
+    <dimen name="md_action_button_corner_radius">2dp</dimen>
+    <dimen name="md_action_button_frame_padding">8dp</dimen>
+    <dimen name="md_action_button_frame_padding_neutral">7dp</dimen>
+    <dimen name="md_action_button_frame_spec_height">52dp</dimen>
+    <dimen name="md_action_button_inset_horizontal">4dp</dimen>
+    <dimen name="md_action_button_inset_vertical">8dp</dimen>
+    <dimen name="md_action_button_min_width">64dp</dimen>
+    <dimen name="md_action_button_padding_horizontal">12dp</dimen>
+    <dimen name="md_action_button_padding_vertical">4dp</dimen>
+    <dimen name="md_action_button_textsize">14sp</dimen>
+    <dimen name="md_checkbox_prompt_height">48dp</dimen>
+    <dimen name="md_checkbox_prompt_margin_horizontal">16dp</dimen>
+    <dimen name="md_checkbox_prompt_margin_vertical">4dp</dimen>
+    <dimen name="md_dialog_default_corner_radius">4dp</dimen>
+    <dimen name="md_dialog_frame_margin_horizontal">24dp</dimen>
+    <dimen name="md_dialog_frame_margin_vertical">24dp</dimen>
+    <dimen name="md_dialog_frame_margin_vertical_less">16dp</dimen>
+    <dimen name="md_dialog_horizontal_margin">32dp</dimen>
+    <dimen name="md_dialog_max_width">356dp</dimen>
+    <dimen name="md_dialog_title_layout_margin_bottom">20dp</dimen>
+    <dimen name="md_dialog_vertical_margin">52dp</dimen>
+    <dimen name="md_divider_height">1dp</dimen>
+    <dimen name="md_icon_margin">16dp</dimen>
+    <dimen name="md_icon_size">42dp</dimen>
+    <dimen name="md_listitem_control_margin">6dp</dimen>
+    <dimen name="md_listitem_height">48dp</dimen>
+    <dimen name="md_listitem_margin_left">24dp</dimen>
+    <dimen name="md_listitem_margin_left_choice">0dp</dimen>
+    <dimen name="md_listitem_textsize">16sp</dimen>
+    <dimen name="md_listitem_vertical_margin">12dp</dimen>
+    <dimen name="md_listitem_vertical_margin_choice">8dp</dimen>
+    <dimen name="md_message_textsize">16sp</dimen>
+    <dimen name="md_title_textsize">20sp</dimen>
+    <style name="MD_ActionButton">
+    <item name="android:background">@null</item>
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">match_parent</item>
+    <item name="android:textSize">@dimen/md_action_button_textsize</item>
+    <item name="android:singleLine">true</item>
+    <item name="android:gravity">center</item>
+    <item name="android:minWidth">@dimen/md_action_button_min_width</item>
+    <item name="android:paddingLeft">@dimen/md_action_button_padding_horizontal</item>
+    <item name="android:paddingRight">@dimen/md_action_button_padding_horizontal</item>
+    <item name="android:textAllCaps">false</item>
+  </style>
+    <style name="MD_Dark" parent="Theme.AppCompat.Dialog.Alert" ns1:ignore="PrivateResource">
+    <item name="android:windowMinWidthMajor">@dimen/abc_dialog_min_width_major</item>
+    <item name="android:windowMinWidthMinor">@dimen/abc_dialog_min_width_minor</item>
+
+    <item name="android:actionModeBackground">@color/primary_material_dark</item>
+    <item name="android:actionModeCloseDrawable">@drawable/md_nav_back</item>
+
+    <item name="android:windowAnimationStyle">@style/MD_WindowAnimation</item>
+    <item name="android:backgroundDimEnabled">true</item>
+    <item name="android:windowNoTitle">true</item>
+
+    <item name="md_divider_color">@color/md_divider_dark_theme</item>
+    <item name="md_item_selector">@drawable/md_item_selector_dark</item>
+    <item name="md_button_selector">@drawable/md_btn_selector_dark</item>
+  </style>
+    <style name="MD_Dialog_CheckPrompt">
+    <item name="android:gravity">start|center_vertical</item>
+    <item name="android:minHeight">@dimen/md_checkbox_prompt_height</item>
+    <item name="android:visibility">gone</item>
+  </style>
+    <style name="MD_Dialog_Icon">
+    <item name="android:layout_width">56dp</item>
+    <item name="android:layout_height">56dp</item>
+    <item name="android:scaleType">fitCenter</item>
+    <item name="android:visibility">gone</item>
+  </style>
+    <style name="MD_Dialog_Message">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_gravity">center</item>
+    <item name="android:textColor">?android:textColorSecondary</item>
+    <item name="android:textSize">@dimen/md_message_textsize</item>
+    <item name="android:paddingLeft">@dimen/md_dialog_frame_margin_horizontal</item>
+    <item name="android:paddingRight">@dimen/md_dialog_frame_margin_horizontal</item>
+  </style>
+    <style name="MD_Dialog_ScrollView_FrameContent">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:orientation">vertical</item>
+    <item name="android:gravity">center</item>
+  </style>
+    <style name="MD_Dialog_Title_Text">
+    <item name="android:textColor">?android:textColorPrimary</item>
+    <item name="android:textSize">@dimen/md_title_textsize</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+  </style>
+    <style name="MD_Light" parent="Theme.AppCompat.Light.Dialog.Alert" ns1:ignore="PrivateResource">
+    <item name="android:windowMinWidthMajor">@dimen/abc_dialog_min_width_major</item>
+    <item name="android:windowMinWidthMinor">@dimen/abc_dialog_min_width_minor</item>
+
+    <item name="android:actionModeBackground">@color/primary_material_dark</item>
+    <item name="android:actionModeCloseDrawable">@drawable/md_nav_back</item>
+    <item name="android:windowNoTitle">true</item>
+
+    <item name="android:windowAnimationStyle">@style/MD_WindowAnimation</item>
+    <item name="android:backgroundDimEnabled">true</item>
+
+    <item name="md_divider_color">@color/md_divider_light_theme</item>
+    <item name="md_item_selector">@drawable/md_item_selector</item>
+    <item name="md_button_selector">@drawable/md_btn_selector</item>
+  </style>
+    <style name="MD_ListItem">
+    <item name="android:background">@null</item>
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:focusable">true</item>
+    <item name="android:clickable">true</item>
+    <item name="android:gravity">center_vertical|start</item>
+    <item name="android:minHeight">@dimen/md_listitem_height</item>
+    <item name="android:orientation">vertical</item>
+  </style>
+    <style name="MD_ListItem.Choice">
+    <item name="android:background">@null</item>
+    <item name="android:descendantFocusability">blocksDescendants</item>
+    <item name="android:focusable">true</item>
+    <item name="android:minHeight">@dimen/md_listitem_height</item>
+    <item name="android:orientation">horizontal</item>
+    <item name="android:paddingLeft">@dimen/md_dialog_frame_margin_horizontal</item>
+    <item name="android:paddingRight">@dimen/md_dialog_frame_margin_horizontal</item>
+  </style>
+    <style name="MD_ListItemText" ns1:ignore="NewApi">
+    <item name="android:background">@null</item>
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:gravity">start|center_vertical</item>
+    <item name="android:layout_gravity">start|center_vertical</item>
+    <item name="android:layout_marginTop">@dimen/md_listitem_vertical_margin</item>
+    <item name="android:layout_marginBottom">@dimen/md_listitem_vertical_margin</item>
+    <item name="android:layout_marginLeft">@dimen/md_listitem_margin_left</item>
+    <item name="android:layout_marginStart">@dimen/md_listitem_margin_left</item>
+    <item name="android:layout_marginRight">@dimen/md_dialog_frame_margin_horizontal</item>
+    <item name="android:layout_marginEnd">@dimen/md_dialog_frame_margin_horizontal</item>
+    <item name="android:textSize">@dimen/md_listitem_textsize</item>
+    <item name="android:textColor">@color/md_list_item_textcolor</item>
+  </style>
+    <style name="MD_ListItemText.Choice" ns1:ignore="NewApi">
+    <item name="android:background">@null</item>
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:gravity">start|center_vertical</item>
+    <item name="android:layout_gravity">start|center_vertical</item>
+    <item name="android:layout_marginLeft">@dimen/md_listitem_margin_left_choice</item>
+    <item name="android:layout_marginStart">@dimen/md_listitem_margin_left_choice</item>
+    <item name="android:minHeight">@dimen/md_listitem_height</item>
+    <item name="android:paddingBottom">@dimen/md_listitem_vertical_margin_choice</item>
+    <item name="android:paddingLeft">@dimen/md_listitem_control_margin</item>
+    <item name="android:paddingStart">@dimen/md_listitem_control_margin</item>
+    <item name="android:paddingTop">@dimen/md_listitem_vertical_margin_choice</item>
+    <item name="android:textSize">@dimen/md_listitem_textsize</item>
+    <item name="android:textColor">@color/md_list_item_textcolor</item>
+    <item name="android:layout_marginTop">0dp</item>
+    <item name="android:layout_marginBottom">0dp</item>
+  </style>
+    <style name="MD_ListItem_Control">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:background">@null</item>
+    <item name="android:clickable">false</item>
+    <item name="android:focusable">false</item>
+    <item name="android:gravity">start|center_vertical</item>
+    <item name="android:layout_gravity">start|center_vertical</item>
+  </style>
+    <style name="MD_WindowAnimation">
+    <item name="android:windowEnterAnimation">@anim/popup_enter</item>
+    <item name="android:windowExitAnimation">@anim/popup_exit</item>
+  </style>
+</resources>
