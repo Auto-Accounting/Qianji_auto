@@ -57,6 +57,7 @@ public class ErrorActivity extends AppCompatActivity {
             LayoutInflater factory = LayoutInflater.from(this);
             final View textEntryView = factory.inflate(R.layout.list_msg, null);
             BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+            bottomSheet.setRatio(1f);
             MaterialDialog dialog = new MaterialDialog(this, bottomSheet);
             dialog.title(null, "自动记账发生异常 ");
 
