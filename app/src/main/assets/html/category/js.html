@@ -190,8 +190,8 @@ if(true)return '其它';</textarea>
 <!--<script src="../Public/jquery/category.js"></script>-->
 <script>
     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-       lineNumbers: true, // 显示行数
-        indentUnit: 2, // 缩进单位为2
+        lineNumbers: true, // 显示行数
+        indentUnit:2,
         styleActiveLine: true, // 当前行背景高亮
         matchBrackets: true,
         lineWrapping: false,
@@ -378,6 +378,7 @@ if(true)return '其它';</textarea>
         var js = "function getCategory(shopName,shopRemark,type,hour,minute,source,money){%s  %s return '其它';} getCategory('%s','%s','%s',%s,%s,'%s','%s');";
         return String.format(js, jsInner, jsData, shopAccount, shopRemark, type, hour, minute, source, money);
     }
+
 
 
 
