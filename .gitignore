@@ -13,3 +13,8 @@ rhino-*/build/
 /app/mapping.txt
 /app/seeds.txt
 /app/unused.txt
+
+/material-dialogs-bottomsheets/build/
+/material-dialogs-core/build/
+/material-dialogs-datetime/build/
+/material-dialogs-input/build/
