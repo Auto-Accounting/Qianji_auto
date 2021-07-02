@@ -232,7 +232,7 @@ public class AutoFloat2 {
             BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
             MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
             // dialog.title(null, "请选择时间：");
-            DateTimePickerExtKt.dateTimePicker(dialog, null, null, null, false,
+            DateTimePickerExtKt.dateTimePicker(dialog, null, null, false,
                     false, true,
                     (materialDialog, dateTime) -> {
                         billInfo2.setTime(Tool.getTime("yyyy-MM-dd HH:mm:ss", dateTime.getTimeInMillis()));

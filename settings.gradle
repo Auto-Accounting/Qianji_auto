@@ -1,7 +1,5 @@
-include ':material-dialogs-datetime'
-include ':material-dialogs-input'
+
 include ':material-dialogs-bottomsheets'
-include ':material-dialogs-core'
 include ':filechooser'
 include ':rhino-1.7.13'
 include ':app'

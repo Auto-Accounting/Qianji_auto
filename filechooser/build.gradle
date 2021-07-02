@@ -21,9 +21,9 @@ android {
     }
 }
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.3.0'
+   // implementation 'androidx.appcompat:appcompat:1.3.0'
     //material-dialogs
-    api project(path: ':material-dialogs-core')
+    implementation 'com.afollestad.material-dialogs:core:3.3.0'
     api project(path: ':material-dialogs-bottomsheets')
     /*implementation(name: 'material-dialogs-core', ext: 'aar')
     implementation(name: 'material-dialogs-bottomsheets', ext: 'aar')*/
