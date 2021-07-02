@@ -452,7 +452,7 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
             File currLoc = new File(fitem.getLocation());
             if (currentDirName.equals(properties.root.getName()) ||
                     !currLoc.canRead()) {
-                dialog.onBackPressed();
+                dialog.dismiss();
             } else {
                 dname.setText(currLoc.getName());
                 dir_path.setText(currLoc.getAbsolutePath());
@@ -475,7 +475,7 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
             }
             setTitle();
         } else {
-            dialog.onBackPressed();
+            dialog.dismiss();
         }
     }
 
