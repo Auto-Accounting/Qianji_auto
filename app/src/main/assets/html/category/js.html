@@ -190,10 +190,13 @@ if(true)return '其它';</textarea>
 <!--<script src="../Public/jquery/category.js"></script>-->
 <script>
     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-        lineNumbers: true,
+       lineNumbers: true, // 显示行数
+        indentUnit: 2, // 缩进单位为2
+        styleActiveLine: true, // 当前行背景高亮
         matchBrackets: true,
         lineWrapping: false,
     });
+
 
 </script>
 <script>
@@ -258,7 +261,12 @@ if(true)return '其它';</textarea>
             }
         });
         $("#save").on("click", function (e) {
-            window.AndroidJS.Save("",$("#code").html(),$("#sort_name").val(),$("#sort_remark").val(),$("#cate_id").val());
+            editor.save();
+            let js = $("#code").val()
+            console.log(js)
+            try{
+                window.AndroidJS.Save("",js,$("#sort_name").val(),$("#sort_remark").val(),$("#cate_id").val());
+            }catch(e){}
         });
         setData();
     })
@@ -370,6 +378,9 @@ if(true)return '其它';</textarea>
         var js = "function getCategory(shopName,shopRemark,type,hour,minute,source,money){%s  %s return '其它';} getCategory('%s','%s','%s',%s,%s,'%s','%s');";
         return String.format(js, jsInner, jsData, shopAccount, shopRemark, type, hour, minute, source, money);
     }
+
+
+
 
 
 </script>
