@@ -12,9 +12,9 @@
     "download": ""
   },
   "alpha": {
-    "version": "涅槃 3.0.0 alpha3",
-    "verNum": 105,
-    "log": "修复：自动记账卡死问题\n修复：混淆导致的无法自动记账（反正开源...混淆本来的目的是减小体积~\n修复：备份恢复因为权限问题导致的异常崩溃\n修复：备份恢复列表选择卡顿\n优化：备份选择列表修改为长列表\n",
+    "version": "涅槃 3.0.0 alpha4",
+    "verNum": 106,
+    "log": "修复：修复js编辑无法保存的bug\n优化：修改更新文件检测路径\n优化：文件选择支持返回退出\n",
     "download": "https://jq.qq.com/?_wv=1027&k=qVkARWOX"
   },
   "inherit": true
