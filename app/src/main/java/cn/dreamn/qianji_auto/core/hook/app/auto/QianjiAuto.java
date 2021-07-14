@@ -28,6 +28,11 @@ public class QianjiAuto extends HookBase {
 
 
     @Override
+    public void hookBefore() {
+
+    }
+
+    @Override
     public void hookFirst() throws Error {
         //hook自己，看看是否激活
         XposedHelpers.findAndHookMethod("cn.dreamn.qianji_auto.setting.AppStatus", mAppClassLoader, "xposedActive", Context.class, XC_MethodReplacement.returnConstant(true));

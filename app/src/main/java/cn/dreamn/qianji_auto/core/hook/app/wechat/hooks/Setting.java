@@ -43,12 +43,31 @@ import de.robv.android.xposed.XposedHelpers;
 public class Setting {
     public static void init(Utils utils) {
         XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
-            protected void beforeHookedMethod(MethodHookParam param) {
+            protected void beforeHookedMethod(MethodHookParam param) throws IllegalAccessException {
                 Activity activity = (Activity) param.thisObject;
                 final String activityClzName = activity.getClass().getName();
                 if (activityClzName.contains("com.tencent.mm.plugin.setting.ui.setting.SettingsUI")) {
                     Task.onMain(100, () -> doSettingsMenuInject(activity, utils));
-                }
+                }/*else if(activityClzName.contains("com.tencent.mm.plugin.mall.ui.MallWalletUI")){
+                    utils.log("com.tencent.mm.plugin.mall.ui.MallWalletUI");
+                    Field[] allField = activity.getClass().getDeclaredFields();
+                    utils.log(Arrays.toString(allField));
+                    for (Field field : allField) {
+                        field.setAccessible(true);
+                        Object fieldObject = field.get(activity);
+                        if(fieldObject==null)
+                            continue;
+                    //    utils.log(fieldObject.toString());
+                        utils.log(field.getName() +"----"+fieldObject.getClass().getName()+ "-----"+fieldObject.toString() );
+                        if (fieldObject instanceof View) {
+
+                          //  utils.log(field.getName() + "-----"+fieldObject.toString() );
+                          *//*  TextView textView = (TextView) fieldObject;
+                            textView.addTextChangedListener(new TextViewWatcher(textView));
+                            XposedBridge.log(field.getName() + ", " + textView.getText().toString());
+                   *//*     }
+                    }*/
+                //}
             }
         });
     }

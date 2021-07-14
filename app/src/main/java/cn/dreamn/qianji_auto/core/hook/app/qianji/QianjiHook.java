@@ -27,6 +27,11 @@ public class QianjiHook extends HookBase {
 
 
     @Override
+    public void hookBefore() {
+
+    }
+
+    @Override
     public void hookFirst() throws Error {
 
         try {

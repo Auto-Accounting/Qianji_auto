@@ -13,6 +13,15 @@ public class LoginInfo {
         XposedHelpers.findAndHookMethod(XposedHelpers.findClass("com.tencent.mm.ui.LauncherUI", utils.getClassLoader()), "onCreate", Bundle.class, new XC_MethodHook() {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 SharedPreferences sharedPreferences = ((Activity) param.thisObject).getSharedPreferences("com.tencent.mm_preferences", 0);
+           /*  Map<String,?> map =   sharedPreferences.getAll();
+
+                for (Map.Entry<String, ?> entry : map.entrySet()) {
+                    utils.log("遍历数据：" + entry.getKey() + "---" +  entry.getValue());
+                 //   System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+
+                }*/
+
+
                 String login_weixin_username = sharedPreferences.getString("login_weixin_username", "null");
                 String last_login_nick_name = sharedPreferences.getString("last_login_nick_name", "null");
                 String login_user_name = sharedPreferences.getString("login_user_name", "null");

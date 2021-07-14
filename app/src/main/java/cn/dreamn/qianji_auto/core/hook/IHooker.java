@@ -20,6 +20,8 @@ package cn.dreamn.qianji_auto.core.hook;
 public interface IHooker {
 
 
+    void hookBefore();
+
     void hookFirst() throws Error;
 
     /**

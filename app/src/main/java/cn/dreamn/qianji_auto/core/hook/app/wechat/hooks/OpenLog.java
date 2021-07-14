@@ -9,7 +9,10 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 public class OpenLog {
-    public static void init(Utils utils) throws ClassNotFoundException {
+    public static void init(Utils utils) {
+        if (!utils.isDebug()) return;
+        // utils.printLogLocation();
+        // utils.printClassAndFunctions();
         hookTinker(utils);
         //启用日志出现闪退或者卡死的初始化页面：
         /*
@@ -96,7 +99,37 @@ public class OpenLog {
                         String str2 = (String) param.args[1];
                         Object[] objArr = (Object[]) param.args[2];
                         String format = objArr == null ? str2 : String.format(str2, objArr);
-                        XposedBridge.log("微信[" + functionName + "] " + str + "  " + format);
+
+                        //    hookAllFunctions(utils, "i");
+                        //
+                        //        hookAllFunctions(utils, "d");
+                        //
+                        //        hookAllFunctions(utils, "e");
+                        //
+                        //        hookAllFunctions(utils, "f");
+                        //
+                        //        hookAllFunctions(utils, "v");
+                        //
+                        //        hookAllFunctions(utils, "w");
+                        switch (functionName) {
+                            case "i":
+                            case "f":
+                                Log.i(str, format);
+                                break;
+                            case "d":
+                                Log.d(str, format);
+                                break;
+                            case "e":
+                                Log.e(str, format);
+                                break;
+                            case "v":
+                                Log.v(str, format);
+                                break;
+                            case "w":
+                                Log.w(str, format);
+                                break;
+                        }
+                        //XposedBridge.log("微信[" + functionName + "] " + str + "  " + format);
                         super.beforeHookedMethod(param);
                     }
                 });
