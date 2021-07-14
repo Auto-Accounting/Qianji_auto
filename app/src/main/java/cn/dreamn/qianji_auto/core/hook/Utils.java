@@ -179,7 +179,7 @@ public class Utils {
     }
 
     public static final int TRACE_ALL = 5;
-    private final boolean isDebug = true;
+    private final boolean isDebug = false;
 
     public boolean isDebug() {
         return isDebug;

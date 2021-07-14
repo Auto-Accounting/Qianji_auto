@@ -19,6 +19,7 @@ package cn.dreamn.qianji_auto.core.hook.app.wechat.hooks;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.os.Bundle;
 import android.text.TextUtils;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
@@ -50,13 +51,22 @@ public class Msg {
                     }
                     String contentStr = contentValues.getAsString("content");
 
+
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("isSend", contentValues.getAsInteger("isSend"));
+                    bundle.putInt("status", contentValues.getAsInteger("status"));
+                    bundle.putString("talker", contentValues.getAsString("talker"));
+                    bundle.putString("content", contentValues.getAsString("content"));
+                    bundle.putString("cache_money", utils.readData("cache_wechat_payMoney"));
+                    bundle.putString("cache_user", utils.readData("cache_wechat_payUser"));
+                    bundle.putString("cache_paytools", utils.readData("cache_wechat_paytool"));
                     //转账消息
                     if (type == 419430449) {
-                        utils.sendString(contentValues.toString());
+                        utils.send(bundle);
                     } else if (type == 436207665) {
-                        utils.sendString(contentValues.toString());
+                        utils.send(bundle);
                     } else if (type == 318767153) {
-                        utils.sendString(contentValues.toString());
+                        utils.send(bundle);
                     } else {
                         utils.log("微信数据：" + type + "\n \n" + contentValues.toString());
                     }
