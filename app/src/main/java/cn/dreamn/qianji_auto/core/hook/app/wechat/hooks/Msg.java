@@ -58,7 +58,7 @@ public class Msg {
                     bundle.putString("talker", contentValues.getAsString("talker"));
                     bundle.putString("content", contentValues.getAsString("content"));
                     bundle.putString("cache_money", utils.readData("cache_wechat_payMoney"));
-                    bundle.putString("cache_user", utils.readData("cache_wechat_payUser"));
+                    bundle.putString("cache_user", utils.readData("cache_userName"));
                     bundle.putString("cache_paytools", utils.readData("cache_wechat_paytool"));
                     //转账消息
                     if (type == 419430449) {
