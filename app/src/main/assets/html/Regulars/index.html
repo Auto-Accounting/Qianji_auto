@@ -55,7 +55,7 @@
                 </div>
                 <h4>正则表达式：</h4>
                 <div class="regex-wrapper mgb10">
-                    <textarea cols="100" id="regex_input" rows="3" style="display: none;"
+                    <textarea cols="1000" id="regex_input" rows="3" style="display: none;"
                               tabindex="1"></textarea>
                 </div>
                 <h4>测试数据：</h4>
@@ -309,7 +309,7 @@
 
         const dataUtils = new DataUtils();
         dataUtils.put("name", $("#sort_name").val())
-        dataUtils.put("text", $("#str_input").html())
+        dataUtils.put("text", $("#str_input").val())
         dataUtils.put("regular", $("#regex_input").val())
         dataUtils.put("fromApp", $("#sort_package").val())
 
