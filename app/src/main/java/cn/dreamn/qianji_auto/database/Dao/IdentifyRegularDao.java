@@ -55,5 +55,8 @@ public interface IdentifyRegularDao {
 
     @Query("DELETE FROM IdentifyRegular WHERE identify=:identify and fromApp=:App")
     void clean(String identify, String App);
+
+    @Query("DELETE FROM IdentifyRegular WHERE identify=:identify ")
+    void clean(String identify);
 }
 

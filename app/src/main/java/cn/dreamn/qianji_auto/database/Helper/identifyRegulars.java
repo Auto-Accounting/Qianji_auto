@@ -67,6 +67,7 @@ public class identifyRegulars {
         });
     }
 
+
     public interface BundleGet {
         void onGet(BillInfo billInfo);
     }
@@ -264,6 +265,17 @@ public class identifyRegulars {
 
     public static void setSort(int id, int sort) {
         Task.onThread(() -> DbManger.db.IdentifyRegularDao().setSort(id, sort));
+    }
+
+    public static void clear(String identify) {
+        Task.onThread(() -> DbManger.db.IdentifyRegularDao().clean(identify));
+    }
+
+    public static void clear(String identify, getString getString1) {
+        Task.onThread(() -> {
+            DbManger.db.IdentifyRegularDao().clean(identify);
+            getString1.onGet(null);
+        });
     }
 
     public static void clear(String identify, String fromApp) {

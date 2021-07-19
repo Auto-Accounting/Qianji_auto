@@ -56,7 +56,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
@@ -247,8 +246,7 @@ public class localFragment extends BaseFragment {
                         dialog2.message(null, "是否覆盖原有数据（清空不保留）？", null);
                         dialog2.negativeButton(null, "不清空", (a) -> null);
                         dialog2.positiveButton(null, "清空", (a) -> {
-                            Category.clear();
-
+                            identifyRegulars.clear(getType());
                             return null;
                         });
                         dialog2.setOnDismissListener(dialog1 -> {
@@ -355,7 +353,7 @@ public class localFragment extends BaseFragment {
             dialog2.message(null, "是否清空所有" + getName() + "规则数据？", null);
             dialog2.negativeButton(null, "不清空", (a) -> null);
             dialog2.positiveButton(null, "清空", (a) -> {
-                Category.clear(() -> {
+                identifyRegulars.clear(getType(), str -> {
                     Message message = new Message();
                     message.what = HANDLE_REFRESH;
                     message.obj = "清除成功";
