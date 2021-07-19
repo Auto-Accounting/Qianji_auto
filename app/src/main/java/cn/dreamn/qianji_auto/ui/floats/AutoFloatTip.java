@@ -19,6 +19,7 @@ package cn.dreamn.qianji_auto.ui.floats;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.ImageView;
@@ -156,35 +157,36 @@ public class AutoFloatTip extends XFloatView {
     public void setData(BillInfo billInfo) {
         billInfo2 = billInfo;
         money.setText(BillTools.getCustomBill(billInfo));
-        money.setTextColor(BillTools.getColor(getContext(),billInfo));
+        money.setTextColor(BillTools.getColor(getContext(), billInfo));
         int timeCount = Integer.parseInt(SendDataToApp.getTimeout());
         String times = timeCount + "s";
 
         time.setText(times);
-        update(timeCount);
 
-
-    }
-
-    private void update(int i) {
-        new Handler().postDelayed(() -> {
-            if (open) return;
-            if (i <= 0) {
-
-               SendDataToApp.end(getContext(),billInfo2);
-
-                this.clear();
-                return;
+        new CountDownTimer(timeCount, 1000) {
+            /**
+             * 当前任务每完成一次倒计时间隔时间时回调
+             *
+             * @param millisUntilFinished
+             */
+            public void onTick(long millisUntilFinished) {
+                String times1 = millisUntilFinished + "s";
+                time.setText(times1);
             }
-            String times1 = i + "s";
-            time.setText(times1);
-            int j = i - 1;
-            Log.d(times1);
-            update(j);
 
-        }, 1000);
-
+            /**
+             * 倒计时完成后回调
+             */
+            public void onFinish() {
+                SendDataToApp.end(getContext(), billInfo2);
+                //取消倒计时
+                cancel();
+                clear();
+            }
+        }.start();
     }
+
+
 
     @Override
     public void dismiss() {
