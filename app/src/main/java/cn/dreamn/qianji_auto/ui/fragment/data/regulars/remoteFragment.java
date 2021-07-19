@@ -41,12 +41,12 @@ import com.xuexiang.xpage.enums.CoreAnim;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.Category;
+import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
@@ -173,9 +173,10 @@ public class remoteFragment extends BaseFragment {
         MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
         dialog.cornerRadius(15f, null);
         dialog.title(null, "请选择操作(" + bundle.getString("name") + ")");
-        DialogListExtKt.listItems(dialog, null, Arrays.asList("下载至本地"), null, true, (materialDialog, index, text) -> {
+        DialogListExtKt.listItems(dialog, null, Collections.singletonList("下载至本地"), null, true, (materialDialog, index, text) -> {
             if (index == 0) {
-                Category.addCategory(bundle.getString("regular"), bundle.getString("name"), bundle.getString("tableList"), bundle.getString("des"), () -> {
+                //String regex, String name, String text, String tableList, String identify, String fromApp, String des, Finish finish
+                identifyRegulars.add(bundle.getString("regular"), bundle.getString("name"), bundle.getString("text"), bundle.getString("tableList"), bundle.getString("identify"), bundle.getString("fromApp"), bundle.getString("des"), () -> {
                     Message message = new Message();
                     message.obj = "添加成功！";
                     message.what = HANDLE_NO_REFRESH;
