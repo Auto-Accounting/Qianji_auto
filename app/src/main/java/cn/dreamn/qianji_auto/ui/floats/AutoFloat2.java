@@ -295,7 +295,7 @@ public class AutoFloat2 {
         chip_bx.setOnClickListener(v -> {
             billInfo2.setRrimbursement(chip_bx.getText().toString().equals("不报销"));
             Category.getCategory(billInfo2, cate -> {
-                if (cate.equals("NotFind")) {
+                if (cate.equals("NotFound")) {
                     billInfo2.setCateName("其它");//设置自动分类
 
                 } else {

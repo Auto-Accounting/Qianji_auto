@@ -13,7 +13,7 @@ public class BillReplace {
 
     public static void addMoreInfo(Handler mHandler, BillInfo billInfo){
         Category.getCategory(billInfo, str -> {
-            if (str.equals("NotFind")) {
+            if (str.equals("NotFound")) {
                 billInfo.setCateName("其它");//设置自动分类
             } else {
                 billInfo.setCateName(str);//设置自动分类

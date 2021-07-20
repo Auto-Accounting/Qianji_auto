@@ -157,7 +157,7 @@ public class SendDataToApp {
             }
         };
         Category.getCategory(billInfo, cate -> {
-            if (cate.equals("NotFind")) {
+            if (cate.equals("NotFound")) {
                 MMKV mmkv = MMKV.defaultMMKV();
                 if (mmkv.getBoolean("auto_sort", false)) {
                     Category.setCateJs(billInfo, billInfo.getCateName());
