@@ -52,6 +52,8 @@ public class AutoFloatTip extends XFloatView {
 
     private BillInfo billInfo2;
 
+    private CountDownTimer countDownTimer;
+
     /**
      * 构造器
      *
@@ -159,27 +161,24 @@ public class AutoFloatTip extends XFloatView {
 
         time.setText(times);
 
-        new CountDownTimer(timeCount, 1000) {
-            /**
-             * 当前任务每完成一次倒计时间隔时间时回调
-             *
-             * @param millisUntilFinished
-             */
+        countDownTimer = new CountDownTimer(timeCount * 1000, 1000) {
+            @Override
             public void onTick(long millisUntilFinished) {
-                String times1 = millisUntilFinished + "s";
+                Log.i("倒计时：" + millisUntilFinished);
+                String times1 = millisUntilFinished / 1000 + "s";
                 time.setText(times1);
             }
 
-            /**
-             * 倒计时完成后回调
-             */
+            @Override
             public void onFinish() {
                 SendDataToApp.end(getContext(), billInfo2);
                 //取消倒计时
                 cancel();
                 clear();
             }
-        }.start();
+        };
+        countDownTimer.start();
+
     }
 
 
@@ -187,6 +186,9 @@ public class AutoFloatTip extends XFloatView {
     @Override
     public void dismiss() {
         super.dismiss();
-     //   Caches.update("float_lock", "false");
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+        //   Caches.update("float_lock", "false");
     }
 }
