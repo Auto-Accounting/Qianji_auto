@@ -37,19 +37,18 @@ public class AppManager {
 
     /**
      * 发送数据给支持的app
+     *
      * @param billInfo
-     * @return
      */
-    public static String sendToApp(Context context,BillInfo billInfo){
-        MMKV mmkv=MMKV.defaultMMKV();
-        String app=mmkv.getString("bookApp","com.mutangtech.qianji");
+    public static void sendToApp(Context context, BillInfo billInfo) {
+        String app = getApp();
+        Log.i("发送给app" + app);
         for (IApp iApp : AppList.getInstance().getList()) {
-            if(iApp.getPackPageName().equals(app)){
-                iApp.sendToApp(context,billInfo);
+            if (iApp.getPackPageName().equals(app)) {
+                iApp.sendToApp(context, billInfo);
                 break;
             }
         }
-        return "";
     }
 
     /*

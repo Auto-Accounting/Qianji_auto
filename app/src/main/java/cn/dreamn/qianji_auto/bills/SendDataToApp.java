@@ -150,10 +150,12 @@ public class SendDataToApp {
 
 
     public static void goApp(Context context, BillInfo billInfo) {
+        Log.i("前往记账app");
         Handler mHandler=new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
-                AppManager.sendToApp(context,billInfo);
+                Log.i("前往记账app2");
+                AppManager.sendToApp(context, billInfo);
             }
         };
         Category.getCategory(billInfo, cate -> {
@@ -162,8 +164,8 @@ public class SendDataToApp {
                 if (mmkv.getBoolean("auto_sort", false)) {
                     Category.setCateJs(billInfo, billInfo.getCateName());
                 }
-                mHandler.sendEmptyMessage(0);
             }
+            mHandler.sendEmptyMessage(0);
 
         });
     }
