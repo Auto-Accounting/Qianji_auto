@@ -12,9 +12,9 @@
     "download": ""
   },
   "alpha": {
-    "version": "涅槃 3.0.0 alpha5",
-    "verNum": 107,
-    "log": "新增：支持微信各种常见的收款支付场景\n\n其他：担心隐私问题，放弃原本计划的直接抓取微信账单的功能（主要是藏的太深了...）\n\n预告：钱迹 For Web即将上线",
+    "version": "涅槃 3.0.0 alpha6",
+    "verNum": 108,
+    "log": "修复：云端下载存储数据位置错误\n\n修复：自动识别规则导入导出错误\n\n修复：记账不成功\n\n修复：自动分类出现NotFound问题\n\n优化：不存在资产新建提醒\n\n优化：替换toast框架，解决内存溢出问题\n\n优化：优化倒计时实现，提高效率\n\n新增：适配微信8.0.7",
     "download": "https://jq.qq.com/?_wv=1027&k=qVkARWOX"
   },
   "inherit": true
