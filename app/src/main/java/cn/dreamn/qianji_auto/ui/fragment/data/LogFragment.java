@@ -23,7 +23,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.MenuInflater;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
@@ -33,6 +32,7 @@ import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
+import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
@@ -52,7 +52,6 @@ import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
-import es.dmoral.toasty.Toasty;
 
 @Page(name = "日志", anim = CoreAnim.slide)
 public class LogFragment extends BaseFragment {
@@ -84,7 +83,7 @@ public class LogFragment extends BaseFragment {
                 case HANDLE_REFRESH:
                     String d = (String) msg.obj;
                     if ((d != null && !d.equals("")))
-                        Toasty.success(getContext(), d, Toast.LENGTH_LONG).show();
+                        ToastUtils.show(d);
                     loadFromData(refreshLayout);
                     break;
             }
@@ -210,7 +209,7 @@ public class LogFragment extends BaseFragment {
                         dialog2.title(null, "日志模式切换(" + modeName + ")");
                         DialogListExtKt.listItems(dialog2, null, Arrays.asList("不记录", "简单日志", "详细日志"), null, true, (materialDialog, index, text) -> {
                             mmkv.encode("log_mode", index);
-                            Toasty.success(getContext(), "设置成功！").show();
+                            ToastUtils.show("设置成功！");
                             return null;
                         });
                         dialog2.show();

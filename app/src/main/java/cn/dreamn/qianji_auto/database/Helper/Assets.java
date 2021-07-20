@@ -23,17 +23,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
+import com.hjq.toast.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -44,7 +43,6 @@ import cn.dreamn.qianji_auto.database.Table.Asset2;
 import cn.dreamn.qianji_auto.ui.adapter.DataSelectListAdapter;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
-import es.dmoral.toasty.Toasty;
 
 
 public class Assets {
@@ -248,9 +246,7 @@ public class Assets {
             public void handleMessage(Message msg) {
                 Bundle[] assets=(Bundle[])msg.obj;
                 if(assets==null){
-                    Toast t=Toasty.error(context,"请先添加资产！",Toasty.LENGTH_LONG);
-                    t.setGravity(Gravity.TOP,0,0);
-                    t.show();
+                    ToastUtils.show("请先添加资产！");
                     return;
                 }
                 DataSelectListAdapter adapter = new DataSelectListAdapter(context,assets);//listdata和str均可

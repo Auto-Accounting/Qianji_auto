@@ -21,17 +21,16 @@ package cn.dreamn.qianji_auto.database.Helper;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
+import com.hjq.toast.ToastUtils;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
@@ -42,7 +41,6 @@ import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.CategoryName;
 import cn.dreamn.qianji_auto.ui.utils.CategoryUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
-import es.dmoral.toasty.Toasty;
 
 public class CategoryNames {
     public interface getCateNameObj{
@@ -238,10 +236,9 @@ public class CategoryNames {
 
         categoryUtils.show();
         categoryUtils.refreshData(state -> {
-            if(state==0){
-                Toast t=Toasty.error(context,"请在【分类管理】中添加分类后再试！",Toasty.LENGTH_LONG);
-                t.setGravity(Gravity.TOP,0,0);
-                t.show();
+            if(state==0) {
+                ToastUtils.show("请在【分类管理】中添加分类后再试！");
+
             }else{
 
                 DialogCustomViewExtKt.customView(dialog, null, textEntryView,

@@ -24,17 +24,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.PowerManager;
 import android.provider.Settings;
-import android.widget.Toast;
 
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
+import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 
 import java.lang.reflect.Method;
 import java.util.List;
-
-import es.dmoral.toasty.Toasty;
 
 
 public class PermissionUtils {
@@ -78,7 +76,7 @@ public class PermissionUtils {
                     @Override
                     public void onGranted(List<String> permissions, boolean all) {
                         if (all) {
-                            Toasty.success(mContext, "获取短信权限成功!", Toast.LENGTH_LONG, true).show();
+                            ToastUtils.show("获取短信权限成功!");
 
                         }
                     }
@@ -86,11 +84,11 @@ public class PermissionUtils {
                     @Override
                     public void onDenied(List<String> permissions, boolean never) {
                         if (never) {
-                            Toasty.error(mContext, "被永久拒绝授权，请手动授予短信权限", Toast.LENGTH_LONG, true).show();
+                            ToastUtils.show("被永久拒绝授权，请手动授予短信权限");
                             // 如果是被永久拒绝就跳转到应用权限系统设置页面
                             XXPermissions.startPermissionActivity(mContext, permissions);
                         } else {
-                            Toasty.error(mContext, "获取短信权限失败", Toast.LENGTH_LONG, true).show();
+                            ToastUtils.show("获取短信权限失败");
                         }
                     }
                 });// .permission(Permission.READ_SMS)
@@ -104,18 +102,18 @@ public class PermissionUtils {
                             @Override
                             public void onGranted(List<String> permissions, boolean all) {
                                 if (all) {
-                                    Toasty.success(mContext, "获取悬浮窗权限成功", Toast.LENGTH_LONG, true).show();
+                                    ToastUtils.show("获取悬浮窗权限成功");
                                 }
                             }
 
                             @Override
                             public void onDenied(List<String> permissions, boolean never) {
                                 if (never) {
-                                    Toasty.error(mContext, "被永久拒绝授权，请手动授予悬浮窗权限", Toast.LENGTH_LONG, true).show();
+                                    ToastUtils.show("被永久拒绝授权，请手动授予悬浮窗权限");
                                     // 如果是被永久拒绝就跳转到应用权限系统设置页面
                                     XXPermissions.startPermissionActivity(mContext, permissions);
                                 } else {
-                                    Toasty.error(mContext, "获取悬浮窗权限失败", Toast.LENGTH_LONG, true).show();
+                                    ToastUtils.show("获取悬浮窗权限失败");
                                 }
                             }
                         });
@@ -159,18 +157,18 @@ public class PermissionUtils {
                                 @Override
                                 public void onGranted(List<String> permissions, boolean all) {
                                     if (all) {
-                                        Toasty.success(mContext, "获取存储权限成功", Toast.LENGTH_LONG, true).show();
+                                        ToastUtils.show("获取存储权限成功");
                                     }
                                 }
 
                                 @Override
                                 public void onDenied(List<String> permissions, boolean never) {
                                     if (never) {
-                                        Toasty.error(mContext, "被永久拒绝授权，请手动授予存储权限", Toast.LENGTH_LONG, true).show();
+                                        ToastUtils.show("被永久拒绝授权，请手动授予存储权限");
                                         // 如果是被永久拒绝就跳转到应用权限系统设置页面
                                         XXPermissions.startPermissionActivity(mContext, permissions);
                                     } else {
-                                        Toasty.error(mContext, "获取存储权限失败", Toast.LENGTH_LONG, true).show();
+                                        ToastUtils.show("获取存储权限失败");
                                     }
                                 }
                             });
@@ -187,18 +185,18 @@ public class PermissionUtils {
                                 @Override
                                 public void onGranted(List<String> permissions, boolean all) {
                                     if (all) {
-                                        Toasty.success(mContext, "获取存储权限成功", Toast.LENGTH_LONG, true).show();
+                                        ToastUtils.show("获取存储权限成功");
                                     }
                                 }
 
                                 @Override
                                 public void onDenied(List<String> permissions, boolean never) {
                                     if (never) {
-                                        Toasty.error(mContext, "被永久拒绝授权，请手动授予存储权限", Toast.LENGTH_LONG, true).show();
+                                        ToastUtils.show("被永久拒绝授权，请手动授予存储权限");
                                         // 如果是被永久拒绝就跳转到应用权限系统设置页面
                                         XXPermissions.startPermissionActivity(mContext, permissions);
                                     } else {
-                                        Toasty.error(mContext, "获取存储权限失败", Toast.LENGTH_LONG, true).show();
+                                        ToastUtils.show("获取存储权限失败");
                                     }
                                 }
                             });
@@ -209,7 +207,7 @@ public class PermissionUtils {
                 }
                 break;
             case StorageReadExt:
-                Toasty.error(mContext, "请手动授予存储权限", Toast.LENGTH_LONG, true).show();
+                ToastUtils.show("请手动授予存储权限");
                 XXPermissions.startPermissionActivity(mContext, Permission.READ_EXTERNAL_STORAGE);
                 break;
             default:
@@ -271,7 +269,7 @@ public class PermissionUtils {
         MMKV mmkv = MMKV.defaultMMKV();
         boolean isShow = mmkv.getBoolean("tasker_show", true);
         mmkv.encode("tasker_show", !isShow);
-        Toasty.success(mContext, "多任务状态：" + (isShow ? "显示" : "隐藏"), Toast.LENGTH_LONG, true).show();
+        ToastUtils.show("多任务状态：" + (isShow ? "显示" : "隐藏"));
         ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
         if (am != null) {
             List<ActivityManager.AppTask> tasks;

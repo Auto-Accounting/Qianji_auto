@@ -2,8 +2,10 @@ package cn.dreamn.qianji_auto;
 
 import android.app.Application;
 import android.content.Context;
+import android.view.Gravity;
 
 import com.hjq.permissions.XXPermissions;
+import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.PageConfig;
 import com.xuexiang.xpage.config.AppPageConfig;
@@ -53,7 +55,7 @@ public class App extends Application {
         initFragment();
         initMMKV();
         initTheme();
-
+        initToast();
         initDatabase();
 
         CrashHandler crashHandler = CrashHandler.getInstance();
@@ -67,6 +69,11 @@ public class App extends Application {
         DbManger.init(this);
     }
 
+    private void initToast() {  // 初始化 Toast 框架
+
+        ToastUtils.init(this);
+        ToastUtils.setGravity(Gravity.BOTTOM, 0, 20);
+    }
 
     /**
      * 初始化主题框架

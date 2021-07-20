@@ -95,7 +95,7 @@ public class RedPackage {
         if (m == 0)//金额为0直接忽略
             return;
         String remarkStr = remark.get(object).toString();
-        if (remarkStr == null || remarkStr.equals("")) {
+        if (remarkStr.equals("")) {
             remarkStr = "大吉大利，恭喜发财";
         }
         //增加 isGroup

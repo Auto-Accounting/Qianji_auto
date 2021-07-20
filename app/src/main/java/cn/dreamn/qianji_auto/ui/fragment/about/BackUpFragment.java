@@ -40,6 +40,7 @@ import com.developer.filepicker.model.DialogConfigs;
 import com.developer.filepicker.model.DialogProperties;
 import com.developer.filepicker.view.FilePickerDialog;
 import com.google.android.material.textfield.TextInputEditText;
+import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -58,7 +59,6 @@ import cn.dreamn.qianji_auto.utils.files.BackupManager;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
-import es.dmoral.toasty.Toasty;
 
 
 @Page(name = "备份与恢复", anim = CoreAnim.slide)
@@ -124,7 +124,7 @@ public class BackUpFragment extends BaseFragment {
                     @Override
                     public void onOK(String data) {
                         if (data.length() == 0) {
-                            Toasty.error(getContext(), "未输入WebDav网址！", Toasty.LENGTH_LONG).show();
+                            ToastUtils.show("未输入WebDav网址！");
                             return;
                         }
                         mmkv.encode("webdav_url", data);
@@ -144,7 +144,7 @@ public class BackUpFragment extends BaseFragment {
                 @Override
                 public void onOK(String data) {
                     if (data.length() == 0) {
-                        Toasty.error(getContext(), "未输入账号！", Toasty.LENGTH_LONG).show();
+                        ToastUtils.show("未输入账号！");
                         return;
                     }
                     mmkv.encode("webdav_name", data);
@@ -162,7 +162,7 @@ public class BackUpFragment extends BaseFragment {
                 @Override
                 public void onOK(String data) {
                     if (data.length() == 0) {
-                        Toasty.error(getContext(), "未输入密码！", Toasty.LENGTH_LONG).show();
+                        ToastUtils.show("未输入密码！");
                         return;
                     }
                     mmkv.encode("webdav_password", data);
@@ -181,9 +181,9 @@ public class BackUpFragment extends BaseFragment {
                         dialog.close();
                         if (msg.what == -1) {
                             //失败
-                            Toasty.error(getContext(), "备份失败！", Toasty.LENGTH_LONG).show();
+                            ToastUtils.show("备份失败！");
                         } else {
-                            Toasty.success(getContext(), "备份成功！", Toasty.LENGTH_LONG).show();
+                            ToastUtils.show("备份成功！");
                         }
 
                     }
@@ -207,9 +207,9 @@ public class BackUpFragment extends BaseFragment {
                     dialog.close();
                     if (msg.what == -1) {
                         //失败
-                        Toasty.error(getContext(), "备份失败！", Toasty.LENGTH_LONG).show();
+                        ToastUtils.show("备份失败！");
                     } else {
-                        Toasty.success(getContext(), "备份成功，备份文件到" + msg.obj + "！", Toasty.LENGTH_LONG).show();
+                        ToastUtils.show("备份成功，备份文件到" + msg.obj + "！");
                     }
 
                 }
@@ -243,9 +243,9 @@ public class BackUpFragment extends BaseFragment {
 
                         if (msg.what == -1) {
                             //失败
-                            Toasty.error(getContext(), "恢复失败！", Toasty.LENGTH_LONG).show();
+                            ToastUtils.show("恢复失败！");
                         } else {
-                            Toasty.success(getContext(), "恢复成功！", Toasty.LENGTH_LONG).show();
+                            ToastUtils.show("恢复成功！");
                             Tool.restartApp(getActivity());
                         }
 
@@ -277,9 +277,9 @@ public class BackUpFragment extends BaseFragment {
                     dialog[0].close();
                     if (msg.what == -1) {
                         //失败
-                        Toasty.error(getContext(), "恢复失败！", Toasty.LENGTH_LONG).show();
+                        ToastUtils.show("恢复失败！");
                     } else if (msg.what == 2) {
-                        Toasty.success(getContext(), "恢复成功！", Toasty.LENGTH_LONG).show();
+                        ToastUtils.show("恢复成功！");
                         Tool.restartApp(getActivity());
 
                     } else {

@@ -237,7 +237,7 @@ public class AutoFloat2 {
                     (materialDialog, dateTime) -> {
                         billInfo2.setTime(Tool.getTime("yyyy-MM-dd HH:mm:ss", dateTime.getTimeInMillis()));
                         //Log.d("时间："+ Tool.getTime("yyyy-MM-dd HH:mm:ss",dateTime.getTimeInMillis()));
-                        //  Toast.makeText(this, "Selected date/time: " + dateTime.getTime(), Toast.LENGTH_SHORT).show();
+                        //  Toast.makeText(this, "Selected date/time: " + dateTime.getTime(), Toast.LENGTH_SHORT);
                         mMainHandler.sendEmptyMessage(0);
                         return null;
                     });

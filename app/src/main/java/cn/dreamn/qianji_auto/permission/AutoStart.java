@@ -171,7 +171,7 @@ public class AutoStart {
             }
         }
         if (!has) {
-           // Toast.makeText(context, "兼容方案", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(context, "兼容方案", Toast.LENGTH_SHORT);
             try {
                 Intent intent = new Intent();
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

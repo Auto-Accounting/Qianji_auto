@@ -24,13 +24,13 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.InputType;
 import android.view.View;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.input.DialogInputExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
@@ -48,7 +48,6 @@ import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.utils.CategoryUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
-import es.dmoral.toasty.Toasty;
 
 
 @Page(name = "收入UI", anim = CoreAnim.slide)
@@ -332,9 +331,9 @@ public class sortsFragment extends BaseFragment {
                     String d = (String) msg.obj;
                     if ((d != null && !d.equals(""))) {
                         if (msg.arg1 == 1)
-                            Toasty.success(getContext(), d, Toast.LENGTH_LONG).show();
+                            ToastUtils.show(d);
                         else
-                            Toasty.warning(getContext(), d, Toast.LENGTH_LONG).show();
+                            ToastUtils.show(d);
                     }
                     refreshData(book.getString("book_id"),msg.arg2);
                     break;

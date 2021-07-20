@@ -26,7 +26,6 @@ import android.os.Message;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -34,6 +33,7 @@ import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
+import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -49,7 +49,6 @@ import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 import cn.dreamn.qianji_auto.utils.supportUtils.DonateUtil;
-import es.dmoral.toasty.Toasty;
 
 
 @Page(name = "关于", anim = CoreAnim.slide)
@@ -118,11 +117,11 @@ public class AboutFragment extends BaseFragment {
         });
         item_update.setOnClickListener(v -> {
             //"正在检测更新中,请稍候"
-            Toasty.info(getContext(), "正在检测更新中,请稍候", Toasty.LENGTH_LONG).show();
+            ToastUtils.show("正在检测更新中,请稍候");
             Handler mHandler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(@NonNull Message msg) {
-                    Toasty.info(getContext(), "暂无更新！", Toasty.LENGTH_LONG).show();
+                    ToastUtils.show("暂无更新！");
                 }
             };
             AutoBillWeb.update(getContext(), new AutoBillWeb.CallbackWith() {
@@ -156,7 +155,7 @@ public class AboutFragment extends BaseFragment {
             DialogListExtKt.listItems(dialog2, null, Arrays.asList("稳定版", "内部测试版", "公开测试版"), null, true, (materialDialog, index, text) -> {
                 String[] s = new String[]{"stable", "alpha", "beta"};
                 mmkv.encode("version_channel", s[index]);
-                Toasty.success(getContext(), "设置成功！").show();
+                ToastUtils.show("设置成功！");
                 return null;
             });
             dialog2.show();
@@ -173,7 +172,7 @@ public class AboutFragment extends BaseFragment {
                     DialogListExtKt.listItems(dialog2, null, Arrays.asList("支付宝", "微信", "QQ"), null, true, (materialDialog, index, text) -> {
                         String[] s = new String[]{"stable", "alpha", "beta"};
                         mmkv.encode("version_channel", s[index]);
-                        Toasty.success(getContext(), "设置成功！").show();
+                        ToastUtils.show( "设置成功！");
                         return null;
                     });
                     dialog2.show();
@@ -192,7 +191,7 @@ public class AboutFragment extends BaseFragment {
 
             } catch (Exception e) {
                 // 未安装手Q或安装的版本不支持
-                Toasty.error(getContext(), "未安装手机QQ或者当前QQ不支持加群。", Toast.LENGTH_LONG).show();
+                ToastUtils.show("未安装手机QQ或者当前QQ不支持加群。");
             }
         });
         item_tg.setOnClickListener(v -> Tool.goUrl(requireContext(), "https://t.me/qianji_auto"));

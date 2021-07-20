@@ -23,7 +23,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -33,6 +32,7 @@ import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
@@ -52,7 +52,6 @@ import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
-import es.dmoral.toasty.Toasty;
 
 
 @Page(name = "云端分类", anim = CoreAnim.slide)
@@ -85,13 +84,13 @@ public class remoteFragment extends BaseFragment {
                 case HANDLE_REFRESH:
                     String d = (String) msg.obj;
                     if ((d != null && !d.equals("")))
-                        Toasty.success(getContext(), d, Toast.LENGTH_LONG).show();
+                        ToastUtils.show(d);
                     loadFromData(refreshLayout);
                     break;
                 case HANDLE_NO_REFRESH:
                     String d2 = (String) msg.obj;
                     if ((d2 != null && !d2.equals("")))
-                        Toasty.success(getContext(), d2, Toast.LENGTH_LONG).show();
+                        ToastUtils.show(d2);
                     //   loadFromData(refreshLayout);
                     break;
             }
@@ -163,7 +162,7 @@ public class remoteFragment extends BaseFragment {
                     message.obj = "添加成功！";
                     message.what = HANDLE_NO_REFRESH;
                     mHandler.sendMessage(message);
-                    //  Toasty.success(getContext(),"添加成功！").show();
+                    //  ToastUtils.show("添加成功！");
                 });
             }
             return null;

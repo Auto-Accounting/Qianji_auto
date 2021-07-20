@@ -24,7 +24,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -33,6 +32,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.alibaba.fastjson.JSONObject;
+import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
@@ -56,7 +56,6 @@ import cn.dreamn.qianji_auto.ui.utils.B64;
 import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
-import es.dmoral.toasty.Toasty;
 
 import static cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment.KEY_DATA;
 
@@ -98,7 +97,7 @@ public class NoticeFragment extends BaseFragment {
                 case HANDLE_REFRESH:
                     String d = (String) msg.obj;
                     if ((d != null && !d.equals("")))
-                        Toasty.success(getContext(), d, Toast.LENGTH_LONG).show();
+                        ToastUtils.show(d);
                     loadFromData(refreshLayout);
                     break;
             }
@@ -255,7 +254,7 @@ public class NoticeFragment extends BaseFragment {
                             bundle.getString("des"), new identifyRegulars.Finish() {
                                 @Override
                                 public void onFinish() {
-                                    Toasty.info(getContext(), "导入成功").show();
+                                    ToastUtils.show("导入成功");
                                     mHandler.sendEmptyMessage(HANDLE_REFRESH);
                                 }
                             });

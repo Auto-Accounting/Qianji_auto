@@ -51,7 +51,6 @@ public class AutoFloatTip extends XFloatView {
     private TextView time;
 
     private BillInfo billInfo2;
-    private boolean open = false;
 
     /**
      * 构造器
@@ -117,7 +116,6 @@ public class AutoFloatTip extends XFloatView {
                     break;
             }
             this.clear();
-            open = false;
         });
         tip.setOnLongClickListener(v->{
             Log.i("you  long click me");
@@ -133,7 +131,6 @@ public class AutoFloatTip extends XFloatView {
                     break;
             }
             this.clear();
-            open = false;
             return false;
         });
     }
@@ -151,7 +148,6 @@ public class AutoFloatTip extends XFloatView {
     public void clear() {
         super.clear();
         mMainHandler.removeCallbacksAndMessages(null);
-        open = true;
     }
 
     public void setData(BillInfo billInfo) {

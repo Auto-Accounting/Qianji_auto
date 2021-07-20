@@ -18,21 +18,28 @@ public class Info {
                         "zXl",//remark
                         "AcD",//shop
                         "AcB",//Status
-                        "rid"
+                        "rid"//group
                 ));
                 put("8.0.2", Arrays.asList(
                         "AcI",//money
                         "zXl",//remark
                         "AcD",//shop
                         "AcB",//Status
-                        "rid"
+                        "rid"//group
                 ));
                 put("8.0.6", Arrays.asList(
                         "AZb",//money
                         "ATE",//remark
                         "AYW",//shop
                         "AYU",//Status
-                        "rid"
+                        "rid"//group
+                ));
+                put("8.0.7", Arrays.asList(
+                        "Ezg",//money
+                        "EtJ",//remark
+                        "Eza",//shop
+                        "AYU",//Status
+                        "Ezx"//group
                 ));
             }
         };

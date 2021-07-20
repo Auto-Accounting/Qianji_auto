@@ -18,10 +18,10 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.PopupMenu;
 
+import com.hjq.toast.ToastUtils;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.core.PageOption;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -40,7 +40,6 @@ import cn.dreamn.qianji_auto.ui.views.TitleBar;
 import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
-import es.dmoral.toasty.Toasty;
 
 import static cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment.KEY_URL;
 
@@ -170,7 +169,7 @@ public class WebViewFragment extends BaseFragment {
                     switch (item.getItemId()) {
                         case R.id.copy:
                             Tool.clipboard(getContext(), webView.getUrl());
-                            Toasty.success(getContext(), "已复制到剪切板!", Toast.LENGTH_LONG).show();
+                            ToastUtils.show("已复制到剪切板!");
 
                             break;
                         case R.id.web:
@@ -212,13 +211,13 @@ public class WebViewFragment extends BaseFragment {
                     if (id.equals("")) {
                         //存储规则
                         Category.addCategory(js, name, data, des, () -> {
-                            Toasty.success(getContext(), "存储成功！").show();
+                            ToastUtils.show("存储成功！");
                             popToBack();
                         });
                     } else {
                         //存储规则
                         Category.changeCategory(Integer.parseInt(id), js, name, data, des, () -> {
-                            Toasty.success(getContext(), "修改成功！").show();
+                            ToastUtils.show("修改成功！");
                             popToBack();
                         });
                     }
@@ -261,7 +260,7 @@ public class WebViewFragment extends BaseFragment {
                                 dataUtils.get("fromApp"),
                                 dataUtils.get("des"),
                                 () -> {
-                                    Toasty.success(getContext(), "存储成功！").show();
+                                    ToastUtils.show("存储成功！");
                                     popToBack();
                                 });
 
@@ -276,7 +275,7 @@ public class WebViewFragment extends BaseFragment {
                                 dataUtils.get("fromApp"),
                                 dataUtils.get("des"),
                                 () -> {
-                                    Toasty.success(getContext(), "修改成功！").show();
+                                    ToastUtils.show("修改成功！");
                                     popToBack();
                                 });
 

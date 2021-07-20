@@ -24,7 +24,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.InputType;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +32,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.input.DialogInputExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
@@ -51,7 +51,6 @@ import cn.dreamn.qianji_auto.database.Helper.Assets;
 import cn.dreamn.qianji_auto.ui.adapter.DataListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
-import es.dmoral.toasty.Toasty;
 
 
 
@@ -240,7 +239,7 @@ public class cardsFragment1 extends BaseFragment {
                 case HANDLE_REFRESH:
                     String d=(String)msg.obj;
                     if((d!=null&& !d.equals("")))
-                        Toasty.success(getContext(), d, Toast.LENGTH_LONG).show();
+                        ToastUtils.show(d);
                     loadFromData(refreshLayout);
                     break;
             }

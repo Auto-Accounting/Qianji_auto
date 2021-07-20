@@ -24,7 +24,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +40,7 @@ import com.developer.filepicker.model.DialogProperties;
 import com.developer.filepicker.view.FilePickerDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
@@ -67,7 +67,6 @@ import cn.dreamn.qianji_auto.utils.files.FileUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
-import es.dmoral.toasty.Toasty;
 
 
 @Page(name = "本地分类", anim = CoreAnim.slide)
@@ -113,7 +112,7 @@ public class localFragment extends BaseFragment {
                     if (loadDialog != null)
                         loadDialog.close();
                     if ((d != null && !d.equals("")))
-                        Toasty.success(getContext(), d, Toast.LENGTH_LONG).show();
+                        ToastUtils.show(d);
                     loadFromData(refreshLayout);
                     break;
                 case HANDLE_OUT:
@@ -121,7 +120,7 @@ public class localFragment extends BaseFragment {
                         loadDialog.close();
                     String d2 = (String) msg.obj;
                     if ((d2 != null && !d2.equals("")))
-                        Toasty.success(getContext(), d2, Toast.LENGTH_LONG).show();
+                        ToastUtils.show(d2);
 
                     break;
             }
@@ -217,7 +216,7 @@ public class localFragment extends BaseFragment {
                         String from = jsonObject.getString("from");
 
                         if (!from.equals("Category")) {
-                            Toasty.error(getContext(), "该文件不是有效的自动分类配置数据文件").show();
+                            ToastUtils.show("该文件不是有效的自动分类配置数据文件");
                             return;
                         }
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -410,7 +409,7 @@ public class localFragment extends BaseFragment {
                     break;
                 case 1:
                     if (cate.getString("tableList") == null || cate.getString("tableList").equals("")) {
-                        Toasty.error(getContext(), "该规则使用js编辑，无法进行可视化编辑。").show();
+                        ToastUtils.show("该规则使用js编辑，无法进行可视化编辑。");
                         break;
                     }
                     WebViewFragment.openUrl(this, "file:///android_asset/html/Category/index.html?id=" + cate.getInt("id") + "&data=" + B64.encode(cate.getString("tableList")));

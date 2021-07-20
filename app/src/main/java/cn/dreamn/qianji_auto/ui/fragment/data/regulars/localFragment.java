@@ -24,7 +24,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,6 +41,7 @@ import com.developer.filepicker.model.DialogProperties;
 import com.developer.filepicker.view.FilePickerDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
@@ -69,7 +69,6 @@ import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
-import es.dmoral.toasty.Toasty;
 
 
 @Page(name = "本地识别规则", anim = CoreAnim.slide)
@@ -115,7 +114,7 @@ public class localFragment extends BaseFragment {
                     if (loadDialog != null)
                         loadDialog.close();
                     if ((d != null && !d.equals("")))
-                        Toasty.success(getContext(), d, Toast.LENGTH_LONG).show();
+                        ToastUtils.show(d);
                     loadFromData(refreshLayout);
                     break;
                 case HANDLE_OUT:
@@ -123,7 +122,7 @@ public class localFragment extends BaseFragment {
                         loadDialog.close();
                     String d2 = (String) msg.obj;
                     if ((d2 != null && !d2.equals("")))
-                        Toasty.success(getContext(), d2, Toast.LENGTH_LONG).show();
+                        ToastUtils.show(d2);
 
                     break;
             }
@@ -215,9 +214,9 @@ public class localFragment extends BaseFragment {
                         dialog.dismiss();
                         if (msg.what == -1) {
                             //失败
-                            Toasty.error(getContext(), "恢复失败！", Toasty.LENGTH_LONG).show();
+                            ToastUtils.show("恢复失败！");
                         } else {
-                            Toasty.success(getContext(), "恢复成功！", Toasty.LENGTH_LONG).show();
+                            ToastUtils.show("恢复成功！");
                             Tool.restartApp(getActivity());
                         }
 
@@ -234,7 +233,7 @@ public class localFragment extends BaseFragment {
                         String from = jsonObject.getString("from");
 
                         if (!from.equals(getType())) {
-                            Toasty.error(getContext(), "该文件不是有效的" + getName() + "配置数据文件").show();
+                            ToastUtils.show("该文件不是有效的" + getName() + "配置数据文件");
                             return;
                         }
                         JSONArray jsonArray = jsonObject.getJSONArray("data");

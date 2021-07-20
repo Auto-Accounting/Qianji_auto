@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.hjq.toast.ToastUtils;
 import com.liuguangqiang.cookie.CookieBar;
 import com.tencent.mmkv.MMKV;
 
@@ -26,7 +26,6 @@ import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
-import es.dmoral.toasty.Toasty;
 
 public class QianJi implements IApp {
     private static QianJi qianJi;
@@ -62,7 +61,7 @@ public class QianJi implements IApp {
                     Caches.AddOrUpdate("show_tip", "false");
                     Caches.AddOrUpdate("float_time", String.valueOf(System.currentTimeMillis()));
                     Tool.goUrl(context, getQianJi(billInfo));
-                    Toast.makeText(context, "记账成功！金额￥" + billInfo.getMoney() + "。", Toast.LENGTH_LONG).show();
+                    ToastUtils.show("记账成功！金额￥" + billInfo.getMoney() + "。");
                 }
             }
         };
@@ -113,7 +112,7 @@ public class QianJi implements IApp {
         Handler mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                Toasty.success(context, "同步成功！").show();
+                ToastUtils.show("同步成功！");
             }
         };
 
@@ -228,7 +227,7 @@ public class QianJi implements IApp {
                         Caches.getCacheData("show_tip", "false", cache1 -> {
                             if (!cache1.equals("true")) {
                                 Looper.prepare();
-                                Toast.makeText(context, "距离上一次发起请求时间为" + finalT + "s,稍后为您自动记账。", Toast.LENGTH_LONG).show();
+                                ToastUtils.show("距离上一次发起请求时间为" + finalT + "s,稍后为您自动记账。");
                                 Looper.loop();
                                 Caches.AddOrUpdate("show_tip", "true");
                             }

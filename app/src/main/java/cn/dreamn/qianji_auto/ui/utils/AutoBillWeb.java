@@ -17,6 +17,7 @@ import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +33,6 @@ import cn.dreamn.qianji_auto.ui.views.LoadingDialog;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
-import es.dmoral.toasty.Toasty;
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -283,16 +283,16 @@ public class AutoBillWeb {
                 dialog.close();
                 switch (msg.what) {
                     case -1:
-                        Toasty.error(context, "访问服务器失败！").show();
+                        ToastUtils.show("访问服务器失败！");
                         break;
                     case 1:
                         AutoBillWeb.goToLogin(baseFragment);
                         break;
                     case 2:
-                        Toasty.error(context, (String) msg.obj).show();
+                        ToastUtils.show((String) msg.obj);
                         break;
                     case 0:
-                        Toasty.success(context, (String) msg.obj).show();
+                        ToastUtils.show((String) msg.obj);
                         break;
                 }
             }
