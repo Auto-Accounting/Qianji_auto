@@ -15,9 +15,10 @@ android {
         versionName "涅槃 3.0.0 alpha7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-   /*     ndk {
+   /*    */
+        ndk {
             setAbiFilters(['armeabi-v7a'])
-        }*/
+        }
     }
 
     buildTypes {
