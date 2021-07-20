@@ -38,7 +38,7 @@ public class Info {
                         "Ezg",//money
                         "EtJ",//remark
                         "Eza",//shop
-                        "AYU",//Status
+                        "EyY",//Status
                         "Ezx"//group
                 ));
             }

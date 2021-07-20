@@ -64,7 +64,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.Tool;
  * @author xuexiang
  * @since 2019/1/21 上午11:53
  */
-public class AutoFloat2 {
+public class AutoFloat {
 
     private Context context;
     private LinearLayout layout_money;
@@ -123,7 +123,7 @@ public class AutoFloat2 {
      *
      * @param context
      */
-    public AutoFloat2(Context context) {
+    public AutoFloat(Context context) {
 
         // super(context);
         this.context = context;

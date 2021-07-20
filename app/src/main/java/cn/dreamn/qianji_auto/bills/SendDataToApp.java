@@ -31,7 +31,7 @@ import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.database.Helper.AutoBills;
 import cn.dreamn.qianji_auto.database.Helper.Caches;
 import cn.dreamn.qianji_auto.database.Helper.Category;
-import cn.dreamn.qianji_auto.ui.floats.AutoFloat2;
+import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
 import cn.dreamn.qianji_auto.ui.utils.ScreenUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -136,7 +136,7 @@ public class SendDataToApp {
         }
         try {
 
-            AutoFloat2 autoFloat2 = new AutoFloat2(context);
+            AutoFloat autoFloat2 = new AutoFloat(context);
             autoFloat2.setData(billInfo);
             autoFloat2.show();
 

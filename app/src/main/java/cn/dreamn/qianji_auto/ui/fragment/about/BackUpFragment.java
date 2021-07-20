@@ -53,7 +53,7 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.floats.AutoFloat2;
+import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.views.LoadingDialog;
 import cn.dreamn.qianji_auto.utils.files.BackupManager;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -115,7 +115,7 @@ public class BackUpFragment extends BaseFragment {
                     }
                 });
             } else {
-                input("请输入WebDavUrl", mmkv.getString("webdav_url", ""), new AutoFloat2.InputData() {
+                input("请输入WebDavUrl", mmkv.getString("webdav_url", ""), new AutoFloat.InputData() {
                     @Override
                     public void onClose() {
 
@@ -135,7 +135,7 @@ public class BackUpFragment extends BaseFragment {
             }
         }));
         rl_site_username.setOnClickListener(v -> {
-            input("请输入WebDav的账号", mmkv.getString("webdav_name", ""), new AutoFloat2.InputData() {
+            input("请输入WebDav的账号", mmkv.getString("webdav_name", ""), new AutoFloat.InputData() {
                 @Override
                 public void onClose() {
 
@@ -153,7 +153,7 @@ public class BackUpFragment extends BaseFragment {
             });
         });
         rl_site_password.setOnClickListener(v -> {
-            input("请输入WebDav的密码", mmkv.getString("webdav_password", ""), new AutoFloat2.InputData() {
+            input("请输入WebDav的密码", mmkv.getString("webdav_password", ""), new AutoFloat.InputData() {
                 @Override
                 public void onClose() {
 
@@ -333,7 +333,7 @@ public class BackUpFragment extends BaseFragment {
         dialog.show();
     }
 
-    public void input(String title, String defData, AutoFloat2.InputData inputData) {
+    public void input(String title, String defData, AutoFloat.InputData inputData) {
         LayoutInflater factory = LayoutInflater.from(getContext());
         final View textEntryView = factory.inflate(R.layout.list_input, null);
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
