@@ -67,7 +67,7 @@ public class QianJi implements IApp {
         };
         //如果不是xp模式需要延时
         if (!AppStatus.xposedActive(context)) {
-            delay(context, mHandler);
+            delay(mHandler);
         } else {
             mHandler.sendEmptyMessage(0);
         }
@@ -214,7 +214,7 @@ public class QianJi implements IApp {
 
     }
 
-    private void delay(Context context, Handler mHandler) {
+    private void delay(Handler mHandler) {
 
         Task.onThread(() -> {
             Caches.getCacheData("float_time", "", cache -> {
@@ -232,7 +232,7 @@ public class QianJi implements IApp {
                                 Caches.AddOrUpdate("show_tip", "true");
                             }
                             new Handler().postDelayed(() -> {
-                                delay(context, mHandler);
+                                delay(mHandler);
                             }, finalT * 100);
                         });
                         return;
