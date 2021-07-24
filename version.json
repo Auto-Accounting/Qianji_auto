@@ -12,9 +12,9 @@
     "download": ""
   },
   "alpha": {
-    "version": "涅槃 3.0.0 alpha7",
-    "verNum": 109,
-    "log": "修复：记账无反应",
+    "version": "涅槃 3.0.0 alpha8",
+    "verNum": 110,
+    "log": "修复：微信点开自己的红包时，识别为自己收红包的问题\n\n修复：应用转生未激活问题\n\n其他：微信红包字段做了修改，相关信息如下：\n\nmoney=0.01   金额\n\nremark=哈哈哈 备注\n\nstatus= 领取状态，当此处为成功领到的时候表示已领取\n\nshop=你好   对方名称\n\nisGroup=true 是否为群红包\n\nnumbers=1  群红包数量\n\ntitle=微信收到红包  ",
     "download": "https://jq.qq.com/?_wv=1027&k=qVkARWOX"
   },
   "inherit": true
