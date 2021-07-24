@@ -18,28 +18,32 @@ public class Info {
                         "zXl",//remark
                         "AcD",//shop
                         "AcB",//Status
-                        "rid"//group
+                        "rid",//group,
+                        "AZd"//number
                 ));
                 put("8.0.2", Arrays.asList(
                         "AcI",//money
                         "zXl",//remark
                         "AcD",//shop
                         "AcB",//Status
-                        "rid"//group
+                        "rid",//group,
+                        "AZd"//number
                 ));
                 put("8.0.6", Arrays.asList(
                         "AZb",//money
                         "ATE",//remark
                         "AYW",//shop
                         "AYU",//Status
-                        "rid"//group
+                        "rid",//group,
+                        "AZd"//number
                 ));
                 put("8.0.7", Arrays.asList(
                         "Ezg",//money
                         "EtJ",//remark
                         "Eza",//shop
                         "EyY",//Status
-                        "Ezx"//group
+                        "Ezx",//group,
+                        "Ezh"//number
                 ));
             }
         };
@@ -74,6 +78,11 @@ public class Info {
         public static String groups(Utils utils) {
             List<String> ret = map(utils);
             return ret.get(4);
+        }
+
+        public static String number(Utils utils) {
+            List<String> ret = map(utils);
+            return ret.get(5);
         }
 
     }

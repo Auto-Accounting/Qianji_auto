@@ -91,7 +91,11 @@ public class RedPackage {
         Field shopAccount = qVar.getDeclaredField(Info.redPackage.shop(utils));
         Field status = qVar.getDeclaredField(Info.redPackage.status(utils));
         Field groups = qVar.getDeclaredField(Info.redPackage.groups(utils));
+        Field number = qVar.getDeclaredField(Info.redPackage.number(utils));
         double m = Integer.parseInt(money.get(object).toString()) / 100.0d;
+        if (number.get(object) == null || number.get(object).toString().equals("")) {
+            return;
+        }
         if (m == 0)//金额为0直接忽略
             return;
         String remarkStr = remark.get(object).toString();
@@ -99,7 +103,7 @@ public class RedPackage {
             remarkStr = "大吉大利，恭喜发财";
         }
         //增加 isGroup
-        String data = "money=%s,remark=%s,status=%s,shop=%s,totals=%s,title=微信收到红包";
+        String data = "money=%s,remark=%s,status=%s,shop=%s,isGroup=%s,title=微信收到红包";
 
         data = String.format(data, m, remarkStr, status.get(object).toString(), shopAccount.get(object).toString(), groups.get(object).toString());
 
