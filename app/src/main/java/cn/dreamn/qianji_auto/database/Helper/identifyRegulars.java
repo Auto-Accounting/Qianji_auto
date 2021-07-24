@@ -38,7 +38,12 @@ public class identifyRegulars {
     public static void run(String identify, String app, String data, BundleGet get) {
         getAllRegularJs(data, identify, app, str -> {
             //获得所有Js
-            String result = JsEngine.run(str);
+            String result = "";
+            try {
+                result = JsEngine.run(str);
+            } catch (Throwable ex) {
+                Log.i("错误：" + ex.toString());
+            }
             if (!result.startsWith("undefined")) {
                 //  return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+accountNum2+'|'+shopNameNum+'|'+clientNum+'|'+sourceNum+'|'+feeNum+'|'+index
                 String[] strs = result.split("\\|");

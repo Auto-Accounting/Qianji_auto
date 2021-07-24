@@ -17,7 +17,6 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.helper;
 
-import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -25,7 +24,6 @@ import android.widget.TextView;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xpage.utils.TitleBar;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
@@ -126,6 +124,10 @@ public class SetFragment extends BaseFragment {
 
     @BindView(R.id.qianji_ui)
     SuperText qianji_ui;
+    @BindView(R.id.lazy_mode_open)
+    SuperText lazy_mode_open;
+    @BindView(R.id.lazy_mode_close)
+    SuperText lazy_mode_close;
 
     @Override
     protected int getLayoutId() {
@@ -134,9 +136,9 @@ public class SetFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        MMKV mmkv=MMKV.defaultMMKV();
-        mmkv.encode("helper_page",4);
-        SettingUtils settingUtils=new SettingUtils(getContext());
+        MMKV mmkv = MMKV.defaultMMKV();
+        mmkv.encode("helper_page", 4);
+        SettingUtils settingUtils = new SettingUtils(getContext());
         settingUtils.init(pay_all,
                 pay_half,
 
@@ -170,7 +172,10 @@ public class SetFragment extends BaseFragment {
                 notice_click_window_close,
 
                 qianji_auto,
-                qianji_ui);
+                qianji_ui,
+                lazy_mode_open,
+                lazy_mode_close
+        );
     }
 
 

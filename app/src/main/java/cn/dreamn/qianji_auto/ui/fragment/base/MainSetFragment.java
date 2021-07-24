@@ -119,6 +119,11 @@ public class MainSetFragment extends BaseFragment {
     SuperText qianji_ui;
 
 
+    @BindView(R.id.lazy_mode_open)
+    SuperText lazy_mode_open;
+    @BindView(R.id.lazy_mode_close)
+    SuperText lazy_mode_close;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_main_base_set;
@@ -127,7 +132,7 @@ public class MainSetFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        SettingUtils settingUtils=new SettingUtils(getContext());
+        SettingUtils settingUtils = new SettingUtils(getContext());
         settingUtils.init(pay_all,
                 pay_half,
 
@@ -161,7 +166,11 @@ public class MainSetFragment extends BaseFragment {
                 notice_click_window_close,
 
                 qianji_auto,
-                qianji_ui);
+                qianji_ui,
+                lazy_mode_open,
+                lazy_mode_close
+
+        );
 
     }
 

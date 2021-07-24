@@ -25,6 +25,7 @@ import android.text.TextUtils;
 import cn.dreamn.qianji_auto.core.hook.Utils;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
+import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 
 
 public class Msg {
@@ -49,14 +50,16 @@ public class Msg {
                     if (null == type) {
                         return;
                     }
-                   // String contentStr = contentValues.getAsString("content");
+                    // String contentStr = contentValues.getAsString("content");
 
 
                     Bundle bundle = new Bundle();
                     bundle.putInt("isSend", contentValues.getAsInteger("isSend"));
                     bundle.putInt("status", contentValues.getAsInteger("status"));
                     bundle.putString("talker", contentValues.getAsString("talker"));
-                    bundle.putString("content", contentValues.getAsString("content"));
+                    XmlToJson xmlToJson = new XmlToJson.Builder(contentValues.getAsString("content")).build();
+                    String xml = xmlToJson.toString();
+                    bundle.putString("content", xml);
                     bundle.putString("cache_money", utils.readData("cache_wechat_payMoney"));
                     bundle.putString("cache_user", utils.readData("cache_userName"));
                     bundle.putString("cache_paytools", utils.readData("cache_wechat_paytool"));

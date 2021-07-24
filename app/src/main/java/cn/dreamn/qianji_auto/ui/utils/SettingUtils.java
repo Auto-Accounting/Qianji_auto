@@ -59,10 +59,14 @@ public class SettingUtils {
     SuperText qianji_auto;
     SuperText qianji_ui;
 
-    public SettingUtils(Context context){
-        mContext=context;
-        mmkv=MMKV.defaultMMKV();
+    SuperText lazy_mode_open;
+    SuperText lazy_mode_close;
+
+    public SettingUtils(Context context) {
+        mContext = context;
+        mmkv = MMKV.defaultMMKV();
     }
+
     public void init(
             SuperText pay_all,
             SuperText pay_half,
@@ -97,7 +101,9 @@ public class SettingUtils {
             SuperText notice_click_window_close,
 
             SuperText qianji_auto,
-            SuperText qianji_ui
+            SuperText qianji_ui,
+            SuperText lazy_mode_open,
+            SuperText lazy_mode_close
     ){
         this.pay_all=pay_all;
         this.pay_half=pay_half;
@@ -124,16 +130,18 @@ public class SettingUtils {
         this.long_click_window_close=long_click_window_close;
 
         this.end_window_record=end_window_record;
-        this.end_window_edit=end_window_edit;
-        this.end_window_close=end_window_close;
+        this.end_window_edit = end_window_edit;
+        this.end_window_close = end_window_close;
 
-        this.notice_click_window_record=notice_click_window_record;
-        this.notice_click_window_edit=notice_click_window_edit;
-        this.notice_click_window_close=notice_click_window_close;
+        this.notice_click_window_record = notice_click_window_record;
+        this.notice_click_window_edit = notice_click_window_edit;
+        this.notice_click_window_close = notice_click_window_close;
 
-        this.qianji_auto=qianji_auto;
-        this.qianji_ui=qianji_ui;
+        this.qianji_auto = qianji_auto;
+        this.qianji_ui = qianji_ui;
 
+        this.lazy_mode_close = lazy_mode_close;
+        this.lazy_mode_open = lazy_mode_open;
         initUi();
         initListen();
     }
@@ -286,29 +294,42 @@ public class SettingUtils {
             initUi();
         });
 
-        qianji_auto.setOnClickListener(v->{
-            mmkv.encode("auto_cate_table",true);
+        qianji_auto.setOnClickListener(v -> {
+            mmkv.encode("auto_cate_table", true);
             initUi();
         });
-        qianji_ui.setOnClickListener(v->{
-            mmkv.encode("auto_cate_table",false);
+        qianji_ui.setOnClickListener(v -> {
+            mmkv.encode("auto_cate_table", false);
             initUi();
         });
 
 
+        lazy_mode_open.setOnClickListener(v -> {
+            mmkv.encode("lazy_mode", true);
+        });
 
-
-
+        lazy_mode_close.setOnClickListener(v -> {
+            mmkv.encode("lazy_mode", false);
+        });
 
 
     }
 
 
-    private void initUi(){
-        if(mmkv.getBoolean("autoPay",false)){
+    private void initUi() {
+
+        if (mmkv.getBoolean("lazy_mode", true)) {
+            lazy_mode_open.setSelect(true);
+            lazy_mode_open.setSelect(false);
+        } else {
+            lazy_mode_open.setSelect(false);
+            lazy_mode_open.setSelect(true);
+        }
+
+        if (mmkv.getBoolean("autoPay", false)) {
             pay_all.setSelect(true);
             pay_half.setSelect(false);
-        }else{
+        } else {
             pay_all.setSelect(false);
             pay_half.setSelect(true);
         }
