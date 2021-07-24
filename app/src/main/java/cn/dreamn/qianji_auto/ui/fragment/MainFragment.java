@@ -284,8 +284,6 @@ public class MainFragment extends BaseFragment {
         });
 
         rl_async.setOnClickListener(v-> {
-            String a = null;
-            Log.i(a);
 
             AppManager.Async(getContext());
         });
