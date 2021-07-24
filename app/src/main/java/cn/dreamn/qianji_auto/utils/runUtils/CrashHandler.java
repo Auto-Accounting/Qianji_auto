@@ -20,7 +20,6 @@ package cn.dreamn.qianji_auto.utils.runUtils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Looper;
 
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.ui.activity.ErrorActivity;
@@ -91,32 +90,20 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         }
         // getInstance().getSpUtil().setCrashLog(true);// 每次进入应用检查，是否有log，有则上传
         // 使用Toast来显示异常信息
-        new Thread() {
-            @SuppressLint("ResourceType")
-            @Override
-            public void run() {
-
-                Looper.prepare();
-                StringBuilder errorInfo = new StringBuilder("verCode:" + BuildConfig.VERSION_NAME + "\n");
-                errorInfo.append("\nerror:\n").append(ex.getMessage()).append("\n");
-                errorInfo.append("\nstackTrace:\n");
-                StackTraceElement[] tree = ex.getStackTrace();
-                int i = 0;
-                for (StackTraceElement t : tree) {
-                    i++;
-                    /* errorInfo.append(String.format("[stackTrace]File(%s)Class(%s)Method(%s)Line(%s)\n", t.getFileName(), t.getClassName(), t.getMethodName(), t.getLineNumber()));*/
-                    errorInfo.append(i).append(". ").append(t.toString()).append("\n");
-                }
-                Intent intent = new Intent(mContext, ErrorActivity.class);
-                intent.putExtra("errorInfo", errorInfo.toString());
-                Log.d(errorInfo.toString());
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent);
-
-                Looper.loop();
-
-            }
-        }.start();
+        StringBuilder errorInfo = new StringBuilder("verCode:" + BuildConfig.VERSION_NAME + "\n");
+        errorInfo.append("\nerror:\n").append(ex.getMessage()).append("\n");
+        errorInfo.append("\nstackTrace:\n");
+        StackTraceElement[] tree = ex.getStackTrace();
+        int i = 0;
+        for (StackTraceElement t : tree) {
+            i++;
+            /* errorInfo.append(String.format("[stackTrace]File(%s)Class(%s)Method(%s)Line(%s)\n", t.getFileName(), t.getClassName(), t.getMethodName(), t.getLineNumber()));*/
+            errorInfo.append(i).append(". ").append(t.toString()).append("\n");
+        }
+        Intent intent = new Intent(mContext, ErrorActivity.class);
+        intent.putExtra("errorInfo", errorInfo.toString());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
 
         return true;
     }
