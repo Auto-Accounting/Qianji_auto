@@ -102,10 +102,12 @@ public class RedPackage {
         if (remarkStr.equals("")) {
             remarkStr = "大吉大利，恭喜发财";
         }
+        String n = groups.get(object).toString();
+        String isGroup = (n.equals("1")) ? "true" : "false";
         //增加 isGroup
-        String data = "money=%s,remark=%s,status=%s,shop=%s,isGroup=%s,title=微信收到红包";
+        String data = "money=%s,remark=%s,status=%s,shop=%s,isGroup=%s,numbers=%s,title=微信收到红包";
 
-        data = String.format(data, m, remarkStr, status.get(object).toString(), shopAccount.get(object).toString(), groups.get(object).toString());
+        data = String.format(data, m, remarkStr, status.get(object).toString(), shopAccount.get(object).toString(), isGroup, n);
 
         utils.log("红包数据：" + data);
 
