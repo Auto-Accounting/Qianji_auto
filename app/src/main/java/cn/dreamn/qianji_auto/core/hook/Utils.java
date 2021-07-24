@@ -91,8 +91,16 @@ public class Utils {
      * @param bundle 广播数据
      */
     public void send(Bundle bundle) {
-        log("广播给自动记账：" + bundle.toString(), true);
-        sendBroadcast(SEND_ACTION, bundle);
+        if (bundle == null) return;
+        send(bundle, "app");
+    }
+
+    public void send(Bundle bundle, String identify) {
+        Bundle bundle2 = new Bundle();
+        bundle2.putString("data", bundle.toString());
+        bundle2.putString("app_identify", "app");
+        log("广播给自动记账：" + bundle2.toString(), true);
+        sendBroadcast(SEND_ACTION, bundle2);
     }
 
     public void sendString(String str) {

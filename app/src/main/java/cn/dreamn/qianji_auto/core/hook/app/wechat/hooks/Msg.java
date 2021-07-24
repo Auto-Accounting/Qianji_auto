@@ -49,7 +49,7 @@ public class Msg {
                     if (null == type) {
                         return;
                     }
-                    String contentStr = contentValues.getAsString("content");
+                   // String contentStr = contentValues.getAsString("content");
 
 
                     Bundle bundle = new Bundle();
