@@ -306,10 +306,12 @@ public class SettingUtils {
 
         lazy_mode_open.setOnClickListener(v -> {
             mmkv.encode("lazy_mode", true);
+            initUi();
         });
 
         lazy_mode_close.setOnClickListener(v -> {
             mmkv.encode("lazy_mode", false);
+            initUi();
         });
 
 
@@ -320,10 +322,10 @@ public class SettingUtils {
 
         if (mmkv.getBoolean("lazy_mode", true)) {
             lazy_mode_open.setSelect(true);
-            lazy_mode_open.setSelect(false);
+            lazy_mode_close.setSelect(false);
         } else {
             lazy_mode_open.setSelect(false);
-            lazy_mode_open.setSelect(true);
+            lazy_mode_close.setSelect(true);
         }
 
         if (mmkv.getBoolean("autoPay", false)) {

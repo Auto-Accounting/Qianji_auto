@@ -398,7 +398,7 @@ public class AutoFloat {
             ll_fee.setVisibility(View.VISIBLE);
         }
 
-
+        setVisible();
         BookNames.getAllLen(length -> {
             if (length != 0) {
                 BookNames.getOne(billInfo.getBookName(), bundle -> {
@@ -520,25 +520,37 @@ public class AutoFloat {
 
     public void setVisible() {
         MMKV mmkv = MMKV.defaultMMKV();
-        if (mmkv.getBoolean("layout_money", false)) {
-            layout_money.setVisibility(View.GONE);
-        } else if (mmkv.getBoolean("ll_fee", false)) {
+
+        if (mmkv.getBoolean("lazy_mode", true)) {
             ll_fee.setVisibility(View.GONE);
-        } else if (mmkv.getBoolean("ll_book", false)) {
             ll_book.setVisibility(View.GONE);
-        } else if (mmkv.getBoolean("ll_category", false)) {
             ll_category.setVisibility(View.GONE);
-        } else if (mmkv.getBoolean("ll_type", false)) {
-            ll_type.setVisibility(View.GONE);
-        } else if (mmkv.getBoolean("ll_account1", false)) {
             ll_account1.setVisibility(View.GONE);
-        } else if (mmkv.getBoolean("ll_account2", false)) {
             ll_account2.setVisibility(View.GONE);
-        } else if (mmkv.getBoolean("ll_time", false)) {
             ll_time.setVisibility(View.GONE);
-        } else if (mmkv.getBoolean("ll_remark", false)) {
-            ll_remark.setVisibility(View.GONE);
+        } else {
+            if (mmkv.getBoolean("layout_money", false)) {
+                layout_money.setVisibility(View.GONE);
+            } else if (mmkv.getBoolean("ll_fee", false)) {
+                ll_fee.setVisibility(View.GONE);
+            } else if (mmkv.getBoolean("ll_book", false)) {
+                ll_book.setVisibility(View.GONE);
+            } else if (mmkv.getBoolean("ll_category", false)) {
+                ll_category.setVisibility(View.GONE);
+            } else if (mmkv.getBoolean("ll_type", false)) {
+                ll_type.setVisibility(View.GONE);
+            } else if (mmkv.getBoolean("ll_account1", false)) {
+                ll_account1.setVisibility(View.GONE);
+            } else if (mmkv.getBoolean("ll_account2", false)) {
+                ll_account2.setVisibility(View.GONE);
+            } else if (mmkv.getBoolean("ll_time", false)) {
+                ll_time.setVisibility(View.GONE);
+            } else if (mmkv.getBoolean("ll_remark", false)) {
+                ll_remark.setVisibility(View.GONE);
+            }
         }
+
+
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

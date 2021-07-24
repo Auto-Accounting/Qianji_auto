@@ -36,7 +36,8 @@
         tools:targetApi="n">
         <activity
             android:name=".ui.activity.ErrorActivity"
-            android:theme="@android:style/Theme.Translucent" />
+
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

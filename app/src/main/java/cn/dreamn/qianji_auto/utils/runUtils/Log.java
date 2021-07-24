@@ -64,7 +64,7 @@ public class Log {
     }
 
     public static void i(String msg) {
-        if (msg == null) return;
+        //if (msg == null) return;
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
         String defaultTag = "Qianji-Auto";

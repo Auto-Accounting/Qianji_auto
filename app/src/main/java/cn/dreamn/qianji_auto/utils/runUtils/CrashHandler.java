@@ -61,21 +61,12 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-
-        if (!handleException(ex) && mDefaultHandler != null) {
+        handleException(ex);
+        /*if (!handleException(ex) && mDefaultHandler != null) {
             // 如果用户没有处理则让系统默认的异常处理器来处理
             Log.d("异常处理有问题~");
             mDefaultHandler.uncaughtException(thread, ex);
-        } else {
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                // Log.e(TAG, "error : ", e);
-            }
-            // 退出程序
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
-        }
+        } */
     }
 
     /**
@@ -98,7 +89,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         for (StackTraceElement t : tree) {
             i++;
             /* errorInfo.append(String.format("[stackTrace]File(%s)Class(%s)Method(%s)Line(%s)\n", t.getFileName(), t.getClassName(), t.getMethodName(), t.getLineNumber()));*/
-            errorInfo.append(i).append(". ").append(t.toString()).append("\n");
+            errorInfo.append(i).append(".").append(t.toString()).append("\n");
         }
         Intent intent = new Intent(mContext, ErrorActivity.class);
         intent.putExtra("errorInfo", errorInfo.toString());

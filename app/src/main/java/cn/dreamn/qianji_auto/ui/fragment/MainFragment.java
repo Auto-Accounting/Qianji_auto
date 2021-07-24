@@ -172,6 +172,8 @@ public class MainFragment extends BaseFragment {
         app_log.setText(BuildConfig.VERSION_NAME);
         setActive();
         AutoBillWeb.update(getContext());
+        // MMKV mmkv= MMKV.defaultMMKV();
+
     }
 
 
@@ -281,7 +283,10 @@ public class MainFragment extends BaseFragment {
             openNewPage(MainSortFragment.class);
         });
 
-        rl_async.setOnClickListener(v->{
+        rl_async.setOnClickListener(v-> {
+            String a = null;
+            Log.i(a);
+
             AppManager.Async(getContext());
         });
         rl_bill.setOnClickListener(v->{
