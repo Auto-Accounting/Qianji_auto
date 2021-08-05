@@ -1,4 +1,4 @@
-package cn.dreamn.qianji_auto.ui.views;
+package cn.dreamn.qianji_auto.ui.components;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -19,7 +19,7 @@ public class SuperText extends RelativeLayout {
     public SuperText(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        LayoutInflater.from(context).inflate(R.layout.list_items, this, true);
+        LayoutInflater.from(context).inflate(R.layout.components_supertext, this, true);
         icon_header = findViewById(R.id.icon_header);
         icon_isOk = findViewById(R.id.icon_isOk);
         item_title = findViewById(R.id.item_title);

@@ -10,7 +10,7 @@ import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
-import cn.dreamn.qianji_auto.ui.views.IconView;
+import cn.dreamn.qianji_auto.ui.components.IconView;
 
 public class CateItemListAdapter extends BaseAdapter {
     private final Context mContext;
@@ -18,7 +18,7 @@ public class CateItemListAdapter extends BaseAdapter {
     private MoreClick moreClick;
     public CateItemListAdapter(Context context) {
 
-        super(R.layout.cate_list_item);
+        super(R.layout.adapter_cate_list_item);
         mContext = context;
     }
 

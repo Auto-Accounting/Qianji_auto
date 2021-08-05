@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.ui.views.IconView;
+import cn.dreamn.qianji_auto.ui.components.IconView;
 
 
 public class ModeAdapter extends ArrayAdapter {
@@ -32,11 +32,11 @@ public class ModeAdapter extends ArrayAdapter {
 
         Bundle bundle = (Bundle) getItem(position);
 
-        @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.grid_items_icon_2, null, false);
+        @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.adapter_grid_item_with_icon, null, false);
 
-        IconView iconView = (IconView) view.findViewById(R.id.item_image_icon);
+        IconView iconView = view.findViewById(R.id.item_image_icon);
         iconView.setFont(bundle.getString("appIcon"));
-        TextView textView = (TextView) view.findViewById(R.id.item_text);
+        TextView textView = view.findViewById(R.id.item_text);
         textView.setText(bundle.getString("appName"));
         CardView cardView= view.findViewById(R.id.card_shadow);
         String appValue=bundle.getString("appValue");

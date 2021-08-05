@@ -235,7 +235,7 @@ public class Assets {
     public static void showAssetSelect(Context context, String title,boolean isFloat, getAssetOne getOne ) {
 
         LayoutInflater factory = LayoutInflater.from(context);
-        final View textEntryView = factory.inflate(R.layout.list_data, null);
+        final View textEntryView = factory.inflate(R.layout.include_list_data, null);
 
         //final TextView list_title = textEntryView.findViewById(R.id.list_title);
 

@@ -35,7 +35,7 @@ import cn.dreamn.qianji_auto.ui.utils.ModeUtils;
 public class MainModeFragment extends BaseFragment {
 
     @BindView(R.id.title_bar)
-    cn.dreamn.qianji_auto.ui.views.TitleBar title_bar;
+    cn.dreamn.qianji_auto.ui.components.TitleBar title_bar;
 
     @BindView(R.id.mode_list)
     GridView mode_list;

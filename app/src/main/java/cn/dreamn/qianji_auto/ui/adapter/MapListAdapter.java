@@ -21,7 +21,7 @@ public class MapListAdapter extends BaseAdapter {
     private final Context mContext;
     public MapListAdapter(Context context) {
 
-        super(R.layout.map_item);
+        super(R.layout.adapter_map_item);
         mContext=context;
     }
 

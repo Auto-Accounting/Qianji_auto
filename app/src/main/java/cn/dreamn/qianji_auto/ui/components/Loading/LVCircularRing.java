@@ -1,4 +1,4 @@
-package cn.dreamn.qianji_auto.ui.views;
+package cn.dreamn.qianji_auto.ui.components.Loading;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

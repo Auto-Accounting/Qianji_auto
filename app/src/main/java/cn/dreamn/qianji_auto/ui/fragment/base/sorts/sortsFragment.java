@@ -99,15 +99,15 @@ public class sortsFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_select_category1;
+        return R.layout.fragment_select_category;
     }
 
 
     @Override
     protected void initViews() {
         setSwitchData();
-        statusView.setEmptyView(R.layout.empty_view);
-        statusView.setLoadingView(R.layout.loading_view);
+        statusView.setEmptyView(R.layout.fragment_empty_view);
+        statusView.setLoadingView(R.layout.fragment_loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, "你的分类呢？这样记不了账的哦！\n赶紧添加一个吧！"));
         statusView.setOnLoadingViewConvertListener(viewHolder -> viewHolder.setText(R.id.load_info, "正在加载分类信息"));

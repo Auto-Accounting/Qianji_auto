@@ -76,14 +76,14 @@ public class cardsFragment1 extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_main_base_cards_page1;
+        return R.layout.fragment_main_base_cards_page;
     }
 
 
     @Override
     protected void initViews() {
-        statusView.setEmptyView(R.layout.empty_view);
-        statusView.setLoadingView(R.layout.loading_view);
+        statusView.setEmptyView(R.layout.fragment_empty_view);
+        statusView.setLoadingView(R.layout.fragment_loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> {
             viewHolder.setText(R.id.empty_info, "资产都没有，还想记账？\n快去添加一个！");

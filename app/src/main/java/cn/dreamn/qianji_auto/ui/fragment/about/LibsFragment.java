@@ -24,15 +24,15 @@ import com.xuexiang.xpage.utils.TitleBar;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.CardData;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
-import cn.dreamn.qianji_auto.ui.views.CardData;
 
 
 @Page(name = "开源库列表", anim = CoreAnim.slide)
 public class LibsFragment extends BaseFragment {
 
     @BindView(R.id.title_bar)
-    cn.dreamn.qianji_auto.ui.views.TitleBar title_bar;
+    cn.dreamn.qianji_auto.ui.components.TitleBar title_bar;
 
     @BindView(R.id.AndroidAutoSize)
     CardData AndroidAutoSize;

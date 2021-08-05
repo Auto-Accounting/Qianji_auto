@@ -40,7 +40,7 @@
                 android:layout_margin="5dp"
                 android:padding="5dp">
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
+                <cn.dreamn.qianji_auto.ui.components.IconView
                     android:id="@+id/iconView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                 android:layout_margin="5dp"
                 android:padding="5dp">
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
+                <cn.dreamn.qianji_auto.ui.components.IconView
                     android:id="@+id/iconView21"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                 android:layout_margin="5dp"
                 android:padding="5dp">
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
+                <cn.dreamn.qianji_auto.ui.components.IconView
                     android:id="@+id/iconView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -195,7 +195,7 @@
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp">
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
+                <cn.dreamn.qianji_auto.ui.components.IconView
                     android:id="@+id/iconView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -268,7 +268,7 @@
                 android:padding="5dp">
 
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
+                <cn.dreamn.qianji_auto.ui.components.IconView
                     android:id="@+id/iconView99"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -327,7 +327,7 @@
                 android:layout_margin="5dp"
                 android:padding="5dp">
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
+                <cn.dreamn.qianji_auto.ui.components.IconView
                     android:id="@+id/iconView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -387,7 +387,7 @@
                 android:layout_margin="5dp"
                 android:padding="5dp">
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
+                <cn.dreamn.qianji_auto.ui.components.IconView
                     android:id="@+id/iconView8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -447,7 +447,7 @@
                 android:layout_margin="5dp"
                 android:padding="5dp">
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
+                <cn.dreamn.qianji_auto.ui.components.IconView
                     android:id="@+id/iconView34"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -499,7 +499,7 @@
                 android:layout_margin="5dp"
                 android:padding="5dp">
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
+                <cn.dreamn.qianji_auto.ui.components.IconView
                     android:id="@+id/iconView35"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

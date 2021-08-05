@@ -15,7 +15,7 @@ public class LogAdapter extends BaseAdapter {
 
     public LogAdapter(Context context) {
 
-        super(R.layout.item_log);
+        super(R.layout.adapter_item_log);
         mContext = context;
     }
 

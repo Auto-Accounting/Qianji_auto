@@ -8,7 +8,7 @@
     android:backgroundTint="@color/background"
     android:orientation="vertical">
 
-    <cn.dreamn.qianji_auto.ui.views.TitleBar
+    <cn.dreamn.qianji_auto.ui.components.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         app:title_text="资产映射">
 
 
-    </cn.dreamn.qianji_auto.ui.views.TitleBar>
+    </cn.dreamn.qianji_auto.ui.components.TitleBar>
 
     <com.shehuan.statusview.StatusView
         android:id="@+id/status"

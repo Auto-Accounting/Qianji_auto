@@ -53,8 +53,8 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
-import cn.dreamn.qianji_auto.ui.views.LoadingDialog;
 import cn.dreamn.qianji_auto.utils.files.BackupManager;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
@@ -65,7 +65,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 public class BackUpFragment extends BaseFragment {
 
     @BindView(R.id.title_bar)
-    cn.dreamn.qianji_auto.ui.views.TitleBar title_bar;
+    cn.dreamn.qianji_auto.ui.components.TitleBar title_bar;
     @BindView(R.id.rl_site_url)
     RelativeLayout rl_site_url;
     @BindView(R.id.rl_site_username)
@@ -335,7 +335,7 @@ public class BackUpFragment extends BaseFragment {
 
     public void input(String title, String defData, AutoFloat.InputData inputData) {
         LayoutInflater factory = LayoutInflater.from(getContext());
-        final View textEntryView = factory.inflate(R.layout.list_input, null);
+        final View textEntryView = factory.inflate(R.layout.include_list_input, null);
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
         MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
         dialog.title(null, title);

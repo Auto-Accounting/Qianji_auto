@@ -55,7 +55,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.Task;
 @Page(name = "主页资产映射", anim = CoreAnim.slide)
 public class MainMapFragment extends BaseFragment {
     @BindView(R.id.title_bar)
-    cn.dreamn.qianji_auto.ui.views.TitleBar title_bar;
+    cn.dreamn.qianji_auto.ui.components.TitleBar title_bar;
     @BindView(R.id.status)
     StatusView statusView;
     @BindView(R.id.refreshLayout)
@@ -79,8 +79,8 @@ public class MainMapFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        statusView.setEmptyView(R.layout.empty_view);
-        statusView.setLoadingView(R.layout.loading_view);
+        statusView.setEmptyView(R.layout.fragment_empty_view);
+        statusView.setLoadingView(R.layout.fragment_loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> {
             viewHolder.setText(R.id.empty_info, "你还没有进行任何资产映射！\n做了资产映射才能更好地记账。");

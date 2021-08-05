@@ -1,4 +1,4 @@
-package cn.dreamn.qianji_auto.ui.views;
+package cn.dreamn.qianji_auto.ui.components;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,19 +13,19 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 
 public class TitleBar extends RelativeLayout {
-    private  IconView iv_left_icon;
-    private  IconView iv_right_icon;
-    private TextView tv_tilte;
-    private  RelativeLayout relativeLayout;
+    private final IconView iv_left_icon;
+    private final IconView iv_right_icon;
+    private final TextView tv_tilte;
+    private final RelativeLayout relativeLayout;
 
     public TitleBar(Context context, AttributeSet attrs) {
         super(context,attrs);
 
-        LayoutInflater.from(context).inflate(R.layout.custom_title_bar,this,true);
-        iv_left_icon = (IconView) findViewById(R.id.iv_left_icon);
-        iv_right_icon = (IconView) findViewById(R.id.iv_right_icon);
-        tv_tilte = (TextView) findViewById(R.id.tv_tilte);
-        relativeLayout = (RelativeLayout) findViewById(R.id.title_count);
+        LayoutInflater.from(context).inflate(R.layout.components_title_bar,this,true);
+        iv_left_icon = findViewById(R.id.iv_left_icon);
+        iv_right_icon = findViewById(R.id.iv_right_icon);
+        tv_tilte = findViewById(R.id.tv_tilte);
+        relativeLayout = findViewById(R.id.title_count);
 
 
         TypedArray typedArray=context.obtainStyledAttributes(attrs,R.styleable.TitleBar);

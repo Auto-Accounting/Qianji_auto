@@ -105,8 +105,8 @@ public class remoteFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        statusView.setEmptyView(R.layout.empty_view);
-        statusView.setLoadingView(R.layout.loading_view);
+        statusView.setEmptyView(R.layout.fragment_empty_view);
+        statusView.setLoadingView(R.layout.fragment_loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> {
             viewHolder.setText(R.id.empty_info, "云端暂无任何自动分类规则");

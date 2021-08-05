@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
-import cn.dreamn.qianji_auto.ui.views.IconView;
+import cn.dreamn.qianji_auto.ui.components.IconView;
 
 
 public class ListAdapter extends ArrayAdapter {
@@ -26,7 +26,7 @@ public class ListAdapter extends ArrayAdapter {
 
         Bundle bundle = (Bundle) getItem(position);
 
-        @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.list_items2, null, false);
+        @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.adapter_list_items2, null, false);
 
         IconView iconView = view.findViewById(R.id.icon_header);
         iconView.setFont(bundle.getString("appIcon"));

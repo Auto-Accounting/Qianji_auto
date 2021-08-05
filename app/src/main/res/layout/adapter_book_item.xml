@@ -2,9 +2,12 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="120dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="10dp"
     android:background="@color/background_white"
-    app:cardCornerRadius="2dp"
+    app:cardCornerRadius="@dimen/radius"
     app:cardElevation="0dp">
 
 
@@ -19,7 +22,7 @@
             android:background="@color/bg_alpha25"
             android:backgroundTint="@color/bg_alpha25" />
 
-        <cn.dreamn.qianji_auto.ui.views.AdaptionSizeTextView
+        <cn.dreamn.qianji_auto.ui.components.AdaptionSizeTextView
             android:id="@+id/item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,6 +32,7 @@
             android:text=""
             android:textColor="@color/background_white"
             android:textSize="18sp" />
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

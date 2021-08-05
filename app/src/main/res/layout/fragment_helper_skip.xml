@@ -28,7 +28,7 @@
         android:textColor="@color/skip_title"
          />
 
-    <cn.dreamn.qianji_auto.ui.views.IconView
+    <cn.dreamn.qianji_auto.ui.components.IconView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

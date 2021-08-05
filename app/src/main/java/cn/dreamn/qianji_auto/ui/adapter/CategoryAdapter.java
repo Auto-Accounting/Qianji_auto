@@ -39,7 +39,7 @@ public class CategoryAdapter extends BaseAdapter {
     private Item itemListen;
 
     public CategoryAdapter(Context context, Boolean allowChange) {
-        super(R.layout.grid_item_iv);
+        super(R.layout.adapter_category_item);
         mContext = context;
         allow = allowChange;
 

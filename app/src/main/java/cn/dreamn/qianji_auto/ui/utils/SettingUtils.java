@@ -17,7 +17,7 @@ import com.tencent.mmkv.MMKV;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.Remark;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
-import cn.dreamn.qianji_auto.ui.views.SuperText;
+import cn.dreamn.qianji_auto.ui.components.SuperText;
 
 public class SettingUtils {
     Context mContext;
@@ -181,7 +181,7 @@ public class SettingUtils {
         });
         remark.setOnClickListener(v-> {
             LayoutInflater factory = LayoutInflater.from(mContext);
-            final View textEntryView = factory.inflate(R.layout.list_input, null);
+            final View textEntryView = factory.inflate(R.layout.include_list_input, null);
             BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
             MaterialDialog dialog = new MaterialDialog(mContext, bottomSheet);
             dialog.title(null, "请输入备注格式");

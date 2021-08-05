@@ -45,7 +45,7 @@ public class ErrorActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activty_err_msg);
+        setContentView(R.layout.activty_error_msg);
         initView();
         Log.i("error");
     }
@@ -56,7 +56,7 @@ public class ErrorActivity extends BaseActivity {
 
         if (bundle != null) {
             LayoutInflater factory = LayoutInflater.from(this);
-            final View textEntryView = factory.inflate(R.layout.list_msg, null);
+            final View textEntryView = factory.inflate(R.layout.include_list_msg, null);
             BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
             bottomSheet.setRatio(1f);
             MaterialDialog dialog = new MaterialDialog(this, bottomSheet);

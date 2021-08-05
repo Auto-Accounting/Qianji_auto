@@ -33,7 +33,7 @@ import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 public class DevsFragment extends BaseFragment {
 
     @BindView(R.id.title_bar)
-    cn.dreamn.qianji_auto.ui.views.TitleBar title_bar;
+    cn.dreamn.qianji_auto.ui.components.TitleBar title_bar;
 
     @BindView(R.id.include_set)
     RelativeLayout ankio_head;

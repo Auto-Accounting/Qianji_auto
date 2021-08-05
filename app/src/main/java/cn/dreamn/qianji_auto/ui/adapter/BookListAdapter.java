@@ -21,7 +21,7 @@ public class BookListAdapter extends BaseAdapter {
     private final Context mContext;
     public BookListAdapter(Context context) {
 
-        super(R.layout.book_item);
+        super(R.layout.adapter_book_item);
         mContext=context;
     }
 

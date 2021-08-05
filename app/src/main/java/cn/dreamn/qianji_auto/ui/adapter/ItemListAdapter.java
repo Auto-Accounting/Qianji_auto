@@ -18,7 +18,7 @@ public class ItemListAdapter extends BaseAdapter {
 
     public ItemListAdapter(Context context) {
 
-        super(R.layout.list_item);
+        super(R.layout.adapter_list_item);
         mContext = context;
     }
 

@@ -136,7 +136,7 @@ public class AutoFloat {
         ContextThemeWrapper ctx = new ContextThemeWrapper(context, R.style.Theme_AppCompat_Light_NoActionBar);
         context = ctx;
         LayoutInflater factory = LayoutInflater.from(ctx);
-        mView = factory.inflate(R.layout.float_edit2, null);
+        mView = factory.inflate(R.layout.float_edit, null);
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
         dialog = new MaterialDialog(context, bottomSheet);
         dialog.cancelable(false);
@@ -313,7 +313,7 @@ public class AutoFloat {
 
     public void input(String title, String defData, InputData inputData) {
         LayoutInflater factory = LayoutInflater.from(getContext());
-        final View textEntryView = factory.inflate(R.layout.list_input, null);
+        final View textEntryView = factory.inflate(R.layout.include_list_input, null);
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
         MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
         dialog.title(null, title);

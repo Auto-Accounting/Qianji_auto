@@ -1,4 +1,4 @@
-package cn.dreamn.qianji_auto.ui.views;
+package cn.dreamn.qianji_auto.ui.components;
 
 import android.content.Context;
 import android.util.AttributeSet;

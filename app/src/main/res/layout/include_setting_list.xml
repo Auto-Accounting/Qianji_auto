@@ -32,7 +32,7 @@
                     android:padding="10dp"
                     android:text="懒人模式" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/lazy_mode_open"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -40,7 +40,7 @@
                     app:sub_text="开启懒人模式不需要做任何设置"
                     app:title_text="开启" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/lazy_mode_close"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -48,7 +48,7 @@
                     app:sub_text="关闭懒人模式需要复杂的配置"
                     app:title_text="关闭">
 
-                </cn.dreamn.qianji_auto.ui.views.SuperText>
+                </cn.dreamn.qianji_auto.ui.components.SuperText>
 
 
             </LinearLayout>
@@ -74,7 +74,7 @@
                     android:padding="10dp"
                     android:text="前台交易记账模式" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/pay_all"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -82,7 +82,7 @@
                     app:sub_text="不弹出选择面板"
                     app:title_text="全自动记账" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/pay_half"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -90,7 +90,7 @@
                     app:sub_text="弹出分类选择框进行分类选择记账"
                     app:title_text="半自动记账">
 
-                </cn.dreamn.qianji_auto.ui.views.SuperText>
+                </cn.dreamn.qianji_auto.ui.components.SuperText>
 
 
             </LinearLayout>
@@ -116,7 +116,7 @@
                     android:padding="10dp"
                     android:text="后台交易记账模式" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/income_all"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -124,7 +124,7 @@
                     app:sub_text="不弹出选择面板"
                     app:title_text="全自动记账" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/income_half"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -132,7 +132,7 @@
                     app:sub_text="弹出通知，点击通知处理账单"
                     app:title_text="半自动记账">
 
-                </cn.dreamn.qianji_auto.ui.views.SuperText>
+                </cn.dreamn.qianji_auto.ui.components.SuperText>
 
 
             </LinearLayout>
@@ -158,7 +158,7 @@
                     android:padding="10dp"
                     android:text="默认账本" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/default_bookName"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -190,7 +190,7 @@
                     android:padding="10dp"
                     android:text="记账备注样式" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/remark"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -222,7 +222,7 @@
                     android:padding="10dp"
                     android:text="自动分类填充" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/auto_sort_open"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -230,7 +230,7 @@
                     app:sub_text="开启后自动记录分类"
                     app:title_text="开启" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/auto_sort_close"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -238,7 +238,7 @@
                     app:sub_text="关闭后无法自动记录分类"
                     app:title_text="关闭">
 
-                </cn.dreamn.qianji_auto.ui.views.SuperText>
+                </cn.dreamn.qianji_auto.ui.components.SuperText>
 
 
             </LinearLayout>
@@ -264,7 +264,7 @@
                     android:padding="10dp"
                     android:text="悬浮窗倒计时" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/count_down"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -302,7 +302,7 @@
                     android:padding="10dp"
                     android:text="悬浮窗点击触发操作" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/click_window_record"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -310,7 +310,7 @@
                     app:sub_text="直接向记账App发起记账请求"
                     app:title_text="直接记账" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/click_window_edit"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -318,7 +318,7 @@
                     app:sub_text="进行二次记账确认"
                     app:title_text="弹出编辑面板" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/click_window_close"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -349,7 +349,7 @@
                     android:padding="10dp"
                     android:text="悬浮窗长按触发操作" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/long_click_window_record"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -357,7 +357,7 @@
                     app:sub_text="直接向记账App发起记账请求"
                     app:title_text="直接记账" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/long_click_window_edit"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -365,7 +365,7 @@
                     app:sub_text="进行二次记账确认"
                     app:title_text="弹出编辑面板" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/long_click_window_close"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -396,7 +396,7 @@
                     android:padding="10dp"
                     android:text="悬浮窗倒计时结束触发操作" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/end_window_record"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -404,7 +404,7 @@
                     app:sub_text="直接向记账App发起记账请求"
                     app:title_text="直接记账" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/end_window_edit"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -412,7 +412,7 @@
                     app:sub_text="进行二次记账确认"
                     app:title_text="弹出编辑面板" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/end_window_close"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -443,7 +443,7 @@
                     android:padding="10dp"
                     android:text="通知点击触发操作" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/notice_click_window_record"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -451,7 +451,7 @@
                     app:sub_text="直接向记账App发起记账请求"
                     app:title_text="直接记账" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/notice_click_window_edit"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -459,7 +459,7 @@
                     app:sub_text="进行二次记账确认"
                     app:title_text="弹出编辑面板" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/notice_click_window_close"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -490,7 +490,7 @@
                     android:padding="10dp"
                     android:text="编辑弹窗样式" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/qianji_auto"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -498,7 +498,7 @@
                     app:sub_text="支持分类填充功能"
                     app:title_text="自动记账（推荐）" />
 
-                <cn.dreamn.qianji_auto.ui.views.SuperText
+                <cn.dreamn.qianji_auto.ui.components.SuperText
                     android:id="@+id/qianji_ui"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
@@ -506,7 +506,7 @@
                     app:sub_text="不支持分类填充功能"
                     app:title_text="钱迹">
 
-                </cn.dreamn.qianji_auto.ui.views.SuperText>
+                </cn.dreamn.qianji_auto.ui.components.SuperText>
 
 
             </LinearLayout>

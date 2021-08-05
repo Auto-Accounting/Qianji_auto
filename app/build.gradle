@@ -4,18 +4,16 @@ plugins {
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
-
+    compileSdkVersion 31
     defaultConfig {
         applicationId "cn.dreamn.qianji"
         minSdkVersion 24
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 112
         versionName "涅槃 3.0.0 alpha10"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-   /*    */
+
         ndk {
             setAbiFilters(['armeabi-v7a'])
         }

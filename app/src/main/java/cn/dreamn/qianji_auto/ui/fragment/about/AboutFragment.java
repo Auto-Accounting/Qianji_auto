@@ -55,7 +55,7 @@ import cn.dreamn.qianji_auto.utils.supportUtils.DonateUtil;
 public class AboutFragment extends BaseFragment {
 
     @BindView(R.id.title_bar)
-    cn.dreamn.qianji_auto.ui.views.TitleBar title_bar;
+    cn.dreamn.qianji_auto.ui.components.TitleBar title_bar;
     @BindView(R.id.app_log)
     TextView app_log;
 

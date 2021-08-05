@@ -1,5 +1,7 @@
 package cn.dreamn.qianji_auto.ui.fragment.web;
 
+import static cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment.KEY_URL;
+
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -35,13 +37,11 @@ import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.TitleBar;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
-import cn.dreamn.qianji_auto.ui.views.TitleBar;
 import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
-
-import static cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment.KEY_URL;
 
 
 @Page(name = "WebView", params = {KEY_URL}, anim = CoreAnim.slide)

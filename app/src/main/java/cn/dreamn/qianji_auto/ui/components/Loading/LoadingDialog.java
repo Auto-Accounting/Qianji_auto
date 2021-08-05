@@ -1,4 +1,4 @@
-package cn.dreamn.qianji_auto.ui.views;
+package cn.dreamn.qianji_auto.ui.components.Loading;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -16,7 +16,7 @@ public class LoadingDialog {
     public LoadingDialog(Context context, String msg) {
         // 首先得到整个View
         View view = LayoutInflater.from(context).inflate(
-                R.layout.loading_dialog_view, null);
+                R.layout.components_loading_dialog_view, null);
         // 获取整个布局
         LinearLayout layout = view.findViewById(R.id.dialog_view);
         // 页面中的LoadingView

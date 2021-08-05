@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:padding="20dp">
 
-    <cn.dreamn.qianji_auto.ui.views.LVCircularRing
+    <cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing
         android:id="@+id/lv_circularring"
         android:layout_width="50dp"
         android:layout_height="50dp" />

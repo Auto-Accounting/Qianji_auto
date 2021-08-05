@@ -34,7 +34,7 @@ public class AppAdapter extends ArrayAdapter {
 
         Bundle bundle = (Bundle) getItem(position);
 
-        @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.grid_items, null, false);
+        @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.adapter_grid_item, null, false);
 
         ImageView image = view.findViewById(R.id.item_image_icon);
         // image.setImageResource(bundle.getInt("appIcon"));

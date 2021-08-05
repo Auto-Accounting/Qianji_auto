@@ -1,11 +1,9 @@
-package cn.dreamn.qianji_auto.ui.views;
+package cn.dreamn.qianji_auto.ui.components;
 
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.Html;
 import android.util.AttributeSet;
-
-import androidx.appcompat.widget.AppCompatTextView;
 
 public class IconView extends AdaptionSizeTextView {
 

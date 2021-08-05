@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
 
-    <cn.dreamn.qianji_auto.ui.views.TitleBar
+    <cn.dreamn.qianji_auto.ui.components.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         app:title_text="备份与恢复">
 
 
-    </cn.dreamn.qianji_auto.ui.views.TitleBar>
+    </cn.dreamn.qianji_auto.ui.components.TitleBar>
 
     <ScrollView
         android:layout_width="match_parent"

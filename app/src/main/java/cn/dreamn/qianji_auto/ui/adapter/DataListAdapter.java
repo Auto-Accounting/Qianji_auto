@@ -15,7 +15,7 @@ public class DataListAdapter extends BaseAdapter {
     private final Context mContext;
     public DataListAdapter(Context context) {
 
-        super(R.layout.data_item);
+        super(R.layout.adapter_data_item);
         mContext=context;
     }
 

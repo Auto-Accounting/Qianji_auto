@@ -62,7 +62,7 @@ public class LogFragment extends BaseFragment {
     @BindView(R.id.status)
     StatusView statusView;
     @BindView(R.id.title_bar)
-    cn.dreamn.qianji_auto.ui.views.TitleBar title_bar;
+    cn.dreamn.qianji_auto.ui.components.TitleBar title_bar;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.recycler_view)
@@ -98,8 +98,8 @@ public class LogFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        statusView.setEmptyView(R.layout.empty_view);
-        statusView.setLoadingView(R.layout.loading_view);
+        statusView.setEmptyView(R.layout.fragment_empty_view);
+        statusView.setLoadingView(R.layout.fragment_loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> {
             viewHolder.setText(R.id.empty_info, "没有日志！");

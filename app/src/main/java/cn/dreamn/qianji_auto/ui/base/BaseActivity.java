@@ -55,6 +55,7 @@ public class BaseActivity extends XPageActivity {
         return (T) openPage(page);
     }
 
+
     /**
      * 打开fragment
      *

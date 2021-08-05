@@ -17,6 +17,8 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.data;
 
+import static cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment.KEY_DATA;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -57,8 +59,6 @@ import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
-import static cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment.KEY_DATA;
-
 
 @Page(name = "通知列表", params = {KEY_DATA}, anim = CoreAnim.slide)
 
@@ -69,7 +69,7 @@ public class NoticeFragment extends BaseFragment {
     private static final int HANDLE_OK = 0;
     private static final int HANDLE_ERR = -1;
     @BindView(R.id.title_bar)
-    cn.dreamn.qianji_auto.ui.views.TitleBar title_bar;
+    cn.dreamn.qianji_auto.ui.components.TitleBar title_bar;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
     @BindView(R.id.tv_tip)
@@ -158,8 +158,8 @@ public class NoticeFragment extends BaseFragment {
         }
 
 
-        statusView.setEmptyView(R.layout.empty_view);
-        statusView.setLoadingView(R.layout.loading_view);
+        statusView.setEmptyView(R.layout.fragment_empty_view);
+        statusView.setLoadingView(R.layout.fragment_loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, "没有任何" + getName() + "信息"));
         statusView.setOnLoadingViewConvertListener(viewHolder -> viewHolder.setText(R.id.load_info, "正在加载" + getName() + "信息"));

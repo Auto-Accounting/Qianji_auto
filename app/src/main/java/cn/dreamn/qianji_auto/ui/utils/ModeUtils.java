@@ -60,7 +60,7 @@ public class ModeUtils {
         MMKV mmkv=MMKV.defaultMMKV();
 
         List<CardView> cardViews=new ArrayList<>();
-        ModeAdapter modeAdapter=new ModeAdapter(baseFragment.getContext(), R.layout.grid_items, bundles, (item, cardView) -> {
+        ModeAdapter modeAdapter=new ModeAdapter(baseFragment.getContext(), R.layout.adapter_grid_item, bundles, (item, cardView) -> {
             if(item!=null&&item.equals(mmkv.getString("helper_choose","xposed"))){
                 if(cardView==null)
                     return;
@@ -77,7 +77,7 @@ public class ModeUtils {
         mode_list.setOnItemClickListener((parent, view, position, id) -> {
             String appName=bundles[position].getString("appName");
             mmkv.encode("helper_choose",(appName.equals("无障碍模式") ?"helper":"xposed"));
-            CardView cardView=(CardView)view.findViewById(R.id.card_shadow);
+            CardView cardView= view.findViewById(R.id.card_shadow);
 
             for(int i=0;i<cardViews.size();i++){
                 cardViews.get(i).setCardElevation(0);
@@ -120,7 +120,7 @@ public class ModeUtils {
         }
      //   Log.d("mode",mode);
 
-        ListAdapter listAdapter=new ListAdapter(baseFragment.getContext(),R.layout.list_items, list);
+        ListAdapter listAdapter=new ListAdapter(baseFragment.getContext(),R.layout.components_supertext, list);
         lv_permission.setAdapter(listAdapter);
         lv_permission.setOnItemClickListener((parent, view, position, id) -> {
             PermissionUtils permissionUtils=new PermissionUtils(baseFragment.getContext());

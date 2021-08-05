@@ -17,7 +17,7 @@ public class CategoryItemAdapter extends BaseAdapter {
 
     private int select = -1;
     public CategoryItemAdapter(Context context) {
-        super(R.layout.grid_item_iv2);
+        super(R.layout.adapter_category_item_part);
         mContext=context;
     }
 

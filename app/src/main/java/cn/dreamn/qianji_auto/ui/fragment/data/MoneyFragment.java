@@ -55,7 +55,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 public class MoneyFragment extends BaseFragment {
 
     @BindView(R.id.title_bar)
-    cn.dreamn.qianji_auto.ui.views.TitleBar title_bar;
+    cn.dreamn.qianji_auto.ui.components.TitleBar title_bar;
 
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recycler_view;
@@ -76,8 +76,8 @@ public class MoneyFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        statusView.setEmptyView(R.layout.empty_view);
-        statusView.setLoadingView(R.layout.loading_view);
+        statusView.setEmptyView(R.layout.fragment_empty_view);
+        statusView.setLoadingView(R.layout.fragment_loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, "没有任何账单"));
         statusView.setOnLoadingViewConvertListener(viewHolder -> viewHolder.setText(R.id.load_info, "正在加载账单信息"));

@@ -20,7 +20,7 @@ public class DataSelectListAdapter extends ArrayAdapter {
 
     private final Context mContext;
     public DataSelectListAdapter(Context context, Bundle[] bundles) {
-        super(context, R.layout.data_item, bundles);
+        super(context, R.layout.adapter_data_item, bundles);
         mContext=context;
     }
 
@@ -29,7 +29,7 @@ public class DataSelectListAdapter extends ArrayAdapter {
 
         Bundle bundle = (Bundle) getItem(position);
 
-        @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.data_item, null, false);
+        @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.adapter_data_item, null, false);
         ImageView icon_header = view.findViewById(R.id.icon_header);
         TextView item_title = view.findViewById(R.id.item_title);
 

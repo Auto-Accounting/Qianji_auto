@@ -7,7 +7,7 @@
     >
 
 
-    <cn.dreamn.qianji_auto.ui.views.TitleBar
+    <cn.dreamn.qianji_auto.ui.components.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         app:title_text="开源相关">
 
 
-    </cn.dreamn.qianji_auto.ui.views.TitleBar>
+    </cn.dreamn.qianji_auto.ui.components.TitleBar>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <cn.dreamn.qianji_auto.ui.views.CardData
+            <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/AndroidAutoSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                 app:lib_title="AndroidAutoSize"
                 app:lib_title_color="@color/main_title" />
 
-            <cn.dreamn.qianji_auto.ui.views.CardData
+            <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/XPage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                 app:lib_title="XPage"
                 app:lib_title_color="@color/main_title" />
 
-            <cn.dreamn.qianji_auto.ui.views.CardData
+            <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/butterknife"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
                 app:lib_title_color="@color/main_title" />
 
 
-            <cn.dreamn.qianji_auto.ui.views.CardData
+            <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/MMKV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                 app:lib_title="MMKV"
                 app:lib_title_color="@color/main_title" />
 
-            <cn.dreamn.qianji_auto.ui.views.CardData
+            <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/ZSkinPlugin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                 app:lib_title="ZSkinPlugin"
                 app:lib_title_color="@color/main_title" />
 
-            <cn.dreamn.qianji_auto.ui.views.CardData
+            <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/SmartRefreshLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="SmartRefreshLayout"
                 app:lib_title_color="@color/main_title" />
-            <cn.dreamn.qianji_auto.ui.views.CardData
+            <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/CookieBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -130,7 +130,7 @@ CookieBar is a lightweight library for showing a brief message at the top or bot
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="CookieBar"
                 app:lib_title_color="@color/main_title" />
-            <cn.dreamn.qianji_auto.ui.views.CardData
+            <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/XXPermissions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -143,7 +143,7 @@ CookieBar is a lightweight library for showing a brief message at the top or bot
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="XXPermissions"
                 app:lib_title_color="@color/main_title" />
-            <cn.dreamn.qianji_auto.ui.views.CardData
+            <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/ToastUtils"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -156,7 +156,7 @@ CookieBar is a lightweight library for showing a brief message at the top or bot
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="ToastUtils"
                 app:lib_title_color="@color/main_title" />
-            <cn.dreamn.qianji_auto.ui.views.CardData
+            <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/materialripple"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -169,7 +169,7 @@ CookieBar is a lightweight library for showing a brief message at the top or bot
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="material-ripple"
                 app:lib_title_color="@color/main_title" />
-            <cn.dreamn.qianji_auto.ui.views.CardData
+            <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/NiceImageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -182,7 +182,7 @@ CookieBar is a lightweight library for showing a brief message at the top or bot
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="NiceImageView"
                 app:lib_title_color="@color/main_title" />
-            <cn.dreamn.qianji_auto.ui.views.CardData
+            <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/Room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -195,7 +195,7 @@ CookieBar is a lightweight library for showing a brief message at the top or bot
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="Room"
                 app:lib_title_color="@color/main_title" />
-            <cn.dreamn.qianji_auto.ui.views.CardData
+            <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/Rhino"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

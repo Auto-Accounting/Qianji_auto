@@ -26,15 +26,15 @@ import com.xuexiang.xpage.utils.TitleBar;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.SuperText;
 import cn.dreamn.qianji_auto.ui.utils.SettingUtils;
-import cn.dreamn.qianji_auto.ui.views.SuperText;
 
 
 @Page(name = "主页插件设置", anim = CoreAnim.slide)
 public class MainSetFragment extends BaseFragment {
 
     @BindView(R.id.title_bar)
-    cn.dreamn.qianji_auto.ui.views.TitleBar title_bar;
+    cn.dreamn.qianji_auto.ui.components.TitleBar title_bar;
 
 
     @BindView(R.id.pay_all)

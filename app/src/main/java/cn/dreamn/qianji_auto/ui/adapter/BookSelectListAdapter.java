@@ -26,7 +26,7 @@ public class BookSelectListAdapter extends ArrayAdapter {
 
     private final Context mContext;
     public BookSelectListAdapter(Context context, Bundle[] bundles) {
-        super(context, R.layout.book_item2, bundles);
+        super(context, R.layout.adapter_book_item_select, bundles);
         mContext=context;
     }
 
@@ -35,7 +35,7 @@ public class BookSelectListAdapter extends ArrayAdapter {
 
         Bundle bundle = (Bundle) getItem(position);
 
-        @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.book_item2, null, false);
+        @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.adapter_book_item_select, null, false);
         RelativeLayout rl_bg = view.findViewById(R.id.rl_bg);
 
         TextView item_title = view.findViewById(R.id.item_title);

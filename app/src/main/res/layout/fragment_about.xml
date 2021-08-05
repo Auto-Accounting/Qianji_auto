@@ -21,7 +21,7 @@
 >
 
 
-    <cn.dreamn.qianji_auto.ui.views.TitleBar
+    <cn.dreamn.qianji_auto.ui.components.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         app:title_text="关于">
 
 
-    </cn.dreamn.qianji_auto.ui.views.TitleBar>
+    </cn.dreamn.qianji_auto.ui.components.TitleBar>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -103,7 +103,7 @@
                     android:layout_height="50dp"
                     android:padding="10dp">
 
-                    <cn.dreamn.qianji_auto.ui.views.IconView
+                    <cn.dreamn.qianji_auto.ui.components.IconView
                         android:id="@+id/iconView6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
                     android:layout_height="50dp"
                     android:padding="10dp">
 
-                    <cn.dreamn.qianji_auto.ui.views.IconView
+                    <cn.dreamn.qianji_auto.ui.components.IconView
                         android:id="@+id/iconView16"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -197,7 +197,7 @@
                     android:layout_height="50dp"
                     android:padding="10dp">
 
-                    <cn.dreamn.qianji_auto.ui.views.IconView
+                    <cn.dreamn.qianji_auto.ui.components.IconView
                         android:id="@+id/iconView10"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -243,7 +243,7 @@
                     android:layout_height="50dp"
                     android:padding="10dp">
 
-                    <cn.dreamn.qianji_auto.ui.views.IconView
+                    <cn.dreamn.qianji_auto.ui.components.IconView
                         android:id="@+id/iconView9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -291,7 +291,7 @@
                     android:layout_height="50dp"
                     android:padding="10dp">
 
-                    <cn.dreamn.qianji_auto.ui.views.IconView
+                    <cn.dreamn.qianji_auto.ui.components.IconView
                         android:id="@+id/iconView11"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -337,7 +337,7 @@
                     android:layout_height="50dp"
                     android:padding="10dp">
 
-                    <cn.dreamn.qianji_auto.ui.views.IconView
+                    <cn.dreamn.qianji_auto.ui.components.IconView
                         android:id="@+id/iconView12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -384,7 +384,7 @@
                     android:layout_height="50dp"
                     android:padding="10dp">
 
-                    <cn.dreamn.qianji_auto.ui.views.IconView
+                    <cn.dreamn.qianji_auto.ui.components.IconView
                         android:id="@+id/iconView13"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -430,7 +430,7 @@
                     android:layout_height="50dp"
                     android:padding="10dp">
 
-                    <cn.dreamn.qianji_auto.ui.views.IconView
+                    <cn.dreamn.qianji_auto.ui.components.IconView
                         android:id="@+id/iconView14"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -477,7 +477,7 @@
                     android:layout_height="50dp"
                     android:padding="10dp">
 
-                    <cn.dreamn.qianji_auto.ui.views.IconView
+                    <cn.dreamn.qianji_auto.ui.components.IconView
                         android:id="@+id/iconView15"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

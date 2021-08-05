@@ -28,8 +28,8 @@ import java.util.concurrent.TimeUnit;
 import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
-import cn.dreamn.qianji_auto.ui.views.LoadingDialog;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
@@ -204,7 +204,7 @@ public class AutoBillWeb {
 
 
                 LayoutInflater factory = LayoutInflater.from(context);
-                final View textEntryView = factory.inflate(R.layout.list_msg, null);
+                final View textEntryView = factory.inflate(R.layout.include_list_msg, null);
                 BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
                 MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
                 dialog.title(null, "新版本 " + jsonObject.getString("version"));

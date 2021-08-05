@@ -8,7 +8,7 @@
     >
 
 
-    <cn.dreamn.qianji_auto.ui.views.TitleBar
+    <cn.dreamn.qianji_auto.ui.components.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         app:title_text="开发人员">
 
 
-    </cn.dreamn.qianji_auto.ui.views.TitleBar>
+    </cn.dreamn.qianji_auto.ui.components.TitleBar>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -79,7 +79,7 @@
 
                 </LinearLayout>
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
+                <cn.dreamn.qianji_auto.ui.components.IconView
                     android:id="@+id/iconView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
 
                 </LinearLayout>
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
+                <cn.dreamn.qianji_auto.ui.components.IconView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
 
                 </LinearLayout>
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
+                <cn.dreamn.qianji_auto.ui.components.IconView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -252,7 +252,7 @@
 
                 </LinearLayout>
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
+                <cn.dreamn.qianji_auto.ui.components.IconView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -311,7 +311,7 @@
 
                 </LinearLayout>
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
+                <cn.dreamn.qianji_auto.ui.components.IconView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -370,7 +370,7 @@
 
                 </LinearLayout>
 
-                <cn.dreamn.qianji_auto.ui.views.IconView
+                <cn.dreamn.qianji_auto.ui.components.IconView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

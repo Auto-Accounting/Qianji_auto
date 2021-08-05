@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
-
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:gravity="center_horizontal"
@@ -11,9 +9,10 @@
         android:paddingTop="5dp"
         android:paddingRight="20dp"
         android:id="@+id/layout_supertext"
+
         android:paddingBottom="5dp">
 
-        <cn.dreamn.qianji_auto.ui.views.IconView
+        <cn.dreamn.qianji_auto.ui.components.IconView
             android:id="@+id/icon_header"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -31,7 +30,7 @@
             android:textSize="36sp"
              />
 
-    <cn.dreamn.qianji_auto.ui.views.AdaptionSizeTextView
+    <cn.dreamn.qianji_auto.ui.components.AdaptionSizeTextView
         android:id="@+id/item_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,7 +46,7 @@
         android:textSize="18sp"
          />
 
-        <cn.dreamn.qianji_auto.ui.views.AdaptionSizeTextView
+        <cn.dreamn.qianji_auto.ui.components.AdaptionSizeTextView
             android:id="@+id/item_sub"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -63,21 +62,24 @@
             android:textSize="12sp"
              />
 
-    <cn.dreamn.qianji_auto.ui.views.IconView
-        android:id="@+id/icon_isOk"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="false"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="false"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
+        <cn.dreamn.qianji_auto.ui.components.IconView
+            android:id="@+id/icon_isOk"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="false"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
 
-        android:text=""
-        android:textColor="@color/skip_title"
-        android:textSize="24sp"
-         />
-</RelativeLayout>
+            android:text=""
+            android:textColor="@color/skip_title"
+            android:textSize="24sp"
+             />
+
+    </RelativeLayout>
+
+</merge>

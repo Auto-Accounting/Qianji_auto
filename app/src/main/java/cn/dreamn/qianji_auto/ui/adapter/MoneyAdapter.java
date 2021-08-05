@@ -25,7 +25,7 @@ public class MoneyAdapter extends BaseAdapter {
 
     private List<Bundle> list;
     public MoneyAdapter(Context context) {
-        super(R.layout.money_list);
+        super(R.layout.adapter_money_list);
         mContext = context;
 
 

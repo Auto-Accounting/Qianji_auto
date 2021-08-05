@@ -215,7 +215,7 @@ public class CategoryNames {
         AtomicReference<Bundle> cateName=new AtomicReference<>();
 
         LayoutInflater factory = LayoutInflater.from(context);
-        final View textEntryView = factory.inflate(R.layout.list_category, null);
+        final View textEntryView = factory.inflate(R.layout.include_list_category, null);
 
         //final TextView list_title = textEntryView.findViewById(R.id.list_title);
 

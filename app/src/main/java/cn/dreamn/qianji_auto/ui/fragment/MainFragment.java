@@ -47,6 +47,7 @@ import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.IconView;
 import cn.dreamn.qianji_auto.ui.fragment.about.AboutFragment;
 import cn.dreamn.qianji_auto.ui.fragment.about.BackUpFragment;
 import cn.dreamn.qianji_auto.ui.fragment.base.MainMapFragment;
@@ -62,7 +63,6 @@ import cn.dreamn.qianji_auto.ui.fragment.data.sort.MainAutoSortFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
-import cn.dreamn.qianji_auto.ui.views.IconView;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 
@@ -160,7 +160,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_main_2;
+        return R.layout.fragment_main;
     }
 
     @SuppressLint("ResourceAsColor")

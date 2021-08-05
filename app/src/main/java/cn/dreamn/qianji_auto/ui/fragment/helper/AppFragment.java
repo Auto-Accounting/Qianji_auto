@@ -83,7 +83,7 @@ public class AppFragment extends BaseFragment {
         }
 
         List<CardView> cardViews=new ArrayList<>();
-        AppAdapter appAdapter=new AppAdapter(getContext(), R.layout.grid_items, bundles, (item, cardView) -> {
+        AppAdapter appAdapter=new AppAdapter(getContext(), R.layout.adapter_grid_item, bundles, (item, cardView) -> {
             if(item!=null&&item.equals(AppManager.getApp())){
                 cardView.setCardElevation(15);
                 if(!cardViews.contains(cardView))

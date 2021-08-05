@@ -1,4 +1,4 @@
-package cn.dreamn.qianji_auto.ui.views;
+package cn.dreamn.qianji_auto.ui.components;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -21,7 +21,7 @@ public class CardData extends RelativeLayout {
     public CardData(Context context, AttributeSet attrs) {
         super(context,attrs);
 
-        LayoutInflater.from(context).inflate(R.layout.card_data,this,true);
+        LayoutInflater.from(context).inflate(R.layout.components_card_data,this,true);
         lib_bg =  findViewById(R.id.lib_bg);
         lib_title = findViewById(R.id.lib_title);
         lib_author =  findViewById(R.id.lib_author);

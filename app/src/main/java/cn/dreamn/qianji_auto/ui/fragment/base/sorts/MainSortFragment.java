@@ -35,8 +35,8 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.ui.adapter.TabAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.IconView;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
-import cn.dreamn.qianji_auto.ui.views.IconView;
 
 
 @Page(name = "主页分类管理", anim = CoreAnim.slide)

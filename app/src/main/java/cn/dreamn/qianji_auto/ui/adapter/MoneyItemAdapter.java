@@ -7,16 +7,16 @@ import android.widget.TextView;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.BillTools;
+import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
 
 public class MoneyItemAdapter extends BaseAdapter {
-    private Context mContext;
+    private final Context mContext;
 
 
     public MoneyItemAdapter(Context context) {
-        super(R.layout.money_list_items);
+        super(R.layout.adapter_money_list_item_part);
         mContext = context;
 
 
@@ -26,11 +26,11 @@ public class MoneyItemAdapter extends BaseAdapter {
 
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Bundle item, int position) {
-        TextView sort=(TextView)holder.findViewById(R.id.sort);
-        TextView date=(TextView)holder.findViewById(R.id.date);
-        TextView money=(TextView)holder.findViewById(R.id.money);
-        TextView remark=(TextView)holder.findViewById(R.id.remark);
-        TextView paytools=(TextView)holder.findViewById(R.id.paytools);
+        TextView sort= holder.findViewById(R.id.sort);
+        TextView date= holder.findViewById(R.id.date);
+        TextView money= holder.findViewById(R.id.money);
+        TextView remark= holder.findViewById(R.id.remark);
+        TextView paytools= holder.findViewById(R.id.paytools);
 
         BillInfo billInfo=BillInfo.parse(item.getString("billinfo"));
         sort.setText(billInfo.getCateName());

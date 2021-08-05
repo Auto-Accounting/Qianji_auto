@@ -217,7 +217,7 @@ public class BookNames {
     public static void showBookSelect(Context context, String title,boolean isFloat, BookSelect getOne ) {
 
         LayoutInflater factory = LayoutInflater.from(context);
-        final View textEntryView = factory.inflate(R.layout.list_data, null);
+        final View textEntryView = factory.inflate(R.layout.include_list_data, null);
 
         //final TextView list_title = textEntryView.findViewById(R.id.list_title);
 

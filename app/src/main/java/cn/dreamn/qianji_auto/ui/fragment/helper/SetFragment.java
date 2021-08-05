@@ -28,9 +28,9 @@ import com.xuexiang.xpage.enums.CoreAnim;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.SuperText;
 import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
 import cn.dreamn.qianji_auto.ui.utils.SettingUtils;
-import cn.dreamn.qianji_auto.ui.views.SuperText;
 
 
 @Page(name = "使用习惯", anim =  CoreAnim.slide)

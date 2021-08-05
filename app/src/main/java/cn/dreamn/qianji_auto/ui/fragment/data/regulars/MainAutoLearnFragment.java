@@ -17,6 +17,8 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.data.regulars;
 
+import static cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment.KEY_DATA;
+
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 
@@ -36,10 +38,8 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.adapter.TabAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.IconView;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
-import cn.dreamn.qianji_auto.ui.views.IconView;
-
-import static cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment.KEY_DATA;
 
 
 @Page(name = "主页数据识别", params = {KEY_DATA}, anim = CoreAnim.slide)
