@@ -13,3 +13,4 @@ rhino-*/build/
 /app/seeds.txt
 /app/unused.txt
 material-*/build/
+/app/release/*

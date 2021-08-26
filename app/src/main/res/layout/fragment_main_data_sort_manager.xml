@@ -9,7 +9,60 @@
     android:backgroundTint="@color/background"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:id="@+id/title_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <RelativeLayout
+            android:id="@+id/title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="0dp">
+
+            <cn.dreamn.qianji_auto.ui.components.IconView
+                android:id="@+id/iv_left_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="10dp"
+                android:text="&#xe60b;"
+                android:textColor="@color/main_title"
+                android:textSize="24sp" />
+
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tablayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_centerHorizontal="true"
+
+
+                app:tabIndicator="@drawable/tab_select"
+                app:tabIndicatorColor="@color/main_title"
+                app:tabIndicatorFullWidth="true"
+                app:tabIndicatorHeight="2dp"
+                app:tabSelectedTextColor="@color/main_title"
+                app:tabTextColor="@color/skip_title">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="支出" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收入" />
+
+            </com.google.android.material.tabs.TabLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
     <com.shehuan.statusview.StatusView
         android:id="@+id/status"
         android:layout_width="match_parent"

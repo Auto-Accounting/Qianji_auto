@@ -32,8 +32,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import cn.dreamn.qianji_auto.BuildConfig;
-
 
 public class AppStatus {
 
@@ -89,7 +87,7 @@ public class AppStatus {
             ArrayList list = (ArrayList) array;
 
             for (Object mod : list) {
-                if (Objects.equals(modClass.getMethod("getPkg").invoke(mod), BuildConfig.APPLICATION_ID)) {
+                if (Objects.equals(modClass.getMethod("getPkg").invoke(mod), "cn.dreamn.qianji_auto")) {
                     return true;
                 }
             }

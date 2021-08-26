@@ -15,15 +15,17 @@
  *
  */
 
-package cn.dreamn.qianji_auto.ui.fragment.data.sort;
+package cn.dreamn.qianji_auto.ui.fragment.data;
+
+import static cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment.KEY_DATA;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,12 +34,7 @@ import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.developer.filepicker.controller.DialogSelectionListener;
-import com.developer.filepicker.model.DialogConfigs;
-import com.developer.filepicker.model.DialogProperties;
-import com.developer.filepicker.view.FilePickerDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.hjq.toast.ToastUtils;
@@ -45,6 +42,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
+import com.xuexiang.xpage.core.PageOption;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 import com.yanzhenjie.recyclerview.touch.OnItemMoveListener;
@@ -55,27 +53,29 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.Category;
-import cn.dreamn.qianji_auto.permission.PermissionUtils;
+import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.IconView;
 import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.utils.B64;
-import cn.dreamn.qianji_auto.utils.files.FileUtils;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.utils.files.RegularManager;
+import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
-import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
-@Page(name = "本地分类", anim = CoreAnim.slide)
-public class localFragment extends BaseFragment {
+@Page(name = "本地识别规则", anim = CoreAnim.slide)
+public class RegularFragment extends BaseFragment {
 
     private static final int HANDLE_ERR = 0;
     private static final int HANDLE_OK = 1;
     private static final int HANDLE_REFRESH = 2;
     private static final int HANDLE_OUT = 3;
+    @BindView(R.id.title_count)
+    RelativeLayout title_count;
+    private final String type;
     @BindView(R.id.status)
     StatusView statusView;
     @BindView(R.id.refreshLayout)
@@ -84,7 +84,6 @@ public class localFragment extends BaseFragment {
     SwipeRecyclerView recyclerView;
     @BindView(R.id.multiple_actions_down)
     FloatingActionsMenu floatingActionButton;
-
     @BindView(R.id.action_cate)
     FloatingActionButton action_cate;
     @BindView(R.id.action_import)
@@ -93,9 +92,8 @@ public class localFragment extends BaseFragment {
     FloatingActionButton action_export;
     @BindView(R.id.action_delAll)
     FloatingActionButton action_delAll;
-    private CateItemListAdapter mAdapter;
-    private List<Bundle> list;
-    LoadingDialog loadDialog;
+    @BindView(R.id.iv_left_icon)
+    IconView iv_left_icon;
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
@@ -105,7 +103,7 @@ public class localFragment extends BaseFragment {
                     break;
                 case HANDLE_OK:
                     mAdapter.refresh(list);
-                    Task.onMain(1000, () -> statusView.showContentView());
+                    Task.onMain(() -> statusView.showContentView());
                     break;
                 case HANDLE_REFRESH:
                     String d = (String) msg.obj;
@@ -127,6 +125,33 @@ public class localFragment extends BaseFragment {
             floatingActionButton.setVisibility(View.VISIBLE);
         }
     };
+    LoadingDialog loadDialog;
+    private CateItemListAdapter mAdapter;
+    private List<Bundle> list;
+
+    public RegularFragment(String type) {
+        this.type = type;
+    }
+
+    public static void openWithType(BaseFragment baseFragment, String type) {
+        //sms notice app
+        PageOption.to(RegularFragment.class)
+                .setNewActivity(true)
+                .putString(KEY_DATA, type)
+                .open(baseFragment);
+    }
+
+    private String getName() {
+        switch (type) {
+            case "sms":
+                return "短信";
+            case "notice":
+                return "通知";
+            case "app":
+                return "app";
+        }
+        return "";
+    }
 
     @Override
     protected int getLayoutId() {
@@ -145,10 +170,10 @@ public class localFragment extends BaseFragment {
         statusView.setLoadingView(R.layout.fragment_loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.empty_info, "你还没有任何自动分类规则哦！\n");
+            viewHolder.setText(R.id.empty_info, "你还没有任何" + getName() + "规则哦！\n");
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.load_info, "正在加载自动分类规则...");
+            viewHolder.setText(R.id.load_info, "正在加载" + getName() + "规则...");
         });
         floatingActionButton.setVisibility(View.GONE);
         statusView.showLoadingView();
@@ -160,111 +185,17 @@ public class localFragment extends BaseFragment {
     protected void initListeners() {
 
         refreshLayout.setOnRefreshListener(refreshlayout -> {
-            refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+            refreshlayout.finishRefresh(0);//传入false表示刷新失败
         });
         action_cate.setOnClickListener(v -> {
 
 
-            BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-            MaterialDialog dialog1 = new MaterialDialog(getContext(), bottomSheet);
-            dialog1.cornerRadius(15f, null);
-            dialog1.title(null, "请选择编辑方式");
-            DialogListExtKt.listItems(dialog1, null, Arrays.asList("可视化编辑", "JS编辑"), null, true, (materialDialog, index, text) -> {
-                switch (index) {
-                    case 0:
-                        WebViewFragment.openUrl(this, "file:///android_asset/html/Category/index.html");
-                        break;
-                    case 1:
-                        WebViewFragment.openUrl(this, "file:///android_asset/html/Category/js.html");
-                        break;
-
-                }
-
-                return null;
-            });
-            dialog1.show();
+            WebViewFragment.openUrl(this, "file:///android_asset/html/Regulars/index.html?type=" + this.type);
 
 
         });
         action_import.setOnClickListener(v -> {
-            PermissionUtils permissionUtils = new PermissionUtils(getContext());
-            permissionUtils.grant(PermissionUtils.Storage);
-            try {
-
-
-                final DialogProperties properties = new DialogProperties();
-
-                FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
-                dialog.setTitle("请选择自动记账分类配置文件");
-                dialog.setPositiveBtnName("选中");
-                dialog.setNegativeBtnName("关闭");
-                properties.extensions = new String[]{".auto.category.backup"};
-                properties.root = Environment.getExternalStorageDirectory();
-                properties.offset = Environment.getExternalStorageDirectory();
-                properties.show_hidden_files = false;
-                properties.selection_mode = DialogConfigs.SINGLE_MODE;
-                properties.error_dir = Environment.getExternalStorageDirectory();
-                dialog.setProperties(properties);
-                dialog.show();
-                dialog.setDialogSelectionListener(new DialogSelectionListener() {
-                    @Override
-                    public void onSelectedFilePaths(String[] files) {
-                        dialog.dismiss();
-                        String file = files[0];
-                        String data = FileUtils.get(file);
-                        JSONObject jsonObject = JSONObject.parseObject(data);
-                        String from = jsonObject.getString("from");
-
-                        if (!from.equals("Category")) {
-                            ToastUtils.show("该文件不是有效的自动分类配置数据文件");
-                            return;
-                        }
-                        JSONArray jsonArray = jsonObject.getJSONArray("data");
-
-                        BottomSheet bottomSheet2 = new BottomSheet(LayoutMode.WRAP_CONTENT);
-                        MaterialDialog dialog2 = new MaterialDialog(getContext(), bottomSheet2);
-                        dialog2.cornerRadius(15f, null);
-                        dialog2.title(null, "恢复提醒");
-                        dialog2.message(null, "是否覆盖原有数据（清空不保留）？", null);
-                        dialog2.negativeButton(null, "不清空", (a) -> null);
-                        dialog2.positiveButton(null, "清空", (a) -> {
-                            Category.clear();
-
-                            return null;
-                        });
-
-                        dialog2.setOnDismissListener(dialog1 -> {
-                            loadDialog = new LoadingDialog(getContext(), "数据导入中...");
-                            loadDialog.show();
-                            Task.onThread(() -> {
-                                for (int i = 0; i < jsonArray.size(); i++) {
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-
-                                    Category.addCategory(B64.decode(jsonObject1.getString("regular")), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des"), new Category.Finish() {
-                                        @Override
-                                        public void onFinish() {
-                                            Log.d("finish data" + jsonObject1.toString());
-                                        }
-                                    });
-                                }
-                                Message message = new Message();
-                                message.what = HANDLE_REFRESH;
-                                message.obj = "恢复成功！";
-
-                                mHandler.sendMessage(message);
-                            });
-
-
-                        });
-                        dialog2.show();
-                    }
-                });
-
-
-            } catch (Exception | Error e) {
-                e.printStackTrace();
-                Log.i("出错了，可能是权限未给全！" + e.toString());
-            }
+            RegularManager.importReg(getContext(), getName(), getType());
         });
         action_export.setOnClickListener(v -> {
             BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
@@ -272,47 +203,7 @@ public class localFragment extends BaseFragment {
             dialog1.cornerRadius(15f, null);
             dialog1.title(null, "请选择导出方案");
             DialogListExtKt.listItems(dialog1, null, Arrays.asList("导出至下载文件夹", "分享"), null, true, (materialDialog, index, text) -> {
-                loadDialog = new LoadingDialog(getContext(), "数据导出中...");
-                loadDialog.show();
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("from", "Category");
-                Category.getAll(bundle -> {
-                    JSONArray jsonArray = new JSONArray();
-                    for (Bundle regular : bundle) {
-                        //        Category.addCategory(new String(Base64.decode(jsonObject1.getString("regular"), Base64.NO_WRAP)), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des")
-                        JSONObject jsonObject1 = new JSONObject();
-                        jsonObject1.put("name", regular.getString("name"));
-                        jsonObject1.put("regular", B64.encode(regular.getString("regular")));
-                        jsonObject1.put("tableList", regular.getString("tableList"));
-                        jsonObject1.put("des", regular.getString("des"));
-                        jsonArray.add(jsonObject1);
-                    }
-                    jsonObject.put("data", jsonArray);
-                    String fileName = Tool.getTime("yyyyMMddHHmmss") + ".auto.category.backup";
-                    Tool.writeToCache(getContext(), fileName, jsonObject.toJSONString());
-                    switch (index) {
-                        case 0:
-                            String newFileName = Environment.getExternalStorageDirectory().getPath() + "/Download/QianJiAuto/" + fileName;
-                            FileUtils.makeRootDirectory(Environment.getExternalStorageDirectory().getPath() + "/Download/QianJiAuto/");
-                            FileUtils.copyFile(getContext().getExternalCacheDir().getPath() + "/" + fileName, newFileName);
-                            Log.m(fileName);
-                            FileUtils.del(fileName);
-                            break;
-                        case 1:
-
-                            Tool.shareFile(getContext(), getContext().getExternalCacheDir().getPath() + "/" + fileName);
-                            FileUtils.del(fileName);
-                            break;
-
-                    }
-                    Message message = new Message();
-                    message.what = HANDLE_OUT;
-                    message.obj = "数据导出成功";
-                    mHandler.sendMessage(message);
-
-
-                });
-
+                RegularManager.outputReg(getContext(), getName(), getType(), index);
                 return null;
             });
             dialog1.show();
@@ -324,10 +215,10 @@ public class localFragment extends BaseFragment {
             MaterialDialog dialog2 = new MaterialDialog(getContext(), bottomSheet2);
             dialog2.cornerRadius(15f, null);
             dialog2.title(null, "删除提醒");
-            dialog2.message(null, "是否清空所有分类数据？", null);
+            dialog2.message(null, "是否清空所有" + getName() + "规则数据？", null);
             dialog2.negativeButton(null, "不清空", (a) -> null);
             dialog2.positiveButton(null, "清空", (a) -> {
-                Category.clear(() -> {
+                identifyRegulars.clear(getType(), str -> {
                     Message message = new Message();
                     message.what = HANDLE_REFRESH;
                     message.obj = "清除成功";
@@ -338,6 +229,10 @@ public class localFragment extends BaseFragment {
             });
             dialog2.show();
         });
+    }
+
+    private String getType() {
+        return this.type;
     }
 
     private void initLayout() {
@@ -365,8 +260,8 @@ public class localFragment extends BaseFragment {
                 int toPosition = targetHolder.getAdapterPosition();
                 Collections.swap(list, fromPosition, toPosition);
                 mAdapter.notifyItemMoved(fromPosition, toPosition);
-                Category.setSort(list.get(fromPosition).getInt("id"), fromPosition);
-                Category.setSort(list.get(toPosition).getInt("id"), toPosition);
+                identifyRegulars.setSort(list.get(fromPosition).getInt("id"), fromPosition);
+                identifyRegulars.setSort(list.get(toPosition).getInt("id"), toPosition);
 
                 // 返回true，表示数据交换成功，ItemView可以交换位置。
                 return true;
@@ -397,10 +292,10 @@ public class localFragment extends BaseFragment {
             disable = "启用";
         }
         dialog.title(null, "请选择操作(" + cate.getString("name") + ")");
-        DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "可视化编辑", "js编辑", "上传到云端", disable), null, true, (materialDialog, index, text) -> {
+        DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "可视化编辑", "上传到云端", disable), null, true, (materialDialog, index, text) -> {
             switch (index) {
                 case 0:
-                    Category.del(cate.getInt("id"), () -> {
+                    identifyRegulars.del(cate.getInt("id"), () -> {
                         Message message = new Message();
                         message.obj = "删除成功";
                         message.what = HANDLE_REFRESH;
@@ -408,39 +303,43 @@ public class localFragment extends BaseFragment {
                     });
                     break;
                 case 1:
-                    if (cate.getString("tableList") == null || cate.getString("tableList").equals("")) {
-                        ToastUtils.show("该规则使用js编辑，无法进行可视化编辑。");
-                        break;
-                    }
-                    WebViewFragment.openUrl(this, "file:///android_asset/html/Category/index.html?id=" + cate.getInt("id") + "&data=" + B64.encode(cate.getString("tableList")));
+
+                    DataUtils dataUtils = new DataUtils();
+                    dataUtils.put("name", cate.getString("name"));
+                    dataUtils.put("text", cate.getString("text"));
+                    dataUtils.put("regular", cate.getString("regular"));
+                    dataUtils.put("fromApp", cate.getString("fromApp"));
+
+                    dataUtils.put("des", cate.getString("des"));
+                    dataUtils.put("identify", cate.getString("identify"));
+                    dataUtils.put("tableList", cate.getString("tableList"));
+
+                    WebViewFragment.openUrl(this, "file:///android_asset/html/Regulars/index.html?id=" + cate.getInt("id") + "&type=" + this.type + "&data=" + B64.encode(dataUtils.toString()));
                     break;
                 case 2:
-
-                    WebViewFragment.openUrl(this, "file:///android_asset/html/Category/js.html?id=" + cate.getInt("id") + "&data=" + B64.encode(cate.getString("regular")) + "&name=" + cate.getString("name") + "&des=" + cate.getString("des"));
-                    break;
-                case 3:
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("name", cate.getString("name"));
-                    jsonObject.put("text", "");
+                    jsonObject.put("text", cate.getString("text"));
                     jsonObject.put("data", cate.getString("regular"));
                     jsonObject.put("tableList", cate.getString("tableList"));
-                    jsonObject.put("identify", "");
-                    jsonObject.put("fromApp", "");
-                    jsonObject.put("isCate", "1");
+                    jsonObject.put("identify", cate.getString("identify"));
+                    jsonObject.put("fromApp", cate.getString("fromApp"));
+                    jsonObject.put("isCate", "0");
                     jsonObject.put("description", cate.getString("des"));
                     String result = B64.encode(jsonObject.toString());
                     AutoBillWeb.httpSend(getContext(), this, "send", result);
                     break;
-                case 4:
+                case 3:
                     if (text == "禁用") {
-                        Category.deny(cate.getInt("id"), () -> {
+                        identifyRegulars.deny(cate.getInt("id"), () -> {
                             Message message = new Message();
                             message.obj = "禁用成功";
                             message.what = HANDLE_REFRESH;
                             mHandler.sendMessage(message);
                         });
+
                     } else {
-                        Category.enable(cate.getInt("id"), () -> {
+                        identifyRegulars.enable(cate.getInt("id"), () -> {
                             Message message = new Message();
                             message.obj = "启用成功";
                             message.what = HANDLE_REFRESH;
@@ -456,9 +355,11 @@ public class localFragment extends BaseFragment {
 
 
     public void loadFromData(RefreshLayout refreshLayout) {
-
+        loadDialog = new LoadingDialog(getContext(), "数据加载中...");
+        loadDialog.show();
         Task.onThread(() -> {
-            Category.getAll(regulars -> {
+            identifyRegulars.getAll(type, null, regulars -> {
+                loadDialog.close();
                 if (regulars == null || regulars.length == 0) {
                     mHandler.sendEmptyMessage(HANDLE_ERR);
                 } else {

@@ -4,6 +4,7 @@
     package="cn.dreamn.qianji_auto">
 
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <!-- 忽略电池优化 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -33,16 +34,29 @@
         android:networkSecurityConfig="@xml/network_config"
         android:theme="@style/Theme.Qianji_auto"
         android:requestLegacyExternalStorage="true"
+        android:allowBackup="false"
         tools:targetApi="n">
         <activity
             android:name=".ui.activity.ErrorActivity"
 
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".ui.activity.MainActivity">
+
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <!--添加自定义打开意图-->
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="file" />
+                <data android:host="*" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\\.ankio" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.base.BaseActivity" />
@@ -96,7 +110,9 @@
                 android:resource="@xml/file_provider_paths" />
         </provider>
         <!--无障碍开机启动广播-->
-        <receiver android:name=".core.broadcast.BootBroadcast">
+        <receiver
+            android:name=".core.broadcast.BootBroadcast"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -104,6 +120,7 @@
         <!--短信读取广播-->
         <receiver
             android:name=".core.broadcast.SMSBroadcast"
+            android:exported="true"
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter android:priority="1000">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
