@@ -76,6 +76,7 @@ public class AppFragment extends BaseFragment {
         width=width-40;//真实可分配大小
         int s=width/80;//分80
 
+        assert bundles != null;
         int all=bundles.length;
         if(all<=s){
             app_list.setColumnWidth(ScreenUtils.dip2px(getContext(),(float) width/all));
@@ -85,7 +86,7 @@ public class AppFragment extends BaseFragment {
         List<CardView> cardViews=new ArrayList<>();
         AppAdapter appAdapter=new AppAdapter(getContext(), R.layout.adapter_grid_item, bundles, (item, cardView) -> {
             if(item!=null&&item.equals(AppManager.getApp())){
-                cardView.setCardElevation(15);
+                // cardView.setCardElevation(15);
                 if(!cardViews.contains(cardView))
                     cardViews.add(cardView);
                 ButtonUtils.enable(button_next,getContext());
@@ -108,7 +109,7 @@ public class AppFragment extends BaseFragment {
             }
             if(!cardViews.contains(cardView))
                 cardViews.add(cardView);
-            cardView.setCardElevation(15);
+            //cardView.setCardElevation(15);
             ButtonUtils.enable(button_next,getContext());
         });
     }

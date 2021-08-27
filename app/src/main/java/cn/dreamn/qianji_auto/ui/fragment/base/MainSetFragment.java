@@ -21,7 +21,6 @@ import android.widget.SeekBar;
 
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xpage.utils.TitleBar;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
@@ -188,12 +187,12 @@ public class MainSetFragment extends BaseFragment {
     }
 
     @Override
-    protected TitleBar initTitle() {
+    protected void initTitle() {
         title_bar.setInner(getActivity());
         title_bar.setLeftIconOnClickListener(v -> {
             popToBack();
         });
-        return null;
+        //  return null;
     }
 
 

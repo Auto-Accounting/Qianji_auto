@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backgroundColor="@color/background_white"
-        app:left_color="@color/main_title"
+        app:left_color="@color/black"
         app:left_icon="&#xe62e;"
-        app:title_color="@color/main_title"
+        app:title_color="@color/black"
         app:title_text="开源相关">
 
 
@@ -44,7 +44,7 @@
                 app:lib_license="Apache-2.0 License"
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="AndroidAutoSize"
-                app:lib_title_color="@color/main_title" />
+                app:lib_title_color="@color/black" />
 
             <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/XPage"
@@ -58,7 +58,7 @@
                 app:lib_license="Apache-2.0 License"
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="XPage"
-                app:lib_title_color="@color/main_title" />
+                app:lib_title_color="@color/black" />
 
             <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/butterknife"
@@ -72,7 +72,7 @@
                 app:lib_license="Apache-2.0 License"
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="butterknife"
-                app:lib_title_color="@color/main_title" />
+                app:lib_title_color="@color/black" />
 
 
             <cn.dreamn.qianji_auto.ui.components.CardData
@@ -87,7 +87,7 @@
                 app:lib_license="Apache-2.0 License"
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="MMKV"
-                app:lib_title_color="@color/main_title" />
+                app:lib_title_color="@color/black" />
 
             <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/ZSkinPlugin"
@@ -101,7 +101,7 @@
                 app:lib_license="Apache-2.0 License"
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="ZSkinPlugin"
-                app:lib_title_color="@color/main_title" />
+                app:lib_title_color="@color/black" />
 
             <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/SmartRefreshLayout"
@@ -115,7 +115,7 @@
                 app:lib_license="Apache-2.0 License"
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="SmartRefreshLayout"
-                app:lib_title_color="@color/main_title" />
+                app:lib_title_color="@color/black" />
             <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/CookieBar"
                 android:layout_width="match_parent"
@@ -129,7 +129,7 @@ CookieBar is a lightweight library for showing a brief message at the top or bot
                 app:lib_license="Apache-2.0 License"
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="CookieBar"
-                app:lib_title_color="@color/main_title" />
+                app:lib_title_color="@color/black" />
             <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/XXPermissions"
                 android:layout_width="match_parent"
@@ -142,7 +142,7 @@ CookieBar is a lightweight library for showing a brief message at the top or bot
                 app:lib_license="Apache-2.0 License"
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="XXPermissions"
-                app:lib_title_color="@color/main_title" />
+                app:lib_title_color="@color/black" />
             <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/ToastUtils"
                 android:layout_width="match_parent"
@@ -155,7 +155,7 @@ CookieBar is a lightweight library for showing a brief message at the top or bot
                 app:lib_license="Apache-2.0 License"
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="ToastUtils"
-                app:lib_title_color="@color/main_title" />
+                app:lib_title_color="@color/black" />
             <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/materialripple"
                 android:layout_width="match_parent"
@@ -168,7 +168,7 @@ CookieBar is a lightweight library for showing a brief message at the top or bot
                 app:lib_license="Apache-2.0 License"
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="material-ripple"
-                app:lib_title_color="@color/main_title" />
+                app:lib_title_color="@color/black" />
             <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/NiceImageView"
                 android:layout_width="match_parent"
@@ -181,7 +181,7 @@ CookieBar is a lightweight library for showing a brief message at the top or bot
                 app:lib_license="Apache-2.0 License"
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="NiceImageView"
-                app:lib_title_color="@color/main_title" />
+                app:lib_title_color="@color/black" />
             <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/Room"
                 android:layout_width="match_parent"
@@ -194,7 +194,7 @@ CookieBar is a lightweight library for showing a brief message at the top or bot
                 app:lib_license="未知"
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="Room"
-                app:lib_title_color="@color/main_title" />
+                app:lib_title_color="@color/black" />
             <cn.dreamn.qianji_auto.ui.components.CardData
                 android:id="@+id/Rhino"
                 android:layout_width="match_parent"
@@ -207,7 +207,7 @@ CookieBar is a lightweight library for showing a brief message at the top or bot
                 app:lib_license="MPL-2.0 License"
                 app:lib_license_color="@color/skip_title"
                 app:lib_title="Rhino"
-                app:lib_title_color="@color/main_title" />
+                app:lib_title_color="@color/black" />
 
         </LinearLayout>
     </ScrollView>

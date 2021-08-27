@@ -1,33 +1,24 @@
 package cn.dreamn.qianji_auto.ui.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.widget.Button;
-
-import com.zhengsr.skinlib.ZSkin;
 
 import cn.dreamn.qianji_auto.R;
 
 public class ButtonUtils {
     //按钮启用禁用设置颜色
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     public static  void disable(Button button, Context context){
-        int color=R.color.disable_bg;
-      //  Log.m("APP","color"+color);
-        if (ZSkin.isLoadSkin()){
-            color = ZSkin.getColor(color);
-        }
         //   Log.m("APP","color2"+color);
-        button.setBackgroundTintList(ColorStateList.valueOf(context.getColor(color)));
+        button.setBackground(context.getDrawable(R.drawable.btn_normal_disable));
         button.setEnabled(false);
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     public static  void enable(Button button, Context context){
-        int color=R.color.button_go_setting_bg;
-        if (ZSkin.isLoadSkin()){
-            color = ZSkin.getColor(color);
-        }
-        button.setBackgroundTintList(ColorStateList.valueOf(context.getColor(color)));
+        button.setBackground(context.getDrawable(R.drawable.btn_normal_1));
         button.setEnabled(true);
     }
 }

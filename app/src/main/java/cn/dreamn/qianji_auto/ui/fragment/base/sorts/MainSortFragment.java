@@ -17,6 +17,7 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.base.sorts;
 
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
@@ -25,7 +26,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xpage.utils.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,6 @@ import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.ui.adapter.TabAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.IconView;
-import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 
 
 @Page(name = "主页分类管理", anim = CoreAnim.slide)
@@ -96,16 +95,18 @@ public class MainSortFragment extends BaseFragment {
     }
 
     @Override
-    protected TitleBar initTitle() {
-        ThemeManager themeManager = new ThemeManager(getContext());
-        themeManager.setStatusBar(getActivity(),title_count,R.color.background_white);
-        iv_left_icon.setOnClickListener(v->popToBack());
-        return null;
+    protected View getBarView() {
+        return title_count;
     }
 
-
-
-
+    @Override
+    protected void initTitle() {
+        super.initTitle();
+        // ThemeManager themeManager = new ThemeManager(getContext());
+        //  themeManager.setStatusBar(getActivity(),title_count,R.color.background_white);
+        iv_left_icon.setOnClickListener(v -> popToBack());
+        //  return null;
+    }
 
 
 }

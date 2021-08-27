@@ -34,7 +34,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:text="@string/app_help_2_work_mode"
-        android:textColor="@color/main_title"
+        android:textColor="@color/black"
         android:textSize="28dp"
         android:textStyle="bold"
          />

@@ -20,28 +20,29 @@ package cn.dreamn.qianji_auto.ui.base;
 import android.content.res.Configuration;
 import android.os.Parcelable;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-
 import com.xuexiang.xpage.base.XPageActivity;
 import com.xuexiang.xpage.base.XPageFragment;
-import com.xuexiang.xpage.core.CoreSwitcher;
 import com.xuexiang.xpage.core.PageOption;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xpage.utils.TitleBar;
-import com.xuexiang.xpage.utils.TitleUtils;
-
 
 import java.io.Serializable;
+
+import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 
 
 public abstract class BaseFragment extends XPageFragment {
 
 
     public long mExitTime;
+    private final View titleBar = null;
+
     @Override
     protected void initPage() {
         initTitle();
@@ -49,8 +50,13 @@ public abstract class BaseFragment extends XPageFragment {
         initListeners();
     }
 
-    protected TitleBar initTitle() {
-        return null;
+    protected View getBarView() {
+        return titleBar;
+    }
+
+    protected void initTitle() {
+        ThemeManager themeManager = new ThemeManager(getContext());
+        themeManager.setStatusBar(getActivity(), getBarView(), R.color.background_white);
     }
 
     @Override
@@ -59,16 +65,13 @@ public abstract class BaseFragment extends XPageFragment {
     }
 
 
-
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         //屏幕旋转时刷新一下title
         super.onConfigurationChanged(newConfig);
         ViewGroup root = (ViewGroup) getRootView();
-        if (root.getChildAt(0) instanceof TitleBar) {
-            root.removeViewAt(0);
-            initTitle();
-        }
+        root.removeViewAt(0);
+        initTitle();
     }
 
     @Override

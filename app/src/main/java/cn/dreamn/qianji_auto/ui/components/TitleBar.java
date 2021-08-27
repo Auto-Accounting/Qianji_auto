@@ -30,10 +30,10 @@ public class TitleBar extends RelativeLayout {
 
         TypedArray typedArray=context.obtainStyledAttributes(attrs,R.styleable.TitleBar);
         if(typedArray!=null){
-            int leftColor=typedArray.getResourceId(R.styleable.TitleBar_left_color, R.color.main_title);
-            int rightColor=typedArray.getResourceId(R.styleable.TitleBar_right_color, R.color.main_title);
-            int titleColor=typedArray.getResourceId(R.styleable.TitleBar_title_color, R.color.main_title);
-            int bgColor=typedArray.getResourceId(R.styleable.TitleBar_backgroundColor, R.color.background_white);
+            int leftColor = typedArray.getResourceId(R.styleable.TitleBar_left_color, R.color.black);
+            int rightColor = typedArray.getResourceId(R.styleable.TitleBar_right_color, R.color.black);
+            int titleColor = typedArray.getResourceId(R.styleable.TitleBar_title_color, R.color.black);
+            int bgColor = typedArray.getResourceId(R.styleable.TitleBar_backgroundColor, R.color.background_white);
 
             String leftIcon = typedArray.getString(R.styleable.TitleBar_left_icon);
             String rightIcon = typedArray.getString(R.styleable.TitleBar_right_icon);

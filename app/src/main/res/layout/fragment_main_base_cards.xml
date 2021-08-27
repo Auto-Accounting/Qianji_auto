@@ -39,7 +39,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginStart="10dp"
                 android:text="&#xe60b;"
-                android:textColor="@color/main_title"
+                android:textColor="@color/black"
                 android:textSize="24sp" />
 
 
@@ -52,10 +52,10 @@
 
 
                 app:tabIndicator="@drawable/tab_select"
-                app:tabIndicatorColor="@color/main_title"
+                app:tabIndicatorColor="@color/black"
                 app:tabIndicatorFullWidth="true"
                 app:tabIndicatorHeight="2dp"
-                app:tabSelectedTextColor="@color/main_title"
+                app:tabSelectedTextColor="@color/black"
                 app:tabTextColor="@color/skip_title">
 
                 <com.google.android.material.tabs.TabItem

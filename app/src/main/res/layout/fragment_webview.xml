@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backgroundColor="@color/background_white"
-        app:left_color="@color/main_title"
+        app:left_color="@color/black"
         app:left_icon="&#xe62e;"
-        app:right_color="@color/main_title"
-        app:title_color="@color/main_title"
+        app:right_color="@color/black"
+        app:title_color="@color/black"
         app:title_text="">
 
     </cn.dreamn.qianji_auto.ui.components.TitleBar>

@@ -9,11 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backgroundColor="@color/background_white"
-        app:left_color="@color/main_title"
+        app:left_color="@color/black"
         app:left_icon="&#xe62e;"
-        app:right_color="@color/main_title"
-        app:title_color="@color/main_title"
-        app:title_text="工作模式"/>
+        app:right_color="@color/black"
+        app:title_color="@color/black"
+        app:title_text="工作模式" />
 
     <ScrollView
         android:layout_below="@+id/title_bar"

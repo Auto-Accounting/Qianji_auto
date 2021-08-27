@@ -39,7 +39,6 @@ import com.shehuan.statusview.StatusView;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xpage.utils.TitleBar;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.Arrays;
@@ -138,7 +137,7 @@ public class LogFragment extends BaseFragment {
     }
 
     @Override
-    protected TitleBar initTitle() {
+    protected void initTitle() {
         title_bar.setInner(getActivity());
 
 
@@ -221,7 +220,7 @@ public class LogFragment extends BaseFragment {
             //显示(这一行代码不要忘记了)
             popup.show();
         });
-        return null;
+        //  return null;
     }
 
     private void initLayout() {

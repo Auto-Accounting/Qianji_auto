@@ -3,14 +3,8 @@
 -optimizationpasses 5
 #包名不混合大小写
 -dontusemixedcaseclassnames
-#不去忽略非公共的库类
--dontskipnonpubliclibraryclasses
-# 指定不去忽略非公共的库的类的成员
--dontskipnonpubliclibraryclassmembers
 #优化  不优化输入的类文件
 -dontoptimize
-#预校验
--dontpreverify
 #混淆时是否记录日志
 -verbose
 # 混淆时所采用的算法
@@ -21,8 +15,6 @@
 -ignorewarnings
 
 ##记录生成的日志数据,gradle build时在本项目根目录输出##
-#apk 包内所有 class 的内部结构
--dump class_files.txt
 #未混淆的类和成员
 -printseeds seeds.txt
 #列出从 apk 中删除的代码
@@ -44,10 +36,6 @@
 -keep public class * extends android.app.backup.BackupAgentHelper
 -keep public class * extends android.preference.Preference
 -keep public class * extends android.support.v4.**
--keep public class com.android.vending.licensing.ILicensingService
-
-#如果有引用v4包可以添加下面这行
--keep public class * extends android.support.v4.app.Fragment
 
 ##########JS接口类不混淆，否则执行不了
 -dontwarn com.android.JsInterface.**

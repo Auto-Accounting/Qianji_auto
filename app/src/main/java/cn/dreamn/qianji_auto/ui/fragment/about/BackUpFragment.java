@@ -44,7 +44,6 @@ import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xpage.utils.TitleBar;
 
 import java.util.Arrays;
 import java.util.List;
@@ -371,12 +370,12 @@ public class BackUpFragment extends BaseFragment {
     }
 
     @Override
-    protected TitleBar initTitle() {
+    protected void initTitle() {
         title_bar.setInner(getActivity());
         title_bar.setLeftIconOnClickListener(v -> {
             popToBack();
         });
-        return null;
+        // return null;
     }
 
     interface listRes {

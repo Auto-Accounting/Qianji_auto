@@ -12,11 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backgroundColor="@color/background_white"
-        app:left_color="@color/main_title"
+        app:left_color="@color/black"
         app:left_icon="&#xe62e;"
-        app:title_color="@color/main_title"
+        app:right_color="@color/black"
         app:right_icon="&#xe623;"
-        app:right_color="@color/main_title"
+        app:title_color="@color/black"
         app:title_text="账单列表">
 
 

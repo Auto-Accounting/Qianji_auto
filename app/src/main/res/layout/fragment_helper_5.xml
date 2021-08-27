@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:text="使用习惯"
-        android:textColor="@color/main_title"
+        android:textColor="@color/black"
         android:textSize="28dp"
         android:textStyle="bold"
          />

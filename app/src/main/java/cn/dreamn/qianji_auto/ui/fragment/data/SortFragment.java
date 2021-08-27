@@ -47,7 +47,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xpage.utils.TitleBar;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 import com.yanzhenjie.recyclerview.touch.OnItemMoveListener;
 
@@ -64,7 +63,6 @@ import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.IconView;
 import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
-import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.utils.B64;
 import cn.dreamn.qianji_auto.utils.files.FileUtils;
@@ -148,11 +146,14 @@ public class SortFragment extends BaseFragment {
     }
 
     @Override
-    protected TitleBar initTitle() {
-        ThemeManager themeManager = new ThemeManager(getContext());
-        themeManager.setStatusBar(getActivity(), title_count, R.color.background_white);
+    protected View getBarView() {
+        return title_count;
+    }
+
+    @Override
+    protected void initTitle() {
+        super.initTitle();
         iv_left_icon.setOnClickListener(v -> popToBack());
-        return null;
     }
 
     @Override

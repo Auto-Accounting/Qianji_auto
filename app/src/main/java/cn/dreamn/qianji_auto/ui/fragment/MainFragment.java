@@ -38,7 +38,6 @@ import com.bumptech.glide.request.transition.Transition;
 import com.hjq.toast.ToastUtils;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xpage.utils.TitleBar;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.BuildConfig;
@@ -212,10 +211,6 @@ public class MainFragment extends BaseFragment {
         initGridLayout();
     }
 
-    @Override
-    protected TitleBar initTitle() {
-        return null;
-    }
 
 
     private void setActive() {

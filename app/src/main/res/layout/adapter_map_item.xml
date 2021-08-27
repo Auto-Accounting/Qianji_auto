@@ -15,7 +15,7 @@
 
         android:layout_marginStart="15dp"
         android:text=""
-        android:textColor="@color/main_title"
+        android:textColor="@color/black"
         android:textSize="14sp" />
 
     <View
@@ -43,7 +43,7 @@
         android:layout_marginStart="15dp"
         android:layout_toEndOf="@+id/icon_header"
         android:text=""
-        android:textColor="@color/main_title"
+        android:textColor="@color/black"
         android:textSize="14sp" />
 
 </RelativeLayout>

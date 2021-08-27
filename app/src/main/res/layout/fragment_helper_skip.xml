@@ -13,8 +13,7 @@
         android:layout_alignParentStart="false"
         android:layout_alignParentBottom="false"
         android:layout_marginStart="0dp"
-        android:background="@color/skip_title"
-         />
+        android:background="@color/gray" />
 
     <TextView
         android:id="@+id/help_skip"
@@ -25,8 +24,7 @@
         android:layout_marginTop="11dp"
         android:layout_marginEnd="32dp"
         android:text="@string/app_help_skip"
-        android:textColor="@color/skip_title"
-         />
+        android:textColor="@color/gray" />
 
     <cn.dreamn.qianji_auto.ui.components.IconView
         android:layout_width="wrap_content"
@@ -38,8 +36,8 @@
 
         android:layout_marginEnd="15dp"
         android:gravity="center|center_horizontal"
-        android:text="&#xe62d;"
-        android:textColor="@color/skip_title"
+        android:text="@string/icon_youjiantou11"
+        android:textColor="@color/gray"
 
         />
 

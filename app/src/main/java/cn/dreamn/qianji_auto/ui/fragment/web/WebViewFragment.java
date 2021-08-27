@@ -83,13 +83,12 @@ public class WebViewFragment extends BaseFragment {
     }
 
     @Override
-    protected com.xuexiang.xpage.utils.TitleBar initTitle() {
+    protected void initTitle() {
+        // super.initTitle();
         title_bar.setInner(getActivity());
 
 
         title_bar.setLeftIconOnClickListener(v -> popToBack());
-
-        return null;
     }
 
     /**

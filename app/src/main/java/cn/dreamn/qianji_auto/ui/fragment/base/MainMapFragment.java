@@ -37,7 +37,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xpage.utils.TitleBar;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.Arrays;
@@ -227,11 +226,11 @@ public class MainMapFragment extends BaseFragment {
     }
 
     @Override
-    protected TitleBar initTitle() {
+    protected void initTitle() {
         title_bar.setInner(getActivity());
         title_bar.setLeftIconOnClickListener(v -> {
             popToBack();
         });
-        return null;
+        //  return null;
     }
 }

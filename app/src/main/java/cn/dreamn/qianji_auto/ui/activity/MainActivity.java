@@ -2,12 +2,10 @@ package cn.dreamn.qianji_auto.ui.activity;
 
 import android.os.Bundle;
 
-
 import com.tencent.mmkv.MMKV;
 
 import cn.dreamn.qianji_auto.ui.base.BaseActivity;
 import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
-import cn.dreamn.qianji_auto.ui.utils.StatusBarUtil;
 
 
 public class MainActivity extends BaseActivity {
@@ -16,7 +14,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        // StatusBarUtil.setTransparentForWindow(this);
-        StatusBarUtil.setDarkMode(this);
+        //StatusBarUtil.setDarkMode(this);
         openMainPage();
 
 
@@ -25,9 +23,9 @@ public class MainActivity extends BaseActivity {
     private void openMainPage(){
         //MMKV检查
         MMKV mmkv=MMKV.defaultMMKV();
-        if(mmkv.getBoolean("version_3_0",true)){//不是3.0版本
+        if(mmkv.getBoolean("version_3_0",true)) {//不是3.0版本
 
-            String[] fragments={
+            String[] fragments = {
                     "引导设置",
                     "记账软件",
                     "工作模式",
@@ -35,9 +33,11 @@ public class MainActivity extends BaseActivity {
                     "使用习惯",
                     "完成设置"
             };
-
             //开启设置
-            openPage(fragments[mmkv.getInt("helper_page",0)]);
+            //        ThemeManager themeManager = new ThemeManager(this);
+            //         themeManager.setStatusBar(this, null, R.color.background_white);
+
+            openPage(fragments[mmkv.getInt("helper_page", 0)]);
         }else{
             openNewPage(MainFragment.class);
         }

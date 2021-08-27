@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backgroundColor="@color/background_white"
-        app:left_color="@color/main_title"
+        app:left_color="@color/black"
         app:left_icon="&#xe62e;"
         app:right_icon="&#xe623;"
-        app:title_color="@color/main_title"
+        app:title_color="@color/black"
         app:title_text="通知列表">
 
 
@@ -51,7 +51,7 @@
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:text=""
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <com.yanzhenjie.recyclerview.SwipeRecyclerView

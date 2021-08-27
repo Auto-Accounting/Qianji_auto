@@ -11,16 +11,16 @@
         android:id="@+id/imageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="165dp"
+        android:layout_marginTop="160dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintHorizontal_weight="1"
         app:rd_radius="50dp"
-        app:rd_stroke_color="@android:color/black" />
+        app:rd_stroke_color="@color/black"
+        app:rd_stroke_width="0.5dip" />
 
     <TextView
         android:id="@+id/textView"
@@ -30,10 +30,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12dp"
         android:text="@string/app_name"
-        android:textColor="@color/main_title"
-        android:textSize="28dp"
-        android:textStyle="bold"
-         />
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView2"
@@ -54,7 +53,7 @@
         android:layout_centerHorizontal="true"
 
         android:layout_marginBottom="100dp"
-        android:background="@drawable/btn_normal"
+        android:background="@drawable/btn_normal_1"
         android:lineSpacingExtra="10sp"
         android:paddingStart="50dp"
         android:paddingEnd="50dp"

@@ -28,16 +28,16 @@ public class SuperText extends RelativeLayout {
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SuperText);
         if (typedArray != null) {
-            int leftColor = typedArray.getResourceId(R.styleable.SuperText_left_color, R.color.button_go_setting_bg);
-            int rightColor = typedArray.getResourceId(R.styleable.SuperText_right_color, R.color.button_go_setting_bg);
-            int titleColor = typedArray.getResourceId(R.styleable.SuperText_title_color, R.color.main_title);
+            int leftColor = typedArray.getResourceId(R.styleable.SuperText_left_color, R.color.blue);
+            int rightColor = typedArray.getResourceId(R.styleable.SuperText_right_color, R.color.blue);
+            int titleColor = typedArray.getResourceId(R.styleable.SuperText_title_color, R.color.black);
             int subColor = typedArray.getResourceId(R.styleable.SuperText_sub_color, R.color.skip_title);
             String leftIcon = typedArray.getString(R.styleable.SuperText_left_icon);
             String rightIcon = typedArray.getString(R.styleable.SuperText_right_icon);
             String titleText = typedArray.getString(R.styleable.SuperText_title_text);
             String subText = typedArray.getString(R.styleable.SuperText_sub_text);
 
-            boolean select  = typedArray.getBoolean(R.styleable.SuperText_select,false);
+            boolean select = typedArray.getBoolean(R.styleable.SuperText_select, false);
             setSelect(select);
             setLeftIcon(leftIcon);
             setLeftIconColor(context.getColor(leftColor));

@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
                     android:text="自动记账"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
 
                 <TextView
@@ -57,7 +57,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="20dp"
                 android:text="&#xe632;"
-                android:textColor="@color/main_title"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
         </RelativeLayout>
@@ -194,7 +194,7 @@
                             android:layout_marginStart="12dp"
                             android:layout_toEndOf="@+id/view"
                             android:text="基础设置"
-                            android:textColor="@color/main_title"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/main_card_title_size"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -238,7 +238,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="插件设置"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -275,7 +275,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="资产管理"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -312,7 +312,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="资产映射"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -348,7 +348,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="分类管理"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -391,7 +391,7 @@
                             android:layout_marginStart="12dp"
                             android:layout_toEndOf="@+id/view73"
                             android:text="账单数据"
-                            android:textColor="@color/main_title"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/main_card_title_size"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -434,7 +434,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="数据同步"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -471,7 +471,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="账单列表"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -507,7 +507,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="账单核对"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -543,7 +543,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="年度账单"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -585,7 +585,7 @@
                             android:layout_marginStart="12dp"
                             android:layout_toEndOf="@+id/view2"
                             android:text="日志数据"
-                            android:textColor="@color/main_title"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/main_card_title_size"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -630,7 +630,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="App数据"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -666,7 +666,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="短信列表"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -702,7 +702,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="通知列表"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -739,7 +739,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="日志列表"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -781,7 +781,7 @@
                             android:layout_marginStart="12dp"
                             android:layout_toEndOf="@+id/view3"
                             android:text="规则编译"
-                            android:textColor="@color/main_title"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/main_card_title_size"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -823,7 +823,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="自动分类"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -860,7 +860,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="App识别"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -894,7 +894,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="短信识别"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -929,7 +929,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="通知识别"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -972,7 +972,7 @@
                             android:layout_marginStart="12dp"
                             android:layout_toEndOf="@+id/view43"
                             android:text="自定义功能"
-                            android:textColor="@color/main_title"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/main_card_title_size"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -1014,7 +1014,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="悬浮窗"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -1049,7 +1049,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="皮肤"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -1161,7 +1161,7 @@
                             android:layout_marginStart="12dp"
                             android:layout_toEndOf="@+id/view53"
                             android:text="其他"
-                            android:textColor="@color/main_title"
+                            android:textColor="@color/black"
                             android:textSize="@dimen/main_card_title_size"
                             android:textStyle="bold" />
                     </RelativeLayout>
@@ -1203,7 +1203,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="备份恢复"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -1238,7 +1238,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="使用教程"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -1273,7 +1273,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="视频教程"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -1308,7 +1308,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="Github"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>
@@ -1343,7 +1343,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="0dp"
                                 android:text="关于"
-                                android:textColor="@color/main_title"
+                                android:textColor="@color/black"
                                 android:textSize="@dimen/main_card_body_text_size" />
 
                         </RelativeLayout>

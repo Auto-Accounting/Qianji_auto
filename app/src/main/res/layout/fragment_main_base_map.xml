@@ -13,9 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backgroundColor="@color/background_white"
-        app:left_color="@color/main_title"
+        app:left_color="@color/black"
         app:left_icon="&#xe62e;"
-        app:title_color="@color/main_title"
+        app:title_color="@color/black"
         app:title_text="资产映射">
 
 
@@ -51,7 +51,7 @@
                     android:paddingTop="20dp"
                     android:paddingBottom="10dp"
                     android:text="实际使用资产 → 对应的记账App资产"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
                 <com.yanzhenjie.recyclerview.SwipeRecyclerView
                     android:id="@+id/recycler_view"
@@ -64,7 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:text="Tips:\n使用前必须添加资产映射才能记账到钱迹；\n映射资产需要保持完全一致，否则会报错；"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>
 

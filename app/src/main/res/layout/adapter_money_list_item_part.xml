@@ -28,7 +28,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="5dp"
                 android:text="理财收益"
-                android:textColor="@color/main_title" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/date"

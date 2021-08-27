@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backgroundColor="@color/background_white"
-        app:left_color="@color/main_title"
+        app:left_color="@color/black"
         app:left_icon="&#xe62e;"
-        app:title_color="@color/main_title"
+        app:title_color="@color/black"
         app:title_text="备份与恢复">
 
 
@@ -55,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="WebDav网址"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -87,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="WebDav用户名"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -119,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="WebDav密码"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -158,7 +158,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="备份到本地"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -189,7 +189,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="备份到WebDav"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -219,7 +219,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="从本地恢复"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
             </RelativeLayout>
@@ -240,7 +240,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="从WebDav恢复"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
 

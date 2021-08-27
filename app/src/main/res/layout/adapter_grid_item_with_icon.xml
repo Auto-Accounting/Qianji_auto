@@ -47,7 +47,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="-5dp"
                 android:text="TextView"
-                android:textColor="@color/main_title"
+                android:textColor="@color/black"
                 android:textSize="12sp" />
 
         </RelativeLayout>

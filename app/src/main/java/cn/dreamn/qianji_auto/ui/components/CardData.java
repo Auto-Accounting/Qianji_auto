@@ -30,9 +30,9 @@ public class CardData extends RelativeLayout {
 
         TypedArray typedArray=context.obtainStyledAttributes(attrs,R.styleable.CardData);
         if(typedArray!=null){
-            int lib_title_color=typedArray.getResourceId(R.styleable.CardData_lib_title_color, R.color.button_go_setting_bg);
-            int lib_author_color=typedArray.getResourceId(R.styleable.CardData_lib_author_color, R.color.main_title);
-            int lib_desc_color=typedArray.getResourceId(R.styleable.CardData_lib_desc_color, R.color.background_white);
+            int lib_title_color = typedArray.getResourceId(R.styleable.CardData_lib_title_color, R.color.button_go_setting_bg);
+            int lib_author_color = typedArray.getResourceId(R.styleable.CardData_lib_author_color, R.color.blue);
+            int lib_desc_color = typedArray.getResourceId(R.styleable.CardData_lib_desc_color, R.color.background_white);
             int lib_license_color=typedArray.getResourceId(R.styleable.CardData_lib_license_color, R.color.background_white);
             int lib_bg_color=typedArray.getResourceId(R.styleable.CardData_lib_bg_color, R.color.background_white);
             String lib_title = typedArray.getString(R.styleable.CardData_lib_title);

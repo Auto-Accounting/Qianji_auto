@@ -22,7 +22,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="修改账单信息，点击记账完成记账"
-                android:textColor="@color/main_title"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -47,7 +47,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="10dp"
                     android:text="&#xe63c;"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -56,7 +56,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@+id/iconView2"
                     android:text="金额"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -98,7 +98,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="10dp"
                     android:text="&#xe621;"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -107,7 +107,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@+id/iconView21"
                     android:text="手续费"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -149,7 +149,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="10dp"
                     android:text="&#xe610;"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -158,7 +158,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@+id/iconView3"
                     android:text="账本"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -168,7 +168,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="15dp"
                     android:text="默认账本"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </RelativeLayout>
 
@@ -203,7 +203,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:text="&#xe6a0;"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -214,7 +214,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@+id/iconView5"
                     android:text="类型"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -225,7 +225,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
                     android:text="支出"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -275,7 +275,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="10dp"
                     android:text="&#xe6a7;"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -284,7 +284,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@+id/iconView99"
                     android:text="分类"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -302,7 +302,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="15dp"
                     android:text="其他"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </RelativeLayout>
 
@@ -334,7 +334,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="10dp"
                     android:text="&#xe6b2;"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -344,7 +344,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@+id/iconView4"
                     android:text="资产"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -362,7 +362,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="15dp"
                     android:text="支付宝"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </RelativeLayout>
 
@@ -394,7 +394,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="10dp"
                     android:text="&#xe6b2;"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -404,7 +404,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@+id/iconView8"
                     android:text="变动资产"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -422,7 +422,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="15dp"
                     android:text="中国银行"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </RelativeLayout>
 
@@ -454,7 +454,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="10dp"
                     android:text="&#xe62c;"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -464,7 +464,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@+id/iconView34"
                     android:text="时间"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -474,7 +474,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="15dp"
                     android:text="2021-04-15 22:22:22"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </RelativeLayout>
 
@@ -506,7 +506,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="10dp"
                     android:text="&#xe63b;"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -516,7 +516,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@+id/iconView35"
                     android:text="备注"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -526,7 +526,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="15dp"
                     android:text="没有备注信息"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </RelativeLayout>
 

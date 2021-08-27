@@ -30,7 +30,7 @@
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/iv_appIcon"
             android:text="TextView"
-            android:textColor="@color/main_title"
+            android:textColor="@color/black"
             android:textSize="13sp" />
 
         <TextView
@@ -41,7 +41,7 @@
             android:layout_centerInParent="false"
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/btn_normal"
+            android:background="@drawable/btn_normal_1"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:text="已适配"
@@ -55,7 +55,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
             android:layout_toStartOf="@+id/tv_could"
-            android:background="@drawable/btn_normal"
+            android:background="@drawable/btn_normal_1"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:text="已适配"
@@ -72,7 +72,7 @@
         android:layout_marginEnd="10dp"
         android:padding="2dp"
         android:text="TextView"
-        android:textColor="@color/main_title" />
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/tv_des"

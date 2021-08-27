@@ -34,7 +34,6 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.xuexiang.xpage.utils.TitleBar;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.Arrays;
@@ -199,17 +198,17 @@ public class MoneyFragment extends BaseFragment {
     }
 
     @Override
-    protected TitleBar initTitle() {
+    protected void initTitle() {
         title_bar.setInner(getActivity());
         title_bar.setLeftIconOnClickListener(v -> {
             popToBack();
         });
-        title_bar.setRightIconOnClickListener(v->{
+        title_bar.setRightIconOnClickListener(v -> {
             MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
             dialog.title(null, "是否清空账单列表");
-            dialog.message(null,"即将清空所有账单数据",null);
+            dialog.message(null, "即将清空所有账单数据", null);
             dialog.positiveButton(null, "确定清空", materialDialog -> {
-              AutoBills.delAll(() -> {
+                AutoBills.delAll(() -> {
                   Message message=new Message();
                   message.obj="清除成功！";
                   message.what=HANDLE_REFRESH;
@@ -224,7 +223,7 @@ public class MoneyFragment extends BaseFragment {
 
             dialog.show();
         });
-        return null;
+        //  return null;
     }
 
 

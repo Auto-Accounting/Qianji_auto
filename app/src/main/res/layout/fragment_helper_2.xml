@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:text="@string/app_help_1_app_names"
-        android:textColor="@color/main_title"
+        android:textColor="@color/black"
         android:textSize="28dp"
         android:textStyle="bold"
          />
@@ -42,14 +42,15 @@
 
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="60dp"
-        android:backgroundTint="@color/button_go_setting_bg"
+        android:background="@drawable/btn_normal_1"
         android:lineSpacingExtra="10sp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:stateListAnimator="@null"
         android:text="@string/app_help_next"
         android:textAppearance="?android:attr/textAppearanceButton"
         android:textColor="@color/background_white"
-        android:textSize="16sp"
-         />
+        android:textSize="16sp" />
 
     <GridView
         android:id="@+id/app_list"

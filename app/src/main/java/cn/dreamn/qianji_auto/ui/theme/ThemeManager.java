@@ -56,16 +56,19 @@ public class ThemeManager {
     }
 
     public void setStatusBar(Activity activity, View view, int color){
-        int color2=getColor(activity,color);
-        if(isLightColor(color2)){
+        int color2 = getColor(activity, color);
+        if (isLightColor(color2)) {
             StatusBarUtil.setDarkMode(activity);
-        }else{
+        } else {
             StatusBarUtil.setLightMode(activity);
         }
-        view.setBackgroundTintList(ColorStateList.valueOf(color2));
-        view.setBackgroundColor(color2);
-       // StatusBarUtil.setPaddingTop(mContext,view);
-        StatusBarUtil.setColor(activity,color2);
+        if (view != null) {
+            view.setBackgroundTintList(ColorStateList.valueOf(color2));
+            view.setBackgroundColor(color2);
+        }
+
+        // StatusBarUtil.setPaddingTop(mContext,view);
+        StatusBarUtil.setColor(activity, color2);
     }
 
     public static int getColor(Context activity,int Color){

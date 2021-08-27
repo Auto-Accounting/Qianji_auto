@@ -25,7 +25,7 @@
 
         android:layout_toEndOf="@+id/icon_header"
         android:text=""
-        android:textColor="@color/main_title"
+        android:textColor="@color/black"
         android:textSize="14sp" />
 
 </RelativeLayout>

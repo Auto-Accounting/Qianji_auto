@@ -17,7 +17,6 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.helper;
 
-import android.annotation.SuppressLint;
 import android.widget.TextView;
 
 import com.tencent.mmkv.MMKV;
@@ -33,13 +32,10 @@ import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
 @Page(name = "引导设置", anim = CoreAnim.slide)
 public class HelperFragment extends BaseFragment {
 
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.help_skip)
     TextView help_skip;
-    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.button_go_setting)
     TextView button_go_setting;
-
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_helper_1;
@@ -55,19 +51,11 @@ public class HelperFragment extends BaseFragment {
 
     protected void Listeners() {
         help_skip.setOnClickListener(v -> {
-
             MMKV mmkv=MMKV.defaultMMKV();
             mmkv.encode("version_3_0",false);
-
             openNewPage(MainFragment.class);
         });
         button_go_setting.setOnClickListener(v-> openNewPage(AppFragment.class));
     }
-
-
-
-
-    
-
 
 }

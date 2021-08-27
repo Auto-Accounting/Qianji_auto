@@ -34,7 +34,7 @@
                 android:layout_centerInParent="true"
                 android:layout_centerHorizontal="true"
                 android:text="关于"
-                android:textColor="@color/main_title"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <cn.dreamn.qianji_auto.ui.components.IconView

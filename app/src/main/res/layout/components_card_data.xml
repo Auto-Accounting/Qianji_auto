@@ -29,7 +29,7 @@
                     android:layout_marginStart="5dp"
                     android:padding="5dp"
                     android:text="类名"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="18sp" />
 
                 <TextView

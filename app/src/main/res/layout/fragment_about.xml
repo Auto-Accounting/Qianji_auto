@@ -26,9 +26,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backgroundColor="@color/background_white"
-        app:left_color="@color/main_title"
+        app:left_color="@color/black"
         app:left_icon="&#xe62e;"
-        app:title_color="@color/main_title"
+        app:title_color="@color/black"
         app:title_text="关于">
 
 
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:text="自动记账"
-                    android:textColor="@color/main_title"
+                    android:textColor="@color/black"
                     android:textSize="24sp" />
 
                 <TextView
@@ -130,7 +130,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
                         android:text="版本更新"
-                        android:textColor="@color/main_title"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
 
                 </RelativeLayout>
@@ -176,7 +176,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
                         android:text="贡献代码"
-                        android:textColor="@color/main_title"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
 
                 </RelativeLayout>
@@ -223,7 +223,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
                         android:text="开发人员"
-                        android:textColor="@color/main_title"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
 
                 </RelativeLayout>
@@ -269,7 +269,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
                         android:text="开源协议"
-                        android:textColor="@color/main_title"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
 
                 </RelativeLayout>
@@ -317,7 +317,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
                         android:text="开源相关"
-                        android:textColor="@color/main_title"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
 
                 </RelativeLayout>
@@ -363,7 +363,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
                         android:text="电报订阅"
-                        android:textColor="@color/main_title"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
 
                 </RelativeLayout>
@@ -410,7 +410,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
                         android:text="QQ交流群"
-                        android:textColor="@color/main_title"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
 
                 </RelativeLayout>
@@ -456,7 +456,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
                         android:text="五星好评"
-                        android:textColor="@color/main_title"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
 
                 </RelativeLayout>
@@ -503,7 +503,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
                         android:text="打赏支持"
-                        android:textColor="@color/main_title"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
 
                 </RelativeLayout>
