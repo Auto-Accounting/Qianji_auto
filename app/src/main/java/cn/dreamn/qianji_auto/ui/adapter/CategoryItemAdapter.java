@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.github.xiaofeidev.round.RoundImageView;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
-import com.shehuan.niv.NiceImageView;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
@@ -23,7 +23,7 @@ public class CategoryItemAdapter extends BaseAdapter {
 
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Bundle item, int position) {
-        NiceImageView item_image_icon = (NiceImageView) holder.findView(R.id.item_image_icon);
+        RoundImageView item_image_icon = (RoundImageView) holder.findView(R.id.item_image_icon);
 
         TextView item_text = (TextView) holder.findView(R.id.item_text);
 
@@ -37,10 +37,12 @@ public class CategoryItemAdapter extends BaseAdapter {
                 .into(item_image_icon);
 
     }
+
     public void setSelect(int index) {
         this.select = index;
     }
-    private void setColor(boolean select, NiceImageView imageView,TextView textView) {
+
+    private void setColor(boolean select, RoundImageView imageView, TextView textView) {
 
         if (!select) {
             textView.setTextColor(mContext.getColor(R.color.deep_gray));

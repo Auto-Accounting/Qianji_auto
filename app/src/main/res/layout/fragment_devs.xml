@@ -43,8 +43,8 @@
                 android:gravity="center_vertical"
                 android:padding="10dp">
 
-                <com.shehuan.niv.NiceImageView
-                    app:is_circle="true"
+                <com.github.xiaofeidev.round.RoundImageView
+                    app:rd_radius="50dp"
                     android:id="@+id/imageView4"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
@@ -100,9 +100,9 @@
                 android:gravity="center_vertical"
                 android:padding="10dp">
 
-                <com.shehuan.niv.NiceImageView
-                    app:is_circle="true"
-            android:id="@+id/iv_5"
+                <com.github.xiaofeidev.round.RoundImageView
+                    app:rd_radius="50dp"
+                    android:id="@+id/iv_5"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_centerVertical="true"
@@ -158,8 +158,8 @@
                 android:gravity="center_vertical"
                 android:padding="10dp">
 
-                <com.shehuan.niv.NiceImageView
-                    app:is_circle="true"
+                <com.github.xiaofeidev.round.RoundImageView
+                    app:rd_radius="50dp"
                     android:id="@+id/iv_66"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
@@ -215,8 +215,8 @@
                 android:gravity="center_vertical"
                 android:padding="10dp">
 
-                <com.shehuan.niv.NiceImageView
-                    app:is_circle="true"
+                <com.github.xiaofeidev.round.RoundImageView
+                    app:rd_radius="50dp"
                     android:id="@+id/iv_55"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
@@ -274,14 +274,14 @@
                 android:gravity="center_vertical"
                 android:padding="10dp">
 
-                <com.shehuan.niv.NiceImageView
+                <com.github.xiaofeidev.round.RoundImageView
                     android:id="@+id/iv_77"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_centerVertical="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/head_6"
-                    app:is_circle="true"
+                    app:rd_radius="50dp"
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <LinearLayout
@@ -333,14 +333,14 @@
                 android:gravity="center_vertical"
                 android:padding="10dp">
 
-                <com.shehuan.niv.NiceImageView
+                <com.github.xiaofeidev.round.RoundImageView
                     android:id="@+id/iv_88"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_centerVertical="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/head_7"
-                    app:is_circle="true"
+                    app:rd_radius="50dp"
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <LinearLayout

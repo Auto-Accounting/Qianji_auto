@@ -80,7 +80,7 @@ dependencies {
     //点击涟漪效果
     implementation 'com.balysv:material-ripple:1.0.2'
     //自定义imgview
-    implementation 'com.github.SheHuan:NiceImageView:1.0.5'
+    implementation "com.github.xiaofeidev:round:1.1.1"
 
     //安卓Room数据库
     def room_version = '2.3.0'

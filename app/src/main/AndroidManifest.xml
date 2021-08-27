@@ -31,12 +31,11 @@
         android:name=".App"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:fullBackupContent=""
+        android:fullBackupContent="false"
         android:networkSecurityConfig="@xml/network_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Qianji_auto"
-
         android:requestLegacyExternalStorage="true"
         android:allowBackup="false"
         tools:targetApi="n">
@@ -45,13 +44,12 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -59,7 +57,7 @@
                 <data android:host="*" />
                 <data android:mimeType="*/*" />
                 <data android:pathPattern=".*\\.ankio" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
         <activity android:name=".ui.base.BaseActivity" />
         <!-- 今日头条屏幕适配 -->

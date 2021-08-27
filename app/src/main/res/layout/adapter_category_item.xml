@@ -29,7 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center">
 
-            <com.shehuan.niv.NiceImageView
+            <com.github.xiaofeidev.round.RoundImageView
+                app:rd_radius="50dp"
                 android:id="@+id/item_image_icon"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
@@ -38,7 +39,6 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/head_ankio"
                 android:tint="@color/front_color"
-                app:is_circle="true"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ImageView

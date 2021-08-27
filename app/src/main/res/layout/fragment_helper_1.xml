@@ -3,16 +3,24 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_white">
 
-    <ImageView
+
+    <com.github.xiaofeidev.round.RoundImageView
         android:id="@+id/imageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="165dp"
-        android:src="@mipmap/ic_launcher" />
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintHorizontal_weight="1"
+        app:rd_radius="50dp"
+        app:rd_stroke_color="@android:color/black" />
 
     <TextView
         android:id="@+id/textView"
@@ -46,9 +54,10 @@
         android:layout_centerHorizontal="true"
 
         android:layout_marginBottom="100dp"
-
         android:background="@drawable/btn_normal"
         android:lineSpacingExtra="10sp"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
         android:stateListAnimator="@null"
         android:text="@string/app_help_go_setting"
         android:textAppearance="?android:attr/textAppearanceButton"

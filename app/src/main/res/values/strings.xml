@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">自动记账</string>
-    <string name="app_desc">3.0 全新改版</string>
+    <string name="app_desc">3.0 涅槃重生 王者归来</string>
     <string name="app_help_go_setting">进入设置</string>
     <string name="app_help_skip">跳过设置</string>
     <string name="app_help_skip_last">上一步</string>
@@ -9,7 +9,6 @@
     <string name="app_help_next">下一步</string>
     <string name="app_help_2_work_mode">工作模式</string>
     <string name="app_help_2_desc">自动记账支持无障碍与Xposed两种工作模式。\n请选择合适的工作模式。</string>
-
     <string name="app_help_2_tip">请授予自动记账以下权限</string>
     <string name="app_help_3_async">数据同步</string>
     <string name="app_help_3_tip">是否现在同步%s数据？</string>
@@ -22,5 +21,80 @@
     <string name="QQ_Group">165652170</string>
     <string name="files_default_empty_text">这里空空如也</string>
 
+    <!--图标数据-->
+
+    <string name="icon_caozuorizhi1">&#xe63e;</string>
+    <string name="icon_qidong1">&#xe63f;</string>
+    <string name="icon_chaoqiangshengdian1">&#xe63d;</string>
+    <string name="icon_qian">&#xe63c;</string>
+    <string name="icon_beizhu1">&#xe63b;</string>
+    <string name="icon_QQ1">&#xe636;</string>
+    <string name="icon_weixin1">&#xe634;</string>
+    <string name="icon_bi">&#xe630;</string>
+    <string name="icon_shipinjiaocheng1">&#xe633;</string>
+    <string name="icon_banzidong1">&#xe631;</string>
+    <string name="icon_qidong2">&#xe62f;</string>
+    <string name="icon_youjiantou11">&#xe62d;</string>
+    <string name="icon_zuojiantou11">&#xe62e;</string>
+    <string name="icon_fuzhu1">&#xe625;</string>
+    <string name="icon_daojishi">&#xe62a;</string>
+    <string name="icon_danchuang1">&#xe61f;</string>
+    <string name="icon_liebiao1">&#xe629;</string>
+    <string name="icon_yunshanfu1">&#xe627;</string>
+    <string name="icon_cha1">&#xe628;</string>
+    <string name="icon_gou">&#xe626;</string>
+    <string name="icon_dianchi1">&#xe624;</string>
+    <string name="icon_shanchu1">&#xe623;</string>
+    <string name="icon_renminbi">&#xe621;</string>
+    <string name="icon_tianchong2">&#xe622;</string>
+    <string name="icon_zuojiantou1">&#xe61a;</string>
+    <string name="icon_youjiantou1">&#xe620;</string>
+    <string name="icon_shouji">&#xe617;</string>
+    <string name="icon_jiaocheng">&#xe615;</string>
+    <string name="icon_gengduo11">&#xe614;</string>
+    <string name="icon_gengduo1">&#xe60c;</string>
+    <string name="icon_gantan">&#xe60e;</string>
+    <string name="icon_zidong">&#xe6d9;</string>
+    <string name="icon_suoding">&#xe654;</string>
+    <string name="icon_ziyuan212">&#xe727;</string>
+    <string name="icon_leixing">&#xe6a0;</string>
+    <string name="icon_time">&#xe62c;</string>
+    <string name="icon_xiugai">&#xe650;</string>
+    <string name="icon_cuowu">&#xe6b3;</string>
+    <string name="icon_duizhangdan">&#xe62b;</string>
+    <string name="icon_zhifubao">&#xe60f;</string>
+    <string name="icon_yiwen">&#xe606;</string>
+    <string name="icon_daoru">&#xe639;</string>
+    <string name="icon_daochu">&#xe638;</string>
+    <string name="icon_pifu">&#xe635;</string>
+    <string name="icon_fenlei">&#xe6a7;</string>
+    <string name="icon_tongzhi">&#xe61d;</string>
+    <string name="icon_home">&#xe647;</string>
+    <string name="icon_icon_test">&#xe61e;</string>
+    <string name="icon_weizhi">&#xe69d;</string>
+    <string name="icon_duanxin">&#xe61c;</string>
+    <string name="icon_chenggong">&#xe637;</string>
+    <string name="icon_jiaoliu">&#xe60a;</string>
+    <string name="icon_yingshe">&#xe612;</string>
+    <string name="icon_wuzhangaisheshi">&#xe668;</string>
+    <string name="icon_APP">&#xe716;</string>
+    <string name="icon_chaojizhangben">&#xe610;</string>
+    <string name="icon_dashang">&#xe806;</string>
+    <string name="icon_tiaojie">&#xebf1;</string>
+    <string name="icon_banben">&#xe6d8;</string>
+    <string name="icon_xiazai">&#xe74b;</string>
+    <string name="icon_xuanfuchuang">&#xe603;</string>
+    <string name="icon_shujuguanli">&#xe6b2;</string>
+    <string name="icon_xitongmoxingchajian">&#xe65c;</string>
+    <string name="icon_zuijinliulan">&#xe666;</string>
+    <string name="icon_shangchuan">&#xe605;</string>
+    <string name="icon_github">&#xe885;</string>
+    <string name="icon_wode_guanyuwomen">&#xe646;</string>
+    <string name="icon_setting">&#xe632;</string>
+    <string name="icon_gongxian">&#xe609;</string>
+    <string name="icon_zuozhe">&#xe6c5;</string>
+    <string name="icon_huifu">&#xe63a;</string>
+    <string name="icon_sync">&#xe68e;</string>
+    <string name="icon_dianji">&#xe7bc;</string>
 
 </resources>

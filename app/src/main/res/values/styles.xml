@@ -20,10 +20,6 @@
         <item name="colorSecondaryVariant">@color/colorBlueAlpha50</item>
         <item name="colorOnSecondary">@color/white</item>
 
-        <item name="cookieTitleColor">@color/default_title_color</item>
-        <item name="cookieMessageColor">@color/default_message_color</item>
-        <item name="cookieActionColor">@color/default_title_color</item>
-        <item name="cookieBackgroundColor">@color/button_go_setting_bg</item>
 
         <!-- <item name="android:windowTranslucentStatus">true</item>-->
 

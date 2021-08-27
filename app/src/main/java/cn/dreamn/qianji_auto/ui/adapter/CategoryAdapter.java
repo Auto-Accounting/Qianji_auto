@@ -14,9 +14,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.github.xiaofeidev.round.RoundImageView;
 import com.scwang.smartrefresh.layout.adapter.SmartRecyclerAdapter;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
-import com.shehuan.niv.NiceImageView;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.Arrays;
@@ -73,7 +73,7 @@ public class CategoryAdapter extends BaseAdapter {
         }
 
 
-        NiceImageView item_image_icon = (NiceImageView) holder.findView(R.id.item_image_icon);
+        RoundImageView item_image_icon = (RoundImageView) holder.findView(R.id.item_image_icon);
         ImageView iv_more = (ImageView) holder.findView(R.id.iv_more);
         TextView item_text = (TextView) holder.findView(R.id.item_text);
 
@@ -114,7 +114,7 @@ public class CategoryAdapter extends BaseAdapter {
     }
 
 
-    private void setColor(boolean select, NiceImageView imageView, ImageView imageView1, TextView textView) {
+    private void setColor(boolean select, RoundImageView imageView, ImageView imageView1, TextView textView) {
 
         if (!select) {
             textView.setTextColor(mContext.getColor(R.color.deep_gray));
