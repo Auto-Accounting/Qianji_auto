@@ -1,6 +1,5 @@
 package cn.dreamn.qianji_auto.app;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.os.Message;
 import androidx.annotation.NonNull;
 
 import com.hjq.toast.ToastUtils;
-import com.liuguangqiang.cookie.CookieBar;
 import com.tencent.mmkv.MMKV;
 
 import java.util.ArrayList;
@@ -87,13 +85,7 @@ public class QianJi implements IApp {
             mmkv.encode("needAsync", true);
             context.startActivity(intent);
         } else {
-            new CookieBar.Builder((Activity) context)
-                    .setTitle("无法进行同步")
-                    .setIcon(R.mipmap.ic_launcher)
-                    .setMessage(String.format("钱迹只支持已激活用户同步，无障碍用户需要手动配置。"))
-                    .setAction("我知道了", () -> {
-                    }).setDuration(10000)
-                    .show();
+            ToastUtils.show("钱迹只支持已激活用户同步，无障碍用户需要手动配置。");
         }
     }
 

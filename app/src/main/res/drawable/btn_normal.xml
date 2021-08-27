@@ -6,7 +6,7 @@
     tools:ignore="MissingDefaultResource">
 
     <!-- 圆角的半径 -->
-    <corners android:radius="10dp"/>
+    <corners android:radius="@dimen/radius" />
 
     <!-- 填充颜色 -->
     <solid android:color="@color/button_go_setting_bg"/>

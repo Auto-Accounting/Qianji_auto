@@ -155,7 +155,7 @@ public class RegularManager {
                 jsonArray.add(jsonObject1);
             }
             jsonObject.put("data", jsonArray);
-            String fileName = Tool.getTime("yyyyMMddHHmmss") + ".auto." + type + ".backup";
+            String fileName = Tool.getTime("yyyyMMddHHmmss") + ".auto." + type + ".ankio";
             Tool.writeToCache(context, fileName, jsonObject.toJSONString());
             switch (index) {
                 case 0:
@@ -174,6 +174,26 @@ public class RegularManager {
             ToastUtils.show("数据导出成功");
 
         });
+    }
+
+    public static void outputRegOne(Context context, String name, String type, JSONObject js) {
+        LoadingDialog loadDialog = new LoadingDialog(context, "数据导出中...");
+        loadDialog.show();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("from", type);
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.add(js);
+        jsonObject.put("data", jsonArray);
+        String fileName = name + ".auto." + type + ".ankio";
+        Tool.writeToCache(context, fileName, jsonObject.toJSONString());
+        String newFileName = Environment.getExternalStorageDirectory().getPath() + "/Download/QianJiAuto/" + fileName;
+        FileUtils.makeRootDirectory(Environment.getExternalStorageDirectory().getPath() + "/Download/QianJiAuto/");
+        FileUtils.copyFile(context.getExternalCacheDir().getPath() + "/" + fileName, newFileName);
+        Log.m(fileName);
+        FileUtils.del(fileName);
+        loadDialog.close();
+        ToastUtils.show("数据导出成功");
+
 
     }
 

@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 
-import com.liuguangqiang.cookie.CookieBar;
+import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -97,13 +97,7 @@ public class AppFragment extends BaseFragment {
         app_list.setOnItemClickListener((parent, view, position, id) -> {
             String packageName=bundles[position].getString("appPackage");
             if(packageName==null){
-                new CookieBar.Builder(getActivity())
-                        .setTitle("无法设置该记账APP")
-                        .setIcon(R.mipmap.ic_launcher)
-                        .setMessage(String.format("需要《%s》作者先行适配自动记账才可使用哦。",bundles[position].getString("appName")))
-                        .setAction("知道了", () -> {
-                        }).setDuration(10000)
-                        .show();
+                ToastUtils.show(String.format("需要《%s》作者先行适配自动记账才可使用哦。", bundles[position].getString("appName")));
                 return;
             }
             AppManager.setApp(packageName);

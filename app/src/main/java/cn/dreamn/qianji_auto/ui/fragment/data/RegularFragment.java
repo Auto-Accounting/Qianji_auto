@@ -58,11 +58,7 @@ import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.IconView;
 import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
-import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
-import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
-import cn.dreamn.qianji_auto.ui.utils.B64;
 import cn.dreamn.qianji_auto.utils.files.RegularManager;
-import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 
@@ -72,7 +68,6 @@ public class RegularFragment extends BaseFragment {
     private static final int HANDLE_ERR = 0;
     private static final int HANDLE_OK = 1;
     private static final int HANDLE_REFRESH = 2;
-    private static final int HANDLE_OUT = 3;
     @BindView(R.id.title_count)
     RelativeLayout title_count;
     private final String type;
@@ -107,21 +102,14 @@ public class RegularFragment extends BaseFragment {
                     break;
                 case HANDLE_REFRESH:
                     String d = (String) msg.obj;
-                    if (loadDialog != null)
-                        loadDialog.close();
                     if ((d != null && !d.equals("")))
                         ToastUtils.show(d);
                     loadFromData(refreshLayout);
                     break;
-                case HANDLE_OUT:
-                    if (loadDialog != null)
-                        loadDialog.close();
-                    String d2 = (String) msg.obj;
-                    if ((d2 != null && !d2.equals("")))
-                        ToastUtils.show(d2);
 
-                    break;
             }
+            if (loadDialog != null)
+                loadDialog.close();
             floatingActionButton.setVisibility(View.VISIBLE);
         }
     };
@@ -129,8 +117,13 @@ public class RegularFragment extends BaseFragment {
     private CateItemListAdapter mAdapter;
     private List<Bundle> list;
 
-    public RegularFragment(String type) {
-        this.type = type;
+    public RegularFragment() {
+        String target = "";
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            target = bundle.getString(KEY_DATA);
+        }
+        this.type = target;
     }
 
     public static void openWithType(BaseFragment baseFragment, String type) {
@@ -188,10 +181,8 @@ public class RegularFragment extends BaseFragment {
             refreshlayout.finishRefresh(0);//传入false表示刷新失败
         });
         action_cate.setOnClickListener(v -> {
-
-
-            WebViewFragment.openUrl(this, "file:///android_asset/html/Regulars/index.html?type=" + this.type);
-
+            //TODO edit
+            // WebViewFragment.openUrl(this, "file:///android_asset/html/Regulars/index.html?type=" + this.type);
 
         });
         action_import.setOnClickListener(v -> {
@@ -224,7 +215,6 @@ public class RegularFragment extends BaseFragment {
                     message.obj = "清除成功";
                     mHandler.sendMessage(message);
                 });
-
                 return null;
             });
             dialog2.show();
@@ -252,21 +242,14 @@ public class RegularFragment extends BaseFragment {
         recyclerView.setOnItemMoveListener(new OnItemMoveListener() {
             @Override
             public boolean onItemMove(RecyclerView.ViewHolder srcHolder, RecyclerView.ViewHolder targetHolder) {
-                // 此方法在Item拖拽交换位置时被调用。
-                // 第一个参数是要交换为之的Item，第二个是目标位置的Item。
-
-                // 交换数据，并更新adapter。
                 int fromPosition = srcHolder.getAdapterPosition();
                 int toPosition = targetHolder.getAdapterPosition();
                 Collections.swap(list, fromPosition, toPosition);
                 mAdapter.notifyItemMoved(fromPosition, toPosition);
                 identifyRegulars.setSort(list.get(fromPosition).getInt("id"), fromPosition);
                 identifyRegulars.setSort(list.get(toPosition).getInt("id"), toPosition);
-
-                // 返回true，表示数据交换成功，ItemView可以交换位置。
                 return true;
             }
-
             @Override
             public void onItemDismiss(RecyclerView.ViewHolder viewHolder) {
 
@@ -292,7 +275,7 @@ public class RegularFragment extends BaseFragment {
             disable = "启用";
         }
         dialog.title(null, "请选择操作(" + cate.getString("name") + ")");
-        DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "可视化编辑", "上传到云端", disable), null, true, (materialDialog, index, text) -> {
+        DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "可视化编辑", "导出为文件", disable), null, true, (materialDialog, index, text) -> {
             switch (index) {
                 case 0:
                     identifyRegulars.del(cate.getInt("id"), () -> {
@@ -303,31 +286,18 @@ public class RegularFragment extends BaseFragment {
                     });
                     break;
                 case 1:
-
-                    DataUtils dataUtils = new DataUtils();
-                    dataUtils.put("name", cate.getString("name"));
-                    dataUtils.put("text", cate.getString("text"));
-                    dataUtils.put("regular", cate.getString("regular"));
-                    dataUtils.put("fromApp", cate.getString("fromApp"));
-
-                    dataUtils.put("des", cate.getString("des"));
-                    dataUtils.put("identify", cate.getString("identify"));
-                    dataUtils.put("tableList", cate.getString("tableList"));
-
-                    WebViewFragment.openUrl(this, "file:///android_asset/html/Regulars/index.html?id=" + cate.getInt("id") + "&type=" + this.type + "&data=" + B64.encode(dataUtils.toString()));
+                    //TODO 打开编辑页面
                     break;
                 case 2:
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("name", cate.getString("name"));
                     jsonObject.put("text", cate.getString("text"));
-                    jsonObject.put("data", cate.getString("regular"));
+                    jsonObject.put("regular", cate.getString("regular"));
                     jsonObject.put("tableList", cate.getString("tableList"));
                     jsonObject.put("identify", cate.getString("identify"));
                     jsonObject.put("fromApp", cate.getString("fromApp"));
-                    jsonObject.put("isCate", "0");
-                    jsonObject.put("description", cate.getString("des"));
-                    String result = B64.encode(jsonObject.toString());
-                    AutoBillWeb.httpSend(getContext(), this, "send", result);
+                    jsonObject.put("des", cate.getString("des"));
+                    RegularManager.outputRegOne(getContext(), cate.getString("name"), getType(), jsonObject);
                     break;
                 case 3:
                     if (text == "禁用") {
@@ -359,7 +329,7 @@ public class RegularFragment extends BaseFragment {
         loadDialog.show();
         Task.onThread(() -> {
             identifyRegulars.getAll(type, null, regulars -> {
-                loadDialog.close();
+
                 if (regulars == null || regulars.length == 0) {
                     mHandler.sendEmptyMessage(HANDLE_ERR);
                 } else {
