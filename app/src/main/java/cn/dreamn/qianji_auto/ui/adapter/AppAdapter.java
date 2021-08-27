@@ -3,6 +3,8 @@ package cn.dreamn.qianji_auto.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,13 +21,12 @@ import cn.dreamn.qianji_auto.R;
 public class AppAdapter extends ArrayAdapter {
 
 
-    private final CallAdapter callAdapter;
     public interface CallAdapter{
         void tryRegex(String item, CardView cardView);
     }
-    public AppAdapter(Context context, int resource, Bundle[] bundles,CallAdapter callAdapter) {
+
+    public AppAdapter(Context context, int resource, Bundle[] bundles) {
         super(context, resource, bundles);
-        this.callAdapter=callAdapter;
     }
 
 
@@ -41,10 +42,18 @@ public class AppAdapter extends ArrayAdapter {
         image.setImageResource(bundle.getInt("appIcon"));
         TextView textView = view.findViewById(R.id.item_text);
         textView.setText(bundle.getString("appName"));
-        CardView cardView = view.findViewById(R.id.card_shadow);
+
+        if (bundle.getString("appPackage") == null) {
+
+            ColorMatrix cm = new ColorMatrix();
+            cm.setSaturation(0); // 设置饱和度
+            ColorMatrixColorFilter grayColorFilter = new ColorMatrixColorFilter(cm);
+            image.setColorFilter(grayColorFilter);
+        }
+        //  CardView cardView = view.findViewById(R.id.card_shadow);
         //CornerLabelView cornerLabelView=(CornerLabelView)view.findViewById(R.id.icon_choose);
-        String packageName = bundle.getString("appPackage");
-        callAdapter.tryRegex(packageName, cardView);
+        //  String packageName = bundle.getString("appPackage");
+
         return view;
 
 

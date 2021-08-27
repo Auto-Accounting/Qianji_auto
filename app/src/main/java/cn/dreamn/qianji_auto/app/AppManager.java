@@ -96,6 +96,7 @@ public class AppManager {
         return mmkv.getString("bookApp","com.mutangtech.qianji");
     }
 
+
     public static Bundle getAppInfo(){
         String app=getApp();
         for (IApp iApp : AppList.getInstance().getList()) {

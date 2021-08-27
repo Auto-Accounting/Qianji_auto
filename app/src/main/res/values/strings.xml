@@ -1,12 +1,15 @@
 <resources>
     <string name="app_name">自动记账</string>
-    <string name="app_desc">3.0 涅槃重生 王者归来</string>
+    <string name="app_title">自动记账 3.0</string>
+    <string name="app_desc">涅槃重生 王者归来</string>
     <string name="app_help_go_setting">进入设置</string>
     <string name="app_help_skip">跳过设置</string>
     <string name="app_help_skip_last">上一步</string>
-    <string name="app_help_1_app_names">记账APP</string>
-    <string name="app_help_1_desc">自动记账支持多个记账app，请选择您使用的app。</string>
+    <string name="app_help_1_app_names">记账软件</string>
+    <string name="app_help_1_desc">自动记账支持多个记账软件，请选择您使用的软件。</string>
     <string name="app_help_next">下一步</string>
+    <string name="helper_2_choose">已选择：%s</string>
+    <string name="helper_2_tip">暂不支持，敬请期待。</string>
     <string name="app_help_2_work_mode">工作模式</string>
     <string name="app_help_2_desc">自动记账支持无障碍与Xposed两种工作模式。\n请选择合适的工作模式。</string>
     <string name="app_help_2_tip">请授予自动记账以下权限</string>

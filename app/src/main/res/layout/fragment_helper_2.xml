@@ -77,7 +77,18 @@
         layout="@layout/fragment_helper_skip2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:id="@+id/help_2_choose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-         />
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="70dp"
+        android:text="@string/helper_2_choose"
+        android:textColor="@color/gray"
+        android:textSize="20sp" />
 
 </RelativeLayout>
