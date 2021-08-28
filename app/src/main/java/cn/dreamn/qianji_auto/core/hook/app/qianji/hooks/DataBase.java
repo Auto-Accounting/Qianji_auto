@@ -109,7 +109,7 @@ public class DataBase {
                                 utils.send2auto(bundle);
 
                                 Toast.makeText(utils.getContext(), "钱迹数据信息获取完毕，现在返回自动记账。", Toast.LENGTH_LONG).show();
-                                XposedHelpers.callMethod(activity, "finish");
+                                XposedHelpers.callMethod(activity, "finishAndRemoveTask");
 
                                 dbHelper[0].finalize();
 

@@ -13,14 +13,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.components.IconView;
 
 
-public class ListAdapter extends ArrayAdapter {
+public class ListArrayAdapter extends ArrayAdapter {
     JSONArray jsonArray;
 
-    public ListAdapter(Context context, int resource, JSONArray js) {
+    public ListArrayAdapter(Context context, int resource, JSONArray js) {
         super(context, resource, js.toArray());
         jsonArray = js;
     }
@@ -35,18 +34,6 @@ public class ListAdapter extends ArrayAdapter {
         IconView iconView = view.findViewById(R.id.icon_header);
         iconView.setFont(jsonObject.getString("icon"));
         IconView iconView2 = view.findViewById(R.id.icon_isOk);
-        PermissionUtils permissionUtils = new PermissionUtils(getContext());
-        String isOk = permissionUtils.isGrant(jsonObject.getInteger("permission"));
-        if(isOk.equals("1")){
-            iconView2.setFont(getContext().getString(R.string.icon_gou));
-            iconView2.setTextColor(getContext().getColor(R.color.succeed));
-        }else if(isOk.equals("0")){
-            iconView2.setFont(getContext().getString(R.string.icon_cha1));
-            iconView2.setTextColor(getContext().getColor(R.color.error));
-        }else{
-            iconView2.setFont(getContext().getString(R.string.icon_weizhi));
-            iconView2.setTextColor(getContext().getColor(R.color.warnning));
-        }
 
         TextView textView = view.findViewById(R.id.item_title);
         textView.setText(jsonObject.getString("name"));

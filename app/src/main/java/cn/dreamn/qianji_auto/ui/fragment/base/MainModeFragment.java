@@ -17,8 +17,9 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.base;
 
-import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
@@ -37,10 +38,13 @@ public class MainModeFragment extends BaseFragment {
     cn.dreamn.qianji_auto.ui.components.TitleBar title_bar;
 
     @BindView(R.id.mode_list)
-    GridView mode_list;
+    LinearLayout mode_list;
+    @BindView(R.id.mode_name)
+    TextView mode_name;
     @BindView(R.id.lv_permission)
     ListView lv_permission;
     ModeUtils modeUtils;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_main_mode;
@@ -49,18 +53,8 @@ public class MainModeFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        modeUtils=new ModeUtils(this,mode_list,lv_permission);
-        modeUtils.setMode(new ModeUtils.onModeSet() {
-            @Override
-            public void onSet() {
-
-            }
-
-            @Override
-            public void onPermission() {
-                ModeUtils.setListViewHeight(lv_permission,getContext());
-            }
-        });
+        modeUtils = new ModeUtils(this, mode_list, mode_name, lv_permission);
+        modeUtils.setMode();
     }
 
     @Override
@@ -72,18 +66,7 @@ public class MainModeFragment extends BaseFragment {
     public void onResume() {
 
         MMKV mmkv=MMKV.defaultMMKV();
-        modeUtils.setPermission(mmkv.getString("helper_choose","xposed"),new ModeUtils.onModeSet() {
-
-            @Override
-            public void onSet() {
-
-            }
-
-            @Override
-            public void onPermission() {
-                ModeUtils.setListViewHeight(lv_permission,getContext());
-            }
-        });
+        modeUtils.setPermission(mmkv.getString("helper_choose", "xposed"));
         super.onResume();
 
     }

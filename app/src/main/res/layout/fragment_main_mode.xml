@@ -37,22 +37,56 @@
                 android:singleLine="false"
                 android:text="@string/app_help_2_desc" />
 
-            <GridView
+            <LinearLayout
                 android:id="@+id/mode_list"
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="19dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="21dp"
-                android:columnWidth="80dp"
-                android:gravity="center|center_horizontal"
-                android:horizontalSpacing="0dp"
-                android:numColumns="auto_fit"
-                android:padding="0dp"
-                android:stretchMode="none"
-                android:verticalSpacing="0dp">
+                android:layout_marginBottom="8dp"
+                android:background="@color/background_white"
+                android:backgroundTint="@color/background_white"
+                android:orientation="vertical">
 
-            </GridView>
+                <RelativeLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/background_gray"
+                    android:padding="10dp">
+
+                    <cn.dreamn.qianji_auto.ui.components.IconView
+                        android:id="@+id/iconView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="5dp"
+                        android:text="@string/icon_youjiantou11"
+                        android:textColor="@color/skip_title" />
+
+                    <TextView
+                        android:id="@+id/mode_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:layout_toStartOf="@+id/iconView6"
+                        android:textColor="@color/skip_title" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/app_help_2_work_mode"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView4"

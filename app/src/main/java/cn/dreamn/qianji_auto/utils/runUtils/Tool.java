@@ -21,8 +21,10 @@ import androidx.core.content.FileProvider;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
@@ -173,6 +175,29 @@ public class Tool {
         String path = mContext.getExternalCacheDir().getPath() + "/";
         return path + fileName;
     }
+
+    public static String getJson(Context context, String file) {
+        String language = Locale.getDefault().getLanguage();
+        String path = "json/" + file + "_" + language + ".json";
+        Log.d(path);
+        return getAssert(context, path);
+    }
+
+    public static String getAssert(Context context, String fileName) {
+        String ret = "";
+        try {
+            InputStream is = context.getResources().getAssets().open(fileName);
+            int len = is.available();
+            byte[] buffer = new byte[len];
+            is.read(buffer);
+            ret = new String(buffer);
+            is.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
 //dateTime.getTimeInMillis()
 
 }

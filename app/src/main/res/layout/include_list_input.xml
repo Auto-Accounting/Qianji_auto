@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:textColorLink="@color/blue"
             tools:text="Hello, World!" />
     </com.google.android.material.textfield.TextInputLayout>
 

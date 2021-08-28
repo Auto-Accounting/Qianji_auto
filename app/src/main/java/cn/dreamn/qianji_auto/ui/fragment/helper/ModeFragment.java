@@ -18,7 +18,7 @@
 package cn.dreamn.qianji_auto.ui.fragment.helper;
 
 import android.widget.Button;
-import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,13 +34,15 @@ import cn.dreamn.qianji_auto.ui.utils.ButtonUtils;
 import cn.dreamn.qianji_auto.ui.utils.ModeUtils;
 
 
-@Page(name = "工作模式", anim =  CoreAnim.slide)
+@Page(name = "工作模式", anim = CoreAnim.slide)
 public class ModeFragment extends BaseFragment {
 
     @BindView(R.id.button_next)
     Button button_next;
     @BindView(R.id.mode_list)
-    GridView mode_list;
+    LinearLayout mode_list;
+    @BindView(R.id.mode_name)
+    TextView mode_name;
     @BindView(R.id.help_skip_last)
     TextView help_skip_last;
     @BindView(R.id.help_skip)
@@ -49,6 +51,7 @@ public class ModeFragment extends BaseFragment {
     ListView lv_permission;
 
     ModeUtils modeUtils;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_helper_3;
@@ -83,19 +86,9 @@ public class ModeFragment extends BaseFragment {
             openNewPage(AsyncFragment.class);
         });
     }
-    private void setMode(){
-        modeUtils=new ModeUtils(this,mode_list,lv_permission);
-        modeUtils.setMode(new ModeUtils.onModeSet() {
-            @Override
-            public void onSet() {
-                ButtonUtils.enable(button_next,getContext());
-            }
-
-            @Override
-            public void onPermission() {
-
-            }
-        });
+    private void setMode() {
+        modeUtils = new ModeUtils(this, mode_list, mode_name, lv_permission);
+        modeUtils.setMode();
     }
 
 
@@ -104,16 +97,6 @@ public class ModeFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         MMKV mmkv=MMKV.defaultMMKV();
-        modeUtils.setPermission(mmkv.getString("helper_choose","xposed"),new ModeUtils.onModeSet() {
-            @Override
-            public void onSet() {
-                ButtonUtils.enable(button_next, getContext());
-            }
-
-            @Override
-            public void onPermission() {
-
-            }
-        });
+        modeUtils.setPermission(mmkv.getString("helper_choose", "xposed"));
     }
 }

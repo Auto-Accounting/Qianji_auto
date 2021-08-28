@@ -101,10 +101,19 @@
     <string name="biliUrl"><![CDATA[https://player.bilibili.com/player.html?aid=289448844&bvid=BV1Hf4y147Yi&cid=303785417&page=1]]></string>
     <string name="QQ_Group">165652170</string>
     <string name="files_default_empty_text">这里空空如也</string>
+
     <string name="permission_helper_tip">点击【已下载的应用】-【自动记账】打开无障碍服务。</string>
     <string name="permission_success">权限获取成功！</string>
     <string name="permission_never">被永久拒绝授权，请手动授予相关权限！</string>
     <string name="permission_fail">获取权限失败！</string>
+    <string name="permission_lock_tip">请进入多任务界面，手动锁定自动记账。</string>
+    <string name="permission_task">多任务状态：%s</string>
+    <string name="permission_task_show">显示</string>
+    <string name="permission_task_hide">隐藏</string>
+    <string name="permission_storage_tip">请手动授予权限。</string>
+    <string name="mode_select">请选择模式</string>
+    <string name="mode_xp">Xposed模式</string>
+    <string name="mode_helper">无障碍模式</string>
 
 
 </resources>

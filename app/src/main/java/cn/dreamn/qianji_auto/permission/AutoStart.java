@@ -167,15 +167,14 @@ public class AutoStart {
                             intent = context.getPackageManager().getLaunchIntentForPackage(act);
                         }
                         PackageManager packageManager = context.getPackageManager();
-                        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent,
-                                PackageManager.MATCH_DEFAULT_ONLY);
+                        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
                         boolean isIntentSafe = activities.size() > 0;
                         if (isIntentSafe) {
                             context.startActivity(intent);
                             has = true;
                             break;
                         } else {
-                            throw new Exception("No Application Will Get Tt");
+                            throw new Exception("没有打开该应用的默认程序!");
                         }
 
                     } catch (Throwable e) {

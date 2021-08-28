@@ -2,7 +2,9 @@ plugins {
     id 'com.android.application'
 }
 apply plugin: 'kotlin-android'
-
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
 android {
     compileSdkVersion 31
     defaultConfig {
@@ -24,14 +26,19 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "${defaultConfig.versionName}_${releaseTime()}.apk"
 
+                }
+            }
         }
 
         debug{
-            minifyEnabled true
+         /*   minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+    */    }
     }
 
     compileOptions {

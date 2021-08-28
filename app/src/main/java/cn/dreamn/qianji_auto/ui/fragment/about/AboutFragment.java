@@ -44,6 +44,7 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.TitleBar;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
@@ -54,13 +55,13 @@ import cn.dreamn.qianji_auto.utils.supportUtils.DonateUtil;
 public class AboutFragment extends BaseFragment {
 
     @BindView(R.id.title_bar)
-    cn.dreamn.qianji_auto.ui.components.TitleBar title_bar;
+    TitleBar title_bar;
     @BindView(R.id.app_log)
     TextView app_log;
 
     @BindView(R.id.app_version)
     TextView app_version;
-    @BindView(R.id.app_new_version)
+    @BindView(R.id.mode_name)
     TextView app_new_version;
     @BindView(R.id.item_update)
     LinearLayout item_update;

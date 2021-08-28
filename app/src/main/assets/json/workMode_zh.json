@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Xposed模式",
+    "value": "xposed",
+    "sub": "需要Root刷机后方可使用",
+    "icon": "&#xe65c;"
+  },
+  {
+    "name": "无障碍模式",
+    "value": "helper",
+    "sub": "无法Root刷机的用户选择",
+    "icon": "&#xe668;"
+  }
+]
