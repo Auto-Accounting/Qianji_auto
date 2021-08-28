@@ -34,7 +34,7 @@ public class MainSetFragment extends BaseFragment {
     @BindView(R.id.title_bar)
     TitleBar title_bar;
 
-
+    @BindView(R.id.set_lazy_mode)
     LineLay set_lazy_mode;
     @BindView(R.id.set_front)
     LineLay set_front;

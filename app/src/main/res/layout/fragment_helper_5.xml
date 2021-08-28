@@ -54,21 +54,19 @@
 
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="60dp"
-        android:backgroundTint="@color/button_go_setting_bg"
+        android:background="@drawable/btn_normal_1"
         android:lineSpacingExtra="10sp"
         android:stateListAnimator="@null"
         android:text="@string/app_help_next"
         android:textAppearance="?android:attr/textAppearanceButton"
         android:textColor="@color/background_white"
-        android:textSize="16sp"
-         />
+        android:textSize="16sp" />
 
     <include
         android:id="@+id/buttom_include"
         layout="@layout/fragment_helper_skip2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        />
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

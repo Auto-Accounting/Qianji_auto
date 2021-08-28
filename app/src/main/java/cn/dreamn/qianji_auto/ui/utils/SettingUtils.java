@@ -230,8 +230,32 @@ public class SettingUtils {
 
         if (mmkv.getBoolean("lazy_mode", true)) {
             set_lazy_mode.setValue(R.string.set_open);
+
+            set_front.setVisibility(View.GONE);
+            set_back.setVisibility(View.GONE);
+            set_default.setVisibility(View.GONE);
+            set_remark.setVisibility(View.GONE);
+            set_sort.setVisibility(View.GONE);
+            set_float_time.setVisibility(View.GONE);
+            set_float_click.setVisibility(View.GONE);
+            set_float_long_click.setVisibility(View.GONE);
+            set_float_time_end.setVisibility(View.GONE);
+            set_notice_click.setVisibility(View.GONE);
+            set_float_style.setVisibility(View.GONE);
+
         } else {
             set_lazy_mode.setValue(R.string.set_close);
+            set_front.setVisibility(View.VISIBLE);
+            set_back.setVisibility(View.VISIBLE);
+            set_default.setVisibility(View.VISIBLE);
+            set_remark.setVisibility(View.VISIBLE);
+            set_sort.setVisibility(View.VISIBLE);
+            set_float_time.setVisibility(View.VISIBLE);
+            set_float_click.setVisibility(View.VISIBLE);
+            set_float_long_click.setVisibility(View.VISIBLE);
+            set_float_time_end.setVisibility(View.VISIBLE);
+            set_notice_click.setVisibility(View.VISIBLE);
+            set_float_style.setVisibility(View.VISIBLE);
         }
 
         if (mmkv.getBoolean("autoPay", false)) {

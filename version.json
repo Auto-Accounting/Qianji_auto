@@ -12,9 +12,9 @@
     "download": ""
   },
   "alpha": {
-    "version": "涅槃 3.0.0 alpha10",
-    "verNum": 112,
-    "log": "修复：微信数据捕获无反应\n\n修复：可能导致卡死的问题（垃圾微信.....\n\n修复：默认开启懒人模式的问题，请前往【插件设置】-【懒人模式】进行开关",
+    "version": "涅槃 3.0.0 alpha12",
+    "verNum": 113,
+    "log": "新增：N多Bug，别反馈，在修\n\n优化：删除在线规则（考虑到运营什么的，没空....\n\n优化：删除不需要的包~\n\n优化：部分文案冗余\n\n优化：部分界面UI重构",
     "download": "https://jq.qq.com/?_wv=1027&k=qVkARWOX"
   },
   "inherit": true
