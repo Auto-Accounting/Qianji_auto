@@ -34,6 +34,8 @@ import com.tencent.mmkv.MMKV;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import cn.dreamn.qianji_auto.R;
+
 
 public class PermissionUtils {
 
@@ -66,6 +68,7 @@ public class PermissionUtils {
                 intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
+                ToastUtils.show(R.string.permission_helper_tip);
                 break;
             case Sms:
 
@@ -76,19 +79,16 @@ public class PermissionUtils {
                     @Override
                     public void onGranted(List<String> permissions, boolean all) {
                         if (all) {
-                            ToastUtils.show("获取短信权限成功!");
-
+                            ToastUtils.show(R.string.permission_success);
                         }
                     }
-
                     @Override
                     public void onDenied(List<String> permissions, boolean never) {
                         if (never) {
-                            ToastUtils.show("被永久拒绝授权，请手动授予短信权限");
-                            // 如果是被永久拒绝就跳转到应用权限系统设置页面
+                            ToastUtils.show(R.string.permission_never);
                             XXPermissions.startPermissionActivity(mContext, permissions);
                         } else {
-                            ToastUtils.show("获取短信权限失败");
+                            ToastUtils.show(R.string.permission_fail);
                         }
                     }
                 });// .permission(Permission.READ_SMS)
@@ -102,26 +102,24 @@ public class PermissionUtils {
                             @Override
                             public void onGranted(List<String> permissions, boolean all) {
                                 if (all) {
-                                    ToastUtils.show("获取悬浮窗权限成功");
+                                    ToastUtils.show(R.string.permission_success);
                                 }
                             }
 
                             @Override
                             public void onDenied(List<String> permissions, boolean never) {
                                 if (never) {
-                                    ToastUtils.show("被永久拒绝授权，请手动授予悬浮窗权限");
+                                    ToastUtils.show(R.string.permission_fail);
                                     // 如果是被永久拒绝就跳转到应用权限系统设置页面
                                     XXPermissions.startPermissionActivity(mContext, permissions);
                                 } else {
-                                    ToastUtils.show("获取悬浮窗权限失败");
+                                    ToastUtils.show(R.string.permission_fail);
                                 }
                             }
                         });
                 break;
             case Start:
-                intent = new Intent(Settings.ACTION_SETTINGS);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent);
+                AutoStart.startToAutoStartSetting(mContext);
                 break;
             case Battery:
 // 将用户引导到系统设置页面

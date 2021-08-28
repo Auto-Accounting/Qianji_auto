@@ -4,6 +4,8 @@ package cn.dreamn.qianji_auto.permission;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -155,30 +157,42 @@ public class AutoStart {
                             intent = new Intent();
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             ComponentName componentName = ComponentName.unflattenFromString(act);
+                            //   Log.d("util",componentName.toString());
                             intent.setComponent(componentName);
+                            // Log.d("util","okkk2");
                         } else {
                             //找不到? 网上的做法都是跳转到设置... 这基本上是没意义的 基本上自启动这个功能是第三方厂商自己写的安全管家类app
+                            //    Log.d("util","okkk3");
                             //所以我是直接跳转到对应的安全管家/安全中心
                             intent = context.getPackageManager().getLaunchIntentForPackage(act);
                         }
-                        context.startActivity(intent);
-                        has = true;
-                        break;
-                    } catch (Exception e) {
+                        PackageManager packageManager = context.getPackageManager();
+                        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent,
+                                PackageManager.MATCH_DEFAULT_ONLY);
+                        boolean isIntentSafe = activities.size() > 0;
+                        if (isIntentSafe) {
+                            context.startActivity(intent);
+                            has = true;
+                            break;
+                        } else {
+                            throw new Exception("No Application Will Get Tt");
+                        }
+
+                    } catch (Throwable e) {
                         e.printStackTrace();
                     }
                 }
             }
         }
         if (!has) {
-           // Toast.makeText(context, "兼容方案", Toast.LENGTH_SHORT);
+
             try {
                 Intent intent = new Intent();
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
                 intent.setData(Uri.fromParts("package", context.getPackageName(), null));
                 context.startActivity(intent);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
                 Intent intent = new Intent(Settings.ACTION_SETTINGS);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

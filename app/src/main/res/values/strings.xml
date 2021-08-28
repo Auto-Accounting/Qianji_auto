@@ -1,29 +1,4 @@
 <resources>
-    <string name="app_name">自动记账</string>
-    <string name="app_title">自动记账 3.0</string>
-    <string name="app_desc">涅槃重生 王者归来</string>
-    <string name="app_help_go_setting">进入设置</string>
-    <string name="app_help_skip">跳过设置</string>
-    <string name="app_help_skip_last">上一步</string>
-    <string name="app_help_1_app_names">记账软件</string>
-    <string name="app_help_1_desc">自动记账支持多个记账软件，请选择您使用的软件。</string>
-    <string name="app_help_next">下一步</string>
-    <string name="helper_2_choose">已选择：%s</string>
-    <string name="helper_2_tip">暂不支持，敬请期待。</string>
-    <string name="app_help_2_work_mode">工作模式</string>
-    <string name="app_help_2_desc">自动记账支持无障碍与Xposed两种工作模式。\n请选择合适的工作模式。</string>
-    <string name="app_help_2_tip">请授予自动记账以下权限</string>
-    <string name="app_help_3_async">数据同步</string>
-    <string name="app_help_3_tip">是否现在同步%s数据？</string>
-    <string name="app_help_3_tip2">数据已同步完成，是否需要重新同步？</string>
-    <string name="app_help_3_button_async">重新同步</string>
-    <string name="app_help_3_async_now">立即同步</string>
-    <string name="githubUrl">https://github.com/dreamncn/Qianji_auto</string>
-    <string name="learnUrl">https://doc.ankio.net/doc/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/#/</string>
-    <string name="biliUrl"><![CDATA[https://player.bilibili.com/player.html?aid=289448844&bvid=BV1Hf4y147Yi&cid=303785417&page=1]]></string>
-    <string name="QQ_Group">165652170</string>
-    <string name="files_default_empty_text">这里空空如也</string>
-
     <!--图标数据-->
 
     <string name="icon_caozuorizhi1">&#xe63e;</string>
@@ -99,5 +74,37 @@
     <string name="icon_huifu">&#xe63a;</string>
     <string name="icon_sync">&#xe68e;</string>
     <string name="icon_dianji">&#xe7bc;</string>
+    <!--自动记账-->
+    <string name="app_name">自动记账</string>
+    <!--自动记账引导-->
+    <string name="app_title">自动记账 3.0</string>
+    <string name="app_desc">涅槃重生 王者归来</string>
+    <string name="app_help_go_setting">进入设置</string>
+    <string name="app_help_skip">跳过设置</string>
+    <string name="app_help_skip_last">上一步</string>
+    <string name="app_help_1_app_names">记账软件</string>
+    <string name="app_help_1_desc">自动记账支持多个记账软件，请选择您使用的软件。</string>
+    <string name="app_help_next">下一步</string>
+    <string name="helper_2_choose">已选择：%s</string>
+    <string name="helper_2_tip">暂不支持，敬请期待。</string>
+    <string name="app_help_2_work_mode">工作模式</string>
+    <string name="app_help_2_desc">自动记账支持无障碍与Xposed两种工作模式。\n未Root用户请使用无障碍模式。</string>
+    <string name="app_help_2_tip">请授予自动记账以下权限</string>
+    <string name="app_help_3_async">数据同步</string>
+    <string name="app_help_3_tip">是否现在同步%s数据？</string>
+    <string name="app_help_3_tip2">数据已同步完成，是否需要重新同步？</string>
+    <string name="app_help_3_button_async">重新同步</string>
+    <string name="app_help_3_async_now">立即同步</string>
+
+    <string name="githubUrl">https://github.com/dreamncn/Qianji_auto</string>
+    <string name="learnUrl">https://doc.ankio.net/doc/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/#/</string>
+    <string name="biliUrl"><![CDATA[https://player.bilibili.com/player.html?aid=289448844&bvid=BV1Hf4y147Yi&cid=303785417&page=1]]></string>
+    <string name="QQ_Group">165652170</string>
+    <string name="files_default_empty_text">这里空空如也</string>
+    <string name="permission_helper_tip">点击【已下载的应用】-【自动记账】打开无障碍服务。</string>
+    <string name="permission_success">权限获取成功！</string>
+    <string name="permission_never">被永久拒绝授权，请手动授予相关权限！</string>
+    <string name="permission_fail">获取权限失败！</string>
+
 
 </resources>
