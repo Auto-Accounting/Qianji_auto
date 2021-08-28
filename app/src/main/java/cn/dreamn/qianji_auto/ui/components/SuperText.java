@@ -22,7 +22,7 @@ public class SuperText extends RelativeLayout {
         LayoutInflater.from(context).inflate(R.layout.components_supertext, this, true);
         icon_header = findViewById(R.id.icon_header);
         icon_isOk = findViewById(R.id.icon_isOk);
-        item_title = findViewById(R.id.item_title);
+        item_title = findViewById(R.id.item_value);
         item_sub = findViewById(R.id.item_sub);
         layout_supertext = findViewById(R.id.layout_supertext);
 

@@ -32,20 +32,6 @@
     <attr name="select" format="boolean" />
 </declare-styleable>
 
-    <declare-styleable name="SuperText2">
-        <!--左边图标-->
-        <attr name="left_icon" />
-        <!--左边图标颜色-->
-        <attr name="left_color" />
-        <!--标题-->
-        <attr name="title_text"  />
-        <!--标题颜色-->
-        <attr name="title_color"  />
-        <!--右边图标-->
-        <attr name="right_icon"  />
-        <!--右边颜色-->
-        <attr name="right_color"  />
-    </declare-styleable>
     <declare-styleable name="TitleBar">
         <!--左边图标-->
         <attr name="left_icon" />
@@ -73,4 +59,29 @@
         <attr name="lib_license_color" format="color" />
         <attr name="lib_bg_color" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="LineLay">
+        <attr name="line_title" format="string" />
+        <attr name="line_title_color" format="color" />
+
+        <attr name="line_value" format="string" />
+        <attr name="line_value_color" format="color" />
+
+
+        <attr name="line_left_icon" format="string" />
+        <attr name="line_left_color" format="color" />
+        <attr name="line_left_margin_left" format="integer" />
+
+        <attr name="line_right_icon" format="string" />
+        <attr name="line_right_color" format="color" />
+
+        <attr name="line_bg" format="color" />
+        <attr name="line_margin_left" format="integer" />
+        <attr name="line_margin_right" format="integer" />
+        <attr name="line_margin_top" format="integer" />
+        <attr name="line_margin_bottom" format="integer" />
+
+    </declare-styleable>
+
+
 </resources>

@@ -30,7 +30,6 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
-import cn.dreamn.qianji_auto.ui.utils.ButtonUtils;
 import cn.dreamn.qianji_auto.ui.utils.ModeUtils;
 
 
@@ -61,7 +60,6 @@ public class ModeFragment extends BaseFragment {
     protected void initViews() {
         MMKV mmkv=MMKV.defaultMMKV();
         mmkv.encode("helper_page",2);
-        ButtonUtils.disable(button_next,getContext());
         setMode();
     }
 

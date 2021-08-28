@@ -47,7 +47,7 @@ public class YiMu implements IApp {
     }
 
     @Override
-    public String getAsyncDesc() {
+    public String getAsyncDesc(Context context) {
         return null;
     }
 

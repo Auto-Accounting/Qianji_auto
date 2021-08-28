@@ -90,7 +90,7 @@ public class AutoFloatTip extends XFloatView {
      */
     @Override
     protected void initFloatView() {
-        Bundle appinfo = AppManager.getAppInfo();
+        Bundle appinfo = AppManager.getAppInfo(getContext());
         ImageView logo = findViewById(R.id.logo);
         logo.setImageResource(appinfo.getInt("appIcon"));
         tip = findViewById(R.id.tip);

@@ -31,7 +31,7 @@ public class DataSelectListAdapter extends ArrayAdapter {
 
         @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.adapter_data_item, null, false);
         ImageView icon_header = view.findViewById(R.id.icon_header);
-        TextView item_title = view.findViewById(R.id.item_title);
+        TextView item_title = view.findViewById(R.id.item_value);
 
         item_title.setText(bundle.getString("name"));
 

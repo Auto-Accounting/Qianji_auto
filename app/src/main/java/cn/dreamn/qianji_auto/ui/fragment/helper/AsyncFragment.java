@@ -66,7 +66,7 @@ public class AsyncFragment extends BaseFragment {
     }
 
     private void setAppDesc() {
-        Bundle bundle=AppManager.getAppInfo();
+        Bundle bundle = AppManager.getAppInfo(getContext());
         app_help_3_desc.setText(bundle.getString("appAsync"));
         app_help_3_tip.setText(String.format(getString(R.string.app_help_3_tip),bundle.getString("appName")));
         Task.onThread(()->{ iv_icon.setImageResource(bundle.getInt("appIcon"));});

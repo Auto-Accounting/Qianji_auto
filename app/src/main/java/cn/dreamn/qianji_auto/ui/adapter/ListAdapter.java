@@ -48,7 +48,7 @@ public class ListAdapter extends ArrayAdapter {
             iconView2.setTextColor(getContext().getColor(R.color.warnning));
         }
 
-        TextView textView = view.findViewById(R.id.item_title);
+        TextView textView = view.findViewById(R.id.item_value);
         textView.setText(jsonObject.getString("name"));
         TextView textView2 = view.findViewById(R.id.item_sub);
         textView2.setText(jsonObject.getString("sub"));

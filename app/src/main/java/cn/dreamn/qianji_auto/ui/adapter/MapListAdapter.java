@@ -31,7 +31,7 @@ public class MapListAdapter extends BaseAdapter {
         ImageView icon_header = (ImageView) holder.findView(R.id.icon_header);
         TextView item_title2 = (TextView) holder.findView(R.id.item_title2);
 
-        TextView item_title = (TextView) holder.findView(R.id.item_title);
+        TextView item_title = (TextView) holder.findView(R.id.item_value);
 
         item_title2.setText(item.getString("name"));
         item_title.setText(item.getString("mapName"));

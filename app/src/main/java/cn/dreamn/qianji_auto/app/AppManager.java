@@ -87,25 +87,25 @@ public class AppManager {
     }
 
     public static void setApp(String appPackage){
-        MMKV mmkv=MMKV.defaultMMKV();
-        mmkv.encode("bookApp",appPackage);
+        MMKV mmkv = MMKV.defaultMMKV();
+        mmkv.encode("bookApp", appPackage);
     }
 
     public static String getApp() {
-        MMKV mmkv=MMKV.defaultMMKV();
-        return mmkv.getString("bookApp","com.mutangtech.qianji");
+        MMKV mmkv = MMKV.defaultMMKV();
+        return mmkv.getString("bookApp", "com.mutangtech.qianji");
     }
 
 
-    public static Bundle getAppInfo(){
-        String app=getApp();
+    public static Bundle getAppInfo(Context context) {
+        String app = getApp();
         for (IApp iApp : AppList.getInstance().getList()) {
-            if(iApp.getPackPageName().equals(app)){
-                Bundle bundle=new Bundle();
-                bundle.putString("appName",iApp.getAppName());
-                bundle.putString("appPackage",iApp.getPackPageName());
-                bundle.putInt("appIcon",iApp.getAppIcon());
-                bundle.putString("appAsync",iApp.getAsyncDesc());
+            if (iApp.getPackPageName().equals(app)) {
+                Bundle bundle = new Bundle();
+                bundle.putString("appName", iApp.getAppName());
+                bundle.putString("appPackage", iApp.getPackPageName());
+                bundle.putInt("appIcon", iApp.getAppIcon());
+                bundle.putString("appAsync", iApp.getAsyncDesc(context));
                 return bundle;
             }
         }

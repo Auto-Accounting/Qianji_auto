@@ -14,11 +14,10 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:text="使用习惯"
+        android:text="@string/help_5_title"
         android:textColor="@color/black"
-        android:textSize="28dp"
-        android:textStyle="bold"
-         />
+        android:textSize="28sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/app_help_4_tip"
@@ -32,7 +31,7 @@
         android:gravity="center"
         android:padding="10dp"
         android:singleLine="false"
-        android:text="让自动记账更熟悉你。" />
+        android:text="@string/help_5_desc" />
 
     <include
         layout="@layout/include_setting_list"

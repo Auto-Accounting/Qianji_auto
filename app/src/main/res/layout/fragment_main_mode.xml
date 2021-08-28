@@ -57,7 +57,7 @@
                     android:padding="10dp">
 
                     <cn.dreamn.qianji_auto.ui.components.IconView
-                        android:id="@+id/iconView6"
+                        android:id="@+id/rightIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -72,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="10dp"
-                        android:layout_toStartOf="@+id/iconView6"
+                        android:layout_toStartOf="@+id/rightIcon"
                         android:textColor="@color/skip_title" />
 
                     <TextView

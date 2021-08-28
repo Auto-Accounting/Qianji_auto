@@ -69,5 +69,5 @@ public interface IApp {
     /**
      * 同步数据的说明性文字
      */
-    String getAsyncDesc();
+    String getAsyncDesc(Context context);
 }

@@ -18,7 +18,6 @@
 package cn.dreamn.qianji_auto.ui.fragment.helper;
 
 import android.widget.Button;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.tencent.mmkv.MMKV;
@@ -28,12 +27,12 @@ import com.xuexiang.xpage.enums.CoreAnim;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.components.SuperText;
+import cn.dreamn.qianji_auto.ui.components.LineLay;
 import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
 import cn.dreamn.qianji_auto.ui.utils.SettingUtils;
 
 
-@Page(name = "使用习惯", anim =  CoreAnim.slide)
+@Page(name = "使用习惯", anim = CoreAnim.slide)
 public class SetFragment extends BaseFragment {
 
     @BindView(R.id.button_next)
@@ -43,91 +42,31 @@ public class SetFragment extends BaseFragment {
     TextView help_skip_last;
     @BindView(R.id.help_skip)
     TextView help_skip;
+    @BindView(R.id.set_lazy_mode)
+    LineLay set_lazy_mode;
+    @BindView(R.id.set_front)
+    LineLay set_front;
+    @BindView(R.id.set_back)
+    LineLay set_back;
+    @BindView(R.id.set_default)
+    LineLay set_default;
+    @BindView(R.id.set_remark)
+    LineLay set_remark;
+    @BindView(R.id.set_sort)
+    LineLay set_sort;
+    @BindView(R.id.set_float_click)
+    LineLay set_float_click;
+    @BindView(R.id.set_float_time)
+    LineLay set_float_time;
+    @BindView(R.id.set_float_long_click)
+    LineLay set_float_long_click;
+    @BindView(R.id.set_float_time_end)
+    LineLay set_float_time_end;
+    @BindView(R.id.set_notice_click)
+    LineLay set_notice_click;
+    @BindView(R.id.set_float_style)
+    LineLay set_float_style;
 
-    @BindView(R.id.pay_all)
-    SuperText pay_all;
-    @BindView(R.id.pay_half)
-    SuperText pay_half;
-    @BindView(R.id.income_all)
-
-    SuperText income_all;
-
-    @BindView(R.id.income_half)
-    SuperText income_half;
-
-    @BindView(R.id.default_bookName)
-
-    SuperText default_bookName;
-
-    @BindView(R.id.remark)
-
-    SuperText remark;
-
-    @BindView(R.id.auto_sort_open)
-
-    SuperText auto_sort_open;
-
-    @BindView(R.id.auto_sort_close)
-    SuperText auto_sort_close;
-    @BindView(R.id.count_down)
-
-    SuperText count_down;
-    @BindView(R.id.count_down_seekbar)
-    SeekBar count_down_seekbar;
-
-    @BindView(R.id.click_window_record)
-
-    SuperText click_window_record;
-
-    @BindView(R.id.click_window_edit)
-    SuperText click_window_edit;
-
-    @BindView(R.id.click_window_close)
-    SuperText click_window_close;
-
-
-    @BindView(R.id.long_click_window_record)
-
-    SuperText long_click_window_record;
-
-
-    @BindView(R.id.long_click_window_edit)
-    SuperText long_click_window_edit;
-
-    @BindView(R.id.long_click_window_close)
-    SuperText long_click_window_close;
-
-    @BindView(R.id.end_window_record)
-
-    SuperText end_window_record;
-
-    @BindView(R.id.end_window_edit)
-    SuperText end_window_edit;
-
-    @BindView(R.id.end_window_close)
-    SuperText end_window_close;
-
-    @BindView(R.id.notice_click_window_record)
-
-    SuperText notice_click_window_record;
-
-    @BindView(R.id.notice_click_window_edit)
-    SuperText notice_click_window_edit;
-
-
-    @BindView(R.id.notice_click_window_close)
-    SuperText notice_click_window_close;
-
-    @BindView(R.id.qianji_auto)
-
-    SuperText qianji_auto;
-
-    @BindView(R.id.qianji_ui)
-    SuperText qianji_ui;
-    @BindView(R.id.lazy_mode_open)
-    SuperText lazy_mode_open;
-    @BindView(R.id.lazy_mode_close)
-    SuperText lazy_mode_close;
 
     @Override
     protected int getLayoutId() {
@@ -139,43 +78,18 @@ public class SetFragment extends BaseFragment {
         MMKV mmkv = MMKV.defaultMMKV();
         mmkv.encode("helper_page", 4);
         SettingUtils settingUtils = new SettingUtils(getContext());
-        settingUtils.init(pay_all,
-                pay_half,
-
-                income_all,
-                income_half,
-
-                default_bookName,
-
-                remark,
-
-                auto_sort_open,
-                auto_sort_close,
-
-                count_down,
-                count_down_seekbar,
-
-                click_window_record,
-                click_window_edit,
-                click_window_close,
-
-                long_click_window_record,
-                long_click_window_edit,
-                long_click_window_close,
-
-                end_window_record,
-                end_window_edit,
-                end_window_close,
-
-                notice_click_window_record,
-                notice_click_window_edit,
-                notice_click_window_close,
-
-                qianji_auto,
-                qianji_ui,
-                lazy_mode_open,
-                lazy_mode_close
-        );
+        settingUtils.init(set_lazy_mode,
+                set_front,
+                set_back,
+                set_default,
+                set_remark,
+                set_sort,
+                set_float_time,
+                set_float_click,
+                set_float_long_click,
+                set_float_time_end,
+                set_notice_click,
+                set_float_style);
     }
 
 

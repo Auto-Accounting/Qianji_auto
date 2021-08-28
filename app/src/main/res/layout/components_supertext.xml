@@ -31,7 +31,7 @@
              />
 
     <cn.dreamn.qianji_auto.ui.components.AdaptionSizeTextView
-        android:id="@+id/item_title"
+        android:id="@+id/item_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -50,7 +50,7 @@
             android:id="@+id/item_sub"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_below="@+id/item_title"
+            android:layout_below="@+id/item_value"
             android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"

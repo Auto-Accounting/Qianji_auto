@@ -24,7 +24,7 @@ public class DataListAdapter extends BaseAdapter {
 
         ImageView icon_header = (ImageView) holder.findView(R.id.icon_header);
 
-        TextView item_title = (TextView) holder.findView(R.id.item_title);
+        TextView item_title = (TextView) holder.findView(R.id.item_value);
 
         item_title.setText(item.getString("name"));
 

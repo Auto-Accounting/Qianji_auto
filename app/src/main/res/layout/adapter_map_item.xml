@@ -34,7 +34,7 @@
         android:layout_toEndOf="@+id/view4" />
 
     <cn.dreamn.qianji_auto.ui.components.AdaptionSizeTextView
-        android:id="@+id/item_title"
+        android:id="@+id/item_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 

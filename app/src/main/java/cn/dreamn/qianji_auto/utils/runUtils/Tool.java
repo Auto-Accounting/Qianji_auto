@@ -179,11 +179,11 @@ public class Tool {
     public static String getJson(Context context, String file) {
         String language = Locale.getDefault().getLanguage();
         String path = "json/" + file + "_" + language + ".json";
-        Log.d(path);
-        return getAssert(context, path);
+        String path2 = "json/" + file + "_zh.json";
+        return getAssert(context, path, path2);
     }
 
-    public static String getAssert(Context context, String fileName) {
+    public static String getAssert(Context context, String fileName, String fileName2) {
         String ret = "";
         try {
             InputStream is = context.getResources().getAssets().open(fileName);
@@ -193,7 +193,16 @@ public class Tool {
             ret = new String(buffer);
             is.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                InputStream is = context.getResources().getAssets().open(fileName2);
+                int len = is.available();
+                byte[] buffer = new byte[len];
+                is.read(buffer);
+                ret = new String(buffer);
+                is.close();
+            } catch (Exception e2) {
+                e.printStackTrace();
+            }
         }
         return ret;
     }

@@ -88,7 +88,7 @@
     <string name="helper_2_choose">已选择：%s</string>
     <string name="helper_2_tip">暂不支持，敬请期待。</string>
     <string name="app_help_2_work_mode">工作模式</string>
-    <string name="app_help_2_desc">自动记账支持无障碍与Xposed两种工作模式。\n未Root用户请使用无障碍模式。</string>
+    <string name="app_help_2_desc">自动记账支持无障碍与Xposed两种工作模式。</string>
     <string name="app_help_2_tip">请授予自动记账以下权限</string>
     <string name="app_help_3_async">数据同步</string>
     <string name="app_help_3_tip">是否现在同步%s数据？</string>
@@ -97,7 +97,7 @@
     <string name="app_help_3_async_now">立即同步</string>
 
     <string name="githubUrl">https://github.com/dreamncn/Qianji_auto</string>
-    <string name="learnUrl">https://doc.ankio.net/doc/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/#/</string>
+    <string name="learnUrl"><![CDATA[https://doc.ankio.net/doc/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/#/]]></string>
     <string name="biliUrl"><![CDATA[https://player.bilibili.com/player.html?aid=289448844&bvid=BV1Hf4y147Yi&cid=303785417&page=1]]></string>
     <string name="QQ_Group">165652170</string>
     <string name="files_default_empty_text">这里空空如也</string>
@@ -114,6 +114,38 @@
     <string name="mode_select">请选择模式</string>
     <string name="mode_xp">Xposed模式</string>
     <string name="mode_helper">无障碍模式</string>
-
+    <string name="qianji_async_desc">🧚‍♀️你可以一键将钱迹中的「资产」、「账本」、「分类」等数据同步到自动记账，期间手机会跳转到钱迹，完成同步后将自动跳回本页面。 \n\n❗❗❗️ 同步前，请将钱迹从多任务页面划掉，确保开启所有权限，并将钱迹加入Xposde模块作用域中。</string>
+    <string name="qianji_async_no_support">钱迹只支持已激活用户同步，无障碍用户需要手动配置。</string>
+    <string name="help_5_title">使用习惯</string>
+    <string name="help_5_desc">让自动记账更熟悉你。</string>
+    <string name="lineLay_none"> </string>
+    <string name="set_lazy_mode">懒人模式</string>
+    <string name="set_open">开启</string>
+    <string name="set_close">关闭</string>
+    <string name="set_front">前台交易记账模式</string>
+    <string name="set_all">全自动记账</string>
+    <string name="set_half">半自动记账</string>
+    <string name="set_back">后台交易记账模式</string>
+    <string name="set_default">默认账本</string>
+    <string name="set_remark">记账备注样式</string>
+    <string name="set_remark_default">[商户名]-[商户信息]</string>
+    <string name="set_sort">自动分类填充</string>
+    <string name="set_float_time">悬浮窗倒计时</string>
+    <string name="set_time">%s 秒</string>
+    <string name="set_float_click">悬浮窗点击</string>
+    <string name="set_click_book">直接记账</string>
+    <string name="set_click_double">弹出编辑面板</string>
+    <string name="set_click_close">关闭记账</string>
+    <string name="set_float_long_click">悬浮窗长按</string>
+    <string name="set_float_time_end">悬浮窗倒计时结束</string>
+    <string name="set_notice_click">通知点击</string>
+    <string name="set_float_style">弹窗样式</string>
+    <string name="set_auto">自动记账</string>
+    <string name="set_qianji">钱迹</string>
+    <string name="set_choose_book">请选择账本</string>
+    <string name="set_remark_tip">备注格式</string>
+    <string name="set_cancle">取消</string>
+    <string name="set_sure">确定</string>
+    <string name="time_error">请输入大于0的整数！</string>
 
 </resources>

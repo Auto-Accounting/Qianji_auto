@@ -35,7 +35,7 @@ public class ListArrayAdapter extends ArrayAdapter {
         iconView.setFont(jsonObject.getString("icon"));
         IconView iconView2 = view.findViewById(R.id.icon_isOk);
 
-        TextView textView = view.findViewById(R.id.item_title);
+        TextView textView = view.findViewById(R.id.item_value);
         textView.setText(jsonObject.getString("name"));
         TextView textView2 = view.findViewById(R.id.item_sub);
         textView2.setText(jsonObject.getString("sub"));

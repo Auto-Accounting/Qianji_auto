@@ -38,7 +38,7 @@ public class BookSelectListAdapter extends ArrayAdapter {
         @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.adapter_book_item_select, null, false);
         RelativeLayout rl_bg = view.findViewById(R.id.rl_bg);
 
-        TextView item_title = view.findViewById(R.id.item_title);
+        TextView item_title = view.findViewById(R.id.item_value);
 
         item_title.setText(bundle.getString("name"));
 

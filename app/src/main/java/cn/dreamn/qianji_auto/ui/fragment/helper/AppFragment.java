@@ -80,7 +80,7 @@ public class AppFragment extends BaseFragment {
         }
         AppAdapter appAdapter = new AppAdapter(getContext(), R.layout.adapter_grid_item, bundles);
         app_list.setAdapter(appAdapter);
-        setSelectName(AppManager.getAppInfo().getString("appName"));
+        setSelectName(AppManager.getAppInfo(getContext()).getString("appName"));
         app_list.setOnItemClickListener((parent, view, position, id) -> {
             String packageName = bundles[position].getString("appPackage");
             if (packageName == null) {

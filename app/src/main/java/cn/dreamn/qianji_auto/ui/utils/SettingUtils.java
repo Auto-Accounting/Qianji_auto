@@ -1,147 +1,69 @@
 package cn.dreamn.qianji_auto.ui.utils;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.SeekBar;
 
-import com.afollestad.materialdialogs.LayoutMode;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
-import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
-import com.google.android.material.textfield.TextInputEditText;
+import com.alibaba.fastjson.JSONArray;
+import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.Remark;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
-import cn.dreamn.qianji_auto.ui.components.SuperText;
+import cn.dreamn.qianji_auto.ui.components.LineLay;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class SettingUtils {
     Context mContext;
     MMKV mmkv;
 
+    LineLay set_lazy_mode;
+    LineLay set_front;
+    LineLay set_back;
+    LineLay set_default;
+    LineLay set_remark;
+    LineLay set_sort;
+    LineLay set_float_time;
+    LineLay set_float_click;
+    LineLay set_float_long_click;
+    LineLay set_float_time_end;
+    LineLay set_notice_click;
+    LineLay set_float_style;
 
-    SuperText pay_all;
-    SuperText pay_half;
-
-    SuperText income_all;
-    SuperText income_half;
-
-    SuperText default_bookName;
-
-    SuperText remark;
-
-    SuperText auto_sort_open;
-    SuperText auto_sort_close;
-
-    SuperText count_down;
-    SeekBar count_down_seekbar;
-
-    SuperText click_window_record;
-    SuperText click_window_edit;
-    SuperText click_window_close;
-
-    SuperText long_click_window_record;
-    SuperText long_click_window_edit;
-    SuperText long_click_window_close;
-
-    SuperText end_window_record;
-    SuperText end_window_edit;
-    SuperText end_window_close;
-
-    SuperText notice_click_window_record;
-    SuperText notice_click_window_edit;
-    SuperText notice_click_window_close;
-
-    SuperText qianji_auto;
-    SuperText qianji_ui;
-
-    SuperText lazy_mode_open;
-    SuperText lazy_mode_close;
+    JSONArray jsonArray;
 
     public SettingUtils(Context context) {
         mContext = context;
         mmkv = MMKV.defaultMMKV();
+        jsonArray = JSONArray.parseArray(Tool.getJson(mContext, "Settings"));
     }
 
     public void init(
-            SuperText pay_all,
-            SuperText pay_half,
-
-            SuperText income_all,
-            SuperText income_half,
-
-            SuperText default_bookName,
-
-            SuperText remark,
-
-            SuperText auto_sort_open,
-            SuperText auto_sort_close,
-
-            SuperText count_down,
-            SeekBar count_down_seekbar,
-
-            SuperText click_window_record,
-            SuperText click_window_edit,
-            SuperText click_window_close,
-
-            SuperText long_click_window_record,
-            SuperText long_click_window_edit,
-            SuperText long_click_window_close,
-
-            SuperText end_window_record,
-            SuperText end_window_edit,
-            SuperText end_window_close,
-
-            SuperText notice_click_window_record,
-            SuperText notice_click_window_edit,
-            SuperText notice_click_window_close,
-
-            SuperText qianji_auto,
-            SuperText qianji_ui,
-            SuperText lazy_mode_open,
-            SuperText lazy_mode_close
-    ){
-        this.pay_all=pay_all;
-        this.pay_half=pay_half;
-
-        this.income_all=income_all;
-        this.income_half=income_half;
-
-        this.default_bookName=default_bookName;
-
-        this.remark=remark;
-
-        this.auto_sort_open=auto_sort_open;
-        this.auto_sort_close=auto_sort_close;
-
-        this.count_down=count_down;
-        this.count_down_seekbar=count_down_seekbar;
-
-        this.click_window_record=click_window_record;
-        this.click_window_edit=click_window_edit;
-        this.click_window_close=click_window_close;
-
-        this.long_click_window_record=long_click_window_record;
-        this.long_click_window_edit=long_click_window_edit;
-        this.long_click_window_close=long_click_window_close;
-
-        this.end_window_record=end_window_record;
-        this.end_window_edit = end_window_edit;
-        this.end_window_close = end_window_close;
-
-        this.notice_click_window_record = notice_click_window_record;
-        this.notice_click_window_edit = notice_click_window_edit;
-        this.notice_click_window_close = notice_click_window_close;
-
-        this.qianji_auto = qianji_auto;
-        this.qianji_ui = qianji_ui;
-
-        this.lazy_mode_close = lazy_mode_close;
-        this.lazy_mode_open = lazy_mode_open;
+            LineLay set_lazy_mode,
+            LineLay set_front,
+            LineLay set_back,
+            LineLay set_default,
+            LineLay set_remark,
+            LineLay set_sort,
+            LineLay set_float_time,
+            LineLay set_float_click,
+            LineLay set_float_long_click,
+            LineLay set_float_time_end,
+            LineLay set_notice_click,
+            LineLay set_float_style
+    ) {
+        this.set_lazy_mode = set_lazy_mode;
+        this.set_front = set_front;
+        this.set_back = set_back;
+        this.set_default = set_default;
+        this.set_remark = set_remark;
+        this.set_sort = set_sort;
+        this.set_float_time = set_float_time;
+        this.set_float_click = set_float_click;
+        this.set_float_long_click = set_float_long_click;
+        this.set_float_time_end = set_float_time_end;
+        this.set_notice_click = set_notice_click;
+        this.set_float_style = set_float_style;
         initUi();
         initListen();
     }
@@ -152,166 +74,152 @@ public class SettingUtils {
 
     }
 
-    private void initListen(){
+    private void initListen() {
+        set_lazy_mode.setOnClickListener(view -> {
+            BottomArea.list(mContext, mContext.getString(R.string.set_lazy_mode), jsonArray.getJSONArray(0), position -> {
+                mmkv.encode("lazy_mode", position == 0);
+                initUi();
+            });
+        });
+        set_front.setOnClickListener(view -> {
+            BottomArea.list(mContext, mContext.getString(R.string.set_front), jsonArray.getJSONArray(1), position -> {
+                mmkv.encode("autoPay", position == 0);
+                initUi();
+            });
+        });
+        set_back.setOnClickListener(view -> {
+            BottomArea.list(mContext, mContext.getString(R.string.set_back), jsonArray.getJSONArray(2), position -> {
+                mmkv.encode("autoIncome", position == 0);
+                initUi();
+            });
+        });
 
-        pay_all.setOnClickListener(v->{
-            mmkv.encode("autoPay", true);
-            initUi();
+        set_default.setOnClickListener(v -> {
+            BookNames.showBookSelect(mContext, mContext.getString(R.string.set_choose_book), false, bundle -> {
+                BookNames.change(bundle.getString("name"));
+                initUi();
+            });
         });
-        pay_half.setOnClickListener(v->{
-            mmkv.encode("autoPay", false);
-            initUi();
-        });
-        income_all.setOnClickListener(v->{
-            mmkv.encode("autoIncome", true);
-            initUi();
-        });
-        income_half.setOnClickListener(v->{
-            mmkv.encode("autoIncome", false);
-            initUi();
-        });
-        default_bookName.setOnClickListener(v-> {
-            BookNames.showBookSelect(mContext, "请选择账本", false, new BookNames.BookSelect() {
+        set_remark.setOnClickListener(v -> {
+            BottomArea.input(mContext, mContext.getString(R.string.set_remark_tip), Remark.getRemarkTpl(), mContext.getString(R.string.set_sure), mContext.getString(R.string.set_cancle), new BottomArea.InputCallback() {
                 @Override
-                public void onSelect(Bundle bundle) {
-                    BookNames.change(bundle.getString("name"));
+                public void input(String data) {
+                    Remark.setTpl(data);
                     initUi();
+                }
+
+                @Override
+                public void cancel() {
+
                 }
             });
         });
-        remark.setOnClickListener(v-> {
-            LayoutInflater factory = LayoutInflater.from(mContext);
-            final View textEntryView = factory.inflate(R.layout.include_list_input, null);
-            BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-            MaterialDialog dialog = new MaterialDialog(mContext, bottomSheet);
-            dialog.title(null, "请输入备注格式");
 
-            TextInputEditText md_input_message = textEntryView.findViewById(R.id.md_input_message);
-
-            md_input_message.setText(Remark.getRemarkTpl());
-
-            Button button_next = textEntryView.findViewById(R.id.button_next);
-            Button button_last = textEntryView.findViewById(R.id.button_last);
-
-            button_next.setOnClickListener(v2 -> {
-                Remark.setTpl(md_input_message.getText().toString());
+        set_sort.setOnClickListener(view -> {
+            BottomArea.list(mContext, mContext.getString(R.string.set_sort), jsonArray.getJSONArray(3), position -> {
+                mmkv.encode("auto_sort", position == 0);
                 initUi();
-                dialog.dismiss();
-
             });
+        });
 
-            button_last.setOnClickListener(v2 -> {
-                dialog.dismiss();
+        set_float_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomArea.input(
+                        mContext,
+                        mContext.getString(R.string.set_float_time),
+                        String.valueOf(mmkv.getInt("auto_timeout", 10)),
+                        mContext.getString(R.string.set_sure), mContext.getString(R.string.set_cancle), new BottomArea.InputCallback() {
+                            @Override
+                            public void input(String data) {
+                                try {
+                                    int time = Integer.parseInt(data);
+                                    if (time <= 0)
+                                        throw new Exception("must > 0");
+                                    mmkv.encode("auto_timeout", time);
+                                    initUi();
+
+                                } catch (Throwable e) {
+                                    ToastUtils.show(R.string.time_error);
+                                }
+                            }
+
+                            @Override
+                            public void cancel() {
+
+                            }
+                        });
+            }
+        });
+
+
+        set_float_click.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomArea.list(mContext, mContext.getString(R.string.set_float_click), jsonArray.getJSONArray(4), new BottomArea.ListCallback() {
+                    @Override
+                    public void onSelect(int position) {
+                        mmkv.encode("click_window", jsonArray.getJSONArray(4).getJSONObject(position).getString("value"));
+
+                        initUi();
+                    }
+                });
+            }
+        });
+
+        set_float_long_click.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomArea.list(mContext, mContext.getString(R.string.set_float_long_click), jsonArray.getJSONArray(4), new BottomArea.ListCallback() {
+                    @Override
+                    public void onSelect(int position) {
+
+                        mmkv.encode("long_click_window", jsonArray.getJSONArray(4).getJSONObject(position).getString("value"));
+
+                        initUi();
+                    }
+                });
+            }
+        });
+
+
+        set_float_time_end.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomArea.list(mContext, mContext.getString(R.string.set_float_time_end), jsonArray.getJSONArray(4), new BottomArea.ListCallback() {
+                    @Override
+                    public void onSelect(int position) {
+
+                        mmkv.encode("end_window", jsonArray.getJSONArray(4).getJSONObject(position).getString("value"));
+
+                        initUi();
+                    }
+                });
+            }
+        });
+
+        set_notice_click.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomArea.list(mContext, mContext.getString(R.string.set_notice_click), jsonArray.getJSONArray(4), new BottomArea.ListCallback() {
+                    @Override
+                    public void onSelect(int position) {
+                        mmkv.encode("notice_click_window", jsonArray.getJSONArray(4).getJSONObject(position).getString("value"));
+
+                        initUi();
+                    }
+                });
+            }
+        });
+
+        set_float_style.setOnClickListener(view -> {
+            BottomArea.list(mContext, mContext.getString(R.string.set_float_style), jsonArray.getJSONArray(5), new BottomArea.ListCallback() {
+                @Override
+                public void onSelect(int position) {
+                    mmkv.encode("auto_cate_table", position == 1);
+                    initUi();
+                }
             });
-
-            DialogCustomViewExtKt.customView(dialog, null, textEntryView,
-                    false, true, false, false);
-
-            dialog.cornerRadius(15f, null);
-            dialog.show();
-        });
-        auto_sort_open.setOnClickListener(v->{
-            mmkv.encode("auto_sort", true);
-            initUi();
-        });
-        auto_sort_close.setOnClickListener(v->{
-            mmkv.encode("auto_sort", false);
-            initUi();
-        });
-
-        count_down.setOnClickListener(v->{
-            //好像没什么用....
-        });
-
-        count_down_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-               //count_down.setTitle("倒计时时间："+progress+"秒");
-                mmkv.encode("auto_timeout", progress);
-                initUi();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        click_window_record.setOnClickListener(v->{
-            mmkv.encode("click_window","record");
-            initUi();
-        });
-        click_window_edit.setOnClickListener(v->{
-            mmkv.encode("click_window","edit");
-            initUi();
-        });
-        click_window_close.setOnClickListener(v->{
-            mmkv.encode("click_window","close");
-            initUi();
-        });
-
-        long_click_window_record.setOnClickListener(v->{
-            mmkv.encode("long_click_window","record");
-            initUi();
-        });
-        long_click_window_edit.setOnClickListener(v->{
-            mmkv.encode("long_click_window","edit");
-            initUi();
-        });
-        long_click_window_close.setOnClickListener(v->{
-            mmkv.encode("long_click_window","close");
-            initUi();
-        });
-
-        end_window_record.setOnClickListener(v->{
-            mmkv.encode("end_window","record");
-            initUi();
-        });
-        end_window_edit.setOnClickListener(v->{
-            mmkv.encode("end_window","edit");
-            initUi();
-        });
-        end_window_close.setOnClickListener(v->{
-            mmkv.encode("end_window","close");
-            initUi();
-        });
-
-        notice_click_window_record.setOnClickListener(v->{
-            mmkv.encode("notice_click_window","record");
-            initUi();
-        });
-        notice_click_window_edit.setOnClickListener(v->{
-            mmkv.encode("notice_click_window","edit");
-            initUi();
-        });
-        notice_click_window_close.setOnClickListener(v->{
-            mmkv.encode("notice_click_window","close");
-            initUi();
-        });
-
-        qianji_auto.setOnClickListener(v -> {
-            mmkv.encode("auto_cate_table", true);
-            initUi();
-        });
-        qianji_ui.setOnClickListener(v -> {
-            mmkv.encode("auto_cate_table", false);
-            initUi();
-        });
-
-
-        lazy_mode_open.setOnClickListener(v -> {
-            mmkv.encode("lazy_mode", true);
-            initUi();
-        });
-
-        lazy_mode_close.setOnClickListener(v -> {
-            mmkv.encode("lazy_mode", false);
-            initUi();
         });
 
 
@@ -321,121 +229,86 @@ public class SettingUtils {
     private void initUi() {
 
         if (mmkv.getBoolean("lazy_mode", true)) {
-            lazy_mode_open.setSelect(true);
-            lazy_mode_close.setSelect(false);
+            set_lazy_mode.setValue(R.string.set_open);
         } else {
-            lazy_mode_open.setSelect(false);
-            lazy_mode_close.setSelect(true);
+            set_lazy_mode.setValue(R.string.set_close);
         }
 
         if (mmkv.getBoolean("autoPay", false)) {
-            pay_all.setSelect(true);
-            pay_half.setSelect(false);
+            set_front.setValue(R.string.set_all);
         } else {
-            pay_all.setSelect(false);
-            pay_half.setSelect(true);
+            set_front.setValue(R.string.set_half);
         }
 
         if (mmkv.getBoolean("autoIncome", false)) {
-            income_all.setSelect(true);
-            income_half.setSelect(false);
+            set_back.setValue(R.string.set_all);
         } else {
-            income_all.setSelect(false);
-            income_half.setSelect(true);
+            set_back.setValue(R.string.set_half);
         }
 
-        default_bookName.setTitle(BookNames.getDefault());
-        remark.setTitle(Remark.getRemarkTpl());
+        set_default.setValue(BookNames.getDefault());
+        set_remark.setValue(Remark.getRemarkTpl());
 
         if (mmkv.getBoolean("auto_sort", true)) {
-            auto_sort_open.setSelect(true);
-            auto_sort_close.setSelect(false);
+            set_sort.setValue(R.string.set_open);
         } else {
-            auto_sort_open.setSelect(false);
-            auto_sort_close.setSelect(true);
+            set_sort.setValue(R.string.set_close);
         }
         int time = mmkv.getInt("auto_timeout", 10);
-        count_down.setTitle("倒计时时间：" + time + "秒");
-        count_down_seekbar.setProgress(time);
+        set_float_time.setValue(String.format(mContext.getString(R.string.set_time), time));
 
-        switch (mmkv.getString("click_window","edit")){
+        switch (mmkv.getString("click_window", "edit")) {
             case "edit":
-                click_window_record.setSelect(false);
-                click_window_close.setSelect(false);
-                click_window_edit.setSelect(true);
+                set_float_click.setValue(R.string.set_click_double);
                 break;
             case "record":
-                click_window_record.setSelect(true);
-                click_window_close.setSelect(false);
-                click_window_edit.setSelect(false);
+                set_float_click.setValue(R.string.set_click_book);
                 break;
             case "close":
-                click_window_record.setSelect(false);
-                click_window_close.setSelect(true);
-                click_window_edit.setSelect(false);
+                set_float_click.setValue(R.string.set_click_close);
                 break;
         }
 
         switch (mmkv.getString("long_click_window","edit")){
             case "edit":
-                long_click_window_record.setSelect(false);
-                long_click_window_close.setSelect(false);
-                long_click_window_edit.setSelect(true);
+                set_float_long_click.setValue(R.string.set_click_double);
                 break;
             case "record":
-                long_click_window_record.setSelect(true);
-                long_click_window_close.setSelect(false);
-                long_click_window_edit.setSelect(false);
+                set_float_long_click.setValue(R.string.set_click_book);
                 break;
             case "close":
-                long_click_window_record.setSelect(false);
-                long_click_window_close.setSelect(true);
-                long_click_window_edit.setSelect(false);
+                set_float_long_click.setValue(R.string.set_click_close);
                 break;
         }
 
         switch (mmkv.getString("end_window","edit")){
             case "edit":
-                end_window_record.setSelect(false);
-                end_window_close.setSelect(false);
-                end_window_edit.setSelect(true);
+                set_float_time_end.setValue(R.string.set_click_double);
                 break;
             case "record":
-                end_window_record.setSelect(true);
-                end_window_close.setSelect(false);
-                end_window_edit.setSelect(false);
+                set_float_time_end.setValue(R.string.set_click_book);
                 break;
             case "close":
-                end_window_record.setSelect(false);
-                end_window_close.setSelect(true);
-                end_window_edit.setSelect(false);
+                set_float_time_end.setValue(R.string.set_click_close);
                 break;
         }
 
         switch (mmkv.getString("notice_click_window","edit")){
             case "edit":
-                notice_click_window_record.setSelect(false);
-                notice_click_window_close.setSelect(false);
-                notice_click_window_edit.setSelect(true);
+                set_notice_click.setValue(R.string.set_click_double);
                 break;
             case "record":
-                notice_click_window_record.setSelect(true);
-                notice_click_window_close.setSelect(false);
-                notice_click_window_edit.setSelect(false);
+                set_notice_click.setValue(R.string.set_click_book);
                 break;
             case "close":
-                notice_click_window_record.setSelect(false);
-                notice_click_window_close.setSelect(true);
-                notice_click_window_edit.setSelect(false);
+                set_notice_click.setValue(R.string.set_click_close);
                 break;
         }
 
         if(mmkv.getBoolean("auto_cate_table",true)){
-            qianji_auto.setSelect(true);
-            qianji_ui.setSelect(false);
+            set_float_style.setValue(R.string.set_auto);
         }else{
-            qianji_auto.setSelect(false);
-            qianji_ui.setSelect(true);
+            set_float_style.setValue(R.string.set_qianji);
         }
 
     }
