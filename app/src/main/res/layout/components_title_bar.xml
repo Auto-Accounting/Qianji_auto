@@ -24,15 +24,13 @@
                 android:layout_centerInParent="true"
                 android:layout_marginStart="10dp"
                 android:text="&#xe62e;"
-                android:textColor="@color/button_go_setting_bg"
-                android:textSize="20sp" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tv_tilte"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_centerHorizontal="true"
                 android:text="关于"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -45,8 +43,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="10dp"
                 android:text=""
-                android:textColor="@color/skip_title"
-                android:textSize="24sp" />
+                android:textColor="@color/gray" />
 
         </RelativeLayout>
     </RelativeLayout>

@@ -131,19 +131,19 @@ public class BottomArea {
         dialog.show();
     }
 
-    interface MsgCallback {
+    public interface MsgCallback {
         void cancel();
 
         void sure();
     }
 
-    interface InputCallback {
+    public interface InputCallback {
         void input(String data);
 
         void cancel();
     }
 
-    interface ListCallback {
+    public interface ListCallback {
         void onSelect(int position);
     }
 

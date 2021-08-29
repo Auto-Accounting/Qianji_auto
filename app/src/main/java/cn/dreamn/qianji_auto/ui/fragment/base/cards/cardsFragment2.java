@@ -22,13 +22,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.text.InputType;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.input.DialogInputExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hjq.toast.ToastUtils;
@@ -47,6 +45,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.ui.adapter.BookListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 
@@ -97,25 +96,24 @@ public class cardsFragment2 extends BaseFragment {
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
         });
-        floatingActionButton.setOnClickListener(v->{
-            MaterialDialog dialog =  new MaterialDialog(getContext(),MaterialDialog.getDEFAULT_BEHAVIOR());
-            dialog.title(null,"请输入账本名称");
-            DialogInputExtKt.input(dialog, "指的是记账app中的账本名称", null, null, null,
-                    InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS ,
-                    null, true, false, (materialDialog, text) -> {
-                        BookNames.add(text.toString(), () -> {
-                            Message message=new Message();
-                            message.obj="添加成功!";
-                            message.what=HANDLE_REFRESH;
-                            mHandler.sendMessage(message);
-                        });
-
-                        return null;
+        floatingActionButton.setOnClickListener(v -> {
+            BottomArea.input(getContext(), getString(R.string.book_input), "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+                @Override
+                public void input(String data) {
+                    BookNames.add(data, () -> {
+                        Message message = new Message();
+                        message.obj = "添加成功!";
+                        message.what = HANDLE_REFRESH;
+                        mHandler.sendMessage(message);
                     });
+                }
 
+                @Override
+                public void cancel() {
 
+                }
+            });
 
-            dialog.show();
         });
 
     }
@@ -150,24 +148,24 @@ public class cardsFragment2 extends BaseFragment {
     }
     @SuppressLint("CheckResult")
     private void change(Bundle bookName) {
-        MaterialDialog dialog =  new MaterialDialog(getContext(),MaterialDialog.getDEFAULT_BEHAVIOR());
-        dialog.title(null,"请修改账本名称");
-        DialogInputExtKt.input(dialog, "指的是记账app中的账本名称", null, bookName.getString("name"), null,
-                InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS ,
-                null, true, false, (materialDialog, text) -> {
-                    BookNames.upd(bookName.getInt("id"),text.toString() , () -> {
-                        Message message=new Message();
-                        message.obj="修改成功!";
-                        message.what=HANDLE_REFRESH;
-                        mHandler.sendMessage(message);
-                    });
 
-                    return null;
+
+        BottomArea.input(getContext(), "请修改账本名称", "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+            @Override
+            public void input(String data) {
+                BookNames.upd(bookName.getInt("id"), data, () -> {
+                    Message message = new Message();
+                    message.obj = "修改成功!";
+                    message.what = HANDLE_REFRESH;
+                    mHandler.sendMessage(message);
                 });
+            }
 
+            @Override
+            public void cancel() {
 
-
-        dialog.show();
+            }
+        });
     }
 
     private void del(Bundle bookName) {

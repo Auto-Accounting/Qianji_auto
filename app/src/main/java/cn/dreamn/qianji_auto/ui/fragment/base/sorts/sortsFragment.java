@@ -22,11 +22,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.text.InputType;
 import android.view.View;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.input.DialogInputExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -45,6 +43,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.CategoryUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
@@ -143,31 +142,33 @@ public class sortsFragment extends BaseFragment {
         action_cate.setOnClickListener(v -> {
             view_hide.setVisibility(View.GONE);
             multiple_actions_down.collapse();
-            MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-            dialog.title(null, "请输入分类名称");
-            DialogInputExtKt.input(dialog, "指的是记账app中的分类名称", null, null, null,
-                    InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS,
-                    null, true, false, (materialDialog, text) -> {
-                        CategoryNames.insert(text.toString(), "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png", "1", type, null, null, book.getString("book_id"), null, isSucceed -> {
-                            Message message = new Message();
-                            message.what = HANDLE_REFRESH;
 
-                            if (isSucceed) {
-                                message.arg1 = 1;
-                                message.arg2 = -2;
-                                message.obj = "添加成功!";
-                            } else {
-                                message.arg1 = 0;
-                                message.arg2 = -2;
-                                message.obj = "添加失败！可能该分类已存在！";
-                            }
-                            mHandler.sendMessage(message);
-                        });
-                        return null;
+            BottomArea.input(getContext(), "请输入分类名称", "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+                @Override
+                public void input(String data) {
+                    CategoryNames.insert(data, "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png", "1", type, null, null, book.getString("book_id"), null, isSucceed -> {
+                        Message message = new Message();
+                        message.what = HANDLE_REFRESH;
+
+                        if (isSucceed) {
+                            message.arg1 = 1;
+                            message.arg2 = -2;
+                            message.obj = "添加成功!";
+                        } else {
+                            message.arg1 = 0;
+                            message.arg2 = -2;
+                            message.obj = "添加失败！可能该分类已存在！";
+                        }
+                        mHandler.sendMessage(message);
                     });
+                }
 
+                @Override
+                public void cancel() {
 
-            dialog.show();
+                }
+            });
+
 
         });
 
@@ -192,34 +193,37 @@ public class sortsFragment extends BaseFragment {
             @Override
             public void onItemClick(Bundle bundle, Bundle parent, int position) {
                 Log.m("当前点击数据：" + bundle.toString() + "\n父类数据：" + parent.toString());
-                if(bundle.getInt("id")==-2){
+                if (bundle.getInt("id") == -2) {
                     multiple_actions_down.collapse();
-                    MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-                    dialog.title(null, "请输入子类名称");
 
-                    DialogInputExtKt.input(dialog, "指的是当前分类下的子类名称", null, null, null,
-                            InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS,
-                            null, true, false, (materialDialog, text) -> {
-                                CategoryNames.insert(text.toString(), "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png", "2", type, null, parent.getString("self_id"), parent.getString("book_id"), null, isSucceed -> {
-                                    Message message = new Message();
-                                    message.what = HANDLE_REFRESH;
+                    BottomArea.input(getContext(), "请输入子类名称", "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+                        @Override
+                        public void input(String data) {
+                            CategoryNames.insert(data, "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png", "2", type, null, parent.getString("self_id"), parent.getString("book_id"), null, isSucceed -> {
+                                Message message = new Message();
+                                message.what = HANDLE_REFRESH;
 
-                                    if (isSucceed) {
-                                        message.arg1 = 1;
-                                        message.arg2 = position;
-                                        message.obj = "添加成功!";
-                                    } else {
-                                        message.arg1 = 0;
-                                        message.arg2 = position;
-                                        message.obj = "添加失败！可能该分类已存在！";
-                                    }
-                                    mHandler.sendMessage(message);
-                                });
-                                return null;
+                                if (isSucceed) {
+                                    message.arg1 = 1;
+                                    message.arg2 = position;
+                                    message.obj = "添加成功!";
+                                } else {
+                                    message.arg1 = 0;
+                                    message.arg2 = position;
+                                    message.obj = "添加失败！可能该分类已存在！";
+                                }
+                                mHandler.sendMessage(message);
                             });
+                        }
+
+                        @Override
+                        public void cancel() {
+
+                        }
+                    });
 
 
-                    dialog.show();
+
                 }else{
                     //其他选择~
                     MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
@@ -254,30 +258,33 @@ public class sortsFragment extends BaseFragment {
 
     @SuppressLint("CheckResult")
     private void change(Bundle bundle, String parent,int parentPos) {
-        MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-        dialog.title(null, "请编辑("+parent+"-"+bundle.getString("name")+")");
-        DialogInputExtKt.input(dialog, "请修改分类名称", null, bundle.getString("name"), null,
-                InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS,
-                null, true, false, (materialDialog, text) -> {
-                    CategoryNames.update(bundle.getInt("id"),text.toString(), type, bundle.getString("book_id"), isSucceed -> {
-                        Message message = new Message();
-                        message.what = HANDLE_REFRESH;
 
-                        if (isSucceed) {
-                            message.arg1 = 1;
-                            message.arg2 = parentPos;
-                            message.obj = "修改成功!";
-                        } else {
-                            message.arg1 = 0;
-                            message.arg2 = parentPos;
-                            message.obj = "修改失败！可能该分类已存在！";
-                        }
-                        mHandler.sendMessage(message);
-                    });
-                    return null;
+        BottomArea.input(getContext(), "请编辑(" + parent + "-" + bundle.getString("name") + ")", bundle.getString("name"), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+            @Override
+            public void input(String data) {
+                CategoryNames.update(bundle.getInt("id"), data, type, bundle.getString("book_id"), isSucceed -> {
+                    Message message = new Message();
+                    message.what = HANDLE_REFRESH;
+
+                    if (isSucceed) {
+                        message.arg1 = 1;
+                        message.arg2 = parentPos;
+                        message.obj = "修改成功!";
+                    } else {
+                        message.arg1 = 0;
+                        message.arg2 = parentPos;
+                        message.obj = "修改失败！可能该分类已存在！";
+                    }
+                    mHandler.sendMessage(message);
                 });
+            }
 
-        dialog.show();
+            @Override
+            public void cancel() {
+
+            }
+        });
+
     }
 
     private void del(Bundle bundle,int position) {

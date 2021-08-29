@@ -123,8 +123,7 @@ public class MainFragment extends BaseFragment {
     RelativeLayout rl_sms;
     @BindView(R.id.rl_notice)
     RelativeLayout rl_notice;
-    @BindView(R.id.rl_float)
-    RelativeLayout rl_float;
+
     @BindView(R.id.rl_skin)
     RelativeLayout rl_skin;
 
@@ -169,24 +168,14 @@ public class MainFragment extends BaseFragment {
         themeManager.setStatusBar(getActivity(), title_count, R.color.background_white);
 
         app_log.setText(BuildConfig.VERSION_NAME);
-        setActive();
         AutoBillWeb.update(getContext());
-        // MMKV mmkv= MMKV.defaultMMKV();
-
     }
 
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        setActive();
-        super.onHiddenChanged(hidden);
-    }
 
     @Override
     public void onResume() {
 
         super.onResume();
-      //  homeBarUtils.setClick(home);
         setActive();
 
     }
@@ -201,7 +190,7 @@ public class MainFragment extends BaseFragment {
                     setHeadImg();
                 }
             };
-            BookNames.showBookSelect(getContext(), "请选择账本", false, bundle -> {
+            BookNames.showBookSelect(getContext(), getString(R.string.set_choose_book), false, bundle -> {
                 BookNames.change(bundle.getString("name"));
                 mHandler.sendEmptyMessage(0);
             });
@@ -315,9 +304,7 @@ public class MainFragment extends BaseFragment {
         rl_notice.setOnClickListener(v->{
             RegularFragment.openWithType(this, "notice");
         });
-        rl_float.setOnClickListener(v->{
 
-        });
         rl_skin.setOnClickListener(v->{
 
         });

@@ -22,13 +22,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.text.InputType;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.input.DialogInputExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hjq.toast.ToastUtils;
@@ -47,6 +45,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.Assets;
 import cn.dreamn.qianji_auto.ui.adapter.MapListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 
@@ -98,25 +97,24 @@ public class MainMapFragment extends BaseFragment {
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
         });
-        floatingActionButton.setOnClickListener(v->{
-            MaterialDialog dialog =  new MaterialDialog(getContext(),MaterialDialog.getDEFAULT_BEHAVIOR());
-            dialog.title(null,"请输入资产名称");
-            DialogInputExtKt.input(dialog, "指的是自动记账识别的资产名称", null, null, null,
-                    InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS ,
-                    null, true, false, (materialDialog, text) -> {
+        floatingActionButton.setOnClickListener(v -> {
+            BottomArea.input(getContext(), "请输入资产名称", "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+                @Override
+                public void input(String data) {
+                    Assets.showAssetSelect(getContext(), "请选择资产", false, asset2s -> Assets.addMap(data, asset2s.getString("name"), () -> {
+                        Message message = new Message();
+                        message.obj = "添加成功!";
+                        message.what = HANDLE_REFRESH;
+                        mHandler.sendMessage(message);
+                    }));
+                }
 
-                Assets.showAssetSelect(getContext(), "请选择资产",false, asset2s -> Assets.addMap(text.toString(),asset2s.getString("name"), () -> {
-                    Message message=new Message();
-                    message.obj="添加成功!";
-                    message.what=HANDLE_REFRESH;
-                    mHandler.sendMessage(message);
-                }));
-                        return null;
-                    });
+                @Override
+                public void cancel() {
 
+                }
+            });
 
-
-            dialog.show();
         });
 
     }
@@ -151,23 +149,24 @@ public class MainMapFragment extends BaseFragment {
     }
     @SuppressLint("CheckResult")
     private void change(Bundle assets) {
-        MaterialDialog dialog =  new MaterialDialog(getContext(),MaterialDialog.getDEFAULT_BEHAVIOR());
-        dialog.title(null,"请修改资产名称");
-        DialogInputExtKt.input(dialog, "指的是自动记账识别的资产名称", null, assets.getString("name"), null,
-                InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS ,
-                null, true, false, (materialDialog, text) -> {
-              Assets.showAssetSelect(getContext(), "请选择资产",false, asset2s -> Assets.addMap(text.toString(),asset2s.getString("name"), () -> {
-                        Message message=new Message();
-                        message.obj="修改成功!";
-                        message.what=HANDLE_REFRESH;
-                        mHandler.sendMessage(message);
-                    }));
-                    return null;
-                });
 
+        BottomArea.input(getContext(), "请修改资产名称", assets.getString("name"), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+            @Override
+            public void input(String data) {
+                Assets.showAssetSelect(getContext(), "请选择资产", false, asset2s -> Assets.addMap(data, asset2s.getString("name"), () -> {
+                    Message message = new Message();
+                    message.obj = "修改成功!";
+                    message.what = HANDLE_REFRESH;
+                    mHandler.sendMessage(message);
+                }));
+            }
 
+            @Override
+            public void cancel() {
 
-        dialog.show();
+            }
+        });
+
     }
 
     private void del(Bundle assets) {
