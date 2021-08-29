@@ -195,4 +195,6 @@
     <string name="del_success">删除成功!</string>
     <string name="empty_book">你还没有任何账本哦！\n钱迹免费用户不需要添加账本。</string>
     <string name="book_change">请修改账本名称</string>
+    <string name="no_map">你还没有进行任何资产映射！</string>
+    <string name="assert_choose">请选择资产</string>
 </resources>

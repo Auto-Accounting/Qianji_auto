@@ -169,7 +169,7 @@ public class bookFragment extends BaseFragment {
     private void change(Bundle bookName) {
 
 
-        BottomArea.input(getContext(), getString(R.string.book_change), "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+        BottomArea.input(getContext(), getString(R.string.book_change), bookName.getString("name"), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
             @Override
             public void input(String data) {
                 BookNames.upd(bookName.getInt("id"), data, () -> {

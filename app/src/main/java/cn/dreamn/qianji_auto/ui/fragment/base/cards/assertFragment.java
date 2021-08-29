@@ -110,8 +110,10 @@ public class assertFragment extends BaseFragment {
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
             loadingDialog = new LoadingDialog(getAttachContext(), getString(R.string.main_loading));
             loadingDialog.show();
+
         });
         initLayout();
+        loadFromData();
     }
 
     @SuppressLint("CheckResult")
@@ -176,9 +178,7 @@ public class assertFragment extends BaseFragment {
 
         });// 监听拖拽，更新UI。
         mAdapter.setOnItemClickListener(this::OnItemClickListen);
-        refreshLayout.setOnRefreshListener(refreshLayout1 -> loadFromData());
         refreshLayout.setEnableRefresh(true);
-        loadFromData();
     }
     @SuppressLint("CheckResult")
     private void OnItemClickListen(View view, int position) {

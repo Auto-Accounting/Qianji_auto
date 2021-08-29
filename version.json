@@ -12,9 +12,9 @@
     "download": ""
   },
   "alpha": {
-    "version": "涅槃 3.0.0 alpha12",
-    "verNum": 113,
-    "log": "新增：N多Bug，别反馈，在修\n\n优化：删除在线规则（考虑到运营什么的，没空....\n\n优化：删除不需要的包~\n\n优化：部分文案冗余\n\n优化：部分界面UI重构",
+    "version": "涅槃 3.0.0 alpha13",
+    "verNum": 114,
+    "log": "优化：UI界面风格统一\n\n优化：清理冗余第三方库、提高部分界面的加载效果\n\n修复：选择记账App后不能重新选择的Bug\n\n修复：插件设置无法打开",
     "download": "https://jq.qq.com/?_wv=1027&k=qVkARWOX"
   },
   "inherit": true
