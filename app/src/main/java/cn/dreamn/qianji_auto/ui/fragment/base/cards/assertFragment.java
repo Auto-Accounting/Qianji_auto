@@ -91,7 +91,6 @@ public class assertFragment extends BaseFragment {
             if ((d != null && !d.equals("")))
                 ToastUtils.show(d);
             if (loadingDialog != null) loadingDialog.close();
-            floatingActionButton.setVisibility(View.VISIBLE);
         }
     };
 
@@ -111,7 +110,6 @@ public class assertFragment extends BaseFragment {
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
             loadingDialog = new LoadingDialog(getAttachContext(), getString(R.string.main_loading));
             loadingDialog.show();
-            floatingActionButton.setVisibility(View.GONE);
         });
         initLayout();
     }
@@ -135,7 +133,6 @@ public class assertFragment extends BaseFragment {
 
                 @Override
                 public void cancel() {
-
                 }
             });
 

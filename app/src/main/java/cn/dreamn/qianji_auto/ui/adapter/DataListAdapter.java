@@ -14,7 +14,6 @@ import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
 public class DataListAdapter extends BaseAdapter {
     private final Context mContext;
     public DataListAdapter(Context context) {
-
         super(R.layout.adapter_data_item);
         mContext=context;
     }

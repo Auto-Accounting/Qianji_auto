@@ -63,7 +63,7 @@ public class MainCardFragment extends BaseFragment {
     protected void initViews() {
         List<Fragment> tabFragments = new ArrayList<>();  //实例化集合
         tabFragments.add(new assertFragment());
-        tabFragments.add(new cardsFragment2());
+        tabFragments.add(new bookFragment());
         TabAdapter adapter = new TabAdapter(getChildFragmentManager(), tabFragments, new String[]{getString(R.string.assert_title), getString(R.string.assert_book)}); //参数1为fragment管理器
         viewPager.setAdapter(adapter); //给viewPager设置适配器
         tabLayout.setupWithViewPager(viewPager); //将tabLayout与viewPager建立匹配

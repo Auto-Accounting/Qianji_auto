@@ -178,8 +178,8 @@ public class Tool {
 
     public static String getJson(Context context, String file) {
         String language = Locale.getDefault().getLanguage();
-        String path = "json/" + file + "_" + language + ".json";
-        String path2 = "json/" + file + "_zh.json";
+        String path = "json/" + language + "/" + file + ".json";
+        String path2 = "json/zh/" + file + ".json";
         return getAssert(context, path, path2);
     }
 
