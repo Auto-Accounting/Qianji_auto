@@ -84,7 +84,7 @@ public class MainMapFragment extends BaseFragment {
             viewHolder.setText(R.id.empty_info, "你还没有进行任何资产映射！\n做了资产映射才能更好地记账。");
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.load_info, "正在加载资产映射");
+      //      viewHolder.setText(R.id.load_info, "正在加载资产映射");
         });
         floatingActionButton.setVisibility(View.GONE);
         statusView.showLoadingView();

@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
                 android:text="TextView"
-                android:textColor="@color/skip_title"
+                android:textColor="@color/gray"
                 android:textSize="13sp" />
 
         </LinearLayout>

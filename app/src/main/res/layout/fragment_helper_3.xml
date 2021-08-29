@@ -33,7 +33,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="5dp"
                 android:text="@string/icon_youjiantou11"
-                android:textColor="@color/skip_title" />
+                android:textColor="@color/gray" />
 
             <TextView
                 android:id="@+id/mode_name"
@@ -42,7 +42,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
                 android:layout_toStartOf="@+id/rightIcon"
-                android:textColor="@color/skip_title" />
+                android:textColor="@color/gray" />
 
             <TextView
                 android:layout_width="wrap_content"

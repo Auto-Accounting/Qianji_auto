@@ -109,7 +109,7 @@ public class sortsFragment extends BaseFragment {
         statusView.setLoadingView(R.layout.fragment_loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, "你的分类呢？这样记不了账的哦！\n赶紧添加一个吧！"));
-        statusView.setOnLoadingViewConvertListener(viewHolder -> viewHolder.setText(R.id.load_info, "正在加载分类信息"));
+       // statusView.setOnLoadingViewConvertListener(viewHolder -> viewHolder.setText(R.id.load_info, "正在加载分类信息"));
         multiple_actions_down.setVisibility(View.GONE);
         view_hide.setVisibility(View.GONE);
         statusView.showLoadingView();

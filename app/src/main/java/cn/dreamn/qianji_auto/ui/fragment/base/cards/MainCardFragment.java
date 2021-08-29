@@ -62,27 +62,13 @@ public class MainCardFragment extends BaseFragment {
     @Override
     protected void initViews() {
         List<Fragment> tabFragments = new ArrayList<>();  //实例化集合
-        tabFragments.add(new cardsFragment1());
+        tabFragments.add(new assertFragment());
         tabFragments.add(new cardsFragment2());
-        TabAdapter adapter=new TabAdapter(getChildFragmentManager(), tabFragments,new String[]{"资产","账本"}); //参数1为fragment管理器
+        TabAdapter adapter = new TabAdapter(getChildFragmentManager(), tabFragments, new String[]{getString(R.string.assert_title), getString(R.string.assert_book)}); //参数1为fragment管理器
         viewPager.setAdapter(adapter); //给viewPager设置适配器
         tabLayout.setupWithViewPager(viewPager); //将tabLayout与viewPager建立匹配
 }
 
-
-
-    @Override
-    protected void initListeners() {
-       // ankio_head.setOnClickListener(v-> WebViewFragment.openUrl(this,"https://www.ankio.net"));
-    }
-
-    @Override
-    public void onResume() {
-
-
-        super.onResume();
-
-    }
 
     @Override
     protected View getBarView() {
@@ -93,7 +79,6 @@ public class MainCardFragment extends BaseFragment {
     protected void initTitle() {
         super.initTitle();
         iv_left_icon.setOnClickListener(v -> popToBack());
-        // return null;
     }
 
 

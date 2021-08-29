@@ -21,6 +21,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:textColorLink="@color/blue"
+            tools:ignore="TouchTargetSizeCheck"
             tools:text="Hello, World!" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -37,7 +38,7 @@
             style="@null"
             android:layout_width="150dp"
 
-            android:layout_height="45dp"
+            android:layout_height="48dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="10dp"
             android:background="@drawable/btn_normal_2"
@@ -52,7 +53,7 @@
             android:id="@+id/button_next"
             style="@null"
             android:layout_width="150dp"
-            android:layout_height="45dp"
+            android:layout_height="48dp"
 
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="10dp"

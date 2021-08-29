@@ -65,7 +65,7 @@
                     android:layout_below="@+id/textView14"
                     android:layout_marginTop="10dp"
                     android:text="WebDav网址"
-                    android:textColor="@color/skip_title"
+                    android:textColor="@color/gray"
                     android:textSize="12sp" />
 
             </RelativeLayout>
@@ -97,7 +97,7 @@
                     android:layout_below="@+id/textView15"
                     android:layout_marginTop="10dp"
                     android:text="WebDav用户名"
-                    android:textColor="@color/skip_title"
+                    android:textColor="@color/gray"
                     android:textSize="12sp" />
 
             </RelativeLayout>
@@ -129,7 +129,7 @@
                     android:layout_below="@+id/textView16"
                     android:layout_marginTop="10dp"
                     android:text="WebDav密码"
-                    android:textColor="@color/skip_title"
+                    android:textColor="@color/gray"
                     android:textSize="12sp" />
 
             </RelativeLayout>
@@ -167,7 +167,7 @@
                     android:layout_below="@+id/backup_local"
                     android:layout_marginTop="10dp"
                     android:text="将会为您备份到/Download/Qianji/文件夹"
-                    android:textColor="@color/skip_title"
+                    android:textColor="@color/gray"
                     android:textSize="10sp" />
 
             </RelativeLayout>
@@ -198,7 +198,7 @@
                     android:layout_below="@+id/backup_webdav"
                     android:layout_marginTop="10dp"
                     android:text="将会为您备份到WebDav"
-                    android:textColor="@color/skip_title"
+                    android:textColor="@color/gray"
                     android:textSize="10sp" />
 
             </RelativeLayout>

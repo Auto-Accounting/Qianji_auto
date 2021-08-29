@@ -28,7 +28,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -45,6 +44,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.ui.adapter.BookListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.IconView;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
@@ -60,7 +60,7 @@ public class cardsFragment2 extends BaseFragment {
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
     @BindView(R.id.floatingActionButton)
-    FloatingActionButton floatingActionButton;
+    IconView floatingActionButton;
     private BookListAdapter mAdapter;
     private List<Bundle> list;
 
@@ -83,7 +83,7 @@ public class cardsFragment2 extends BaseFragment {
             viewHolder.setText(R.id.empty_info, "你还没有任何账本哦！\n钱迹免费用户不需要添加账本。");
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.load_info, "正在加载账本信息");
+            //   viewHolder.setText(R.id.load_info, "正在加载账本信息");
         });
         floatingActionButton.setVisibility(View.GONE);
         statusView.showLoadingView();

@@ -46,7 +46,7 @@
                 app:tabIndicatorFullWidth="true"
                 app:tabIndicatorHeight="2dp"
                 app:tabSelectedTextColor="@color/black"
-                app:tabTextColor="@color/skip_title">
+                app:tabTextColor="@color/gray">
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"

@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:text="开发&amp;UI设计"
-                        android:textColor="@color/skip_title"
+                        android:textColor="@color/gray"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -87,7 +87,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
                     android:text="&#xe62d;"
-                    android:textColor="@color/skip_title"
+                    android:textColor="@color/gray"
                     android:textSize="18sp" />
             </RelativeLayout>
 
@@ -131,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:text="开发"
-                        android:textColor="@color/skip_title"
+                        android:textColor="@color/gray"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -144,7 +144,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
                     android:text="&#xe62d;"
-                    android:textColor="@color/skip_title"
+                    android:textColor="@color/gray"
                     android:textSize="18sp"
                     android:visibility="invisible" />
             </RelativeLayout>
@@ -189,7 +189,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:text="UI设计&amp;规则编写"
-                        android:textColor="@color/skip_title"
+                        android:textColor="@color/gray"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -201,7 +201,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
                     android:text="&#xe62d;"
-                    android:textColor="@color/skip_title"
+                    android:textColor="@color/gray"
                     android:textSize="18sp"
                     android:visibility="invisible" />
             </RelativeLayout>
@@ -247,7 +247,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:text="UI设计"
-                        android:textColor="@color/skip_title"
+                        android:textColor="@color/gray"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -260,7 +260,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
                     android:text="&#xe62d;"
-                    android:textColor="@color/skip_title"
+                    android:textColor="@color/gray"
                     android:textSize="18sp"
                     android:visibility="invisible" />
             </RelativeLayout>
@@ -306,7 +306,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:text="图标重绘"
-                        android:textColor="@color/skip_title"
+                        android:textColor="@color/gray"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -319,7 +319,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
                     android:text="&#xe62d;"
-                    android:textColor="@color/skip_title"
+                    android:textColor="@color/gray"
                     android:textSize="18sp"
                     android:visibility="invisible" />
             </RelativeLayout>
@@ -365,7 +365,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="2dp"
                         android:text="前端设计&amp;开发"
-                        android:textColor="@color/skip_title"
+                        android:textColor="@color/gray"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -378,7 +378,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
                     android:text="&#xe62d;"
-                    android:textColor="@color/skip_title"
+                    android:textColor="@color/gray"
                     android:textSize="18sp"
                     android:visibility="invisible" />
             </RelativeLayout>

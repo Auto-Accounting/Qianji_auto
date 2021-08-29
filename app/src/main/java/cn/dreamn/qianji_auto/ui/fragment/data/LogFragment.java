@@ -104,7 +104,7 @@ public class LogFragment extends BaseFragment {
             viewHolder.setText(R.id.empty_info, "没有日志！");
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.load_info, "正在加载日志信息");
+        //    viewHolder.setText(R.id.load_info, "正在加载日志信息");
         });
 
         statusView.showLoadingView();

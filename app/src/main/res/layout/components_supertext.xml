@@ -58,7 +58,7 @@
             android:layout_toEndOf="@+id/icon_header"
             android:gravity="center_vertical"
             android:text=""
-            android:textColor="@color/skip_title"
+            android:textColor="@color/gray"
             android:textSize="12sp"
              />
 
@@ -76,7 +76,7 @@
             android:gravity="center"
 
             android:text=""
-            android:textColor="@color/skip_title"
+            android:textColor="@color/gray"
             android:textSize="24sp"
              />
 

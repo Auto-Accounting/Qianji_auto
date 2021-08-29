@@ -13,7 +13,7 @@
         android:layout_alignParentStart="false"
         android:layout_alignParentBottom="false"
         android:layout_marginStart="0dp"
-        android:background="@color/skip_title"
+        android:background="@color/gray"
          />
 
     <TextView
@@ -25,7 +25,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="11dp"
         android:text="@string/app_help_skip_last"
-        android:textColor="@color/skip_title"
+        android:textColor="@color/gray"
          />
 
     <cn.dreamn.qianji_auto.ui.components.IconView
@@ -39,7 +39,7 @@
         android:layout_marginEnd="-8dp"
         android:gravity="center|center_horizontal"
         android:text="&#xe60b;"
-        android:textColor="@color/skip_title"
+        android:textColor="@color/gray"
 
          />
 
@@ -52,7 +52,7 @@
         android:layout_marginTop="11dp"
         android:layout_marginEnd="32dp"
         android:text="帮助文档"
-        android:textColor="@color/skip_title"
+        android:textColor="@color/gray"
          />
 
     <TextView
@@ -64,7 +64,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="11dp"
         android:text="GitHub"
-        android:textColor="@color/skip_title"
+        android:textColor="@color/gray"
          />
 
     <cn.dreamn.qianji_auto.ui.components.IconView
@@ -78,7 +78,7 @@
         android:layout_marginEnd="15dp"
         android:gravity="center|center_horizontal"
         android:text="&#xe62d;"
-        android:textColor="@color/skip_title"
+        android:textColor="@color/gray"
 
          />
 

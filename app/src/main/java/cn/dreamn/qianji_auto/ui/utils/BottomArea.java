@@ -99,7 +99,7 @@ public class BottomArea {
     static public void list(Context context, String title, List<String> list, ListCallback listCallback) {
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
         MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
-
+        dialog.cornerRadius(15f, null);
         dialog.title(null, title);
         DialogListExtKt.listItems(dialog, null, list, null, true, (materialDialog, index, text) -> {
             listCallback.onSelect(index);
@@ -115,7 +115,7 @@ public class BottomArea {
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
         MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
         dialog.title(null, title);
-
+        dialog.cornerRadius(15f, null);
         ListView listView = textEntryView.findViewById(R.id.list_view);
         ListArrayAdapter listAdapter = new ListArrayAdapter(context, R.layout.components_supertext, list);
         listView.setAdapter(listAdapter);

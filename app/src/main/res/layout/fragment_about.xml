@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:text="3.0.0beta1"
-                    android:textColor="@color/skip_title"
+                    android:textColor="@color/gray"
                     android:textSize="14sp" />
 
                 <TextView
@@ -111,7 +111,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
                         android:text="&#xe62d;"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:id="@+id/mode_name"
@@ -121,7 +121,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_toStartOf="@+id/rightIcon"
                         android:text="已是最新版本"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -158,7 +158,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
                         android:text="&#xe62d;"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -167,7 +167,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_toStartOf="@+id/iconView16"
                         android:text="一起来完善自动记账"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -205,7 +205,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
                         android:text="&#xe62d;"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -214,7 +214,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_toStartOf="@+id/iconView10"
                         android:text="目前有6位"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -251,7 +251,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
                         android:text="&#xe62d;"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -260,7 +260,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_toStartOf="@+id/iconView9"
                         android:text="GPL3.0"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -299,7 +299,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
                         android:text="&#xe62d;"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -308,7 +308,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_toStartOf="@+id/iconView11"
                         android:text=""
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -345,7 +345,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
                         android:text="&#xe62d;"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -354,7 +354,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_toStartOf="@+id/iconView12"
                         android:text="国内用户无法访问"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -392,7 +392,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
                         android:text="&#xe62d;"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -401,7 +401,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_toStartOf="@+id/iconView13"
                         android:text="@string/QQ_Group"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -438,7 +438,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
                         android:text="&#xe62d;"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -447,7 +447,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_toStartOf="@+id/iconView14"
                         android:text="不给好评当心跑路"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -485,7 +485,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="5dp"
                         android:text="&#xe62d;"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -494,7 +494,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_toStartOf="@+id/iconView15"
                         android:text="一分也是爱"
-                        android:textColor="@color/skip_title" />
+                        android:textColor="@color/gray" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -522,7 +522,7 @@
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_marginEnd="10dp"
                     android:text="© 2021 Ankio All rights reserved."
-                    android:textColor="@color/skip_title" />
+                    android:textColor="@color/gray" />
 
             </LinearLayout>
         </LinearLayout>

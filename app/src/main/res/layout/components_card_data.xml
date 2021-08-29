@@ -41,7 +41,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="5dp"
                     android:text="作者"
-                    android:textColor="@color/skip_title"
+                    android:textColor="@color/gray"
                     android:textSize="14sp" />
 
             </RelativeLayout>
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="TextView"
-                android:textColor="@color/skip_title"
+                android:textColor="@color/gray"
                 android:textSize="16sp" />
 
             <View
@@ -85,7 +85,7 @@
                     android:layout_marginEnd="5dp"
                     android:layout_marginBottom="5dp"
                     android:text="开源协议"
-                    android:textColor="@color/skip_title"
+                    android:textColor="@color/gray"
                     android:textSize="14sp" />
 
             </RelativeLayout>

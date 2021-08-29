@@ -39,7 +39,7 @@
         android:layout_marginTop="30dp"
         android:padding="20dp"
         android:text="@string/help_6_tip"
-        android:textColor="@color/skip_title"
+        android:textColor="@color/gray"
          />
 
     <TextView

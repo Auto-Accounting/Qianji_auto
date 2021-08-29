@@ -16,30 +16,44 @@
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clickable="false">
+
             <com.scwang.smartrefresh.layout.header.ClassicsHeader
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
+
             <com.yanzhenjie.recyclerview.SwipeRecyclerView
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:overScrollMode="never" />
+                android:overScrollMode="never"
+                tools:ignore="SpeakableTextPresentCheck" />
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     </com.shehuan.statusview.StatusView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <LinearLayout
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="25dp"
-        android:clickable="true"
-        android:contentDescription=""
-        android:focusable="true"
-        android:src="@drawable/ic_add"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:background="@drawable/btn_normal_1"
+        android:orientation="vertical">
+
+        <cn.dreamn.qianji_auto.ui.components.IconView
+            android:id="@+id/floatingActionButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/icon_icon_test"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
+    </LinearLayout>
+
 </RelativeLayout>

@@ -179,4 +179,18 @@
     <string name="menu_others_video">视频教程</string>
     <string name="menu_others_github">Github</string>
     <string name="menu_others_about">关于</string>
+    <string name="assert_title">资产</string>
+    <string name="assert_book">账本</string>
+    <string name="assert_empty_info">资产都没有，还想记账？\n快去添加一个！</string>
+    <string name="main_loading">正在加载中…</string>
+    <string name="assert_input">请输入资产名称</string>
+    <string name="add_success">添加成功！</string>
+    <string name="assert_change">请选择操作（%s）</string>
+    <string name="del">删除</string>
+    <string name="change">修改</string>
+    <string name="assert_change_name">请修改资产名称</string>
+    <string name="assert_change_success">修改成功!</string>
+    <string name="del_title">删除确认</string>
+    <string name="assert_del_msg">确定要删除（%s）吗？</string>
+    <string name="del_success">删除成功!</string>
 </resources>

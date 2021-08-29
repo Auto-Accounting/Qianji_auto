@@ -17,6 +17,10 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.base.cards;
 
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_ERR;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,12 +31,8 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.list.DialogListExtKt;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -48,14 +48,15 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.Assets;
 import cn.dreamn.qianji_auto.ui.adapter.DataListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.IconView;
+import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 
-
 @Page(name = "资产", anim = CoreAnim.slide)
-public class cardsFragment1 extends BaseFragment {
-
+public class assertFragment extends BaseFragment {
 
 
     @BindView(R.id.status)
@@ -65,13 +66,34 @@ public class cardsFragment1 extends BaseFragment {
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recyclerView;
     @BindView(R.id.floatingActionButton)
-    FloatingActionButton floatingActionButton;
+    IconView floatingActionButton;
     private DataListAdapter mAdapter;
     private List<Bundle> list;
 
-     private static final int HANDLE_ERR = 0;
-    private static final int HANDLE_OK = 1;
-    private static final int HANDLE_REFRESH=2;
+    LoadingDialog loadingDialog;
+
+    Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case HANDLE_ERR:
+                    statusView.showEmptyView();
+                    break;
+                case HANDLE_OK:
+                    mAdapter.refresh(list);
+                    statusView.showContentView();
+                    break;
+                case HANDLE_REFRESH:
+                    loadFromData();
+                    break;
+            }
+            String d = (String) msg.obj;
+            if ((d != null && !d.equals("")))
+                ToastUtils.show(d);
+            if (loadingDialog != null) loadingDialog.close();
+            floatingActionButton.setVisibility(View.VISIBLE);
+        }
+    };
 
     @Override
     protected int getLayoutId() {
@@ -83,15 +105,14 @@ public class cardsFragment1 extends BaseFragment {
     protected void initViews() {
         statusView.setEmptyView(R.layout.fragment_empty_view);
         statusView.setLoadingView(R.layout.fragment_loading_view);
-
         statusView.setOnEmptyViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.empty_info, "资产都没有，还想记账？\n快去添加一个！");
+            viewHolder.setText(R.id.empty_info, getString(R.string.assert_empty_info));
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.load_info, "正在加载资产信息");
+            loadingDialog = new LoadingDialog(getAttachContext(), getString(R.string.main_loading));
+            loadingDialog.show();
+            floatingActionButton.setVisibility(View.GONE);
         });
-        floatingActionButton.setVisibility(View.GONE);
-        statusView.showLoadingView();
         initLayout();
     }
 
@@ -99,17 +120,16 @@ public class cardsFragment1 extends BaseFragment {
     @Override
     protected void initListeners() {
         refreshLayout.setOnRefreshListener(refreshlayout -> {
-            refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+            loadFromData();
+            refreshlayout.finishRefresh(0);
         });
+
         floatingActionButton.setOnClickListener(v -> {
-            BottomArea.input(getContext(), "请输入资产名称", "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+            BottomArea.input(getContext(), getString(R.string.assert_input), "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
                 @Override
                 public void input(String data) {
                     Assets.addAsset(data, "https://pic.dreamn.cn/uPic/2021032022075916162492791616249279427UY2ok6支付.png", 0, () -> {
-                        Message message = new Message();
-                        message.obj = "添加成功!";
-                        message.what = HANDLE_REFRESH;
-                        mHandler.sendMessage(message);
+                        HandlerUtil.send(mHandler, getString(R.string.add_success), HANDLE_REFRESH);
                     });
                 }
 
@@ -159,39 +179,40 @@ public class cardsFragment1 extends BaseFragment {
 
         });// 监听拖拽，更新UI。
         mAdapter.setOnItemClickListener(this::OnItemClickListen);
-        refreshLayout.setOnRefreshListener(this::loadFromData);
+        refreshLayout.setOnRefreshListener(refreshLayout1 -> loadFromData());
         refreshLayout.setEnableRefresh(true);
-        loadFromData(refreshLayout);
+        loadFromData();
     }
     @SuppressLint("CheckResult")
     private void OnItemClickListen(View view, int position) {
-        if(list==null||position >= list.size())return;
+        if (list == null || position >= list.size()) return;
 
         Bundle assest = list.get(position);
 
-        MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-        dialog.title(null, "请选择操作("+assest.getString("name")+")");
-        DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "修改"), null, true, (materialDialog, index, text) -> {
-          switch (index){
-              case 0:del(assest);break;
-              case 1:change(assest);break;
-          }
-            return null;
+        BottomArea.list(getContext(), String.format(getString(R.string.assert_change), assest.getString("name")), Arrays.asList(getString(R.string.del), getString(R.string.change)), new BottomArea.ListCallback() {
+            @Override
+            public void onSelect(int index) {
+                switch (index) {
+                    case 0:
+                        del(assest);
+                        break;
+                    case 1:
+                        change(assest);
+                        break;
+                }
+            }
         });
-        dialog.show();
+
 
     }
     @SuppressLint("CheckResult")
     private void change(Bundle assest) {
 
-        BottomArea.input(getContext(), "请修改资产名称", assest.getString("name"), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+        BottomArea.input(getContext(), getString(R.string.assert_change_name), assest.getString("name"), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
             @Override
             public void input(String data) {
                 Assets.updAsset(assest.getInt("id"), data, () -> {
-                    Message message = new Message();
-                    message.obj = "修改成功!";
-                    message.what = HANDLE_REFRESH;
-                    mHandler.sendMessage(message);
+                    HandlerUtil.send(mHandler, getString(R.string.assert_change_success), HANDLE_REFRESH);
                 });
             }
 
@@ -203,60 +224,31 @@ public class cardsFragment1 extends BaseFragment {
     }
 
     private void del(Bundle assest) {
-        MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-        dialog.title(null, "删除确认");
-        dialog.message(null, "确定要删除（"+assest.getString("name")+"）吗？", null);
-        dialog.positiveButton(null, "确定", materialDialog -> {
-            Assets.delAsset(assest.getInt("id"),()->{
-                Message message=new Message();
-                message.obj="删除成功!";
-                message.what=HANDLE_REFRESH;
-                mHandler.sendMessage(message);
-            });
-            return null;
-        });
-        dialog.negativeButton(null, "取消", materialDialog -> {
+        BottomArea.msg(getContext(), getString(R.string.del_title), String.format(getString(R.string.assert_del_msg), assest.getString("name")), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.MsgCallback() {
+            @Override
+            public void cancel() {
 
-            return null;
+            }
+
+            @Override
+            public void sure() {
+                Assets.delAsset(assest.getInt("id"), () -> {
+                    HandlerUtil.send(mHandler, getString(R.string.del_success), HANDLE_REFRESH);
+                });
+            }
         });
-        dialog.show();
     }
 
 
-    Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case HANDLE_ERR:
-                    if (statusView != null) statusView.showEmptyView();
-                    break;
-                case HANDLE_OK:
-                    mAdapter.refresh(list);
-                    Task.onMain(1000,()->statusView.showContentView());
-                    break;
-                case HANDLE_REFRESH:
-                    String d=(String)msg.obj;
-                    if((d!=null&& !d.equals("")))
-                        ToastUtils.show(d);
-                    loadFromData(refreshLayout);
-                    break;
-            }
-            floatingActionButton.setVisibility(View.VISIBLE);
-        }
-    };
-
-    public void loadFromData(RefreshLayout refreshLayout){
-
+    public void loadFromData() {
+        statusView.showLoadingView();
         Task.onThread(() -> {
             Assets.getAllIcon(asset2s -> {
-
                 if (asset2s == null || asset2s.length == 0) {
-                    mHandler.sendEmptyMessage(HANDLE_ERR);
+                    HandlerUtil.send(mHandler, null, HANDLE_ERR);
                 } else {
                     list = Arrays.asList(asset2s);
-                    // assests=asset2s;
-
-                    mHandler.sendEmptyMessage(HANDLE_OK);
+                    HandlerUtil.send(mHandler, null, HANDLE_OK);
                 }
             });
         });

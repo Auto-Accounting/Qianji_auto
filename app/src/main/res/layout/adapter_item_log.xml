@@ -26,6 +26,6 @@
         android:layout_alignStart="@+id/item_top"
         android:text="deep_gray"
         android:textAppearance="?attr/textAppearanceListItemSecondary"
-        android:textColor="@color/skip_title" />
+        android:textColor="@color/gray" />
 
 </TwoLineListItem>

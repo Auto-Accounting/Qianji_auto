@@ -161,7 +161,7 @@ public class NoticeFragment extends BaseFragment {
         statusView.setLoadingView(R.layout.fragment_loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, "没有任何" + getName() + "信息"));
-        statusView.setOnLoadingViewConvertListener(viewHolder -> viewHolder.setText(R.id.load_info, "正在加载" + getName() + "信息"));
+        //statusView.setOnLoadingViewConvertListener(viewHolder -> viewHolder.setText(R.id.load_info, "正在加载" + getName() + "信息"));
 
         statusView.showLoadingView();
         initLayout();

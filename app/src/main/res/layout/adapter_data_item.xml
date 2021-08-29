@@ -2,8 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
+    android:layout_marginStart="@dimen/margin_side"
     android:layout_marginTop="10dp"
-    android:background="@color/background_white">
+    android:layout_marginEnd="@dimen/margin_side"
+    android:background="@drawable/btn_normal_4">
 
 
     <ImageView

@@ -165,7 +165,7 @@ public class SortFragment extends BaseFragment {
             viewHolder.setText(R.id.empty_info, "你还没有任何自动分类规则哦！\n");
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.load_info, "正在加载自动分类规则...");
+     //       viewHolder.setText(R.id.load_info, "正在加载自动分类规则...");
         });
         floatingActionButton.setVisibility(View.GONE);
         statusView.showLoadingView();

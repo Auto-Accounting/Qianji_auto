@@ -38,7 +38,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
                 android:layout_toStartOf="@+id/rightIcon"
-                android:textColor="@color/skip_title" />
+                android:textColor="@color/gray" />
 
             <TextView
                 android:id="@+id/item_title"

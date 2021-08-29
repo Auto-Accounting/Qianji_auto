@@ -79,7 +79,7 @@ public class MoneyFragment extends BaseFragment {
         statusView.setLoadingView(R.layout.fragment_loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, "没有任何账单"));
-        statusView.setOnLoadingViewConvertListener(viewHolder -> viewHolder.setText(R.id.load_info, "正在加载账单信息"));
+     //   statusView.setOnLoadingViewConvertListener(viewHolder -> viewHolder.setText(R.id.load_info, "正在加载账单信息"));
 
         statusView.showLoadingView();
         initLayout();

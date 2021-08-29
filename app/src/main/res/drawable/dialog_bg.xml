@@ -4,9 +4,5 @@
     <solid android:color="#444444" />
 
     <!-- 圆角的幅度 -->
-    <corners
-        android:bottomLeftRadius="3dp"
-        android:bottomRightRadius="3dp"
-        android:topLeftRadius="3dp"
-        android:topRightRadius="3dp" />
+    <corners android:radius="@dimen/radius" />
 </shape>
