@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         app:backgroundColor="@color/background_white"
         app:left_color="@color/black"
-        app:left_icon="&#xe62e;"
         app:title_color="@color/black"
         app:title_text="资产映射">
 

@@ -83,18 +83,6 @@ public class MainSetFragment extends BaseFragment {
 
     }
 
-    @Override
-    protected void initListeners() {
-       // ankio_head.setOnClickListener(v-> WebViewFragment.openUrl(this,"https://www.ankio.net"));
-    }
-
-    @Override
-    public void onResume() {
-
-
-        super.onResume();
-
-    }
 
     @Override
     protected void initTitle() {
@@ -102,7 +90,6 @@ public class MainSetFragment extends BaseFragment {
         title_bar.setLeftIconOnClickListener(v -> {
             popToBack();
         });
-        //  return null;
     }
 
 

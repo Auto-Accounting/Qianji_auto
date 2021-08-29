@@ -24,7 +24,8 @@
                 android:layout_centerInParent="true"
                 android:layout_marginStart="10dp"
                 android:text="&#xe62e;"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tv_tilte"
@@ -43,7 +44,8 @@
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="10dp"
                 android:text=""
-                android:textColor="@color/gray" />
+                android:textColor="@color/gray"
+                android:textSize="20sp" />
 
         </RelativeLayout>
     </RelativeLayout>

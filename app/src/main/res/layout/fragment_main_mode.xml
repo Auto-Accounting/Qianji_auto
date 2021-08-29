@@ -45,15 +45,13 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="21dp"
                 android:layout_marginBottom="8dp"
-                android:background="@color/background_white"
-                android:backgroundTint="@color/background_white"
                 android:orientation="vertical">
 
                 <RelativeLayout
 
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@color/background_gray"
+                    android:background="@drawable/btn_normal_4"
                     android:padding="10dp">
 
                     <cn.dreamn.qianji_auto.ui.components.IconView
@@ -100,7 +98,7 @@
             <ListView
                 android:id="@+id/lv_permission"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="671dp"
                 android:layout_marginTop="5dp"
                 android:fastScrollEnabled="true" />
 

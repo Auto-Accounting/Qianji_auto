@@ -57,6 +57,7 @@ public abstract class BaseFragment extends XPageFragment {
     protected void initTitle() {
         ThemeManager themeManager = new ThemeManager(getContext());
         themeManager.setStatusBar(getActivity(), getBarView(), R.color.background_white);
+
     }
 
     @Override
