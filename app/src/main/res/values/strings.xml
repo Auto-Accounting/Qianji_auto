@@ -209,4 +209,7 @@
     <string name="sort_input_child">请输入子类名称</string>
     <string name="sort_warn">⚠️警告</string>
     <string name="sort_warn_tip">删除该分类后，其二级分类也将被删除。</string>
+    <string name="active_true">已激活（%s）</string>
+    <string name="active_false">未激活（%s）</string>
+    <string name="exit">再按一次退出程序!</string>
 </resources>

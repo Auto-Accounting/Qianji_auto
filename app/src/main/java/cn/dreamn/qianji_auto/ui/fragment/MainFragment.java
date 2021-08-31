@@ -17,7 +17,6 @@
 
 package cn.dreamn.qianji_auto.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
@@ -62,8 +61,7 @@ import cn.dreamn.qianji_auto.ui.fragment.data.SortFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
-
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 
 
 @Page(name = "自动记账", anim = CoreAnim.slide)
@@ -161,12 +159,13 @@ public class MainFragment extends BaseFragment {
         return R.layout.fragment_main;
     }
 
-    @SuppressLint("ResourceAsColor")
+    @Override
+    protected View getBarView() {
+        return title_count;
+    }
+
     @Override
     protected void initViews() {
-        ThemeManager themeManager = new ThemeManager(getContext());
-        themeManager.setStatusBar(getActivity(), title_count, R.color.background_white);
-
         app_log.setText(BuildConfig.VERSION_NAME);
         AutoBillWeb.update(getContext());
     }
@@ -174,16 +173,13 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void onResume() {
-
         super.onResume();
         setActive();
-
     }
 
     @Override
     protected void initListeners() {
         book_img.setOnClickListener(v -> {
-            Log.d("click");
             Handler mHandler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(@NonNull Message msg) {
@@ -192,7 +188,7 @@ public class MainFragment extends BaseFragment {
             };
             BookNames.showBookSelect(getContext(), getString(R.string.set_choose_book), false, bundle -> {
                 BookNames.change(bundle.getString("name"));
-                mHandler.sendEmptyMessage(0);
+                HandlerUtil.send(mHandler, HandlerUtil.HANDLE_OK);
             });
         });
         mode_select1.setOnClickListener(v -> openNewPage(MainModeFragment.class));
@@ -205,21 +201,18 @@ public class MainFragment extends BaseFragment {
     private void setActive() {
 
         if (AppStatus.isActive(getContext())) {
-            Log.d("已激活");
             mode_select2.setBackgroundColor(ThemeManager.getColor(getActivity(),R.color.button_go_setting_bg));
-            mode_select2.setBackgroundTintList(ColorStateList.valueOf(ThemeManager.getColor(getActivity(),R.color.button_go_setting_bg)));
-            active_status.setText(String.format("已激活（%s）", AppStatus.getFrameWork(getContext())));
-           active_status.setTextColor(ThemeManager.getColor(getActivity(),R.color.background_white));
+            mode_select2.setBackgroundTintList(ColorStateList.valueOf(ThemeManager.getColor(getActivity(), R.color.button_go_setting_bg)));
+            active_status.setText(String.format(getString(R.string.active_true), AppStatus.getFrameWork(getContext())));
+            active_status.setTextColor(ThemeManager.getColor(getActivity(), R.color.background_white));
 
         } else {
-            Log.d("未激活");
             mode_select2.setBackgroundColor(ThemeManager.getColor(getActivity(), R.color.disable_bg));
             mode_select2.setBackgroundTintList(ColorStateList.valueOf(ThemeManager.getColor(getActivity(), R.color.disable_bg)));
-            active_status.setText(String.format("未激活（%s）", AppStatus.getFrameWork(getContext())));
+            active_status.setText(String.format(getString(R.string.active_false), AppStatus.getFrameWork(getContext())));
             active_status.setTextColor(ThemeManager.getColor(getActivity(), R.color.background_white));
 
         }
-        //SetImg
         setHeadImg();
     }
 
@@ -246,10 +239,7 @@ public class MainFragment extends BaseFragment {
             }
         };
         BookNames.getIcon(def_book, icon -> {
-            Message message = new Message();
-            message.obj = icon;
-            mHandler3.sendMessage(message);
-
+            HandlerUtil.send(mHandler3, icon, HandlerUtil.HANDLE_OK);
         });
     }
 
@@ -313,13 +303,13 @@ public class MainFragment extends BaseFragment {
             openNewPage(BackUpFragment.class);
         });
         rl_text_teach.setOnClickListener(v->{
-            WebViewFragment.openUrl(this,getContext().getString(R.string.learnUrl));
+            WebViewFragment.openUrl(this, getString(R.string.learnUrl));
         });
         rl_video_teach.setOnClickListener(v->{
-            WebViewFragment.openUrl(this,getContext().getString(R.string.biliUrl));
+            WebViewFragment.openUrl(this, getString(R.string.biliUrl));
         });
         rl_github.setOnClickListener(v->{
-            WebViewFragment.openUrl(this,getContext().getString(R.string.githubUrl));
+            WebViewFragment.openUrl(this, getString(R.string.githubUrl));
         });
         rl_about.setOnClickListener(v->{
             openNewPage(AboutFragment.class);
@@ -333,8 +323,7 @@ public class MainFragment extends BaseFragment {
 
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
                 //大于2000ms则认为是误操作，使用Toast进行提示
-                ToastUtils.show("再按一次退出程序!");
-
+                ToastUtils.show(getString(R.string.exit));
                 //并记录下本次点击“返回键”的时刻，以便下次进行判断
                 mExitTime = System.currentTimeMillis();
             } else {
