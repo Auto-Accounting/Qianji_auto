@@ -242,10 +242,10 @@ public class assertFragment extends BaseFragment {
         Task.onThread(() -> {
             Assets.getAllIcon(asset2s -> {
                 if (asset2s == null || asset2s.length == 0) {
-                    HandlerUtil.send(mHandler, null, HANDLE_ERR);
+                    HandlerUtil.send(mHandler, HANDLE_ERR);
                 } else {
                     list = Arrays.asList(asset2s);
-                    HandlerUtil.send(mHandler, null, HANDLE_OK);
+                    HandlerUtil.send(mHandler, HANDLE_OK);
                 }
             });
         });

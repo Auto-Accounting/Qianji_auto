@@ -197,4 +197,16 @@
     <string name="book_change">请修改账本名称</string>
     <string name="no_map">你还没有进行任何资产映射！</string>
     <string name="assert_choose">请选择资产</string>
+    <string name="assert_map_tip">实际使用资产 → 对应的记账App资产</string>
+    <string name="sort_out">支出</string>
+    <string name="sort_in">收入</string>
+    <string name="sort_empty">你的分类呢？这样记不了账的哦！\n赶紧添加一个吧！</string>
+    <string name="sort_input">请输入分类名称</string>
+    <string name="sort_failed">修改失败！可能该分类已存在！</string>
+    <string name="sort_edit">请编辑（%s-%s）</string>
+    <string name="sort_add_failed">添加失败！可能该分类已存在！</string>
+    <string name="sort_switch_book">切换账本（%s）</string>
+    <string name="sort_input_child">请输入子类名称</string>
+    <string name="sort_warn">⚠️警告</string>
+    <string name="sort_warn_tip">删除该分类后，其二级分类也将被删除。</string>
 </resources>

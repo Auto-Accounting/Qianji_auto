@@ -63,16 +63,16 @@ public class MainSortFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        BookNames.showBookSelect(getContext(), "请选择账本",false, bundle -> {
-            sf1=new sortsFragment(bundle,"0");
-            sf2=new sortsFragment(bundle,"1");
+        BookNames.showBookSelect(getContext(), getString(R.string.set_choose_book), false, bundle -> {
+            sf1 = new sortsFragment(bundle, "0");
+            sf2 = new sortsFragment(bundle, "1");
             sf1.setObj(sf2);
             sf2.setObj(sf1);
             //等选择账本之后再显示
             List<Fragment> tabFragments = new ArrayList<>();  //实例化集合
             tabFragments.add(sf1);
             tabFragments.add(sf2);
-            TabAdapter adapter=new TabAdapter(getChildFragmentManager(), tabFragments,new String[]{"支出","收入"}); //参数1为fragment管理器
+            TabAdapter adapter = new TabAdapter(getChildFragmentManager(), tabFragments, new String[]{getString(R.string.sort_out), getString(R.string.sort_in)}); //参数1为fragment管理器
             viewPager.setAdapter(adapter); //给viewPager设置适配器
             tabLayout.setupWithViewPager(viewPager); //将tabLayout与viewPager建立匹配
         });
@@ -82,19 +82,6 @@ public class MainSortFragment extends BaseFragment {
 
 
     @Override
-    protected void initListeners() {
-       // ankio_head.setOnClickListener(v-> WebViewFragment.openUrl(this,"https://www.ankio.net"));
-    }
-
-    @Override
-    public void onResume() {
-
-
-        super.onResume();
-
-    }
-
-    @Override
     protected View getBarView() {
         return title_count;
     }
@@ -102,10 +89,7 @@ public class MainSortFragment extends BaseFragment {
     @Override
     protected void initTitle() {
         super.initTitle();
-        // ThemeManager themeManager = new ThemeManager(getContext());
-        //  themeManager.setStatusBar(getActivity(),title_count,R.color.background_white);
         iv_left_icon.setOnClickListener(v -> popToBack());
-        //  return null;
     }
 
 

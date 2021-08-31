@@ -211,10 +211,10 @@ public class MainMapFragment extends BaseFragment {
         Task.onThread(() -> {
             Assets.getAllMap(assets -> {
                 if (assets == null || assets.length == 0) {
-                    HandlerUtil.send(mHandler, null, HANDLE_ERR);
+                    HandlerUtil.send(mHandler, HANDLE_ERR);
                 } else {
                     list = Arrays.asList(assets);
-                    HandlerUtil.send(mHandler, null, HANDLE_OK);
+                    HandlerUtil.send(mHandler, HANDLE_OK);
                 }
             });
         });

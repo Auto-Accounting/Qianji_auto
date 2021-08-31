@@ -37,19 +37,56 @@ public class CategoryUtils {
 
 
     //回调接口
-    public interface finishRefresh{
+    public interface finishRefresh {
         void onFinish(int state);
     }
-    public interface Click{
-        void onParentClick(Bundle bundle,int position);
-        void onItemClick(Bundle bundle,Bundle parent_bundle,int position);
-        void onParentLongClick(Bundle bundle,int position);
+
+    public void refreshData(finishRefresh f) {
+        clean();
+        finish = f;
+        CategoryNames.getParents(book_id, type, books -> {
+            Log.m("books" + Arrays.toString(books));
+            if (books == null || books.length == 0) {
+                mHandler.sendEmptyMessage(HANDLE_ERR);
+            } else {
+                int len = books.length;
+                int line = len / 5;//共有几行
+                if (len % 5 != 0) line = line + 1;
+                int realLen = line * 5 + line;//取5的整数
+                for (int i = 0; i < len; i++) {
+                    list.add(books[i]);
+                    if ((i) % 5 == 4) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("name", null);//保留数据
+                        bundle.putBoolean("change", false);//保留数据
+                        list.add(bundle);
+                    }
+                }
+                // Log.m("还差"+(realLen-list.size())+"条数据");
+                int len2 = realLen - list.size() - 1;
+                //长度补全
+                for (int j = 0; j < len2; j++) {
+                    // Log.m("循环次数+"+j);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("name", null);//保留数据
+                    // bundle.putBoolean("change",true);//保留数据
+                    list.add(bundle);
+                }
+                Bundle bundle = new Bundle();
+                bundle.putString("name", null);//保留数据
+                bundle.putBoolean("change", false);//保留数据
+                list.add(bundle);
+                //  Log.m("输出" + list.toString());
+                Message message = new Message();
+                message.what = HANDLE_OK;
+                message.obj = list;
+                mHandler.sendMessage(message);
+            }
+
+        });
+
     }
 
-    /**
-     * Instances of static inner classes do not hold an implicit
-     * reference to their outer class.
-     */
     private static class MyHandler extends Handler {
         private final WeakReference<CategoryUtils> categoryUtilsWeakReference;
 
@@ -206,70 +243,11 @@ public class CategoryUtils {
         this.book_id=book_id;
         refreshData(f);
     }
-    public void refreshData(finishRefresh f){
-        clean();
-        finish=f;
-        CategoryNames.getParents(book_id,type,books -> {
-            Log.m("books" + Arrays.toString(books));
-            if(books==null||books.length==0){
-                mHandler.sendEmptyMessage(HANDLE_ERR);
-            }else{
-                int len = books.length;
-                int line=len/5;//共有几行
-                if(len%5!=0)line=line+1;
-                int realLen=line*5+line;//取5的整数
-                for(int i=0;i<len;i++){
-                    list.add(books[i]);
-                    if((i)%5==4){
-                        Bundle bundle=new Bundle();
-                        bundle.putString("name",null);//保留数据
-                        bundle.putBoolean("change",false);//保留数据
-                        list.add(bundle);
-                    }
-
-
-                }
-                // Log.m("还差"+(realLen-list.size())+"条数据");
-                int len2=realLen-list.size()-1;
-                //长度补全
-                for(int j=0;j<len2;j++){
-                    // Log.m("循环次数+"+j);
-                    Bundle bundle=new Bundle();
-                    bundle.putString("name",null);//保留数据
-                    // bundle.putBoolean("change",true);//保留数据
-                    list.add(bundle);
-                }
-                Bundle bundle=new Bundle();
-                bundle.putString("name",null);//保留数据
-                bundle.putBoolean("change",false);//保留数据
-                list.add(bundle);
-                Log.m("输出" + list.toString());
-                Message message=new Message();
-                message.what=HANDLE_OK;
-                message.obj=list;
-                mHandler.sendMessage(message);
-            }
-
-        });
-
-    }
-
-
-    private boolean isOpenItem(){
-
-        return expand;
-    }
-
-    private int getItemPos(int position){
-        int line=position/6;
-        line=line+1;
-        return line*6;
-    }
 
     private void openItem(int position,int left) {
 
         Bundle item = list.get(position);
-        Log.m("postion:" + position + " data" + item.toString());
+        //  Log.m("postion:" + position + " data" + item.toString());
         int real = getItemPos(position);
 
         Handler mmHandler = new Handler(Looper.getMainLooper()) {
@@ -286,8 +264,6 @@ public class CategoryUtils {
                 bundle.putInt("leftRaw", left);
                 bundle.putSerializable("data", bundles);
                 bundle.putBoolean("change", bundles.length != 0);
-
-
                 list.set(real - 1, bundle);
                 mAdapter.replaceNotNotify(real - 1, bundle);
                 mAdapter.notifyItemChanged(real - 1);
@@ -296,31 +272,49 @@ public class CategoryUtils {
             }
         };
 
-        CategoryNames.getChildrens(item.getString("self_id"),book_id,item.getString("type"),allowChange,books -> {
+        CategoryNames.getChildrens(item.getString("self_id"), book_id, item.getString("type"), allowChange, books -> {
             Log.m("子类" + Arrays.toString(books));
-            Message message=new Message();
-            message.obj=books;
-            message.what=HANDLE_OK;
+            Message message = new Message();
+            message.obj = books;
+            message.what = HANDLE_OK;
             mmHandler.sendMessage(message);
         });
     }
 
-    private void closeItem(int position){
-      //  Bundle item=list.get(position);
-        expand=false;
-        int real=getItemPos(position);
-        Bundle bundle1=new Bundle();
-        bundle1.putString("name",null);//保留数据
-        bundle1.putBoolean("change",false);//保留数据
-       try{
-           list.set(real-1,bundle1);
-           mAdapter.replaceNotNotify(real-1,bundle1);
-           mAdapter.notifyItemChanged(real-1);
-       }catch (Exception e){
-           Log.d("发生越界");
-       }
+
+    private boolean isOpenItem() {
+        return expand;
+    }
+
+    private int getItemPos(int position) {
+        int line = position / 6;
+        line = line + 1;
+        return line * 6;
+    }
+
+    private void closeItem(int position) {
+        //  Bundle item=list.get(position);
+        expand = false;
+        int real = getItemPos(position);
+        Bundle bundle1 = new Bundle();
+        bundle1.putString("name", null);//保留数据
+        bundle1.putBoolean("change", false);//保留数据
+        try {
+            list.set(real - 1, bundle1);
+            mAdapter.replaceNotNotify(real - 1, bundle1);
+            mAdapter.notifyItemChanged(real - 1);
+        } catch (Exception e) {
+            Log.d("发生越界:" + e.toString());
+        }
 
 
+    }
 
+    public interface Click {
+        void onParentClick(Bundle bundle, int position);//父标签点击
+
+        void onItemClick(Bundle bundle, Bundle parent_bundle, int position);//子标签点击
+
+        void onParentLongClick(Bundle bundle, int position);//父标签长按
     }
 }

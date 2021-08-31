@@ -48,7 +48,7 @@
                     android:gravity="center"
                     android:paddingTop="20dp"
                     android:paddingBottom="10dp"
-                    android:text="实际使用资产 → 对应的记账App资产"
+                    android:text="@string/assert_map_tip"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
                 <com.yanzhenjie.recyclerview.SwipeRecyclerView
@@ -57,13 +57,6 @@
                     android:layout_height="wrap_content"
                     android:overScrollMode="never" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:text="Tips:\n使用前必须添加资产映射才能记账到钱迹；\n映射资产需要保持完全一致，否则会报错；"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
             </LinearLayout>
 
 

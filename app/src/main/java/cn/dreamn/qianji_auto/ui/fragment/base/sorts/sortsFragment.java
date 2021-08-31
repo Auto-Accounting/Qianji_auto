@@ -17,6 +17,10 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.base.sorts;
 
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_ERR;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,8 +28,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.hjq.toast.ToastUtils;
@@ -43,10 +45,11 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.CategoryUtils;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 
 @Page(name = "收入UI", anim = CoreAnim.slide)
@@ -71,12 +74,10 @@ public class sortsFragment extends BaseFragment {
     View view_hide;
 
     CategoryUtils categoryUtils;
-
+    LoadingDialog loadingDialog;
     Bundle book;
     String type;
-    private static final int HANDLE_ERR = 0;
-    private static final int HANDLE_OK = 1;
-    private static final int HANDLE_REFRESH = 2;
+
 
     private sortsFragment other;
 
@@ -90,10 +91,10 @@ public class sortsFragment extends BaseFragment {
         this.other=other;
     }
 
-    public void setBook(Bundle bookData){
+    public void setBook(Bundle bookData) {
         this.book = bookData;
         setSwitchData();
-        refreshData(book.getString("book_id"),-2);
+        refreshData(book.getString("book_id"), -2);
     }
 
     @Override
@@ -101,6 +102,28 @@ public class sortsFragment extends BaseFragment {
         return R.layout.fragment_select_category;
     }
 
+    Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+
+            switch (msg.what) {
+                case HANDLE_ERR:
+                    statusView.showEmptyView();
+                    break;
+                case HANDLE_OK:
+                    //mAdapter.refresh(list);
+                    statusView.showContentView();
+                    break;
+                case HANDLE_REFRESH:
+                    refreshData(book.getString("book_id"), msg.arg1);
+                    break;
+            }
+            String d = (String) msg.obj;
+            if ((d != null && !d.equals("")))
+                ToastUtils.show(d);
+            if (loadingDialog != null) loadingDialog.close();
+        }
+    };
 
     @Override
     protected void initViews() {
@@ -108,11 +131,14 @@ public class sortsFragment extends BaseFragment {
         statusView.setEmptyView(R.layout.fragment_empty_view);
         statusView.setLoadingView(R.layout.fragment_loading_view);
 
-        statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, "你的分类呢？这样记不了账的哦！\n赶紧添加一个吧！"));
-       // statusView.setOnLoadingViewConvertListener(viewHolder -> viewHolder.setText(R.id.load_info, "正在加载分类信息"));
-        multiple_actions_down.setVisibility(View.GONE);
+        statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, getString(R.string.sort_empty)));
+        statusView.setOnLoadingViewConvertListener(viewHolder -> {
+            loadingDialog = new LoadingDialog(getAttachContext(), getString(R.string.main_loading));
+            loadingDialog.show();
+        });
+
         view_hide.setVisibility(View.GONE);
-        statusView.showLoadingView();
+
         initLayout();
     }
 
@@ -133,7 +159,7 @@ public class sortsFragment extends BaseFragment {
         refreshLayout.setOnRefreshListener(RefreshLayout::finishRefresh);
 
         action_switch.setOnClickListener(v -> {
-            BookNames.showBookSelect(getContext(), "请选择账本",false, bundle -> {
+            BookNames.showBookSelect(getContext(), getString(R.string.set_choose_book), false, bundle -> {
                 this.setBook(bundle);
                 other.setBook(bundle);
                 view_hide.setVisibility(View.GONE);
@@ -143,23 +169,16 @@ public class sortsFragment extends BaseFragment {
             view_hide.setVisibility(View.GONE);
             multiple_actions_down.collapse();
 
-            BottomArea.input(getContext(), "请输入分类名称", "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+            BottomArea.input(getContext(), getString(R.string.sort_input), "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
                 @Override
                 public void input(String data) {
                     CategoryNames.insert(data, "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png", "1", type, null, null, book.getString("book_id"), null, isSucceed -> {
-                        Message message = new Message();
-                        message.what = HANDLE_REFRESH;
 
                         if (isSucceed) {
-                            message.arg1 = 1;
-                            message.arg2 = -2;
-                            message.obj = "添加成功!";
+                            HandlerUtil.send(mHandler, getString(R.string.add_success), -2, HANDLE_REFRESH);
                         } else {
-                            message.arg1 = 0;
-                            message.arg2 = -2;
-                            message.obj = "添加失败！可能该分类已存在！";
+                            HandlerUtil.send(mHandler, getString(R.string.sort_add_failed), -2, HANDLE_OK);
                         }
-                        mHandler.sendMessage(message);
                     });
                 }
 
@@ -175,9 +194,8 @@ public class sortsFragment extends BaseFragment {
     }
 
     private void setSwitchData() {
-        action_switch.setTitle("切换账本（" + book.getString("name") + "）");
+        action_switch.setTitle(String.format(getString(R.string.sort_switch_book), book.getString("name")));
     }
-
 
     @SuppressLint("CheckResult")
     private void initLayout() {
@@ -195,24 +213,15 @@ public class sortsFragment extends BaseFragment {
                 Log.m("当前点击数据：" + bundle.toString() + "\n父类数据：" + parent.toString());
                 if (bundle.getInt("id") == -2) {
                     multiple_actions_down.collapse();
-
-                    BottomArea.input(getContext(), "请输入子类名称", "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+                    BottomArea.input(getContext(), getString(R.string.sort_input_child), "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
                         @Override
                         public void input(String data) {
                             CategoryNames.insert(data, "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png", "2", type, null, parent.getString("self_id"), parent.getString("book_id"), null, isSucceed -> {
-                                Message message = new Message();
-                                message.what = HANDLE_REFRESH;
-
                                 if (isSucceed) {
-                                    message.arg1 = 1;
-                                    message.arg2 = position;
-                                    message.obj = "添加成功!";
+                                    HandlerUtil.send(mHandler, getString(R.string.add_success), position, HANDLE_REFRESH);
                                 } else {
-                                    message.arg1 = 0;
-                                    message.arg2 = position;
-                                    message.obj = "添加失败！可能该分类已存在！";
+                                    HandlerUtil.send(mHandler, getString(R.string.sort_add_failed), position, HANDLE_OK);
                                 }
-                                mHandler.sendMessage(message);
                             });
                         }
 
@@ -224,33 +233,40 @@ public class sortsFragment extends BaseFragment {
 
 
 
-                }else{
-                    //其他选择~
-                    MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-                    dialog.title(null, "请选择操作("+parent.getString("name")+"-"+bundle.getString("name")+")");
-                    DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "修改"), null, true, (materialDialog, index, text) -> {
-                        switch (index){
-                            case 0:del(bundle,position);break;
-                            case 1:change(bundle,parent.getString("name"),position);break;
+                }else {
+
+                    BottomArea.list(getContext(), String.format(getString(R.string.sort_edit), parent.getString("name"), bundle.getString("name")), Arrays.asList(getString(R.string.del), getString(R.string.change)), new BottomArea.ListCallback() {
+                        @Override
+                        public void onSelect(int index) {
+                            switch (index) {
+                                case 0:
+                                    del(bundle, position);
+                                    break;
+                                case 1:
+                                    change(bundle, parent.getString("name"), position);
+                                    break;
+                            }
                         }
-                        return null;
                     });
-                    dialog.show();
                 }
             }
 
             @Override
             public void onParentLongClick(Bundle bundle, int position) {
-                MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-                dialog.title(null, "请选择操作("+bundle.getString("name")+")");
-                DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "修改"), null, true, (materialDialog, index, text) -> {
-                    switch (index){
-                        case 0:del(bundle,-2);break;
-                        case 1:change(bundle,null,-2);break;
+
+                BottomArea.list(getContext(), String.format(getString(R.string.assert_change), bundle.getString("name")), Arrays.asList(getString(R.string.del), getString(R.string.change)), new BottomArea.ListCallback() {
+                    @Override
+                    public void onSelect(int index) {
+                        switch (index) {
+                            case 0:
+                                del(bundle, -2);
+                                break;
+                            case 1:
+                                change(bundle, null, -2);
+                                break;
+                        }
                     }
-                    return null;
                 });
-                dialog.show();
             }
         });
 
@@ -258,24 +274,15 @@ public class sortsFragment extends BaseFragment {
 
     @SuppressLint("CheckResult")
     private void change(Bundle bundle, String parent,int parentPos) {
-
-        BottomArea.input(getContext(), "请编辑(" + parent + "-" + bundle.getString("name") + ")", bundle.getString("name"), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+        BottomArea.input(getContext(), String.format(getString(R.string.sort_edit), parent, bundle.getString("name")), bundle.getString("name"), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
             @Override
             public void input(String data) {
                 CategoryNames.update(bundle.getInt("id"), data, type, bundle.getString("book_id"), isSucceed -> {
-                    Message message = new Message();
-                    message.what = HANDLE_REFRESH;
-
                     if (isSucceed) {
-                        message.arg1 = 1;
-                        message.arg2 = parentPos;
-                        message.obj = "修改成功!";
+                        HandlerUtil.send(mHandler, getString(R.string.assert_change_success), parentPos, HANDLE_REFRESH);
                     } else {
-                        message.arg1 = 0;
-                        message.arg2 = parentPos;
-                        message.obj = "修改失败！可能该分类已存在！";
+                        HandlerUtil.send(mHandler, getString(R.string.sort_failed), parentPos, HANDLE_OK);
                     }
-                    mHandler.sendMessage(message);
                 });
             }
 
@@ -288,66 +295,34 @@ public class sortsFragment extends BaseFragment {
     }
 
     private void del(Bundle bundle,int position) {
-        Message message = new Message();
-        message.what = HANDLE_REFRESH;
 
-        message.arg1 = 1;
-        message.arg2 = position;
-        message.obj = "删除成功!";
-        if(bundle.getString("parent_id")==null){
-            MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-            dialog.title(null, "⚠️警告");
-            dialog.message(null,"删除该分类后，其二级分类也将被删除。",null);
-            dialog.positiveButton(null, "确定删除", materialDialog -> {
-                CategoryNames.del(bundle.getInt("id"));
+        if(bundle.getString("parent_id")==null) {
+            BottomArea.msg(getContext(), getString(R.string.sort_warn), getString(R.string.sort_warn_tip), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.MsgCallback() {
+                @Override
+                public void cancel() {
 
-                mHandler.sendMessage(message);
-                return null;
+                }
+
+                @Override
+                public void sure() {
+                    CategoryNames.del(bundle.getInt("id"));
+                    HandlerUtil.send(mHandler, getString(R.string.del_success), position, HANDLE_REFRESH);
+                }
             });
-            dialog.negativeButton(null, "取消删除", materialDialog -> {
-                return null;
-            });
-
-            dialog.show();
         }else{
             CategoryNames.del(bundle.getInt("id"));
-            mHandler.sendMessage(message);
+            HandlerUtil.send(mHandler, getString(R.string.del_success), position, HANDLE_REFRESH);
         }
     }
 
     private void refreshData(String book_id,int parentPos) {
-        categoryUtils.refreshData(book_id,parentPos, (state) -> mHandler.sendEmptyMessage(state));
+        categoryUtils.refreshData(book_id, parentPos, (state) -> HandlerUtil.send(mHandler, state));
     }
 
     private void refreshData() {
-        categoryUtils.refreshData((state) -> mHandler.sendEmptyMessage(state));
+        categoryUtils.refreshData((state) -> HandlerUtil.send(mHandler, state));
 
     }
-
-    Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case HANDLE_ERR:
-                    if (statusView != null) statusView.showEmptyView();
-                    break;
-                case HANDLE_OK:
-                    Task.onMain(1000,()->statusView.showContentView());
-                    break;
-                case HANDLE_REFRESH:
-                    String d = (String) msg.obj;
-                    if ((d != null && !d.equals(""))) {
-                        if (msg.arg1 == 1)
-                            ToastUtils.show(d);
-                        else
-                            ToastUtils.show(d);
-                    }
-                    refreshData(book.getString("book_id"),msg.arg2);
-                    break;
-            }
-            multiple_actions_down.setVisibility(View.VISIBLE);
-        }
-    };
 
 
 }

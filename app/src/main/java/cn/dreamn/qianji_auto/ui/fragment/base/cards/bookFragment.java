@@ -207,10 +207,10 @@ public class bookFragment extends BaseFragment {
         Task.onThread(() -> {
             BookNames.getAllIcon(false, books -> {
                 if (books == null || books.length == 0) {
-                    HandlerUtil.send(mHandler, null, HANDLE_ERR);
+                    HandlerUtil.send(mHandler, HANDLE_ERR);
                 } else {
                     list = Arrays.asList(books);
-                    mHandler.sendEmptyMessage(HANDLE_OK);
+                    HandlerUtil.send(mHandler, HANDLE_OK);
                 }
             });
         });
