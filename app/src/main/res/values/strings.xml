@@ -245,4 +245,14 @@
     <string name="list_app">App数据列表</string>
     <string name="list_app_tip">捕获App内部信息，用于从App中获取交易信息。</string>
     <string name="notice_clean_body">确定清空列表中所有内容吗？</string>
+    <string name="frame_taichi">太极</string>
+    <string name="frame_bug">应用转生</string>
+    <string name="frame_edxposed">EdXposed</string>
+    <string name="frame_lsposed">LSPosed</string>
+    <string name="frame_lsposed_old">LSPosed旧版</string>
+    <string name="frame_xposed">Xposed</string>
+    <string name="frame_dreamn">梦境</string>
+    <string name="frame_others">其他框架</string>
+    <string name="frame_sandvxposed">SlimVXP</string>
+    <string name="frame_vx">VirtualXposed</string>
 </resources>

@@ -33,11 +33,14 @@ input{
     border-bottom-color: #F2F2F2;
     background-color: white;
     height: 40px;
-    padding: 0;
+    padding: 0 0 0 15px;
     font-size: 18px;
 }
 input::-webkit-input-placeholder{
     font-size:16px;
+}
+.modal-header h4{
+    color: white;
 }
 button{
     width: 30%;
@@ -118,6 +121,7 @@ textarea{
 }
 .rule_content select:last-child{
     padding-right: 10%;
+    padding-left: 10%;
 }
 
 .buttons{

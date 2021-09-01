@@ -19,7 +19,6 @@ CodeMirror.defineMode("javascript", function(config, parserConfig) {
   var trackScope = parserConfig.trackScope !== false
   var isTS = parserConfig.typescript;
   var wordRE = parserConfig.wordCharacters || /[\w$\xa1-\uffff]/;
-
   // Tokenizer
 
   var keywords = function(){

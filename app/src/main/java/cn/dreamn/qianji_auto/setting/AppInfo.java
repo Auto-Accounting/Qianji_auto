@@ -29,6 +29,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import cn.dreamn.qianji_auto.BuildConfig;
+import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 
@@ -122,6 +123,8 @@ public class AppInfo {
                         "Dreamn",
                         "xposed",
                         "lsposed_old",
+                        "sandvxposed",
+                        "vx"
                 };
         String[] appPackage = {
                 "me.weishu.exp",
@@ -130,7 +133,9 @@ public class AppInfo {
                 "com.bug.xposed",
                 "top.canyie.dreamland.manager",
                 "de.robv.android.xposed.installer",
-                "io.github.lsposed.manager"
+                "io.github.lsposed.manager",
+                "io.virtualapp.sandvxposed",
+                "io.va.exposed64"
         };
 
         for (int i = 0; i < appName.length; i++) {
@@ -143,21 +148,25 @@ public class AppInfo {
         switch (farmework) {
 
             case "taichi":
-                return "太极";
+                return context.getResources().getString(R.string.frame_taichi);
             case "bug":
-                return "应用转生";
+                return context.getResources().getString(R.string.frame_bug);
             case "edxposed":
-                return "EdXposed";
+                return context.getResources().getString(R.string.frame_edxposed);
             case "lsposed":
-                return "LSPosed";
+                return context.getResources().getString(R.string.frame_lsposed);
             case "lsposed_old":
-                return "LSPosed旧版";
+                return context.getResources().getString(R.string.frame_lsposed_old);
             case "xposed":
-                return "Xposed";
+                return context.getResources().getString(R.string.frame_xposed);
             case "Dreamn":
-                return "梦境";
+                return context.getResources().getString(R.string.frame_dreamn);
+            case "sandvxposed":
+                return context.getResources().getString(R.string.frame_sandvxposed);
+            case "vx":
+                return context.getResources().getString(R.string.frame_vx);
             default:
-                return "未知Xp";
+                return context.getResources().getString(R.string.frame_others);
         }
     }
 
