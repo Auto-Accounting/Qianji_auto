@@ -143,6 +143,14 @@ public class WebViewFragment extends BaseFragment {
     };
     Handler mHandler;
 
+    public static void openUrl(BaseFragment baseFragment, String url, Bundle bundle) {
+        PageOption.to(WebViewFragment.class)
+                .setNewActivity(true)
+                .putString(KEY_URL, url)
+                .putAll(bundle)
+                .open(baseFragment);
+    }
+
     public static void openUrl(BaseFragment baseFragment, String url) {
         PageOption.to(WebViewFragment.class)
                 .setNewActivity(true)

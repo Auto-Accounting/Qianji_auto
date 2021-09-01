@@ -232,10 +232,10 @@ public class LogFragment extends BaseFragment {
         statusView.showLoadingView();
         Task.onThread(() -> Log.getAll(logs -> {
             if (logs == null || logs.length == 0) {
-                mHandler.sendEmptyMessage(HANDLE_ERR);
+                HandlerUtil.send(mHandler, HANDLE_ERR);
             } else {
                 list = Arrays.asList(logs);
-                mHandler.sendEmptyMessage(HANDLE_OK);
+                HandlerUtil.send(mHandler, HANDLE_OK);
             }
         }));
     }

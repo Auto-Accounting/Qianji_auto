@@ -230,4 +230,19 @@
     <string name="log_cache_no_show">不再显示</string>
     <string name="log_empty">没有日志！\n 点击右上角切换日志记录模式试试？</string>
     <string name="log_null">日志空空如也~</string>
+    <string name="sms">短信</string>
+    <string name="notice">通知</string>
+    <string name="app">app</string>
+    <string name="notice_empty">空空如也~</string>
+    <string name="notice_del">删除</string>
+    <string name="notice_create">创建识别规则</string>
+    <string name="notice_choose">请选择操作</string>
+    <string name="reg_create">规则创建</string>
+    <string name="list_sms">短信列表</string>
+    <string name="list_sms_tip">捕获短信信息，用于从银行短信中获取交易信息。</string>
+    <string name="list_notice">通知列表</string>
+    <string name="list_notice_tip">捕获通知信息，用于从通知中获取交易信息。</string>
+    <string name="list_app">App数据列表</string>
+    <string name="list_app_tip">捕获App内部信息，用于从App中获取交易信息。</string>
+    <string name="notice_clean_body">确定清空列表中所有内容吗？</string>
 </resources>
