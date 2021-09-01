@@ -47,7 +47,6 @@ public class ErrorActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activty_error_msg);
         initView();
-        Log.i("error");
     }
 
     private void initView() {
@@ -55,6 +54,7 @@ public class ErrorActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
+            Log.i("Error", bundle.getString("errorInfo"));//记录错误日志
             LayoutInflater factory = LayoutInflater.from(this);
             final View textEntryView = factory.inflate(R.layout.include_list_msg, null);
             BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);

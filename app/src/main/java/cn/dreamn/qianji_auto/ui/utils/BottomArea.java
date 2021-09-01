@@ -33,7 +33,7 @@ public class BottomArea {
     }
 
     //底部信息，带有开关
-    static public void msg(Context context, String title, String msg, String leftName, String rightName, MsgCallback callback) {
+    static public void msg(Context context, String title, String msg, String rightName, String leftName, MsgCallback callback) {
         LayoutInflater factory = LayoutInflater.from(context);
         final View textEntryView = factory.inflate(R.layout.include_list_msg, null);
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
@@ -64,7 +64,7 @@ public class BottomArea {
         dialog.show();
     }
 
-    static public void input(Context context, String title, String msg, String leftName, String rightName, InputCallback inputCallback) {
+    static public void input(Context context, String title, String msg, String rightName, String leftName, InputCallback inputCallback) {
         LayoutInflater factory = LayoutInflater.from(context);
         final View textEntryView = factory.inflate(R.layout.include_list_input, null);
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);

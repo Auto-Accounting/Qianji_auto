@@ -203,7 +203,7 @@ public class bookFragment extends BaseFragment {
 
 
     public void loadFromData() {
-
+        statusView.showLoadingView();
         Task.onThread(() -> {
             BookNames.getAllIcon(false, books -> {
                 if (books == null || books.length == 0) {

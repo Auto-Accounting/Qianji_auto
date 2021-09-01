@@ -1,5 +1,8 @@
 package cn.dreamn.qianji_auto.ui.utils;
 
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_ERR;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,7 +16,6 @@ import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
@@ -32,8 +34,7 @@ public class CategoryUtils {
     private boolean expand = false;//是否展开
     private Click click;//点击事件
     private final boolean allowChange;//是否允许修改
-    private static final int HANDLE_ERR = 0;
-    private static final int HANDLE_OK = 1;
+
 
 
     //回调接口
@@ -45,9 +46,9 @@ public class CategoryUtils {
         clean();
         finish = f;
         CategoryNames.getParents(book_id, type, books -> {
-            Log.m("books" + Arrays.toString(books));
+            //Log.m("books" + Arrays.toString(books));
             if (books == null || books.length == 0) {
-                mHandler.sendEmptyMessage(HANDLE_ERR);
+                HandlerUtil.send(mHandler, HANDLE_ERR);
             } else {
                 int len = books.length;
                 int line = len / 5;//共有几行
@@ -77,36 +78,41 @@ public class CategoryUtils {
                 bundle.putBoolean("change", false);//保留数据
                 list.add(bundle);
                 //  Log.m("输出" + list.toString());
-                Message message = new Message();
-                message.what = HANDLE_OK;
-                message.obj = list;
-                mHandler.sendMessage(message);
+                HandlerUtil.send(mHandler, list, HANDLE_REFRESH);
             }
 
         });
 
     }
 
-    private static class MyHandler extends Handler {
-        private final WeakReference<CategoryUtils> categoryUtilsWeakReference;
+    private void refreshSubData(Bundle item, int position, int left) {
 
-        public MyHandler(CategoryUtils categoryUtilsWeakReference1) {
-            categoryUtilsWeakReference = new WeakReference<>(categoryUtilsWeakReference1);
+        if (item.getString("name") == null) return;//为null就不响应
+
+        int real = getItemPos(position);//当前的item
+        int real2 = getItemPos(topInt);//上一个item
+
+        // Log.m("real " + real + " real2 " + real2);
+
+        if (real2 != real) {//item不同布局则清除上一个
+            closeItem(topInt);
+        }
+        // 当前布局设置选中
+        mAdapter.setSelect(position);
+        // 清除上一个布局
+        mAdapter.notifyItemChanged(topInt);
+        //再次点击，如果已展开则收起
+        if (topInt == position && isOpenItem()) {
+            closeItem(topInt);
+
+            topInt = position;
+            return;
         }
 
-        @Override
-        public void handleMessage(Message msg) {
-            CategoryUtils categoryUtils = categoryUtilsWeakReference.get();
-            if (categoryUtils != null) {
-                if (msg.what == HANDLE_OK) {
-                    List<Bundle> list=(List<Bundle>)msg.obj;
-                    categoryUtils.getAdapter().refresh(list);//全部刷新
-                }
-                if(categoryUtils.getFinish()!=null){
-                    categoryUtils.getFinish().onFinish(msg.what);
-                }
-            }
-        }
+        topInt = position;
+        //点击默认展开
+        openItem(position, left);
+
     }
 
     private final MyHandler mHandler = new MyHandler(this);
@@ -185,65 +191,6 @@ public class CategoryUtils {
         });
     }
 
-
-
-
-    private void refreshSubData(Bundle item,int position,int left){
-
-        if(item.getString("name")==null)return;//为null就不响应
-
-        int real=getItemPos(position);//当前的item
-        int real2=getItemPos(topInt);//上一个item
-
-        Log.m("real " + real + " real2 " + real2);
-
-        if(real2!=real){//item不同布局则清除上一个
-            closeItem(topInt);
-        }
-        // 当前布局设置选中
-        mAdapter.setSelect(position);
-        // 清除上一个布局
-        mAdapter.notifyItemChanged(topInt);
-        //再次点击，如果已展开则收起
-        if(topInt==position&&isOpenItem()){
-            closeItem(topInt);
-
-            topInt=position;
-            return;
-        }
-
-        topInt=position;
-        //点击默认展开
-        openItem(position,left);
-
-    }
-
-    public void clean(){//全部清除
-        list.clear();
-        topInt=-1;
-        if(mAdapter!=null){
-            mAdapter.setSelect(-1);
-            mAdapter.refresh(null);
-        }
-    }
-
-    public void refreshData(String book_id,int parent,finishRefresh f){
-
-        if(parent!=-2){
-            Bundle data=list.get(parent);
-            Bundle dataItem=data.getBundle("item");
-            int index=list.indexOf(dataItem);
-            closeItem(index);//清除
-            topInt=-1;
-           refreshSubData(dataItem,index,data.getInt("leftRaw"));
-        }else refreshData(book_id,f);
-
-    }
-    public void refreshData(String book_id,finishRefresh f){
-        this.book_id=book_id;
-        refreshData(f);
-    }
-
     private void openItem(int position,int left) {
 
         Bundle item = list.get(position);
@@ -273,12 +220,58 @@ public class CategoryUtils {
         };
 
         CategoryNames.getChildrens(item.getString("self_id"), book_id, item.getString("type"), allowChange, books -> {
-            Log.m("子类" + Arrays.toString(books));
-            Message message = new Message();
-            message.obj = books;
-            message.what = HANDLE_OK;
-            mmHandler.sendMessage(message);
+            //      Log.m("子类" + Arrays.toString(books));
+            HandlerUtil.send(mmHandler, books, HANDLE_REFRESH);
         });
+    }
+
+    public void clean() {//全部清除
+        list.clear();
+        topInt = -1;
+        if (mAdapter != null) {
+            mAdapter.setSelect(-1);
+            mAdapter.refresh(null);
+        }
+    }
+
+    public void refreshData(String book_id, int parent, finishRefresh f) {
+
+        if (parent != -2) {
+            Bundle data = list.get(parent);
+            Bundle dataItem = data.getBundle("item");
+            int index = list.indexOf(dataItem);
+            closeItem(index);//清除
+            topInt = -1;
+            refreshSubData(dataItem, index, data.getInt("leftRaw"));
+        } else refreshData(book_id, f);
+
+    }
+
+    public void refreshData(String book_id, finishRefresh f) {
+        this.book_id = book_id;
+        refreshData(f);
+    }
+
+    private static class MyHandler extends Handler {
+        private final WeakReference<CategoryUtils> categoryUtilsWeakReference;
+
+        public MyHandler(CategoryUtils categoryUtilsWeakReference1) {
+            categoryUtilsWeakReference = new WeakReference<>(categoryUtilsWeakReference1);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            CategoryUtils categoryUtils = categoryUtilsWeakReference.get();
+            if (categoryUtils != null) {
+                if (msg.what == HANDLE_REFRESH) {
+                    List<Bundle> list = (List<Bundle>) msg.obj;
+                    categoryUtils.getAdapter().refresh(list);//全部刷新
+                }
+                if (categoryUtils.getFinish() != null) {
+                    categoryUtils.getFinish().onFinish(msg.what);
+                }
+            }
+        }
     }
 
 

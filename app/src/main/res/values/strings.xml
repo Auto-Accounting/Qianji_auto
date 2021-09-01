@@ -212,4 +212,22 @@
     <string name="active_true">已激活（%s）</string>
     <string name="active_false">未激活（%s）</string>
     <string name="exit">再按一次退出程序!</string>
+    <string name="menu_send_log">发送完整日志</string>
+    <string name="menu_clean_log">清空日志</string>
+    <string name="menu_change_log">修改日志模式</string>
+    <string name="log_clean_title">清空确认</string>
+    <string name="log_clean_body">是否清空所有日志？</string>
+    <string name="log_clean_success">清除成功！</string>
+    <string name="log_no_log">不记录</string>
+    <string name="log_simple">简单日志</string>
+    <string name="log_more">详细日志</string>
+    <string name="log_mode">日志模式（%s）</string>
+    <string name="log_set_success设置成功">设置成功！</string>
+    <string name="log_set_success">设置成功！</string>
+    <string name="log_cache_title">日志缓存</string>
+    <string name="log_cache_body">日志缓存有效期为24小时，如果有无法正常记账的情况请在24小时内反馈，24小时后日志会自动删除。\n\n 点击右上角可以进行日志反馈并切换日志记录模式。</string>
+    <string name="log_cache_know">我知道了</string>
+    <string name="log_cache_no_show">不再显示</string>
+    <string name="log_empty">没有日志！\n 点击右上角切换日志记录模式试试？</string>
+    <string name="log_null">日志空空如也~</string>
 </resources>

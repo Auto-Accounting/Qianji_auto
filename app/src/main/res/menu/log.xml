@@ -3,11 +3,11 @@
 
     <item
         android:id="@+id/sendLog"
-        android:title="发送完整日志" />
+        android:title="@string/menu_send_log" />
     <item
         android:id="@+id/cleanLog"
-        android:title="清空日志" />
+        android:title="@string/menu_clean_log" />
     <item
         android:id="@+id/logMode"
-        android:title="修改日志模式" />
+        android:title="@string/menu_change_log" />
 </menu>

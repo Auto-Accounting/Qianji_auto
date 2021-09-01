@@ -17,6 +17,10 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.data;
 
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_ERR;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,13 +32,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.afollestad.materialdialogs.LayoutMode;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
-import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
@@ -48,16 +47,15 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.adapter.LogAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 @Page(name = "日志", anim = CoreAnim.slide)
 public class LogFragment extends BaseFragment {
-
-    private static final int HANDLE_ERR = 0;
-    private static final int HANDLE_OK = 1;
-    private static final int HANDLE_REFRESH = 2;
     @BindView(R.id.status)
     StatusView statusView;
     @BindView(R.id.title_bar)
@@ -68,28 +66,29 @@ public class LogFragment extends BaseFragment {
     SwipeRecyclerView recyclerView;
     private LogAdapter mAdapter;
     private List<Bundle> list;
+    LoadingDialog loadingDialog;
+
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case HANDLE_ERR:
-                    if (statusView != null) statusView.showEmptyView();
+                    statusView.showEmptyView();
                     break;
                 case HANDLE_OK:
                     mAdapter.refresh(list);
-                    Task.onMain(1000, () -> statusView.showContentView());
+                    statusView.showContentView();
                     break;
                 case HANDLE_REFRESH:
-                    String d = (String) msg.obj;
-                    if ((d != null && !d.equals("")))
-                        ToastUtils.show(d);
-                    loadFromData(refreshLayout);
+                    loadFromData();
                     break;
             }
-
+            String d = (String) msg.obj;
+            if ((d != null && !d.equals("")))
+                ToastUtils.show(d);
+            if (loadingDialog != null) loadingDialog.close();
         }
     };
-
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_main_data_log;
@@ -101,13 +100,12 @@ public class LogFragment extends BaseFragment {
         statusView.setLoadingView(R.layout.fragment_loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.empty_info, "没有日志！");
+            viewHolder.setText(R.id.empty_info, getString(R.string.log_empty));
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-        //    viewHolder.setText(R.id.load_info, "正在加载日志信息");
+            loadingDialog = new LoadingDialog(getAttachContext(), getString(R.string.main_loading));
+            loadingDialog.show();
         });
-
-        statusView.showLoadingView();
         initLayout();
     }
 
@@ -116,21 +114,23 @@ public class LogFragment extends BaseFragment {
     protected void initListeners() {
         MMKV mmkv = MMKV.defaultMMKV();
         if (mmkv.getBoolean("show_log_tip", true)) {
-            BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-            MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-            dialog.title(null, "日志缓存");
-            dialog.message(null, "日志缓存有效期为24小时，如果有无法正常记账的情况请在24小时内反馈，24小时后日志会自动删除。\n\n 点击右上角可以进行日志反馈并切换日志记录模式。", null);
-            dialog.positiveButton(null, "我知道了", materialDialog -> null);
-            dialog.negativeButton(null, "不再显示", materialDialog -> {
-                mmkv.encode("show_log_tip", false);
-                return null;
+            BottomArea.msg(getContext(), getString(R.string.log_cache_title), getString(R.string.log_cache_body), getString(R.string.log_cache_know), getString(R.string.log_cache_no_show), new BottomArea.MsgCallback() {
+                @Override
+                public void cancel() {
+
+                }
+
+                @Override
+                public void sure() {
+                    mmkv.encode("show_log_tip", false);
+                }
             });
-            dialog.show();
         }
 
 
         refreshLayout.setOnRefreshListener(refreshlayout -> {
-            refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+
+            refreshlayout.finishRefresh(0);//传入false表示刷新失败
         });
 
 
@@ -139,12 +139,8 @@ public class LogFragment extends BaseFragment {
     @Override
     protected void initTitle() {
         title_bar.setInner(getActivity());
-
-
         title_bar.setLeftIconOnClickListener(v -> popToBack());
-        title_bar.setRightIcon("&#xe60c;", 16);
         title_bar.setRightIconOnClickListener(v -> {
-            //创建弹出式菜单对象（最低版本11）
             PopupMenu popup = new PopupMenu(getContext(), v);//第二个参数是绑定的那个view
             //获取菜单填充器
             MenuInflater inflater = popup.getMenuInflater();
@@ -154,64 +150,64 @@ public class LogFragment extends BaseFragment {
             popup.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.sendLog:
+                        String fileName = "temp.log";
                         Handler mHandler2 = new Handler(Looper.getMainLooper()) {
                             @Override
                             public void handleMessage(@NonNull Message msg) {
-                                Tool.shareFile(getContext(), Tool.getCacheFileName(getContext(), "log.log"));
+                                Tool.shareFile(getContext(), Tool.getCacheFileName(getContext(), fileName));
                             }
                         };
                         //写出日志到临时文件
                         Task.onThread(() -> {
                             StringBuilder l = new StringBuilder();
+                            if (list == null) {
+                                ToastUtils.show(R.string.log_null);
+                                return;
+                            }
                             for (Bundle bundle : list) {
                                 l.append("[").append(bundle.getString("time")).append("]").append("[").append(bundle.getString("sub")).append("]").append(bundle.getString("title")).append("\n");
                             }
-                            Tool.writeToCache(getContext(), "log.log", l.toString());
-                            mHandler2.sendEmptyMessage(0);
+                            Tool.writeToCache(getContext(), fileName, l.toString());
+                            HandlerUtil.send(mHandler2, HANDLE_OK);
                         });
                         break;
                     case R.id.cleanLog:
-                        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-                        MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-                        dialog.title(null, "清空确认");
-                        dialog.message(null, "即将清空所有日志信息，请确认。", null);
-                        dialog.positiveButton(null, "不清空", materialDialog -> null);
-                        dialog.negativeButton(null, "清空", materialDialog -> {
-                            Log.delAll(() -> {
-                                Message message = new Message();
-                                message.obj = "清除成功！";
-                                message.what = HANDLE_REFRESH;
-                                mHandler.sendMessage(message);
-                            });
+                        BottomArea.msg(getContext(), getString(R.string.log_clean_title), getString(R.string.log_clean_body), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.MsgCallback() {
+                            @Override
+                            public void cancel() {
 
-                            return null;
+                            }
+
+                            @Override
+                            public void sure() {
+                                Log.delAll(() -> {
+                                    HandlerUtil.send(mHandler, getString(R.string.log_clean_success), HANDLE_REFRESH);
+                                });
+                            }
                         });
-                        dialog.show();
                         break;
                     case R.id.logMode:
-                        BottomSheet bottomSheet2 = new BottomSheet(LayoutMode.WRAP_CONTENT);
-                        MaterialDialog dialog2 = new MaterialDialog(getContext(), bottomSheet2);
                         MMKV mmkv = MMKV.defaultMMKV();
                         int mode = mmkv.getInt("log_mode", 1);
-                        String modeName = "不记录";
+                        String modeName = getString(R.string.log_no_log);
                         switch (mode) {
                             case 0:
-                                modeName = "不记录";
+                                modeName = getString(R.string.log_no_log);
                                 break;
                             case 1:
-                                modeName = "简单日志";
+                                modeName = getString(R.string.log_simple);
                                 break;
                             case 2:
-                                modeName = "详细日志";
+                                modeName = getString(R.string.log_more);
                                 break;
                         }
-                        dialog2.title(null, "日志模式切换(" + modeName + ")");
-                        DialogListExtKt.listItems(dialog2, null, Arrays.asList("不记录", "简单日志", "详细日志"), null, true, (materialDialog, index, text) -> {
-                            mmkv.encode("log_mode", index);
-                            ToastUtils.show("设置成功！");
-                            return null;
+                        BottomArea.list(getContext(), String.format(getString(R.string.log_mode), modeName), Arrays.asList(getString(R.string.log_no_log), getString(R.string.log_simple), getString(R.string.log_more)), new BottomArea.ListCallback() {
+                            @Override
+                            public void onSelect(int position) {
+                                mmkv.encode("log_mode", position);
+                                ToastUtils.show(getString(R.string.log_set_success));
+                            }
                         });
-                        dialog2.show();
 
                         break;
                 }
@@ -227,13 +223,13 @@ public class LogFragment extends BaseFragment {
         mAdapter = new LogAdapter(getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAdapter);
-        refreshLayout.setOnRefreshListener(this::loadFromData);
+
         refreshLayout.setEnableRefresh(true);
-        loadFromData(refreshLayout);
+        loadFromData();
     }
 
-    public void loadFromData(RefreshLayout refreshLayout) {
-
+    public void loadFromData() {
+        statusView.showLoadingView();
         Task.onThread(() -> Log.getAll(logs -> {
             if (logs == null || logs.length == 0) {
                 mHandler.sendEmptyMessage(HANDLE_ERR);

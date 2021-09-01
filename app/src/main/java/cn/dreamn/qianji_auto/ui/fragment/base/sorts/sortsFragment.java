@@ -316,10 +316,12 @@ public class sortsFragment extends BaseFragment {
     }
 
     private void refreshData(String book_id,int parentPos) {
+        statusView.showLoadingView();
         categoryUtils.refreshData(book_id, parentPos, (state) -> HandlerUtil.send(mHandler, state));
     }
 
     private void refreshData() {
+        statusView.showLoadingView();
         categoryUtils.refreshData((state) -> HandlerUtil.send(mHandler, state));
 
     }

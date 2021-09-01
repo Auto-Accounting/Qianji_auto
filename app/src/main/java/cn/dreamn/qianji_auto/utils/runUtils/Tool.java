@@ -115,7 +115,7 @@ public class Tool {
     @SuppressLint("SimpleDateFormat")
     public static String getTime(String s, int day) {
         long time = System.currentTimeMillis();
-        time = time + day * 24 * 60 * 60 * 1000;
+        time = time + (long) day * 24 * 60 * 60 * 1000;
         return (new SimpleDateFormat(s)).format(new Date(time));
     }
 

@@ -14,6 +14,8 @@
         app:backgroundColor="@color/background_white"
         app:left_color="@color/black"
         app:left_icon="&#xe62e;"
+        app:right_color="@color/black"
+        app:right_icon="&#xe60c;"
         app:title_color="@color/black"
         app:title_text="日志查询">
 
