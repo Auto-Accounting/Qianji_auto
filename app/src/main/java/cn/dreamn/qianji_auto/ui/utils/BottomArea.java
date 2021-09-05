@@ -46,12 +46,12 @@ public class BottomArea {
 
         Button button_next = textEntryView.findViewById(R.id.button_next);
         Button button_last = textEntryView.findViewById(R.id.button_last);
-        button_next.setText(leftName);
+        button_next.setText(rightName);
         button_next.setOnClickListener(v -> {
             callback.sure();
             dialog.dismiss();
         });
-        button_last.setText(rightName);
+        button_last.setText(leftName);
         button_last.setOnClickListener(v -> {
             callback.cancel();
             dialog.dismiss();
@@ -77,8 +77,8 @@ public class BottomArea {
 
         Button button_next = textEntryView.findViewById(R.id.button_next);
         Button button_last = textEntryView.findViewById(R.id.button_last);
-        button_next.setText(leftName);
-        button_last.setText(rightName);
+        button_next.setText(rightName);
+        button_last.setText(leftName);
         button_next.setOnClickListener(v2 -> {
             inputCallback.input(md_input_message.getText().toString());
             dialog.dismiss();
