@@ -2,5 +2,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_float_edit"
-    android:backgroundTint="@color/bg_float_edit" />
+    android:background="#80000000"
+    android:backgroundTint="#80000000" />

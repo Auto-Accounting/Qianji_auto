@@ -25,9 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.AutoBill;
-import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 public class AutoBills {

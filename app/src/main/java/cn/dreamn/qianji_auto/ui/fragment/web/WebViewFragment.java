@@ -28,6 +28,8 @@ import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.core.PageOption;
 import com.xuexiang.xpage.enums.CoreAnim;
 
+import org.apache.commons.text.StringEscapeUtils;
+
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -39,7 +41,6 @@ import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.TitleBar;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
-import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
@@ -143,13 +144,7 @@ public class WebViewFragment extends BaseFragment {
     };
     Handler mHandler;
 
-    public static void openUrl(BaseFragment baseFragment, String url, Bundle bundle) {
-        PageOption.to(WebViewFragment.class)
-                .setNewActivity(true)
-                .putString(KEY_URL, url)
-                .putAll(bundle)
-                .open(baseFragment);
-    }
+
 
     public static void openUrl(BaseFragment baseFragment, String url) {
         PageOption.to(WebViewFragment.class)
@@ -176,7 +171,7 @@ public class WebViewFragment extends BaseFragment {
                     switch (item.getItemId()) {
                         case R.id.copy:
                             Tool.clipboard(getContext(), webView.getUrl());
-                            ToastUtils.show("已复制到剪切板!");
+                            ToastUtils.show(R.string.copied);
 
                             break;
                         case R.id.web:
@@ -238,7 +233,8 @@ public class WebViewFragment extends BaseFragment {
                     BookNames.showBookSelect(getContext(), "选择账本", false, bundle -> {
                         Log.d("账本信息", bundle.toString());
                         CategoryNames.showCategorySelect(getContext(), "选择分类", bundle.getString("book_id"), type, false, categoryNames -> {
-                            doJsFunction(String.format("setCategory('%s','%s')", categoryNames.getString("name"), categoryNames.getString("icon")));
+                            doJsFunction(String.format("setCategory('%s','%s')", StringEscapeUtils.escapeHtml4(categoryNames.getString("name")), StringEscapeUtils.escapeHtml4(categoryNames.getString("icon"))));
+
                         });
                     });
                 }
@@ -253,19 +249,17 @@ public class WebViewFragment extends BaseFragment {
 
 
                 @JavascriptInterface
-                public void Save(String data, String id) {
-                    DataUtils dataUtils = new DataUtils();
-                    dataUtils.parse(data);
+                public void Save(String id, String regular, String name, String text, String tableList, String identify, String fromApp, String des) {
 
                     if (id.equals("undefined")) {
                         identifyRegulars.add(
-                                dataUtils.get("regular"),
-                                dataUtils.get("name"),
-                                dataUtils.get("text"),
-                                dataUtils.get("tableList"),
-                                dataUtils.get("identify"),
-                                dataUtils.get("fromApp"),
-                                dataUtils.get("des"),
+                                regular,
+                                name,
+                                text,
+                                tableList,
+                                identify,
+                                fromApp,
+                                des,
                                 () -> {
                                     ToastUtils.show("存储成功！");
                                     popToBack();
@@ -274,13 +268,13 @@ public class WebViewFragment extends BaseFragment {
                     } else {
                         identifyRegulars.change(
                                 Integer.parseInt(id),
-                                dataUtils.get("regular"),
-                                dataUtils.get("name"),
-                                dataUtils.get("text"),
-                                dataUtils.get("tableList"),
-                                dataUtils.get("identify"),
-                                dataUtils.get("fromApp"),
-                                dataUtils.get("des"),
+                                regular,
+                                name,
+                                text,
+                                tableList,
+                                identify,
+                                fromApp,
+                                des,
                                 () -> {
                                     ToastUtils.show("修改成功！");
                                     popToBack();

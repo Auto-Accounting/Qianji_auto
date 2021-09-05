@@ -41,7 +41,7 @@
         tools:targetApi="n">
         <activity
             android:name=".ui.activity.ErrorActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true">
@@ -56,7 +56,7 @@
                 <data android:scheme="file" />
                 <data android:host="*" />
                 <data android:mimeType="*/*" />
-                <data android:pathPattern=".*\\.ankio" />
+                <data android:pathPattern=".*\.backup_.*_ankio" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.base.BaseActivity" />

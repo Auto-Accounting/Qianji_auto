@@ -41,6 +41,7 @@ public class Tool {
         manager.setPrimaryClip(ClipData.newPlainText(null, text));
     }
 
+
     public static void goUrl(Context context, String url) {
 
         Intent intent = new Intent();

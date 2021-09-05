@@ -129,7 +129,7 @@ public class LogFragment extends BaseFragment {
 
 
         refreshLayout.setOnRefreshListener(refreshlayout -> {
-
+           loadFromData();
             refreshlayout.finishRefresh(0);//传入false表示刷新失败
         });
 

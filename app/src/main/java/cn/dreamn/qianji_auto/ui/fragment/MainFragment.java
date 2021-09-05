@@ -56,8 +56,8 @@ import cn.dreamn.qianji_auto.ui.fragment.base.sorts.MainSortFragment;
 import cn.dreamn.qianji_auto.ui.fragment.data.LogFragment;
 import cn.dreamn.qianji_auto.ui.fragment.data.MoneyFragment;
 import cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment;
-import cn.dreamn.qianji_auto.ui.fragment.data.RegularFragment;
-import cn.dreamn.qianji_auto.ui.fragment.data.SortFragment;
+import cn.dreamn.qianji_auto.ui.fragment.data.regulars.MainAutoLearnFragment;
+import cn.dreamn.qianji_auto.ui.fragment.data.sort.MainAutoSortFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
@@ -283,16 +283,16 @@ public class MainFragment extends BaseFragment {
             openNewPage(LogFragment.class);
         });
         rl_auto_sort.setOnClickListener(v->{
-            openNewPage(SortFragment.class);
+            openNewPage(MainAutoSortFragment.class);
         });
         rl_app.setOnClickListener(v->{
-            RegularFragment.openWithType(this, "app");
+            MainAutoLearnFragment.openWithType(this, "app");
         });
         rl_sms.setOnClickListener(v->{
-            RegularFragment.openWithType(this, "sms");
+            MainAutoLearnFragment.openWithType(this, "sms");
         });
         rl_notice.setOnClickListener(v->{
-            RegularFragment.openWithType(this, "notice");
+            MainAutoLearnFragment.openWithType(this, "notice");
         });
 
         rl_skin.setOnClickListener(v->{

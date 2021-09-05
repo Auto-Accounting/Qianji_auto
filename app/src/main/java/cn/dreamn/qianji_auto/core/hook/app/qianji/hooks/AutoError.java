@@ -1,5 +1,7 @@
 package cn.dreamn.qianji_auto.core.hook.app.qianji.hooks;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 import android.content.Intent;
 import android.os.Looper;
 import android.widget.Toast;
@@ -7,8 +9,6 @@ import android.widget.Toast;
 import cn.dreamn.qianji_auto.core.hook.Utils;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
-
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class AutoError {
     public static void init(Utils utils) throws ClassNotFoundException {

@@ -15,7 +15,7 @@
  *
  */
 
-package cn.dreamn.qianji_auto.ui.fragment.data;
+package cn.dreamn.qianji_auto.ui.fragment.data.regulars;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -24,8 +24,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
-import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,28 +56,29 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.Category;
+import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.components.IconView;
 import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.utils.B64;
 import cn.dreamn.qianji_auto.utils.files.FileUtils;
+import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
-@Page(name = "本地分类", anim = CoreAnim.slide)
-public class SortFragment extends BaseFragment {
+@Page(name = "本地识别规则", anim = CoreAnim.slide)
+public class localFragment extends BaseFragment {
 
     private static final int HANDLE_ERR = 0;
     private static final int HANDLE_OK = 1;
     private static final int HANDLE_REFRESH = 2;
     private static final int HANDLE_OUT = 3;
+    private final String type;
     @BindView(R.id.status)
     StatusView statusView;
     @BindView(R.id.refreshLayout)
@@ -86,7 +87,6 @@ public class SortFragment extends BaseFragment {
     SwipeRecyclerView recyclerView;
     @BindView(R.id.multiple_actions_down)
     FloatingActionsMenu floatingActionButton;
-
     @BindView(R.id.action_cate)
     FloatingActionButton action_cate;
     @BindView(R.id.action_import)
@@ -95,13 +95,9 @@ public class SortFragment extends BaseFragment {
     FloatingActionButton action_export;
     @BindView(R.id.action_delAll)
     FloatingActionButton action_delAll;
-    @BindView(R.id.title_count)
-    RelativeLayout title_count;
-    @BindView(R.id.iv_left_icon)
-    IconView iv_left_icon;
+    LoadingDialog loadDialog;
     private CateItemListAdapter mAdapter;
     private List<Bundle> list;
-    LoadingDialog loadDialog;
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
@@ -134,6 +130,22 @@ public class SortFragment extends BaseFragment {
         }
     };
 
+    public localFragment(String type) {
+        this.type = type;
+    }
+
+    private String getName() {
+        switch (type) {
+            case "sms":
+                return getString(R.string.sms);
+            case "notice":
+                return getString(R.string.notice);
+            case "app":
+                return getString(R.string.app);
+        }
+        return "";
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_main_data_sort_manager;
@@ -146,26 +158,15 @@ public class SortFragment extends BaseFragment {
     }
 
     @Override
-    protected View getBarView() {
-        return title_count;
-    }
-
-    @Override
-    protected void initTitle() {
-        super.initTitle();
-        iv_left_icon.setOnClickListener(v -> popToBack());
-    }
-
-    @Override
     protected void initViews() {
         statusView.setEmptyView(R.layout.fragment_empty_view);
         statusView.setLoadingView(R.layout.fragment_loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.empty_info, "你还没有任何自动分类规则哦！\n");
+            viewHolder.setText(R.id.empty_info, String.format(getString(R.string.no_regular), getName()));
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-     //       viewHolder.setText(R.id.load_info, "正在加载自动分类规则...");
+            //viewHolder.setText(R.id.load_info, "正在加载" + getName() + "规则...");
         });
         floatingActionButton.setVisibility(View.GONE);
         statusView.showLoadingView();
@@ -182,24 +183,7 @@ public class SortFragment extends BaseFragment {
         action_cate.setOnClickListener(v -> {
 
 
-            BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-            MaterialDialog dialog1 = new MaterialDialog(getContext(), bottomSheet);
-            dialog1.cornerRadius(15f, null);
-            dialog1.title(null, "请选择编辑方式");
-            DialogListExtKt.listItems(dialog1, null, Arrays.asList("可视化编辑", "JS编辑"), null, true, (materialDialog, index, text) -> {
-                switch (index) {
-                    case 0:
-                        WebViewFragment.openUrl(this, "file:///android_asset/html/Category/index.html");
-                        break;
-                    case 1:
-                        WebViewFragment.openUrl(this, "file:///android_asset/html/Category/js.html");
-                        break;
-
-                }
-
-                return null;
-            });
-            dialog1.show();
+            WebViewFragment.openUrl(this, "file:///android_asset/html/Regulars/index.html?type=" + this.type);
 
 
         });
@@ -212,10 +196,10 @@ public class SortFragment extends BaseFragment {
                 final DialogProperties properties = new DialogProperties();
 
                 FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
-                dialog.setTitle("请选择自动记账分类配置文件");
+                dialog.setTitle("请选择自动记账" + getName() + "识别规则配置文件");
                 dialog.setPositiveBtnName("选中");
                 dialog.setNegativeBtnName("关闭");
-                properties.extensions = new String[]{".auto.category.backup"};
+                properties.extensions = new String[]{".auto." + this.type + ".backup"};
                 properties.root = Environment.getExternalStorageDirectory();
                 properties.offset = Environment.getExternalStorageDirectory();
                 properties.show_hidden_files = false;
@@ -223,6 +207,22 @@ public class SortFragment extends BaseFragment {
                 properties.error_dir = Environment.getExternalStorageDirectory();
                 dialog.setProperties(properties);
                 dialog.show();
+
+                Handler mHandler = new Handler(Looper.getMainLooper()) {
+                    @Override
+                    public void handleMessage(@NonNull Message msg) {
+                        dialog.dismiss();
+                        if (msg.what == -1) {
+                            //失败
+                            ToastUtils.show("恢复失败！");
+                        } else {
+                            ToastUtils.show("恢复成功！");
+                            Tool.restartApp(getActivity());
+                        }
+
+                    }
+                };
+
                 dialog.setDialogSelectionListener(new DialogSelectionListener() {
                     @Override
                     public void onSelectedFilePaths(String[] files) {
@@ -232,8 +232,8 @@ public class SortFragment extends BaseFragment {
                         JSONObject jsonObject = JSONObject.parseObject(data);
                         String from = jsonObject.getString("from");
 
-                        if (!from.equals("Category")) {
-                            ToastUtils.show("该文件不是有效的自动分类配置数据文件");
+                        if (!from.equals(getType())) {
+                            ToastUtils.show("该文件不是有效的" + getName() + "配置数据文件");
                             return;
                         }
                         JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -245,24 +245,29 @@ public class SortFragment extends BaseFragment {
                         dialog2.message(null, "是否覆盖原有数据（清空不保留）？", null);
                         dialog2.negativeButton(null, "不清空", (a) -> null);
                         dialog2.positiveButton(null, "清空", (a) -> {
-                            Category.clear();
-
+                            identifyRegulars.clear(getType());
                             return null;
                         });
-
                         dialog2.setOnDismissListener(dialog1 -> {
                             loadDialog = new LoadingDialog(getContext(), "数据导入中...");
                             loadDialog.show();
                             Task.onThread(() -> {
                                 for (int i = 0; i < jsonArray.size(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-
-                                    Category.addCategory(B64.decode(jsonObject1.getString("regular")), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des"), new Category.Finish() {
-                                        @Override
-                                        public void onFinish() {
-                                            Log.d("finish data" + jsonObject1.toString());
-                                        }
-                                    });
+                                    identifyRegulars.add(
+                                            B64.decode(jsonObject1.getString("regular")),
+                                            (jsonObject1.getString("name")),
+                                            (jsonObject1.getString("text")),
+                                            B64.decode(jsonObject1.getString("tableList")),
+                                            (jsonObject1.getString("identify")),
+                                            (jsonObject1.getString("fromApp")),
+                                            (jsonObject1.getString("des")),
+                                            new identifyRegulars.Finish() {
+                                                @Override
+                                                public void onFinish() {
+                                                    Log.d("finish data" + jsonObject1.toString());
+                                                }
+                                            });
                                 }
                                 Message message = new Message();
                                 message.what = HANDLE_REFRESH;
@@ -292,20 +297,23 @@ public class SortFragment extends BaseFragment {
                 loadDialog = new LoadingDialog(getContext(), "数据导出中...");
                 loadDialog.show();
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("from", "Category");
-                Category.getAll(bundle -> {
+                jsonObject.put("from", this.type);
+                identifyRegulars.getAll(this.type, null, bundle -> {
                     JSONArray jsonArray = new JSONArray();
                     for (Bundle regular : bundle) {
                         //        Category.addCategory(new String(Base64.decode(jsonObject1.getString("regular"), Base64.NO_WRAP)), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des")
                         JSONObject jsonObject1 = new JSONObject();
-                        jsonObject1.put("name", regular.getString("name"));
+                        jsonObject1.put("name", (regular.getString("name")));
                         jsonObject1.put("regular", B64.encode(regular.getString("regular")));
-                        jsonObject1.put("tableList", regular.getString("tableList"));
-                        jsonObject1.put("des", regular.getString("des"));
+                        jsonObject1.put("tableList", B64.encode(regular.getString("tableList")));
+                        jsonObject1.put("des", (regular.getString("des")));
+                        jsonObject1.put("fromApp", (regular.getString("fromApp")));
+                        jsonObject1.put("identify", (regular.getString("identify")));
+                        jsonObject1.put("text", (regular.getString("text")));
                         jsonArray.add(jsonObject1);
                     }
                     jsonObject.put("data", jsonArray);
-                    String fileName = Tool.getTime("yyyyMMddHHmmss") + ".auto.category.backup";
+                    String fileName = Tool.getTime("yyyyMMddHHmmss") + ".auto." + this.type + ".backup";
                     Tool.writeToCache(getContext(), fileName, jsonObject.toJSONString());
                     switch (index) {
                         case 0:
@@ -341,10 +349,10 @@ public class SortFragment extends BaseFragment {
             MaterialDialog dialog2 = new MaterialDialog(getContext(), bottomSheet2);
             dialog2.cornerRadius(15f, null);
             dialog2.title(null, "删除提醒");
-            dialog2.message(null, "是否清空所有分类数据？", null);
+            dialog2.message(null, "是否清空所有" + getName() + "规则数据？", null);
             dialog2.negativeButton(null, "不清空", (a) -> null);
             dialog2.positiveButton(null, "清空", (a) -> {
-                Category.clear(() -> {
+                identifyRegulars.clear(getType(), str -> {
                     Message message = new Message();
                     message.what = HANDLE_REFRESH;
                     message.obj = "清除成功";
@@ -355,6 +363,10 @@ public class SortFragment extends BaseFragment {
             });
             dialog2.show();
         });
+    }
+
+    private String getType() {
+        return this.type;
     }
 
     private void initLayout() {
@@ -382,8 +394,8 @@ public class SortFragment extends BaseFragment {
                 int toPosition = targetHolder.getAdapterPosition();
                 Collections.swap(list, fromPosition, toPosition);
                 mAdapter.notifyItemMoved(fromPosition, toPosition);
-                Category.setSort(list.get(fromPosition).getInt("id"), fromPosition);
-                Category.setSort(list.get(toPosition).getInt("id"), toPosition);
+                identifyRegulars.setSort(list.get(fromPosition).getInt("id"), fromPosition);
+                identifyRegulars.setSort(list.get(toPosition).getInt("id"), toPosition);
 
                 // 返回true，表示数据交换成功，ItemView可以交换位置。
                 return true;
@@ -414,10 +426,10 @@ public class SortFragment extends BaseFragment {
             disable = "启用";
         }
         dialog.title(null, "请选择操作(" + cate.getString("name") + ")");
-        DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "可视化编辑", "js编辑", "上传到云端", disable), null, true, (materialDialog, index, text) -> {
+        DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "可视化编辑", "上传到云端", disable), null, true, (materialDialog, index, text) -> {
             switch (index) {
                 case 0:
-                    Category.del(cate.getInt("id"), () -> {
+                    identifyRegulars.del(cate.getInt("id"), () -> {
                         Message message = new Message();
                         message.obj = "删除成功";
                         message.what = HANDLE_REFRESH;
@@ -425,39 +437,43 @@ public class SortFragment extends BaseFragment {
                     });
                     break;
                 case 1:
-                    if (cate.getString("tableList") == null || cate.getString("tableList").equals("")) {
-                        ToastUtils.show("该规则使用js编辑，无法进行可视化编辑。");
-                        break;
-                    }
-                    WebViewFragment.openUrl(this, "file:///android_asset/html/Category/index.html?id=" + cate.getInt("id") + "&data=" + B64.encode(cate.getString("tableList")));
+
+                    DataUtils dataUtils = new DataUtils();
+                    dataUtils.put("name", cate.getString("name"));
+                    dataUtils.put("text", cate.getString("text"));
+                    dataUtils.put("regular", cate.getString("regular"));
+                    dataUtils.put("fromApp", cate.getString("fromApp"));
+
+                    dataUtils.put("des", cate.getString("des"));
+                    dataUtils.put("identify", cate.getString("identify"));
+                    dataUtils.put("tableList", cate.getString("tableList"));
+
+                    WebViewFragment.openUrl(this, "file:///android_asset/html/Regulars/index.html?id=" + cate.getInt("id") + "&type=" + this.type + "&data=" + B64.encode(dataUtils.toString()));
                     break;
                 case 2:
-
-                    WebViewFragment.openUrl(this, "file:///android_asset/html/Category/js.html?id=" + cate.getInt("id") + "&data=" + B64.encode(cate.getString("regular")) + "&name=" + cate.getString("name") + "&des=" + cate.getString("des"));
-                    break;
-                case 3:
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("name", cate.getString("name"));
-                    jsonObject.put("text", "");
+                    jsonObject.put("text", cate.getString("text"));
                     jsonObject.put("data", cate.getString("regular"));
                     jsonObject.put("tableList", cate.getString("tableList"));
-                    jsonObject.put("identify", "");
-                    jsonObject.put("fromApp", "");
-                    jsonObject.put("isCate", "1");
+                    jsonObject.put("identify", cate.getString("identify"));
+                    jsonObject.put("fromApp", cate.getString("fromApp"));
+                    jsonObject.put("isCate", "0");
                     jsonObject.put("description", cate.getString("des"));
                     String result = B64.encode(jsonObject.toString());
                     AutoBillWeb.httpSend(getContext(), this, "send", result);
                     break;
-                case 4:
+                case 3:
                     if (text == "禁用") {
-                        Category.deny(cate.getInt("id"), () -> {
+                        identifyRegulars.deny(cate.getInt("id"), () -> {
                             Message message = new Message();
                             message.obj = "禁用成功";
                             message.what = HANDLE_REFRESH;
                             mHandler.sendMessage(message);
                         });
+
                     } else {
-                        Category.enable(cate.getInt("id"), () -> {
+                        identifyRegulars.enable(cate.getInt("id"), () -> {
                             Message message = new Message();
                             message.obj = "启用成功";
                             message.what = HANDLE_REFRESH;
@@ -475,7 +491,7 @@ public class SortFragment extends BaseFragment {
     public void loadFromData(RefreshLayout refreshLayout) {
 
         Task.onThread(() -> {
-            Category.getAll(regulars -> {
+            identifyRegulars.getAll(type, null, regulars -> {
                 if (regulars == null || regulars.length == 0) {
                     mHandler.sendEmptyMessage(HANDLE_ERR);
                 } else {

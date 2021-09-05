@@ -17,7 +17,7 @@
             <label for="sort_name">规则名称</label>
             <div class="rule_content">
                 <div class="rule_content1 sort_rule_remark">
-                    <input id="sort_name" placeholder="分类规则名称" type="text">
+                    <input id="sort_name" placeholder="分类规则名称" type="text" value="未命名">
                 </div>
             </div>
         </div>
@@ -79,12 +79,12 @@
 
                 <div class="rule_content2">
                     <label for="account_name1">账户名称1</label>
-                    <input id="account_name1" placeholder="可输入数字或中文" type="text">
+                    <input id="account_name1" placeholder="使用$1、$2这样进行占位" type="text">
                 </div>
 
                 <div class="rule_content2">
                     <label for="account_name2">账户名称2</label>
-                    <input id="account_name2" placeholder="可输入数字或中文" type="text">
+                    <input id="account_name2" placeholder="使用$1、$2这样进行占位" type="text">
                 </div>
 
                 <div class="rule_content2">
@@ -117,12 +117,12 @@
 
                 <div class="rule_content2">
                     <label for="shopName">商户名称</label>
-                    <input id="shopName" placeholder="可输入数字或中文" type="text">
+                    <input id="shopName" placeholder="使用$1、$2这样进行占位" type="text">
                 </div>
 
                 <div class="rule_content2">
                     <label for="shopRemark">商户备注</label>
-                    <input id="shopRemark" placeholder="可输入数字或中文" type="text">
+                    <input id="shopRemark" placeholder="使用$1、$2这样进行占位" type="text">
                 </div>
 
                 <div class="rule_content2">
@@ -159,74 +159,63 @@
 <script src="../Public/jquery/jquery.js"></script>
 <script src="../Public/jquery/1.js"></script>
 
-<script src="../Public/jquery/base16.js"></script>
-<script src="../Public/jquery/DataUtils.js"></script>
+<script src="../Public/jquery/common.min.js"></script>
 <script>
 
     function showTip(str){
-        $("#tip_content").html(str)
-        $("#tip").css("display", "block")
-    }
-    function Toast(msg, duration) {
-        duration = isNaN(duration) ? 3000 : duration;
-        var m = document.createElement('div');
-        m.innerHTML = msg;
-        m.style.cssText = "max-width:60%;min-width: 150px;padding:0 14px;height: 40px;color: rgb(255, 255, 255);line-height: 40px;text-align: center;border-radius: 4px;position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);z-index: 999999;background: rgba(0, 0, 0,.7);font-size: 16px;";
-        document.body.appendChild(m);
-        setTimeout(function () {
-            var d = 0.5;
-            m.style.webkitTransition = '-webkit-transform ' + d + 's ease-in, opacity ' + d + 's ease-in';
-            m.style.opacity = '0';
-            setTimeout(function () {
-                document.body.removeChild(m)
-            }, d * 1000);
-        }, duration);
+        $("#tip_content").html(str);
+        $("#tip").css("display", "block");
     }
     $(".cancel2").on("click", function (e) {
-        //  $("#myModal").css("display", "none")
-        $("#tip").css("display", "none")
-    })
+        $("#tip").css("display", "none");
+    });
 
     function getType(jsArrElement) {
-        if(jsArrElement==="0")return "支出"
-        if(jsArrElement==="1")return "收入"
-        if(jsArrElement==="2")return "转账"
-        if(jsArrElement==="3")return "信用还款"
+        if(jsArrElement==="0")return "支出";
+        if(jsArrElement==="1")return "收入";
+        if(jsArrElement==="2")return "转账";
+        if(jsArrElement==="3")return "信用还款";
         return jsArrElement;
     }
+
+
 
     $("#test").on("click", function (e) {
         var js=getJs();
         if(js==="")
             return;
-        const jsData = getFunction($("#str_input").val(),js)
-        console.log(jsData)
+        const jsData = getFunction($("#str_input").val(),js);
         try {
             const ret = eval(jsData);
-            var jsArr=ret.split("|")
+            var jsArr=ret.split("|");
             if(jsArr.length!==10){
-                Toast("奇怪了，好像有奇怪的东西混入了~",2000)
+                Toast("奇怪了，好像有奇怪的东西混入了~",2000);
                 return;
             }
             let str = "";
-            str+="账户名称1："+jsArr[1]+"<br>"
-            str+="账户名称2："+jsArr[4]+"<br>"
-            str+="收支类型："+getType(jsArr[2])+"<br>"
-            str+="后台交易："+(jsArr[6]==="1"?"是":"否")+"<br>"
-            str+="金额："+jsArr[3]+"<br>"
-            str+="手续费："+jsArr[8]+"<br>"
-            str+="商户名称："+jsArr[5]+"<br>"
-            str+="商户备注："+jsArr[0]+"<br>"
-            str+="账单信息来源："+jsArr[7]+"<br>"
+            str+="账户名称1："+jsArr[1]+"<br>";
+            str+="账户名称2："+jsArr[4]+"<br>";
+            str+="收支类型："+getType(jsArr[2])+"<br>";
+            str+="后台交易："+(jsArr[6]==="1"?"是":"否")+"<br>";
+            str+="金额："+jsArr[3]+"<br>";
+            str+="手续费："+jsArr[8]+"<br>";
+            str+="商户名称："+jsArr[5]+"<br>";
+            str+="商户备注："+jsArr[0]+"<br>";
+            str+="账单信息来源："+jsArr[7]+"<br>";
 
-            showTip(str)
+            showTip(str);
         } catch (e) {
-            showTip("自动识别执行出错：" + e)
+            showTip("自动识别执行出错：" + e+"<br>也许你应该检查一下你的正则表达式~<br>完整JS:<pre style=\"\n" +
+                "    white-space: pre-wrap;\n" +
+                "    word-wrap: break-word;\n" +
+                "\">"+htmlspecialchars(jsData)+"</pre>");
             // console.log(e)
         }
     });
     $("#save").on("click", function (e) {
-       window.AndroidJS.Save(getData(),getQueryVariable("id"));
+       window.AndroidJS.Save(
+           getQueryVariable("id"),JSON.stringify(getData())
+       );
     });
 
     $("#result_count").bind("DOMNodeInserted",function(e){
@@ -239,116 +228,68 @@
            // console.log(array)
             len=array.length;
             for(var i=1;i<len;i++){
-                str+="<b>【"+i+"】</b> "+array[i]+"<br>"
+                str+="<b>【"+i+"】</b> "+array[i]+"<br>";
             }
 
         }
         $("#result_count2").html((len-1).toString());
         $("#result_content2").html(str);
     });
-    function getQueryVariable(variable)
-    {
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i=0;i<vars.length;i++) {
-            const pair = vars[i].split("=");
-            if(pair[0] === variable){return pair[1];}
-        }
-        return undefined;
-    }
-    String.format = function () {
-        let s = arguments[0];
-        for (let i = 0; i < arguments.length - 1; i++) {
-            const reg = new RegExp("%s", "m");
-            s = s.replace(reg, arguments[i + 1]);
-        }
-        return s;
-    }
+
     function setData(){
         let data = getQueryVariable("data");
-        const id = getQueryVariable("id");
+       // const id = getQueryVariable("id");
         //const type= getQueryVariable("type");
         if(data!==undefined){
-            data=Base64.decode(data);
-            console.log(data)
-            const dataUtils = new DataUtils();
-            dataUtils.parse(data);
-            $("#sort_name").val(dataUtils.get("name"))
-            $("#sort_remark").val(dataUtils.get("des"))
-            $("#regex_input").html(dataUtils.get("regular"))
-            $("#sort_package").val(dataUtils.get("fromApp"))
-            $("#str_input").html(dataUtils.get("text"))
+            let json1=JSON.parse(data);
 
-            const dataUtils2 = new DataUtils();
-            dataUtils2.parse(dataUtils.get("tableList"))
-            $("#account_name1").val(dataUtils2.get("account1"))
-            $("#account_name2").val(dataUtils2.get("account2"))
-            $("#type").val(dataUtils2.get("type"))
-            $("#source").val(dataUtils2.get("source"))
-            $("#silent").val(dataUtils2.get("silent"))
-            $("#money").val(dataUtils2.get("money"))
-            $("#fee").val(dataUtils2.get("fee"))
-            $("#shopName").val(dataUtils2.get("shopName"))
-            $("#shopRemark").val(dataUtils2.get("shopRemark"))
+            $("#sort_name").val(json1["name"]);
+            $("#sort_remark").val(json1["des"]);
+            $("#regex_input").html(json1["regular"]);
+            $("#sort_package").val(json1["fromApp"]);
+            $("#str_input").html(json1["text"]);
+
+            let json2=json1["tableList"];
+            $("#account_name1").val(json2["account1"]);
+            $("#account_name2").val(json2["account2"]);
+            $("#type").val(json2["type"]);
+            $("#source").val(json2["source"]);
+            $("#silent").val(json2["silent"]);
+            $("#money").val(json2["money"]);
+            $("#fee").val(json2["fee"]);
+            $("#shopName").val(json2["shopName"]);
+            $("#shopRemark").val(json2["shopRemark"]);
 
         }
     }
     function getData() {
+        let Json={};
+        Json["account1"]=$("#account_name1").val();
+        Json["account2"]=$("#account_name2").val();
+        Json["type"]=$("#type").val();
+        Json["source"]=$("#source").val();
+        Json["silent"]=$("#silent").val();
+        Json["money"]=$("#money").val();
+        Json["fee"]=$("#fee").val();
+        Json["shopName"]=$("#shopName").val();
+        Json["shopRemark"]=$("#shopRemark").val();
 
-        const dataUtils2 = new DataUtils();
-        dataUtils2.put("account1", $("#account_name1").val())
-        dataUtils2.put("account2", $("#account_name2").val())
-        dataUtils2.put("type", $("#type").val())
-        dataUtils2.put("source", $("#source").val())
-        dataUtils2.put("silent", $("#silent").val())
-        dataUtils2.put("money", $("#money").val())
-        dataUtils2.put("fee", $("#fee").val())
-        dataUtils2.put("shopName", $("#shopName").val())
-        dataUtils2.put("shopRemark", $("#shopRemark").val())
-
-
-        const dataUtils = new DataUtils();
-        dataUtils.put("name", $("#sort_name").val())
-        dataUtils.put("text", $("#str_input").val())
-        dataUtils.put("regular", $("#regex_input").val())
-        dataUtils.put("fromApp", $("#sort_package").val())
-
-        dataUtils.put("des", $("#sort_remark").val())
-        dataUtils.put("identify", getQueryVariable("type"))
-        dataUtils.put("tableList",dataUtils2.toString())
-        return dataUtils.toString();
+        let Json2={};
+        Json2["name"]=$("#sort_name").val();
+        Json2["text"]=$("#str_input").val();
+        Json2["regular"]=$("#regex_input").val();
+        Json2["fromApp"]=$("#sort_package").val();
+        Json2["des"]=$("#sort_remark").val();
+        Json2["identify"]=getQueryVariable("type");
+        Json2["tableList"]=Json;
+        return Json2;
     }
     function getJs(){
-        var data = "pattern= /%s/;\n" +
-
-            "        if(pattern.test(body)){\n" +
-            "                var array = pattern.exec(body);\n" +
-            "                var remarkNum='%s',accountNum='%s',typeNum='%s',moneyNum='%s',shopNameNum='%s',accountNum2='%s',clientNum='%s',sourceNum='%s',feeNum='%s';\n" +
-            "                \n" +
-            "                for(var i=1;i<array.length;i++){\n" +
-            "                        \n" +
-            "                        var rep=\"$\"+i.toString();\n" +
-            "                        var repStr=array[i];\n" +
-            "                        \n" +
-            "                        remarkNum=remarkNum.replace(rep,repStr);\n" +
-            "                        accountNum=accountNum.replace(rep,repStr);\n" +
-            "                        typeNum=typeNum.replace(rep,repStr);\n" +
-            "                        moneyNum=moneyNum.replace(rep,repStr);\n" +
-            "                        shopNameNum=shopNameNum.replace(rep,repStr);\n" +
-            "                        accountNum2=accountNum2.replace(rep,repStr);\n" +
-            "                        clientNum=clientNum.replace(rep,repStr);\n" +
-            "                        sourceNum=sourceNum.replace(rep,repStr);\n" +
-            "                        feeNum=feeNum.replace(rep,repStr);\n" +
-            "                \n" +
-            "                }   \n" +
-            "             return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+accountNum2+'|'+shopNameNum+'|'+clientNum+'|'+sourceNum+'|'+feeNum+'|'+index\n" +
-            "       }        ";
-
-
+        var data = "pattern= /%s/;if(pattern.test(body)){var array = pattern.exec(body);var remarkNum='%s',accountNum='%s',typeNum='%s',moneyNum='%s',shopNameNum='%s',accountNum2='%s',clientNum='%s',sourceNum='%s',feeNum='%s';for(var i=1;i<array.length;i++){var rep=\"$\"+i.toString();var repStr=array[i];remarkNum=remarkNum.replace(rep,repStr);accountNum=accountNum.replace(rep,repStr);typeNum=typeNum.replace(rep,repStr);moneyNum=moneyNum.replace(rep,repStr);shopNameNum=shopNameNum.replace(rep,repStr);accountNum2=accountNum2.replace(rep,repStr);clientNum=clientNum.replace(rep,repStr);sourceNum=sourceNum.replace(rep,repStr);feeNum=feeNum.replace(rep,repStr);} return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+accountNum2+'|'+shopNameNum+'|'+clientNum+'|'+sourceNum+'|'+feeNum+'|'+index;}";
 
         //获取名称
         if ($("#sort_name").val() === "") {
-            Toast("名称不能为空", 2000);
+            Toast("规则名称不能为空", 2000);
             return "";
         }
         //获取名称
@@ -361,24 +302,14 @@
             Toast("测试文本不能为空", 2000);
             return "";
         }
-        var dataUtilsStr=getData();
-        var dataUtils1=new DataUtils();
-        dataUtils1.parse(dataUtilsStr);
-        var dataUtils=new DataUtils();
-        dataUtils.parse(dataUtils1.get("tableList"))
-        data = String.format(data, dataUtils1.get("regular"), dataUtils.get("shopRemark"), dataUtils.get("account1"), dataUtils.get("type"), dataUtils.get("money"), dataUtils.get("shopName"), dataUtils.get("account2"), dataUtils.get("silent"), dataUtils.get("source"), dataUtils.get("fee"));
+        var Json=getData();
+        var Json1=Json["tableList"];
+        data = String.format(data, Json["regular"], Json1["shopRemark"],Json1["account1"],Json1["type"],Json1["money"],Json1["shopName"],Json1["account2"],Json1["silent"],Json1["source"],Json1["fee"]);
         return data;
     }
     function getFunction( body, regex) {
-        var js = "function getData(body){ \n" +
-            "        var remark,account,type,money,shopName,account2,client,source,fee,index=0 ;\n" +
-            "        %s\n" +
-            "return remark+'|'+account+'|'+type+'|'+money+'|'+shopName+'|'+account2+'|'+client+'|'+source+'|'+fee +'|'+index\n" +
-            "};\n" +
-            "getData('%s');";
-
-        return String.format(js, regex, body);
-
+        var js = "function getData(body){var remark,account,type,money,shopName,account2,client,source,fee,index=0 ; %s return remark+'|'+account+'|'+type+'|'+money+'|'+shopName+'|'+account2+'|'+client+'|'+source+'|'+fee +'|'+index;}getData('%s');";
+        return String.format(js, regex, StringAs(body));
     }
     setData();
 </script>

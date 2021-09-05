@@ -17,10 +17,6 @@
 
 package cn.dreamn.qianji_auto.database;
 
-import android.content.Context;
-
-import androidx.room.Room;
-
 import static cn.dreamn.qianji_auto.database.AppDatabase.MIGRATION_1_2;
 import static cn.dreamn.qianji_auto.database.AppDatabase.MIGRATION_2_3;
 import static cn.dreamn.qianji_auto.database.AppDatabase.MIGRATION_3_4;
@@ -30,6 +26,10 @@ import static cn.dreamn.qianji_auto.database.AppDatabase.MIGRATION_6_7;
 import static cn.dreamn.qianji_auto.database.AppDatabase.MIGRATION_7_8;
 import static cn.dreamn.qianji_auto.database.AppDatabase.MIGRATION_8_9;
 import static cn.dreamn.qianji_auto.database.AppDatabase.MIGRATION_9_10;
+
+import android.content.Context;
+
+import androidx.room.Room;
 
 
 public class DbManger {

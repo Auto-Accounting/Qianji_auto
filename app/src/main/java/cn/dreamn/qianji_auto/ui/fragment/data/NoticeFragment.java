@@ -23,6 +23,7 @@ import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
 import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
 
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -32,6 +33,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.alibaba.fastjson.JSONObject;
 import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.shehuan.statusview.StatusView;
@@ -114,17 +116,7 @@ public class NoticeFragment extends BaseFragment {
         return target;
     }
 
-    private String getName() {
-        switch (getType()) {
-            case "sms":
-                return getString(R.string.sms);
-            case "notice":
-                return getString(R.string.notice);
-            case "app":
-                return getString(R.string.app);
-        }
-        return "";
-    }
+
 
     @Override
     protected int getLayoutId() {
@@ -190,27 +182,29 @@ public class NoticeFragment extends BaseFragment {
                         AppDatas.del(item.getInt("id"));
                         HandlerUtil.send(mHandler, getString(R.string.del_success), HANDLE_REFRESH);
                     } else {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("account1", "");
-                        bundle.putString("account2", "");
-                        bundle.putString("type", "0");
-                        bundle.putString("source", "");
-                        bundle.putString("silent", "1");
-                        bundle.putString("money", "");
-                        bundle.putString("fee", "");
-                        bundle.putString("shopName", "");
-                        bundle.putString("shopRemark", "");
-                        Bundle bundle2 = new Bundle();
 
-                        bundle2.putString("name", getString(R.string.reg_create));
-                        bundle2.putString("text", item.getString("rawData"));
-                        bundle2.putString("regular", item.getString("rawData"));
-                        bundle2.putString("fromApp", item.getString("fromApp"));
-                        bundle2.putString("des", "");
-                        bundle2.putString("id", "");
-                        bundle2.putString("identify", getType());
-                        bundle2.putBundle("tableList", bundle);
-                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Regulars/index.html", bundle2);
+                        JSONObject jsonObject = new JSONObject();
+
+                        jsonObject.put("account1", "");
+                        jsonObject.put("account2", "");
+                        jsonObject.put("type", "0");
+                        jsonObject.put("source", "");
+                        jsonObject.put("silent", "1");
+                        jsonObject.put("money", "");
+                        jsonObject.put("fee", "");
+                        jsonObject.put("shopName", "");
+                        jsonObject.put("shopRemark", "");
+
+                        JSONObject jsonObject2 = new JSONObject();
+                        jsonObject2.put("name", getString(R.string.reg_create));
+                        jsonObject2.put("text", item.getString("rawData"));
+                        jsonObject2.put("regular", item.getString("rawData"));
+                        jsonObject2.put("fromApp", item.getString("fromApp"));
+                        jsonObject2.put("des", "");
+                        jsonObject2.put("id", "");
+                        jsonObject2.put("identify", getType());
+                        jsonObject2.put("tableList", jsonObject);
+                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Regulars/index.min.html?data=" + Uri.encode(jsonObject2.toJSONString()));
                     }
                 }
             });
