@@ -222,7 +222,6 @@
     <string name="log_simple">简单日志</string>
     <string name="log_more">详细日志</string>
     <string name="log_mode">日志模式（%s）</string>
-    <string name="log_set_success设置成功">设置成功！</string>
     <string name="log_set_success">设置成功！</string>
     <string name="log_cache_title">日志缓存</string>
     <string name="log_cache_body">日志缓存有效期为24小时，如果有无法正常记账的情况请在24小时内反馈，24小时后日志会自动删除。\n\n 点击右上角可以进行日志反馈并切换日志记录模式。</string>
@@ -269,7 +268,7 @@
     <string name="select_title">请选择自动记账%s规则配置文件</string>
     <string name="select_check">选中</string>
     <string name="error_permission">出错了，可能是权限未给全！</string>
-    <string name="data_loading">数据导入中...</string>
+    <string name="data_loading">数据导入中…</string>
     <string name="restore_failed">恢复失败！</string>
     <string name="restore_success">恢复成功！</string>
     <string name="set_error">该文件不是有效的%s配置数据文件</string>
@@ -296,4 +295,5 @@
     <string name="could_help">https://github.com/dreamncn/Qianji_auto/issues</string>
     <string name="deny_success">禁用成功</string>
     <string name="enable_success">启用成功</string>
+    <string name="import_auto">导入至自动记账</string>
 </resources>

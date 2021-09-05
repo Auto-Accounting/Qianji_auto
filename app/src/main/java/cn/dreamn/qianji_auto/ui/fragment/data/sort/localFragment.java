@@ -56,6 +56,7 @@ import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.files.RegularManager;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
@@ -92,11 +93,11 @@ public class localFragment extends BaseFragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case HANDLE_ERR:
-                    if (statusView != null) statusView.showEmptyView();
+                    statusView.showEmptyView();
                     break;
                 case HANDLE_OK:
                     mAdapter.refresh(list);
-                    Task.onMain(1000, () -> statusView.showContentView());
+                    statusView.showContentView();
                     break;
                 case HANDLE_REFRESH:
                     String d = (String) msg.obj;
@@ -115,7 +116,6 @@ public class localFragment extends BaseFragment {
 
                     break;
             }
-            floatingActionButton.setVisibility(View.VISIBLE);
         }
     };
 
@@ -278,7 +278,7 @@ public class localFragment extends BaseFragment {
                         break;
                     case 3:
 
-                        BottomArea.msg(getContext(), getString(R.string.could_title), getString(R.string.could_body), getString(R.string.regular_know), getString(R.string.regular_upload), new BottomArea.MsgCallback() {
+                        BottomArea.msg(getContext(), getString(R.string.could_title), getString(R.string.could_body), getString(R.string.regular_upload), getString(R.string.regular_know), new BottomArea.MsgCallback() {
                             @Override
                             public void cancel() {
 
@@ -322,11 +322,13 @@ public class localFragment extends BaseFragment {
         statusView.showLoadingView();
         Task.onThread(() -> {
             Category.getAll(regulars -> {
+
                 if (regulars == null || regulars.length == 0) {
                     HandlerUtil.send(mHandler, HANDLE_ERR);
                 } else {
+                    Log.d("regular", regulars.toString());
                     list = Arrays.asList(regulars);
-                    HandlerUtil.send(mHandler, HANDLE_REFRESH);
+                    HandlerUtil.send(mHandler, HANDLE_OK);
                 }
             });
         });

@@ -11,7 +11,6 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuInflater;
-import android.webkit.CookieManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -40,7 +39,6 @@ import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.TitleBar;
-import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
@@ -125,13 +123,6 @@ public class WebViewFragment extends BaseFragment {
                 //统计页面的使用时长
                 Log.i("Qianji", " page mUrl:" + url + "  used time:" + (overTime - startTime));
             }
-            if (url.startsWith("https://qianji.ankio.net/login?success=true")) {
-                CookieManager cookieManager = CookieManager.getInstance();
-                String CookieStr = cookieManager.getCookie(url);
-                AutoBillWeb.setCookie(CookieStr);
-                popToBack();
-            }
-
 
         }
 
@@ -157,7 +148,7 @@ public class WebViewFragment extends BaseFragment {
     @Override
     protected void initViews() {
         String url = getUrl();
-        if (!url.startsWith("https://qianji.ankio.net") && !url.startsWith("file:///android_asset/")) {
+        if (!url.startsWith("file:///android_asset/")) {
             title_bar.setRightIcon("&#xe60c;", 16);
             title_bar.setRightIconOnClickListener(v -> {
                 //创建弹出式菜单对象（最低版本11）
@@ -189,6 +180,9 @@ public class WebViewFragment extends BaseFragment {
         webView.setWebViewClient(mWebViewClient);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);//允许使用js
+        webSettings.setDomStorageEnabled(true);// 打开本地缓存提供JS调用,至关重要
+        webSettings.setAllowFileAccess(true);
+        webSettings.setAppCacheEnabled(true);
         //  webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 //用handler访问让方法在主进程内处理
         mHandler = new Handler(Looper.myLooper()) {
@@ -211,6 +205,7 @@ public class WebViewFragment extends BaseFragment {
                 @JavascriptInterface
                 public void Save(String data, String js, String name, String des, String id) {
                     if (id.equals("")) {
+
                         //存储规则
                         Category.addCategory(js, name, data, des, () -> {
                             ToastUtils.show("存储成功！");
