@@ -1,0 +1,488 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>规则编辑</title>
+    <link href="../Public/css/category.min.css" rel="stylesheet">
+    <link href="../Public/css/tip.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="rule">
+    <form action="" onsubmit="return false">
+        <div class="sort_name">
+            <label for="sort_name">规则名称</label>
+            <div class="rule_content">
+                <div class="rule_content1">
+                    <input id="sort_name" placeholder="分类规则名称" type="text">
+                </div>
+            </div>
+
+            <div class="rule_content">
+                <div class="rule_content1">
+                    <textarea cols="30" id="sort_remark" name="sort_remark" placeholder="请输入备注..."
+                              rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+        <input id="cate_id" style="display: none" type="text">
+        <div class="time_condition">
+            <label>时间条件范围</label>
+            <div class="rule_content">
+                <div class="rule_content2">
+                    <button class="time_button">最小</button>
+                    <input id="time_condition2" placeholder="仅可输入数字，24小时计数法" type="time">
+                </div>
+            </div>
+            <div class="rule_content">
+                <div class="rule_content2">
+                    <button class="time_button">最大</button>
+                    <input id="time_condition4" placeholder="仅可输入数字，24小时计数法" type="time">
+                </div>
+            </div>
+        </div>
+
+        <div class="price_condition">
+            <label>金额满足条件</label>
+            <div class="rule_content">
+                <div class="rule_content2">
+                    <select id="price_condition1" name="price_condition1">
+                        <option selected value="="> =</option>
+                        <option value=">="> >=</option>
+                        <option value="<="> <=</option>
+                    </select><input id="price_condition2" placeholder="仅可输入数字" type="number">
+                </div>
+            </div>
+            <div class="rule_content">
+                <div class="rule_content2">
+                    <select id="price_condition3" name="price_condition3">
+                        <option selected value="="> =</option>
+                        <option value=">="> >=</option>
+                        <option value="<="> <=</option>
+                    </select><input id="price_condition4" placeholder="仅可输入数字" type="number">
+                </div>
+            </div>
+        </div>
+
+        <div class="merchant_name">
+            <label>商户名称满足条件</label>
+            <div class="rule_content">
+                <div class="rule_content2">
+                    <select id="merchant_name1" name="merchant_name1">
+                        <option selected value="正则匹配">正则匹配</option>
+                        <option value="包含"> 包含</option>
+                    </select><input id="merchant_name2" type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="merchant_remark">
+            <label>商户备注满足条件</label>
+            <div class="rule_content">
+                <div class="rule_content2">
+                    <select id="merchant_remark1" name="merchant_remark1">
+                        <option selected value="正则匹配">正则匹配</option>
+                        <option value="包含"> 包含</option>
+                    </select><input id="merchant_remark2" type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="bill_type">
+            <label>账单类型满足条件</label>
+            <div class="rule_content">
+                <div class="rule_content2">
+                    <select id="bill_type1" name="bill_type1">
+                        <option selected value="正则匹配">正则匹配</option>
+                        <option value="包含"> 包含</option>
+                    </select><input id="bill_type2" type="text">
+                </div>
+            </div>
+        </div>
+
+        <div class="consumption_type">
+            <div class="rule_content">
+                <div class="rule_content3">
+                    <span>消费类型为</span>
+                    <select id="consumption_type" name="consumption_type">
+                        <option selected value="0"> 支出</option>
+                        <option value="1"> 收入</option>
+                    </select>
+                    <img alt="" src="../Public/images/category_right.png"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="sort">
+            <div class="rule_content">
+                <div class="rule_content3">
+                    <span>分类为</span>
+                    <button id="category">
+                        <img alt="" class="imgIcon" id="iconImg"
+                             src="https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png"
+                             style="width: 16px;height: 16px;margin-right: 5px"/><b id="cateValue">其他</b>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="button1" id="test">测试</button>
+            <button id="save">保存</button>
+        </div>
+    </form>
+</div>
+
+
+<!-- 弹窗 -->
+<div class="modal" id="myModal">
+
+    <!-- 弹窗内容 -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close cancel">&times;</span>
+            <h4>请完善测试数据</h4>
+        </div>
+        <div class="modal-body">
+            <div class="time_condition">
+                <!--   <label>当前时间</label>-->
+                <div class="rule_content">
+                    <div class="rule_content3">
+                        <button>
+                            当前时间
+                        </button>
+                        <input id="time_now" placeholder="仅可输入数字，24小时计数法" type="time">
+                    </div>
+                </div>
+            </div>
+
+            <div class="price_condition">
+                <!-- <label>金额大小</label>-->
+                <div class="rule_content">
+                    <div class="rule_content3">
+                        <button>
+                            金额
+                        </button>
+                        <input id="price_now" placeholder="仅可输入数字" type="number" value="0.1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="merchant_name">
+                <!-- <label>商户名称满足条件</label>-->
+                <div class="rule_content">
+                    <div class="rule_content3">
+                        <button>
+                            商户名称
+                        </button>
+                        <input id="shop_name" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="merchant_name">
+                <!-- <label>商户名称满足条件</label>-->
+                <div class="rule_content">
+                    <div class="rule_content3">
+                        <button>
+                            商户备注
+                        </button>
+                        <input id="shop_remark" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="merchant_name">
+                <!-- <label>商户名称满足条件</label>-->
+                <div class="rule_content">
+                    <div class="rule_content3">
+                        <button>
+                            账单类型
+                        </button>
+                        <input id="type" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="merchant_name">
+
+
+                <div class="rule_content">
+
+                    <div class="rule_content3">
+                        <button>消费类型</button>
+                        <select class="bill_select" id="bill_type">
+                            <option selected value="0"> 支出</option>
+                            <option value="1"> 收入</option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="buttons">
+                    <button class="button1" id="go">测试</button>
+                    <button class="cancel">取消</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal" id="tip">
+
+    <!-- 弹窗内容 -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close cancel2">&times;</span>
+            <h4>测试结果</h4>
+        </div>
+        <div class="modal-body">
+            <p id="tip_content"></p>
+        </div>
+        <div class="modal-footer">
+            <div class="buttons">
+                <button class="cancel2">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../Public/jquery/jquery.js"></script>
+<script src="../Public/jquery/common.min.js"></script>
+<!--<script src="../Public/jquery/category.js"></script>-->
+<script>
+    $(function () {
+
+        $("#category").on("click", function (e) {
+            try {
+                window.AndroidJS.SelectCategory($("#consumption_type").val());
+            } catch (e) {
+                //不是在安卓WebVIew打开
+                const word = prompt("请输入分类名称", "");
+                if (word) {
+                    setCategory(word, "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png");
+                }
+            }
+
+        });
+
+
+        function showTip(str){
+            $("#tip_content").html(str);
+            $("#tip").css("display", "block");
+        }
+        $(".cancel").on("click", function (e) {
+            $("#myModal").css("display", "none");
+        });
+        $(".cancel2").on("click", function (e) {
+            $("#tip").css("display", "none");
+        });
+        $("#test").on("click", function (e) {
+            $("#myModal").css("display", "block");
+        });
+        $("#go").on("click", function (e) {
+            const js = getJs();
+            if(js==="")
+                return;
+            let regT = /([01\b]\d|2[0-3]):([0-5]\d)/;
+            const t1 = $("#time_now").val().match(regT);
+            let h1 = 0, m1 = 0;
+            if (t1 != null && t1.length >= 3) {
+                h1 = parseInt(t1[1]);
+                m1 = parseInt(t1[2]);
+            }
+
+
+
+            const jsData = getOneRegularJs(js, $("#shop_name").val(), $("#shop_remark").val(), $("#bill_type").val(), h1, m1, $("#type").val(), $("#price_now").val());
+            console.log(jsData);
+            try {
+                const ret = eval(jsData);
+                showTip("自动分类结果：" + ret);
+            } catch (e) {
+                showTip("自动分类执行出错：" + e+"<br>也许你应该检查一下你的正则表达式~<br>完整JS:<pre style=\"\n" +
+                "    white-space: pre-wrap;\n" +
+                "    word-wrap: break-word;\n" +
+                "\">"+htmlspecialchars(jsData)+"</pre>");
+                // console.log(e)
+            }
+        });
+        $("#save").on("click", function (e) {
+            window.AndroidJS.Save(getData(),getJs(),$("#sort_name").val(),$("#sort_remark").val(),$("#cate_id").val());
+        });
+        setData();
+    });
+
+    function getData() {
+        var json={};
+        json["regular_name"]=$("#sort_name").val();
+        json["regular_remark"]=$("#sort_remark").val();
+        json["regular_time1_link"]=$("#time_condition1").val();
+        json["regular_time1"]=$("#time_condition2").val();
+        json["regular_time2_link"]=$("#time_condition3").val();
+        json["regular_time2"]=$("#time_condition4").val();
+        json["regular_money1_link"]=$("#price_condition1").val();
+        json["regular_money1"]=$("#price_condition2").val();
+        json["regular_money2_link"]=$("#price_condition3").val();
+        json["regular_money2"]=$("#price_condition4").val();
+        json["regular_shopName_link"]=$("#merchant_name1").val();
+        json["regular_shopName"]=$("#merchant_name2").val();
+        json["regular_shopRemark_link"]=$("#merchant_remark1").val();
+        json["regular_shopRemark"]=$("#merchant_remark2").val();
+        json["bill_type1"]=$("#bill_type1").val();
+        json["bill_type2"]=$("#bill_type2").val();
+        json["regular_type"]=$("#consumption_type").val();
+        json["iconImg"]=$("#iconImg").attr("src");
+        json["regular_sort"]=$("#cateValue").html();
+        return JSON.stringify(json);
+    }
+
+    function setData() {
+        let data = decodeURIComponent(getQueryVariable("data"));
+        console.log(data)
+        const id = getQueryVariable("id");
+        if(data!==undefined&&id!==undefined){
+            $("#cate_id").val(id);
+            var json=JSON.parse(data);
+
+            $("#sort_name").val(json["regular_name"]);
+            $("#sort_remark").val(json["regular_remark"]);
+            $("#time_condition1").val(json["regular_time1_link"]);
+            $("#time_condition2").val(json["regular_time1"]);
+            $("#time_condition3").val(json["regular_time2_link"]);
+            $("#time_condition4").val(json["regular_time2"]);
+            $("#price_condition1").val(json["regular_money1_link"]);
+            $("#price_condition2").val(json["regular_money1"]);
+            $("#price_condition3").val(json["regular_money2_link"]);
+            $("#price_condition4").val(json["regular_money2"]);
+            $("#merchant_name1").val(json["regular_shopName_link"]);
+            $("#merchant_name2").val(json["regular_shopName"]);
+            $("#merchant_remark1").val(json["regular_shopRemark_link"]);
+            $("#merchant_remark2").val(json["regular_shopRemark"]);
+            $("#bill_type1").val(json["bill_type1"]);
+            $("#bill_type2").val(json["bill_type2"]);
+            $("#consumption_type").val(json["regular_type"]);
+            $("#iconImg").attr("src", json["iconImg"]);
+            $("#cateValue").html(json["regular_sort"]);
+
+
+        }
+
+
+    }
+
+    function setCategory(str, icon) {
+        $("#cateValue").html(str);
+        $("#iconImg").attr("src", icon);
+    }
+
+
+
+    function getJs() {
+        //获取名称
+        const name = $("#sort_name").val();
+        if (name === "") {
+            Toast("名称不能为空", 2000);
+            return "";
+        }
+        //获取分类
+        var sort = $("#cateValue").html();
+        if (sort === "") {
+            Toast("分类不能为空", 2000);
+            return "";
+        }
+
+
+        var regularList = "";
+
+        //时间获取
+        if ($("#time_condition2").val() !== "" && $("#time_condition4").val() !== "")
+            regularList += String.format("isInTimeInner('%s','%s',hour,minute)&& ",$("#time_condition2").val(), $("#time_condition4").val());
+
+
+        //时间获取
+        if ($("#price_condition2").val() !== "")
+            regularList += String.format("money %s %s && ",$("#price_condition1").val(), $("#price_condition2").val());
+        if ($("#price_condition4").val() !== "")
+            regularList += String.format("money %s %s && ",$("#price_condition3").val(), $("#price_condition4").val());
+
+        const shopName = $("#merchant_name2").val();
+        const shopNameLink = $("#merchant_name1").val();
+        if (shopName !== "") {
+            if (shopNameLink === "包含") {
+                regularList += String.format("shopName.indexOf('%s')!=-1 && ", shopName);
+
+            } else if (shopNameLink === "正则匹配") {
+                regularList += String.format("(/%s/g).test(shopName) && ", shopName);
+            }
+        }
+        const shopRemark = $("#merchant_remark2").val();
+        const shopRemarkLink = $("#merchant_remark1").val();
+        if (shopRemark !== "") {
+            if (shopRemarkLink === "包含") {
+                regularList += String.format("shopName.indexOf('%s')!=-1 && ", shopName);
+
+            } else if (shopRemarkLink === "正则匹配") {
+                regularList += String.format("(/%s/g).test(shopName) && ", shopName);
+            }
+        }
+        const BillType = $("#bill_type1").val();
+        const BillTypeLink = $("#bill_type2").val();
+        if (BillType !== "") {
+            if (BillTypeLink === "包含") {
+                regularList += String.format("source.indexOf('%s')!=-1 && ", BillType);
+
+            } else if (BillTypeLink === "正则匹配") {
+                regularList += String.format("(/%s/g).test(source) && ", BillType);
+            }
+        }
+        //获取类型
+        const type = $("#consumption_type").val();
+        regularList += String.format("type == '%s' && ", type);
+
+        var last = regularList.lastIndexOf('&');
+        if (last !== -1 && last !== 0)
+            regularList = regularList.substring(0, last - 1);
+
+        if (regularList === "") {
+            Toast("规则填写错误:条件内容为空。", 2000);
+            return "";
+        }
+
+        return String.format("if(%s)return '%s';", regularList, StringAs(sort));
+    }
+
+    function getOneRegularJs(jsData, shopAccount, shopRemark, type, hour, minute, source, money) {
+        if (shopAccount == null) shopAccount = "";
+        if (shopRemark == null) shopRemark = "";
+        var jsInner = "\n" +
+            "const isInTimeInner = function (minTime, maxTime,timeHour,timeMinute) {\n" +
+            "\n" +
+            "    let regT = /([01\\b]\\d|2[0-3]):([0-5]\\d)/;\n" +
+            "    const t1 = minTime.match(regT);\n" +
+            "    const t2 = maxTime.match(regT);\n" +
+            "    if(t1==null||t2==null||t1.length<3||t2.length<3){\n" +
+            "        return false;\n" +
+            "    }\n" +
+            "    const h1 = parseInt(t1[1]), h2 =  parseInt(t2[1]), m1 =  parseInt(t1[2]), m2 =  parseInt(t2[2]);\n" +
+            "    if (h1 > h2)\n" +
+            "        return (timeHour === h1 && timeMinute >= m1) || timeHour > h1 || timeHour < h2 || timeHour === h2 && timeMinute <= m2;\n" +
+            "    else if (h1 < h2)\n" +
+            "        return (timeHour === h1 && timeMinute >= m1) || (timeHour > h1 && timeHour < h2) || timeHour === h2 && timeMinute <= m2;\n" +
+            "    else if (h1 === h2) {\n" +
+            "        if (m1 < m2)\n" +
+            "            return timeHour === h1 && timeMinute >= m1 && timeMinute <= m2;\n" +
+            "        else if (m1 > m2)\n" +
+            "            return (timeHour === h1 && timeMinute >= m1 || timeMinute <= m2) || (timeHour !== h1);\n" +
+            "        else\n" +
+            "            return m1 === m2 && timeMinute === m1 && timeHour === h1;\n" +
+            "    }\n" +
+            "};";
+        var js = "function getCategory(shopName,shopRemark,type,hour,minute,source,money){%s  %s return '其它';} getCategory('%s','%s','%s',%s,%s,'%s','%s');";
+        return String.format(js, jsInner, jsData, StringAs(shopAccount), StringAs(shopRemark), type, hour, minute, source, money);
+    }
+
+
+
+</script>
+
+</body>
+</html>
