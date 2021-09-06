@@ -45,7 +45,6 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.CategoryUtils;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
@@ -74,7 +73,6 @@ public class sortsFragment extends BaseFragment {
     View view_hide;
 
     CategoryUtils categoryUtils;
-    LoadingDialog loadingDialog;
     Bundle book;
     String type;
 
@@ -116,12 +114,12 @@ public class sortsFragment extends BaseFragment {
                     break;
                 case HANDLE_REFRESH:
                     refreshData(book.getString("book_id"), msg.arg1);
+                    statusView.showContentView();
                     break;
             }
             String d = (String) msg.obj;
             if ((d != null && !d.equals("")))
                 ToastUtils.show(d);
-            if (loadingDialog != null) loadingDialog.close();
         }
     };
 
@@ -133,8 +131,9 @@ public class sortsFragment extends BaseFragment {
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, getString(R.string.sort_empty)));
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-            loadingDialog = new LoadingDialog(getAttachContext(), getString(R.string.main_loading));
-            loadingDialog.show();
+            viewHolder.setText(R.id.loading_text, getString(R.string.main_loading));
+            //   LVCircularRing mLoadingView = viewHolder.getView(R.id.lv_circularring);
+            //  mLoadingView.startAnim();
         });
 
         view_hide.setVisibility(View.GONE);
@@ -317,7 +316,11 @@ public class sortsFragment extends BaseFragment {
 
     private void refreshData(String book_id,int parentPos) {
         statusView.showLoadingView();
-        categoryUtils.refreshData(book_id, parentPos, (state) -> HandlerUtil.send(mHandler, state));
+        Log.m("book_id", book_id);
+        Log.m("book_parent", String.valueOf(parentPos));
+        categoryUtils.refreshData(book_id, parentPos, (state) -> {
+            HandlerUtil.send(mHandler, state);
+        });
     }
 
     private void refreshData() {

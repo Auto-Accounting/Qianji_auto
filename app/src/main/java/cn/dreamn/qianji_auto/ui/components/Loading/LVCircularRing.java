@@ -56,6 +56,7 @@ public class LVCircularRing extends View {
         canvas.drawArc(rectF, startAngle, 100
                 , false, mPaint);//第四个参数是否显示半径
 
+        startAnim();
     }
 
     private void initPaint() {

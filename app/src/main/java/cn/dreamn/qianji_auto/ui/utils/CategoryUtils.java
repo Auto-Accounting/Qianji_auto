@@ -1,6 +1,7 @@
 package cn.dreamn.qianji_auto.ui.utils;
 
 import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_ERR;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
 import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
 
 import android.content.Context;
@@ -86,7 +87,7 @@ public class CategoryUtils {
     }
 
     private void refreshSubData(Bundle item, int position, int left) {
-
+        if (item == null) return;
         if (item.getString("name") == null) return;//为null就不响应
 
         int real = getItemPos(position);//当前的item
@@ -235,6 +236,8 @@ public class CategoryUtils {
     }
 
     public void refreshData(String book_id, int parent, finishRefresh f) {
+        Log.m("ref_book_id", book_id);
+        Log.m("ref_book_parent", String.valueOf(parent));
 
         if (parent != -2) {
             Bundle data = list.get(parent);
@@ -268,7 +271,8 @@ public class CategoryUtils {
                     categoryUtils.getAdapter().refresh(list);//全部刷新
                 }
                 if (categoryUtils.getFinish() != null) {
-                    categoryUtils.getFinish().onFinish(msg.what);
+                    int state = (msg.what == HANDLE_REFRESH) ? HANDLE_OK : HANDLE_ERR;
+                    categoryUtils.getFinish().onFinish(state);
                 }
             }
         }
