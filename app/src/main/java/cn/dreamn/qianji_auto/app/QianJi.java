@@ -21,9 +21,9 @@ import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Helper.Caches;
 import cn.dreamn.qianji_auto.database.Table.CategoryName;
 import cn.dreamn.qianji_auto.setting.AppStatus;
+import cn.dreamn.qianji_auto.utils.runUtils.Cmd;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
-import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class QianJi implements IApp {
     private static QianJi qianJi;
@@ -58,7 +58,10 @@ public class QianJi implements IApp {
                 if (msg.what == 0) {
                     Caches.AddOrUpdate("show_tip", "false");
                     Caches.AddOrUpdate("float_time", String.valueOf(System.currentTimeMillis()));
-                    Tool.goUrl(context, getQianJi(billInfo));
+                    //    Tool.goUrl(context, getQianJi(billInfo));
+
+                    Cmd.exec(new String[]{"am start \"" + getQianJi(billInfo) + "\""});
+
                     ToastUtils.show("记账成功！金额￥" + billInfo.getMoney() + "。");
                 }
             }
