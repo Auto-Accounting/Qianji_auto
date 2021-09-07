@@ -4,20 +4,11 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.afollestad.materialdialogs.LayoutMode;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
-import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 
 import org.jetbrains.annotations.NotNull;
@@ -27,11 +18,8 @@ import java.util.concurrent.TimeUnit;
 
 import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
-import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
+import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 import okhttp3.CacheControl;
 import okhttp3.Call;
@@ -42,26 +30,87 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class AutoBillWeb {
-    public static String getCookie() {
-        MMKV mmkv = MMKV.defaultMMKV();
-        return mmkv.getString("login_cookie", "");
-    }
 
-    public static void setCookie(String cookie) {
-        MMKV mmkv = MMKV.defaultMMKV();
-        mmkv.encode("login_cookie", cookie);
-    }
+    private static final String branch = "dev";
 
-    public static void sendLog(String log, WebCallback callback) {
-        String url = "https://qianji.ankio.net/api_log.json";
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
-                .newBuilder();
-        urlBuilder.addQueryParameter("log", B64.encode(log));
+    private static final String baseUrl = "https://cdn.jsdelivr.net/gh/dreamncn/Qianji_auto@" + branch;
+
+    public static void getCategoryList(WebCallback callback) {
+        String url = baseUrl + "/cloud/category/list.json";
         OkHttpClient okHttpClient = new OkHttpClient();
         final CacheControl.Builder builder = new CacheControl.Builder();
         builder.maxAge(30, TimeUnit.MINUTES);
         CacheControl cache = builder.build();
+        final Request request = new Request.Builder().cacheControl(cache).url(url).build();
+        final Call call = okHttpClient.newCall(request);//
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure();
+                e.printStackTrace();
+            }
 
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String string = response.body().string();
+                    callback.onSuccessful(string);
+                } else {
+                    callback.onFailure();
+                    Log.d("服务器响应错误");
+                }
+            }
+        });
+    }
+
+    public static void getCategory(String name, WebCallback callback) {
+        String url = baseUrl + "/cloud/category/data/" + name + ".json";
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final CacheControl.Builder builder = new CacheControl.Builder();
+        builder.maxAge(30, TimeUnit.MINUTES);
+        CacheControl cache = builder.build();
+        final Request request = new Request.Builder().cacheControl(cache).url(url).build();
+        final Call call = okHttpClient.newCall(request);//
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure();
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String string = response.body().string();
+                    callback.onSuccessful(string);
+                } else {
+                    callback.onFailure();
+                    Log.d("服务器响应错误");
+                }
+            }
+        });
+    }
+
+
+    public static void getDataList(String type, WebCallback callback) {
+        //短信规则可以共用
+        //通知规则可以共用
+        //app规则不行
+
+        String addUrl = "/reg/" + type + "/";
+        if (type.equals("app")) {
+            addUrl += AppStatus.getActiveMode() + "/";
+        }
+        addUrl += "list.json";
+
+        String url = baseUrl + addUrl;
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
+                .newBuilder();
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        final CacheControl.Builder builder = new CacheControl.Builder();
+        builder.maxAge(30, TimeUnit.MINUTES);
+        CacheControl cache = builder.build();
 
         final Request request = new Request.Builder().cacheControl(cache).url(urlBuilder.build()).get().build();
         final Call call = okHttpClient.newCall(request);//
@@ -85,27 +134,37 @@ public class AutoBillWeb {
         });
     }
 
+    public static void getData(String type, String app, WebCallback callback) {
+        //短信规则可以共用
+        //通知规则可以共用
+        //app规则不行
 
-    public static void getCategoryWeb(String name, WebCallback callback) {
-        String url = "https://qianji.ankio.net/api_category.json";
-        if (name != null) {
-            url += "?name=" + name;
+        String addUrl = "/reg/" + type + "/";
+        if (type.equals("app")) {
+            addUrl += AppStatus.getActiveMode() + "/";
         }
+        addUrl += "/data/" + app + ".json";
+
+        String url = baseUrl + addUrl;
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
+                .newBuilder();
+
         OkHttpClient okHttpClient = new OkHttpClient();
         final CacheControl.Builder builder = new CacheControl.Builder();
         builder.maxAge(30, TimeUnit.MINUTES);
         CacheControl cache = builder.build();
-        final Request request = new Request.Builder().cacheControl(cache).url(url).build();
+
+        final Request request = new Request.Builder().cacheControl(cache).url(urlBuilder.build()).get().build();
         final Call call = okHttpClient.newCall(request);//
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException e) {
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 callback.onFailure();
                 e.printStackTrace();
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String string = response.body().string();
                     callback.onSuccessful(string);
@@ -118,8 +177,7 @@ public class AutoBillWeb {
     }
 
     public static void getUpdate(WebCallback callback) {
-        String url = "https://cdn.jsdelivr.net/gh/dreamncn/Qianji_auto@dev/version.json";
-
+        String url = baseUrl + "/cloud/version.json";
         OkHttpClient okHttpClient = new OkHttpClient();
         final CacheControl.Builder builder = new CacheControl.Builder();
         builder.maxAge(30, TimeUnit.MINUTES);
@@ -135,51 +193,6 @@ public class AutoBillWeb {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String string = response.body().string();
-                    callback.onSuccessful(string);
-                } else {
-                    callback.onFailure();
-                    Log.d("服务器响应错误");
-                }
-            }
-        });
-    }
-
-    public static void getDataWeb(String name, String type, String app, WebCallback callback) {
-        String url = "https://qianji.ankio.net/api_data.json";
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
-                .newBuilder();
-        if (name != null) {
-            urlBuilder.addQueryParameter("name", name);
-        }
-        if (type != null) {
-            urlBuilder.addQueryParameter("type", type);
-        }
-        if (app != null) {
-            urlBuilder.addQueryParameter("app", app);
-        }
-        OkHttpClient okHttpClient = new OkHttpClient();
-        final CacheControl.Builder builder = new CacheControl.Builder();
-        builder.maxAge(30, TimeUnit.MINUTES);
-        CacheControl cache = builder.build();
-
-
-
-
-
-
-        final Request request = new Request.Builder().cacheControl(cache).url(urlBuilder.build()).get().build();
-        final Call call = okHttpClient.newCall(request);//
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                callback.onFailure();
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String string = response.body().string();
                     callback.onSuccessful(string);
@@ -203,35 +216,17 @@ public class AutoBillWeb {
                 JSONObject jsonObject = (JSONObject) msg.obj;
 
 
-                LayoutInflater factory = LayoutInflater.from(context);
-                final View textEntryView = factory.inflate(R.layout.include_list_msg, null);
-                BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-                MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
-                dialog.title(null, "新版本 " + jsonObject.getString("version"));
+                BottomArea.msg(context, context.getString(R.string.new_version) + jsonObject.getString("version"), jsonObject.getString("log"), context.getString(R.string.update_go), context.getString(R.string.update_cancel), new BottomArea.MsgCallback() {
+                    @Override
+                    public void cancel() {
 
-                TextView textView_body = textEntryView.findViewById(R.id.textView_body);
-                textView_body.setText(jsonObject.getString("log"));
+                    }
 
-
-                Button button_next = textEntryView.findViewById(R.id.button_next);
-                Button button_last = textEntryView.findViewById(R.id.button_last);
-
-                button_next.setOnClickListener(v -> {
-
-                    Tool.goUrl(context, jsonObject.getString("download"));
-                    dialog.dismiss();
+                    @Override
+                    public void sure() {
+                        Tool.goUrl(context, jsonObject.getString("download"));
+                    }
                 });
-
-                button_last.setOnClickListener(v -> {
-
-                    dialog.dismiss();
-                });
-
-                DialogCustomViewExtKt.customView(dialog, null, textEntryView,
-                        false, true, false, false);
-
-                dialog.cornerRadius(15f, null);
-                dialog.show();
             }
         };
         AutoBillWeb.getUpdate(new AutoBillWeb.WebCallback() {
@@ -256,8 +251,6 @@ public class AutoBillWeb {
                         callback.onUpdateEnd();
                     }
                 }
-
-
                 Log.m("更新数据：" + data);
             }
         });
@@ -273,97 +266,4 @@ public class AutoBillWeb {
         void onSuccessful(String data);
     }
 
-
-    public static void httpSend(Context context, BaseFragment baseFragment, String support, String data) {
-        LoadingDialog dialog = new LoadingDialog(context, "正在提交，请稍候...");
-        dialog.show();
-        Handler mHandler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                dialog.close();
-                switch (msg.what) {
-                    case -1:
-                        ToastUtils.show("访问服务器失败！");
-                        break;
-                    case 1:
-                        AutoBillWeb.goToLogin(baseFragment);
-                        break;
-                    case 2:
-                        ToastUtils.show((String) msg.obj);
-                        break;
-                    case 0:
-                        ToastUtils.show((String) msg.obj);
-                        break;
-                }
-            }
-        };
-        Task.onThread(() -> {
-            AutoBillWeb.sendData(support, data, new AutoBillWeb.WebCallback() {
-                @Override
-                public void onFailure() {
-                    mHandler.sendEmptyMessage(-1);
-                }
-
-                @Override
-                public void onSuccessful(String data) {
-                    Log.m("响应数据：" + data);
-                    com.alibaba.fastjson.JSONObject jsonObject1 = JSONObject.parseObject(data);
-                    switch (jsonObject1.getInteger("code")) {
-                        case 402:
-                            mHandler.sendEmptyMessage(1);
-                            break;
-                        case 403:
-                        case 404:
-                            Message message = new Message();
-                            message.what = 2;
-                            message.obj = jsonObject1.getString("msg");
-                            mHandler.sendMessage(message);
-                            break;
-                        case 0:
-                            Message message1 = new Message();
-                            message1.what = 0;
-                            message1.obj = jsonObject1.getString("msg");
-                            mHandler.sendMessage(message1);
-                            break;
-                    }
-                }
-            });
-        });
-
-    }
-
-    public static void sendData(String support, String data, WebCallback webCallback) {
-
-        String url = "https://qianji.ankio.net/api_" + support + ".json";
-
-
-        Log.d(data);
-
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
-                .newBuilder();
-        urlBuilder.addQueryParameter("data", data);
-        OkHttpClient okHttpClient = new OkHttpClient();
-        final Request request = new Request.Builder()
-                .url(urlBuilder.build())
-                .addHeader("Cookie", getCookie())//添加登录cookie访问，直接获取连接是不需要cookie的
-                .get()//默认就是GET请求，可以不写
-                .build();
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                webCallback.onFailure();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                webCallback.onSuccessful(response.body().string());
-            }
-        });
-    }
-
-
-    public static void goToLogin(BaseFragment baseFragment) {
-        WebViewFragment.openUrl(baseFragment, "https://qianji.ankio.net/login");
-    }
 }

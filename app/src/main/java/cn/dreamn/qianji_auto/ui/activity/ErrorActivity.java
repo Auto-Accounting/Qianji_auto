@@ -19,14 +19,10 @@ package cn.dreamn.qianji_auto.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
 
 import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -35,7 +31,7 @@ import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseActivity;
-import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
@@ -45,6 +41,7 @@ public class ErrorActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        super.setTheme(android.R.style.Theme_Translucent_NoTitleBar);
         setContentView(R.layout.activty_error_msg);
         initView();
     }
@@ -55,12 +52,14 @@ public class ErrorActivity extends BaseActivity {
 
         if (bundle != null) {
             Log.i("Error", bundle.getString("errorInfo"));//记录错误日志
+
+
             LayoutInflater factory = LayoutInflater.from(this);
             final View textEntryView = factory.inflate(R.layout.include_list_msg, null);
             BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
             bottomSheet.setRatio(1f);
             MaterialDialog dialog = new MaterialDialog(this, bottomSheet);
-            dialog.title(null, "自动记账发生异常 ");
+            dialog.title(null, getString(R.string.error_title));
 
             TextView textView_body = textEntryView.findViewById(R.id.textView_body);
             textView_body.setText(bundle.getString("errorInfo"));
@@ -68,28 +67,23 @@ public class ErrorActivity extends BaseActivity {
 
             Button button_next = textEntryView.findViewById(R.id.button_next);
             Button button_last = textEntryView.findViewById(R.id.button_last);
-            button_next.setText("发送错误报告");
-            button_last.setText("重启自动记账");
+            button_next.setText(R.string.error_submit);
+            button_last.setText(R.string.error_restart);
 
             button_next.setOnClickListener(v -> {
                 //  Tool.goUrl(context, jsonObject.getString("download"));
                 Activity context = this;
-                Handler mHandler = new Handler(getMainLooper()) {
-                    @Override
-                    public void handleMessage(@NonNull Message msg) {
-                        Tool.restartApp(context);
-                    }
-                };
                 dialog.dismiss();
-                AutoBillWeb.sendLog(bundle.getString("errorInfo"), new AutoBillWeb.WebCallback() {
+                BottomArea.msg(context, getString(R.string.error_report_title), getString(R.string.error_report_msg), getString(R.string.error_report_submit), getString(R.string.error_report_cancle), new BottomArea.MsgCallback() {
                     @Override
-                    public void onFailure() {
+                    public void cancel() {
 
                     }
 
                     @Override
-                    public void onSuccessful(String data) {
-                        mHandler.sendEmptyMessage(0);
+                    public void sure() {
+                        Tool.goUrl(context, getString(R.string.github_issue_error));
+                        Tool.restartApp(context);
                     }
                 });
 

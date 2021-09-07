@@ -17,33 +17,26 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.data.regulars;
 
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_ERR;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
+
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.LayoutMode;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
-import com.afollestad.materialdialogs.list.DialogListExtKt;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.developer.filepicker.controller.DialogSelectionListener;
-import com.developer.filepicker.model.DialogConfigs;
-import com.developer.filepicker.model.DialogProperties;
-import com.developer.filepicker.view.FilePickerDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -57,27 +50,18 @@ import java.util.List;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
-import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
-import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
-import cn.dreamn.qianji_auto.ui.utils.B64;
-import cn.dreamn.qianji_auto.utils.files.FileUtils;
-import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
+import cn.dreamn.qianji_auto.utils.files.RegularManager;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
 @Page(name = "本地识别规则", anim = CoreAnim.slide)
 public class localFragment extends BaseFragment {
-
-    private static final int HANDLE_ERR = 0;
-    private static final int HANDLE_OK = 1;
-    private static final int HANDLE_REFRESH = 2;
-    private static final int HANDLE_OUT = 3;
     private final String type;
     @BindView(R.id.status)
     StatusView statusView;
@@ -95,7 +79,6 @@ public class localFragment extends BaseFragment {
     FloatingActionButton action_export;
     @BindView(R.id.action_delAll)
     FloatingActionButton action_delAll;
-    LoadingDialog loadDialog;
     private CateItemListAdapter mAdapter;
     private List<Bundle> list;
     Handler mHandler = new Handler(Looper.getMainLooper()) {
@@ -103,30 +86,20 @@ public class localFragment extends BaseFragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case HANDLE_ERR:
-                    if (statusView != null) statusView.showEmptyView();
+                    statusView.showEmptyView();
                     break;
                 case HANDLE_OK:
                     mAdapter.refresh(list);
-                    Task.onMain(1000, () -> statusView.showContentView());
+                    statusView.showContentView();
                     break;
                 case HANDLE_REFRESH:
-                    String d = (String) msg.obj;
-                    if (loadDialog != null)
-                        loadDialog.close();
-                    if ((d != null && !d.equals("")))
-                        ToastUtils.show(d);
-                    loadFromData(refreshLayout);
+                    loadFromData();
                     break;
-                case HANDLE_OUT:
-                    if (loadDialog != null)
-                        loadDialog.close();
-                    String d2 = (String) msg.obj;
-                    if ((d2 != null && !d2.equals("")))
-                        ToastUtils.show(d2);
 
-                    break;
             }
-            floatingActionButton.setVisibility(View.VISIBLE);
+            String d = (String) msg.obj;
+            if ((d != null && !d.equals("")))
+                ToastUtils.show(d);
         }
     };
 
@@ -154,7 +127,7 @@ public class localFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        mHandler.sendEmptyMessage(HANDLE_REFRESH);
+        HandlerUtil.send(mHandler, HANDLE_REFRESH);
     }
 
     @Override
@@ -166,10 +139,8 @@ public class localFragment extends BaseFragment {
             viewHolder.setText(R.id.empty_info, String.format(getString(R.string.no_regular), getName()));
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-            //viewHolder.setText(R.id.load_info, "正在加载" + getName() + "规则...");
+            viewHolder.setText(R.id.loading_text, getString(R.string.main_loading));
         });
-        floatingActionButton.setVisibility(View.GONE);
-        statusView.showLoadingView();
         initLayout();
     }
 
@@ -178,190 +149,42 @@ public class localFragment extends BaseFragment {
     protected void initListeners() {
 
         refreshLayout.setOnRefreshListener(refreshlayout -> {
-            refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+            loadFromData();
+            refreshlayout.finishRefresh(0);//传入false表示刷新失败
         });
         action_cate.setOnClickListener(v -> {
 
-
-            WebViewFragment.openUrl(this, "file:///android_asset/html/Regulars/index.html?type=" + this.type);
-
+            WebViewFragment.openUrl(this, "file:///android_asset/html/Regulars/index.min.html?type=" + this.type);
 
         });
         action_import.setOnClickListener(v -> {
-            PermissionUtils permissionUtils = new PermissionUtils(getContext());
-            permissionUtils.grant(PermissionUtils.Storage);
-            try {
 
+            RegularManager.importReg(getContext(), getName(), getType(), new RegularManager.End() {
+                @Override
+                public void onFinish(int code) {
 
-                final DialogProperties properties = new DialogProperties();
+                }
+            });
 
-                FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
-                dialog.setTitle("请选择自动记账" + getName() + "识别规则配置文件");
-                dialog.setPositiveBtnName("选中");
-                dialog.setNegativeBtnName("关闭");
-                properties.extensions = new String[]{".auto." + this.type + ".backup"};
-                properties.root = Environment.getExternalStorageDirectory();
-                properties.offset = Environment.getExternalStorageDirectory();
-                properties.show_hidden_files = false;
-                properties.selection_mode = DialogConfigs.SINGLE_MODE;
-                properties.error_dir = Environment.getExternalStorageDirectory();
-                dialog.setProperties(properties);
-                dialog.show();
-
-                Handler mHandler = new Handler(Looper.getMainLooper()) {
-                    @Override
-                    public void handleMessage(@NonNull Message msg) {
-                        dialog.dismiss();
-                        if (msg.what == -1) {
-                            //失败
-                            ToastUtils.show("恢复失败！");
-                        } else {
-                            ToastUtils.show("恢复成功！");
-                            Tool.restartApp(getActivity());
-                        }
-
-                    }
-                };
-
-                dialog.setDialogSelectionListener(new DialogSelectionListener() {
-                    @Override
-                    public void onSelectedFilePaths(String[] files) {
-                        dialog.dismiss();
-                        String file = files[0];
-                        String data = FileUtils.get(file);
-                        JSONObject jsonObject = JSONObject.parseObject(data);
-                        String from = jsonObject.getString("from");
-
-                        if (!from.equals(getType())) {
-                            ToastUtils.show("该文件不是有效的" + getName() + "配置数据文件");
-                            return;
-                        }
-                        JSONArray jsonArray = jsonObject.getJSONArray("data");
-
-                        BottomSheet bottomSheet2 = new BottomSheet(LayoutMode.WRAP_CONTENT);
-                        MaterialDialog dialog2 = new MaterialDialog(getContext(), bottomSheet2);
-                        dialog2.cornerRadius(15f, null);
-                        dialog2.title(null, "恢复提醒");
-                        dialog2.message(null, "是否覆盖原有数据（清空不保留）？", null);
-                        dialog2.negativeButton(null, "不清空", (a) -> null);
-                        dialog2.positiveButton(null, "清空", (a) -> {
-                            identifyRegulars.clear(getType());
-                            return null;
-                        });
-                        dialog2.setOnDismissListener(dialog1 -> {
-                            loadDialog = new LoadingDialog(getContext(), "数据导入中...");
-                            loadDialog.show();
-                            Task.onThread(() -> {
-                                for (int i = 0; i < jsonArray.size(); i++) {
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                    identifyRegulars.add(
-                                            B64.decode(jsonObject1.getString("regular")),
-                                            (jsonObject1.getString("name")),
-                                            (jsonObject1.getString("text")),
-                                            B64.decode(jsonObject1.getString("tableList")),
-                                            (jsonObject1.getString("identify")),
-                                            (jsonObject1.getString("fromApp")),
-                                            (jsonObject1.getString("des")),
-                                            new identifyRegulars.Finish() {
-                                                @Override
-                                                public void onFinish() {
-                                                    Log.d("finish data" + jsonObject1.toString());
-                                                }
-                                            });
-                                }
-                                Message message = new Message();
-                                message.what = HANDLE_REFRESH;
-                                message.obj = "恢复成功！";
-
-                                mHandler.sendMessage(message);
-                            });
-
-
-                        });
-                        dialog2.show();
-                    }
-                });
-
-
-            } catch (Exception | Error e) {
-                e.printStackTrace();
-                Log.i("出错了，可能是权限未给全！" + e.toString());
-            }
         });
         action_export.setOnClickListener(v -> {
-            BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-            MaterialDialog dialog1 = new MaterialDialog(getContext(), bottomSheet);
-            dialog1.cornerRadius(15f, null);
-            dialog1.title(null, "请选择导出方案");
-            DialogListExtKt.listItems(dialog1, null, Arrays.asList("导出至下载文件夹", "分享"), null, true, (materialDialog, index, text) -> {
-                loadDialog = new LoadingDialog(getContext(), "数据导出中...");
-                loadDialog.show();
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("from", this.type);
-                identifyRegulars.getAll(this.type, null, bundle -> {
-                    JSONArray jsonArray = new JSONArray();
-                    for (Bundle regular : bundle) {
-                        //        Category.addCategory(new String(Base64.decode(jsonObject1.getString("regular"), Base64.NO_WRAP)), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des")
-                        JSONObject jsonObject1 = new JSONObject();
-                        jsonObject1.put("name", (regular.getString("name")));
-                        jsonObject1.put("regular", B64.encode(regular.getString("regular")));
-                        jsonObject1.put("tableList", B64.encode(regular.getString("tableList")));
-                        jsonObject1.put("des", (regular.getString("des")));
-                        jsonObject1.put("fromApp", (regular.getString("fromApp")));
-                        jsonObject1.put("identify", (regular.getString("identify")));
-                        jsonObject1.put("text", (regular.getString("text")));
-                        jsonArray.add(jsonObject1);
-                    }
-                    jsonObject.put("data", jsonArray);
-                    String fileName = Tool.getTime("yyyyMMddHHmmss") + ".auto." + this.type + ".backup";
-                    Tool.writeToCache(getContext(), fileName, jsonObject.toJSONString());
-                    switch (index) {
-                        case 0:
-                            String newFileName = Environment.getExternalStorageDirectory().getPath() + "/Download/QianJiAuto/" + fileName;
-                            FileUtils.makeRootDirectory(Environment.getExternalStorageDirectory().getPath() + "/Download/QianJiAuto/");
-                            FileUtils.copyFile(getContext().getExternalCacheDir().getPath() + "/" + fileName, newFileName);
-                            Log.m(fileName);
-                            FileUtils.del(fileName);
-                            break;
-                        case 1:
-
-                            Tool.shareFile(getContext(), getContext().getExternalCacheDir().getPath() + "/" + fileName);
-                            FileUtils.del(fileName);
-                            break;
-
-                    }
-                    Message message = new Message();
-                    message.what = HANDLE_OUT;
-                    message.obj = "数据导出成功";
-                    mHandler.sendMessage(message);
-
-
-                });
-
-                return null;
-            });
-            dialog1.show();
-
-
+            RegularManager.output(getContext(), getName(), getType());
         });
         action_delAll.setOnClickListener(v -> {
-            BottomSheet bottomSheet2 = new BottomSheet(LayoutMode.WRAP_CONTENT);
-            MaterialDialog dialog2 = new MaterialDialog(getContext(), bottomSheet2);
-            dialog2.cornerRadius(15f, null);
-            dialog2.title(null, "删除提醒");
-            dialog2.message(null, "是否清空所有" + getName() + "规则数据？", null);
-            dialog2.negativeButton(null, "不清空", (a) -> null);
-            dialog2.positiveButton(null, "清空", (a) -> {
-                identifyRegulars.clear(getType(), str -> {
-                    Message message = new Message();
-                    message.what = HANDLE_REFRESH;
-                    message.obj = "清除成功";
-                    mHandler.sendMessage(message);
-                });
+            BottomArea.msg(getContext(), getString(R.string.log_clean_title), String.format(getString(R.string.reg_clean_body), getName()), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.MsgCallback() {
+                @Override
+                public void cancel() {
 
-                return null;
+                }
+
+                @Override
+                public void sure() {
+                    identifyRegulars.clear(getType(), str -> {
+                        HandlerUtil.send(mHandler, getString(R.string.log_clean_success), HANDLE_REFRESH);
+                    });
+                }
             });
-            dialog2.show();
+
         });
     }
 
@@ -375,12 +198,8 @@ public class localFragment extends BaseFragment {
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this::OnItemClickListen);
         mAdapter.setOnMoreClick(item -> {
-            BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-            MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-            dialog.cornerRadius(15f, null);
-            dialog.title(null, item.getString("name"));
-            dialog.message(null, item.getString("des"), null);
-            dialog.show();
+            BottomArea.msg(getContext(), item.getString("name"), item.getString("des"));
+
         });
         recyclerView.setLongPressDragEnabled(true);
         recyclerView.setOnItemMoveListener(new OnItemMoveListener() {
@@ -407,9 +226,8 @@ public class localFragment extends BaseFragment {
             }
 
         });// 监听拖拽，更新UI。
-        refreshLayout.setOnRefreshListener(this::loadFromData);
         refreshLayout.setEnableRefresh(true);
-        loadFromData(refreshLayout);
+        loadFromData();
     }
 
     @SuppressLint("CheckResult")
@@ -418,85 +236,95 @@ public class localFragment extends BaseFragment {
 
         Bundle cate = list.get(position);
 
-        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-        MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-        dialog.cornerRadius(15f, null);
-        String disable = "禁用";
+
+        String disable = getString(R.string.disable);
         if (cate.getInt("use") != 1) {
-            disable = "启用";
+            disable = getString(R.string.enable);
         }
-        dialog.title(null, "请选择操作(" + cate.getString("name") + ")");
-        DialogListExtKt.listItems(dialog, null, Arrays.asList("删除", "可视化编辑", "上传到云端", disable), null, true, (materialDialog, index, text) -> {
-            switch (index) {
-                case 0:
-                    identifyRegulars.del(cate.getInt("id"), () -> {
-                        Message message = new Message();
-                        message.obj = "删除成功";
-                        message.what = HANDLE_REFRESH;
-                        mHandler.sendMessage(message);
-                    });
-                    break;
-                case 1:
+        BaseFragment baseFragment = this;
+        String finalDisable = disable;
+        BottomArea.list(getContext(), String.format(getString(R.string.assert_change), cate.getString("name")), Arrays.asList(getString(R.string.del), getString(R.string.edit_default), getString(R.string.upload_cloud), disable), new BottomArea.ListCallback() {
+            @Override
+            public void onSelect(int position) {
+                switch (position) {
+                    case 0:
+                        identifyRegulars.del(cate.getInt("id"), () -> {
+                            HandlerUtil.send(mHandler, getString(R.string.del_success), HANDLE_REFRESH);
+                        });
+                        break;
+                    case 1:
+                        if (cate.getString("tableList") == null || cate.getString("tableList").equals("")) {
+                            ToastUtils.show(getString(R.string.edit_error));
+                            break;
+                        }
 
-                    DataUtils dataUtils = new DataUtils();
-                    dataUtils.put("name", cate.getString("name"));
-                    dataUtils.put("text", cate.getString("text"));
-                    dataUtils.put("regular", cate.getString("regular"));
-                    dataUtils.put("fromApp", cate.getString("fromApp"));
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("name", cate.getString("name"));
+                        jsonObject.put("text", cate.getString("text"));
+                        jsonObject.put("regular", cate.getString("regular"));
+                        jsonObject.put("fromApp", cate.getString("fromApp"));
 
-                    dataUtils.put("des", cate.getString("des"));
-                    dataUtils.put("identify", cate.getString("identify"));
-                    dataUtils.put("tableList", cate.getString("tableList"));
+                        jsonObject.put("des", cate.getString("des"));
+                        jsonObject.put("identify", cate.getString("identify"));
+                        jsonObject.put("tableList", cate.getString("tableList"));
 
-                    WebViewFragment.openUrl(this, "file:///android_asset/html/Regulars/index.html?id=" + cate.getInt("id") + "&type=" + this.type + "&data=" + B64.encode(dataUtils.toString()));
-                    break;
-                case 2:
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("name", cate.getString("name"));
-                    jsonObject.put("text", cate.getString("text"));
-                    jsonObject.put("data", cate.getString("regular"));
-                    jsonObject.put("tableList", cate.getString("tableList"));
-                    jsonObject.put("identify", cate.getString("identify"));
-                    jsonObject.put("fromApp", cate.getString("fromApp"));
-                    jsonObject.put("isCate", "0");
-                    jsonObject.put("description", cate.getString("des"));
-                    String result = B64.encode(jsonObject.toString());
-                    AutoBillWeb.httpSend(getContext(), this, "send", result);
-                    break;
-                case 3:
-                    if (text == "禁用") {
-                        identifyRegulars.deny(cate.getInt("id"), () -> {
-                            Message message = new Message();
-                            message.obj = "禁用成功";
-                            message.what = HANDLE_REFRESH;
-                            mHandler.sendMessage(message);
+                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Regulars/index.min.html?id=" + cate.getInt("id") + "&type=" + getType() + "&data=" + Uri.encode(jsonObject.toJSONString()));
+                        break;
+
+                    case 2:
+
+                        BottomArea.msg(getContext(), getString(R.string.could_title), getString(R.string.could_body), getString(R.string.regular_upload), getString(R.string.regular_know), new BottomArea.MsgCallback() {
+                            @Override
+                            public void cancel() {
+
+                            }
+
+                            @Override
+                            public void sure() {
+                                JSONObject jsonObject = new JSONObject();
+                                jsonObject.put("name", cate.getString("name"));
+                                jsonObject.put("text", cate.getString("text"));
+                                jsonObject.put("regular", cate.getString("regular"));
+                                jsonObject.put("fromApp", cate.getString("fromApp"));
+
+                                jsonObject.put("des", cate.getString("des"));
+                                jsonObject.put("identify", cate.getString("identify"));
+                                jsonObject.put("tableList", cate.getString("tableList"));
+                                RegularManager.outputRegOne(getContext(), getName(), getType(), jsonObject);
+                                Tool.goUrl(getContext(), getString(R.string.github_issue_regular));
+
+                            }
                         });
 
-                    } else {
-                        identifyRegulars.enable(cate.getInt("id"), () -> {
-                            Message message = new Message();
-                            message.obj = "启用成功";
-                            message.what = HANDLE_REFRESH;
-                            mHandler.sendMessage(message);
-                        });
-                    }
+
+                        break;
+                    case 3:
+                        if (finalDisable.equals(getString(R.string.disable))) {
+                            identifyRegulars.deny(cate.getInt("id"), () -> {
+                                HandlerUtil.send(mHandler, getString(R.string.deny_success), HANDLE_REFRESH);
+                            });
+                        } else {
+                            identifyRegulars.enable(cate.getInt("id"), () -> {
+                                HandlerUtil.send(mHandler, getString(R.string.enable_success), HANDLE_REFRESH);
+                            });
+                        }
+                }
             }
-            return null;
         });
-        dialog.show();
+
 
     }
 
 
-    public void loadFromData(RefreshLayout refreshLayout) {
-
+    public void loadFromData() {
+        statusView.showLoadingView();
         Task.onThread(() -> {
             identifyRegulars.getAll(type, null, regulars -> {
                 if (regulars == null || regulars.length == 0) {
-                    mHandler.sendEmptyMessage(HANDLE_ERR);
+                    HandlerUtil.send(mHandler, HANDLE_ERR);
                 } else {
                     list = Arrays.asList(regulars);
-                    mHandler.sendEmptyMessage(HANDLE_OK);
+                    HandlerUtil.send(mHandler, HANDLE_OK);
                 }
             });
         });

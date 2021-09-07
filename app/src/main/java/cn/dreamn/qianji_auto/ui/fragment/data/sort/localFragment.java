@@ -17,6 +17,10 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.data.sort;
 
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_ERR;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
+
 import android.annotation.SuppressLint;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,9 +32,6 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.afollestad.materialdialogs.LayoutMode;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.alibaba.fastjson.JSONObject;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -51,12 +52,10 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.files.RegularManager;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
@@ -64,10 +63,6 @@ import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 @Page(name = "本地分类", anim = CoreAnim.slide)
 public class localFragment extends BaseFragment {
 
-    private static final int HANDLE_ERR = 0;
-    private static final int HANDLE_OK = 1;
-    private static final int HANDLE_REFRESH = 2;
-    private static final int HANDLE_OUT = 3;
     @BindView(R.id.status)
     StatusView statusView;
     @BindView(R.id.refreshLayout)
@@ -85,7 +80,6 @@ public class localFragment extends BaseFragment {
     FloatingActionButton action_export;
     @BindView(R.id.action_delAll)
     FloatingActionButton action_delAll;
-    LoadingDialog loadingDialog;
     private CateItemListAdapter mAdapter;
     private List<Bundle> list;
     Handler mHandler = new Handler(Looper.getMainLooper()) {
@@ -100,22 +94,12 @@ public class localFragment extends BaseFragment {
                     statusView.showContentView();
                     break;
                 case HANDLE_REFRESH:
-                    String d = (String) msg.obj;
-                    if (loadingDialog != null)
-                        loadingDialog.close();
-                    if ((d != null && !d.equals("")))
-                        ToastUtils.show(d);
                     loadFromData();
                     break;
-                case HANDLE_OUT:
-                    if (loadingDialog != null)
-                        loadingDialog.close();
-                    String d2 = (String) msg.obj;
-                    if ((d2 != null && !d2.equals("")))
-                        ToastUtils.show(d2);
-
-                    break;
             }
+            String d = (String) msg.obj;
+            if ((d != null && !d.equals("")))
+                ToastUtils.show(d);
         }
     };
 
@@ -139,8 +123,7 @@ public class localFragment extends BaseFragment {
             viewHolder.setText(R.id.empty_info, String.format(getString(R.string.no_regular), getString(R.string.auto)));
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-            loadingDialog = new LoadingDialog(getContext(), getString(R.string.main_loading));
-            loadingDialog.show();
+            viewHolder.setText(R.id.loading_text, getString(R.string.main_loading));
         });
         initLayout();
     }
@@ -248,9 +231,6 @@ public class localFragment extends BaseFragment {
 
         Bundle cate = list.get(position);
 
-        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-        MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-        dialog.cornerRadius(15f, null);
         String disable = getString(R.string.disable);
         if (cate.getInt("use") != 1) {
             disable = getString(R.string.enable);
@@ -274,7 +254,7 @@ public class localFragment extends BaseFragment {
                         WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Category/index.min.html?id=" + cate.getInt("id") + "&data=" + Uri.encode(cate.getString("tableList")));
                         break;
                     case 2:
-                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Category/js.html?id=" + cate.getInt("id") + "&data=" + Uri.encode(cate.getString("regular")) + "&name=" + Uri.encode(cate.getString("name")) + "&des=" + Uri.encode(cate.getString("des")));
+                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Category/js.min.html?id=" + cate.getInt("id") + "&data=" + Uri.encode(cate.getString("regular")) + "&name=" + Uri.encode(cate.getString("name")) + "&des=" + Uri.encode(cate.getString("des")));
                         break;
                     case 3:
 
@@ -293,7 +273,7 @@ public class localFragment extends BaseFragment {
                                 jsonObject.put("des", cate.getString("des"));
                                 RegularManager.outputRegOne(getContext(), getString(R.string.auto), "category", jsonObject);
 
-                                Tool.goUrl(getContext(), getString(R.string.could_help));
+                                Tool.goUrl(getContext(), getString(R.string.github_issue_category));
 
                             }
                         });
@@ -326,7 +306,7 @@ public class localFragment extends BaseFragment {
                 if (regulars == null || regulars.length == 0) {
                     HandlerUtil.send(mHandler, HANDLE_ERR);
                 } else {
-                    Log.d("regular", regulars.toString());
+                    //  Log.d("regular", regulars.toString());
                     list = Arrays.asList(regulars);
                     HandlerUtil.send(mHandler, HANDLE_OK);
                 }
