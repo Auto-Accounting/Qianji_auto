@@ -17,90 +17,79 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.data.sort;
 
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_ERR;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
+
 import android.annotation.SuppressLint;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.afollestad.materialdialogs.LayoutMode;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
-import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.Category;
-import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
+import cn.dreamn.qianji_auto.utils.files.RegularManager;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
-
 
 @Page(name = "云端分类", anim = CoreAnim.slide)
 public class remoteFragment extends BaseFragment {
 
 
-    private static final int HANDLE_ERR = 0;
-    private static final int HANDLE_OK = 1;
-    private static final int HANDLE_REFRESH = 2;
-    private static final int HANDLE_NO_REFRESH = 3;
+    ;
     @BindView(R.id.status)
     StatusView statusView;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.recycler_view)
-    SwipeRecyclerView recyclerView;
-    private CateItemListAdapter mAdapter;
-    private List<Bundle> list;
+    @BindView(R.id.listview)
+    ListView recyclerView;
+    private ArrayAdapter<String> mAdapter;
+    private List<String> list;
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case HANDLE_ERR:
-                    if (statusView != null) statusView.showEmptyView();
+                    statusView.showEmptyView();
                     break;
                 case HANDLE_OK:
-                    mAdapter.refresh(list);
-                    Task.onMain(1000, () -> statusView.showContentView());
+                    mAdapter.clear();
+                    mAdapter.addAll(list);
+                    statusView.showContentView();
                     break;
                 case HANDLE_REFRESH:
-                    String d = (String) msg.obj;
-                    if ((d != null && !d.equals("")))
-                        ToastUtils.show(d);
-                    loadFromData(refreshLayout);
+                    loadFromData();
                     break;
-                case HANDLE_NO_REFRESH:
-                    String d2 = (String) msg.obj;
-                    if ((d2 != null && !d2.equals("")))
-                        ToastUtils.show(d2);
-                    //   loadFromData(refreshLayout);
-                    break;
+
             }
+            String d = (String) msg.obj;
+            if ((d != null && !d.equals("")))
+                ToastUtils.show(d);
 
         }
     };
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_data_remote;
+        return R.layout.fragment_data_remote_sort;
     }
 
     @Override
@@ -109,10 +98,10 @@ public class remoteFragment extends BaseFragment {
         statusView.setLoadingView(R.layout.fragment_loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.empty_info, "云端暂无任何自动分类规则");
+            viewHolder.setText(R.id.empty_info, String.format(getString(R.string.could_empty), getString(R.string.auto)));
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-            //    viewHolder.setText(R.id.load_info, "正在加载自动分类规则");
+            viewHolder.setText(R.id.loading_text, getString(R.string.main_loading));
         });
         statusView.showLoadingView();
         initLayout();
@@ -122,88 +111,75 @@ public class remoteFragment extends BaseFragment {
     @Override
     protected void initListeners() {
         refreshLayout.setOnRefreshListener(refreshlayout -> {
-            refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+            loadFromData();
+            refreshlayout.finishRefresh(0/*,false*/);//传入false表示刷新失败
         });
 
     }
 
     private void initLayout() {
-        mAdapter = new CateItemListAdapter(getContext());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAdapter = new ArrayAdapter<String>(getContext(), R.layout.adapter_list_remote);
         recyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(this::OnItemClickListen);
-        mAdapter.setOnMoreClick(item -> {
-            BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-            MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-            dialog.cornerRadius(15f, null);
-            dialog.title(null, item.getString("name"));
-            dialog.message(null, item.getString("des"), null);
-            dialog.show();
-        });
-        refreshLayout.setOnRefreshListener(this::loadFromData);
-        refreshLayout.setEnableRefresh(true);
-        loadFromData(refreshLayout);
-    }
+        recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                AutoBillWeb.getCategory(list.get(i), new AutoBillWeb.WebCallback() {
+                    @Override
+                    public void onFailure() {
+                        ToastUtils.show(R.string.remote_error);
+                    }
 
-    @SuppressLint("CheckResult")
-    private void OnItemClickListen(View view, int position) {
-        if (list == null || position >= list.size()) return;
+                    @Override
+                    public void onSuccessful(String data) {
+                        try {
+                            JSONObject jsonObject = JSONObject.parseObject(data);
+                            String des = jsonObject.getString("des");
+                            BottomArea.msg(getContext(), list.get(i), des, getString(R.string.remote_download), getString(R.string.remote_cancle), new BottomArea.MsgCallback() {
+                                @Override
+                                public void cancel() {
 
-        Bundle bundle = list.get(position);
+                                }
 
-        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-        MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-        dialog.cornerRadius(15f, null);
-        dialog.title(null, "请选择操作(" + bundle.getString("name") + ")");
-        DialogListExtKt.listItems(dialog, null, Arrays.asList("下载至本地"), null, true, (materialDialog, index, text) -> {
-            if (index == 0) {
-                Category.addCategory(bundle.getString("regular"), bundle.getString("name"), bundle.getString("tableList"), bundle.getString("des"), () -> {
-                    Message message = new Message();
-                    message.obj = "添加成功！";
-                    message.what = HANDLE_NO_REFRESH;
-                    mHandler.sendMessage(message);
-                    //  ToastUtils.show("添加成功！");
+                                @Override
+                                public void sure() {
+                                    RegularManager.restoreFromData(getContext(), getString(R.string.auto), "category", data, new RegularManager.End() {
+                                        @Override
+                                        public void onFinish(int code) {
+
+                                        }
+                                    });
+                                }
+                            });
+                        } catch (Throwable e) {
+                            Log.i("解析错误：" + e.toString() + "\n" + data);
+                        }
+
+
+                    }
                 });
             }
-            return null;
         });
-        dialog.show();
-
+        refreshLayout.setEnableRefresh(true);
+        loadFromData();
     }
 
 
-    public void loadFromData(RefreshLayout refreshLayout) {
-
-
-        AutoBillWeb.getCategoryWeb(null, new AutoBillWeb.WebCallback() {
+    public void loadFromData() {
+        AutoBillWeb.getCategoryList(new AutoBillWeb.WebCallback() {
             @Override
             public void onFailure() {
-                //失败就不显示了
-                mHandler.sendEmptyMessage(HANDLE_OK);
+                HandlerUtil.send(mHandler, HANDLE_ERR);
             }
 
             @Override
             public void onSuccessful(String data) {
                 Log.m("网页返回结果->  " + data);
-                List<Bundle> datas = new ArrayList<>();
+                List<String> datas = new ArrayList<>();
                 try {
-                    JSONObject jsonObject = JSONObject.parseObject(data);
-                    if (jsonObject.getInteger("code") == 0) {
-                        JSONArray jsonArray = jsonObject.getJSONArray("data");
-                        for (int i = 0; i < jsonArray.size(); i++) {
-                            Bundle bundle = new Bundle();
-                            bundle.putString("name", jsonArray.getJSONObject(i).getString("name"));
-                            bundle.putString("text", jsonArray.getJSONObject(i).getString("text"));
-                            bundle.putString("regular", jsonArray.getJSONObject(i).getString("data"));
-                            bundle.putString("tableList", jsonArray.getJSONObject(i).getString("tableList"));
-                            bundle.putString("identify", jsonArray.getJSONObject(i).getString("identify"));
-                            bundle.putString("fromApp", jsonArray.getJSONObject(i).getString("fromApp"));
-                            bundle.putString("des", jsonArray.getJSONObject(i).getString("description"));
-                            bundle.putInt("use", 2);
-                            datas.add(bundle);
-                            // bundle.putString("name");
-                            //  datas.get(i).putBundle("cloud_data",bundle);
-                        }
+                    JSONArray jsonArray = JSONArray.parseArray(data);
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        String str = jsonArray.getString(i);
+                        datas.add(str);
                     }
                 } catch (Exception | Error e) {
                     Log.i("JSON解析错误！！" + e.toString());
@@ -211,10 +187,9 @@ public class remoteFragment extends BaseFragment {
                 }
                 list = datas;
                 Log.m("数据" + list.toString());
-                mHandler.sendEmptyMessage(HANDLE_OK);
+                HandlerUtil.send(mHandler, HANDLE_OK);
             }
         });
-
     }
 
 

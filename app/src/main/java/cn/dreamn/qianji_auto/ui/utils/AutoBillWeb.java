@@ -11,38 +11,29 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tencent.mmkv.MMKV;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
-import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 public class AutoBillWeb {
 
-    private static final String branch = "dev";
+    private static final String baseUrl = "https://cdn.jsdelivr.net/gh/dreamncn/AutoResource@master";
 
-    private static final String baseUrl = "https://cdn.jsdelivr.net/gh/dreamncn/Qianji_auto@" + branch;
 
-    public static void getCategoryList(WebCallback callback) {
-        String url = baseUrl + "/cloud/category/list.json";
+    public static void getWebData(String url, WebCallback callback) {
+
         OkHttpClient okHttpClient = new OkHttpClient();
-        final CacheControl.Builder builder = new CacheControl.Builder();
-        builder.maxAge(30, TimeUnit.MINUTES);
-        CacheControl cache = builder.build();
-        final Request request = new Request.Builder().cacheControl(cache).url(url).build();
-        final Call call = okHttpClient.newCall(request);//
+        final Request request = new Request.Builder().url(url).build();
+        final Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -52,43 +43,25 @@ public class AutoBillWeb {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()) {
+                if (response.code() == 200 && response.isSuccessful()) {
                     String string = response.body().string();
                     callback.onSuccessful(string);
                 } else {
                     callback.onFailure();
-                    Log.d("服务器响应错误");
+                    Log.d("服务器响应错误" + response.body().string());
                 }
             }
         });
     }
 
-    public static void getCategory(String name, WebCallback callback) {
-        String url = baseUrl + "/cloud/category/data/" + name + ".json";
-        OkHttpClient okHttpClient = new OkHttpClient();
-        final CacheControl.Builder builder = new CacheControl.Builder();
-        builder.maxAge(30, TimeUnit.MINUTES);
-        CacheControl cache = builder.build();
-        final Request request = new Request.Builder().cacheControl(cache).url(url).build();
-        final Call call = okHttpClient.newCall(request);//
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                callback.onFailure();
-                e.printStackTrace();
-            }
+    public static void getCategoryList(WebCallback callback) {
+        String url = baseUrl + "/category/list.json";
+        getWebData(url, callback);
+    }
 
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String string = response.body().string();
-                    callback.onSuccessful(string);
-                } else {
-                    callback.onFailure();
-                    Log.d("服务器响应错误");
-                }
-            }
-        });
+    public static void getCategory(String name, WebCallback callback) {
+        String url = baseUrl + "/category/data/" + name + ".json";
+        getWebData(url, callback);
     }
 
 
@@ -96,45 +69,29 @@ public class AutoBillWeb {
         //短信规则可以共用
         //通知规则可以共用
         //app规则不行
-
         String addUrl = "/reg/" + type + "/";
         if (type.equals("app")) {
             addUrl += AppStatus.getActiveMode() + "/";
         }
         addUrl += "list.json";
-
         String url = baseUrl + addUrl;
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
-                .newBuilder();
-
-        OkHttpClient okHttpClient = new OkHttpClient();
-        final CacheControl.Builder builder = new CacheControl.Builder();
-        builder.maxAge(30, TimeUnit.MINUTES);
-        CacheControl cache = builder.build();
-
-        final Request request = new Request.Builder().cacheControl(cache).url(urlBuilder.build()).get().build();
-        final Call call = okHttpClient.newCall(request);//
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                callback.onFailure();
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String string = response.body().string();
-                    callback.onSuccessful(string);
-                } else {
-                    callback.onFailure();
-                    Log.d("服务器响应错误");
-                }
-            }
-        });
+        getWebData(url, callback);
     }
 
-    public static void getData(String type, String app, WebCallback callback) {
+    public static void getDataListByApp(String type, String app, WebCallback callback) {
+        //短信规则可以共用
+        //通知规则可以共用
+        //app规则不行
+        String addUrl = "/reg/" + type + "/";
+        if (type.equals("app")) {
+            addUrl += AppStatus.getActiveMode() + "/";
+        }
+        addUrl += app + "/list.json";
+        String url = baseUrl + addUrl;
+        getWebData(url, callback);
+    }
+
+    public static void getData(String type, String app, String name, WebCallback callback) {
         //短信规则可以共用
         //通知规则可以共用
         //app规则不行
@@ -143,65 +100,16 @@ public class AutoBillWeb {
         if (type.equals("app")) {
             addUrl += AppStatus.getActiveMode() + "/";
         }
-        addUrl += "/data/" + app + ".json";
+        addUrl += "/data/" + app + "/" + name + ".json";
 
         String url = baseUrl + addUrl;
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(url)
-                .newBuilder();
 
-        OkHttpClient okHttpClient = new OkHttpClient();
-        final CacheControl.Builder builder = new CacheControl.Builder();
-        builder.maxAge(30, TimeUnit.MINUTES);
-        CacheControl cache = builder.build();
-
-        final Request request = new Request.Builder().cacheControl(cache).url(urlBuilder.build()).get().build();
-        final Call call = okHttpClient.newCall(request);//
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                callback.onFailure();
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String string = response.body().string();
-                    callback.onSuccessful(string);
-                } else {
-                    callback.onFailure();
-                    Log.d("服务器响应错误");
-                }
-            }
-        });
+        getWebData(url, callback);
     }
 
     public static void getUpdate(WebCallback callback) {
-        String url = baseUrl + "/cloud/version.json";
-        OkHttpClient okHttpClient = new OkHttpClient();
-        final CacheControl.Builder builder = new CacheControl.Builder();
-        builder.maxAge(30, TimeUnit.MINUTES);
-        CacheControl cache = builder.build();
-        final Request request = new Request.Builder().cacheControl(cache).url(url).build();
-        final Call call = okHttpClient.newCall(request);//
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                callback.onFailure();
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String string = response.body().string();
-                    callback.onSuccessful(string);
-                } else {
-                    callback.onFailure();
-                    Log.d("服务器响应错误");
-                }
-            }
-        });
+        String url = baseUrl + "/version.json";
+        getWebData(url, callback);
     }
 
     public static void update(Context context) {

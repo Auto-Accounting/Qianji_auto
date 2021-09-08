@@ -483,5 +483,6 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
     public void dismiss() {
         MarkedItemList.clearSelectionList();
         internalList.clear();
+        dialog.dismiss();
     }
 }

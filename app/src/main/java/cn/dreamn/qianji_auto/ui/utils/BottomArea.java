@@ -108,6 +108,20 @@ public class BottomArea {
         dialog.show();
     }
 
+    @SuppressLint("CheckResult")
+    static public void listLong(Context context, String title, List<String> list, ListCallback listCallback) {
+        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+        bottomSheet.setRatio(1f);
+        MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
+        dialog.cornerRadius(15f, null);
+        dialog.title(null, title);
+        DialogListExtKt.listItems(dialog, null, list, null, true, (materialDialog, index, text) -> {
+            listCallback.onSelect(index);
+            return null;
+        });
+        dialog.show();
+    }
+
     static public void list(Context context, String title, JSONArray list, ListCallback listCallback) {
 
         LayoutInflater factory = LayoutInflater.from(context);

@@ -269,8 +269,8 @@
     <string name="select_check">选中</string>
     <string name="error_permission">出错了，可能是权限未给全！</string>
     <string name="data_loading">数据导入中…</string>
-    <string name="restore_failed">恢复失败！</string>
-    <string name="restore_success">恢复成功！</string>
+    <string name="restore_failed">导入失败！</string>
+    <string name="restore_success">导入成功！</string>
     <string name="set_error">该文件不是有效的%s配置数据文件</string>
     <string name="restore_title">（%s配置）恢复提醒</string>
     <string name="restore_body">是否覆盖原有数据（清空不保留）？</string>
@@ -309,4 +309,11 @@
     <string name="github_issue_error">https://github.com/dreamncn/Qianji_auto/issues</string>
     <string name="reg_clean_body">是否清空所有%s规则</string>
     <string name="github_issue_regular">https://github.com/dreamncn/Qianji_auto/issues</string>
+    <string name="could_empty">云端暂无任何%s规则</string>
+    <string name="remote_error">远程数据获取失败</string>
+    <string name="remote_zero">没有规则数据！</string>
+    <string name="remote_tip">请选择规则</string>
+    <string name="remote_download">下载规则</string>
+    <string name="remote_cancle">关闭</string>
+    <string name="remote_success">下载成功</string>
 </resources>

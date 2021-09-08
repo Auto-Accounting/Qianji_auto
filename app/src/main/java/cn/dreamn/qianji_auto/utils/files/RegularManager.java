@@ -55,6 +55,8 @@ public class RegularManager {
                 dialog.dismiss();
                 String file = files[0];
                 String data = FileUtils.get(file);
+
+                Log.m(data);
                 restoreFromData(context, name, type, data, end);
             });
 
@@ -86,6 +88,7 @@ public class RegularManager {
         };
         JSONObject jsonObject = JSONObject.parseObject(data);
         String from = jsonObject.getString("from");
+        Log.m("当前恢复类型：" + name + "  type:" + type + " from:" + from);
         if (!from.equals(type)) {
             ToastUtils.show(String.format(context.getString(R.string.set_error), name));
             return;
@@ -105,7 +108,7 @@ public class RegularManager {
 
             @Override
             public void sure() {
-                if (type.equals("4")) {
+                if (type.equals("category")) {
                     Category.clear();
                     restoreCate(jsonArray, loadDialog, mHandler, context);
                 } else {
@@ -120,6 +123,7 @@ public class RegularManager {
     }
 
     private static void restoreReg(JSONArray array, LoadingDialog loadDialog, Handler mHandler, Context context) {
+        Log.m("当前恢复类型：" + array.toJSONString());
         loadDialog.show();
         Task.onThread(() -> {
             for (int i = 0; i < array.size(); i++) {
@@ -146,6 +150,7 @@ public class RegularManager {
     }
 
     private static void restoreCate(JSONArray array, LoadingDialog loadDialog, Handler mHandler, Context context) {
+        // Log.m("当前恢复类型："+array.toJSONString());
         loadDialog.show();
         Task.onThread(() -> {
             for (int i = 0; i < array.size(); i++) {

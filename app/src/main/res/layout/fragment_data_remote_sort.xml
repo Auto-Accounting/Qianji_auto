@@ -23,11 +23,10 @@
 
             </com.scwang.smartrefresh.layout.header.ClassicsHeader>
 
-            <com.yanzhenjie.recyclerview.SwipeRecyclerView
-                android:id="@+id/recycler_view"
+            <ListView
+                android:id="@+id/listview"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never" />
+                android:layout_height="match_parent" />
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
