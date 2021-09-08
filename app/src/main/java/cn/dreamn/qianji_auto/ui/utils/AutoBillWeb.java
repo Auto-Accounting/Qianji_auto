@@ -26,11 +26,11 @@ import okhttp3.Response;
 
 public class AutoBillWeb {
 
-    private static final String baseUrl = "https://cdn.jsdelivr.net/gh/dreamncn/AutoResource@master";
-
+    // private static final String baseUrl = "https://cdn.jsdelivr.net/gh/dreamncn/AutoResource@master";
+//https://raw.fastgit.org/dreamncn/AutoResource/master
+    private static final String baseUrl = "https://raw.fastgit.org/dreamncn/AutoResource/master";
 
     public static void getWebData(String url, WebCallback callback) {
-
         OkHttpClient okHttpClient = new OkHttpClient();
         final Request request = new Request.Builder().url(url).build();
         final Call call = okHttpClient.newCall(request);

@@ -56,7 +56,7 @@ public class RegularManager {
                 String file = files[0];
                 String data = FileUtils.get(file);
 
-                Log.m(data);
+             //   Log.m(data);
                 restoreFromData(context, name, type, data, end);
             });
 

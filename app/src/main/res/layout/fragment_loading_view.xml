@@ -2,26 +2,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/deep_gray"
+    android:background="@color/background_deep_gray"
     android:gravity="center">
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="@drawable/dialog_bg"
         android:gravity="center"
         android:orientation="vertical">
 
         <cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing
             android:id="@+id/lv_circularring"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="10dp" />
 
         <TextView
             android:id="@+id/loading_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:text="22233"
             android:textColor="@color/white"
             android:textSize="15sp" />
 

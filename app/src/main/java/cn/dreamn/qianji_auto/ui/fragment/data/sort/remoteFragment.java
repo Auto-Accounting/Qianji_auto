@@ -30,6 +30,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hjq.toast.ToastUtils;
@@ -44,6 +46,8 @@ import java.util.List;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
+import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
@@ -63,6 +67,7 @@ public class remoteFragment extends BaseFragment {
     ListView recyclerView;
     private ArrayAdapter<String> mAdapter;
     private List<String> list;
+    LoadingDialog loadingDialog;
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
@@ -94,6 +99,7 @@ public class remoteFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
+
         statusView.setEmptyView(R.layout.fragment_empty_view);
         statusView.setLoadingView(R.layout.fragment_loading_view);
 
@@ -101,6 +107,8 @@ public class remoteFragment extends BaseFragment {
             viewHolder.setText(R.id.empty_info, String.format(getString(R.string.could_empty), getString(R.string.auto)));
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
+            LVCircularRing lv_circularring = viewHolder.getView(R.id.lv_circularring);
+            lv_circularring.startAnim();
             viewHolder.setText(R.id.loading_text, getString(R.string.main_loading));
         });
         statusView.showLoadingView();
@@ -123,14 +131,12 @@ public class remoteFragment extends BaseFragment {
         recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                AutoBillWeb.getCategory(list.get(i), new AutoBillWeb.WebCallback() {
+                loadingDialog = new LoadingDialog(getContext(), getString(R.string.main_loading));
+                loadingDialog.show();
+                Handler handler = new Handler(Looper.getMainLooper()) {
                     @Override
-                    public void onFailure() {
-                        ToastUtils.show(R.string.remote_error);
-                    }
-
-                    @Override
-                    public void onSuccessful(String data) {
+                    public void handleMessage(@NonNull Message msg) {
+                        String data = (String) msg.obj;
                         try {
                             JSONObject jsonObject = JSONObject.parseObject(data);
                             String des = jsonObject.getString("des");
@@ -151,9 +157,21 @@ public class remoteFragment extends BaseFragment {
                                 }
                             });
                         } catch (Throwable e) {
+                            e.printStackTrace();
                             Log.i("解析错误：" + e.toString() + "\n" + data);
                         }
+                        loadingDialog.close();
+                    }
+                };
+                AutoBillWeb.getCategory(list.get(i), new AutoBillWeb.WebCallback() {
+                    @Override
+                    public void onFailure() {
+                        ToastUtils.show(R.string.remote_error);
+                    }
 
+                    @Override
+                    public void onSuccessful(String data) {
+                        HandlerUtil.send(handler, data, 0);
 
                     }
                 });
@@ -182,6 +200,7 @@ public class remoteFragment extends BaseFragment {
                         datas.add(str);
                     }
                 } catch (Exception | Error e) {
+                    e.printStackTrace();
                     Log.i("JSON解析错误！！" + e.toString());
                     e.printStackTrace();
                 }
