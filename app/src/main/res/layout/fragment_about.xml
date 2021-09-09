@@ -89,10 +89,9 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/item_update"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/item_update"
-                android:layout_marginBottom="8dp"
                 android:background="@color/background_white"
                 android:backgroundTint="@color/background_white"
                 android:orientation="vertical">
@@ -136,6 +135,53 @@
                 </RelativeLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/item_source"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:background="@color/background_white"
+                android:backgroundTint="@color/background_white"
+                android:orientation="vertical">
+
+                <RelativeLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:padding="10dp">
+
+                    <cn.dreamn.qianji_auto.ui.components.IconView
+                        android:id="@+id/sourceIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="5dp"
+                        android:text="&#xe62d;"
+                        android:textColor="@color/gray" />
+
+                    <TextView
+                        android:id="@+id/sourceIcon_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:layout_toStartOf="@+id/sourceIcon"
+                        android:text="FastGit"
+                        android:textColor="@color/gray" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:text="GitHub加速"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -275,99 +321,6 @@
                 </RelativeLayout>
             </LinearLayout>
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:background="@color/background_white"
-                android:backgroundTint="@color/background_white"
-                android:id="@+id/item_libs"
-                android:orientation="vertical">
-
-                <RelativeLayout
-
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:padding="10dp">
-
-                    <cn.dreamn.qianji_auto.ui.components.IconView
-                        android:id="@+id/iconView11"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="5dp"
-                        android:text="&#xe62d;"
-                        android:textColor="@color/gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="10dp"
-                        android:layout_toStartOf="@+id/iconView11"
-                        android:text=""
-                        android:textColor="@color/gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="10dp"
-                        android:text="开源相关"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                </RelativeLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/background_white"
-                android:backgroundTint="@color/background_white"
-                android:id="@+id/item_tg"
-                android:orientation="vertical">
-
-                <RelativeLayout
-
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:padding="10dp">
-
-                    <cn.dreamn.qianji_auto.ui.components.IconView
-                        android:id="@+id/iconView12"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="5dp"
-                        android:text="&#xe62d;"
-                        android:textColor="@color/gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="10dp"
-                        android:layout_toStartOf="@+id/iconView12"
-                        android:text="国内用户无法访问"
-                        android:textColor="@color/gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="10dp"
-                        android:text="电报订阅"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                </RelativeLayout>
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

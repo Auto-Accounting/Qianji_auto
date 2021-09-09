@@ -39,6 +39,7 @@ import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 
 import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.BuildConfig;
@@ -47,6 +48,7 @@ import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.TitleBar;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 import cn.dreamn.qianji_auto.utils.supportUtils.DonateUtil;
 
@@ -75,11 +77,10 @@ public class AboutFragment extends BaseFragment {
     @BindView(R.id.item_license)
     LinearLayout item_license;
 
-    @BindView(R.id.item_libs)
-    LinearLayout item_libs;
-
-    @BindView(R.id.item_tg)
-    LinearLayout item_tg;
+    @BindView(R.id.item_source)
+    LinearLayout item_source;
+    @BindView(R.id.sourceIcon_name)
+    TextView sourceIcon_name;
 
     @BindView(R.id.item_group)
     LinearLayout item_group;
@@ -101,6 +102,8 @@ public class AboutFragment extends BaseFragment {
     protected void initViews() {
         app_version.setText(BuildConfig.VERSION_NAME);
         app_new_version.setText(BuildConfig.VERSION_NAME);
+        MMKV mmkv = MMKV.defaultMMKV();
+        sourceIcon_name.setText(mmkv.getString("baseUrlName", "ghProxy"));
     }
 
     @SuppressLint("CheckResult")
@@ -111,9 +114,6 @@ public class AboutFragment extends BaseFragment {
         item_github.setOnClickListener(v -> WebViewFragment.openUrl(this, "https://doc.ankio.net/doc/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/#/Contribution"));
         item_develop.setOnClickListener(v -> {
             openNewPage(DevsFragment.class);
-        });
-        item_libs.setOnClickListener(v -> {
-            openNewPage(LibsFragment.class);
         });
         item_update.setOnClickListener(v -> {
             //"正在检测更新中,请稍候"
@@ -194,7 +194,35 @@ public class AboutFragment extends BaseFragment {
                 ToastUtils.show("未安装手机QQ或者当前QQ不支持加群。");
             }
         });
-        item_tg.setOnClickListener(v -> Tool.goUrl(requireContext(), "https://t.me/qianji_auto"));
+        item_source.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MMKV mmkv = MMKV.defaultMMKV();
+                List<String> list = Arrays.asList("jsDelivr", "Raw", "FastGit", "ghProxy", getString(R.string.source_custom));
+                BottomArea.list(getContext(), String.format(getString(R.string.about_source), mmkv.getString("baseUrlName", "ghProxy")), list, new BottomArea.ListCallback() {
+                    @Override
+                    public void onSelect(int position) {
+                        mmkv.encode("baseUrlName", list.get(position));
+                        if (position == 4) {
+                            BottomArea.input(getContext(), getString(R.string.source_input), mmkv.getString("baseUrl", ""), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+                                @Override
+                                public void input(String data) {
+                                    mmkv.encode("baseUrl", data);
+                                    initViews();
+                                }
+
+                                @Override
+                                public void cancel() {
+
+                                }
+                            });
+                        } else {
+                            initViews();
+                        }
+                    }
+                });
+            }
+        });
         item_star.setOnClickListener(v -> Tool.goToMarket(requireContext(), BuildConfig.APPLICATION_ID));
     }
 

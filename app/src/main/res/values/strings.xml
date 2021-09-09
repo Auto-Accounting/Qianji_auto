@@ -316,4 +316,7 @@
     <string name="remote_download">下载规则</string>
     <string name="remote_cancle">关闭</string>
     <string name="remote_success">下载成功</string>
+    <string name="about_source">请选择加速站(%s)</string>
+    <string name="source_custom">自定义</string>
+    <string name="source_input">请输入自定义加速链接</string>
 </resources>

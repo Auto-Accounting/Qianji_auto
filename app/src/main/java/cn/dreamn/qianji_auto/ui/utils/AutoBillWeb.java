@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.tencent.mmkv.MMKV;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.R;
@@ -26,11 +27,28 @@ import okhttp3.Response;
 
 public class AutoBillWeb {
 
-    // private static final String baseUrl = "https://cdn.jsdelivr.net/gh/dreamncn/AutoResource@master";
-//https://raw.fastgit.org/dreamncn/AutoResource/master
-    private static final String baseUrl = "https://raw.fastgit.org/dreamncn/AutoResource/master";
-
     public static void getWebData(String url, WebCallback callback) {
+        MMKV mmkv = MMKV.defaultMMKV();
+        String baseUrl;
+        String baseUrlName = mmkv.getString("baseUrlName", "ghProxy");
+        switch (Objects.requireNonNull(baseUrlName)) {
+            case "jsDelivr":
+                baseUrl = "https://cdn.jsdelivr.net/gh/dreamncn/AutoResource@master";
+                break;
+            case "Raw":
+                baseUrl = "https://raw.githubusercontent.com/dreamncn/AutoResource/master/";
+                break;
+            case "FastGit":
+                baseUrl = "https://raw.fastgit.org/dreamncn/AutoResource/master";
+                break;
+            case "ghProxy":
+                baseUrl = "https://ghproxy.com/https://raw.githubusercontent.com/dreamncn/AutoResource/master/";
+                break;
+            default:
+                baseUrl = mmkv.getString("baseUrl", "https://cdn.jsdelivr.net/gh/dreamncn/AutoResource@master");
+        }
+        url = baseUrl + url;
+
         OkHttpClient okHttpClient = new OkHttpClient();
         final Request request = new Request.Builder().url(url).build();
         final Call call = okHttpClient.newCall(request);
@@ -55,12 +73,12 @@ public class AutoBillWeb {
     }
 
     public static void getCategoryList(WebCallback callback) {
-        String url = baseUrl + "/category/list.json";
+        String url = "/category/list.json";
         getWebData(url, callback);
     }
 
     public static void getCategory(String name, WebCallback callback) {
-        String url = baseUrl + "/category/data/" + name + ".json";
+        String url = "/category/data/" + name + ".json";
         getWebData(url, callback);
     }
 
@@ -74,7 +92,7 @@ public class AutoBillWeb {
             addUrl += AppStatus.getActiveMode() + "/";
         }
         addUrl += "list.json";
-        String url = baseUrl + addUrl;
+        String url = addUrl;
         getWebData(url, callback);
     }
 
@@ -87,7 +105,7 @@ public class AutoBillWeb {
             addUrl += AppStatus.getActiveMode() + "/";
         }
         addUrl += app + "/list.json";
-        String url = baseUrl + addUrl;
+        String url = addUrl;
         getWebData(url, callback);
     }
 
@@ -102,13 +120,13 @@ public class AutoBillWeb {
         }
         addUrl += "/data/" + app + "/" + name + ".json";
 
-        String url = baseUrl + addUrl;
+        String url = addUrl;
 
         getWebData(url, callback);
     }
 
     public static void getUpdate(WebCallback callback) {
-        String url = baseUrl + "/version.json";
+        String url = "/version.json";
         getWebData(url, callback);
     }
 
