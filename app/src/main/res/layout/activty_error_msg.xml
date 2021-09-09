@@ -1,6 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#80000000"
-    android:backgroundTint="#80000000" />
+    android:background="@color/background">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_cry"
+        app:srcCompat="@drawable/ic_cry" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_area"
+        android:layout_below="@+id/textView_body"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_body2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="20dp"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/textView_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="0dp"
+        android:gravity="center_horizontal"
+        android:text="@string/error_title"
+        android:textColor="@color/black"
+        android:textSize="24sp" />
+
+    <LinearLayout
+        android:id="@+id/bottom_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/button_last"
+            style="@null"
+            android:layout_width="150dp"
+
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/btn_normal_2"
+            android:lineSpacingExtra="10sp"
+            android:stateListAnimator="@null"
+            android:text="@string/error_restart"
+            android:textColor="@color/button_go_setting_bg"
+            android:textSize="16sp"
+            app:cornerRadius="100dp" />
+
+        <Button
+            android:id="@+id/button_next"
+            style="@null"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/btn_normal_1"
+            android:lineSpacingExtra="10sp"
+            android:stateListAnimator="@null"
+            android:text="@string/error_submit"
+            android:textAppearance="?android:attr/textAppearanceButton"
+            android:textColor="@color/background_white"
+            android:textSize="16sp"
+            app:cornerRadius="100dp" />
+    </LinearLayout>
+
+</RelativeLayout>

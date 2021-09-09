@@ -19,15 +19,9 @@ package cn.dreamn.qianji_auto.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.afollestad.materialdialogs.LayoutMode;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
-import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseActivity;
@@ -41,7 +35,6 @@ public class ErrorActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.setTheme(android.R.style.Theme_Translucent_NoTitleBar);
         setContentView(R.layout.activty_error_msg);
         initView();
     }
@@ -49,59 +42,43 @@ public class ErrorActivity extends BaseActivity {
     private void initView() {
 
         Bundle bundle = getIntent().getExtras();
-
+        Activity context = this;
         if (bundle != null) {
             Log.i("Error", bundle.getString("errorInfo"));//记录错误日志
 
+            TextView textView = findViewById(R.id.textView_body2);
+            textView.setText(bundle.getString("errorInfo"));
 
-            LayoutInflater factory = LayoutInflater.from(this);
-            final View textEntryView = factory.inflate(R.layout.include_list_msg, null);
-            BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-            bottomSheet.setRatio(1f);
-            MaterialDialog dialog = new MaterialDialog(this, bottomSheet);
-            dialog.title(null, getString(R.string.error_title));
+            Button button_last = findViewById(R.id.button_last);
+            Button button_next = findViewById(R.id.button_next);
 
-            TextView textView_body = textEntryView.findViewById(R.id.textView_body);
-            textView_body.setText(bundle.getString("errorInfo"));
+            button_next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    BottomArea.msg(context, getString(R.string.error_report_title), getString(R.string.error_report_msg), getString(R.string.error_report_submit), getString(R.string.error_report_cancle), new BottomArea.MsgCallback() {
+                        @Override
+                        public void cancel() {
 
+                        }
 
-            Button button_next = textEntryView.findViewById(R.id.button_next);
-            Button button_last = textEntryView.findViewById(R.id.button_last);
-            button_next.setText(R.string.error_submit);
-            button_last.setText(R.string.error_restart);
-
-            button_next.setOnClickListener(v -> {
-                //  Tool.goUrl(context, jsonObject.getString("download"));
-                Activity context = this;
-                dialog.dismiss();
-                BottomArea.msg(context, getString(R.string.error_report_title), getString(R.string.error_report_msg), getString(R.string.error_report_submit), getString(R.string.error_report_cancle), new BottomArea.MsgCallback() {
-                    @Override
-                    public void cancel() {
-
-                    }
-
-                    @Override
-                    public void sure() {
-                        Tool.goUrl(context, getString(R.string.github_issue_error));
-                        Tool.restartApp(context);
-                    }
-                });
-
+                        @Override
+                        public void sure() {
+                            Tool.goUrl(context, getString(R.string.github_issue_error));
+                            Tool.restartApp(context);
+                        }
+                    });
+                }
             });
 
-            button_last.setOnClickListener(v -> {
-
-                dialog.dismiss();
-                Tool.restartApp(this);
+            button_last.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Tool.restartApp(context);
+                }
             });
 
-            DialogCustomViewExtKt.customView(dialog, null, textEntryView,
-                    false, true, false, false);
-
-            dialog.cornerRadius(15f, null);
-            dialog.cancelable(false);
-            dialog.show();
-
+        } else {
+            Tool.restartApp(context);
         }
     }
 

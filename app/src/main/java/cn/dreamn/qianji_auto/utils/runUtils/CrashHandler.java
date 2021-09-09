@@ -21,6 +21,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
+
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.ui.activity.ErrorActivity;
 
@@ -60,27 +62,27 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      * 当UncaughtException发生时会转入该函数来处理
      */
     @Override
-    public void uncaughtException(Thread thread, Throwable ex) {
-        handleException(ex);
-        /*if (!handleException(ex) && mDefaultHandler != null) {
-            // 如果用户没有处理则让系统默认的异常处理器来处理
-            Log.d("异常处理有问题~");
-            mDefaultHandler.uncaughtException(thread, ex);
-        } */
+    public void uncaughtException(@NonNull Thread thread, @NonNull Throwable ex) {
+        String error = handleException(ex);
+        // 退出程序
+// 跳转到崩溃提示Activity
+        Intent intent = new Intent(mContext, ErrorActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("errorInfo", error);
+        mContext.startActivity(intent);
+        System.exit(0);// 关闭已奔溃的app进程
     }
 
     /**
      * 自定义错误处理,收集错误信息 发送错误报告等操作均在此完成.
      *
      * @param ex
-     * @return true:如果处理了该异常信息;否则返回false.
      */
-    private boolean handleException(Throwable ex) {
+    private String handleException(Throwable ex) {
         if (ex == null) {
-            return false;
+            return "";
         }
-        // getInstance().getSpUtil().setCrashLog(true);// 每次进入应用检查，是否有log，有则上传
-        // 使用Toast来显示异常信息
+
         StringBuilder errorInfo = new StringBuilder("verCode:" + BuildConfig.VERSION_NAME + "\n");
         errorInfo.append("\nerror:\n").append(ex.getMessage()).append("\n");
         errorInfo.append("\nstackTrace:\n");
@@ -88,15 +90,11 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         int i = 0;
         for (StackTraceElement t : tree) {
             i++;
-            /* errorInfo.append(String.format("[stackTrace]File(%s)Class(%s)Method(%s)Line(%s)\n", t.getFileName(), t.getClassName(), t.getMethodName(), t.getLineNumber()));*/
             errorInfo.append(i).append(".").append(t.toString()).append("\n");
         }
-        Intent intent = new Intent(mContext, ErrorActivity.class);
-        intent.putExtra("errorInfo", errorInfo.toString());
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
 
-        return true;
+        return errorInfo.toString();
+
     }
 
 

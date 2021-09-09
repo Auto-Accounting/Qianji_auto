@@ -289,9 +289,9 @@
     <string name="upload_cloud">上传到云端</string>
     <string name="edit_error">该规则使用js编辑，无法进行可视化编辑。</string>
     <string name="could_title">上传至云端规则</string>
-    <string name="could_body">目前，上传规则需要手动在Github建立Issue。\n点击『复制并打开Github』后将复制规则到剪切板并打开浏览器提交Issue。</string>
+    <string name="could_body">目前，上传规则需要手动在Github建立Issue。\n点击『去提交』后将复制规则到剪切板并打开浏览器提交Issue。</string>
     <string name="regular_know">我知道了</string>
-    <string name="regular_upload">复制并打开Github</string>
+    <string name="regular_upload">去提交</string>
     <string name="github_issue_category">https://github.com/dreamncn/Qianji_auto/issues</string>
     <string name="deny_success">禁用成功</string>
     <string name="enable_success">启用成功</string>
@@ -303,8 +303,8 @@
     <string name="error_submit">发送错误报告</string>
     <string name="error_restart">重启自动记账</string>
     <string name="error_report_title">错误报告提交提醒</string>
-    <string name="error_report_msg">请点击【复制并提交】前往Github提交Issue。</string>
-    <string name="error_report_submit">复制并提交</string>
+    <string name="error_report_msg">请点击【去提交】前往Github提交Issue。</string>
+    <string name="error_report_submit">去提交</string>
     <string name="error_report_cancle">我知道了</string>
     <string name="github_issue_error">https://github.com/dreamncn/Qianji_auto/issues</string>
     <string name="reg_clean_body">是否清空所有%s规则</string>

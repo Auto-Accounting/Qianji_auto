@@ -41,8 +41,7 @@
         tools:targetApi="n">
         <activity
             android:name=".ui.activity.ErrorActivity"
-            android:launchMode="singleInstance"
-            android:theme="@style/translucent" />
+            android:launchMode="singleInstance" />
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true">
