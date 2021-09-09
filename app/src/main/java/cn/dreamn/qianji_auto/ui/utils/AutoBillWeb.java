@@ -36,38 +36,45 @@ public class AutoBillWeb {
                 baseUrl = "https://cdn.jsdelivr.net/gh/dreamncn/AutoResource@master";
                 break;
             case "Raw":
-                baseUrl = "https://raw.githubusercontent.com/dreamncn/AutoResource/master/";
+                baseUrl = "https://raw.githubusercontent.com/dreamncn/AutoResource/master";
                 break;
             case "FastGit":
                 baseUrl = "https://raw.fastgit.org/dreamncn/AutoResource/master";
                 break;
             case "ghProxy":
-                baseUrl = "https://ghproxy.com/https://raw.githubusercontent.com/dreamncn/AutoResource/master/";
+                baseUrl = "https://ghproxy.com/https://raw.githubusercontent.com/dreamncn/AutoResource/master";
                 break;
             default:
                 baseUrl = mmkv.getString("baseUrl", "https://cdn.jsdelivr.net/gh/dreamncn/AutoResource@master");
         }
-        url = baseUrl + url;
+
+        String fullUrl = baseUrl + url;
 
         OkHttpClient okHttpClient = new OkHttpClient();
-        final Request request = new Request.Builder().url(url).build();
+        final Request request = new Request.Builder().url(fullUrl).build();
         final Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 callback.onFailure();
                 e.printStackTrace();
+                call.cancel();
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                String string = response.body().string();
+
+                Log.m("网页返回结果->", "路径：" + url + "\nBase:" + baseUrl + "\nResult:" + string + "\n");
                 if (response.code() == 200 && response.isSuccessful()) {
-                    String string = response.body().string();
+
+
                     callback.onSuccessful(string);
                 } else {
                     callback.onFailure();
-                    Log.d("服务器响应错误" + response.body().string());
+                    Log.d("服务器响应错误" + string);
                 }
+                call.cancel();
             }
         });
     }
@@ -104,7 +111,7 @@ public class AutoBillWeb {
         if (type.equals("app")) {
             addUrl += AppStatus.getActiveMode() + "/";
         }
-        addUrl += app + "/list.json";
+        addUrl += "/data/" + app + "/list.json";
         String url = addUrl;
         getWebData(url, callback);
     }
@@ -177,7 +184,7 @@ public class AutoBillWeb {
                         callback.onUpdateEnd();
                     }
                 }
-                Log.m("更新数据：" + data);
+                // Log.m("更新数据：" + data);
             }
         });
     }

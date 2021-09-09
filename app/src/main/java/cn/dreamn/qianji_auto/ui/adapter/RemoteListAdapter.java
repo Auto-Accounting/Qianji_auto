@@ -15,7 +15,6 @@ import cn.dreamn.qianji_auto.utils.runUtils.AppUtils;
 public class RemoteListAdapter extends BaseAdapter {
     private final Context mContext;
 
-    private MoreClick moreClick;
 
     public RemoteListAdapter(Context context) {
         super(R.layout.adapter_remote_item);
@@ -30,7 +29,7 @@ public class RemoteListAdapter extends BaseAdapter {
         TextView app_name = (TextView) holder.findView(R.id.app_name);
         TextView app_count = (TextView) holder.findView(R.id.app_count);
         if (item.getString("type").equals("sms")) {
-            icon_header.setImageBitmap(AppUtils.getBitmap(mContext, "com.android.mms"));
+            icon_header.setImageBitmap(AppUtils.getBitmap(mContext, "com.android.providers.telephony"));
         } else {
             icon_header.setImageBitmap(AppUtils.getBitmap(mContext, item.getString("pkg")));
         }
@@ -41,7 +40,4 @@ public class RemoteListAdapter extends BaseAdapter {
     }
 
 
-    public interface MoreClick {
-        void onClick(Bundle item);
-    }
 }

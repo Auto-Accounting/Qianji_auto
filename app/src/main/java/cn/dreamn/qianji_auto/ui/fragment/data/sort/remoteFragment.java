@@ -22,29 +22,31 @@ import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
 import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
+import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.ui.adapter.RemoteSortListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
@@ -58,15 +60,14 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
 public class remoteFragment extends BaseFragment {
 
 
-    ;
     @BindView(R.id.status)
     StatusView statusView;
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @BindView(R.id.listview)
-    ListView recyclerView;
-    private ArrayAdapter<String> mAdapter;
-    private List<String> list;
+    @BindView(R.id.recycler_view)
+    SwipeRecyclerView recyclerView;
+    private RemoteSortListAdapter mAdapter;
+    private List<Bundle> list;
     LoadingDialog loadingDialog;
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -76,8 +77,7 @@ public class remoteFragment extends BaseFragment {
                     statusView.showEmptyView();
                     break;
                 case HANDLE_OK:
-                    mAdapter.clear();
-                    mAdapter.addAll(list);
+                    mAdapter.refresh(list);
                     statusView.showContentView();
                     break;
                 case HANDLE_REFRESH:
@@ -94,7 +94,7 @@ public class remoteFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_data_remote_sort;
+        return R.layout.fragment_data_remote;
     }
 
     @Override
@@ -126,11 +126,12 @@ public class remoteFragment extends BaseFragment {
     }
 
     private void initLayout() {
-        mAdapter = new ArrayAdapter<String>(getContext(), R.layout.adapter_list_remote);
+        mAdapter = new RemoteSortListAdapter(getContext());
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAdapter);
-        recyclerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new SmartViewHolder.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(View itemView, int position) {
                 loadingDialog = new LoadingDialog(getContext(), getString(R.string.main_loading));
                 loadingDialog.show();
                 Handler handler = new Handler(Looper.getMainLooper()) {
@@ -140,7 +141,7 @@ public class remoteFragment extends BaseFragment {
                         try {
                             JSONObject jsonObject = JSONObject.parseObject(data);
                             String des = jsonObject.getString("des");
-                            BottomArea.msg(getContext(), list.get(i), des, getString(R.string.remote_download), getString(R.string.remote_cancle), new BottomArea.MsgCallback() {
+                            BottomArea.msg(getContext(), list.get(position).getString("name"), des, getString(R.string.remote_download), getString(R.string.remote_cancle), new BottomArea.MsgCallback() {
                                 @Override
                                 public void cancel() {
 
@@ -163,7 +164,7 @@ public class remoteFragment extends BaseFragment {
                         loadingDialog.close();
                     }
                 };
-                AutoBillWeb.getCategory(list.get(i), new AutoBillWeb.WebCallback() {
+                AutoBillWeb.getCategory(list.get(position).getString("name"), new AutoBillWeb.WebCallback() {
                     @Override
                     public void onFailure() {
                         ToastUtils.show(R.string.remote_error);
@@ -191,13 +192,15 @@ public class remoteFragment extends BaseFragment {
 
             @Override
             public void onSuccessful(String data) {
-                Log.m("网页返回结果->  " + data);
-                List<String> datas = new ArrayList<>();
+                // Log.m("网页返回结果->  " + data);
+                List<Bundle> datas = new ArrayList<>();
                 try {
                     JSONArray jsonArray = JSONArray.parseArray(data);
                     for (int i = 0; i < jsonArray.size(); i++) {
                         String str = jsonArray.getString(i);
-                        datas.add(str);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("name", str);
+                        datas.add(bundle);
                     }
                 } catch (Exception | Error e) {
                     e.printStackTrace();
@@ -205,7 +208,7 @@ public class remoteFragment extends BaseFragment {
                     e.printStackTrace();
                 }
                 list = datas;
-                Log.m("数据" + list.toString());
+                //  Log.m("数据" + list.toString());
                 HandlerUtil.send(mHandler, HANDLE_OK);
             }
         });
