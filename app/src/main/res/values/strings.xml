@@ -319,4 +319,5 @@
     <string name="about_source">请选择加速站(%s)</string>
     <string name="source_custom">自定义</string>
     <string name="source_input">请输入自定义加速链接</string>
+    <string name="reg_error">该规则有误，无法查看。</string>
 </resources>

@@ -106,8 +106,8 @@
                 <div class="rule_content3">
                     <span>消费类型为</span>
                     <select id="consumption_type" name="consumption_type">
-                        <option selected value="0"> 支出</option>
-                        <option value="1"> 收入</option>
+                        <option selected value="支出"> 支出</option>
+                        <option value="收入"> 收入</option>
                     </select>
                     <img alt="" src="../Public/images/category_right.png"/>
                 </div>
@@ -479,7 +479,6 @@
         var js = "function getCategory(shopName,shopRemark,type,hour,minute,source,money){%s  %s return '其它';} getCategory('%s','%s','%s',%s,%s,'%s','%s');";
         return String.format(js, jsInner, jsData, StringAs(shopAccount), StringAs(shopRemark), type, hour, minute, source, money);
     }
-
 
 
 </script>

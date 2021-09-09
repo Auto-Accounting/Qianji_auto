@@ -139,8 +139,14 @@ public class remoteFragment extends BaseFragment {
                     public void handleMessage(@NonNull Message msg) {
                         String data = (String) msg.obj;
                         try {
+                            Log.d(data);
                             JSONObject jsonObject = JSONObject.parseObject(data);
-                            String des = jsonObject.getString("des");
+                            JSONArray jsonArray = jsonObject.getJSONArray("data");
+                            if (jsonArray.size() == 0) {
+                                ToastUtils.show(R.string.reg_error);
+                                return;
+                            }
+                            String des = jsonObject.getJSONArray("data").getJSONObject(0).getString("des");
                             BottomArea.msg(getContext(), list.get(position).getString("name"), des, getString(R.string.remote_download), getString(R.string.remote_cancle), new BottomArea.MsgCallback() {
                                 @Override
                                 public void cancel() {

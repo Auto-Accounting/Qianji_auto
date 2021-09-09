@@ -89,7 +89,7 @@ public class RegularManager {
         JSONObject jsonObject = JSONObject.parseObject(data);
         String from = jsonObject.getString("from");
         Log.m("当前恢复类型：" + name + "  type:" + type + " from:" + from);
-        if (!from.equals(type)) {
+        if (from == null || !from.equals(type)) {
             ToastUtils.show(String.format(context.getString(R.string.set_error), name));
             return;
         }
