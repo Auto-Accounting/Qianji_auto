@@ -120,6 +120,13 @@ public class Utils {
         sendBroadcast(SEND_ACTION_APP, bundle);
     }
 
+    public void send2auto(String str) {
+        log("APP数据广播给自动记账：" + str, true);
+        Bundle bundle = new Bundle();
+        bundle.putString("data", str);
+        sendBroadcast(SEND_ACTION_APP, bundle);
+    }
+
     public static final int TRACE_DUMPSTACK = 3;
     public static final int TRACE_RUNTIME = 4;
 

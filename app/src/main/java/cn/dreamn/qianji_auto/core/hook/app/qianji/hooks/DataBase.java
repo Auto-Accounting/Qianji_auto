@@ -20,15 +20,14 @@ package cn.dreamn.qianji_auto.core.hook.app.qianji.hooks;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
 import cn.dreamn.qianji_auto.core.hook.app.qianji.DBHelper;
-import cn.dreamn.qianji_auto.core.hook.app.qianji.Data;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -49,7 +48,7 @@ public class DataBase {
                 if (database != null && database.isOpen()) {
                     db = database;
                     utils.log("使用钱迹对象获取信息", false);
-                    dbHelper[0] = new DBHelper(db);
+                    dbHelper[0] = new DBHelper(db, utils);
                 } else {
                     utils.log("钱迹数据库对象无法获取到数据，尝试文件模式", false);
                     dbHelper[0] = new DBHelper(utils);
@@ -74,8 +73,11 @@ public class DataBase {
 
 
                 String finalUserId = userId;
+                final boolean[] hooked = {false};
                 XposedHelpers.findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
                     protected void beforeHookedMethod(MethodHookParam param) {
+                        if (hooked[0]) return;
+                        hooked[0] = true;
                         Activity activity = (Activity) param.thisObject;
                         final String activityClzName = activity.getClass().getName();
                         if (activityClzName.contains("com.mutangtech.qianji.ui.main.MainActivity")) {
@@ -87,31 +89,16 @@ public class DataBase {
                                 }
                                 utils.log("钱迹收到同步信号:" + intent.getStringExtra("needAsync"));
 
-                                String allTable = dbHelper[0].getAllTables();
-                                // 同步的时候测试对象有效。
-                                if (allTable == null) {
-                                    utils.log("钱迹获取数据失败");
-                                    XposedHelpers.callMethod(activity, "finish");
-                                    dbHelper[0].finalize();
-                                    return;
-                                }
+                                JSONObject jsonObject = new JSONObject();
+                                jsonObject.put("asset", dbHelper[0].getAsset(finalUserId));
+                                jsonObject.put("category", dbHelper[0].getCategory(finalUserId));
+                                jsonObject.put("userBook", dbHelper[0].getUserBook(finalUserId));
+                                jsonObject.put("billInfo", dbHelper[0].getBills(finalUserId));
 
-                                ArrayList<Data> asset = dbHelper[0].getAsset(finalUserId);
-                                ArrayList<Data> category = dbHelper[0].getCategory(finalUserId);
-                                ArrayList<Data> userBook = dbHelper[0].getUserBook(finalUserId);
-                                //   ArrayList<Data> billInfo = dbHelper[0].getBills(finalUserId);
-                                Bundle bundle = new Bundle();
-                                bundle.putParcelableArrayList("asset", asset);
-                                bundle.putParcelableArrayList("category", category);
-                                bundle.putParcelableArrayList("userBook", userBook);
-                                //   bundle.putParcelableArrayList("billInfo", billInfo);
-                                //  utils.log(bundle.toString());
-                                utils.send2auto(bundle);
+                                utils.send2auto(jsonObject.toJSONString());
 
                                 Toast.makeText(utils.getContext(), "钱迹数据信息获取完毕，现在返回自动记账。", Toast.LENGTH_LONG).show();
                                 XposedHelpers.callMethod(activity, "finishAndRemoveTask");
-
-                                dbHelper[0].finalize();
 
 
                             } else {

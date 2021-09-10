@@ -20,6 +20,7 @@ public class AutoError {
                 String string = (String) param.args[0];
                 //钱迹弹出错误信息，转发给自动记账处理~
                 if (string != null) {
+                    utils.sendString("钱迹错误：" + string);
                     String url = getSolvedUrl(string);
                     Intent v0 = new Intent(utils.getContext(), WebViewActivity);
                     v0.putExtra("param_web_url", url);
@@ -42,7 +43,7 @@ public class AutoError {
     public static String getSolvedUrl(String problems) {
         String url = "https://pan.ankio.net";
         if (problems.contains("bookname")) {
-            // TODO 根据不同错误信息给出解决方案地址
+            // TODO 根据不同错误信息给出解决方案地址，需要等文档到位
         } else if (problems.contains("accountname")) {
 
         }

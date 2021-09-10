@@ -323,4 +323,5 @@
     <string name="save_success">存储成功！</string>
     <string name="change_success">修改成功！</string>
     <string name="set_choose_category">请选择分类</string>
+    <string name="async_success">同步成功！</string>
 </resources>

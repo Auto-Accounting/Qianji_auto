@@ -9,14 +9,13 @@ import android.os.Message;
 
 import androidx.annotation.NonNull;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 
-import java.util.ArrayList;
-
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
-import cn.dreamn.qianji_auto.core.hook.app.qianji.Data;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Helper.Caches;
 import cn.dreamn.qianji_auto.database.Table.CategoryName;
@@ -78,6 +77,7 @@ public class QianJi implements IApp {
     @Override
     public void asyncDataBefore(Context context) {
         if (AppStatus.xposedActive(context)) {
+            Cmd.exec(new String[]{"am force-stop com.mutangtech.qianji"});
             //杀死其他应用
             //  Tool.stopApp(context,"com.mutangtech.qianji");
             Intent intent = new Intent();
@@ -94,20 +94,18 @@ public class QianJi implements IApp {
 
     @Override
     public void asyncDataAfter(Context context, Bundle extData) {
+        String json = extData.getString("data");
+        JSONObject jsonObject = JSONObject.parseObject(json);
         //Toasty.info(context,"收到钱迹数据！正在后台同步中...").show();
-        ArrayList<Data> asset = extData.getParcelableArrayList("asset");
-
-        ArrayList<Data> category = extData.getParcelableArrayList("category");
-
-        ArrayList<Data> userBook = extData.getParcelableArrayList("userBook");
-
-        //   ArrayList<Data> billInfo = extData.getParcelableArrayList("billInfo");
-        //  Tool.stopApp(context,"com.mutangtech.qianji");
+        JSONArray asset = jsonObject.getJSONArray("asset");
+        JSONArray category = jsonObject.getJSONArray("category");
+        JSONArray userBook = jsonObject.getJSONArray("userBook");
+        JSONArray billInfo = jsonObject.getJSONArray("billInfo");
 
         Handler mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                ToastUtils.show("同步成功！");
+                ToastUtils.show(R.string.async_success);
             }
         };
 
@@ -119,16 +117,15 @@ public class QianJi implements IApp {
         Task.onThread(() -> {
             DbManger.db.CategoryNameDao().clean();
             for (int i = 0; i < category.size(); i++) {
-                Data d = category.get(i);
-                Bundle m = d.get();
-                String name = m.getString("name");
-                String icon = m.getString("icon");
-                String level = m.getString("level");
-                String type = m.getString("type");
-                String self_id = m.getString("id");
-                String parent_id = m.getString("parent");
-                String book_id = m.getString("book_id");
-                String sort = m.getString("sort");
+                JSONObject jsonObject1 = category.getJSONObject(i);
+                String name = jsonObject1.getString("name");
+                String icon = jsonObject1.getString("icon");
+                String level = jsonObject1.getString("level");
+                String type = jsonObject1.getString("type");
+                String self_id = jsonObject1.getString("id");
+                String parent_id = jsonObject1.getString("parent");
+                String book_id = jsonObject1.getString("book_id");
+                String sort = jsonObject1.getString("sort");
                 if (self_id == null || self_id.equals("")) {
                     self_id = String.valueOf(System.currentTimeMillis());
                 }
@@ -151,23 +148,22 @@ public class QianJi implements IApp {
             DbManger.db.Asset2Dao().clean();
 
             for (int i = 0; i < asset.size(); i++) {
-                Data d = asset.get(i);
-                Bundle m = d.get();
-                Log.d(m.getString("name") + "->type->" + m.getString("type"));
-                if (m.getString("type").equals("5"))
+                JSONObject jsonObject1 = asset.getJSONObject(i);
+                Log.d(jsonObject1.getString("name") + "->type->" + jsonObject1.getString("type"));
+                if (jsonObject1.getString("type").equals("5"))
                     continue;
-                DbManger.db.Asset2Dao().add(m.getString("name"), m.getString("icon"), m.getInt("sort"));
+                DbManger.db.Asset2Dao().add(jsonObject1.getString("name"), jsonObject1.getString("icon"), jsonObject1.getInteger("sort"));
 
             }
             Log.i("资产数据处理完毕");
 
             DbManger.db.BookNameDao().clean();
             for (int i = 0; i < userBook.size(); i++) {
-                Data d = userBook.get(i);
-                Bundle m = d.get();
-                String bookName = m.getString("name");
-                String icon = m.getString("cover");
-                String bid = m.getString("id");
+                JSONObject jsonObject1 = userBook.getJSONObject(i);
+
+                String bookName = jsonObject1.getString("name");
+                String icon = jsonObject1.getString("cover");
+                String bid = jsonObject1.getString("id");
                 if (bid == null || bid.equals("")) {
                     bid = String.valueOf(System.currentTimeMillis());
                 }
@@ -180,30 +176,7 @@ public class QianJi implements IApp {
             mHandler.sendEmptyMessage(0);
         });
 
-/*
-        //处理分类数据
-        CategoryNames.clean();
-        for (int i = 0; i < category.size(); i++) {
-            Data d = category.get(i);
-            Bundle m = d.get();
-            CategoryNames.insert(m.getString("name"), m.getString("icon"), m.getString("level"), m.getString("type"), m.getString("id"), m.getString("parent"), m.getString("book_id"), m.getString("sort"), isSucceed -> {
-                Log.d("分类数据处理结果:" + isSucceed);
-            })*/
-
-        //处理资产数据
-      /*  Assets.cleanAsset();
-        for (int i = 0; i < asset.size(); i++) {
-            Data d = asset.get(i);
-            Bundle m = d.get();
-            if (m.getString("type").equals("5"))
-                break;
-            Assets.addAsset(m.getString("name"), m.getString("icon"), m.getInt("sort"), () -> {
-                // 处理结束
-                Log.d("资产数据处理完~");
-            });
-
-        }*/
-
+        Cmd.exec(new String[]{"am force-stop com.mutangtech.qianji"});
         //获取账单数据
         // TODO 插入数据库
 

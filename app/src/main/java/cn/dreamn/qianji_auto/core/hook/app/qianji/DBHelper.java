@@ -20,25 +20,38 @@ package cn.dreamn.qianji_auto.core.hook.app.qianji;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
 
-import java.util.ArrayList;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
 import cn.dreamn.qianji_auto.utils.files.FileUtils;
 
 public class DBHelper {
 
-    //SQLiteDatabase
-    private final SQLiteDatabase db;
+    private final Utils utils;
     private final String NEW_PATH = "/data/data/com.mutangtech.qianji/qianjiapp_copy";
-    private boolean isObj = false;
+    boolean isObj = false;
+    //SQLiteDatabase
+    private SQLiteDatabase db;
 
     @SuppressLint("SdCardPath")
     public DBHelper(Utils utils) {
+        this.utils = utils;
+        openDb();
+    }
+
+    public DBHelper(SQLiteDatabase db, Utils utils) {
+        this.db = db;
+        this.utils = utils;
+        isObj = true;
+    }
+
+    private void openDb() {
+        isObj = false;
         utils.log("Qianji-Copy 开始复制文件", false);
         FileUtils.del(NEW_PATH);//尝试删掉这里的文件
-        Boolean copyed = FileUtils.copyFile("/data/data/com.mutangtech.qianji/databases/qianjiapp", NEW_PATH);
+        boolean copyed = FileUtils.copyFile("/data/data/com.mutangtech.qianji/databases/qianjiapp", NEW_PATH);
         if (copyed) {
             utils.log("Qianji-Copy 文件复制成功", false);
         } else {
@@ -47,12 +60,11 @@ public class DBHelper {
         db = SQLiteDatabase.openOrCreateDatabase(NEW_PATH, null);
     }
 
-    public DBHelper(SQLiteDatabase db) {
-        this.db = db;
-        this.isObj = true;
-    }
-
+    @SuppressLint("Range")
     public String getAllTables() {
+        if (!db.isOpen()) {
+            openDb();
+        }
         Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;", null);
         StringBuilder str = new StringBuilder();
         while (cursor.moveToNext()) {
@@ -69,86 +81,93 @@ public class DBHelper {
         return str.toString();
     }
 
-    public ArrayList<Data> getCategory(String userId) {
+    @SuppressLint("Range")
+    public JSONArray getCategory(String userId) {
+        if (!db.isOpen()) {
+            openDb();
+        }
         Cursor cursor = db.rawQuery("select * from category where USER_ID = '" + userId + "'", null);
-        ArrayList<Data> data = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray();
         while (cursor.moveToNext()) {
-            Bundle bundle = new Bundle();
-            bundle.putString("name", cursor.getString(cursor.getColumnIndex("NAME")));
-            bundle.putString("type", cursor.getString(cursor.getColumnIndex("TYPE")));
-            bundle.putString("id", cursor.getString(cursor.getColumnIndex("_id")));
-            bundle.putString("book_id", cursor.getString(cursor.getColumnIndex("bookid")));
-            bundle.putString("parent", cursor.getString(cursor.getColumnIndex("PARENT_ID")));
-            bundle.putString("level", cursor.getString(cursor.getColumnIndex("LEVEL")));
-            bundle.putString("icon", cursor.getString(cursor.getColumnIndex("ICON")));
-            bundle.putString("sort", cursor.getString(cursor.getColumnIndex("SORT")));
-            Data data1 = new Data();
-            data1.set(bundle);
-            data.add(data1);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("name", cursor.getString(cursor.getColumnIndex("NAME")));
+            jsonObject.put("type", cursor.getString(cursor.getColumnIndex("TYPE")));
+            jsonObject.put("id", cursor.getString(cursor.getColumnIndex("_id")));
+            jsonObject.put("book_id", cursor.getString(cursor.getColumnIndex("bookid")));
+            jsonObject.put("parent", cursor.getString(cursor.getColumnIndex("PARENT_ID")));
+            jsonObject.put("level", cursor.getString(cursor.getColumnIndex("LEVEL")));
+            jsonObject.put("icon", cursor.getString(cursor.getColumnIndex("ICON")));
+            jsonObject.put("sort", cursor.getString(cursor.getColumnIndex("SORT")));
+            jsonArray.add(jsonObject);
         }
         cursor.close();
         //  db.close();
-        return data;
+        return jsonArray;
     }
 
-    public ArrayList<Data> getAsset(String userId) {
+    @SuppressLint("Range")
+    public JSONArray getAsset(String userId) {
+        if (!db.isOpen()) {
+            openDb();
+        }
         Cursor cursor = db.rawQuery("select * from user_asset where STATUS = 0 and USERID = '" + userId + "'", null);
-        ArrayList<Data> data = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray();
         while (cursor.moveToNext()) {
-            Bundle bundle = new Bundle();
-            bundle.putInt("sort", cursor.getInt(cursor.getColumnIndex("SORT")));
-            bundle.putString("name", cursor.getString(cursor.getColumnIndex("NAME")));
-            bundle.putString("icon", cursor.getString(cursor.getColumnIndex("ICON")));
-            bundle.putString("type", cursor.getString(cursor.getColumnIndex("TYPE")));
-            bundle.putString("info", cursor.getString(cursor.getColumnIndex("LOAN_INFO")));
-            Data data1 = new Data();
-            data1.set(bundle);
-            data.add(data1);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("sort", cursor.getInt(cursor.getColumnIndex("SORT")));
+            jsonObject.put("name", cursor.getString(cursor.getColumnIndex("NAME")));
+            jsonObject.put("icon", cursor.getString(cursor.getColumnIndex("ICON")));
+            jsonObject.put("type", cursor.getString(cursor.getColumnIndex("TYPE")));
+            jsonObject.put("info", cursor.getString(cursor.getColumnIndex("LOAN_INFO")));
+            jsonArray.add(jsonObject);
         }
         cursor.close();
-        // db.close();
-        return data;
+        return jsonArray;
     }
 
-    public ArrayList<Data> getUserBook(String userId) {
+    @SuppressLint("Range")
+    public JSONArray getUserBook(String userId) {
+        if (!db.isOpen()) {
+            openDb();
+        }
         Cursor cursor = db.rawQuery("select * from user_book where USERID = '" + userId + "'", null);
-        ArrayList<Data> data = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray();
         while (cursor.moveToNext()) {
-            Bundle bundle = new Bundle();
-            bundle.putString("id", cursor.getString(cursor.getColumnIndex("BOOK_ID")));
-            bundle.putString("name", cursor.getString(cursor.getColumnIndex("NAME")));
-            bundle.putString("cover", cursor.getString(cursor.getColumnIndex("COVER")));
-            Data data1 = new Data();
-            data1.set(bundle);
-            data.add(data1);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", cursor.getString(cursor.getColumnIndex("BOOK_ID")));
+            jsonObject.put("name", cursor.getString(cursor.getColumnIndex("NAME")));
+            jsonObject.put("cover", cursor.getString(cursor.getColumnIndex("COVER")));
+            jsonArray.add(jsonObject);
         }
         cursor.close();
-        return data;
+        return jsonArray;
     }
 
-    public ArrayList<Data> getBills(String userId) {
+    @SuppressLint("Range")
+    public JSONArray getBills(String userId) {
+        if (!db.isOpen()) {
+            openDb();
+        }
         Cursor cursor = db.rawQuery("select * from user_bill where USERID = '" + userId + "'", null);
-        ArrayList<Data> data = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray();
         while (cursor.moveToNext()) {
-            Bundle bundle = new Bundle();
-            bundle.putString("id", cursor.getString(cursor.getColumnIndex("billid")));
-            bundle.putString("remark", cursor.getString(cursor.getColumnIndex("REMARK")));
-            bundle.putString("money", cursor.getString(cursor.getColumnIndex("MONEY")));
-            bundle.putString("descinfo", cursor.getString(cursor.getColumnIndex("DESCINFO")));
-            Data data1 = new Data();
-            data1.set(bundle);
-            data.add(data1);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", cursor.getString(cursor.getColumnIndex("billid")));
+            jsonObject.put("remark", cursor.getString(cursor.getColumnIndex("REMARK")));
+            jsonObject.put("money", cursor.getString(cursor.getColumnIndex("MONEY")));
+            jsonObject.put("descinfo", cursor.getString(cursor.getColumnIndex("DESCINFO")));
+            jsonObject.put("type", cursor.getString(cursor.getColumnIndex("TYPE")));
+            jsonArray.add(jsonObject);
         }
         cursor.close();
-        //  db.close();
-        return data;
+        return jsonArray;
     }
 
     @Override
     public void finalize() {
         try {
             super.finalize();
-            if (db != null && !isObj) {
+            if (db != null && db.isOpen() && !isObj) {
                 db.close();
             }
         } catch (Throwable throwable) {
