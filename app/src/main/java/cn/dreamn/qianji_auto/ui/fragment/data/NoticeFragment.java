@@ -188,8 +188,6 @@ public class NoticeFragment extends BaseFragment {
                         jsonObject.put("account1", "");
                         jsonObject.put("account2", "");
                         jsonObject.put("type", "0");
-                        jsonObject.put("source", "");
-                        jsonObject.put("silent", "1");
                         jsonObject.put("money", "");
                         jsonObject.put("fee", "");
                         jsonObject.put("shopName", "");
@@ -204,7 +202,7 @@ public class NoticeFragment extends BaseFragment {
                         jsonObject2.put("id", "");
                         jsonObject2.put("identify", getType());
                         jsonObject2.put("tableList", jsonObject);
-                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Regulars/index.min.html?data=" + Uri.encode(jsonObject2.toJSONString()));
+                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Regulars/index.min.html?data=" + Uri.encode(jsonObject2.toJSONString()) + "&id=" + item.getInt("id") + "&type=" + getType());
                     }
                 }
             });

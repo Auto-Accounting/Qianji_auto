@@ -320,4 +320,7 @@
     <string name="source_custom">自定义</string>
     <string name="source_input">请输入自定义加速链接</string>
     <string name="reg_error">该规则有误，无法查看。</string>
+    <string name="save_success">存储成功！</string>
+    <string name="change_success">修改成功！</string>
+    <string name="set_choose_category">请选择分类</string>
 </resources>

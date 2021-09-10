@@ -71,6 +71,7 @@
         </div>
 
 
+
         <div class="project_location">
             <label>匹配项目所在位置</label>
             <div class="rule_content">
@@ -83,7 +84,7 @@
 
                 <div class="rule_content2">
                     <label for="account_name2">账户名称2</label>
-                    <input id="account_name2" placeholder="使用$1、$2这样进行占位" type="text">
+                    <input id="account_name2" placeholder="只有类型为转账与还款才需要" type="text">
                 </div>
 
                 <div class="rule_content2">
@@ -96,22 +97,22 @@
                     </select>
                 </div>
 
-                <div class="rule_content2">
+                <!--<div class="rule_content2">
                     <label for="silent">后台交易</label>
                     <select id="silent" name="silent">
                         <option selected value="0"> 是</option>
                         <option value="1"> 否</option>
                     </select>
-                </div>
+                </div>-->
 
                 <div class="rule_content2">
                     <label for="money">金额</label>
-                    <input id="money" placeholder="可输入数字" type="text">
+                    <input id="money" placeholder="使用$1、$2这样进行占位" type="text">
                 </div>
 
                 <div class="rule_content2">
                     <label for="fee">手续费</label>
-                    <input id="fee" placeholder="可输入数字" type="text" value="0">
+                    <input id="fee" placeholder="使用$1、$2这样进行占位" type="text" value="0">
                 </div>
 
                 <div class="rule_content2">
@@ -124,10 +125,10 @@
                     <input id="shopRemark" placeholder="使用$1、$2这样进行占位" type="text">
                 </div>
 
-                <div class="rule_content2">
+                <!--<div class="rule_content2">
                     <label for="source">账单信息来源</label>
                     <input id="source" placeholder="暂时留空" type="text">
-                </div>
+                </div>-->
             </div>
         </div>
 
@@ -187,7 +188,8 @@
         try {
             const ret = eval(jsData);
             var jsArr=ret.split("|");
-            if(jsArr.length!==10){
+
+            if(jsArr.length!==7){
                 Toast("奇怪了，好像有奇怪的东西混入了~",2000);
                 return;
             }
@@ -195,12 +197,12 @@
             str+="账户名称1："+jsArr[1]+"<br>";
             str+="账户名称2："+jsArr[4]+"<br>";
             str+="收支类型："+getType(jsArr[2])+"<br>";
-            str+="后台交易："+(jsArr[6]==="1"?"是":"否")+"<br>";
+           // str+="后台交易："+(jsArr[6]==="1"?"是":"否")+"<br>";
             str+="金额："+jsArr[3]+"<br>";
-            str+="手续费："+jsArr[8]+"<br>";
+            str+="手续费："+jsArr[6]+"<br>";
             str+="商户名称："+jsArr[5]+"<br>";
             str+="商户备注："+jsArr[0]+"<br>";
-            str+="账单信息来源："+jsArr[7]+"<br>";
+           // str+="账单信息来源："+jsArr[7]+"<br>";
 
             showTip(str);
         } catch (e) {
@@ -213,7 +215,7 @@
     });
     $("#save").on("click", function (e) {
        window.AndroidJS.Save(
-           getQueryVariable("id"),JSON.stringify(getData())
+           getQueryVariable("id"),JSON.stringify(getData()),getQueryVariable("type")
        );
     });
 
@@ -236,7 +238,7 @@
     });
 
     function setData(){
-        let data = url(getQueryVariable("data"));
+        let data = decodeURIComponent(getQueryVariable("data"));
        // const id = getQueryVariable("id");
         //const type= getQueryVariable("type");
         if(data!==undefined){
@@ -252,8 +254,8 @@
             $("#account_name1").val(json2["account1"]);
             $("#account_name2").val(json2["account2"]);
             $("#type").val(json2["type"]);
-            $("#source").val(json2["source"]);
-            $("#silent").val(json2["silent"]);
+           // $("#source").val(json2["source"]);
+          //  $("#silent").val(json2["silent"]);
             $("#money").val(json2["money"]);
             $("#fee").val(json2["fee"]);
             $("#shopName").val(json2["shopName"]);
@@ -266,8 +268,8 @@
         Json["account1"]=$("#account_name1").val();
         Json["account2"]=$("#account_name2").val();
         Json["type"]=$("#type").val();
-        Json["source"]=$("#source").val();
-        Json["silent"]=$("#silent").val();
+        //Json["source"]=$("#source").val();
+       // Json["silent"]=$("#silent").val();
         Json["money"]=$("#money").val();
         Json["fee"]=$("#fee").val();
         Json["shopName"]=$("#shopName").val();
@@ -284,7 +286,7 @@
         return Json2;
     }
     function getJs(){
-        var data = "pattern= /%s/;if(pattern.test(body)){var array = pattern.exec(body);var remarkNum='%s',accountNum='%s',typeNum='%s',moneyNum='%s',shopNameNum='%s',accountNum2='%s',clientNum='%s',sourceNum='%s',feeNum='%s';for(var i=1;i<array.length;i++){var rep=\"$\"+i.toString();var repStr=array[i];remarkNum=remarkNum.replace(rep,repStr);accountNum=accountNum.replace(rep,repStr);typeNum=typeNum.replace(rep,repStr);moneyNum=moneyNum.replace(rep,repStr);shopNameNum=shopNameNum.replace(rep,repStr);accountNum2=accountNum2.replace(rep,repStr);clientNum=clientNum.replace(rep,repStr);sourceNum=sourceNum.replace(rep,repStr);feeNum=feeNum.replace(rep,repStr);} return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+accountNum2+'|'+shopNameNum+'|'+clientNum+'|'+sourceNum+'|'+feeNum+'|'+index;}";
+        var data = "pattern= /%s/;if(pattern.test(body)){var array = pattern.exec(body);var remarkNum='%s',accountNum='%s',typeNum='%s',moneyNum='%s',shopNameNum='%s',accountNum2='%s',feeNum='%s';for(var i=1;i<array.length;i++){var rep=\"$\"+i.toString();var repStr=array[i];remarkNum=remarkNum.replaceAll(rep,repStr);accountNum=accountNum.replaceAll(rep,repStr);typeNum=typeNum.replaceAll(rep,repStr);moneyNum=moneyNum.replaceAll(rep,repStr);shopNameNum=shopNameNum.replaceAll(rep,repStr);accountNum2=accountNum2.replaceAll(rep,repStr);feeNum=feeNum.replaceAll(rep,repStr);} return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+accountNum2+'|'+shopNameNum+'|'+feeNum;}";
 
         //获取名称
         if ($("#sort_name").val() === "") {
@@ -303,11 +305,11 @@
         }
         var Json=getData();
         var Json1=Json["tableList"];
-        data = String.format(data, Json["regular"], Json1["shopRemark"],Json1["account1"],Json1["type"],Json1["money"],Json1["shopName"],Json1["account2"],Json1["silent"],Json1["source"],Json1["fee"]);
+        data = String.format(data, Json["regular"], Json1["shopRemark"],Json1["account1"],Json1["type"],Json1["money"],Json1["shopName"],Json1["account2"],Json1["fee"]);
         return data;
     }
     function getFunction( body, regex) {
-        var js = "function getData(body){var remark,account,type,money,shopName,account2,client,source,fee,index=0 ; %s return remark+'|'+account+'|'+type+'|'+money+'|'+shopName+'|'+account2+'|'+client+'|'+source+'|'+fee +'|'+index;}getData('%s');";
+        var js = "function getData(body){var remark,account,type,money,shopName,account2,fee ; %s return remark+'|'+account+'|'+type+'|'+money+'|'+shopName+'|'+account2+'|'+fee ;}getData('%s');";
         return String.format(js, regex, StringAs(body));
     }
     setData();

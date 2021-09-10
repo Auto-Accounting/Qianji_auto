@@ -22,6 +22,7 @@ import android.webkit.WebViewClient;
 
 import androidx.appcompat.widget.PopupMenu;
 
+import com.alibaba.fastjson.JSONObject;
 import com.hjq.toast.ToastUtils;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.core.PageOption;
@@ -208,13 +209,13 @@ public class WebViewFragment extends BaseFragment {
 
                         //存储规则
                         Category.addCategory(js, name, data, des, () -> {
-                            ToastUtils.show("存储成功！");
+                            ToastUtils.show(R.string.save_success);
                             popToBack();
                         });
                     } else {
                         //存储规则
                         Category.changeCategory(Integer.parseInt(id), js, name, data, des, () -> {
-                            ToastUtils.show("修改成功！");
+                            ToastUtils.show(R.string.change_success);
                             popToBack();
                         });
                     }
@@ -223,11 +224,10 @@ public class WebViewFragment extends BaseFragment {
 
                 @JavascriptInterface
                 public void SelectCategory(String type) {
-                    Log.d("选择分类", type);
                     //选择分类
-                    BookNames.showBookSelect(getContext(), "选择账本", false, bundle -> {
-                        Log.d("账本信息", bundle.toString());
-                        CategoryNames.showCategorySelect(getContext(), "选择分类", bundle.getString("book_id"), type, false, categoryNames -> {
+                    BookNames.showBookSelect(getContext(), getString(R.string.set_choose_book), false, bundle -> {
+                        //Log.d("账本信息", bundle.toString());
+                        CategoryNames.showCategorySelect(getContext(), getString(R.string.set_choose_category), bundle.getString("book_id"), type, false, categoryNames -> {
                             doJsFunction(String.format("setCategory('%s','%s')", StringEscapeUtils.escapeHtml4(categoryNames.getString("name")), StringEscapeUtils.escapeHtml4(categoryNames.getString("icon"))));
 
                         });
@@ -244,8 +244,23 @@ public class WebViewFragment extends BaseFragment {
 
 
                 @JavascriptInterface
-                public void Save(String id, String regular, String name, String text, String tableList, String identify, String fromApp, String des) {
+                public void Save(String id, String data, String identify) {
 
+                    // Json2["name"]=$("#sort_name").val();
+                    //        Json2["text"]=$("#str_input").val();
+                    //        Json2["regular"]=$("#regex_input").val();
+                    //        Json2["fromApp"]=$("#sort_package").val();
+                    //        Json2["des"]=$("#sort_remark").val();
+                    //        Json2["identify"]=getQueryVariable("type");
+                    //        Json2["tableList"]=Json;
+
+                    JSONObject jsonObject = JSONObject.parseObject(data);
+                    String regular = jsonObject.getString("regular");
+                    String name = jsonObject.getString("name");
+                    String text = jsonObject.getString("text");
+                    String fromApp = jsonObject.getString("fromApp");
+                    String des = jsonObject.getString("des");
+                    String tableList = jsonObject.getJSONObject("tableList").toJSONString();
                     if (id.equals("undefined")) {
                         identifyRegulars.add(
                                 regular,
@@ -256,7 +271,7 @@ public class WebViewFragment extends BaseFragment {
                                 fromApp,
                                 des,
                                 () -> {
-                                    ToastUtils.show("存储成功！");
+                                    ToastUtils.show(R.string.save_success);
                                     popToBack();
                                 });
 
@@ -271,7 +286,7 @@ public class WebViewFragment extends BaseFragment {
                                 fromApp,
                                 des,
                                 () -> {
-                                    ToastUtils.show("修改成功！");
+                                    ToastUtils.show(R.string.change_success);
                                     popToBack();
                                 });
 

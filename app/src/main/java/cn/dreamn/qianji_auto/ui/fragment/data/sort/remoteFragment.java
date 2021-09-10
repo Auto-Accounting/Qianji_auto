@@ -164,6 +164,7 @@ public class remoteFragment extends BaseFragment {
                                 }
                             });
                         } catch (Throwable e) {
+                            ToastUtils.show(R.string.reg_error);
                             e.printStackTrace();
                             Log.i("解析错误：" + e.toString() + "\n" + data);
                         }

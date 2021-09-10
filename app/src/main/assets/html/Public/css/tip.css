@@ -13,7 +13,8 @@
     -webkit-animation-name: fadeIn;
     -webkit-animation-duration: 0.4s;
     animation-name: fadeIn;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
+
 }
 
 /* 弹窗内容 */
@@ -29,6 +30,7 @@
     animation-name: slideIn;
     animation-duration: 0.4s;
     z-index: 100;
+    border-radius: 20px 20px 0 0;
 }
 
 /* 关闭按钮 */
@@ -49,6 +51,7 @@
     padding: 2px 16px;
     background-color: #3396FB;
     color: white;
+    border-radius: 20px 20px 0 0;
 }
 
 .modal-body {padding: 2px 16px;}

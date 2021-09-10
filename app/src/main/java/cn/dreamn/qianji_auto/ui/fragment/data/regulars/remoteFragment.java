@@ -28,6 +28,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.fastjson.JSONArray;
@@ -47,6 +48,8 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.adapter.RemoteListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
+import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
@@ -68,7 +71,7 @@ public class remoteFragment extends BaseFragment {
     SwipeRecyclerView recyclerView;
     private RemoteListAdapter mAdapter;
     private List<Bundle> list;
-
+    LoadingDialog loadingDialog;
 
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -122,6 +125,8 @@ public class remoteFragment extends BaseFragment {
             viewHolder.setText(R.id.empty_info, String.format(getString(R.string.could_empty), getName()));
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
+            LVCircularRing lv_circularring = viewHolder.getView(R.id.lv_circularring);
+            lv_circularring.startAnim();
             viewHolder.setText(R.id.loading_text, getString(R.string.main_loading));
         });
         initLayout();
@@ -146,74 +151,110 @@ public class remoteFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new SmartViewHolder.OnItemClickListener() {
             @Override
             public void onItemClick(View itemView, int position) {
+                loadingDialog = new LoadingDialog(getContext(), getString(R.string.main_loading));
+                loadingDialog.show();
                 Bundle bundle = list.get(position);
                 String pkg = bundle.getString("pkg");
+
+
+                Handler handler = new Handler(Looper.getMainLooper()) {
+                    @Override
+                    public void handleMessage(@NonNull Message msg) {
+                        if (loadingDialog != null)
+                            loadingDialog.close();
+                        Handler handler1 = this;
+                        String data = (String) msg.obj;
+                        switch (msg.what) {
+                            case 1:
+                                if (bundle.getString("count").equals("0")) {
+                                    ToastUtils.show(R.string.remote_zero);
+                                    return;
+                                }
+
+                                try {
+                                    JSONArray jsonArray = JSONArray.parseArray(data);
+                                    List<String> regular = new ArrayList<>();
+                                    for (int i = 0; i < jsonArray.size(); i++) {
+                                        String name = jsonArray.getString(i);
+                                        regular.add(name);
+                                    }
+                                    BottomArea.listLong(getContext(), getString(R.string.remote_tip), regular, new BottomArea.ListCallback() {
+                                        @Override
+                                        public void onSelect(int position) {
+                                            String title = regular.get(position);
+
+                                            loadingDialog = new LoadingDialog(getContext(), getString(R.string.main_loading));
+                                            loadingDialog.show();
+                                            AutoBillWeb.getData(mType, pkg, title, new AutoBillWeb.WebCallback() {
+                                                @Override
+                                                public void onFailure() {
+                                                    ToastUtils.show(R.string.remote_error);
+                                                }
+
+                                                @Override
+                                                public void onSuccessful(String data) {
+                                                    HandlerUtil.send(handler1, data, 2);
+
+
+                                                }
+                                            });
+
+                                        }
+                                    });
+                                } catch (Throwable e) {
+                                    ToastUtils.show(R.string.reg_error);
+                                    Log.i("解析错误：" + e.toString() + "\n" + data);
+                                    loadingDialog.close();
+                                }
+
+                                break;
+                            case 2:
+
+                                try {
+                                    JSONObject jsonObject = JSONObject.parseObject(data);
+                                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+                                    if (jsonArray.size() == 0) {
+                                        ToastUtils.show(R.string.reg_error);
+                                        return;
+                                    }
+                                    String des = jsonObject.getJSONArray("data").getJSONObject(0).getString("des");
+                                    String name = jsonObject.getJSONArray("data").getJSONObject(0).getString("name");
+                                    BottomArea.msg(getContext(), name, des, getString(R.string.remote_download), getString(R.string.remote_cancle), new BottomArea.MsgCallback() {
+                                        @Override
+                                        public void cancel() {
+
+                                        }
+
+                                        @Override
+                                        public void sure() {
+                                            RegularManager.restoreFromData(getContext(), getName(), mType, data, new RegularManager.End() {
+                                                @Override
+                                                public void onFinish(int code) {
+
+                                                }
+                                            });
+                                        }
+                                    });
+                                } catch (Throwable e) {
+                                    ToastUtils.show(R.string.reg_error);
+                                    Log.i("解析错误：" + e.toString() + "\n" + data);
+                                }
+
+                                break;
+                        }
+                    }
+                };
 
                 AutoBillWeb.getDataListByApp(mType, pkg, new AutoBillWeb.WebCallback() {
                     @Override
                     public void onFailure() {
                         ToastUtils.show(R.string.remote_error);
-
+                        loadingDialog.close();
                     }
 
                     @Override
                     public void onSuccessful(String data) {
-                        if (bundle.getString("count") == "0") {
-                            ToastUtils.show(R.string.remote_zero);
-                            return;
-                        }
-                        try {
-                            JSONArray jsonArray = JSONArray.parseArray(data);
-                            List<String> regular = new ArrayList<>();
-                            for (int i = 0; i < jsonArray.size(); i++) {
-                                String name = jsonArray.getString(i);
-                                regular.add(name);
-                            }
-                            BottomArea.listLong(getContext(), getString(R.string.remote_tip), regular, new BottomArea.ListCallback() {
-                                @Override
-                                public void onSelect(int position) {
-                                    String title = regular.get(position);
-                                    AutoBillWeb.getData(mType, pkg, title, new AutoBillWeb.WebCallback() {
-                                        @Override
-                                        public void onFailure() {
-                                            ToastUtils.show(R.string.remote_error);
-                                        }
-
-                                        @Override
-                                        public void onSuccessful(String data) {
-                                            try {
-                                                JSONObject jsonObject = JSONObject.parseObject(data);
-                                                String des = jsonObject.getString("des");
-                                                BottomArea.msg(getContext(), title, des, getString(R.string.remote_download), getString(R.string.remote_cancle), new BottomArea.MsgCallback() {
-                                                    @Override
-                                                    public void cancel() {
-
-                                                    }
-
-                                                    @Override
-                                                    public void sure() {
-                                                        RegularManager.restoreFromData(getContext(), getName(), mType, data, new RegularManager.End() {
-                                                            @Override
-                                                            public void onFinish(int code) {
-
-                                                            }
-                                                        });
-                                                    }
-                                                });
-                                            } catch (Throwable e) {
-                                                Log.i("解析错误：" + e.toString() + "\n" + data);
-                                            }
-
-
-                                        }
-                                    });
-
-                                }
-                            });
-                        } catch (Throwable e) {
-                            Log.i("解析错误：" + e.toString() + "\n" + data);
-                        }
-
+                        HandlerUtil.send(handler, data, 1);
 
                     }
                 });
