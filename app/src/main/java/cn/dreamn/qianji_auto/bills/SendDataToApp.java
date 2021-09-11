@@ -17,6 +17,7 @@
 
 package cn.dreamn.qianji_auto.bills;
 
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -182,7 +183,7 @@ public class SendDataToApp {
         MMKV mmkv = MMKV.defaultMMKV();
 
         Log.i("记账请求发起，账单初始信息：\n" + billInfo.dump());
-        if (billInfo.getIsSilent()) {
+        if (isReception(context)) {
             Log.i("账单为 后台交易");
             if (mmkv.getBoolean("autoIncome", false)) {
                 Log.i("全自动模式->直接对钱迹发起请求");
@@ -203,7 +204,7 @@ public class SendDataToApp {
         }
         Log.i("半自动模式 -> 下一步");
         if (getTimeout().equals("0")) {
-            end(context,billInfo);
+            end(context, billInfo);
         } else {
             Log.i("存在超时，弹出超时面板");
             showTip(context, billInfo);
@@ -211,9 +212,23 @@ public class SendDataToApp {
 
     }
 
-    public static void end(Context context, BillInfo billInfo){
+    /**
+     * 如果flag为true，表示有两种状态：a、屏幕是黑的 b、目前正处于解锁状态 。
+     * 如果flag为false，表示目前未锁屏
+     *
+     * @param context
+     * @return
+     */
+    private static boolean isReception(Context context) {
+
+        KeyguardManager mKeyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+        return mKeyguardManager.inKeyguardRestrictedInputMode();
+
+    }
+
+    public static void end(Context context, BillInfo billInfo) {
         MMKV mmkv = MMKV.defaultMMKV();
-        switch (mmkv.getString("end_window","edit")){
+        switch (mmkv.getString("end_window", "edit")) {
             case "edit":
                 showFloatByAlert(context, billInfo);
                 break;

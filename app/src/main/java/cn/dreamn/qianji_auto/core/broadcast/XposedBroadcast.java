@@ -17,6 +17,8 @@
 
 package cn.dreamn.qianji_auto.core.broadcast;
 
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +33,7 @@ import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
 import cn.dreamn.qianji_auto.database.Helper.AppDatas;
 import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 
@@ -66,9 +69,7 @@ public class XposedBroadcast extends BroadcastReceiver {
             };
             identifyRegulars.run(identify, app, data, billInfo -> {
                 if (billInfo != null) {
-                    Message message = new Message();
-                    message.obj = billInfo;
-                    mHandler.sendMessage(message);
+                    HandlerUtil.send(mHandler, billInfo, HANDLE_OK);
                 }
 
             });

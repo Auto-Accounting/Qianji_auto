@@ -206,11 +206,13 @@
 
             showTip(str);
         } catch (e) {
+            console.log(jsData);
             showTip("自动识别执行出错：" + e+"<br>也许你应该检查一下你的正则表达式~<br>完整JS:<pre style=\"\n" +
                 "    white-space: pre-wrap;\n" +
                 "    word-wrap: break-word;\n" +
                 "\">"+htmlspecialchars(jsData)+"</pre>");
-            // console.log(e)
+            console.log(htmlspecialchars(jsData));
+             console.log(e)
         }
     });
     $("#save").on("click", function (e) {
@@ -286,7 +288,7 @@
         return Json2;
     }
     function getJs(){
-        var data = "pattern= /%s/;if(pattern.test(body)){var array = pattern.exec(body);var remarkNum='%s',accountNum='%s',typeNum='%s',moneyNum='%s',shopNameNum='%s',accountNum2='%s',feeNum='%s';for(var i=1;i<array.length;i++){var rep=\"$\"+i.toString();var repStr=array[i];remarkNum=remarkNum.replaceAll(rep,repStr);accountNum=accountNum.replaceAll(rep,repStr);typeNum=typeNum.replaceAll(rep,repStr);moneyNum=moneyNum.replaceAll(rep,repStr);shopNameNum=shopNameNum.replaceAll(rep,repStr);accountNum2=accountNum2.replaceAll(rep,repStr);feeNum=feeNum.replaceAll(rep,repStr);} return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+accountNum2+'|'+shopNameNum+'|'+feeNum;}";
+        var data = "pattern= /%s/;if(pattern.test(body)){var array = pattern.exec(body);var remarkNum='%s',accountNum='%s',typeNum='%s',moneyNum='%s',shopNameNum='%s',accountNum2='%s',feeNum='%s';for(var i=1;i<array.length;i++){var rep=\"$\"+i.toString();var repStr=array[i];remarkNum=remarkNum.replace(rep,repStr);accountNum=accountNum.replace(rep,repStr);typeNum=typeNum.replace(rep,repStr);moneyNum=moneyNum.replace(rep,repStr);shopNameNum=shopNameNum.replace(rep,repStr);accountNum2=accountNum2.replace(rep,repStr);feeNum=feeNum.replace(rep,repStr);} return remarkNum+'|'+accountNum+'|'+typeNum+'|'+moneyNum+'|'+accountNum2+'|'+shopNameNum+'|'+feeNum;}";
 
         //获取名称
         if ($("#sort_name").val() === "") {

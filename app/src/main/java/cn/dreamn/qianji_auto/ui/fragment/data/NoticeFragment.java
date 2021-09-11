@@ -31,6 +31,7 @@ import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.fastjson.JSONObject;
@@ -47,7 +48,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.bills.BillInfo;
+import cn.dreamn.qianji_auto.bills.SendDataToApp;
 import cn.dreamn.qianji_auto.database.Helper.AppDatas;
+import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.adapter.ItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
@@ -173,7 +177,7 @@ public class NoticeFragment extends BaseFragment {
             Bundle item = list.get(i);
             //Log.d("item", item.toString());
             String[] strings;
-            strings = new String[]{getString(R.string.notice_del), getString(R.string.notice_create)};
+            strings = new String[]{getString(R.string.notice_del), getString(R.string.notice_create), getString(R.string.regular_test)};
             BaseFragment baseFragment = this;
             BottomArea.list(getContext(), getString(R.string.notice_choose), Arrays.asList(strings), new BottomArea.ListCallback() {
                 @Override
@@ -181,7 +185,7 @@ public class NoticeFragment extends BaseFragment {
                     if (position == 0) {
                         AppDatas.del(item.getInt("id"));
                         HandlerUtil.send(mHandler, getString(R.string.del_success), HANDLE_REFRESH);
-                    } else {
+                    } else if (position == 1) {
 
                         JSONObject jsonObject = new JSONObject();
 
@@ -199,10 +203,26 @@ public class NoticeFragment extends BaseFragment {
                         jsonObject2.put("regular", item.getString("rawData"));
                         jsonObject2.put("fromApp", item.getString("fromApp"));
                         jsonObject2.put("des", "");
-                        jsonObject2.put("id", "");
                         jsonObject2.put("identify", getType());
                         jsonObject2.put("tableList", jsonObject);
-                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Regulars/index.min.html?data=" + Uri.encode(jsonObject2.toJSONString()) + "&id=" + item.getInt("id") + "&type=" + getType());
+                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Regulars/index.min.html?data=" + Uri.encode(jsonObject2.toJSONString()) + "&type=" + getType());
+                    } else if (position == 2) {
+                        Handler mHandler = new Handler(Looper.getMainLooper()) {
+                            @Override
+                            public void handleMessage(@NonNull Message msg) {
+                                BillInfo billInfo = (BillInfo) msg.obj;
+                                billInfo.setFromApp(item.getString("fromApp"));
+                                SendDataToApp.call(getContext(), billInfo);
+                            }
+                        };
+                        identifyRegulars.run(getType(), item.getString("fromApp"), item.getString("rawData"), billInfo -> {
+                            if (billInfo != null) {
+                                HandlerUtil.send(mHandler, billInfo, HANDLE_OK);
+                            } else {
+                                ToastUtils.show(R.string.regular_error);
+                            }
+
+                        });
                     }
                 }
             });

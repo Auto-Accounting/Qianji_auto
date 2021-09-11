@@ -67,14 +67,10 @@ public class BillInfo {
 
     private String shopRemark;//识别出来的备注
 
-
-    private String source;//账单来源
-
     private String extraData;//额外数据来源
 
     private String fee="0";//手续费
 
-    private String isSilent;//是否为静默模式
 
     private String rawMd5;
 
@@ -115,12 +111,6 @@ public class BillInfo {
                     break;
                 case "shopRemark":
                     billInfo.setShopRemark(value);
-                    break;
-                case "source":
-                    billInfo.setSource(value);
-                    break;
-                case "isSilent":
-                    billInfo.setSilent(value.equals("true"));
                     break;
                 case "reimbursement":
                     billInfo.setRrimbursement(value.equals("true"));
@@ -232,14 +222,6 @@ public class BillInfo {
         reimbursement = (state ? "true" : "false");
     }
 
-    public boolean getIsSilent() {
-        return isSilent != null && isSilent.equals("true");
-    }
-
-    public void setSilent(boolean state) {
-        isSilent = (state ? "true" : "false");
-    }
-
     public String getType() {
         return type;
     }
@@ -345,13 +327,6 @@ public class BillInfo {
         this.shopRemark = name;
     }
 
-    public String getSource() {
-        return this.source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
 
 
     @SuppressLint("SimpleDateFormat")
@@ -393,13 +368,6 @@ public class BillInfo {
         }
         if (shopRemark != null) {
             url += "&shopRemark=" + shopRemark;
-        }
-        if (source != null) {
-            url += "&source=" + source;
-        }
-
-        if (isSilent != null) {
-            url += "&isSilent=" + isSilent;
         }
         if (reimbursement != null) {
             url += "&reimbursement=" + reimbursement;
@@ -471,8 +439,6 @@ public class BillInfo {
         output += String.format("资产名2=%s\n", accountname2);
         output += String.format("商户名=%s\n", shopAccount);
         output += String.format("商户备注=%s\n", shopRemark);
-        output += String.format("数据来源=%s\n", source);
-        output += String.format("是否静默=%s\n", getIsSilent());
         output += "是否有效？" + (isAvaiable() ? "有效" : "无效");
         return output;
 

@@ -56,6 +56,7 @@ import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.files.RegularManager;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
@@ -253,11 +254,7 @@ public class localFragment extends BaseFragment {
                         });
                         break;
                     case 1:
-                        if (cate.getString("tableList") == null || cate.getString("tableList").equals("")) {
-                            ToastUtils.show(getString(R.string.edit_error));
-                            break;
-                        }
-
+                        Log.d("test", cate.toString());
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("name", cate.getString("name"));
                         jsonObject.put("text", cate.getString("text"));
@@ -266,8 +263,9 @@ public class localFragment extends BaseFragment {
 
                         jsonObject.put("des", cate.getString("des"));
                         jsonObject.put("identify", cate.getString("identify"));
-                        jsonObject.put("tableList", cate.getString("tableList"));
+                        jsonObject.put("tableList", JSONObject.parseObject(cate.getString("tableList")));
 
+                        //包括微信个人收款与群收款
                         WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Regulars/index.min.html?id=" + cate.getInt("id") + "&type=" + getType() + "&data=" + Uri.encode(jsonObject.toJSONString()));
                         break;
 
@@ -289,7 +287,7 @@ public class localFragment extends BaseFragment {
 
                                 jsonObject.put("des", cate.getString("des"));
                                 jsonObject.put("identify", cate.getString("identify"));
-                                jsonObject.put("tableList", cate.getString("tableList"));
+                                jsonObject.put("tableList", JSONObject.parseObject(cate.getString("tableList")));
                                 RegularManager.outputRegOne(getContext(), getName(), getType(), jsonObject);
                                 Tool.goUrl(getContext(), getString(R.string.github_issue_regular));
 

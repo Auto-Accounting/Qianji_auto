@@ -20,13 +20,16 @@ package cn.dreamn.qianji_auto.database.Helper;
 
 import android.os.Bundle;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.Regular;
-import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.JsEngine;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
@@ -52,21 +55,19 @@ public class Category {
 
     }
 
+    //准备自动规则
     public static void setCateJs(BillInfo billInfo, String sort) {
         //这两种类型不需要
         if (billInfo.getType(true).equals(BillInfo.TYPE_CREDIT_CARD_PAYMENT) || billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)) {
             return;
         }
-        // String time = Tools.getTime("HH");
-        String name = billInfo.getSource();
-        // String sort = "其它";
+
         String str = "";
 
         //    str += String.format("time = %s && ", time);
         str += String.format("shopName.indexOf('%s')!=-1 && ", billInfo.getShopAccount());
         str += String.format("shopRemark.indexOf('%s')!=-1 && ", billInfo.getShopRemark());
         str += String.format("type == '%s' && ", BillInfo.getTypeName(billInfo.getType(true)));
-        str += String.format("source == '%s' && ", billInfo.getSource());
 
         String regular = "if(%s)return '%s';";
 
@@ -75,32 +76,27 @@ public class Category {
             str = str.substring(0, last - 1);
 
         regular = String.format(regular, str, sort);
-
-        DataUtils dataUtils = new DataUtils();
-
-        dataUtils.put("regular_billtype", billInfo.getSource());
-
-        dataUtils.put("regular_name", billInfo.getSource());
-        dataUtils.put("regular_time1_link", "");
-        dataUtils.put("regular_time1", "");
-        dataUtils.put("regular_time2_link", "");
-        dataUtils.put("regular_time2", "");
-        dataUtils.put("regular_money1_link", "");
-        dataUtils.put("regular_money1", "");
-        dataUtils.put("regular_money2_link", "");
-        dataUtils.put("regular_money2", "");
-
-        dataUtils.put("regular_shopName_link", "包含");
-        dataUtils.put("regular_shopName", billInfo.getShopAccount());
-        dataUtils.put("regular_shopRemark_link", "包含");
-        dataUtils.put("regular_shopRemark", billInfo.getShopRemark());
-
-        dataUtils.put("regular_type", BillInfo.getTypeName(billInfo.getType(true)));
-        dataUtils.put("bill_type1", "");
-        dataUtils.put("bill_type2", "");
-        dataUtils.put("iconImg", sort);
-        dataUtils.put("regular_sort", sort);
-        Category.addCategory(regular, name, dataUtils.toString(), "[自动生成]", new Finish() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("regular_name", billInfo.getShopAccount());
+        jsonObject.put("regular_remark", billInfo.getShopRemark());
+        jsonObject.put("regular_time1_link", "");
+        jsonObject.put("regular_time1", "");
+        jsonObject.put("regular_time2_link", "");
+        jsonObject.put("regular_time2", "");
+        jsonObject.put("regular_money1_link", "");
+        jsonObject.put("regular_money1", "");
+        jsonObject.put("regular_money2_link", "");
+        jsonObject.put("regular_money2", "");
+        jsonObject.put("regular_shopName_link", "包含");
+        jsonObject.put("regular_shopName", billInfo.getShopAccount());
+        jsonObject.put("regular_shopRemark_link", "包含");
+        jsonObject.put("regular_shopRemark", billInfo.getShopRemark());
+        jsonObject.put("regular_type", BillInfo.getTypeName(billInfo.getType(true)));
+        jsonObject.put("bill_type1", "");
+        jsonObject.put("bill_type2", "");
+        jsonObject.put("iconImg", "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png");
+        jsonObject.put("regular_sort", sort);
+        Category.addCategory(regular, billInfo.getShopAccount(), jsonObject.toJSONString(), "[自动生成]", new Finish() {
             @Override
             public void onFinish() {
 
@@ -122,8 +118,6 @@ public class Category {
 
            String jsInner = "\n" +
                    "const isInTimeInner = function (minTime, maxTime,timeHour,timeMinute) {\n" +
-                   // "    let regT = /([01\\b]\\d|2[0-3]):([0-5]\\d)/;\n" +
-                   //   "    let regT = /123/;\n" +
                    "    const t1 = minTime.match(/([01\\\\b]\\\\d|2[0-3]):([0-5]\\\\d)/);\n" +
                    "    const t2 = maxTime.match(/([01\\\\b]\\\\d|2[0-3]):([0-5]\\\\d)/);\n" +
                    "    if(t1==null||t2==null||t1.length<3||t2.length<3){\n" +
@@ -143,18 +137,35 @@ public class Category {
                    "            return m1 === m2 && timeMinute === m1 && timeHour === h1;\n" +
                    "    }\n" +
                    "};";
-           String js = "function getCategory(shopName,shopRemark,type,hour,minute,source,money){%s  %s return '其它';} getCategory('%s','%s','%s',%s,%s,'%s','%s');";
+           String js = "function getCategory(shopName,shopRemark,type,hour,minute,money){%s  %s return '其它';} getCategory('%s','%s','%s',%s,%s,'%s');";
 
-           String hour = Tool.getTime("HH");
-           String minute = Tool.getTime("mm");
-           getStr.onGet(String.format(js, jsInner, regList.toString(), billInfo.getShopAccount(), billInfo.getShopRemark(), billInfo.getType(true), hour, minute, billInfo.getSource(), billInfo.getMoney()));
+           String time = billInfo.getTime();
+           String hour, minute;
+           if (time != null) {
+               String pattern = "\\d{4}-\\d{2}-\\d{2}\\s(\\d{2}):(\\d{2}):\\d{2}";
+               Pattern r = Pattern.compile(pattern);
+               Matcher m = r.matcher(time);
+               if (m.find()) { //此处find（）每次被调用后，会偏移到下一个匹配
+                   hour = m.group(1);
+                   minute = m.group(2);
+               } else {
+                   hour = Tool.getTime("HH");
+                   minute = Tool.getTime("mm");
+               }
+
+           } else {
+               hour = Tool.getTime("HH");
+               minute = Tool.getTime("mm");
+           }
+
+           getStr.onGet(String.format(js, jsInner, regList.toString(), billInfo.getShopAccount(), billInfo.getShopRemark(), billInfo.getType(true), hour, minute, billInfo.getMoney()));
        });
 
 
     }
 
     //获取所有的js
-    public static String getOneRegularJs(String jsData, String shopAccount, String shopRemark, String type, String hour, String minute, String source, String money) {
+    public static String getOneRegularJs(String jsData, String shopAccount, String shopRemark, String type, String hour, String minute, String money) {
         if (shopAccount == null) shopAccount = "";
         if (shopRemark == null) shopRemark = "";
 
@@ -182,20 +193,10 @@ public class Category {
                 "            return m1 === m2 && timeMinute === m1 && timeHour === h1;\n" +
                 "    }\n" +
                 "};";
-        String js = "function getCategory(shopName,shopRemark,type,hour,minute,source,money){%s  %s return '其它';} getCategory('%s','%s','%s',%s,%s,'%s','%s');";
-        return String.format(js, jsInner, jsData, shopAccount, shopRemark, type, hour, minute, source, money);
+        String js = "function getCategory(shopName,shopRemark,type,hour,minute,money){%s  %s return '其它';} getCategory('%s','%s','%s',%s,%s,'%s');";
+        return String.format(js, jsInner, jsData, shopAccount, shopRemark, type, hour, minute, money);
     }
 
-    /**
-     * js demo
-     * if(type==0)return "啊啊啊"
-     * if(shopName.startsWith("王记"))return "早餐"
-     * if(shopRemark.endsWith("迎选购"))return "主主主主"
-     * if(shopRemark.indexOf("迎选购")!=-1)return "主12主主主"
-     * if(shopRemark=="新老顾客欢")return "滚滚"
-     * if((/新老/g).test(shopName))return "ddd"
-     * return "其它"
-     */
     public static void getAll(Regex getRegular) {
         Task.onThread(() -> {
             Regular[] regular = DbManger.db.RegularDao().loadAll();

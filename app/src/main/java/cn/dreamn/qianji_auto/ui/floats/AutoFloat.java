@@ -54,6 +54,7 @@ import cn.dreamn.qianji_auto.database.Helper.Assets;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
@@ -432,9 +433,7 @@ public class AutoFloat {
         Handler mHandler2 = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                Glide.with(getContext())
-                        .load((String) msg.obj)
-                        .into(iv_account1);
+                GlideLoadUtils.getInstance().glideLoad(getContext(), (String) msg.obj, iv_account1, R.drawable.bg);
             }
         };
         Assets.getPic(billInfo.getAccountName(), asset2s -> {
@@ -446,9 +445,7 @@ public class AutoFloat {
         Handler mHandler3 = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                Glide.with(getContext())
-                        .load((String) msg.obj)
-                        .into(iv_account2);
+                GlideLoadUtils.getInstance().glideLoad(getContext(), (String) msg.obj, iv_account2, R.drawable.bg);
             }
         };
         Assets.getPic(billInfo.getAccountName2(), asset2s -> {
