@@ -79,6 +79,11 @@ public class AutoBillWeb {
         });
     }
 
+    public static void getCouldRegular(WebCallback callback) {
+        String url = "/regular.json";
+        getWebData(url, callback);
+    }
+
     public static void getCategoryList(WebCallback callback) {
         String url = "/category/list.json";
         getWebData(url, callback);

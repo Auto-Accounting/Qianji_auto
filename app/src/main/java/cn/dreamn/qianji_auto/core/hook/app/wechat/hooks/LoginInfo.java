@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.alibaba.fastjson.JSONObject;
+
 import cn.dreamn.qianji_auto.core.hook.Utils;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
@@ -34,7 +36,27 @@ public class LoginInfo {
 
                 utils.log("获取微信信息成功：" + login_weixin_username + "---" + last_login_nick_name + "----" + login_user_name + "----" + last_login_uin);
                 //    utils.log(login_weixin_username+"---"+last_login_nick_name+"----"+login_user_name+"----"+last_login_uin);
+                loadRegularsFromWeb(utils);
             }
         });
+    }
+
+    private static void loadRegularsFromWeb(Utils utils) {
+        utils.log("正在请求数据~");
+        String json = utils.readDataByApp("wechat", "red");
+        try {
+            JSONObject jsonObject = JSONObject.parseObject(json).getJSONObject("wechat");
+            if (jsonObject.containsKey(utils.getVerName()) && utils.readData("red").equals(jsonObject.getJSONObject(utils.getVerName()).getJSONObject("red").toJSONString())) {
+                JSONObject jsonObject1 = jsonObject.getJSONObject(utils.getVerName()).getJSONObject("red");
+                utils.writeData("red", jsonObject1.toJSONString());
+                utils.toast("自动记账：微信适配文件已加载！");
+            } else {
+                utils.toast("自动记账：当前版本微信尚未适配！");
+                utils.log("当前版本微信尚未适配！");
+            }
+
+        } catch (Throwable e) {
+            utils.log("发生错误！" + e.toString());
+        }
     }
 }

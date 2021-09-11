@@ -109,6 +109,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider_paths" />
         </provider>
+        <!--Xposed分享-->
+        <provider
+            android:name="cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences"
+            android:authorities="cn.dreamn.qianji_auto.provider"
+            android:exported="true" />
+
         <!--无障碍开机启动广播-->
         <receiver
             android:name=".core.broadcast.BootBroadcast"

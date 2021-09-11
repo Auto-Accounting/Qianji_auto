@@ -324,4 +324,5 @@
     <string name="change_success">修改成功！</string>
     <string name="set_choose_category">请选择分类</string>
     <string name="async_success">同步成功！</string>
+    <string name="update_wechat">微信云规则已更新！</string>
 </resources>

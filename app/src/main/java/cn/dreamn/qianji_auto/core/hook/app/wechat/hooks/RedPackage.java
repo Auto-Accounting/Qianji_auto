@@ -17,10 +17,11 @@
 
 package cn.dreamn.qianji_auto.core.hook.app.wechat.hooks;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.lang.reflect.Field;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
-import cn.dreamn.qianji_auto.core.hook.app.wechat.Info;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -75,27 +76,49 @@ public class RedPackage {
         Object object = param.args[0];
         Field[] fields = qVar.getDeclaredFields();
         StringBuilder log = new StringBuilder("微信的红包相关数据\n");
+        int i = 0;
         for (Field f : fields) {
             f.setAccessible(true);
+            i++;
             Object obj = f.get(object);
             String str;
             if (obj == null) str = "null";
             else str = obj.toString();
-            log.append("属性名:").append(f.getName()).append(" 属性值:").append(str).append("\n");
+            log.append("属性名").append(i).append(":").append(f.getName()).append(" 属性值:").append(str).append("\n");
         }
 
         utils.log(log.toString());
 
-        Field money = qVar.getDeclaredField(Info.redPackage.money(utils));
-        Field remark = qVar.getDeclaredField(Info.redPackage.remark(utils));
-        Field shopAccount = qVar.getDeclaredField(Info.redPackage.shop(utils));
-        Field status = qVar.getDeclaredField(Info.redPackage.status(utils));
-        Field groups = qVar.getDeclaredField(Info.redPackage.groups(utils));
-        Field number = qVar.getDeclaredField(Info.redPackage.number(utils));
-        double m = Integer.parseInt(money.get(object).toString()) / 100.0d;
-        if (number.get(object) == null || number.get(object).toString().equals("")) {
-            return;
+        String json = utils.readData("red");
+        if (json == null) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("money", "AcI");
+            jsonObject.put("total", "AZd");
+            jsonObject.put("remark", "zXl");
+            jsonObject.put("shop", "AcD");
+            jsonObject.put("status", "AcB");
+            jsonObject.put("group", "rid");
+            json = jsonObject.toJSONString();
         }
+
+        JSONObject jsonObject = JSONObject.parseObject(json);
+        String qVarMoney = jsonObject.getString("money");
+        String qVarRemark = jsonObject.getString("remark");
+        String qVarShop = jsonObject.getString("shop");
+        String qVarStatus = jsonObject.getString("status");
+        String qVarGroup = jsonObject.getString("group");
+        String qVarTotal = jsonObject.getString("total");
+
+
+        Field money = qVar.getDeclaredField(qVarMoney);
+        Field remark = qVar.getDeclaredField(qVarRemark);
+        Field shopAccount = qVar.getDeclaredField(qVarShop);
+        Field status = qVar.getDeclaredField(qVarStatus);
+        Field groups = qVar.getDeclaredField(qVarGroup);
+        Field total = qVar.getDeclaredField(qVarTotal);
+
+        double m = Integer.parseInt(money.get(object).toString()) / 100.0d;
+        double t = Integer.parseInt(total.get(object).toString()) / 100.0d;
         if (m == 0)//金额为0直接忽略
             return;
         String remarkStr = remark.get(object).toString();
@@ -103,13 +126,13 @@ public class RedPackage {
             remarkStr = "大吉大利，恭喜发财";
         }
         String n = groups.get(object).toString();
-        String isGroup = (n.equals("1")) ? "true" : "false";
+        String isGroup = (n.equals("1")) ? "false" : "true";
         //增加 isGroup
-        String data = "money=%s,remark=%s,status=%s,shop=%s,isGroup=%s,numbers=%s,title=微信收到红包";
+        String data = "money=%s,remark=%s,status=%s,shop=%s,isGroup=%s,numbers=%s,total=%s,title=微信收到红包";
 
-        data = String.format(data, m, remarkStr, status.get(object).toString(), shopAccount.get(object).toString(), isGroup, n);
+        data = String.format(data, m, remarkStr, status.get(object).toString(), shopAccount.get(object).toString(), isGroup, n, t);
 
-        utils.log("红包数据：" + data);
+        // utils.log("红包数据：" + data);
 
         utils.sendString(data);
     }

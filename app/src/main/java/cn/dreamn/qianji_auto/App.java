@@ -14,6 +14,7 @@ import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.ui.base.BaseActivity;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.utils.runUtils.CrashHandler;
+import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 
 
 public class App extends Application {
@@ -62,6 +63,9 @@ public class App extends Application {
         crashHandler.init(this);
 
         XXPermissions.setScopedStorage(true);
+
+        MultiprocessSharedPreferences.setAuthority("cn.dreamn.qianji_auto.provider");
+
     }
 
 

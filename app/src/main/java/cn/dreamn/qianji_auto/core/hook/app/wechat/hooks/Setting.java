@@ -48,29 +48,13 @@ public class Setting {
                 final String activityClzName = activity.getClass().getName();
                 if (activityClzName.contains("com.tencent.mm.plugin.setting.ui.setting.SettingsUI")) {
                     Task.onMain(100, () -> doSettingsMenuInject(activity, utils));
-                }/*else if(activityClzName.contains("com.tencent.mm.plugin.mall.ui.MallWalletUI")){
-                    utils.log("com.tencent.mm.plugin.mall.ui.MallWalletUI");
-                    Field[] allField = activity.getClass().getDeclaredFields();
-                    utils.log(Arrays.toString(allField));
-                    for (Field field : allField) {
-                        field.setAccessible(true);
-                        Object fieldObject = field.get(activity);
-                        if(fieldObject==null)
-                            continue;
-                    //    utils.log(fieldObject.toString());
-                        utils.log(field.getName() +"----"+fieldObject.getClass().getName()+ "-----"+fieldObject.toString() );
-                        if (fieldObject instanceof View) {
 
-                          //  utils.log(field.getName() + "-----"+fieldObject.toString() );
-                          *//*  TextView textView = (TextView) fieldObject;
-                            textView.addTextChangedListener(new TextViewWatcher(textView));
-                            XposedBridge.log(field.getName() + ", " + textView.getText().toString());
-                   *//*     }
-                    }*/
-                //}
+
+                }
             }
         });
     }
+
 
     private static void doSettingsMenuInject(Activity activity, Utils utils) {
         Context mContext = utils.getContext();

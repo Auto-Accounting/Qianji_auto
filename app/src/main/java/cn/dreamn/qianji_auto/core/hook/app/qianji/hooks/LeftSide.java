@@ -39,6 +39,7 @@ public class LeftSide {
 
                 Context context = utils.getContext();
                 //添加布局
+                assert linearLayout != null;
                 AddView(linearLayout, context);
             }
         });

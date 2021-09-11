@@ -43,7 +43,7 @@ public class Info {
                         "Eza",//shop
                         "EyY",//Status
                         "Ezx",//group,
-                        "Ezh"//number
+                        "Ezx"//number
                 ));
             }
         };

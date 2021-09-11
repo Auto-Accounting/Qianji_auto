@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import cn.dreamn.qianji_auto.BuildConfig;
+import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
@@ -82,8 +83,9 @@ public class Utils {
 
     public String readData(String key) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("ankio_xp", Context.MODE_PRIVATE); //私有数据
-        return sharedPreferences.getString(key, "false");
+        return sharedPreferences.getString(key, null);
     }
+
 
     /**
      * 发送广播通知
@@ -224,6 +226,12 @@ public class Utils {
         bundle.putString("tag", "Ankio-" + appName);
         bundle.putString("msg", msg);
         sendBroadcast(SEND_LOG_ACTION, bundle);
+    }
+
+    public String readDataByApp(String app, String name) {
+        MultiprocessSharedPreferences.setAuthority("cn.dreamn.qianji_auto.provider");
+        SharedPreferences data = MultiprocessSharedPreferences.getSharedPreferences(getContext(), app, Context.MODE_PRIVATE);
+        return data.getString(name, "");
     }
 
     public void printTrace(int func) {
@@ -409,5 +417,8 @@ public class Utils {
     }
 
 
+    public void toast(String msg) {
+        Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
+    }
 }
 
