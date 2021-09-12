@@ -327,4 +327,5 @@
     <string name="update_wechat">微信云规则已更新！</string>
     <string name="regular_test">测试规则</string>
     <string name="regular_error">没有任何规则有效！</string>
+    <string name="js_error">JS脚本执行出错，建议前去日志查看错误信息。</string>
 </resources>
