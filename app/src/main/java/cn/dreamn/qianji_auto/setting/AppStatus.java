@@ -30,7 +30,10 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Objects;
+
+import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import kotlin.jvm.internal.Intrinsics;
 
 
 public class AppStatus {
@@ -49,7 +52,7 @@ public class AppStatus {
 
     public static String getFrameWork(Context context) {
         if (getActiveMode().equals("helper")) {
-            return "无障碍";
+            return context.getString(R.string.mode_helper_name);
         } else return AppInfo.getFrameWork(context);
     }
 
@@ -60,24 +63,20 @@ public class AppStatus {
     }
 
     public static boolean xposedActive(Context context) {
-        String farmework = AppInfo.getFrameWork(context);
-
-        if (farmework.equals("太极")) return taichiActive(context);
-        if (farmework.equals("应用转生")) return bugActive(context);
-        return false;
+        return taichiActive(context) || bugActive(context);
     }
 
     private static boolean bugActive(Context context) {
-
+        Intrinsics.checkParameterIsNotNull(context, "context");
 
         try {
             Context appContext = context.createPackageContext("com.bug.xposed", Context.CONTEXT_IGNORE_SECURITY | Context.CONTEXT_INCLUDE_CODE);
             File mods = appContext.getFileStreamPath("mods");
-
+            Intrinsics.checkExpressionValueIsNotNull(appContext, "appContext");
             Class<?> bugSerializeClass = appContext.getClassLoader().loadClass("com.bug.utils.BugSerialize");
             Class<?> modClass = appContext.getClassLoader().loadClass("com.bug.xposed.ModConfig$Mod");
             Method deserialize = bugSerializeClass.getDeclaredMethod("deserialize", InputStream.class);
-
+            Intrinsics.checkExpressionValueIsNotNull(mods, "mods");
             FileInputStream fileInputStream = new FileInputStream(mods);
             Object array = deserialize.invoke(null, fileInputStream);
             if (array == null) {
@@ -87,11 +86,13 @@ public class AppStatus {
             ArrayList list = (ArrayList) array;
 
             for (Object mod : list) {
-                if (Objects.equals(modClass.getMethod("getPkg").invoke(mod), "cn.dreamn.qianji_auto")) {
+                if (Intrinsics.areEqual(modClass.getMethod("getPkg").invoke(mod), AppInfo.getAppPackage())) {
                     return true;
                 }
             }
-        } catch (Throwable ignored) {
+        } catch (Throwable e) {
+            Log.d("应用转生获取应用状态失败！" + e.toString());
+            e.printStackTrace();
         }
 
         return false;

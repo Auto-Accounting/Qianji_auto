@@ -88,7 +88,7 @@ public class QianJi implements IApp {
             mmkv.encode("needAsync", true);
             context.startActivity(intent);
         } else {
-            ToastUtils.show("钱迹只支持已激活用户同步，无障碍用户需要手动配置。");
+            ToastUtils.show(R.string.not_support);
         }
     }
 

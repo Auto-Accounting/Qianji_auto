@@ -225,8 +225,8 @@ public class MainFragment extends BaseFragment {
 
     private void setActive() {
 
-        if (AppStatus.isActive(getContext())) {
-            mode_select2.setBackgroundColor(ThemeManager.getColor(getActivity(),R.color.button_go_setting_bg));
+        if (AppStatus.getActiveMode().equals("xposed")) {
+            mode_select2.setBackgroundColor(ThemeManager.getColor(getActivity(), R.color.button_go_setting_bg));
             mode_select2.setBackgroundTintList(ColorStateList.valueOf(ThemeManager.getColor(getActivity(), R.color.button_go_setting_bg)));
             active_status.setText(String.format(getString(R.string.active_true), AppStatus.getFrameWork(getContext())));
             active_status.setTextColor(ThemeManager.getColor(getActivity(), R.color.background_white));
