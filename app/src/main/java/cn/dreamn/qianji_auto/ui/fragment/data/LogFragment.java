@@ -27,6 +27,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.MenuInflater;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
@@ -38,6 +39,7 @@ import com.shehuan.statusview.StatusView;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
+import com.yanzhenjie.recyclerview.OnItemClickListener;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.Arrays;
@@ -225,6 +227,15 @@ public class LogFragment extends BaseFragment {
         recyclerView.setAdapter(mAdapter);
 
         refreshLayout.setEnableRefresh(true);
+        recyclerView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int adapterPosition) {
+                Bundle bundle = list.get(adapterPosition);
+                String str = bundle.getString("title");
+                Tool.clipboard(getContext(), str);
+                ToastUtils.show(R.string.copied);
+            }
+        });
         loadFromData();
     }
 

@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 
+import com.alibaba.fastjson.JSONObject;
 import com.thegrizzlylabs.sardineandroid.DavResource;
 import com.thegrizzlylabs.sardineandroid.Sardine;
 import com.thegrizzlylabs.sardineandroid.impl.OkHttpSardine;
@@ -23,8 +24,9 @@ import java.util.TimeZone;
 
 import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.BuildConfig;
+import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
-import cn.dreamn.qianji_auto.utils.runUtils.DataUtils;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 public class BackupManager {
@@ -35,6 +37,10 @@ public class BackupManager {
         FileUtils.makeRootDirectory(CACHE_PATH);
     }
 
+    // JSONObject jsonObject=new JSONObject();
+//            jsonObject.put("code", App.getAppVerCode());
+//            jsonObject.put("name", App.getAppVerName());
+//            jsonObject.put("package", App.getAppPackage());
     @SuppressLint("SdCardPath")
     public static String backUpToCache(Context context) {
 
@@ -55,12 +61,12 @@ public class BackupManager {
             //压缩到缓存
             ZipUtils.zip("/data/data/" + BuildConfig.APPLICATION_ID + "/", filename2);
 
-            DataUtils dataUtils = new DataUtils();
-            dataUtils.put("code", App.getAppVerCode());
-            dataUtils.put("name", App.getAppVerName());
-            dataUtils.put("package", App.getAppPackage());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("code", App.getAppVerCode());
+            jsonObject.put("name", App.getAppVerName());
+            jsonObject.put("package", App.getAppPackage());
             //添加注释
-            ZipUtils.zipFile(filename2, filename, dataUtils.toString());
+            ZipUtils.zipFile(filename2, filename, jsonObject.toJSONString());
             Log.i("配置已备份到该路径", filename);
             //删掉！
             //  FileUtils.del(filename2);
@@ -85,10 +91,7 @@ public class BackupManager {
         FileUtils.copyFile(fileName, newFileName);
         Log.m(fileName);
         FileUtils.del(fileName);
-        Message message = new Message();
-        message.obj = newFileName;
-        message.what = 0;
-        mHandler.sendMessage(message);
+        HandlerUtil.send(mHandler, newFileName, 0);
     }
 
     public static void backUpToWebDav(Context context, String url, String username, String password, Handler mHandler) {
@@ -128,10 +131,13 @@ public class BackupManager {
             List<String> comments = ZipUtils.getComments(filePath);
 
             String comment = comments.get(0);
-            if (comment == null) return "该配置文件非自动记账配置文件。";
-            DataUtils dataUtils = new DataUtils();
-            dataUtils.parse(comment);
+            if (comment == null) return context.getString(R.string.restore_not_auto);
 
+            JSONObject jsonObject = JSONObject.parseObject(comment);
+
+            if (jsonObject.getInteger("code") < 118) {
+                return String.format(context.getString(R.string.restore_not_support), jsonObject.getString("name"));
+            }
             String filename2 = context.getExternalCacheDir().getPath();
             List<File> s = ZipUtils.unzipFile(filePath, filename2);
             ZipUtils.unzip(s.get(0).toString(), "/data/data/" + BuildConfig.APPLICATION_ID + "/");
@@ -140,7 +146,7 @@ public class BackupManager {
             return "ok";
         } catch (Exception e) {
             Log.i("自动记账恢复备份出错：" + e.toString());
-            return "发生错误";
+            return context.getString(R.string.restore_error);
         }
     }
 
@@ -149,15 +155,11 @@ public class BackupManager {
         FileUtils.copyFile(filePath, fileName);//从外部拷贝到内部
         String data = restoreFromCache(context, fileName);
 
-        Message message = new Message();
-        message.obj = data;
         if (data.equals("ok")) {
-            message.what = 0;
+            HandlerUtil.send(mHandler, data, 0);
         } else {
-            message.what = -1;
+            HandlerUtil.send(mHandler, data, -1);
         }
-
-        mHandler.sendMessage(message);
     }
 
     @SuppressLint("CheckResult")

@@ -42,8 +42,10 @@ public class AutoError {
 
     public static String getSolvedUrl(String problems) {
         String url = "https://pan.ankio.net";
+        // TODO 预计公测之后 根据不同错误信息给出解决方案地址，需要等文档到位。
+
         if (problems.contains("bookname")) {
-            // TODO 根据不同错误信息给出解决方案地址，需要等文档到位
+
         } else if (problems.contains("accountname")) {
 
         }

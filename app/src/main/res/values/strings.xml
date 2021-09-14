@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--图标数据-->
 
     <string name="icon_caozuorizhi1">&#xe63e;</string>
@@ -98,7 +98,7 @@
 
     <string name="githubUrl">https://github.com/dreamncn/Qianji_auto</string>
     <string name="learnUrl"><![CDATA[https://doc.ankio.net/doc/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/#/]]></string>
-    <string name="biliUrl"><![CDATA[https://player.bilibili.com/player.html?aid=289448844&bvid=BV1Hf4y147Yi&cid=303785417&page=1]]></string>
+    <string name="biliUrl" tools:ignore="Typos"><![CDATA[https://player.bilibili.com/player.html?aid=289448844&bvid=BV1Hf4y147Yi&cid=303785417&page=1]]></string>
     <string name="QQ_Group">165652170</string>
     <string name="files_default_empty_text">这里空空如也</string>
 
@@ -332,4 +332,9 @@
     <string name="mode_helper_name">无障碍</string>
     <string name="float_tip">请授予悬浮窗权限！</string>
     <string name="notice_name">记账提醒</string>
+    <string name="book_success">记账成功！金额为 %s 。</string>
+    <string name="restore_not_auto">该配置文件非自动记账配置文件。</string>
+    <string name="restore_not_support">抱歉，该备份文件由低版本（%s）自动记账创建，无法恢复。如果强行恢复会导致闪退等问题，建议先降级到对应版本自动记账，进行恢复操作后再升级！</string>
+    <string name="restore_error">恢复时发生错误！</string>
+    <string name="wait">尽请期待！</string>
 </resources>

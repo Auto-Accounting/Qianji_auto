@@ -106,13 +106,13 @@ public class WebViewFragment extends BaseFragment {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             mTimer.put(url, System.currentTimeMillis());
-            if (url.equals(getUrl())) {
+          /*  if (url.equals(getUrl())) {
                 //   progressBar.setVisibility(View.GONE);
                 //  pageNavigator(View.GONE);
             } else {
                 //   progressBar.setVisibility(View.VISIBLE);
                 //  pageNavigator(View.VISIBLE);
-            }
+            }*/
         }
 
         @Override

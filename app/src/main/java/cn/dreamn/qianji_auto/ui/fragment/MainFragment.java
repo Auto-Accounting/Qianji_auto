@@ -278,30 +278,31 @@ public class MainFragment extends BaseFragment {
         rl_asset.setOnClickListener(v -> {
             openNewPage(MainCardFragment.class);
         });
-        rl_sort.setOnClickListener(v->{
+        rl_sort.setOnClickListener(v -> {
             openNewPage(MainSortFragment.class);
         });
 
-        rl_async.setOnClickListener(v-> {
-
+        rl_async.setOnClickListener(v -> {
             AppManager.Async(getContext());
         });
-        rl_bill.setOnClickListener(v->{
+        rl_bill.setOnClickListener(v -> {
             openNewPage(MoneyFragment.class);
         });
-        rl_bill_check.setOnClickListener(v->{
-            //账单核对
+        rl_bill_check.setOnClickListener(v -> {
+            ToastUtils.show(R.string.wait);
+            //TODO 4.0新增功能，从支付宝微信等位置导出账单，再从钱迹导出账单，最后比对缺少的账单信息，进行高亮展示，由用户选择合并更新。
         });
-        rl_year.setOnClickListener(v->{
-           //年度账单
+        rl_year.setOnClickListener(v -> {
+            ToastUtils.show(R.string.wait);
+            //TODO 4.0新增功能，年度账单，授权自动记账使用本地化分析功能（由JS实现，传入参数如data={}等），样式采用html。
         });
-        rl_app_log.setOnClickListener(v->{
+        rl_app_log.setOnClickListener(v -> {
             NoticeFragment.openWithType(this, "app");
         });
-        rl_sms_log.setOnClickListener(v->{
+        rl_sms_log.setOnClickListener(v -> {
             NoticeFragment.openWithType(this, "sms");
         });
-        rl_notice_log.setOnClickListener(v->{
+        rl_notice_log.setOnClickListener(v -> {
             NoticeFragment.openWithType(this, "notice");
         });
         rl_log.setOnClickListener(v->{
@@ -310,27 +311,28 @@ public class MainFragment extends BaseFragment {
         rl_auto_sort.setOnClickListener(v->{
             openNewPage(MainAutoSortFragment.class);
         });
-        rl_app.setOnClickListener(v->{
+        rl_app.setOnClickListener(v -> {
             MainAutoLearnFragment.openWithType(this, "app");
         });
-        rl_sms.setOnClickListener(v->{
+        rl_sms.setOnClickListener(v -> {
             MainAutoLearnFragment.openWithType(this, "sms");
         });
-        rl_notice.setOnClickListener(v->{
+        rl_notice.setOnClickListener(v -> {
             MainAutoLearnFragment.openWithType(this, "notice");
         });
 
-        rl_skin.setOnClickListener(v->{
-
+        rl_skin.setOnClickListener(v -> {
+            ToastUtils.show(R.string.wait);
+            //TODO 4.0新增功能：更换自动记账皮肤。
         });
 
-        rl_backup.setOnClickListener(v->{
+        rl_backup.setOnClickListener(v -> {
             openNewPage(BackUpFragment.class);
         });
-        rl_text_teach.setOnClickListener(v->{
+        rl_text_teach.setOnClickListener(v -> {
             WebViewFragment.openUrl(this, getString(R.string.learnUrl));
         });
-        rl_video_teach.setOnClickListener(v->{
+        rl_video_teach.setOnClickListener(v -> {
             WebViewFragment.openUrl(this, getString(R.string.biliUrl));
         });
         rl_github.setOnClickListener(v->{

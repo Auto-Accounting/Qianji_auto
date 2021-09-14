@@ -58,16 +58,15 @@ public class QianJi implements IApp {
                     Caches.AddOrUpdate("show_tip", "false");
                     Caches.AddOrUpdate("float_time", String.valueOf(System.currentTimeMillis()));
                     //    Tool.goUrl(context, getQianJi(billInfo));
-
                     Cmd.exec(new String[]{"am start \"" + getQianJi(billInfo) + "\""});
-
-                    ToastUtils.show("记账成功！金额￥" + billInfo.getMoney() + "。");
+                    //TODO 4.0新增：多币种记账支持，此处预留修改位。
+                    ToastUtils.show(String.format(context.getString(R.string.book_success), billInfo.getMoney()));
                 }
             }
         };
         //如果不是xp模式需要延时
         if (!AppStatus.xposedActive(context)) {
-            delay(context, mHandler);
+            delay(mHandler);
         } else {
             mHandler.sendEmptyMessage(0);
         }
@@ -177,12 +176,11 @@ public class QianJi implements IApp {
         });
 
         Cmd.exec(new String[]{"am force-stop com.mutangtech.qianji"});
-        //获取账单数据
-        // TODO 插入数据库
+        // TODO 4.0新增: 处理钱迹账单报销数据，并加入数据库，此处预留修改位。
 
     }
 
-    private void delay(Context context, Handler mHandler) {
+    private void delay(Handler mHandler) {
 
         Task.onThread(() -> {
             Caches.getCacheData("float_time", "", cache -> {
@@ -200,7 +198,7 @@ public class QianJi implements IApp {
                                 Caches.AddOrUpdate("show_tip", "true");
                             }
                             new Handler().postDelayed(() -> {
-                                delay(context, mHandler);
+                                delay(mHandler);
                             }, finalT * 100);
                         });
                         return;
