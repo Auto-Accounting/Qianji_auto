@@ -17,6 +17,10 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.data;
 
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_ERR;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
@@ -26,11 +30,8 @@ import android.os.Message;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -46,6 +47,9 @@ import cn.dreamn.qianji_auto.bills.SendDataToApp;
 import cn.dreamn.qianji_auto.database.Helper.AutoBills;
 import cn.dreamn.qianji_auto.ui.adapter.MoneyAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
@@ -64,26 +68,50 @@ public class MoneyFragment extends BaseFragment {
     SmartRefreshLayout refreshLayout;
     private MoneyAdapter mAdapter;
     private List<Bundle> list;
-    private static final int HANDLE_ERR = 0;
-    private static final int HANDLE_OK = 1;
-    private static final int HANDLE_REFRESH=2;
+    LoadingDialog loadingDialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_main_data_money;
     }
 
+    Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case HANDLE_ERR:
+                    statusView.showEmptyView();
+                    break;
+                case HANDLE_OK:
+                    mAdapter.refresh(list);
+                    statusView.showContentView();
+                    break;
+                case HANDLE_REFRESH:
+                    loadFromData();
+                    break;
+            }
+            String d = (String) msg.obj;
+            if ((d != null && !d.equals("")))
+                ToastUtils.show(d);
+            if (loadingDialog != null) loadingDialog.close();
+        }
+    };
 
     @Override
     protected void initViews() {
         statusView.setEmptyView(R.layout.fragment_empty_view);
         statusView.setLoadingView(R.layout.fragment_loading_view);
 
-        statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, "没有任何账单"));
-     //   statusView.setOnLoadingViewConvertListener(viewHolder -> viewHolder.setText(R.id.load_info, "正在加载账单信息"));
+        statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, R.string.no_money));
+        statusView.setOnLoadingViewConvertListener(viewHolder -> {
+            loadingDialog = new LoadingDialog(getAttachContext(), getString(R.string.main_loading));
+            loadingDialog.show();
+        });
 
         statusView.showLoadingView();
         initLayout();
     }
+
     private void initLayout() {
         mAdapter=new MoneyAdapter(getContext());
 
@@ -98,42 +126,22 @@ public class MoneyFragment extends BaseFragment {
 
             @Override
             public void onLongClick(Bundle bundle, int pos) {
-                OnItemLongClickListen(bundle, pos);
+
             }
         });
-        refreshLayout.setOnRefreshListener(this::loadFromData);
+
         refreshLayout.setEnableRefresh(true);
-        loadFromData(refreshLayout);
+        loadFromData();
     }
-    Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case HANDLE_ERR:
-                    if (statusView != null) statusView.showEmptyView();
-                    break;
-                case HANDLE_OK:
-                    mAdapter.refresh(list);
-                    Task.onMain(1000,()->statusView.showContentView());
-                    break;
-                case HANDLE_REFRESH:
-                    String d=(String)msg.obj;
-                    if((d!=null&& !d.equals("")))
-                        ToastUtils.show(d);
-                    loadFromData(refreshLayout);
-                    break;
-            }
-        }
-    };
-    private void loadFromData(RefreshLayout refreshLayout) {
+
+    private void loadFromData() {
         Task.onThread(() -> {
             AutoBills.getDates(datas -> {
                 if (datas == null || datas.length == 0) {
-                    mHandler.sendEmptyMessage(HANDLE_ERR);
+                    HandlerUtil.send(mHandler, HANDLE_ERR);
                 } else {
                     list = Arrays.asList(datas);
-                    // Log.d(list.toString());
-                    mHandler.sendEmptyMessage(HANDLE_OK);
+                    HandlerUtil.send(mHandler, HANDLE_OK);
                 }
             });
         });
@@ -141,40 +149,44 @@ public class MoneyFragment extends BaseFragment {
 
     @SuppressLint("CheckResult")
     private void OnItemClickListen(Bundle bundle, int i) {
-        BillInfo billInfo=BillInfo.parse(bundle.getString("billinfo"));
-
-        MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-        dialog.title(null, "请选择操作");
-        DialogListExtKt.listItems(dialog, null, Arrays.asList("发起记账请求","删除记录"), null, true, (materialDialog, index, text) -> {
-            switch (index){
-                case 0:goBillApp(billInfo);break;
-                case 1:del(bundle);break;
+        BillInfo billInfo = BillInfo.parse(bundle.getString("billinfo"));
+        BottomArea.list(getContext(), getString(R.string.select_function), Arrays.asList(getString(R.string.money_send), getString(R.string.money_del), getString(R.string.money_copy)), new BottomArea.ListCallback() {
+            @Override
+            public void onSelect(int position) {
+                switch (position) {
+                    case 0:
+                        goBillApp(billInfo);
+                        break;
+                    case 1:
+                        del(bundle);
+                        break;
+                    case 2:
+                        copy(bundle);
+                        break;
+                }
             }
-            return null;
         });
-        dialog.show();
+
     }
-    @SuppressLint("CheckResult")
-    private void OnItemLongClickListen(Bundle bundle, int i) {
 
-        BillInfo billInfo=BillInfo.parse(bundle.getString("billinfo"));
+    private void copy(Bundle bundle) {
 
-        Context mContext=getContext();
+        BillInfo billInfo = BillInfo.parse(bundle.getString("billinfo"));
+
+        Context mContext = getContext();
 
 
-        Tool.clipboard(mContext,billInfo.toString());
+        Tool.clipboard(mContext, billInfo.toString());
 
-        ToastUtils.show("已复制到剪切板");
+        ToastUtils.show(R.string.copied);
 
     }
 
     private void del(Bundle bundle) {
         int id=bundle.getInt("id");
         AutoBills.del(id, () -> {
-            Message message=new Message();
-            message.obj="删除成功！";
-            message.what=HANDLE_REFRESH;
-            mHandler.sendMessage(message);
+            ToastUtils.show(R.string.del_success);
+            HandlerUtil.send(mHandler, HANDLE_REFRESH);
         });
 
     }
@@ -187,7 +199,8 @@ public class MoneyFragment extends BaseFragment {
     @Override
     protected void initListeners() {
         refreshLayout.setOnRefreshListener(refreshlayout -> {
-            refreshlayout.finishRefresh(0/*,false*/);//传入false表示刷新失败
+            loadFromData();
+            refreshlayout.finishRefresh(0);//传入false表示刷新失败
         });
     }
 
@@ -204,26 +217,21 @@ public class MoneyFragment extends BaseFragment {
             popToBack();
         });
         title_bar.setRightIconOnClickListener(v -> {
-            MaterialDialog dialog = new MaterialDialog(getContext(), MaterialDialog.getDEFAULT_BEHAVIOR());
-            dialog.title(null, "是否清空账单列表");
-            dialog.message(null, "即将清空所有账单数据", null);
-            dialog.positiveButton(null, "确定清空", materialDialog -> {
-                AutoBills.delAll(() -> {
-                  Message message=new Message();
-                  message.obj="清除成功！";
-                  message.what=HANDLE_REFRESH;
-                  mHandler.sendMessage(message);
-              });
 
-              return null;
-            });
-            dialog.negativeButton(null, "取消清空", materialDialog -> {
-                return null;
-            });
+            BottomArea.msg(getContext(), getString(R.string.money_clean_title), getString(R.string.money_clean_body), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.MsgCallback() {
+                @Override
+                public void cancel() {
 
-            dialog.show();
+                }
+
+                @Override
+                public void sure() {
+                    AutoBills.delAll(() -> {
+                        HandlerUtil.send(mHandler, getString(R.string.log_clean_success), HANDLE_REFRESH);
+                    });
+                }
+            });
         });
-        //  return null;
     }
 
 
