@@ -29,10 +29,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.afollestad.materialdialogs.LayoutMode;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
-import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
@@ -46,6 +42,7 @@ import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.TitleBar;
+import cn.dreamn.qianji_auto.ui.fragment.helper.HelperFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
@@ -90,7 +87,8 @@ public class AboutFragment extends BaseFragment {
 
     @BindView(R.id.item_support)
     LinearLayout item_support;
-
+    @BindView(R.id.item_home)
+    LinearLayout item_home;
 
     @Override
     protected int getLayoutId() {
@@ -117,11 +115,11 @@ public class AboutFragment extends BaseFragment {
         });
         item_update.setOnClickListener(v -> {
             //"正在检测更新中,请稍候"
-            ToastUtils.show("正在检测更新中,请稍候");
+            ToastUtils.show(R.string.about_check_update);
             Handler mHandler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(@NonNull Message msg) {
-                    ToastUtils.show("暂无更新！");
+                    ToastUtils.show(R.string.about_check_no_update);
                 }
             };
             AutoBillWeb.update(getContext(), new AutoBillWeb.CallbackWith() {
@@ -136,29 +134,28 @@ public class AboutFragment extends BaseFragment {
 
             MMKV mmkv = MMKV.defaultMMKV();
             String channel = mmkv.getString("version_channel", "stable");
-            String channelName = "稳定版";
+            String channelName = getString(R.string.version_stable);
             switch (channel) {
                 case "stable":
-                    channelName = "稳定版";
+                    channelName = getString(R.string.version_stable);
                     break;
                 case "alpha":
-                    channelName = "内部测试版";
+                    channelName = getString(R.string.version_alpha);
                     break;
                 case "beta":
-                    channelName = "公开测试版";
+                    channelName = getString(R.string.version_beta);
                     break;
             }
-            BottomSheet bottomSheet2 = new BottomSheet(LayoutMode.WRAP_CONTENT);
-            MaterialDialog dialog2 = new MaterialDialog(getContext(), bottomSheet2);
-            dialog2.title(null, "检测版本(" + channelName + ")");
-            dialog2.cornerRadius(15f, null);
-            DialogListExtKt.listItems(dialog2, null, Arrays.asList("稳定版", "内部测试版", "公开测试版"), null, true, (materialDialog, index, text) -> {
-                String[] s = new String[]{"stable", "alpha", "beta"};
-                mmkv.encode("version_channel", s[index]);
-                ToastUtils.show("设置成功！");
-                return null;
+
+            BottomArea.list(getContext(), String.format(getString(R.string.check_version), channelName), Arrays.asList(getString(R.string.version_stable), getString(R.string.version_alpha), getString(R.string.version_beta)), new BottomArea.ListCallback() {
+                @Override
+                public void onSelect(int position) {
+                    String[] s = new String[]{"stable", "alpha", "beta"};
+                    mmkv.encode("version_channel", s[position]);
+                    ToastUtils.show(R.string.log_set_success);
+                }
             });
-            dialog2.show();
+
             return false;
         });
         item_support.setOnClickListener(new View.OnClickListener() {
@@ -188,10 +185,9 @@ public class AboutFragment extends BaseFragment {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             try {
                 startActivity(intent);
-
             } catch (Exception e) {
                 // 未安装手Q或安装的版本不支持
-                ToastUtils.show("未安装手机QQ或者当前QQ不支持加群。");
+                ToastUtils.show(R.string.qq_error);
             }
         });
         item_source.setOnClickListener(new View.OnClickListener() {
@@ -223,7 +219,16 @@ public class AboutFragment extends BaseFragment {
                 });
             }
         });
-        item_star.setOnClickListener(v -> Tool.goToMarket(requireContext(), BuildConfig.APPLICATION_ID));
+        item_star.setOnClickListener(v -> Tool.goUrl(requireContext(), "https://www.coolapk.com/apk/cn.dreamn.qianji_auto"));
+        item_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MMKV mmkv = MMKV.defaultMMKV();
+                mmkv.encode("version_3_0", true);
+                mmkv.encode("helper_page", 0);
+                openPage(HelperFragment.class);
+            }
+        });
     }
 
     @Override
@@ -238,7 +243,6 @@ public class AboutFragment extends BaseFragment {
         title_bar.setLeftIconOnClickListener(v -> {
             popToBack();
         });
-        // return null;
     }
 
 
