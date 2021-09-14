@@ -20,6 +20,8 @@ package cn.dreamn.qianji_auto.bills;
 import android.annotation.SuppressLint;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 import java.util.Set;
 
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -190,8 +192,6 @@ public class BillInfo {
 
     public static String getTypeId(String type) {
         switch (type) {
-            case "支出":
-                return BillInfo.TYPE_PAY;
             case "收入":
                 return BillInfo.TYPE_INCOME;
             case "转账":
@@ -335,7 +335,7 @@ public class BillInfo {
     }
 
 
-
+    @NonNull
     public String toString() {
 
         String url = "qianji://publicapi/addbill?&type=" + getType(true) + "&money=" + money;
@@ -398,31 +398,24 @@ public class BillInfo {
             this.fee = "0";
         //检查手续费
         if (this.fee != null && Float.parseFloat(this.fee) > Float.parseFloat(this.money)) {
-            Log.i("Qianji_Analyze", "手续费错误" + this.time);
+            Log.i("记账流程", "手续费错误" + this.time);
             return false;
         }
         //检查时间
         if (this.time == null || this.time.equals("")) {
-            Log.i("Qianji_Analyze", "时间错误" + this.time);
+            Log.i("记账流程", "时间错误" + this.time);
             return false;
         }
         //检查金额
         if (this.money == null || BillTools.getMoney(this.money).equals("0") || BillTools.getMoney(this.money).equals("0.0") || BillTools.getMoney(this.money).equals("0.00")) {
-            Log.i("Qianji_Analyze", "金额 :" + this.money);
+            Log.i("记账流程", "金额 :" + this.money);
             return false;
         }
         //检查分类
         if (this.type == null) {
-            Log.i("Qianji_Analyze", "分类错误 -> null");
+            Log.i("记账流程", "分类错误 -> null");
             return false;
         }
-
-        if (this.accountname != null && this.accountname.equals(this.accountname2)) {
-            Log.i("Qianji_Analyze", "两个账户名称一致或获取的商户名称为空");
-            return false;
-        }
-
-
         return true;
     }
 

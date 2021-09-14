@@ -122,14 +122,14 @@
     <string name="set_lazy_mode">懒人模式</string>
     <string name="set_open">开启</string>
     <string name="set_close">关闭</string>
-    <string name="set_front">前台交易记账模式</string>
+    <string name="set_front">亮屏情况下记账模式</string>
     <string name="set_all">全自动记账</string>
     <string name="set_half">半自动记账</string>
-    <string name="set_back">后台交易记账模式</string>
+    <string name="set_back">锁屏情况下记账模式</string>
     <string name="set_default">默认账本</string>
     <string name="set_remark">记账备注样式</string>
     <string name="set_remark_default">[商户名]-[商户信息]</string>
-    <string name="set_sort">自动分类填充</string>
+    <string name="set_sort">记住本次分类</string>
     <string name="set_float_time">悬浮窗倒计时</string>
     <string name="set_time">%s 秒</string>
     <string name="set_float_click">悬浮窗点击</string>
@@ -330,4 +330,6 @@
     <string name="js_error">JS脚本执行出错，建议前去日志查看错误信息。</string>
     <string name="not_support">钱迹只支持已激活用户同步，无障碍用户需要手动配置。</string>
     <string name="mode_helper_name">无障碍</string>
+    <string name="float_tip">请授予悬浮窗权限！</string>
+    <string name="notice_name">记账提醒</string>
 </resources>

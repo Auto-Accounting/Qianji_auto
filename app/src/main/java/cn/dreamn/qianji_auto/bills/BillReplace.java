@@ -1,11 +1,11 @@
 package cn.dreamn.qianji_auto.bills;
 
 import android.os.Handler;
-import android.os.Message;
 
 import cn.dreamn.qianji_auto.database.Helper.Assets;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.Category;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 
 public class BillReplace {
 
@@ -25,10 +25,7 @@ public class BillReplace {
                 billInfo.setAccountName(mapName);
                 Assets.getMap(billInfo.getrawAccount2(),mapName2->{
                     billInfo.setAccountName2(mapName2);
-                    Message message=new Message();
-                    message.what=2;
-                    message.obj=billInfo;
-                    mHandler.sendMessage(message);
+                    HandlerUtil.send(mHandler, billInfo, 2);
                 });
             });
 
@@ -49,7 +46,6 @@ public class BillReplace {
                .replace("[来源App]", billInfo.getFromApp() == null ? "" : billInfo.getFromApp())
                .replace("[商户名]", billInfo.getShopAccount() == null ? "" : billInfo.getShopAccount())
                .replace("[商户备注]",billInfo.getShopRemark()==null?"":billInfo.getShopRemark());
-
        billInfo.setRemark(remark);
     }
 
