@@ -23,7 +23,7 @@ import cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.DataBase;
 import cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.LeftSide;
 import cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.Timeout;
 
-public class QianjiHook extends HookBase {
+public class Qianji extends HookBase {
 
 
     @Override

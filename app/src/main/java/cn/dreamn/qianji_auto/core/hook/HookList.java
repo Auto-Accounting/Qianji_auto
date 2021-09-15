@@ -3,8 +3,9 @@ package cn.dreamn.qianji_auto.core.hook;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.dreamn.qianji_auto.core.hook.app.alipay.Alipay;
 import cn.dreamn.qianji_auto.core.hook.app.auto.QianjiAuto;
-import cn.dreamn.qianji_auto.core.hook.app.qianji.QianjiHook;
+import cn.dreamn.qianji_auto.core.hook.app.qianji.Qianji;
 import cn.dreamn.qianji_auto.core.hook.app.wechat.Wechat;
 
 
@@ -15,8 +16,9 @@ public class HookList {
     public HookList() {
         mListHook.clear();
         mListHook.add(QianjiAuto.class);
-        mListHook.add(QianjiHook.class);
+        mListHook.add(Qianji.class);
         mListHook.add(Wechat.class);
+        mListHook.add(Alipay.class);
     }
 
     public synchronized static HookList getInstance() {

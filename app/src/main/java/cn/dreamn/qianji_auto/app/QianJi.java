@@ -75,7 +75,7 @@ public class QianJi implements IApp {
 
     @Override
     public void asyncDataBefore(Context context) {
-        if (AppStatus.xposedActive(context)) {
+        if (AppStatus.getActiveMode().equals("xposed")) {
             Cmd.exec(new String[]{"am force-stop com.mutangtech.qianji"});
             //杀死其他应用
             //  Tool.stopApp(context,"com.mutangtech.qianji");

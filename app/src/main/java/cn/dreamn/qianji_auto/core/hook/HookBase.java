@@ -40,12 +40,15 @@ public abstract class HookBase implements IHooker {
      * @param processName  String 序号hook的进程名
      */
     public void hook(String packPagename, String processName) {
-        if (!getPackPageName().contentEquals(packPagename)) {
-            return;
+        String[] packages = getPackPageName().split(",");
+        boolean flag = false;
+        for (String package1 : packages) {
+            if (packPagename.equals(package1)) {
+                flag = true;
+                break;
+            }
         }
-        if (!getPackPageName().equals(processName)) {
-            return;
-        }
+        if (!flag) return;
         // 获取hook顺序
         mHookCountIndex = getHookIndex();
         hookMainInOtherAppContext();
