@@ -40,13 +40,23 @@ public class PayTools {
                 }
                 String data = get.invoke(param.args[0]).toString();
                 utils.log("设置数据：" + data, true);
-                if (data.contains("零钱") || (data.contains("卡(") && data.endsWith(")"))) {
+
+                String[] empty = new String[]{"支付", "使用", "请",};
+                String[] cards = new String[]{"卡(", "零钱"};
+                String[] money = new String[]{"￥", "$"};
+
+                if (inArray(data, empty, true)) {
+                    return;
+                }
+                //微信官方用语，删了~
+                if (inArray(data, cards, false)) {
+                    //支付账户
                     utils.writeData("cache_wechat_paytool", data);
                     utils.log("识别的账户名：" + data);
-                } else if (data.startsWith("￥")) {
+                } else if (inArray(data, money, true)) {
                     //金额
                     utils.writeData("cache_wechat_payMoney", data);
-                } else if (data.contains("向") && data.endsWith(")转账")) {
+                } else {
                     //转账人
                     utils.writeData("cache_wechat_payUser", data);
                 }
@@ -58,6 +68,17 @@ public class PayTools {
                 super.beforeHookedMethod(param);
             }
         });
+    }
+
+    private static boolean inArray(String data, String[] array, boolean start) {
+        for (String arr : array) {
+            if (start) {
+                if (data.startsWith(arr)) return true;
+            } else {
+                if (data.contains(arr)) return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -82,8 +82,18 @@ public class Utils {
     }
 
     public String readData(String key) {
+        return readData(key, false);
+    }
+
+    public String readData(String key, boolean replace) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("ankio_xp", Context.MODE_PRIVATE); //私有数据
-        return sharedPreferences.getString(key, null);
+        String data = sharedPreferences.getString(key, null);
+        if (replace) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
+            editor.putString(key, null);
+            editor.apply();
+        }
+        return data;
     }
 
 
