@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -157,6 +158,16 @@ public class MainFragment extends BaseFragment {
 
     @BindView(R.id.view_headImg)
     View view_headImg;
+
+    private void restore() {
+        Bundle bundle = getArguments();
+        if (bundle == null) return;
+        String str = bundle.getString("str");
+        if (str != null) {
+            Log.i("恢复路径：" + str);
+            //TODO 需要调试才能进行下一步恢复操作
+        }
+    }
 
     @Override
     protected int getLayoutId() {

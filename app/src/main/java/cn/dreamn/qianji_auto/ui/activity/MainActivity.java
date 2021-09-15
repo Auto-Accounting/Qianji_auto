@@ -1,5 +1,7 @@
 package cn.dreamn.qianji_auto.ui.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.tencent.mmkv.MMKV;
@@ -13,17 +15,28 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // StatusBarUtil.setTransparentForWindow(this);
-        //StatusBarUtil.setDarkMode(this);
-        openMainPage();
+        // StatusBarUtil.setTransparentForWindow(this);
 
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(action)) {
+            Uri uri = intent.getData();
+            String str = Uri.decode(uri.getEncodedPath());
+            openNewPage(MainFragment.class, str);
+        } else {
+            openMainPage();
+        }
 
     }
 
-    private void openMainPage(){
+    private void openByIntent() {
+
+    }
+
+    private void openMainPage() {
         //MMKV检查
-        MMKV mmkv=MMKV.defaultMMKV();
-        if(mmkv.getBoolean("version_3_0",true)) {//不是3.0版本
+        MMKV mmkv = MMKV.defaultMMKV();
+        if (mmkv.getBoolean("version_3_0", true)) {//不是3.0版本
 
             String[] fragments = {
                     "引导设置",
