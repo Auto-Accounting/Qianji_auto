@@ -19,8 +19,9 @@ package cn.dreamn.qianji_auto.core.hook.app.wechat.hooks;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.os.Bundle;
 import android.text.TextUtils;
+
+import com.alibaba.fastjson.JSONObject;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
 import de.robv.android.xposed.XC_MethodHook;
@@ -50,28 +51,26 @@ public class Msg {
                     if (null == type) {
                         return;
                     }
-                    // String contentStr = contentValues.getAsString("content");
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("isSend", contentValues.getAsInteger("isSend"));
+                    jsonObject.put("status", contentValues.getAsInteger("status"));
+                    jsonObject.put("talker", contentValues.getAsInteger("talker"));
 
-
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("isSend", contentValues.getAsInteger("isSend"));
-                    bundle.putInt("status", contentValues.getAsInteger("status"));
-                    bundle.putString("talker", contentValues.getAsString("talker"));
                     XmlToJson xmlToJson = new XmlToJson.Builder(contentValues.getAsString("content")).build();
                     String xml = xmlToJson.toString();
-                    bundle.putString("content", xml);
-                    bundle.putString("cache_money", utils.readData("cache_wechat_payMoney"));
-                    bundle.putString("cache_user", utils.readData("cache_userName"));
-                    bundle.putString("cache_paytools", utils.readData("cache_wechat_paytool"));
+                    jsonObject.put("content", xml);
+                    jsonObject.put("cache_money", utils.readData("cache_wechat_payMoney", true));
+                    jsonObject.put("cache_user", utils.readData("cache_userName", true));
+                    jsonObject.put("cache_paytools", utils.readData("cache_wechat_paytool", true));
                     //转账消息
                     if (type == 419430449) {
-                        utils.send(bundle);
+                        utils.send(jsonObject);
                     } else if (type == 436207665) {
-                        utils.send(bundle);
+                        utils.send(jsonObject);
                     } else if (type == 318767153) {
-                        utils.send(bundle);
+                        utils.send(jsonObject);
                     } else {
-                        utils.log("微信数据：" + type + "\n \n" + contentValues.toString());
+                        utils.log("微信数据【不确定是否要发送】：" + type + "\n \n" + contentValues.toString());
                     }
 
                 } catch (Exception e) {

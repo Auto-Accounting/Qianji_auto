@@ -25,6 +25,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -97,22 +100,42 @@ public class Utils {
     }
 
 
-    /**
-     * 发送广播通知
-     *
-     * @param bundle 广播数据
-     */
-    public void send(Bundle bundle) {
-        if (bundle == null) return;
-        send(bundle, "app");
+    public static String convertUrl(Object object, String key) {
+        StringBuilder paramStr = new StringBuilder();
+
+        if (object instanceof String || object instanceof Number || object instanceof Boolean) {
+            String value = String.valueOf(object);
+            value = value.replace("\\n", "").replace("\\t", "");
+
+            value = value.replace("\n", "\\n").replace("\t", "");
+
+            if (key != null && !value.startsWith("#") && !value.equals("") && !value.equals("\\n") && !value.startsWith("http") && !value.startsWith("{"))
+                paramStr.append("&").append(key).append("=").append((object));
+        } else {
+
+
+            if (object instanceof JSONObject) {
+                JSONObject jsonObject = (JSONObject) object;
+                for (Map.Entry entry : jsonObject.entrySet()) {
+                    Object k = entry.getKey();
+                    Object v = entry.getValue();
+                    paramStr.append(convertUrl(v, k.toString()));
+                }
+            } else if (object instanceof JSONArray) {
+                JSONArray jsonArray = (JSONArray) object;
+                for (Object o : jsonArray) {
+                    paramStr.append(convertUrl(o, null));
+                }
+            }
+        }
+        return paramStr.toString().replace("\n", "\\n").replace("\t", "");
     }
 
-    public void send(Bundle bundle, String identify) {
-        Bundle bundle2 = new Bundle();
-        bundle2.putString("data", bundle.toString());
-        bundle2.putString("app_identify", "app");
-        log("广播给自动记账：" + bundle2.toString(), true);
-        sendBroadcast(SEND_ACTION, bundle2);
+    public void send(JSONObject jsonObject) {
+        if (jsonObject == null) return;
+        Bundle bundle = new Bundle();
+        bundle.putString("data", convertUrl(jsonObject, null));
+        send(bundle, "app");
     }
 
     public void sendString(String str) {
@@ -429,6 +452,12 @@ public class Utils {
 
     public void toast(String msg) {
         Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
+    }
+
+    public void send(Bundle bundle, String identify) {
+        bundle.putString("app_identify", identify);
+        log("广播给自动记账：" + bundle.toString(), true);
+        sendBroadcast(SEND_ACTION, bundle);
     }
 }
 
