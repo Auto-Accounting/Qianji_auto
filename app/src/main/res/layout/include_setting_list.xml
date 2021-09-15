@@ -15,6 +15,14 @@
         >
 
         <cn.dreamn.qianji_auto.ui.components.LineLay
+            android:id="@+id/set_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:line_title="@string/set_app"
+            app:line_value="@string/set_qianji" />
+
+        <cn.dreamn.qianji_auto.ui.components.LineLay
             android:id="@+id/set_lazy_mode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

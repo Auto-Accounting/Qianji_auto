@@ -400,4 +400,5 @@
     <string name="restore_back_success">恢复成功！</string>
     <string name="select_cloud">请选择恢复的云数据</string>
     <string name="restore_tip">数据恢复中...</string>
+    <string name="set_app">记账App</string>
 </resources>

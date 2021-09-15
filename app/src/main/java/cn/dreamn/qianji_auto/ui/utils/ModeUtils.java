@@ -48,19 +48,16 @@ public class ModeUtils {
         mode_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BottomArea.list(context,
-                        context.getString(R.string.mode_select),
-                        jsonArray,
-                        new BottomArea.ListCallback() {
-                            @Override
-                            public void onSelect(int position) {
-                                String choose = jsonArray.getJSONObject(position).getString("value");
-                                MMKV mmkv = MMKV.defaultMMKV();
-                                mmkv.encode("helper_choose", choose);
-                                setUI();
-                                setPermission(choose);
-                            }
-                        });
+                BottomArea.list(context, context.getString(R.string.mode_select), jsonArray, new BottomArea.ListCallback() {
+                    @Override
+                    public void onSelect(int position) {
+                        String choose = jsonArray.getJSONObject(position).getString("value");
+                        MMKV mmkv = MMKV.defaultMMKV();
+                        mmkv.encode("helper_choose", choose);
+                        setUI();
+                        setPermission(choose);
+                    }
+                });
             }
         });
 

@@ -88,5 +88,13 @@
       "sub": "不支持记住分类功能",
       "icon": "&#xe63c;"
     }
+  ],
+  [
+    {
+      "name": "钱迹",
+      "value": "com.mutangtech.qianji",
+      "sub": "官方推荐",
+      "icon": "&#xe63c;"
+    }
   ]
 ]
