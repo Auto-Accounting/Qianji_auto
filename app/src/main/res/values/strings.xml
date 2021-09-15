@@ -401,4 +401,8 @@
     <string name="select_cloud">请选择恢复的云数据</string>
     <string name="restore_tip">数据恢复中...</string>
     <string name="set_app">记账App</string>
+    <string name="set_normal">基本配置</string>
+    <string name="set_mode">记账模式</string>
+    <string name="set_book">记账功能</string>
+    <string name="set_float">悬浮窗功能</string>
 </resources>

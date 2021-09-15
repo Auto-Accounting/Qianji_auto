@@ -14,41 +14,78 @@
 
         >
 
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_side"
+            android:layout_weight="1"
+            android:text="@string/set_normal"
+            android:textSize="16sp" />
+
         <cn.dreamn.qianji_auto.ui.components.LineLay
             android:id="@+id/set_app"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:line_title="@string/set_app"
-            app:line_value="@string/set_qianji" />
+            app:line_value="@string/set_qianji">
+
+        </cn.dreamn.qianji_auto.ui.components.LineLay>
 
         <cn.dreamn.qianji_auto.ui.components.LineLay
             android:id="@+id/set_lazy_mode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:line_title="@string/set_lazy_mode"
-            app:line_value="@string/set_close" />
+            app:line_value="@string/set_close">
+
+        </cn.dreamn.qianji_auto.ui.components.LineLay>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_side"
+            android:layout_weight="1"
+            android:text="@string/set_mode"
+            android:textSize="16sp" />
 
         <cn.dreamn.qianji_auto.ui.components.LineLay
             android:id="@+id/set_front"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             app:line_title="@string/set_front"
-            app:line_value="@string/set_half" />
+            app:line_value="@string/set_half">
+
+        </cn.dreamn.qianji_auto.ui.components.LineLay>
 
         <cn.dreamn.qianji_auto.ui.components.LineLay
             android:id="@+id/set_back"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             app:line_title="@string/set_back"
-            app:line_value="@string/set_half" />
+            app:line_value="@string/set_half">
+
+        </cn.dreamn.qianji_auto.ui.components.LineLay>
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_side"
+            android:layout_weight="1"
+            android:text="@string/set_book"
+            android:textSize="16sp" />
 
         <cn.dreamn.qianji_auto.ui.components.LineLay
             android:id="@+id/set_default"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:line_title="@string/set_default"
-            app:line_value="@string/set_default" />
+            app:line_value="@string/set_default">
+
+        </cn.dreamn.qianji_auto.ui.components.LineLay>
 
         <cn.dreamn.qianji_auto.ui.components.LineLay
             android:id="@+id/set_remark"
@@ -62,14 +99,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:line_title="@string/set_sort"
-            app:line_value="@string/set_open" />
+            app:line_value="@string/set_open">
+
+        </cn.dreamn.qianji_auto.ui.components.LineLay>
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_side"
+            android:layout_weight="1"
+            android:text="@string/set_float"
+            android:textSize="16sp" />
 
         <cn.dreamn.qianji_auto.ui.components.LineLay
             android:id="@+id/set_float_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:line_title="@string/set_float_time"
-            app:line_value="@string/set_time" />
+            app:line_value="@string/set_time">
+
+        </cn.dreamn.qianji_auto.ui.components.LineLay>
 
         <cn.dreamn.qianji_auto.ui.components.LineLay
             android:id="@+id/set_float_click"

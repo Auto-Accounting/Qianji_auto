@@ -2,6 +2,7 @@ package cn.dreamn.qianji_auto.ui.utils;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.hjq.toast.ToastUtils;
@@ -30,6 +31,10 @@ public class SettingUtils {
     LineLay set_notice_click;
     LineLay set_float_style;
 
+    TextView tv1;
+    TextView tv2;
+    TextView tv3;
+
     JSONArray jsonArray;
 
     public SettingUtils(Context context) {
@@ -50,7 +55,10 @@ public class SettingUtils {
             LineLay set_float_long_click,
             LineLay set_float_time_end,
             LineLay set_notice_click,
-            LineLay set_float_style
+            LineLay set_float_style,
+            TextView tv1,
+            TextView tv2,
+            TextView tv3
     ) {
         this.set_lazy_mode = set_lazy_mode;
         this.set_front = set_front;
@@ -64,6 +72,9 @@ public class SettingUtils {
         this.set_float_time_end = set_float_time_end;
         this.set_notice_click = set_notice_click;
         this.set_float_style = set_float_style;
+        this.tv1 = tv1;
+        this.tv2 = tv2;
+        this.tv3 = tv3;
         initUi();
         initListen();
     }
@@ -242,6 +253,9 @@ public class SettingUtils {
             set_float_time_end.setVisibility(View.GONE);
             set_notice_click.setVisibility(View.GONE);
             set_float_style.setVisibility(View.GONE);
+            tv1.setVisibility(View.GONE);
+            tv2.setVisibility(View.GONE);
+            tv3.setVisibility(View.GONE);
 
         } else {
             set_lazy_mode.setValue(R.string.set_close);
@@ -256,6 +270,9 @@ public class SettingUtils {
             set_float_time_end.setVisibility(View.VISIBLE);
             set_notice_click.setVisibility(View.VISIBLE);
             set_float_style.setVisibility(View.VISIBLE);
+            tv1.setVisibility(View.VISIBLE);
+            tv2.setVisibility(View.VISIBLE);
+            tv3.setVisibility(View.VISIBLE);
         }
 
         if (mmkv.getBoolean("autoPay", false)) {

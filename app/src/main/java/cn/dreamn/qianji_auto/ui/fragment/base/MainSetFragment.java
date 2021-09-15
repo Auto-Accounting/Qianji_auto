@@ -17,6 +17,8 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.base;
 
+import android.widget.TextView;
+
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 
@@ -59,6 +61,13 @@ public class MainSetFragment extends BaseFragment {
     @BindView(R.id.set_float_style)
     LineLay set_float_style;
 
+    @BindView(R.id.textView6)
+    TextView textView6;
+    @BindView(R.id.textView7)
+    TextView textView7;
+    @BindView(R.id.textView8)
+    TextView textView8;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_main_base_set;
@@ -79,7 +88,7 @@ public class MainSetFragment extends BaseFragment {
                 set_float_long_click,
                 set_float_time_end,
                 set_notice_click,
-                set_float_style);
+                set_float_style, textView6, textView7, textView8);
 
     }
 
