@@ -22,24 +22,16 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.afollestad.materialdialogs.LayoutMode;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
-import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
-import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.developer.filepicker.controller.DialogSelectionListener;
 import com.developer.filepicker.model.DialogConfigs;
 import com.developer.filepicker.model.DialogProperties;
 import com.developer.filepicker.view.FilePickerDialog;
-import com.google.android.material.textfield.TextInputEditText;
 import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
@@ -53,7 +45,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
-import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.utils.files.BackupManager;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
@@ -104,85 +96,91 @@ public class BackUpFragment extends BaseFragment {
     @Override
     protected void initListeners() {
         MMKV mmkv = MMKV.defaultMMKV();
-        rl_site_url.setOnClickListener(v -> list("请选择", new String[]{"选择WebDav平台", "输入URL地址"}, (index, text) -> {
-            if (index == 0) {
-                list("请选择WebDav平台", new String[]{"坚果云", "城通网盘私有云", "城通网盘公有云", "TeraCloud"}, new listRes() {
-                    @Override
-                    public void onSelect(int index, String text) {
-                        mmkv.encode("webdav_url", text);
-                        initViews();
-                    }
-                });
-            } else {
-                input("请输入WebDavUrl", mmkv.getString("webdav_url", ""), new AutoFloat.InputData() {
-                    @Override
-                    public void onClose() {
 
-                    }
 
+        rl_site_url.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomArea.list(getContext(), getString(R.string.please_select), Arrays.asList(getString(R.string.jgy), getString(R.string.ct_pri), getString(R.string.ct_pub), getString(R.string.TeraCloud), getString(R.string.source_custom)), new BottomArea.ListCallback() {
                     @Override
-                    public void onOK(String data) {
-                        if (data.length() == 0) {
-                            ToastUtils.show("未输入WebDav网址！");
-                            return;
+                    public void onSelect(int position) {
+                        if (position == 4) {
+                            BottomArea.input(getContext(), getString(R.string.input_webdav), "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+                                @Override
+                                public void input(String data) {
+                                    if (data.length() == 0) {
+                                        ToastUtils.show(R.string.no_webdav);
+                                        return;
+                                    }
+                                    mmkv.encode("webdav_url", data);
+                                    initViews();
+                                }
+
+                                @Override
+                                public void cancel() {
+
+                                }
+                            });
+                        } else {
+                            mmkv.encode("webdav_url", String.valueOf(position));
                         }
-                        mmkv.encode("webdav_url", data);
-                        initViews();
                     }
                 });
-
             }
-        }));
+        });
+
+
         rl_site_username.setOnClickListener(v -> {
-            input("请输入WebDav的账号", mmkv.getString("webdav_name", ""), new AutoFloat.InputData() {
+            BottomArea.input(getContext(), getString(R.string.webdav_name), mmkv.getString("webdav_name", ""), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
                 @Override
-                public void onClose() {
-
-                }
-
-                @Override
-                public void onOK(String data) {
+                public void input(String data) {
                     if (data.length() == 0) {
-                        ToastUtils.show("未输入账号！");
+                        ToastUtils.show(R.string.no_account);
                         return;
                     }
                     mmkv.encode("webdav_name", data);
                     initViews();
                 }
+
+                @Override
+                public void cancel() {
+
+                }
             });
         });
         rl_site_password.setOnClickListener(v -> {
-            input("请输入WebDav的密码", mmkv.getString("webdav_password", ""), new AutoFloat.InputData() {
+            BottomArea.input(getContext(), getString(R.string.webdav_passwd), mmkv.getString("webdav_password", ""), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
                 @Override
-                public void onClose() {
-
-                }
-
-                @Override
-                public void onOK(String data) {
+                public void input(String data) {
                     if (data.length() == 0) {
-                        ToastUtils.show("未输入密码！");
+                        ToastUtils.show(R.string.no_passwd);
                         return;
                     }
                     mmkv.encode("webdav_password", data);
                     initViews();
                 }
+
+                @Override
+                public void cancel() {
+
+                }
             });
         });
+
         rl_backup_webdav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 BackupManager.init(getContext());
-                LoadingDialog dialog = new LoadingDialog(getContext(), "数据备份中...");
+                LoadingDialog dialog = new LoadingDialog(getContext(), getString(R.string.backup_loading));
                 Handler mHandler = new Handler(Looper.getMainLooper()) {
                     @Override
                     public void handleMessage(@NonNull Message msg) {
                         dialog.close();
                         if (msg.what == -1) {
                             //失败
-                            ToastUtils.show("备份失败！");
+                            ToastUtils.show(R.string.backup_failed);
                         } else {
-                            ToastUtils.show("备份成功！");
+                            ToastUtils.show(R.string.backup_success);
                         }
 
                     }
@@ -199,18 +197,17 @@ public class BackUpFragment extends BaseFragment {
         });
         rl_backup_local.setOnClickListener(v -> {
             BackupManager.init(getContext());
-            LoadingDialog dialog = new LoadingDialog(getContext(), "数据备份中...");
+            LoadingDialog dialog = new LoadingDialog(getContext(), getString(R.string.backup_loading));
             Handler mHandler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(@NonNull Message msg) {
                     dialog.close();
                     if (msg.what == -1) {
                         //失败
-                        ToastUtils.show("备份失败！");
+                        ToastUtils.show(R.string.backup_failed);
                     } else {
-                        ToastUtils.show("备份成功，备份文件到" + msg.obj + "！");
+                        ToastUtils.show(String.format(getString(R.string.backup_success_tip), msg.obj));
                     }
-
                 }
             };
             dialog.show();
@@ -224,9 +221,9 @@ public class BackUpFragment extends BaseFragment {
                 final DialogProperties properties = new DialogProperties();
 
                 FilePickerDialog dialog = new FilePickerDialog(getContext(), properties);
-                dialog.setTitle("请选择备份文件");
-                dialog.setPositiveBtnName("选中");
-                dialog.setNegativeBtnName("关闭");
+                dialog.setTitle(getString(R.string.select_backup));
+                dialog.setPositiveBtnName(getString(R.string.set_select));
+                dialog.setNegativeBtnName(getString(R.string.set_cancle));
                 properties.extensions = new String[]{".auto.backup"};
                 properties.root = Environment.getExternalStorageDirectory();
                 properties.offset = Environment.getExternalStorageDirectory();
@@ -242,9 +239,9 @@ public class BackUpFragment extends BaseFragment {
 
                         if (msg.what == -1) {
                             //失败
-                            ToastUtils.show("恢复失败！");
+                            ToastUtils.show(R.string.restore_back_failed);
                         } else {
-                            ToastUtils.show("恢复成功！");
+                            ToastUtils.show(R.string.restore_back_success);
                             Tool.restartApp(getActivity());
                         }
 
@@ -268,7 +265,7 @@ public class BackUpFragment extends BaseFragment {
 
         rl_restore_webdav.setOnClickListener(v -> {
             BackupManager.init(getContext());
-            final LoadingDialog[] dialog = {new LoadingDialog(getContext(), "数据加载中...")};
+            final LoadingDialog[] dialog = {new LoadingDialog(getContext(), getString(R.string.main_loading))};
             Handler mHandler = new Handler(Looper.getMainLooper()) {
                 @SuppressLint("CheckResult")
                 @Override
@@ -276,32 +273,22 @@ public class BackUpFragment extends BaseFragment {
                     dialog[0].close();
                     if (msg.what == -1) {
                         //失败
-                        ToastUtils.show("恢复失败！");
+                        ToastUtils.show(R.string.restore_back_failed);
                     } else if (msg.what == 2) {
-                        ToastUtils.show("恢复成功！");
+                        ToastUtils.show(R.string.restore_back_success);
                         Tool.restartApp(getActivity());
 
                     } else {
 
-                        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-                        MaterialDialog dialog1 = new MaterialDialog(getContext(), bottomSheet);
-                        dialog1.title(null, "请选择恢复的云数据");
 
-                        DialogListExtKt.listItems(dialog1, null, (List<String>) msg.obj, null, true, (materialDialog, index, text) -> {
-                            dialog1.dismiss();
+                        BottomArea.list(getContext(), getString(R.string.select_cloud), (List<String>) msg.obj, (position, text) -> {
                             Task.onThread(() -> {
-                                BackupManager.restoreFromWebDavByBackground(getContext(), mmkv.getString("webdav_url", ""), mmkv.getString("webdav_name", ""), mmkv.getString("webdav_password", ""), text.toString(), this);
+                                BackupManager.restoreFromWebDavByBackground(getContext(), mmkv.getString("webdav_url", ""), mmkv.getString("webdav_name", ""), mmkv.getString("webdav_password", ""), text, this);
 
                             });
-                            dialog[0] = new LoadingDialog(getContext(), "数据恢复中...");
+                            dialog[0] = new LoadingDialog(getContext(), getString(R.string.restore_tip));
                             dialog[0].show();
-                            return null;
                         });
-
-                        dialog1.cornerRadius(15f, null);
-                        dialog1.show();
-
-
                     }
 
                 }
@@ -314,54 +301,6 @@ public class BackUpFragment extends BaseFragment {
 
     }
 
-    @SuppressLint("CheckResult")
-    public void list(String title, String[] strings, listRes inputData) {
-
-        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-        MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-        dialog.cornerRadius(15f, null);
-        dialog.title(null, title);
-
-
-        DialogListExtKt.listItems(dialog, null, Arrays.asList(strings), null, true, (materialDialog, index, text) -> {
-            inputData.onSelect(index, (String) text);
-            return null;
-        });
-
-
-        dialog.show();
-    }
-
-    public void input(String title, String defData, AutoFloat.InputData inputData) {
-        LayoutInflater factory = LayoutInflater.from(getContext());
-        final View textEntryView = factory.inflate(R.layout.include_list_input, null);
-        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-        MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-        dialog.title(null, title);
-
-        TextInputEditText md_input_message = textEntryView.findViewById(R.id.md_input_message);
-
-        md_input_message.setText(defData);
-
-        Button button_next = textEntryView.findViewById(R.id.button_next);
-        Button button_last = textEntryView.findViewById(R.id.button_last);
-
-        button_next.setOnClickListener(v -> {
-            inputData.onOK(md_input_message.getText().toString());
-            dialog.dismiss();
-        });
-
-        button_last.setOnClickListener(v -> {
-            inputData.onClose();
-            dialog.dismiss();
-        });
-
-        DialogCustomViewExtKt.customView(dialog, null, textEntryView,
-                false, true, false, false);
-
-        dialog.cornerRadius(15f, null);
-        dialog.show();
-    }
 
     @Override
     public void onResume() {
@@ -375,12 +314,8 @@ public class BackUpFragment extends BaseFragment {
         title_bar.setLeftIconOnClickListener(v -> {
             popToBack();
         });
-        // return null;
     }
 
-    interface listRes {
-        void onSelect(int index, String text);
-    }
 
 
 }

@@ -37,10 +37,6 @@ public class BackupManager {
         FileUtils.makeRootDirectory(CACHE_PATH);
     }
 
-    // JSONObject jsonObject=new JSONObject();
-//            jsonObject.put("code", App.getAppVerCode());
-//            jsonObject.put("name", App.getAppVerName());
-//            jsonObject.put("package", App.getAppPackage());
     @SuppressLint("SdCardPath")
     public static String backUpToCache(Context context) {
 
@@ -238,13 +234,13 @@ public class BackupManager {
 
     public static String getUrl(String text) {
         switch (text) {
-            case "坚果云":
+            case "0":
                 return "https://dav.jianguoyun.com/dav/";
-            case "城通网盘私有云":
+            case "1":
                 return "https://webdav.ctfile.com/";
-            case "城通网盘公有云":
+            case "2":
                 return "https://pubdav.ctfile.com/";
-            case "TeraCloud":
+            case "3":
                 return "https://seto.teracloud.jp/dav/";
         }
         return text;

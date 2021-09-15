@@ -109,6 +109,19 @@ public class BottomArea {
     }
 
     @SuppressLint("CheckResult")
+    static public void list(Context context, String title, List<String> list, ListCallback2 listCallback) {
+        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+        MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
+        dialog.cornerRadius(15f, null);
+        dialog.title(null, title);
+        DialogListExtKt.listItems(dialog, null, list, null, true, (materialDialog, index, text) -> {
+            listCallback.onSelect(index, text.toString());
+            return null;
+        });
+        dialog.show();
+    }
+
+    @SuppressLint("CheckResult")
     static public void listLong(Context context, String title, List<String> list, ListCallback listCallback) {
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
         bottomSheet.setRatio(1f);
@@ -161,5 +174,8 @@ public class BottomArea {
         void onSelect(int position);
     }
 
+    public interface ListCallback2 {
+        void onSelect(int position, String text);
+    }
     //
 }
