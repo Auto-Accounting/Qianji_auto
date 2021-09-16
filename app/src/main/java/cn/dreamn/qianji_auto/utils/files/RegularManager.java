@@ -176,7 +176,7 @@ public class RegularManager {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 JSONObject jsonObject1 = (JSONObject) msg.obj;
-                String fileName = Tool.getTime("yyyyMMddHHmmss") + ".backup_" + type + "_ankio";
+                String fileName = name + "_" + Tool.getTime("yyyyMMddHHmmss") + ".backup_" + type + "_ankio";
                 Tool.writeToCache(context, fileName, jsonObject1.toJSONString());
                 switch (index) {
                     case 0:
@@ -233,17 +233,26 @@ public class RegularManager {
         }
     }
 
-    public static void outputRegOne(Context context, String name, String type, JSONObject js) {
-        // LoadingDialog loadDialog = new LoadingDialog(context, "数据导出中...");
-        // loadDialog.show();
+    public static void outputRegOne(Context context, String name, String type, JSONObject js, boolean share) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("from", type);
         JSONArray jsonArray = new JSONArray();
         jsonArray.add(js);
         jsonObject.put("data", jsonArray);
-        Tool.clipboard(context, jsonObject.toJSONString());
-        //loadDialog.close();
-        ToastUtils.show(R.string.output_clipboard);
+        if (share) {
+            String fileName = name + "_" + Tool.getTime("yyyyMMddHHmmss") + ".backup_" + type + "_ankio";
+            Tool.writeToCache(context, fileName, jsonObject.toJSONString());
+            Tool.shareFile(context, context.getExternalCacheDir().getPath() + "/" + fileName);
+        } else {
+            Tool.clipboard(context, jsonObject.toJSONString());
+            ToastUtils.show(R.string.output_clipboard);
+        }
+
+
+    }
+
+    public static void outputRegOne(Context context, String name, String type, JSONObject js) {
+        outputRegOne(context, name, type, js, false);
     }
 
     public static void output(Context mContext, String name, String type) {

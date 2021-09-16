@@ -336,7 +336,7 @@
     <string name="restore_not_auto">该配置文件非自动记账配置文件。</string>
     <string name="restore_not_support">抱歉，该备份文件由低版本（%s）自动记账创建，无法恢复。如果强行恢复会导致闪退等问题，建议先降级到对应版本自动记账，进行恢复操作后再升级！</string>
     <string name="restore_error">恢复时发生错误！</string>
-    <string name="wait">尽请期待！</string>
+    <string name="wait">敬请期待！</string>
     <string name="money_clean_title">历史账单清除</string>
     <string name="money_clean_body">是否清除所有账单？</string>
     <string name="select_function">请选择操作</string>

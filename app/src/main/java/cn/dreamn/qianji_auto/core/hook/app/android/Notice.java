@@ -79,7 +79,7 @@ public class Notice extends HookBase {
 
     @Override
     public String getPackPageName() {
-        return utils.readDataByApp("apps", "apps");
+        return "android";
     }
 
     @Override

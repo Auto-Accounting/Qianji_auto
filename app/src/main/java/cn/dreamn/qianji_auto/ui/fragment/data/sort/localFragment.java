@@ -102,11 +102,11 @@ public class localFragment extends BaseFragment {
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case HANDLE_ERR:
-                        statusView.showEmptyView();
+                        if (statusView != null) statusView.showEmptyView();
                         break;
                     case HANDLE_OK:
                         mAdapter.refresh(list);
-                        statusView.showContentView();
+                        if (statusView != null) statusView.showContentView();
                         break;
                     case HANDLE_REFRESH:
                         loadFromData();
@@ -237,7 +237,7 @@ public class localFragment extends BaseFragment {
         }
         BaseFragment baseFragment = this;
         String finalDisable = disable;
-        BottomArea.list(getContext(), String.format(getString(R.string.assert_change), cate.getString("name")), Arrays.asList(getString(R.string.del), getString(R.string.edit_default), getString(R.string.edit_js), getString(R.string.upload_cloud), disable), new BottomArea.ListCallback() {
+        BottomArea.list(getContext(), String.format(getString(R.string.assert_change), cate.getString("name")), Arrays.asList(getString(R.string.del), getString(R.string.edit_default), getString(R.string.edit_js), getString(R.string.upload_cloud), getString(R.string.share_share), disable), new BottomArea.ListCallback() {
             @Override
             public void onSelect(int position) {
                 switch (position) {
@@ -281,6 +281,14 @@ public class localFragment extends BaseFragment {
 
                         break;
                     case 4:
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("name", cate.getString("name"));
+                        jsonObject.put("regular", cate.getString("regular"));
+                        jsonObject.put("tableList", cate.getString("tableList"));
+                        jsonObject.put("des", cate.getString("des"));
+                        RegularManager.outputRegOne(getContext(), getString(R.string.auto), "category", jsonObject, true);
+                        break;
+                    case 5:
                         if (finalDisable.equals(getString(R.string.disable))) {
                             Category.deny(cate.getInt("id"), () -> {
                                 HandlerUtil.send(mHandler, getString(R.string.deny_success), HANDLE_REFRESH);
@@ -299,7 +307,7 @@ public class localFragment extends BaseFragment {
 
 
     public void loadFromData() {
-        statusView.showLoadingView();
+        if (statusView != null) statusView.showLoadingView();
         Task.onThread(() -> {
             Category.getAll(regulars -> {
 

@@ -117,15 +117,15 @@ public class sortsFragment extends BaseFragment {
 
                 switch (msg.what) {
                     case HANDLE_ERR:
-                        statusView.showEmptyView();
+                        if (statusView != null) statusView.showEmptyView();
                         break;
                     case HANDLE_OK:
                         //mAdapter.refresh(list);
-                        statusView.showContentView();
+                        if (statusView != null) statusView.showContentView();
                         break;
                     case HANDLE_REFRESH:
                         refreshData(book.getString("book_id"), msg.arg1);
-                        statusView.showContentView();
+                        if (statusView != null) statusView.showContentView();
                         break;
                 }
                 String d = (String) msg.obj;
@@ -323,7 +323,7 @@ public class sortsFragment extends BaseFragment {
     }
 
     private void refreshData(String book_id,int parentPos) {
-        statusView.showLoadingView();
+        if (statusView != null) statusView.showLoadingView();
         Log.m("book_id", book_id);
         Log.m("book_parent", String.valueOf(parentPos));
         categoryUtils.refreshData(book_id, parentPos, (state) -> {
@@ -332,7 +332,7 @@ public class sortsFragment extends BaseFragment {
     }
 
     private void refreshData() {
-        statusView.showLoadingView();
+        if (statusView != null) statusView.showLoadingView();
         categoryUtils.refreshData((state) -> HandlerUtil.send(mHandler, state));
     }
 
