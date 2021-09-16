@@ -82,26 +82,7 @@ public class localFragment extends BaseFragment {
     FloatingActionButton action_delAll;
     private CateItemListAdapter mAdapter;
     private List<Bundle> list;
-    Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case HANDLE_ERR:
-                    statusView.showEmptyView();
-                    break;
-                case HANDLE_OK:
-                    mAdapter.refresh(list);
-                    statusView.showContentView();
-                    break;
-                case HANDLE_REFRESH:
-                    loadFromData();
-                    break;
-            }
-            String d = (String) msg.obj;
-            if ((d != null && !d.equals("")))
-                ToastUtils.show(d);
-        }
-    };
+    Handler mHandler;
 
     @Override
     protected int getLayoutId() {
@@ -116,6 +97,26 @@ public class localFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
+        mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case HANDLE_ERR:
+                        statusView.showEmptyView();
+                        break;
+                    case HANDLE_OK:
+                        mAdapter.refresh(list);
+                        statusView.showContentView();
+                        break;
+                    case HANDLE_REFRESH:
+                        loadFromData();
+                        break;
+                }
+                String d = (String) msg.obj;
+                if ((d != null && !d.equals("")))
+                    ToastUtils.show(d);
+            }
+        };
         statusView.setEmptyView(R.layout.fragment_empty_view);
         statusView.setLoadingView(R.layout.fragment_loading_view);
 
