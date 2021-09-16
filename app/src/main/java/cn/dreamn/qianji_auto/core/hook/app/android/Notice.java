@@ -50,6 +50,7 @@ public class Notice extends HookBase {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         super.afterHookedMethod(param);
+
                         utils.log("methodHookParam.args:  " + Arrays.toString(param.args));
                         //通过param拿到第三个入参notification对象
                         Notification notification = (Notification) param.args[2];
@@ -79,7 +80,7 @@ public class Notice extends HookBase {
 
     @Override
     public String getPackPageName() {
-        return "android";
+        return null;
     }
 
     @Override

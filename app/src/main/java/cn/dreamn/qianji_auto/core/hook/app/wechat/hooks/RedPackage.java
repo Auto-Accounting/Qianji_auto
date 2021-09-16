@@ -90,7 +90,7 @@ public class RedPackage {
         utils.log(log.toString());
 
         String json = utils.readData("red");
-        if (json == null) {
+        if (json.equals("")) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("money", "AcI");
             jsonObject.put("total", "AZd");

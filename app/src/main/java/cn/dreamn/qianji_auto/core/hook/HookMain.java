@@ -19,5 +19,7 @@ public class HookMain implements IXposedHookLoadPackage {
             Method method = hookBase.getMethod("hook", String.class, String.class);
             method.invoke(hookFunc, packageName, processName);
         }
+
     }
+
 }

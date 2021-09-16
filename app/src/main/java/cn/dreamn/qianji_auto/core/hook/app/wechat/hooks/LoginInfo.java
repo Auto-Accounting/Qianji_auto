@@ -56,6 +56,7 @@ public class LoginInfo {
             }
 
         } catch (Throwable e) {
+            e.printStackTrace();
             utils.log("发生错误！" + e.toString());
         }
     }
