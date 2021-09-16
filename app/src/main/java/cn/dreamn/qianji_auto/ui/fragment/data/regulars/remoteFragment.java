@@ -319,4 +319,10 @@ public class remoteFragment extends BaseFragment {
         super.onResume();
         loadFromData();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mHandler.removeCallbacksAndMessages(null);
+    }
 }

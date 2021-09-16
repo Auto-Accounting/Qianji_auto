@@ -233,8 +233,11 @@ public class MoneyFragment extends BaseFragment {
     }
 
 
-
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mHandler.removeCallbacksAndMessages(null);
+    }
 
 
 }

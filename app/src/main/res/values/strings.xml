@@ -407,4 +407,15 @@
     <string name="set_float">悬浮窗功能</string>
     <string name="restore_auto">恢复配置</string>
     <string name="restore_loading">数据恢复中...</string>
+    <string name="select_sort">请选择分类</string>
+    <string name="select_book">请选择账本</string>
+    <string name="select_account">请选择资产账户</string>
+    <string name="bx">报销</string>
+    <string name="n_bx">不报销</string>
+    <string name="select_type">请选择收支类型</string>
+    <string name="float_out">支出</string>
+    <string name="float_in">收入</string>
+    <string name="float_transfer">转账</string>
+    <string name="float_pay_for">信用还款</string>
+    <string name="select_remark">请输入备注信息</string>
 </resources>

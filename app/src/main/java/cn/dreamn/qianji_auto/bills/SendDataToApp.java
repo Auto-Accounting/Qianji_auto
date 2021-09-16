@@ -168,8 +168,7 @@ public class SendDataToApp {
                     Category.setCateJs(billInfo, billInfo.getCateName());
                 }
             }
-            mHandler.sendEmptyMessage(0);
-
+            HandlerUtil.send(mHandler, 0);
         });
     }
 

@@ -258,8 +258,11 @@ public class assertFragment extends BaseFragment {
     }
 
 
-
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mHandler.removeCallbacksAndMessages(null);
+    }
 
 
 }

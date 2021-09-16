@@ -160,7 +160,7 @@ public class AutoFloat {
     protected void initListener() {
         ll_category.setOnClickListener(v -> {
             //分类选择
-            CategoryNames.showCategorySelect(getContext(), "请选择分类", book_id, billInfo2.getType(), true, categoryNames -> {
+            CategoryNames.showCategorySelect(getContext(), context.getString(R.string.select_sort), book_id, billInfo2.getType(), true, categoryNames -> {
                 if (categoryNames != null) {
                     billInfo2.setCateName(categoryNames.getString("name"));
                     mMainHandler.sendEmptyMessage(0);
@@ -169,7 +169,7 @@ public class AutoFloat {
         });
         ll_book.setOnClickListener(v -> {
             Log.m("账本选择");
-            BookNames.showBookSelect(getContext(), "请选择账本", true, bundle -> {
+            BookNames.showBookSelect(getContext(), context.getString(R.string.select_book), true, bundle -> {
                 billInfo2.setBookName(bundle.getString("name"));
                 book_id = bundle.getString("book_id");
                 mMainHandler.sendEmptyMessage(0);
@@ -178,7 +178,7 @@ public class AutoFloat {
         });
         ll_account1.setOnClickListener(v -> {
             Log.m("账户1选择");
-            Assets.showAssetSelect(getContext(), "请选择资产账户", true, asset2s -> {
+            Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, asset2s -> {
                 billInfo2.setAccountName(asset2s.getString("name"));
                 mMainHandler.sendEmptyMessage(0);
             });
@@ -186,7 +186,7 @@ public class AutoFloat {
         });
         ll_account2.setOnClickListener(v -> {
             Log.m("账户2选择");
-            Assets.showAssetSelect(getContext(), "请选择资产账户", true, asset2s -> {
+            Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, asset2s -> {
                 billInfo2.setAccountName2(asset2s.getString("name"));
                 mMainHandler.sendEmptyMessage(0);
             });
@@ -207,11 +207,8 @@ public class AutoFloat {
         });
         ll_remark.setOnClickListener(v -> {
             Log.m("请输入备注信息");
-           /* showInputDialog("请输入备注信息", billInfo2.getRemark(), data -> {
-                billInfo2.setRemark(data);
-                this.setData(billInfo2);
-            });*/
-            input("请输入备注信息", billInfo2.getRemark(), new InputData() {
+
+            input(getContext().getString(R.string.select_remark), billInfo2.getRemark(), new InputData() {
                 @Override
                 public void onClose() {
 
@@ -226,19 +223,13 @@ public class AutoFloat {
         });
         ll_time.setOnClickListener(v -> {
             Log.m("请修改时间信息");
-            /*showInputDialog("请修改时间信息", billInfo2.getTime(), data -> {
-                billInfo2.setTime(data);
-                this.setData(billInfo2);
-            });*/
+
             BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
             MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-            // dialog.title(null, "请选择时间：");
             DateTimePickerExtKt.dateTimePicker(dialog, null, null, false,
                     false, true,
                     (materialDialog, dateTime) -> {
                         billInfo2.setTime(Tool.getTime("yyyy-MM-dd HH:mm:ss", dateTime.getTimeInMillis()));
-                        //Log.d("时间："+ Tool.getTime("yyyy-MM-dd HH:mm:ss",dateTime.getTimeInMillis()));
-                        //  Toast.makeText(this, "Selected date/time: " + dateTime.getTime(), Toast.LENGTH_SHORT);
                         mMainHandler.sendEmptyMessage(0);
                         return null;
                     });
@@ -254,24 +245,17 @@ public class AutoFloat {
         });
         ll_type.setOnClickListener(v -> {
             Log.m("请选择收支类型");
-            String[] strings = {"支出", "收入", "转账", "信用还款"};
 
-
-           /* showMenu("请选择收支类型", 1, strings, data -> {
-                billInfo2.setType(BillInfo.getTypeId(strings[data]));
-                if (!strings[data].equals("转账") && !strings[data].equals("信用还款"))
-                    billInfo2.setAccountName2(null);//不等于就去掉第二个账户
-                this.setData(billInfo2);
-            });*/
+            String[] strings = {getContext().getString(R.string.float_out), getContext().getString(R.string.float_in), getContext().getString(R.string.float_transfer), getContext().getString(R.string.float_pay_for)};
 
             BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
             MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-            dialog.title(null, "请选择收支类型");
+            dialog.title(null, getContext().getString(R.string.select_type));
 
 
             DialogListExtKt.listItems(dialog, null, Arrays.asList(strings), null, true, (materialDialog, index, text) -> {
                 billInfo2.setType(BillInfo.getTypeId(text.toString()));
-                if (!text.toString().equals("转账") && !text.toString().equals("信用还款"))
+                if (!text.toString().equals(getContext().getString(R.string.float_transfer)) && !text.toString().equals(getContext().getString(R.string.float_pay_for)))
                     billInfo2.setAccountName2(null);//不等于就去掉第二个账户
 
 
@@ -294,7 +278,7 @@ public class AutoFloat {
         });
         button_fail.setOnClickListener(v -> this.clear());
         chip_bx.setOnClickListener(v -> {
-            billInfo2.setRrimbursement(chip_bx.getText().toString().equals("不报销"));
+            billInfo2.setRrimbursement(chip_bx.getText().toString().equals(context.getString(R.string.n_bx)));
             Category.getCategory(billInfo2, cate -> {
                 if (cate.equals("NotFound")) {
                     billInfo2.setCateName("其它");//设置自动分类
@@ -455,10 +439,7 @@ public class AutoFloat {
             mHandler3.sendMessage(message);
         });
 
-
         setVisible();
-
-
     }
 
 
@@ -552,14 +533,13 @@ public class AutoFloat {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     public void setCheckable(boolean check) {
-
-
+        //TODO 4.0新增 报销,此处需修改
         if (check) {
-            chip_bx.setText("报销");
+            chip_bx.setText(context.getString(R.string.bx));
             chip_bx.setBackground(getContext().getDrawable(R.drawable.btn_normal_1));
             chip_bx.setTextColor(getContext().getColor(R.color.background_white));
         } else {
-            chip_bx.setText("不报销");
+            chip_bx.setText(context.getString(R.string.n_bx));
             chip_bx.setBackground(getContext().getDrawable(R.drawable.btn_normal_2));
             chip_bx.setTextColor(getContext().getColor(R.color.button_go_setting_bg));
         }
@@ -567,7 +547,6 @@ public class AutoFloat {
 
     public interface InputData {
         void onClose();
-
         void onOK(String data);
     }
 }

@@ -332,5 +332,11 @@ public class localFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mHandler.removeCallbacksAndMessages(null);
+    }
+
 
 }

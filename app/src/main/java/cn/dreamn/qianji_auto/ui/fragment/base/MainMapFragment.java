@@ -234,4 +234,10 @@ public class MainMapFragment extends BaseFragment {
         });
         //  return null;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mHandler.removeCallbacksAndMessages(null);
+    }
 }

@@ -153,6 +153,7 @@ public class AutoFloatTip extends XFloatView {
     }
 
     public void setData(BillInfo billInfo) {
+        //TODO 4.0新增：多币种记账支持，此处预留修改位。
         billInfo2 = billInfo;
         money.setText(BillTools.getCustomBill(billInfo));
         money.setTextColor(BillTools.getColor(getContext(), billInfo));
@@ -161,7 +162,7 @@ public class AutoFloatTip extends XFloatView {
 
         time.setText(times);
 
-        countDownTimer = new CountDownTimer(timeCount * 1000, 1000) {
+        countDownTimer = new CountDownTimer(timeCount * 1000L, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 Log.i("倒计时：" + millisUntilFinished);

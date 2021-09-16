@@ -336,5 +336,10 @@ public class sortsFragment extends BaseFragment {
         categoryUtils.refreshData((state) -> HandlerUtil.send(mHandler, state));
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mHandler.removeCallbacksAndMessages(null);
+    }
 
 }
