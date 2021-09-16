@@ -70,7 +70,7 @@ public class Msg {
                     } else if (type == 318767153) {
                         utils.send(jsonObject);
                     } else {
-                        utils.log("微信数据【不确定是否要发送】：" + type + "\n \n" + contentValues.toString());
+                    //    utils.log("微信数据【不确定是否要发送】：" + type + "\n \n" + contentValues.toString());
                     }
 
                 } catch (Exception e) {
