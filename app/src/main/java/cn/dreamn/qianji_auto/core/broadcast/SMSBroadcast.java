@@ -17,11 +17,24 @@
 
 package cn.dreamn.qianji_auto.core.broadcast;
 
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.telephony.SmsMessage;
+
+import androidx.annotation.NonNull;
+
+import cn.dreamn.qianji_auto.bills.BillInfo;
+import cn.dreamn.qianji_auto.bills.SendDataToApp;
+import cn.dreamn.qianji_auto.database.Helper.AppDatas;
+import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 
 
 public class SMSBroadcast extends BroadcastReceiver {
@@ -45,22 +58,31 @@ public class SMSBroadcast extends BroadcastReceiver {
         // android.provider.Telephony.SMS_RECEIVED
         SmsMessage[] msgs = getMessageFromIntent(intent);
         //提取短信内容
-        /*if (msgs.length > 0) {
+        if (msgs.length > 0) {
             StringBuilder msg2 = new StringBuilder();
             String user = "";
             for (SmsMessage msg : msgs) {
                 user = msg.getDisplayOriginatingAddress();
                 msg2.append(msg.getDisplayMessageBody());
             }
+            String data = msg2.toString();
+            AppDatas.add("sms", user, data);
+            String finalUser = user;
+            Handler mHandler = new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(@NonNull Message msg) {
+                    BillInfo billInfo = (BillInfo) msg.obj;
+                    billInfo.setFromApp(finalUser);
+                    SendDataToApp.call(context, billInfo);
+                }
+            };
+            identifyRegulars.run("sms", user, data, billInfo -> {
+                if (billInfo != null) {
+                    HandlerUtil.send(mHandler, billInfo, HANDLE_OK);
+                }
 
-            Logs.i("短信", "--------收到短信-------\n" +
-                    "发件人是：" + user +
-                    "\n------短信内容-------\n" +
-                    msg2.toString() +
-                    "\n----------------------"
-            );
-            SmsServer.readSMS(msg2.toString(), context);
-        }*/
+            });
+        }
 
     }
 }
