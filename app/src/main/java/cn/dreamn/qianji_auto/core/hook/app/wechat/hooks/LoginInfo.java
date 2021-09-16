@@ -46,12 +46,17 @@ public class LoginInfo {
         String json = utils.readDataByApp("wechat", "red");
         try {
             JSONObject jsonObject = JSONObject.parseObject(json).getJSONObject("wechat");
-            if (jsonObject.containsKey(utils.getVerName()) && utils.readData("red").equals(jsonObject.getJSONObject(utils.getVerName()).getJSONObject("red").toJSONString())) {
-                JSONObject jsonObject1 = jsonObject.getJSONObject(utils.getVerName()).getJSONObject("red");
-                utils.writeData("red", jsonObject1.toJSONString());
-                utils.toast("自动记账：微信适配文件已加载！");
+
+            if (jsonObject.containsKey(utils.getVerName())) {
+                String jsData = jsonObject.getJSONObject(utils.getVerName()).getJSONObject("red").toJSONString();
+                if (!utils.readData("red").equals(jsData)) {
+                    utils.writeData("red", jsData);
+                    utils.toast("自动记账：微信适配文件已加载！");
+                    //不一样才需要加载
+                }
+
             } else {
-                utils.toast("自动记账：当前版本微信尚未适配！");
+                // utils.toast("自动记账：当前版本微信尚未适配！");
                 utils.log("当前版本微信尚未适配！");
             }
 
