@@ -179,6 +179,16 @@ public class AutoFloat {
         ll_account1.setOnClickListener(v -> {
             Log.m("账户1选择");
             Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, asset2s -> {
+                Assets.isInAsset2(billInfo2.getAccountName(), bool -> {
+                    if (!bool) {
+                        Assets.addMap(billInfo2.getAccountName(), asset2s.getString("name"), new Assets.whenFinish() {
+                            @Override
+                            public void onFinish() {
+
+                            }
+                        });
+                    }
+                });
                 billInfo2.setAccountName(asset2s.getString("name"));
                 mMainHandler.sendEmptyMessage(0);
             });
@@ -187,13 +197,36 @@ public class AutoFloat {
         ll_account2.setOnClickListener(v -> {
             Log.m("账户2选择");
             Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, asset2s -> {
+                Assets.isInAsset2(billInfo2.getAccountName2(), bool -> {
+                    if (!bool) {
+                        Assets.addMap(billInfo2.getAccountName2(), asset2s.getString("name"), new Assets.whenFinish() {
+                            @Override
+                            public void onFinish() {
+
+                            }
+                        });
+                    }
+                });
                 billInfo2.setAccountName2(asset2s.getString("name"));
                 mMainHandler.sendEmptyMessage(0);
             });
 
         });
+        layout_money.setOnClickListener(v -> {
+            input(getContext().getString(R.string.input_money), billInfo2.getMoney(), new InputData() {
+                @Override
+                public void onClose() {
+
+                }
+
+                @Override
+                public void onOK(String data) {
+                    billInfo2.setMoney(BillTools.getMoney(data));
+                }
+            });
+        });
         ll_fee.setOnClickListener(v -> {
-            input("请输入手续费", billInfo2.getFee(), new InputData() {
+            input(getContext().getString(R.string.input_fee), billInfo2.getFee(), new InputData() {
                 @Override
                 public void onClose() {
 

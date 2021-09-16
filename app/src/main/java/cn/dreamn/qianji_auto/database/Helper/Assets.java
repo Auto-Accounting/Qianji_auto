@@ -58,21 +58,35 @@ public class Assets {
     public interface getAssets2Strings{
         void onGet(String[] asset2s);
     }
-    public interface getAssets2String{
+
+    public interface getAssets2String {
         void onGet(String asset2s);
     }
-    public interface getAssets2Bundle{
+
+    public interface getAssets2Bundle {
         void onGet(Bundle[] asset2s);
     }
-    public interface whenFinish{
+
+    public interface whenFinish {
         void onFinish();
     }
+
+    public static void isInAsset2(String string, isIn get) {
+        Task.onThread(() -> {
+            Asset2[] asset2s = DbManger.db.Asset2Dao().get(string);
+            if (asset2s == null || asset2s.length == 0) {
+                get.in(false);
+            }
+            get.in(true);
+        });
+    }
+
     public static void getAllAccount(getAssets2 getAsset) {
-        Task.onThread(()-> getAsset.onGet(DbManger.db.Asset2Dao().getAll()));
+        Task.onThread(() -> getAsset.onGet(DbManger.db.Asset2Dao().getAll()));
     }
 
     public static void getAllAccountName(getAssets2Strings getAssets) {
-        Task.onThread(()-> {
+        Task.onThread(() -> {
             Asset2[] assets = DbManger.db.Asset2Dao().getAll();
             if (assets.length <= 0) {
                 getAssets.onGet(null);
@@ -95,25 +109,33 @@ public class Assets {
         }
 
         ArrayList<Bundle> bundleArrayList = new ArrayList<>();
-        for (Asset2 asset : assets) {
-            Bundle bundle = new Bundle();
-            bundle.putInt("id", asset.id);
-            bundle.putString("name", asset.name);
-            bundle.putString("icon", asset.icon);
-            bundleArrayList.add(bundle);
-        }
-        getAsset.onGet(bundleArrayList.toArray(new Bundle[0]));
+            for (Asset2 asset : assets) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", asset.id);
+                bundle.putString("name", asset.name);
+                bundle.putString("icon", asset.icon);
+                bundleArrayList.add(bundle);
+            }
+            getAsset.onGet(bundleArrayList.toArray(new Bundle[0]));
         });
     }
 
-    public static void getPic(String name,getAssets2String getAssets) {
-        Task.onThread(()-> {
-        Asset2[] asset2s =  DbManger.db.Asset2Dao().get(name);
-        if (asset2s != null && asset2s.length != 0){
-            getAssets.onGet(asset2s[0].icon);
-            return;
-        }
-        getAssets.onGet("https://pic.dreamn.cn/uPic/2021032022075916162492791616249279427UY2ok6支付.png");
+    public static void addAsset(String assetName, whenFinish finish) {
+        Task.onThread(() -> {
+
+            DbManger.db.Asset2Dao().add(assetName);
+            finish.onFinish();
+        });
+    }
+
+    public static void getPic(String name, getAssets2String getAssets) {
+        Task.onThread(() -> {
+            Asset2[] asset2s = DbManger.db.Asset2Dao().get(name);
+            if (asset2s != null && asset2s.length != 0) {
+                getAssets.onGet(asset2s[0].icon);
+                return;
+            }
+            getAssets.onGet("https://pic.dreamn.cn/uPic/2021032022075916162492791616249279427UY2ok6支付.png");
         });
     }
 
@@ -159,10 +181,11 @@ public class Assets {
         });
     }
 
-    public static void addAsset(String assetName,whenFinish finish) {
-        Task.onThread(()-> {
-            DbManger.db.Asset2Dao().add(assetName);
-            finish.onFinish();
+    public static void addMap(String assetName, String mapName, whenFinish when) {
+        Task.onThread(() -> {
+            DbManger.db.AssetDao().del(assetName);//删掉已有的，再添加没有的
+            DbManger.db.AssetDao().add(assetName, mapName);
+            when.onFinish();
         });
     }
 
@@ -191,22 +214,11 @@ public class Assets {
         });
     }
 
-    public static void addMap(String assetName, String mapName,whenFinish when) {
-        Task.onThread(()-> {
-            DbManger.db.AssetDao().add(assetName, mapName);
-            when.onFinish();
-        });
-    }
-
-    public static void updMap(int id, String assetName, String mapName) {
-        Task.onThread(()-> DbManger.db.AssetDao().update(id, assetName, mapName));
-    }
-
     public static void getMap(String assetName,getAssets2String getAssets) {
         Log.m("获取map" + assetName);
         Task.onThread(() -> {
             if (assetName == null) {
-                getAssets.onGet(assetName);
+                getAssets.onGet("");
                 return;
             }
             Asset[] assets = DbManger.db.AssetDao().get(assetName);
@@ -216,23 +228,23 @@ public class Assets {
             }
             //没有资产创造资产
             if (assets.length <= 0) {
-                DbManger.db.AssetDao().add(assetName, assetName);
+                //  DbManger.db.AssetDao().add(assetName, assetName);
                 getAssets.onGet(assetName);
                 return;
             }
-            String mapName=assets[0].mapName;
-            if(mapName==null){
+            String mapName = assets[0].mapName;
+            if (mapName == null) {
                 getAssets.onGet(assetName);
-            }else getAssets.onGet(mapName);
+            } else getAssets.onGet(mapName);
         });
 
     }
 
-    public static void setSort(int id, int fromPosition) {
-        Task.onThread(()-> DbManger.db.Asset2Dao().setSort(id, fromPosition));
+    public static void updMap(int id, String assetName, String mapName) {
+        Task.onThread(() -> DbManger.db.AssetDao().update(id, assetName, mapName));
     }
 
-    public static void showAssetSelect(Context context, String title,boolean isFloat, getAssetOne getOne ) {
+    public static void showAssetSelect(Context context, String title, boolean isFloat, getAssetOne getOne) {
 
         LayoutInflater factory = LayoutInflater.from(context);
         final View textEntryView = factory.inflate(R.layout.include_list_data, null);
@@ -246,7 +258,7 @@ public class Assets {
             public void handleMessage(Message msg) {
                 Bundle[] assets=(Bundle[])msg.obj;
                 if(assets==null){
-                    ToastUtils.show("请先添加资产！");
+                    ToastUtils.show(R.string.no_assets);
                     return;
                 }
                 DataSelectListAdapter adapter = new DataSelectListAdapter(context,assets);//listdata和str均可
@@ -276,13 +288,19 @@ public class Assets {
         };
 
         getAllIcon(asset2s -> {
-            Message message=new Message();
-            message.obj=asset2s;
+            Message message = new Message();
+            message.obj = asset2s;
             mHandler.sendMessage(message);
         });
 
 
+    }
 
+    public static void setSort(int id, int fromPosition) {
+        Task.onThread(() -> DbManger.db.Asset2Dao().setSort(id, fromPosition));
+    }
 
+    public interface isIn {
+        void in(boolean isIn);
     }
 }

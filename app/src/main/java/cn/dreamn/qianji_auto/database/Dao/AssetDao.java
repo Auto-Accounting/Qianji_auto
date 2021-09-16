@@ -36,6 +36,9 @@ public interface AssetDao {
     @Query("DELETE FROM asset WHERE id=:id")
     void del(int id);
 
+    @Query("DELETE FROM asset WHERE name=:name")
+    void del(String name);
+
     @Query("INSERT INTO asset(name,mapName) values(:name,:mapName)")
     void add(String name, String mapName);
 

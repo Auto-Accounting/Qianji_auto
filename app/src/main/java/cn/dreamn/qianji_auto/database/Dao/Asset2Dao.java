@@ -37,6 +37,7 @@ public interface Asset2Dao {
     @Query("DELETE FROM asset2 WHERE id=:id")
     void del(int id);
 
+
     @Query("INSERT INTO asset2(name,icon,sort) values(:name,:icon,:sort)")
     void add(String name, String icon, int sort);
 

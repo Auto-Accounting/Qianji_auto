@@ -418,4 +418,7 @@
     <string name="float_transfer">转账</string>
     <string name="float_pay_for">信用还款</string>
     <string name="select_remark">请输入备注信息</string>
+    <string name="input_money">请输入金额</string>
+    <string name="input_fee">请输入手续费</string>
+    <string name="no_assets">请先添加资产！</string>
 </resources>
