@@ -92,7 +92,7 @@ public class localFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        mHandler.sendEmptyMessage(HANDLE_REFRESH);
+        loadFromData();
     }
 
     @Override
@@ -222,7 +222,6 @@ public class localFragment extends BaseFragment {
 
         });// 监听拖拽，更新UI。
         refreshLayout.setEnableRefresh(true);
-        loadFromData();
     }
 
     @SuppressLint("CheckResult")

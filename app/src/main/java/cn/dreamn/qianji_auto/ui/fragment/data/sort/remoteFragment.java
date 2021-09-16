@@ -69,28 +69,7 @@ public class remoteFragment extends BaseFragment {
     private RemoteSortListAdapter mAdapter;
     private List<Bundle> list;
     LoadingDialog loadingDialog;
-    Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case HANDLE_ERR:
-                    statusView.showEmptyView();
-                    break;
-                case HANDLE_OK:
-                    mAdapter.refresh(list);
-                    statusView.showContentView();
-                    break;
-                case HANDLE_REFRESH:
-                    loadFromData();
-                    break;
-
-            }
-            String d = (String) msg.obj;
-            if ((d != null && !d.equals("")))
-                ToastUtils.show(d);
-
-        }
-    };
+    Handler mHandler;
 
     @Override
     protected int getLayoutId() {
@@ -99,7 +78,28 @@ public class remoteFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
+        mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case HANDLE_ERR:
+                        statusView.showEmptyView();
+                        break;
+                    case HANDLE_OK:
+                        mAdapter.refresh(list);
+                        statusView.showContentView();
+                        break;
+                    case HANDLE_REFRESH:
+                        loadFromData();
+                        break;
 
+                }
+                String d = (String) msg.obj;
+                if ((d != null && !d.equals("")))
+                    ToastUtils.show(d);
+
+            }
+        };
         statusView.setEmptyView(R.layout.fragment_empty_view);
         statusView.setLoadingView(R.layout.fragment_loading_view);
 
@@ -111,7 +111,6 @@ public class remoteFragment extends BaseFragment {
             lv_circularring.startAnim();
             viewHolder.setText(R.id.loading_text, getString(R.string.main_loading));
         });
-        statusView.showLoadingView();
         initLayout();
     }
 
@@ -186,11 +185,12 @@ public class remoteFragment extends BaseFragment {
             }
         });
         refreshLayout.setEnableRefresh(true);
-        loadFromData();
+
     }
 
 
     public void loadFromData() {
+        statusView.showLoadingView();
         AutoBillWeb.getCategoryList(new AutoBillWeb.WebCallback() {
             @Override
             public void onFailure() {
@@ -221,5 +221,9 @@ public class remoteFragment extends BaseFragment {
         });
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadFromData();
+    }
 }

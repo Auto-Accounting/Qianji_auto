@@ -46,7 +46,7 @@ import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.ui.adapter.BookListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.IconView;
-import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
+import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
@@ -67,37 +67,37 @@ public class bookFragment extends BaseFragment {
     private List<Bundle> list;
 
 
-    LoadingDialog loadingDialog;
 
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_main_base_cards_page;
     }
 
-    Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case HANDLE_ERR:
-                    statusView.showEmptyView();
-                    break;
-                case HANDLE_OK:
-                    mAdapter.refresh(list);
-                    statusView.showContentView();
-                    break;
-                case HANDLE_REFRESH:
-                    loadFromData();
-                    break;
-            }
-            String d = (String) msg.obj;
-            if ((d != null && !d.equals("")))
-                ToastUtils.show(d);
-            if (loadingDialog != null) loadingDialog.close();
-        }
-    };
+    Handler mHandler;
 
     @Override
     protected void initViews() {
+        mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case HANDLE_ERR:
+                        statusView.showEmptyView();
+                        break;
+                    case HANDLE_OK:
+                        mAdapter.refresh(list);
+                        statusView.showContentView();
+                        break;
+                    case HANDLE_REFRESH:
+                        loadFromData();
+                        break;
+                }
+                String d = (String) msg.obj;
+                if ((d != null && !d.equals("")))
+                    ToastUtils.show(d);
+
+            }
+        };
         statusView.setEmptyView(R.layout.fragment_empty_view);
         statusView.setLoadingView(R.layout.fragment_loading_view);
 
@@ -105,8 +105,9 @@ public class bookFragment extends BaseFragment {
             viewHolder.setText(R.id.empty_info, getString(R.string.empty_book));
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-            loadingDialog = new LoadingDialog(getAttachContext(), getString(R.string.main_loading));
-            loadingDialog.show();
+            LVCircularRing lv_circularring = viewHolder.getView(R.id.lv_circularring);
+            lv_circularring.startAnim();
+            viewHolder.setText(R.id.loading_text, getString(R.string.main_loading));
         });
         initLayout();
     }
@@ -144,7 +145,7 @@ public class bookFragment extends BaseFragment {
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this::OnItemClickListen);
         refreshLayout.setEnableRefresh(true);
-        loadFromData();
+
     }
     @SuppressLint("CheckResult")
     private void OnItemClickListen(View view, int position) {
@@ -217,9 +218,9 @@ public class bookFragment extends BaseFragment {
     }
 
 
-
-
-
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadFromData();
+    }
 }

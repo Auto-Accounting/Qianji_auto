@@ -45,6 +45,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.CategoryUtils;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
@@ -85,9 +86,7 @@ public class sortsFragment extends BaseFragment {
         this.type = type;
     }
 
-    public void setObj(sortsFragment other){
-        this.other=other;
-    }
+    Handler mHandler;
 
     public void setBook(Bundle bookData) {
         this.book = bookData;
@@ -95,45 +94,54 @@ public class sortsFragment extends BaseFragment {
         refreshData(book.getString("book_id"), -2);
     }
 
+    public void setObj(sortsFragment other) {
+        this.other = other;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshData();
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_select_category;
     }
 
-    Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-
-            switch (msg.what) {
-                case HANDLE_ERR:
-                    statusView.showEmptyView();
-                    break;
-                case HANDLE_OK:
-                    //mAdapter.refresh(list);
-                    statusView.showContentView();
-                    break;
-                case HANDLE_REFRESH:
-                    refreshData(book.getString("book_id"), msg.arg1);
-                    statusView.showContentView();
-                    break;
-            }
-            String d = (String) msg.obj;
-            if ((d != null && !d.equals("")))
-                ToastUtils.show(d);
-        }
-    };
-
     @Override
     protected void initViews() {
+        mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+
+                switch (msg.what) {
+                    case HANDLE_ERR:
+                        statusView.showEmptyView();
+                        break;
+                    case HANDLE_OK:
+                        //mAdapter.refresh(list);
+                        statusView.showContentView();
+                        break;
+                    case HANDLE_REFRESH:
+                        refreshData(book.getString("book_id"), msg.arg1);
+                        statusView.showContentView();
+                        break;
+                }
+                String d = (String) msg.obj;
+                if ((d != null && !d.equals("")))
+                    ToastUtils.show(d);
+            }
+        };
         setSwitchData();
         statusView.setEmptyView(R.layout.fragment_empty_view);
         statusView.setLoadingView(R.layout.fragment_loading_view);
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, getString(R.string.sort_empty)));
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
+            LVCircularRing lv_circularring = viewHolder.getView(R.id.lv_circularring);
+            lv_circularring.startAnim();
             viewHolder.setText(R.id.loading_text, getString(R.string.main_loading));
-            //   LVCircularRing mLoadingView = viewHolder.getView(R.id.lv_circularring);
-            //  mLoadingView.startAnim();
         });
 
         view_hide.setVisibility(View.GONE);
@@ -200,7 +208,7 @@ public class sortsFragment extends BaseFragment {
     private void initLayout() {
         categoryUtils = new CategoryUtils(recyclerView, book.getString("book_id"), type, getContext(), true);
         categoryUtils.show();
-        refreshData();
+
         categoryUtils.setOnClick(new CategoryUtils.Click() {
             @Override
             public void onParentClick(Bundle bundle, int position) {
@@ -326,7 +334,6 @@ public class sortsFragment extends BaseFragment {
     private void refreshData() {
         statusView.showLoadingView();
         categoryUtils.refreshData((state) -> HandlerUtil.send(mHandler, state));
-
     }
 
 

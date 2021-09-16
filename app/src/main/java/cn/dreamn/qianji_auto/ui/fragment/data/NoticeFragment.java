@@ -54,7 +54,7 @@ import cn.dreamn.qianji_auto.database.Helper.AppDatas;
 import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.adapter.ItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
+import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.components.TitleBar;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
@@ -80,28 +80,7 @@ public class NoticeFragment extends BaseFragment {
     StatusView statusView;
     private ItemListAdapter mAdapter;
     private List<Bundle> list;
-    LoadingDialog loadingDialog;
-    Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case HANDLE_ERR:
-                    statusView.showEmptyView();
-                    break;
-                case HANDLE_OK:
-                    mAdapter.refresh(list);
-                    statusView.showContentView();
-                    break;
-                case HANDLE_REFRESH:
-                    loadFromData();
-                    break;
-            }
-            String d = (String) msg.obj;
-            if ((d != null && !d.equals("")))
-                ToastUtils.show(d);
-            if (loadingDialog != null) loadingDialog.close();
-        }
-    };
+    Handler mHandler;
 
     public static void openWithType(BaseFragment baseFragment, String type) {
         //sms notice app
@@ -130,7 +109,26 @@ public class NoticeFragment extends BaseFragment {
     @SuppressLint("SetTextI18n")
     @Override
     protected void initViews() {
-
+        mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case HANDLE_ERR:
+                        statusView.showEmptyView();
+                        break;
+                    case HANDLE_OK:
+                        mAdapter.refresh(list);
+                        statusView.showContentView();
+                        break;
+                    case HANDLE_REFRESH:
+                        loadFromData();
+                        break;
+                }
+                String d = (String) msg.obj;
+                if ((d != null && !d.equals("")))
+                    ToastUtils.show(d);
+            }
+        };
         switch (getType()) {
             case "sms":
                 title_bar.setTitle(getString(R.string.list_sms));
@@ -152,8 +150,9 @@ public class NoticeFragment extends BaseFragment {
 
         statusView.setOnEmptyViewConvertListener(viewHolder -> viewHolder.setText(R.id.empty_info, getString(R.string.notice_empty)));
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
-            loadingDialog = new LoadingDialog(getAttachContext(), getString(R.string.main_loading));
-            loadingDialog.show();
+            LVCircularRing lv_circularring = viewHolder.getView(R.id.lv_circularring);
+            lv_circularring.startAnim();
+            viewHolder.setText(R.id.loading_text, getString(R.string.main_loading));
         });
 
         statusView.showLoadingView();
@@ -167,7 +166,6 @@ public class NoticeFragment extends BaseFragment {
         recycler_view.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this::itemClick);
         refreshLayout.setEnableRefresh(true);
-        loadFromData();
     }
 
     @SuppressLint("CheckResult")
@@ -230,6 +228,7 @@ public class NoticeFragment extends BaseFragment {
     }
 
     private void loadFromData() {
+        statusView.showLoadingView();
         Task.onThread(() -> {
             AppDatas.getAll(getType(), datas -> {
                 if (datas == null || datas.size() == 0) {
@@ -269,7 +268,7 @@ public class NoticeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        loadFromData();
     }
 
     @Override

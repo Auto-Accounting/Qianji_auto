@@ -52,6 +52,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
@@ -82,27 +83,7 @@ public class localFragment extends BaseFragment {
     FloatingActionButton action_delAll;
     private CateItemListAdapter mAdapter;
     private List<Bundle> list;
-    Handler mHandler = new Handler(Looper.getMainLooper()) {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case HANDLE_ERR:
-                    statusView.showEmptyView();
-                    break;
-                case HANDLE_OK:
-                    mAdapter.refresh(list);
-                    statusView.showContentView();
-                    break;
-                case HANDLE_REFRESH:
-                    loadFromData();
-                    break;
-
-            }
-            String d = (String) msg.obj;
-            if ((d != null && !d.equals("")))
-                ToastUtils.show(d);
-        }
-    };
+    Handler mHandler;
 
     public localFragment(String type) {
         this.type = type;
@@ -128,11 +109,32 @@ public class localFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        HandlerUtil.send(mHandler, HANDLE_REFRESH);
+        loadFromData();
     }
 
     @Override
     protected void initViews() {
+        mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case HANDLE_ERR:
+                        statusView.showEmptyView();
+                        break;
+                    case HANDLE_OK:
+                        mAdapter.refresh(list);
+                        statusView.showContentView();
+                        break;
+                    case HANDLE_REFRESH:
+                        loadFromData();
+                        break;
+
+                }
+                String d = (String) msg.obj;
+                if ((d != null && !d.equals("")))
+                    ToastUtils.show(d);
+            }
+        };
         statusView.setEmptyView(R.layout.fragment_empty_view);
         statusView.setLoadingView(R.layout.fragment_loading_view);
 
@@ -140,6 +142,8 @@ public class localFragment extends BaseFragment {
             viewHolder.setText(R.id.empty_info, String.format(getString(R.string.no_regular), getName()));
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
+            LVCircularRing lv_circularring = viewHolder.getView(R.id.lv_circularring);
+            lv_circularring.startAnim();
             viewHolder.setText(R.id.loading_text, getString(R.string.main_loading));
         });
         initLayout();
@@ -228,7 +232,7 @@ public class localFragment extends BaseFragment {
 
         });// 监听拖拽，更新UI。
         refreshLayout.setEnableRefresh(true);
-        loadFromData();
+
     }
 
     @SuppressLint("CheckResult")
