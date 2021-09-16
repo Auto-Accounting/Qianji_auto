@@ -265,7 +265,7 @@ public class BackUpFragment extends BaseFragment {
 
         rl_restore_webdav.setOnClickListener(v -> {
             BackupManager.init(getContext());
-            final LoadingDialog[] dialog = {new LoadingDialog(getContext(), getString(R.string.main_loading))};
+            final LoadingDialog[] dialog = {new LoadingDialog(getContext(), getString(R.string.restore_loading))};
             Handler mHandler = new Handler(Looper.getMainLooper()) {
                 @SuppressLint("CheckResult")
                 @Override

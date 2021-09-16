@@ -4,8 +4,13 @@ plugins {
 apply plugin: 'kotlin-android'
 
 static def releaseTime() {
-    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+    return new Date().format("yyyy-MM-dd")
 }
+
+static def releaseTimeMin() {
+    return new Date().format("HH_mm_ss")
+}
+
 android {
     compileSdkVersion 31
     defaultConfig {
@@ -13,13 +18,14 @@ android {
         minSdkVersion 24
         targetSdkVersion 31
         versionCode 118
-        versionName "涅槃 3.0.0 alpha16"
+        versionName "涅槃 3.0.0 ${releaseTimeMin()}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
             setAbiFilters(['armeabi-v7a'])
         }
     }
+
 
     buildTypes {
         release {

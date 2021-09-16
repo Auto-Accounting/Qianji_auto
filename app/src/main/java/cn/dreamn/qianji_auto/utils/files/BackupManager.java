@@ -33,7 +33,7 @@ public class BackupManager {
     private static String CACHE_PATH;
 
     public static void init(Context context) {
-        CACHE_PATH = context.getExternalCacheDir().getPath() + "/backups";
+        CACHE_PATH = context.getExternalCacheDir().getPath() + "/backups/";
         FileUtils.makeRootDirectory(CACHE_PATH);
     }
 
@@ -148,6 +148,8 @@ public class BackupManager {
 
     public static void restoreFromLocal(String filePath, Context context, Handler mHandler) {
         String fileName = CACHE_PATH + FileUtils.getFileName(filePath);
+        Log.i("原始文件：" + filePath);
+        Log.i("文件：" + fileName);
         FileUtils.copyFile(filePath, fileName);//从外部拷贝到内部
         String data = restoreFromCache(context, fileName);
 

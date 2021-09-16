@@ -406,4 +406,5 @@
     <string name="set_book">记账功能</string>
     <string name="set_float">悬浮窗功能</string>
     <string name="restore_auto">恢复配置</string>
+    <string name="restore_loading">数据恢复中...</string>
 </resources>

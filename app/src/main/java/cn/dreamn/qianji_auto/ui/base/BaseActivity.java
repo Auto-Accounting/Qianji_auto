@@ -67,13 +67,12 @@ public class BaseActivity extends XPageActivity {
         return (T) openPage(page);
     }
 
-    public <T extends XPageFragment> T openNewPage(Class<T> clazz, String str) {
-        Bundle bundle = new Bundle();
-        bundle.putString("str", str);
+    public <T extends XPageFragment> T openNewPage(Class<T> clazz, Bundle u) {
         CoreSwitchBean page = new CoreSwitchBean(clazz)
-                .setNewActivity(true).setBundle(bundle);
+                .setNewActivity(true).setBundle(u);
         return (T) openPage(page);
     }
+
 
     /**
      * 切换fragment

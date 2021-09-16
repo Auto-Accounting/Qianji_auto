@@ -49,6 +49,7 @@ import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.IconView;
+import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.fragment.about.AboutFragment;
 import cn.dreamn.qianji_auto.ui.fragment.about.BackUpFragment;
 import cn.dreamn.qianji_auto.ui.fragment.base.MainMapFragment;
@@ -65,6 +66,9 @@ import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
+import cn.dreamn.qianji_auto.utils.files.BackupManager;
+import cn.dreamn.qianji_auto.utils.files.FileUtils;
+import cn.dreamn.qianji_auto.utils.files.RegularManager;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 
@@ -159,13 +163,62 @@ public class MainFragment extends BaseFragment {
     @BindView(R.id.view_headImg)
     View view_headImg;
 
+    LoadingDialog loadingDialog;
+
     private void restore() {
+        // Intent intent = getActivity().getIntent();
         Bundle bundle = getArguments();
+        setArguments(null);
+        //Bundle bundle = intent.getExtras();
         if (bundle == null) return;
-        String str = bundle.getString("str");
+        Log.i("Bundle数据：" + bundle.toString());
+        String str = bundle.getString("url");
         if (str != null) {
             Log.i("恢复路径：" + str);
-            //TODO 需要调试才能进行下一步恢复操作
+            if (str.endsWith("auto.backup")) {
+                loadingDialog = new LoadingDialog(getContext(), getString(R.string.restore_loading));
+                loadingDialog.show();
+                BackupManager.init(getContext());
+                BackupManager.restoreFromLocal(str, getContext(), new Handler(Looper.getMainLooper()) {
+                    @Override
+                    public void handleMessage(@NonNull Message msg) {
+                        loadingDialog.close();
+                        if (msg.what == 0) {
+                            ToastUtils.show(R.string.restore_success);
+                        } else {
+                            ToastUtils.show(R.string.restore_error);
+                        }
+                    }
+                });
+            } else if (str.endsWith(".backup_category_ankio")) {
+                RegularManager.restoreFromData(getContext(), "", "category", FileUtils.get(str), new RegularManager.End() {
+                    @Override
+                    public void onFinish(int code) {
+
+                    }
+                });
+            } else if (str.endsWith(".backup_app_ankio")) {
+                RegularManager.restoreFromData(getContext(), "", "app", FileUtils.get(str), new RegularManager.End() {
+                    @Override
+                    public void onFinish(int code) {
+
+                    }
+                });
+            } else if (str.endsWith(".backup_sms_ankio")) {
+                RegularManager.restoreFromData(getContext(), "", "sms", FileUtils.get(str), new RegularManager.End() {
+                    @Override
+                    public void onFinish(int code) {
+
+                    }
+                });
+            } else if (str.endsWith(".backup_notice_ankio")) {
+                RegularManager.restoreFromData(getContext(), "", "notice", FileUtils.get(str), new RegularManager.End() {
+                    @Override
+                    public void onFinish(int code) {
+
+                    }
+                });
+            }
         }
     }
 
@@ -184,6 +237,7 @@ public class MainFragment extends BaseFragment {
         app_log.setText(BuildConfig.VERSION_NAME);
         AutoBillWeb.update(getContext());
         getWechat();
+
     }
 
     private void getWechat() {
@@ -211,6 +265,7 @@ public class MainFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         setActive();
+        restore();
     }
 
     @Override

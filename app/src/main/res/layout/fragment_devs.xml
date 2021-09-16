@@ -38,19 +38,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:background="@color/background_white"
-                android:backgroundTint="@color/background_white"
+                android:background="@drawable/btn_normal_4"
                 android:gravity="center_vertical"
                 android:padding="10dp">
 
                 <com.github.xiaofeidev.round.RoundImageView
-                    app:rd_radius="50dp"
                     android:id="@+id/imageView4"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_centerVertical="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/head_ankio"
+                    app:rd_radius="50dp"
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <LinearLayout
@@ -95,19 +94,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:background="@color/background_white"
-                android:backgroundTint="@color/background_white"
+                android:background="@drawable/btn_normal_4"
                 android:gravity="center_vertical"
                 android:padding="10dp">
 
                 <com.github.xiaofeidev.round.RoundImageView
-                    app:rd_radius="50dp"
                     android:id="@+id/iv_5"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_centerVertical="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/head_3"
+                    app:rd_radius="50dp"
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <LinearLayout
@@ -153,19 +151,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:background="@color/background_white"
-                android:backgroundTint="@color/background_white"
+                android:background="@drawable/btn_normal_4"
                 android:gravity="center_vertical"
                 android:padding="10dp">
 
                 <com.github.xiaofeidev.round.RoundImageView
-                    app:rd_radius="50dp"
                     android:id="@+id/iv_66"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_centerVertical="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/head_4"
+                    app:rd_radius="50dp"
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <LinearLayout
@@ -210,19 +207,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:background="@color/background_white"
-                android:backgroundTint="@color/background_white"
+                android:background="@drawable/btn_normal_4"
                 android:gravity="center_vertical"
                 android:padding="10dp">
 
                 <com.github.xiaofeidev.round.RoundImageView
-                    app:rd_radius="50dp"
                     android:id="@+id/iv_55"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_centerVertical="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/head_5"
+                    app:rd_radius="50dp"
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <LinearLayout
@@ -269,8 +265,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:background="@color/background_white"
-                android:backgroundTint="@color/background_white"
+                android:background="@drawable/btn_normal_4"
                 android:gravity="center_vertical"
                 android:padding="10dp">
 
@@ -328,8 +323,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:background="@color/background_white"
-                android:backgroundTint="@color/background_white"
+                android:background="@drawable/btn_normal_4"
                 android:gravity="center_vertical"
                 android:padding="10dp">
 
