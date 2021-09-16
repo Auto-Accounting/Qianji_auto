@@ -84,6 +84,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         }
 
         ex.printStackTrace();
+
         StringBuilder errorInfo = new StringBuilder("verCode:" + BuildConfig.VERSION_NAME + "\n");
         errorInfo.append("\nerror:\n").append(ex.getMessage()).append("\n");
         errorInfo.append("\nstackTrace:\n");

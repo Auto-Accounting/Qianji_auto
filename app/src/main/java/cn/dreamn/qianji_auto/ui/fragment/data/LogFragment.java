@@ -35,11 +35,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.hjq.toast.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 import com.shehuan.statusview.StatusView;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.yanzhenjie.recyclerview.OnItemClickListener;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.Arrays;
@@ -229,10 +229,10 @@ public class LogFragment extends BaseFragment {
         recyclerView.setAdapter(mAdapter);
 
         refreshLayout.setEnableRefresh(true);
-        recyclerView.setOnItemClickListener(new OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new SmartViewHolder.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int adapterPosition) {
-                Bundle bundle = list.get(adapterPosition);
+            public void onItemClick(View itemView, int position) {
+                Bundle bundle = list.get(position);
                 String str = bundle.getString("title");
                 Tool.clipboard(getContext(), str);
                 ToastUtils.show(R.string.copied);

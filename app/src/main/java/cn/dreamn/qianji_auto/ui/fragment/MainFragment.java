@@ -69,6 +69,7 @@ import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.files.BackupManager;
 import cn.dreamn.qianji_auto.utils.files.FileUtils;
 import cn.dreamn.qianji_auto.utils.files.RegularManager;
+import cn.dreamn.qianji_auto.utils.runUtils.Data;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 
@@ -237,7 +238,7 @@ public class MainFragment extends BaseFragment {
         app_log.setText(BuildConfig.VERSION_NAME);
         AutoBillWeb.update(getContext());
         getWechat();
-
+        Data.init(getContext());
     }
 
     private void getWechat() {
@@ -282,8 +283,8 @@ public class MainFragment extends BaseFragment {
                 HandlerUtil.send(mHandler, HandlerUtil.HANDLE_OK);
             });
         });
-        mode_select1.setOnClickListener(v -> openNewPage(MainModeFragment.class));
-        mode_select2.setOnClickListener(v -> openNewPage(MonitorFragment.class));
+        mode_select1.setOnClickListener(v -> openNewPage(MonitorFragment.class));
+        mode_select2.setOnClickListener(v -> openNewPage(MainModeFragment.class));
         initGridLayout();
     }
 
@@ -291,7 +292,7 @@ public class MainFragment extends BaseFragment {
 
     private void setActive() {
 
-        if (AppStatus.getActiveMode().equals("xposed")) {
+        if (AppStatus.isActive(getContext())) {
             mode_select2.setBackgroundColor(ThemeManager.getColor(getActivity(), R.color.button_go_setting_bg));
             mode_select2.setBackgroundTintList(ColorStateList.valueOf(ThemeManager.getColor(getActivity(), R.color.button_go_setting_bg)));
             active_status.setText(String.format(getString(R.string.active_true), AppStatus.getFrameWork(getContext())));

@@ -21,11 +21,10 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.hjq.toast.ToastUtils;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.yanzhenjie.recyclerview.OnItemClickListener;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
@@ -48,10 +47,6 @@ public class MonitorFragment extends BaseFragment implements TextWatcher {
     TextView search_et_input;
     @BindView(R.id.status)
     StatusView statusView;
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout refreshLayout;
-    @BindView(R.id.tv_tip)
-    TextView tv_tip;
     @BindView(R.id.recycler_view)
     SwipeRecyclerView recycler_view;
     Handler mHandler;
@@ -103,28 +98,29 @@ public class MonitorFragment extends BaseFragment implements TextWatcher {
         LinearLayoutManager linearLayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recycler_view.setLayoutManager(linearLayout);
         recycler_view.setAdapter(mAdapter);
-        recycler_view.setOnItemClickListener(new OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new SmartViewHolder.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int adapterPosition) {
-                Bundle bundle = list.get(adapterPosition);
+            public void onItemClick(View itemView, int position) {
+                Bundle bundle = list.get(position);
 
                 SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(getContext(), "apps", Context.MODE_PRIVATE);
                 String[] apps = sharedPreferences.getString("apps", "").split(",");
                 List<String> list2 = Arrays.asList(apps);
+                List<String> arrList = new ArrayList(list2);
                 if (bundle.getBoolean("checked")) {
                     bundle.putBoolean("checked", false);
-                    list2.remove(bundle.getString("pkg"));
+                    arrList.remove(bundle.getString("pkg"));
                 } else {
-                    list2.add(bundle.getString("pkg"));
-                    bundle.putBoolean("checked", false);
+                    bundle.putBoolean("checked", true);
+                    arrList.add(bundle.getString("pkg"));
                 }
                 StringBuilder ss = new StringBuilder();
-                for (String s : list2) {
+                for (String s : arrList) {
                     ss.append(s).append(",");
                 }
-                sharedPreferences.edit().putString("apps", ss.substring(-1)).apply();
-                mAdapter.replace(adapterPosition, bundle);
-                mAdapter.notifyItemChanged(adapterPosition);
+                sharedPreferences.edit().putString("apps", ss.toString()).apply();
+                mAdapter.replace(position, bundle);
+                mAdapter.notifyItemChanged(position);
             }
         });
     }
@@ -195,5 +191,17 @@ public class MonitorFragment extends BaseFragment implements TextWatcher {
             }
         }
         return flag;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadFromData();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mHandler.removeCallbacksAndMessages(null);
     }
 }

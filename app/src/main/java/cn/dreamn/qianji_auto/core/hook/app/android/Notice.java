@@ -23,6 +23,7 @@ import android.os.Bundle;
 import java.util.Arrays;
 
 import cn.dreamn.qianji_auto.core.hook.HookBase;
+import cn.dreamn.qianji_auto.utils.runUtils.Cmd;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -52,11 +53,21 @@ public class Notice extends HookBase {
                         utils.log("methodHookParam.args:  " + Arrays.toString(param.args));
                         //通过param拿到第三个入参notification对象
                         Notification notification = (Notification) param.args[2];
+
                         //获得包名
                         String aPackage = notification.contentView.getPackage();
                         Bundle bundle = notification.extras;
                         String title = (String) bundle.get("android.title");
                         String text = (String) bundle.get("android.text");
+                        utils.log(bundle.toString());
+                        //收到支付宝支付通知后,自动拉起支付宝
+                        if (aPackage.contains("com.eg.android.AlipayGphone")) {
+                            Cmd.exec(new String[]{
+                                    "am force-stop com.eg.android.AlipayGphone",
+                                    "sleep 1",
+                                    "am start -n com.eg.android.AlipayGphone/com.eg.android.AlipayGphone.AlipayLogin"
+                            });
+                        }
                         utils.log("loadpackage" + aPackage);
                         utils.log("tickerText" + notification.tickerText.toString());
                         utils.log("title" + title);
