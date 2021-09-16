@@ -18,8 +18,10 @@
 package cn.dreamn.qianji_auto.setting;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
 import java.io.BufferedReader;
@@ -34,7 +36,29 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 
 public class AppInfo {
+    public static Drawable getIcon(Context context, String pkg) {
+        try {
+            //包管理操作管理类
+            PackageManager pm = context.getApplicationContext().getPackageManager();
+            //获取到应用信息
+            ApplicationInfo applicationInfo = pm.getApplicationInfo(pkg, 0);
+            return pm.getApplicationIcon(applicationInfo);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
+    public static String getName(Context context, String pkg) {
+        PackageManager pm = context.getApplicationContext().getPackageManager();
+        try {
+            PackageInfo packageInfo = pm.getPackageInfo(pkg, 0);
+            return packageInfo.applicationInfo.loadLabel(pm).toString();
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return "未安装";
+        }
+    }
 
     public static String getAppVersionName(Context context, String packageName) {
 

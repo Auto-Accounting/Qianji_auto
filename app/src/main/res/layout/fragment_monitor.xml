@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <cn.dreamn.qianji_auto.ui.components.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backgroundColor="@color/background_white"
+        app:left_color="@color/black"
+        app:left_icon="&#xe62e;"
+        app:title_color="@color/black"
+        app:title_text="监控APP">
+
+
+    </cn.dreamn.qianji_auto.ui.components.TitleBar>
+
+    <LinearLayout
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_bar"
+        android:layout_marginTop="0dp"
+        android:orientation="horizontal">
+
+
+        <EditText
+            android:id="@+id/search_et_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_edittext"
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="5dp"
+            android:hint="@string/search_tip"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:padding="10dp"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <com.shehuan.statusview.StatusView
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/search"
+        android:layout_marginTop="0dp">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="780dp">
+
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.scwang.smartrefresh.layout.header.ClassicsHeader>
+
+            <com.yanzhenjie.recyclerview.SwipeRecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </com.shehuan.statusview.StatusView>
+
+</RelativeLayout>
+

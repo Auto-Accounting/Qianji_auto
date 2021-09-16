@@ -155,7 +155,6 @@ public class NoticeFragment extends BaseFragment {
             viewHolder.setText(R.id.loading_text, getString(R.string.main_loading));
         });
 
-        statusView.showLoadingView();
         initLayout();
     }
 

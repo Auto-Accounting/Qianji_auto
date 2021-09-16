@@ -73,7 +73,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 
 
-@Page(name = "自动记账", anim = CoreAnim.slide)
+@Page(name = "自动记账", anim = CoreAnim.zoom)
 public class MainFragment extends BaseFragment {
 
     @BindView(R.id.title_bar)
@@ -283,7 +283,7 @@ public class MainFragment extends BaseFragment {
             });
         });
         mode_select1.setOnClickListener(v -> openNewPage(MainModeFragment.class));
-        mode_select2.setOnClickListener(v -> openNewPage(MainModeFragment.class));
+        mode_select2.setOnClickListener(v -> openNewPage(MonitorFragment.class));
         initGridLayout();
     }
 
