@@ -18,10 +18,12 @@
 package cn.dreamn.qianji_auto.core.hook.template.android;
 
 import android.app.AndroidAppHelper;
+import android.app.Application;
 import android.content.Context;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 public abstract class AndroidBase implements AndroidHooker {
@@ -39,18 +41,24 @@ public abstract class AndroidBase implements AndroidHooker {
 
 
     private void hookMain() {
-        Class<?> ContextClass = XposedHelpers.findClass("android.content.ContextWrapper", mAppClassLoader);
-        XposedHelpers.findAndHookMethod(ContextClass, "getApplicationContext", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                super.afterHookedMethod(param);
-                if (mContext != null)
-                    return;
-                mContext = (Context) param.getResult();
-                //XposedBridge.log("CSDN_LQR-->得到上下文");
-                init();
-            }
-        });
+        try {
+
+            XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    //  if(mContext!=null)return;
+                    mContext = (Context) param.args[0];
+                    mAppClassLoader = mContext.getClassLoader();
+                    XposedBridge.log("context 成功2！" + getAppName());
+                    init();
+                }
+            });
+
+
+        } catch (Throwable e) {
+            XposedBridge.log("XposedErr: " + e.toString());
+        }
     }
 
     public void init() {
@@ -59,7 +67,7 @@ public abstract class AndroidBase implements AndroidHooker {
         utils.log("Hook系统功能成功！" + getAppName());
         try {
             hookFirst();
-        } catch (Error | Exception e) {
+        } catch (Throwable e) {
             utils.log("hook 出现严重错误！" + e.toString(), true);
         }
 

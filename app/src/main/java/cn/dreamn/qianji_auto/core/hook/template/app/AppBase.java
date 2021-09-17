@@ -46,7 +46,8 @@ public abstract class AppBase implements AppHooker {
         if (!processName.equals(pkg)) return;
         // 获取hook顺序
         mHookCountIndex = getHookIndex();
-
+        //到了第hook的进程最大值
+        if (mHookCount > mHookCountIndex) return;
         hookMainInOtherAppContext();
 
     }
@@ -58,29 +59,28 @@ public abstract class AppBase implements AppHooker {
                 @Override
                 protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    Context context = (Context) param.args[0];
                     // if(mContext!=null)return;
-                    mContext = context;
+                    mContext = (Context) param.args[0];
                     mAppClassLoader = mContext.getClassLoader();
-                    XposedBridge.log("context 成功！");
+                    XposedBridge.log("context 成功！" + getAppName());
                     init();
                 }
             });
+
+
         } catch (Throwable e) {
             try {
                 XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class, new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                         super.afterHookedMethod(param);
-                        Context context = (Context) param.args[0];
                         //  if(mContext!=null)return;
-                        mContext = context;
+                        mContext = (Context) param.args[0];
                         mAppClassLoader = mContext.getClassLoader();
-                        XposedBridge.log("context 成功2！");
+                        XposedBridge.log("context 成功2！" + getAppName());
                         init();
                     }
                 });
-
             } catch (Throwable e2) {
                 XposedBridge.log("XposedErr: " + e.toString());
             }
@@ -93,6 +93,7 @@ public abstract class AppBase implements AppHooker {
     public void init() {
 
         mHookCount = mHookCount + 1;
+        XposedBridge.log("mHookCount:" + mHookCount);
         if (mHookCountIndex != 0 && !mHookCount.equals(mHookCountIndex)) {
             return;
         }

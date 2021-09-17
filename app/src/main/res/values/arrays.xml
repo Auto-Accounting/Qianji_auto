@@ -9,5 +9,6 @@
         <item>com.jingdong.app.mall</item>
         <item>com.unionpay</item>
         <item>android</item>
+        <item>com.android.phone</item>
     </string-array>
 </resources>

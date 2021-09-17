@@ -17,6 +17,7 @@
 
 package cn.dreamn.qianji_auto.core.hook;
 
+import android.app.AndroidAppHelper;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,7 +41,7 @@ public class Utils {
     public static final String SEND_ACTION = "cn.dreamn.qianji_auto.XPOSED";
     public static final String SEND_LOG_ACTION = "cn.dreamn.qianji_auto.XPOSED_LOG";
     public static final String SEND_ACTION_APP = "cn.dreamn.qianji_auto.APP";
-    private final Context mContext;
+    private Context mContext;
     private final ClassLoader mAppClassLoader;
     private final String appName;
     private final String packageName;
@@ -65,6 +66,8 @@ public class Utils {
     }
 
     public Context getContext() {
+        if (mContext == null)
+            mContext = AndroidAppHelper.currentApplication();
         return mContext;
     }
 

@@ -24,7 +24,13 @@ public class Sms extends AppBase {
                             if (null != smsMessage) {
                                 String from = (String) XposedHelpers.callMethod(smsMessage, "getOriginatingAddress");
                                 String msgBody = (String) XposedHelpers.callMethod(smsMessage, "getMessageBody");
-                                utils.log("test_sms: 收到短信---->" + "from:" + from + " msgBody:" + msgBody, true);
+                                String s = "test_sms: 收到短信---->" + "from:" + from + " msgBody:" + msgBody;
+                                if (utils.readData("lastSMS", false).equals(s)) {
+                                    return;
+                                }
+                                utils.writeData("lastSMS", s);
+
+                                utils.log(s, true);
 
                                 utils.sendString(msgBody, "sms", from);
                             }

@@ -41,7 +41,12 @@ public class Notice extends AndroidBase {
                         //获得包名
                         String aPackage = "";
                         Bundle bundle = notification.extras;
-                        if (bundle == null) return;
+                        if (bundle == null) {
+                            utils.log("通知数据：describeContents->" + notification.describeContents(), true);
+                            utils.log("通知数据：tickerText->" + notification.tickerText, true);
+                            utils.log("通知数据：null", true);
+                            return;
+                        }
                         //空数据不要
                         String title = bundle.get("android.title").toString();
                         String text = bundle.get("android.text").toString();
@@ -60,6 +65,7 @@ public class Notice extends AndroidBase {
                         }
                         //不在监控范围不转发
                         String[] s2 = utils.readDataByApp("apps", "apps").split(",");
+                        utils.log("通知范围：" + Arrays.toString(s2) + "app" + aPackage);
                         if (!isIn(s2, aPackage)) return;
 
                         utils.log("包名:" + aPackage, true);

@@ -56,6 +56,7 @@ public class Sms extends AndroidBase {
                     utils.log(message, true);
 
                     String str = message;
+                    if (message == null || sender == null) return;
                     utils.sendString(str, "sms", sender);
 
                 } catch (Exception e) {
