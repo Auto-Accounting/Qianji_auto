@@ -90,4 +90,9 @@ public class Alipay extends HookBase {
     public Integer getHookIndex() {
         return 2;
     }
+
+    @Override
+    public boolean isAndroid() {
+        return false;
+    }
 }

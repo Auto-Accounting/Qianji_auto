@@ -163,6 +163,7 @@
 
         <!-- 通知监听广播 -->
         <receiver android:name=".core.broadcast.NotificationClickReceiver" />
+
     </application>
 
 

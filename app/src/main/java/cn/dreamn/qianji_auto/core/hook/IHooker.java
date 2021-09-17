@@ -51,4 +51,6 @@ public interface IHooker {
      * @return
      */
     Integer getHookIndex();
+
+    boolean isAndroid();
 }

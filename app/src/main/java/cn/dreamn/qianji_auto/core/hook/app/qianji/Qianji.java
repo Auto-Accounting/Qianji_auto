@@ -77,4 +77,9 @@ public class Qianji extends HookBase {
         // 钱迹hook要hook第一个  获取 SQLiteDatabase
         return 1;
     }
+
+    @Override
+    public boolean isAndroid() {
+        return false;
+    }
 }

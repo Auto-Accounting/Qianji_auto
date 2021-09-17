@@ -42,6 +42,7 @@ public class AppStatus {
         if (getActiveMode().equals("helper")) {
             return defaultActive(context);
         } else return xposedActive(context);
+
     }
 
     public static String getActiveMode() {
@@ -63,7 +64,13 @@ public class AppStatus {
     }
 
     public static boolean xposedActive(Context context) {
-        return taichiActive(context) || bugActive(context);
+        Log.i("xp激活状态");
+        String farmework = AppInfo.getFrameWork(context);
+
+        if (farmework.equals(context.getString(R.string.frame_taichi)))
+            return taichiActive(context);
+        if (farmework.equals(context.getString(R.string.frame_bug))) return bugActive(context);
+        return false;
     }
 
     private static boolean bugActive(Context context) {
@@ -92,7 +99,7 @@ public class AppStatus {
             }
         } catch (Throwable e) {
             Log.d("应用转生获取应用状态失败！" + e.toString());
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         return false;

@@ -17,6 +17,7 @@
 
 package cn.dreamn.qianji_auto.core.hook;
 
+import android.app.AndroidAppHelper;
 import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -40,15 +41,21 @@ public abstract class HookBase implements IHooker {
      * @param processName  String 序号hook的进程名
      */
     public void hook(String packPagename, String processName) {
-        String pkg = getPackPageName();
-        if (pkg != null) {
-            if (!packPagename.equals(getPackPageName())) return;
-            if (!processName.equals(getPackPageName())) return;
+        if (!isAndroid()) {
+            String pkg = getPackPageName();
+
+            if (!packPagename.equals(pkg)) return;
+            if (!processName.equals(pkg)) return;
+            // 获取hook顺序
+            mHookCountIndex = getHookIndex();
+            hookMainInOtherAppContext();
+        } else {
+            XposedBridge.log("For Android");
+            mContext = AndroidAppHelper.currentApplication().getApplicationContext();
+            mAppClassLoader = mContext.getClassLoader();
+            init();
         }
 
-        // 获取hook顺序
-        mHookCountIndex = getHookIndex();
-        hookMainInOtherAppContext();
     }
 
     private void hookMainInOtherAppContext() {
@@ -85,19 +92,25 @@ public abstract class HookBase implements IHooker {
 
 
     public void init() {
-
-        mHookCount = mHookCount + 1;
+        if (!isAndroid()) {
+            mHookCount = mHookCount + 1;
 //        utils.log("hook id " + mHookCount.toString() + "   " + getAppName());
-        if (mHookCountIndex != 0 && !mHookCount.equals(mHookCountIndex)) {
-            return;
+            if (mHookCountIndex != 0 && !mHookCount.equals(mHookCountIndex)) {
+                return;
+            }
         }
+
         hookBefore();
         utils = new Utils(mContext, mAppClassLoader, getAppName(), getPackPageName());
-        Task.onMain(100, () -> {
-            utils.log("自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName());
-            utils.compare(getAppVer());//判断版本
-            // Toast.makeText(mContext, "加载自动记账成功！");
-        });
+        if (!isAndroid()) {
+            Task.onMain(100, () -> {
+                utils.log("自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName());
+                utils.compare(getAppVer());//判断版本
+                // Toast.makeText(mContext, "加载自动记账成功！");
+            });
+        } else {
+            XposedBridge.log("android");
+        }
         try {
             hookFirst();
         } catch (Error | Exception e) {
