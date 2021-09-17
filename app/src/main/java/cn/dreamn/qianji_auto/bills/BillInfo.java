@@ -396,10 +396,14 @@ public class BillInfo {
     public boolean isAvaiable() {
         if (this.fee != null && this.fee.equals(""))
             this.fee = "0";
-        //检查手续费
-        if (this.fee != null && Float.parseFloat(this.fee) > Float.parseFloat(this.money)) {
-            Log.i("记账流程", "手续费错误" + this.time);
-            return false;
+        try {
+            //检查手续费
+            if (this.fee != null && Float.parseFloat(this.fee) > Float.parseFloat(this.money)) {
+                Log.i("记账流程", "手续费错误" + this.time);
+                return false;
+            }
+        } catch (Throwable e) {
+            this.fee = "0";
         }
         //检查时间
         if (this.time == null || this.time.equals("")) {
