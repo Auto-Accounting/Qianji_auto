@@ -32,10 +32,19 @@ public class ItemListAdapter extends BaseAdapter {
         TextView tv_date = (TextView) holder.findView(R.id.tv_des);
 /*        TextView tv_could = (TextView) holder.findView(R.id.tv_could);
         TextView tv_local = (TextView) holder.findView(R.id.tv_local);*/
+        String fromApp = item.getString("fromApp");
+        String appName = "";
+        if (item.getString("identify").equals("sms")) {
+            fromApp = "com.android.phone";
+            appName = item.getString("fromApp");
+        } else {
+            appName = AppUtils.getAppName(mContext, fromApp);
+        }
+
         tv_data.setText(item.getString("rawData"));
         tv_date.setText(Tool.getShortTime(Long.parseLong(item.getString("time") + "000"), "yyyy-MM-dd HH:mm:ss"));
-        iv_appIcon.setImageBitmap(AppUtils.getBitmap(mContext, item.getString("fromApp")));
-        tv_appName.setText(AppUtils.getAppName(mContext, item.getString("fromApp")));
+        iv_appIcon.setImageBitmap(AppUtils.getBitmap(mContext, fromApp));
+        tv_appName.setText(appName);
 /*
         //已适配 未适配
         String bool = item.getString("cloud");

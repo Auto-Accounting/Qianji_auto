@@ -65,11 +65,11 @@ public class AppStatus {
 
     public static boolean xposedActive(Context context) {
         Log.i("xp激活状态");
-        String farmework = AppInfo.getFrameWork(context);
-
-        if (farmework.equals(context.getString(R.string.frame_taichi)))
+        String frame = AppInfo.getFrameWork(context);
+        if (frame.equals(context.getString(R.string.frame_taichi)))
             return taichiActive(context);
-        if (farmework.equals(context.getString(R.string.frame_bug))) return bugActive(context);
+        if (frame.equals(context.getString(R.string.frame_bug)))
+            return bugActive(context);
         return false;
     }
 

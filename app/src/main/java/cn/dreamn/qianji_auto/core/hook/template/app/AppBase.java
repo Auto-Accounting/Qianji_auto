@@ -15,25 +15,25 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.hook;
+package cn.dreamn.qianji_auto.core.hook.template.app;
 
-import android.app.AndroidAppHelper;
 import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
 
+import cn.dreamn.qianji_auto.core.hook.Utils;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
-public abstract class HookBase implements IHooker {
+public abstract class AppBase implements AppHooker {
 
     private static Integer mHookCount = 0;
     private static Integer mHookCountIndex = 1;//HOOK第几个进程
     protected ClassLoader mAppClassLoader;
-    protected Context mContext;
-    protected String TAG = "Qianji-Auto";
+    protected Context mContext = null;
+    protected String TAG = "Auto-AppHook";
     protected Utils utils;
 
     /**
@@ -41,20 +41,13 @@ public abstract class HookBase implements IHooker {
      * @param processName  String 序号hook的进程名
      */
     public void hook(String packPagename, String processName) {
-        if (!isAndroid()) {
-            String pkg = getPackPageName();
+        String pkg = getPackPageName();
+        if (!packPagename.equals(pkg)) return;
+        if (!processName.equals(pkg)) return;
+        // 获取hook顺序
+        mHookCountIndex = getHookIndex();
 
-            if (!packPagename.equals(pkg)) return;
-            if (!processName.equals(pkg)) return;
-            // 获取hook顺序
-            mHookCountIndex = getHookIndex();
-            hookMainInOtherAppContext();
-        } else {
-            XposedBridge.log("For Android");
-            mContext = AndroidAppHelper.currentApplication().getApplicationContext();
-            mAppClassLoader = mContext.getClassLoader();
-            init();
-        }
+        hookMainInOtherAppContext();
 
     }
 
@@ -65,8 +58,11 @@ public abstract class HookBase implements IHooker {
                 @Override
                 protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    mContext = (Context) param.args[0];
+                    Context context = (Context) param.args[0];
+                    // if(mContext!=null)return;
+                    mContext = context;
                     mAppClassLoader = mContext.getClassLoader();
+                    XposedBridge.log("context 成功！");
                     init();
                 }
             });
@@ -76,8 +72,11 @@ public abstract class HookBase implements IHooker {
                     @Override
                     protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                         super.afterHookedMethod(param);
-                        mContext = (Context) param.args[0];
+                        Context context = (Context) param.args[0];
+                        //  if(mContext!=null)return;
+                        mContext = context;
                         mAppClassLoader = mContext.getClassLoader();
+                        XposedBridge.log("context 成功2！");
                         init();
                     }
                 });
@@ -92,29 +91,21 @@ public abstract class HookBase implements IHooker {
 
 
     public void init() {
-        if (!isAndroid()) {
-            mHookCount = mHookCount + 1;
-//        utils.log("hook id " + mHookCount.toString() + "   " + getAppName());
-            if (mHookCountIndex != 0 && !mHookCount.equals(mHookCountIndex)) {
-                return;
-            }
+
+        mHookCount = mHookCount + 1;
+        if (mHookCountIndex != 0 && !mHookCount.equals(mHookCountIndex)) {
+            return;
         }
 
         hookBefore();
         utils = new Utils(mContext, mAppClassLoader, getAppName(), getPackPageName());
-        if (!isAndroid()) {
-            Task.onMain(100, () -> {
-                utils.log("自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName());
-                utils.compare(getAppVer());//判断版本
-                // Toast.makeText(mContext, "加载自动记账成功！");
-            });
-        } else {
-            XposedBridge.log("android");
-        }
+        Task.onMain(100, () -> {
+            utils.log("自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName(), true);
+        });
         try {
             hookFirst();
         } catch (Error | Exception e) {
-            utils.log("hook 出现严重错误！" + e.toString(), false);
+            utils.log("hook 出现严重错误！" + e.toString(), true);
         }
 
 

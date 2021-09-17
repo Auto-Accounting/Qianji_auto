@@ -30,15 +30,11 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.Arrays;
 import java.util.Map;
 
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
-import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
 
 public class Utils {
     public static final String SEND_ACTION = "cn.dreamn.qianji_auto.XPOSED";
@@ -48,7 +44,6 @@ public class Utils {
     private final ClassLoader mAppClassLoader;
     private final String appName;
     private final String packageName;
-    public static final int TRACE_THROWABLE = 1;
 
     public Utils(Context context, ClassLoader classLoader, String name, String packageName) {
         mContext = context;
@@ -57,7 +52,6 @@ public class Utils {
         this.packageName = packageName;
     }
 
-    public static final int TRACE_EXCEPTION = 2;
     public String getAppName() {
         return appName;
     }
@@ -100,6 +94,7 @@ public class Utils {
     }
 
 
+    //JSON数据转URL
     public static String convertUrl(Object object, String key) {
         StringBuilder paramStr = new StringBuilder();
 
@@ -109,7 +104,7 @@ public class Utils {
 
             value = value.replace("\n", "\\n").replace("\t", "");
 
-            if (key != null && !value.startsWith("#") && !value.equals("") && !value.equals("\\n") && !value.startsWith("http") && !value.startsWith("{"))
+            if (key != null && !value.startsWith("#") && !value.equals("") && !value.equals("\\n") && !value.contains("://") && !value.startsWith("{"))
                 paramStr.append("&").append(key).append("=").append((object));
         } else {
 
@@ -139,20 +134,17 @@ public class Utils {
     }
 
     public void sendString(String str) {
-        sendString(str, "app");
+        sendString(str, "app", null);
     }
 
-    public void sendString(String str, String identify) {
+    public void sendString(String str, String identify, String packageName) {
         Bundle bundle = new Bundle();
         bundle.putString("data", str);
         bundle.putString("app_identify", identify);
         log("广播给自动记账：" + str, true);
-        sendBroadcast(SEND_ACTION, bundle);
-    }
-
-    public void send2auto(Bundle bundle) {
-        log("APP数据广播给自动记账：" + bundle.toString(), true);
-        sendBroadcast(SEND_ACTION_APP, bundle);
+        if (packageName == null)
+            sendBroadcast(SEND_ACTION, bundle);
+        else sendBroadcast(SEND_ACTION, bundle, packageName);
     }
 
     public void send2auto(String str) {
@@ -162,16 +154,17 @@ public class Utils {
         sendBroadcast(SEND_ACTION_APP, bundle);
     }
 
-    public static final int TRACE_DUMPSTACK = 3;
-    public static final int TRACE_RUNTIME = 4;
-
-    private void sendBroadcast(String Action, Bundle bundle) {
-        bundle.putString("app_package", getPackageName());
+    private void sendBroadcast(String Action, Bundle bundle, String packageName) {
+        bundle.putString("app_package", packageName);
         Intent intent = new Intent(Action);
         intent.setPackage(BuildConfig.APPLICATION_ID);
         intent.putExtras(bundle);
         intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-        mContext.sendBroadcast(intent, null);
+        getContext().sendBroadcast(intent, null);
+    }
+
+    private void sendBroadcast(String Action, Bundle bundle) {
+        sendBroadcast(Action, bundle, getPackageName());
     }
 
     /**
@@ -180,8 +173,8 @@ public class Utils {
     public String getVerName() {
         String verName = "";
         try {
-            verName = mContext.getPackageManager().
-                    getPackageInfo(mContext.getPackageName(), 0).versionName;
+            verName = getContext().getPackageManager().
+                    getPackageInfo(getContext().getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -196,8 +189,8 @@ public class Utils {
     public int getVerCode() {
         int verName = 0;
         try {
-            verName = mContext.getPackageManager().
-                    getPackageInfo(mContext.getPackageName(), 0).versionCode;
+            verName = getContext().getPackageManager().
+                    getPackageInfo(getContext().getPackageName(), 0).versionCode;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -207,32 +200,9 @@ public class Utils {
     /**
      * 判断是否是支持版本
      */
-    public void compare(String[] version) {
-
-        if (version == null) {
-            //表示全版本支持
-            return;
-        }
-
-        String string = getVerName();
-        if (readData("version_" + string).equals("true")) {
-            return;
-        }
-
-        for (String s : version) {
-            if (s.equals(string)) return;
-        }
-        String string2 = String.format("当前应用[%s]版本[%s]可能不受支持！您可以继续使用，但可能部分功能不支持。支持的版本为：%s", appName, getVerName(), Arrays.toString(version));
-        Toast.makeText(mContext, string2, Toast.LENGTH_LONG).show();
-        log(string, false);
-        writeData("version_" + string, "true");
-    }
-
-    public static final int TRACE_ALL = 5;
-    private final boolean isDebug = false;
 
     public boolean isDebug() {
-        return isDebug;
+        return !readDataByApp("ankio", "debug").equals("");
     }
 
     /**
@@ -241,7 +211,6 @@ public class Utils {
      * @param msg 日志数据
      */
     public void log(String msg) {
-        // Log.i("Qianji-" + appName, msg);
         log(msg, false);
     }
 
@@ -267,160 +236,6 @@ public class Utils {
         return data.getString(name, "");
     }
 
-    public void printTrace(int func) {
-
-
-        switch (func) {
-            case TRACE_THROWABLE: {
-                // 方法一:
-                log("Dump Stack: ---------------start----------------");
-                Throwable ex = new Throwable();
-                StackTraceElement[] stackElements = ex.getStackTrace();
-                for (int i = 0; i < stackElements.length; i++) {
-
-                    log("Dump Stack" + i + ": " + stackElements[i].getClassName()
-                            + "----" + stackElements[i].getFileName()
-                            + "----" + stackElements[i].getLineNumber()
-                            + "----" + stackElements[i].getMethodName());
-                }
-                log("Dump Stack:---------------over----------------");
-                break;
-            }
-            case TRACE_EXCEPTION: {
-                // 方法二:
-                new Exception().printStackTrace(); // 直接干脆
-                break;
-            }
-            case TRACE_DUMPSTACK: {
-                // 方法三:
-                Thread.dumpStack(); // 直接暴力
-                break;
-            }
-            case TRACE_RUNTIME: {
-                // 方法四:
-                // 打印调用堆栈: http://blog.csdn.net/jk38687587/article/details/51752436
-                RuntimeException e = new RuntimeException("<Start dump Stack !>");
-                e.fillInStackTrace();
-                log("<Dump Stack>: ++++++++++++" + e);
-                break;
-            }
-            case TRACE_ALL: {
-                // 方法五:
-                // Thread类的getAllStackTraces（）方法获取虚拟机中所有线程的StackTraceElement对象，可以查看堆栈
-                for (Map.Entry<Thread, StackTraceElement[]> stackTrace : Thread.getAllStackTraces().entrySet()) {
-                    Thread thread = stackTrace.getKey();
-                    StackTraceElement[] stack = stackTrace.getValue();
-
-                    // 进行过滤
-                    if (thread.equals(Thread.currentThread())) {
-                        continue;
-                    }
-
-                    log("[Dump Stack] **********Thread name：" + thread.getName() + "**********");
-                    int index = 0;
-                    for (StackTraceElement stackTraceElement : stack) {
-
-                        log("[Dump Stack]" + index + ": " + stackTraceElement.getClassName()
-                                + "----" + stackTraceElement.getFileName()
-                                + "----" + stackTraceElement.getLineNumber()
-                                + "----" + stackTraceElement.getMethodName());
-                    }
-                    // 增加序列号
-                    index++;
-                }
-                log("[Dump Stack]********************* over **********************");
-                break;
-            }
-
-        }
-    }
-
-    public void printClassAndFunctions() {
-        printClassAndFunctions(null);
-    }
-
-    public void printClassAndFunctions(String className) {
-        Log.i("Ankio", "try hook " + className);
-        // Hook类方法ClassLoader#loadClass(String)
-        XposedHelpers.findAndHookMethod(ClassLoader.class, "loadClass", String.class, new XC_MethodHook() {
-            // 在类方法loadClass执行之后执行的代码
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                super.afterHookedMethod(param);
-                // 参数的检查
-                if (param.hasThrowable()) {
-                    return;
-                }
-                // 获取指定名称的类加载之后的Class<?>
-                Class<?> clazz = (Class<?>) param.getResult();
-                // 获取加载的指定类的名称
-                String strClazz = (String) param.args[0];
-                if (strClazz == null) return;
-                //XposedBridge.log("Needclass:"+className+"\nfindClass:"+strClazz);
-                String[] regulars = {"android", ".system", "java.", "google", "xposed", "LspHooker_"};
-                if (className == null) {
-                    boolean find = false;
-                    for (String s : regulars) {
-                        if (strClazz.contains(s)) {
-                            find = true;
-                            break;
-                        }
-                    }
-                    if (find) return;
-
-                } else {
-                    if (!className.equals(strClazz)) {
-                        XposedBridge.log("Needclass:" + className + "\nfindClass:" + strClazz);
-                        return;
-                    }
-                }
-
-                // 或者只Hook加密算法类、网络数据传输类、按钮事件类等协议分析的重要类
-                XposedBridge.log("[Ankio]LoadClass : " + strClazz);
-
-                XposedBridge.log("HookedClass : " + strClazz);
-                // 获取到指定名称类声明的所有方法的信息
-                Method[] m = clazz.getDeclaredMethods();
-                // 打印获取到的所有的类方法的信息
-                for (Method method : m) {
-                    XposedBridge.log("HOOKED CLASS-METHOD: " + strClazz + "-" + method.toString());
-                    if (!Modifier.isAbstract(method.getModifiers())           // 过滤掉指定名称类中声明的抽象方法
-                            && !Modifier.isNative(method.getModifiers())     // 过滤掉指定名称类中声明的Native方法
-                            && !Modifier.isInterface(method.getModifiers())  // 过滤掉指定名称类中声明的接口方法
-                    ) {
-
-                        try {
-                            // 对指定名称类中声明的非抽象方法进行java Hook处理
-                            XposedBridge.hookMethod(method, new XC_MethodHook() {
-                                // 被java Hook的类方法执行完毕之后，打印log日志
-                                @Override
-                                protected void afterHookedMethod(MethodHookParam param) {
-                                    // 打印被java Hook的类方法的名称和参数类型等信息
-                                    XposedBridge.log("[Ankio]HOOKED METHOD: " + strClazz + "-" + param.method.toString());
-                                    printTrace(TRACE_DUMPSTACK);
-                                }
-                            });
-                        } catch (Throwable e) {
-                            XposedBridge.log("[Ankio]Error:" + e.toString());
-                        }
-                    }
-                }
-
-
-            }
-        });
-    }
-
-    public void printLogLocation() {
-        Log.i("Ankio", "printLog");
-
-        XposedHelpers.findAndHookMethod(Log.class, "println", int.class, String.class, String.class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) {
-                printTrace(Utils.TRACE_DUMPSTACK);
-            }
-        });
-    }
 
     // 获取指定名称的类声明的类成员变量、类方法、内部类的信息
     public void dumpClass(Class<?> actions) {

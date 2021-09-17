@@ -15,9 +15,9 @@
  *
  */
 
-package cn.dreamn.qianji_auto.core.hook;
+package cn.dreamn.qianji_auto.core.hook.template.app;
 
-public interface IHooker {
+public interface AppHooker {
 
 
     void hookBefore();
@@ -38,12 +38,6 @@ public interface IHooker {
      */
     String getAppName();
 
-    /**
-     * 返回支持的版本列表,如果不在支持列表做出提示
-     *
-     * @return
-     */
-    String[] getAppVer();
 
     /**
      * 获取hook的顺序
@@ -52,5 +46,4 @@ public interface IHooker {
      */
     Integer getHookIndex();
 
-    boolean isAndroid();
 }

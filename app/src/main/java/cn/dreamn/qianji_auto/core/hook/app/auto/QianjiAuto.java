@@ -20,11 +20,11 @@ package cn.dreamn.qianji_auto.core.hook.app.auto;
 import android.content.Context;
 
 import cn.dreamn.qianji_auto.BuildConfig;
-import cn.dreamn.qianji_auto.core.hook.HookBase;
+import cn.dreamn.qianji_auto.core.hook.template.app.AppBase;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 
-public class QianjiAuto extends HookBase {
+public class QianjiAuto extends AppBase {
 
 
     @Override
@@ -36,7 +36,6 @@ public class QianjiAuto extends HookBase {
     public void hookFirst() throws Error {
         //hook自己，看看是否激活
         XposedHelpers.findAndHookMethod("cn.dreamn.qianji_auto.setting.AppStatus", mAppClassLoader, "xposedActive", Context.class, XC_MethodReplacement.returnConstant(true));
-
 
     }
 
@@ -50,18 +49,11 @@ public class QianjiAuto extends HookBase {
         return "自动记账";
     }
 
-    @Override
-    public String[] getAppVer() {
-        return null;
-    }
 
     @Override
     public Integer getHookIndex() {
         return 2;
     }
 
-    @Override
-    public boolean isAndroid() {
-        return false;
-    }
+
 }

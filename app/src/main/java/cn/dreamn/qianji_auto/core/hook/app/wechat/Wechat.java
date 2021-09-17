@@ -17,7 +17,6 @@
 
 package cn.dreamn.qianji_auto.core.hook.app.wechat;
 
-import cn.dreamn.qianji_auto.core.hook.HookBase;
 import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.LoginInfo;
 import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.Msg;
 import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.NickName;
@@ -25,8 +24,9 @@ import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.OpenLog;
 import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.PayTools;
 import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.RedPackage;
 import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.Setting;
+import cn.dreamn.qianji_auto.core.hook.template.app.AppBase;
 
-public class Wechat extends HookBase {
+public class Wechat extends AppBase {
 
 
     @Override
@@ -73,13 +73,6 @@ public class Wechat extends HookBase {
         } catch (Throwable e) {
             utils.log("微信 Msg HookError " + e.toString());
         }
-       /* try {
-            PayWebView.init(utils);
-        } catch (Throwable e) {
-            utils.log("微信 PayWebView HookError " + e.toString());
-        }
-*/
-
 
     }
 
@@ -93,18 +86,10 @@ public class Wechat extends HookBase {
         return "微信";
     }
 
-    @Override
-    public String[] getAppVer() {
-        return null;
-    }
 
     @Override
     public Integer getHookIndex() {
         return 2;
     }
 
-    @Override
-    public boolean isAndroid() {
-        return false;
-    }
 }

@@ -315,6 +315,7 @@ public class MainFragment extends BaseFragment {
         Handler mHandler3 = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
+
                 Glide.with(getContext())
                         .load(msg.obj)
                         .into(new CustomTarget<Drawable>() {
