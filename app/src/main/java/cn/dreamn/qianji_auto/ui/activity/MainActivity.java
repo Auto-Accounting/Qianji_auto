@@ -8,7 +8,6 @@ import com.tencent.mmkv.MMKV;
 
 import cn.dreamn.qianji_auto.ui.base.BaseActivity;
 import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 
 public class MainActivity extends BaseActivity {
@@ -16,13 +15,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // StatusBarUtil.setTransparentForWindow(this);
-        Log.i("Qianji-Auto", "onCreate");
-        Log.i("Qianji-Auto", Intent.ACTION_VIEW);
+
         Intent intent = getIntent();
         String action = intent.getAction();
         if (Intent.ACTION_VIEW.equals(action)) {
-            Log.i("Qianji-Action", action);
             Bundle bundle = new Bundle();
             Uri uri = intent.getData();
             String str = "";

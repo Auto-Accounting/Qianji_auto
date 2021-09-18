@@ -49,21 +49,21 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter android:label="@string/import_auto">
+            <intent-filter
+                android:label="@string/import_auto"
+                tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:scheme="file" />
-                <data android:host="*" />
                 <data android:mimeType="*/*" />
                 <data android:pathPattern=".*\.backup_.*_ankio" />
             </intent-filter>
-            <intent-filter android:label="@string/restore_auto">
+            <intent-filter
+                android:label="@string/restore_auto"
+                tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:scheme="file" />
-                <data android:host="*" />
                 <data android:mimeType="*/*" />
                 <data android:pathPattern=".*\.auto.backup" />
             </intent-filter>

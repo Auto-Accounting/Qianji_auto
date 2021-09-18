@@ -99,6 +99,7 @@ public class Utils {
 
     //JSON数据转URL
     public static String convertUrl(Object object, String key) {
+
         StringBuilder paramStr = new StringBuilder();
 
         if (object instanceof String || object instanceof Number || object instanceof Boolean) {
@@ -131,6 +132,7 @@ public class Utils {
 
     public void send(JSONObject jsonObject) {
         if (jsonObject == null) return;
+        XposedBridge.log("原始数据：" + jsonObject.toJSONString());
         Bundle bundle = new Bundle();
         bundle.putString("data", convertUrl(jsonObject, null));
         send(bundle, "app");
