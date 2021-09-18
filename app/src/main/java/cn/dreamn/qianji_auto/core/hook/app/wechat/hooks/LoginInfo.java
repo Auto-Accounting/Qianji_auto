@@ -42,7 +42,7 @@ public class LoginInfo {
     }
 
     private static void loadRegularsFromWeb(Utils utils) {
-        utils.log("正在请求数据~");
+        utils.log("正在请求微信适配数据~");
         String json = utils.readDataByApp("wechat", "red");
         try {
             JSONObject jsonObject = JSONObject.parseObject(json).getJSONObject("wechat");

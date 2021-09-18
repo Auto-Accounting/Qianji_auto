@@ -172,10 +172,10 @@ public class MainFragment extends BaseFragment {
         setArguments(null);
         //Bundle bundle = intent.getExtras();
         if (bundle == null) return;
-        Log.i("Bundle数据：" + bundle.toString());
+      //  Log.i("Bundle数据：" + bundle.toString());
         String str = bundle.getString("url");
         if (str != null) {
-            Log.i("恢复路径：" + str);
+            //  Log.i("恢复路径：" + str);
             if (str.endsWith("auto.backup")) {
                 loadingDialog = new LoadingDialog(getContext(), getString(R.string.restore_loading));
                 loadingDialog.show();

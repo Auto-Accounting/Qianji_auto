@@ -30,7 +30,6 @@ import de.robv.android.xposed.XposedHelpers;
 public abstract class AppBase implements AppHooker {
 
     private static Integer mHookCount = 0;
-    private static Integer mHookCountIndex = 1;//HOOK第几个进程
     protected ClassLoader mAppClassLoader;
     protected Context mContext = null;
     protected String TAG = "Auto-AppHook";
@@ -45,9 +44,8 @@ public abstract class AppBase implements AppHooker {
         if (!packPagename.equals(pkg)) return;
         if (!processName.equals(pkg)) return;
         // 获取hook顺序
-        mHookCountIndex = getHookIndex();
         //到了第hook的进程最大值
-        if (mHookCount > mHookCountIndex) return;
+        if (mHookCount > getHookIndex()) return;
         hookMainInOtherAppContext();
 
     }
@@ -62,7 +60,7 @@ public abstract class AppBase implements AppHooker {
                     // if(mContext!=null)return;
                     mContext = (Context) param.args[0];
                     mAppClassLoader = mContext.getClassLoader();
-                    XposedBridge.log("context 成功！" + getAppName());
+                    //    XposedBridge.log("context 成功！" + getAppName());
                     init();
                 }
             });
@@ -77,7 +75,7 @@ public abstract class AppBase implements AppHooker {
                         //  if(mContext!=null)return;
                         mContext = (Context) param.args[0];
                         mAppClassLoader = mContext.getClassLoader();
-                        XposedBridge.log("context 成功2！" + getAppName());
+                        //  XposedBridge.log("context 成功2！" + getAppName());
                         init();
                     }
                 });
@@ -91,16 +89,15 @@ public abstract class AppBase implements AppHooker {
 
 
     public void init() {
-
         mHookCount = mHookCount + 1;
-        if (mHookCountIndex != 0 && !mHookCount.equals(mHookCountIndex)) {
+        if (!mHookCount.equals(getHookIndex())) {
             return;
         }
 
         hookBefore();
         utils = new Utils(mContext, mAppClassLoader, getAppName(), getPackPageName());
         Task.onMain(100, () -> {
-            utils.log("进程：" + mHookCount + " 自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName(), true);
+            XposedBridge.log(" 自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName());
         });
         try {
             hookFirst();

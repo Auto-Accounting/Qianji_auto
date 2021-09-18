@@ -58,22 +58,23 @@ public class Msg {
 
                     XmlToJson xmlToJson = new XmlToJson.Builder(contentValues.getAsString("content")).build();
                     String xml = xmlToJson.toString();
-                    jsonObject.put("content", xml);
+                    jsonObject.put("content", JSONObject.parseObject(xml));
                     jsonObject.put("cache_money", utils.readData("cache_wechat_payMoney", true));
-                    jsonObject.put("cache_user", utils.readData("cache_userName", true));
+                    jsonObject.put("cache_user", utils.readData("cache_wechat_payUser", true));
                     jsonObject.put("cache_paytools", utils.readData("cache_wechat_paytool", true));
-                    jsonObject.put("code", type);
                     //转账消息
                     if (type == 419430449) {
+                        jsonObject.put("title", "转账消息");
                         utils.send(jsonObject);
                     } else if (type == 436207665) {
+                        jsonObject.put("title", "红包消息");
                         utils.send(jsonObject);
                     } else if (type == 318767153) {
+                        jsonObject.put("title", "卡片消息");
                         utils.send(jsonObject);
                     } else {
                     //    utils.log("微信数据【不确定是否要发送】：" + type + "\n \n" + contentValues.toString());
                     }
-
                 } catch (Exception e) {
                     utils.log("获取账单信息出错：" + e.getMessage(), true);
                 }

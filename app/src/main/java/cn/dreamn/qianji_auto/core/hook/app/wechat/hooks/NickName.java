@@ -32,7 +32,7 @@ public class NickName {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
                     String UserName = param.args[0].toString();
-                    if (UserName == null || UserName.equals("")) return;
+                    if (UserName.equals("")) return;
                     utils.writeData("cache_userName", UserName);
                     utils.log("微信名：" + UserName);
                 }
@@ -44,7 +44,7 @@ public class NickName {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) {
                         String UserName = param.args[0].toString();
-                        if (UserName == null || UserName.equals("")) return;
+                        if (UserName.equals("")) return;
                         utils.writeData("cache_userName", UserName);
                         utils.log("微信名：" + UserName);
                     }

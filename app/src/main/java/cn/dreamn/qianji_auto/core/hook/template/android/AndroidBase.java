@@ -53,7 +53,7 @@ public abstract class AndroidBase implements AndroidHooker {
                     //  if(mContext!=null)return;
                     mContext = (Context) param.args[0];
                     mAppClassLoader = mContext.getClassLoader();
-                    XposedBridge.log("context 成功2！" + getAppName());
+                   // XposedBridge.log("context 成功2！" + getAppName());
                     init();
                 }
             });
@@ -67,7 +67,7 @@ public abstract class AndroidBase implements AndroidHooker {
     public void init() {
         hookBefore();
         utils = new Utils(mContext, mAppClassLoader, getAppName(), "");
-        utils.log("Hook系统功能成功！进程：" + Index + getAppName());
+        XposedBridge.log("Hook系统功能成功！进程：" + Index + getAppName());
         Index++;
         try {
             hookFirst();

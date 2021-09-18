@@ -98,32 +98,48 @@ public class Utils {
 
 
     //JSON数据转URL
-    public static String convertUrl(Object object, String key) {
-
+    public static String convert(Object object, String key) {
         StringBuilder paramStr = new StringBuilder();
+        JSONObject jsonObject1;
+        Object obj;
+        if (object instanceof String && ((String) object).startsWith("{")) {
+            try {
+                jsonObject1 = JSONObject.parseObject((String) object);
+                obj = jsonObject1;
+            } catch (Throwable ignored) {
+                obj = object;
+            }
+        } else {
+            obj = object;
+        }
 
-        if (object instanceof String || object instanceof Number || object instanceof Boolean) {
-            String value = String.valueOf(object);
+        if (obj instanceof String || obj instanceof Number || obj instanceof Boolean) {
+            String value = String.valueOf(obj);
             value = value.replace("\\n", "").replace("\\t", "");
-
             value = value.replace("\n", "\\n").replace("\t", "");
 
-            if (key != null && !value.startsWith("#") && !value.equals("\\n") && !value.contains("://") && !value.startsWith("{"))
-                paramStr.append("&").append(key).append("=").append((object));
+            if (
+                    key != null &&
+                            !value.startsWith("#") &&
+                            !value.equals("") &&
+                            !value.equals("\\n") &&
+                            !value.contains("://") &&
+                            !value.startsWith("{")
+            ) {
+                paramStr.append("&").append(key).append("=").append(value);
+            }
+
+
         } else {
-
-
-            if (object instanceof JSONObject) {
-                JSONObject jsonObject = (JSONObject) object;
-                for (Map.Entry entry : jsonObject.entrySet()) {
-                    Object k = entry.getKey();
+            if (obj instanceof JSONObject) {
+                for (Map.Entry entry : ((JSONObject) obj).entrySet()) {
+                    String k = entry.getKey().toString();
                     Object v = entry.getValue();
-                    paramStr.append(convertUrl(v, k.toString()));
+                    paramStr.append(convert(v, k));
                 }
-            } else if (object instanceof JSONArray) {
-                JSONArray jsonArray = (JSONArray) object;
-                for (Object o : jsonArray) {
-                    paramStr.append(convertUrl(o, null));
+            } else if (obj instanceof JSONArray) {
+                for (Object o : ((JSONArray) obj)) {
+                    paramStr.append(convert(o, null));
                 }
             }
         }
@@ -134,7 +150,7 @@ public class Utils {
         if (jsonObject == null) return;
         XposedBridge.log("原始数据：" + jsonObject.toJSONString());
         Bundle bundle = new Bundle();
-        bundle.putString("data", convertUrl(jsonObject, null));
+        bundle.putString("data", convert(jsonObject, null));
         send(bundle, "app");
     }
 
@@ -229,6 +245,18 @@ public class Utils {
         if (xp) XposedBridge.log("Ankio-" + appName + " -> " + msg);
         //发送到自动记账日志
         Log.i("Ankio-" + appName, msg);
+        // 采用分段打印 四千字符分一段
+        if (msg.length() > 4000) {
+            for (int i = 0; i < msg.length(); i += 4000) {
+                if (i + 4000 < msg.length()) {
+                    Log.i("第" + i + "数据", msg.substring(i, i + 4000));
+                } else {
+                    Log.i("第" + i + "数据", msg.substring(i));
+                }
+            }
+        } else {
+            Log.i("全部数据", "************************  response = " + msg);
+        }
         Bundle bundle = new Bundle();
         bundle.putString("tag", "Ankio-" + appName);
         bundle.putString("msg", msg);

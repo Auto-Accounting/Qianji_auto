@@ -15,7 +15,6 @@ import cn.dreamn.qianji_auto.ui.base.BaseActivity;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.utils.runUtils.CrashHandler;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 
 public class App extends Application {
@@ -55,16 +54,14 @@ public class App extends Application {
      */
     private void initLibs() {
         initMMKV();
-        Task.onThread(() -> {
-            initFragment();
-            initTheme();
-            initToast();
-            initDatabase();
-            CrashHandler crashHandler = CrashHandler.getInstance();
-            crashHandler.init(this);
-            XXPermissions.setScopedStorage(true);
-            MultiprocessSharedPreferences.setAuthority("cn.dreamn.qianji_auto.provider");
-        });
+        initFragment();
+        initTheme();
+        initToast();
+        initDatabase();
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
+        XXPermissions.setScopedStorage(true);
+        MultiprocessSharedPreferences.setAuthority("cn.dreamn.qianji_auto.provider");
     }
 
 
