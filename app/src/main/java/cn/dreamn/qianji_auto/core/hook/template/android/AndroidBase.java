@@ -67,7 +67,7 @@ public abstract class AndroidBase implements AndroidHooker {
     public void init() {
         hookBefore();
         utils = new Utils(mContext, mAppClassLoader, getAppName(), "");
-        utils.log("Hook系统功能成功！" + getAppName());
+        utils.log("Hook系统功能成功！进程：" + Index + getAppName());
         Index++;
         try {
             hookFirst();

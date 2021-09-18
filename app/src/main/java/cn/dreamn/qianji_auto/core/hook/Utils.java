@@ -107,7 +107,7 @@ public class Utils {
 
             value = value.replace("\n", "\\n").replace("\t", "");
 
-            if (key != null && !value.startsWith("#") && !value.equals("") && !value.equals("\\n") && !value.contains("://") && !value.startsWith("{"))
+            if (key != null && !value.startsWith("#") && !value.equals("\\n") && !value.contains("://") && !value.startsWith("{"))
                 paramStr.append("&").append(key).append("=").append((object));
         } else {
 

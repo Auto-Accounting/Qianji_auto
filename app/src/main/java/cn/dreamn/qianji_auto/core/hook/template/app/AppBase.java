@@ -93,7 +93,6 @@ public abstract class AppBase implements AppHooker {
     public void init() {
 
         mHookCount = mHookCount + 1;
-        XposedBridge.log("mHookCount:" + mHookCount);
         if (mHookCountIndex != 0 && !mHookCount.equals(mHookCountIndex)) {
             return;
         }
@@ -101,7 +100,7 @@ public abstract class AppBase implements AppHooker {
         hookBefore();
         utils = new Utils(mContext, mAppClassLoader, getAppName(), getPackPageName());
         Task.onMain(100, () -> {
-            utils.log("自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName(), true);
+            utils.log("进程：" + mHookCount + " 自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName(), true);
         });
         try {
             hookFirst();

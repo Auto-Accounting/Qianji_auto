@@ -62,6 +62,7 @@ public class Msg {
                     jsonObject.put("cache_money", utils.readData("cache_wechat_payMoney", true));
                     jsonObject.put("cache_user", utils.readData("cache_userName", true));
                     jsonObject.put("cache_paytools", utils.readData("cache_wechat_paytool", true));
+                    jsonObject.put("code", type);
                     //转账消息
                     if (type == 419430449) {
                         utils.send(jsonObject);
