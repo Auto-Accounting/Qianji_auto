@@ -43,9 +43,11 @@ public class Category {
     public static void getCategory(BillInfo billInfo,getStrings getStr) {
             getCategoryRegularJs(billInfo,string->{
                 try {
-                String result = JsEngine.run(string);
+                    String result = JsEngine.run(string);
                     Log.m("Qianji_Cate", "自动分类结果：" + result);
-                    getStr.onGet(result);
+                    if (result.contains("Undefined")) {
+                        getStr.onGet("NotFound");
+                    } else getStr.onGet(result);
                 } catch (Exception e) {
                     Log.d(" 自动分类执行出错！" + e.toString());
                     e.printStackTrace();
