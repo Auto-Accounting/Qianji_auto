@@ -71,9 +71,9 @@ public class SendDataToApp {
 
     public static void checkCache(Handler mHandler,BillInfo billInfo){
 
-        String md5= billInfo.getRawMd5();
+        String md5 = billInfo.getRawMd5();
         Caches.getCacheData(md5, "", cache -> {
-            if(!cache.equals("")){
+            if (!cache.equals("")) {
                 Log.i(TAG, "出现重复账单，该账单不计入总账单。\n" + billInfo.dump());
                 return;
             }
@@ -81,17 +81,24 @@ public class SendDataToApp {
         });
     }
 
-
     public static void callNoAdd(Context context, BillInfo billInfo) {
-     //   Log.m(billInfo.dump());
-        Handler mHandler=new Handler(Looper.getMainLooper()){
+        billInfo.setTime();
+        callNoAdd(context, billInfo, -1);
+    }
+
+    public static void callNoAdd(Context context, BillInfo billInfo, int id) {
+        //   Log.m(billInfo.dump());
+        Handler mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
-               if(msg.what==2){
-                    BillInfo billInfo2=(BillInfo)msg.obj;
+                if (msg.what == 2) {
+                    BillInfo billInfo2 = (BillInfo) msg.obj;
                     BillReplace.replaceRemark(billInfo2);
                     if (!billInfo2.isAvaiable()) return;
-                   showFloatByAlert(context, billInfo);
+
+                    showFloatByAlert(context, billInfo2);
+                    if (id != -1)
+                        AutoBills.update(id, billInfo2);
                 }
             }
         };

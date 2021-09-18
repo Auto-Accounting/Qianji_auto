@@ -153,7 +153,7 @@ public class MoneyFragment extends BaseFragment {
             public void onSelect(int position) {
                 switch (position) {
                     case 0:
-                        goBillApp(billInfo);
+                        goBillApp(billInfo, i);
                         break;
                     case 1:
                         del(bundle);
@@ -181,7 +181,7 @@ public class MoneyFragment extends BaseFragment {
     }
 
     private void del(Bundle bundle) {
-        int id=bundle.getInt("id");
+        int id = bundle.getInt("id");
         AutoBills.del(id, () -> {
             ToastUtils.show(R.string.del_success);
             HandlerUtil.send(mHandler, HANDLE_REFRESH);
@@ -189,8 +189,8 @@ public class MoneyFragment extends BaseFragment {
 
     }
 
-    private void goBillApp(BillInfo billInfo) {
-        SendDataToApp.callNoAdd(getContext(),billInfo);
+    private void goBillApp(BillInfo billInfo, int i) {
+        SendDataToApp.callNoAdd(getContext(), billInfo, i);
     }
 
 
