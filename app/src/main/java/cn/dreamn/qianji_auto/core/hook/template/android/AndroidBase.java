@@ -32,11 +32,14 @@ public abstract class AndroidBase implements AndroidHooker {
     protected Context mContext;
     protected String TAG = "Auto-AndroidHook";
     protected Utils utils;
+    private static int Index = 0;
 
     public void hook(ClassLoader classLoader) {
+        if (Index >= 1) return;
         mContext = AndroidAppHelper.currentApplication();
         mAppClassLoader = classLoader;
         hookMain();
+
     }
 
 
@@ -65,6 +68,7 @@ public abstract class AndroidBase implements AndroidHooker {
         hookBefore();
         utils = new Utils(mContext, mAppClassLoader, getAppName(), "");
         utils.log("Hook系统功能成功！" + getAppName());
+        Index++;
         try {
             hookFirst();
         } catch (Throwable e) {

@@ -145,9 +145,18 @@
 -keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
   *** rewind();
 }
+-assumenosideeffects class android.util.Log {
+    public static int v(...);
+    public static int i(...);
+    public static int w(...);
+    public static int d(...);
+    public static int e(...);
+}
 # xposed相关混淆
 -keep class de.robv.android.xposed.*{ *; }
--keep class cn.dreamn.qianji_auto.core.hook.*{ *; }
+
+-dontshrink -keep class cn.dreamn.qianji_auto.core.hook.*{ *; }
+
 -keep class cn.dreamn.qianji_auto.setting.AppStatus{*;}
 #rhino混淆
 -keep class org.mozilla.classfile.** { *; }
