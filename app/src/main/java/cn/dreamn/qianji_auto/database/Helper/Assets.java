@@ -35,6 +35,7 @@ import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 import com.hjq.toast.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.DbManger;
@@ -220,6 +221,21 @@ public class Assets {
             if (assetName == null) {
                 getAssets.onGet("");
                 return;
+            }
+            // 正则匹配内容  需要在内容中以regex:开头
+            Asset[] assetsArr = DbManger.db.AssetDao().getAllFromRegex();
+            if (assetsArr.length > 0) {
+                for (Asset item : assetsArr) {
+                    // 替换掉 'regex:'
+                    String pattern = item.name.replaceFirst("reg:", "");
+                    if (pattern.equals("")) return;
+                    boolean isMatch = Pattern.matches(pattern, assetName);
+                    if (isMatch) {
+                        Log.i("资产匹配", String.format("源内容：[%s]，被正则表达式：[%s]，成功匹配。", assetName, pattern));
+                        getAssets.onGet(item.mapName);
+                        return;
+                    }
+                }
             }
             Asset[] assets = DbManger.db.AssetDao().get(assetName);
             if (assetName.equals("")) {

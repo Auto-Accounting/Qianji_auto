@@ -44,5 +44,8 @@ public interface AssetDao {
 
     @Query("UPDATE  asset SET name=:name,mapName=:mapName WHERE id=:id")
     void update(int id, String name, String mapName);
+
+    @Query("SELECT * FROM asset WHERE name like 'reg:%'")
+    Asset[] getAllFromRegex();
 }
 
