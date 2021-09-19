@@ -179,13 +179,12 @@ public class AutoFloat {
         ll_account1.setOnClickListener(v -> {
             Log.m("账户1选择");
             Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, asset2s -> {
-                Assets.isInAsset2(billInfo2.getAccountName(), bool -> {
+                String asset1 = billInfo2.getAccountName();//原始资产
+                Assets.isInAsset2(asset1, bool -> {
+                    //如果原始资产不再已有范围之内
                     if (!bool) {
-                        Assets.addMap(billInfo2.getAccountName(), asset2s.getString("name"), new Assets.whenFinish() {
-                            @Override
-                            public void onFinish() {
-
-                            }
+                        Log.i("原始资产不再已有范围之内");
+                        Assets.addMap(asset1, asset2s.getString("name"), () -> {
                         });
                     }
                 });
@@ -197,13 +196,12 @@ public class AutoFloat {
         ll_account2.setOnClickListener(v -> {
             Log.m("账户2选择");
             Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, asset2s -> {
-                Assets.isInAsset2(billInfo2.getAccountName2(), bool -> {
+                String asset1 = billInfo2.getAccountName2();//原始资产
+                Assets.isInAsset2(asset1, bool -> {
                     if (!bool) {
-                        Assets.addMap(billInfo2.getAccountName2(), asset2s.getString("name"), new Assets.whenFinish() {
-                            @Override
-                            public void onFinish() {
+                        Log.i("原始资产不再已有范围之内");
+                        Assets.addMap(asset1, asset2s.getString("name"), () -> {
 
-                            }
                         });
                     }
                 });

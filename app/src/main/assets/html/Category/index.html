@@ -89,17 +89,6 @@
             </div>
         </div>
 
-        <div class="bill_type">
-            <label>账单类型满足条件</label>
-            <div class="rule_content">
-                <div class="rule_content2">
-                    <select id="bill_type1" name="bill_type1">
-                        <option selected value="正则匹配">正则匹配</option>
-                        <option value="包含"> 包含</option>
-                    </select><input id="bill_type2" type="text">
-                </div>
-            </div>
-        </div>
 
         <div class="consumption_type">
             <div class="rule_content">
@@ -327,8 +316,7 @@
         json["regular_shopName"]=$("#merchant_name2").val();
         json["regular_shopRemark_link"]=$("#merchant_remark1").val();
         json["regular_shopRemark"]=$("#merchant_remark2").val();
-        json["bill_type1"]=$("#bill_type1").val();
-        json["bill_type2"]=$("#bill_type2").val();
+
         json["regular_type"]=$("#consumption_type").val();
         json["iconImg"]=$("#iconImg").attr("src");
         json["regular_sort"]=$("#cateValue").html();
@@ -357,8 +345,7 @@
             $("#merchant_name2").val(json["regular_shopName"]);
             $("#merchant_remark1").val(json["regular_shopRemark_link"]);
             $("#merchant_remark2").val(json["regular_shopRemark"]);
-            $("#bill_type1").val(json["bill_type1"]);
-            $("#bill_type2").val(json["bill_type2"]);
+
             $("#consumption_type").val(json["regular_type"]);
             $("#iconImg").attr("src", json["iconImg"]);
             $("#cateValue").html(json["regular_sort"]);
@@ -424,16 +411,7 @@
                 regularList += String.format("(/%s/g).test(shopName) && ", shopName);
             }
         }
-        const BillType = $("#bill_type1").val();
-        const BillTypeLink = $("#bill_type2").val();
-        if (BillType !== "") {
-            if (BillTypeLink === "包含") {
-                regularList += String.format("source.indexOf('%s')!=-1 && ", BillType);
 
-            } else if (BillTypeLink === "正则匹配") {
-                regularList += String.format("(/%s/g).test(source) && ", BillType);
-            }
-        }
         //获取类型
         const type = $("#consumption_type").val();
         regularList += String.format("type == '%s' && ", type);

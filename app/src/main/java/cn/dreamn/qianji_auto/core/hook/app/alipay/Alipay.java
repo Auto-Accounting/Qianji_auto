@@ -17,7 +17,6 @@
 
 package cn.dreamn.qianji_auto.core.hook.app.alipay;
 
-import cn.dreamn.qianji_auto.core.hook.app.alipay.hooks.hookPayUI;
 import cn.dreamn.qianji_auto.core.hook.app.alipay.hooks.hookReceive;
 import cn.dreamn.qianji_auto.core.hook.app.alipay.hooks.hookRed;
 import cn.dreamn.qianji_auto.core.hook.app.alipay.hooks.hookSafe;
@@ -47,12 +46,13 @@ public class Alipay extends AppBase {
         } catch (Throwable e) {
             utils.log("支付宝安全设置hook失败：" + e.toString());
         }
-        try {
+        //取消UI的Hook
+  /*      try {
             //支付宝支付UI
             hookPayUI.init(utils);
         } catch (Throwable e) {
             utils.log("支付宝支付UI hook失败：" + e.toString());
-        }
+        }*/
         try {
             //支付宝消息通知
             hookReceive.init(utils);

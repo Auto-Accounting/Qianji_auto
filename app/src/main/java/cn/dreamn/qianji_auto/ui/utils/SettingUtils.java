@@ -1,5 +1,6 @@
 package cn.dreamn.qianji_auto.ui.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
@@ -237,6 +238,7 @@ public class SettingUtils {
     }
 
 
+    @SuppressLint("StringFormatMatches")
     private void initUi() {
 
         if (mmkv.getBoolean("lazy_mode", true)) {

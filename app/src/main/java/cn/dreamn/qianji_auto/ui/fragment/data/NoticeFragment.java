@@ -209,7 +209,7 @@ public class NoticeFragment extends BaseFragment {
                             public void handleMessage(@NonNull Message msg) {
                                 BillInfo billInfo = (BillInfo) msg.obj;
                                 billInfo.setFromApp(item.getString("fromApp"));
-                                SendDataToApp.callNoAdd(getContext(), billInfo);
+                                SendDataToApp.call(getContext(), billInfo);
                             }
                         };
                         identifyRegulars.run(getType(), item.getString("fromApp"), item.getString("rawData"), billInfo -> {

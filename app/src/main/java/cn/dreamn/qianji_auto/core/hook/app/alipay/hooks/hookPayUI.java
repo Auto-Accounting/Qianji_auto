@@ -17,7 +17,6 @@
 
 package cn.dreamn.qianji_auto.core.hook.app.alipay.hooks;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
@@ -26,6 +25,9 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class hookPayUI {
     public static void init(Utils utils) {
+        hookUI(utils);
+
+        hookData(utils);
         ClassLoader mAppClassLoader = utils.getClassLoader();
         Class<?> LogUtil = XposedHelpers.findClass("com.alipay.android.msp.utils.LogUtil", mAppClassLoader);
         XposedHelpers.findAndHookMethod(LogUtil, "record", int.class, String.class, String.class, String.class, new XC_MethodHook() {
@@ -34,10 +36,11 @@ public class hookPayUI {
                 String str = methodHookParam.args[2].toString();
                 String data = methodHookParam.args[3].toString();
                 try {
-                    utils.log("数据：" + data);
-                    if (str.equals("MspUIClient:handleUiShow")) {
+                    utils.log("TAG:" + str + " DATA: " + data);
+                   /* if (str.equals("MspUIClient:handleUiShow")) {
                         //找到所需
-                        data = data.substring("data=".length());
+                        utils.log("数据：" + data);
+                        //*data = data.substring("data=".length());
                         JSONObject parseObject = JSON.parseObject(data);
                         if (parseObject.containsKey("data")) {
                             JSONObject parseObject2 = JSON.parseObject(parseObject.getString("data"));
@@ -47,11 +50,37 @@ public class hookPayUI {
                                 utils.writeData("alipay_cache_payTool", parseObject2.getString("payTool"));
                             }
                         }
-                    }
+                    }*/
                 } catch (Exception e) {
                     utils.log("出现错误" + e.toString(), true);
                 }
             }
         });
+    }
+
+    private static void hookData(Utils utils) {
+        Class<?> data = XposedHelpers.findClass("com.alipay.mobileprod.biz.transfer.dto.CreateToAccountReq", utils.getClassLoader());
+        XposedHelpers.findAndHookMethod(data, "toString", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                super.afterHookedMethod(param);
+                String str = (String) param.getResult();
+                utils.log("数据：" + str, true);
+            }
+        });
+    }
+
+    private static void hookUI(Utils utils) {
+        Class<?> UIAction = XposedHelpers.findClass("com.alipay.android.msp.drivers.actions.UIAction", utils.getClassLoader());
+        Class<?> MspUIClient = XposedHelpers.findClass("com.alipay.android.msp.core.clients.MspUIClient", utils.getClassLoader());
+        XposedHelpers.findAndHookMethod(MspUIClient, "handleUiShow", UIAction, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                super.afterHookedMethod(param);
+                JSONObject str = (JSONObject) param.getResult();
+                utils.log("数据：" + str.toJSONString(), true);
+            }
+        });
+
     }
 }

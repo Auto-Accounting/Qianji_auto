@@ -183,6 +183,7 @@ public class Assets {
     }
 
     public static void addMap(String assetName, String mapName, whenFinish when) {
+        Log.i("添加映射：" + assetName + "->" + mapName);
         Task.onThread(() -> {
             DbManger.db.AssetDao().del(assetName);//删掉已有的，再添加没有的
             DbManger.db.AssetDao().add(assetName, mapName);
@@ -218,7 +219,7 @@ public class Assets {
     public static void getMap(String assetName,getAssets2String getAssets) {
         Log.m("获取map" + assetName);
         Task.onThread(() -> {
-            if (assetName == null) {
+            if (assetName == null || assetName.equals("")) {
                 getAssets.onGet("");
                 return;
             }
@@ -238,10 +239,6 @@ public class Assets {
                 }
             }
             Asset[] assets = DbManger.db.AssetDao().get(assetName);
-            if (assetName.equals("")) {
-                getAssets.onGet(assetName);
-                return;
-            }
             //没有资产创造资产
             if (assets.length <= 0) {
                 //  DbManger.db.AssetDao().add(assetName, assetName);
