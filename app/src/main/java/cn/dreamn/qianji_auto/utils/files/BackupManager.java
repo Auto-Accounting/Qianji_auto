@@ -33,8 +33,8 @@ public class BackupManager {
     private static String CACHE_PATH;
 
     public static void init(Context context) {
-        CACHE_PATH = context.getExternalCacheDir().getPath() + "/backups/";
-        FileUtils.makeRootDirectory(CACHE_PATH);
+        CACHE_PATH = context.getExternalCacheDir().getPath() + "/";
+        //FileUtils.makeRootDirectory(CACHE_PATH);
     }
 
     @SuppressLint("SdCardPath")

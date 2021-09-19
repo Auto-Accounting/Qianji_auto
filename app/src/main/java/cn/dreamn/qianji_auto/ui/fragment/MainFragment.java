@@ -275,7 +275,12 @@ public class MainFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         setActive();
-        restore();
+        try {
+            restore();
+        } catch (Throwable e) {
+            Log.i("数据恢复过程中发生错误！" + e.toString());
+            ToastUtils.show(R.string.restore_error_2);
+        }
     }
 
     @Override
