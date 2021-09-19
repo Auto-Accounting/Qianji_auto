@@ -60,6 +60,7 @@ import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
 @Page(name = "通知列表", params = {KEY_DATA}, anim = CoreAnim.slide)
@@ -174,7 +175,7 @@ public class NoticeFragment extends BaseFragment {
             Bundle item = list.get(i);
             //Log.d("item", item.toString());
             String[] strings;
-            strings = new String[]{getString(R.string.notice_del), getString(R.string.notice_create), getString(R.string.regular_test)};
+            strings = new String[]{getString(R.string.notice_del), getString(R.string.notice_create), getString(R.string.regular_test), getString(R.string.regular_copy)};
             BaseFragment baseFragment = this;
             BottomArea.list(getContext(), getString(R.string.notice_choose), Arrays.asList(strings), new BottomArea.ListCallback() {
                 @Override
@@ -220,6 +221,9 @@ public class NoticeFragment extends BaseFragment {
                             }
 
                         });
+                    } else if (position == 3) {
+                        Tool.clipboard(getContext(), item.getString("rawData"));
+                        ToastUtils.show(R.string.copied);
                     }
                 }
             });
