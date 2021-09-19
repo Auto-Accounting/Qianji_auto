@@ -60,6 +60,7 @@ public class FileUtils {
             return new String(bytes);
 
         } catch (Exception e) {
+            e.printStackTrace();
             return "";
         }
     }

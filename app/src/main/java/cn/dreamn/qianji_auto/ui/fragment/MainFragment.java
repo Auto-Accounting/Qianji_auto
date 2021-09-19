@@ -46,6 +46,7 @@ import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
+import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.IconView;
@@ -175,6 +176,12 @@ public class MainFragment extends BaseFragment {
       //  Log.i("Bundle数据：" + bundle.toString());
         String str = bundle.getString("url");
         if (str != null) {
+            PermissionUtils permissionUtils = new PermissionUtils(getContext());
+            permissionUtils.grant(PermissionUtils.Storage);
+            if (permissionUtils.isGrant(PermissionUtils.Storage).equals("0")) {
+                ToastUtils.show(R.string.restore_permission);
+                return;
+            }
             //  Log.i("恢复路径：" + str);
             if (str.endsWith("auto.backup")) {
                 loadingDialog = new LoadingDialog(getContext(), getString(R.string.restore_loading));
@@ -199,6 +206,8 @@ public class MainFragment extends BaseFragment {
                     }
                 });
             } else if (str.endsWith(".backup_app_ankio")) {
+                Log.i("file" + str);
+                Log.i("file:" + FileUtils.get(str));
                 RegularManager.restoreFromData(getContext(), "", "app", FileUtils.get(str), new RegularManager.End() {
                     @Override
                     public void onFinish(int code) {

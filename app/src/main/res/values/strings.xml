@@ -422,4 +422,5 @@
     <string name="input_fee">请输入手续费</string>
     <string name="no_assets">请先添加资产！</string>
     <string name="search_tip">请输入搜索关键词</string>
+    <string name="restore_permission">未授予存储权限！</string>
 </resources>

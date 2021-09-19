@@ -303,10 +303,15 @@ public class localFragment extends BaseFragment {
                     case 3:
                         JSONObject jsonObject2 = new JSONObject();
                         jsonObject2.put("name", cate.getString("name"));
+                        jsonObject2.put("text", cate.getString("text"));
                         jsonObject2.put("regular", cate.getString("regular"));
-                        jsonObject2.put("tableList", cate.getString("tableList"));
+                        jsonObject2.put("fromApp", cate.getString("fromApp"));
+
                         jsonObject2.put("des", cate.getString("des"));
-                        RegularManager.outputRegOne(getContext(), getString(R.string.auto), getType(), jsonObject2, true);
+                        jsonObject2.put("identify", cate.getString("identify"));
+                        jsonObject2.put("tableList", JSONObject.parseObject(cate.getString("tableList")));
+
+                        RegularManager.outputRegOne(getContext(), getName(), getType(), jsonObject2, true);
                         break;
                     case 4:
                         if (finalDisable.equals(getString(R.string.disable))) {
