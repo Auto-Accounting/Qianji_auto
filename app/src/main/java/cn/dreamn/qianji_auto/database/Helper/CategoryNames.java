@@ -237,7 +237,7 @@ public class CategoryNames {
         categoryUtils.show();
         categoryUtils.refreshData(state -> {
             if(state==0) {
-                ToastUtils.show("请在【分类管理】中添加分类后再试！");
+                ToastUtils.show(R.string.category_error);
 
             }else{
 

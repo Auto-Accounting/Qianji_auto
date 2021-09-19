@@ -242,7 +242,7 @@
 
         $("#category").on("click", function (e) {
             try {
-                window.AndroidJS.SelectCategory($("#consumption_type").val());
+                window.AndroidJS.SelectCategory($("#consumption_type").val()==="支出"?"0":"1");
             } catch (e) {
                 //不是在安卓WebVIew打开
                 const word = prompt("请输入分类名称", "");
@@ -316,7 +316,6 @@
         json["regular_shopName"]=$("#merchant_name2").val();
         json["regular_shopRemark_link"]=$("#merchant_remark1").val();
         json["regular_shopRemark"]=$("#merchant_remark2").val();
-
         json["regular_type"]=$("#consumption_type").val();
         json["iconImg"]=$("#iconImg").attr("src");
         json["regular_sort"]=$("#cateValue").html();
@@ -325,7 +324,6 @@
 
     function setData() {
         let data = decodeURIComponent(getQueryVariable("data"));
-        console.log(data)
         const id = getQueryVariable("id");
         if(data!==undefined&&id!==undefined){
             $("#cate_id").val(id);
@@ -411,7 +409,16 @@
                 regularList += String.format("(/%s/g).test(shopName) && ", shopName);
             }
         }
+        const BillType = $("#bill_type1").val();
+        const BillTypeLink = $("#bill_type2").val();
+        if (BillType !== "") {
+            if (BillTypeLink === "包含") {
+                regularList += String.format("source.indexOf('%s')!=-1 && ", BillType);
 
+            } else if (BillTypeLink === "正则匹配") {
+                regularList += String.format("(/%s/g).test(source) && ", BillType);
+            }
+        }
         //获取类型
         const type = $("#consumption_type").val();
         regularList += String.format("type == '%s' && ", type);

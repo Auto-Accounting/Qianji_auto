@@ -93,7 +93,7 @@ public class Category {
         jsonObject.put("regular_shopName", billInfo.getShopAccount());
         jsonObject.put("regular_shopRemark_link", "包含");
         jsonObject.put("regular_shopRemark", billInfo.getShopRemark());
-        jsonObject.put("regular_type", BillInfo.getTypeName(billInfo.getType(true)));
+        jsonObject.put("regular_type", BillInfo.getTypeName(billInfo.getType()));
         jsonObject.put("iconImg", "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png");
         jsonObject.put("regular_sort", sort);
         Category.addCategory(regular, billInfo.getShopAccount(), jsonObject.toJSONString(), "[自动生成]", new Finish() {
@@ -137,7 +137,7 @@ public class Category {
                    "            return m1 === m2 && timeMinute === m1 && timeHour === h1;\n" +
                    "    }\n" +
                    "};";
-           String js = "function getCategory(shopName,shopRemark,type,hour,minute,money){%s  %s return '其它';} getCategory('%s','%s','%s',%s,%s,'%s');";
+           String js = "function getCategory(shopName,shopRemark,type,hour,minute,money){%s  %s return 'NotFound';} getCategory('%s','%s','%s',%s,%s,'%s');";
 
            String time = billInfo.getTime();
            String hour, minute;
@@ -158,7 +158,7 @@ public class Category {
                minute = Tool.getTime("mm");
            }
 
-           getStr.onGet(String.format(js, jsInner, regList.toString(), billInfo.getShopAccount(), billInfo.getShopRemark(), billInfo.getType(true), hour, minute, billInfo.getMoney()));
+           getStr.onGet(String.format(js, jsInner, regList.toString(), billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType()), hour, minute, billInfo.getMoney()));
        });
 
 
@@ -193,7 +193,7 @@ public class Category {
                 "            return m1 === m2 && timeMinute === m1 && timeHour === h1;\n" +
                 "    }\n" +
                 "};";
-        String js = "function getCategory(shopName,shopRemark,type,hour,minute,money){%s  %s return '其它';} getCategory('%s','%s','%s',%s,%s,'%s');";
+        String js = "function getCategory(shopName,shopRemark,type,hour,minute,money){%s  %s return 'NotFound';} getCategory('%s','%s','%s',%s,%s,'%s');";
         return String.format(js, jsInner, jsData, shopAccount, shopRemark, type, hour, minute, money);
     }
 
