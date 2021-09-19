@@ -121,10 +121,7 @@ public class Utils {
             if (
                     key != null &&
                             !value.startsWith("#") &&
-                            !value.equals("") &&
-                            !value.equals("\\n") &&
-                            !value.contains("://") &&
-                            !value.startsWith("{")
+                            !value.contains("://")
             ) {
                 paramStr.append("&").append(key).append("=").append(value);
             }
@@ -244,18 +241,18 @@ public class Utils {
     public void log(String msg, boolean xp) {
         if (xp) XposedBridge.log("Ankio-" + appName + " -> " + msg);
         //发送到自动记账日志
-        Log.i("Ankio-" + appName, msg);
+        //  Log.i("Ankio-" + appName, msg);
         // 采用分段打印 四千字符分一段
         if (msg.length() > 4000) {
             for (int i = 0; i < msg.length(); i += 4000) {
                 if (i + 4000 < msg.length()) {
-                    Log.i("第" + i + "数据", msg.substring(i, i + 4000));
+                    Log.i("Ankio-" + appName + " 第" + i + "数据", msg.substring(i, i + 4000));
                 } else {
-                    Log.i("第" + i + "数据", msg.substring(i));
+                    Log.i("Ankio-" + appName + " 第" + i + "数据", msg.substring(i));
                 }
             }
         } else {
-            Log.i("全部数据", "************************  response = " + msg);
+            Log.i("Ankio-" + appName + " 全部数据", "************************  response = " + msg);
         }
         Bundle bundle = new Bundle();
         bundle.putString("tag", "Ankio-" + appName);
