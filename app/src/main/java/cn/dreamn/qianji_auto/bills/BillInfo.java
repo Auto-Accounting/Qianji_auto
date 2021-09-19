@@ -44,6 +44,7 @@ public class BillInfo {
 
     private String time;//yyyy-MM-dd HH:mm:ss
 
+    private int id = 0;//数据ID
     //以上为必传参数
 
     private String remark;//备注信息
@@ -135,6 +136,9 @@ public class BillInfo {
                 case "rawMd5":
                     billInfo.setRawMd5(value);
                     break;
+                case "id":
+                    billInfo.setId(Integer.parseInt(value));
+                    break;
                 default:
                     break;
             }
@@ -145,12 +149,20 @@ public class BillInfo {
 
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int value) {
+        id = value;
+    }
+
     public void setRawMd5(String value) {
-        rawMd5=value;
+        rawMd5 = value;
     }
 
     public void setFee(String value) {
-        fee=value;
+        fee = value;
     }
 
     public void setExtraData(String value) {
@@ -334,7 +346,6 @@ public class BillInfo {
         this.time = Tool.getTime("yyyy-MM-dd HH:mm:ss");
     }
 
-
     @NonNull
     public String toString() {
 
@@ -389,6 +400,9 @@ public class BillInfo {
         }
         if (rawMd5 != null) {
             url += "&rawMd5=" + rawMd5;
+        }
+        if (id != 0) {
+            url += "&id=" + id;
         }
         return url;
     }

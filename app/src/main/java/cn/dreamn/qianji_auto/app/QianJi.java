@@ -23,6 +23,7 @@ import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.utils.runUtils.Cmd;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class QianJi implements IApp {
     private static QianJi qianJi;
@@ -58,7 +59,12 @@ public class QianJi implements IApp {
                     Caches.AddOrUpdate("show_tip", "false");
                     Caches.AddOrUpdate("float_time", String.valueOf(System.currentTimeMillis()));
                     //    Tool.goUrl(context, getQianJi(billInfo));
-                    Cmd.exec(new String[]{"am start \"" + getQianJi(billInfo) + "\""});
+                    if (Cmd.hasRootPermission()) {
+                        Cmd.exec(new String[]{"am start \"" + getQianJi(billInfo) + "\""});
+                    } else {
+                        Tool.goUrl(context, getQianJi(billInfo));
+                    }
+
                     //TODO 4.0新增：多币种记账支持，此处预留修改位。
                     ToastUtils.show(String.format(context.getString(R.string.book_success), billInfo.getMoney()));
                 }

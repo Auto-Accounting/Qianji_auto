@@ -252,7 +252,10 @@ public class BackUpFragment extends BaseFragment {
                     @Override
                     public void onSelectedFilePaths(String[] files) {
                         dialog.dismiss();
-                        Task.onThread(() -> BackupManager.restoreFromLocal(files[0], getContext(), mHandler));
+                        Task.onThread(() -> {
+                            BackupManager.init(getContext());
+                            BackupManager.restoreFromLocal(files[0], getContext(), mHandler);
+                        });
                     }
                 });
             } catch (Exception | Error e) {

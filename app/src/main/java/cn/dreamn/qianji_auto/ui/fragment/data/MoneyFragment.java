@@ -153,7 +153,9 @@ public class MoneyFragment extends BaseFragment {
             public void onSelect(int position) {
                 switch (position) {
                     case 0:
-                        goBillApp(billInfo, i);
+                        goBillApp(billInfo, bundle.getInt("id"));
+                        /* int id = bundle.getInt("id");
+                         */
                         break;
                     case 1:
                         del(bundle);
@@ -190,6 +192,7 @@ public class MoneyFragment extends BaseFragment {
     }
 
     private void goBillApp(BillInfo billInfo, int i) {
+        billInfo.setId(i);
         SendDataToApp.callNoAdd(getContext(), billInfo, i);
     }
 

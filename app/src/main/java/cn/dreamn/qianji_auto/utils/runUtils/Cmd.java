@@ -9,7 +9,7 @@ public class Cmd {
     public static String result;
 
     public static boolean hasRootPermission() {
-        PrintWriter PrintWriter = null;
+        PrintWriter PrintWriter;
         Process process = null;
         try {
             process = Runtime.getRuntime().exec("su");
@@ -37,11 +37,8 @@ public class Cmd {
         PrintWriter PrintWriter;
         Process process = null;
         try {
-            if (hasRootPermission()) {
-                process = Runtime.getRuntime().exec("su");
-            } else {
-                process = Runtime.getRuntime().exec("sh");
-            }
+            process = Runtime.getRuntime().exec("su");
+
             PrintWriter = new PrintWriter(process.getOutputStream());
             for (String cmd : cmds) {
                 PrintWriter.println(cmd);

@@ -40,7 +40,7 @@ public interface AutoBillDao {
     @Query("SELECT * from autobill WHERE date=:date order by id desc")
     AutoBill[] getByDate(String date);
 
-    @Query("UPDATE  autobill SET billInfo=:billInfo WHERE id=:id")
+    @Query("UPDATE autobill SET billInfo=:billInfo WHERE id=:id")
     void update(int id, String billInfo);
 
     @Query("DELETE FROM autobill")

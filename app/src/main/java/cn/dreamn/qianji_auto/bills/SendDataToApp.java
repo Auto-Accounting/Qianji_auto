@@ -33,6 +33,7 @@ import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.database.Helper.AutoBills;
 import cn.dreamn.qianji_auto.database.Helper.Caches;
 import cn.dreamn.qianji_auto.database.Helper.Category;
+import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
@@ -95,10 +96,7 @@ public class SendDataToApp {
                     BillInfo billInfo2 = (BillInfo) msg.obj;
                     BillReplace.replaceRemark(billInfo2);
                     if (!billInfo2.isAvaiable()) return;
-
                     showFloatByAlert(context, billInfo2);
-                    if (id != -1)
-                        AutoBills.update(id, billInfo2);
                 }
             }
         };
@@ -132,6 +130,8 @@ public class SendDataToApp {
         } catch (Exception e) {
             Log.i(TAG, "请授予悬浮窗权限！" + e.toString());
             ToastUtils.show(R.string.float_tip);
+            PermissionUtils permissionUtils = new PermissionUtils(context);
+            permissionUtils.grant(PermissionUtils.Float);
         }
     }
 
@@ -154,13 +154,15 @@ public class SendDataToApp {
         } catch (Exception e) {
             Log.i(TAG, "请授予悬浮窗权限！" + e.toString());
             ToastUtils.show(R.string.float_tip);
+            PermissionUtils permissionUtils = new PermissionUtils(context);
+            permissionUtils.grant(PermissionUtils.Float);
 
         }
     }
 
 
     public static void goApp(Context context, BillInfo billInfo) {
-        Log.i(TAG, "前往记账app");
+
         Handler mHandler=new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -169,12 +171,18 @@ public class SendDataToApp {
             }
         };
         Category.getCategory(billInfo, cate -> {
-            Log.i("cate:" + cate);
+            // Log.i("cate:" + cate+"数据 "+billInfo.toString());
             if (cate.equals("NotFound")) {
                 MMKV mmkv = MMKV.defaultMMKV();
                 if (mmkv.getBoolean("auto_sort", false)) {
                     Category.setCateJs(billInfo, billInfo.getCateName());
                 }
+            }
+            int id = billInfo.getId();
+
+            if (id != 0) {
+
+                AutoBills.update(id, billInfo);
             }
             HandlerUtil.send(mHandler, 0);
         });
