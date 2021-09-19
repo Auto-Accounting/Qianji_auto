@@ -60,8 +60,8 @@ public class Msg {
                     String xml = xmlToJson.toString();
                     jsonObject.put("content", JSONObject.parseObject(xml));
                     jsonObject.put("cache_money", utils.readData("cache_wechat_payMoney", true));
-                    jsonObject.put("cache_user", utils.readData("cache_wechat_payUser", true));
-                    jsonObject.put("cache_paytools", utils.readData("cache_wechat_paytool", true));
+                    jsonObject.put("cache_user", utils.readData("cache_wechat_payUser"));
+                    jsonObject.put("cache_paytools", utils.readData("cache_wechat_paytool"));
                     //转账消息
                     if (type == 419430449) {
                         jsonObject.put("title", "转账消息");

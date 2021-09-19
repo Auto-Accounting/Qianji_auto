@@ -75,17 +75,19 @@ public class hookReceive {
 
         if (jsonObject1.getString("templateType").equals("BN")) {
             JSONObject content = jsonObject1.getJSONObject("content");
-            content.put("alipay_cache_shopremark", utils.readData("alipay_cache_shopremark", true));
+           /* content.put("alipay_cache_shopremark", utils.readData("alipay_cache_shopremark", true));
             content.put("alipay_cache_money", utils.readData("alipay_cache_money", true));
             content.put("alipay_cache_payTool", utils.readData("alipay_cache_payTool", true));
+           */
             content.put("title", title);
             utils.send(content);
         } else if (jsonObject1.getString("templateType").equals("S")) {
             JSONObject content = jsonObject1.getJSONObject("extraInfo");
             content.put("extra", jsonObject1.getString("content"));
-            content.put("alipay_cache_shopremark", utils.readData("alipay_cache_shopremark"));
+          /*  content.put("alipay_cache_shopremark", utils.readData("alipay_cache_shopremark"));
             content.put("alipay_cache_money", utils.readData("alipay_cache_money"));
             content.put("alipay_cache_payTool", utils.readData("alipay_cache_payTool"));
+            */
             content.put("title", title);
             utils.send(content);
         }
