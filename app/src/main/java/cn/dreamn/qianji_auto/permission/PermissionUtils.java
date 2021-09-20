@@ -34,6 +34,7 @@ import com.tencent.mmkv.MMKV;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.setting.AppStatus;
 
 
 public class PermissionUtils {
@@ -114,7 +115,7 @@ public class PermissionUtils {
     public String isGrant(int permission) {
         switch (permission) {
             case Assist:
-                return Accessibility.isAccessibilityEnabled(mContext) ? "1" : "0";
+                return AppStatus.defaultActive(mContext) ? "1" : "0";
             case Sms:
                 return XXPermissions.isGranted(mContext, Permission.RECEIVE_SMS) ? "1" : "0";
             case Float:

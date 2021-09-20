@@ -59,7 +59,7 @@ public class AppStatus {
         } else return AppInfo.getFrameWork(context);
     }
 
-    private static boolean defaultActive(Context context) {
+    public static boolean defaultActive(Context context) {
         return ApiUtil.isAccessibilityServiceOn(context, AutoAccessibilityService.class);
 
         //return false;
