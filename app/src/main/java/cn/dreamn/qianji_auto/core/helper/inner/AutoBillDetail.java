@@ -8,16 +8,24 @@ import java.util.List;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.BillTools;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class AutoBillDetail {
     public static long time;
 
     public static void goApp(Context context, BillInfo billInfo) {
+        if (billInfo == null) {
+            Log.i("Billinfo数据为空");
+            return;
+        }
+        //
+        // Log.i("Billinfo数据："+billInfo.toString());
+
         //防止出现多次识别
         if (System.currentTimeMillis() - time > 1000L) {
             time = System.currentTimeMillis();
-            SendDataToApp.goApp(context, billInfo);
+            SendDataToApp.call(context, billInfo);
             //进行记账
         }
     }
@@ -95,7 +103,7 @@ public class AutoBillDetail {
 
                     if (((String) list.get(size)).contains("+")) {
                         billInfo.setRemark("支付宝收款");
-                        billInfo.setType("1");
+                        billInfo.setType(BillInfo.TYPE_INCOME);
                     } else if (i > 1) {
                         billInfo.setRemark(((String) list.get(i - 2)));
                     } else {
@@ -104,7 +112,7 @@ public class AutoBillDetail {
 
                     if (remark.equals("退款成功")) {
                         billInfo.setRemark("退款-来自" + billInfo.getRemark());
-                        billInfo.setType("1");
+                        billInfo.setType(BillInfo.TYPE_INCOME);
                     }
 
                     billInfo.setShopAccount(billInfo.getRemark());
@@ -131,7 +139,7 @@ public class AutoBillDetail {
                         if (remark.contains("+")) {
                             billInfo.setRemark("支付宝收款");
                             billInfo.setShopAccount(billInfo.getRemark());
-                            billInfo.setType("1");
+                            billInfo.setType(BillInfo.TYPE_INCOME);
                         }
                     }
 
@@ -236,7 +244,7 @@ public class AutoBillDetail {
 
         BillInfo billInfo = new BillInfo();
         billInfo.setFromApp("支付宝");
-        billInfo.setType("1");
+        billInfo.setType(BillInfo.TYPE_INCOME);
         int i;
         for (i = 0; i < list.size(); ++i) {
             if ((list.get(i).equals("元")) && i > 2) {
@@ -260,7 +268,7 @@ public class AutoBillDetail {
 
         BillInfo billInfo = new BillInfo();
         billInfo.setFromApp("微信");
-        billInfo.setType("1");
+        billInfo.setType(BillInfo.TYPE_INCOME);
         int i;
         for (i = 0; i < list.size(); ++i) {
             String money = ((String) list.get(i)).replace("元", "").replace(",", "");
@@ -318,7 +326,7 @@ public class AutoBillDetail {
                     billInfo.setMoney(Math.abs(Double.parseDouble(money)) + "");
                 }
 
-                billInfo.setType("1");
+                billInfo.setType(BillInfo.TYPE_INCOME);
                 j = 1;
             } else if ((node.equals("商户名称")) && i < list.size() - 1) {
                 billInfo.setShopAccount(((String) list.get(i + 1)));
@@ -430,7 +438,7 @@ public class AutoBillDetail {
                     billInfo.setMoney(Math.abs(Double.parseDouble(money)) + "");
                 }
 
-                billInfo.setType("1");
+                billInfo.setType(BillInfo.TYPE_INCOME);
                 minSize = 1;
             } else if (((node.equals("商户名称")) || (node.equals("乘车线路"))) && i < list.size() - 1) {
                 billInfo.setShopAccount(((String) list.get(i + 1)));
@@ -532,7 +540,7 @@ public class AutoBillDetail {
                     }
 
                     if (node.contains("+")) {
-                        billInfo.setType("1");
+                        billInfo.setType(BillInfo.TYPE_INCOME);
                     }
                 }
             } else if (((node.equals("支付时间")) || (node.equals("转账时间")) || (node.equals("收款时间"))) && i < list.size() - 1) {
@@ -611,7 +619,7 @@ public class AutoBillDetail {
         if (!TextUtils.isEmpty(billInfo.getMoney())) {
             billInfo.setRemark("微信收款");
             billInfo.setShopAccount(billInfo.getRemark());
-            billInfo.setType("1");
+            billInfo.setType(BillInfo.TYPE_INCOME);
             return billInfo;
         }
 

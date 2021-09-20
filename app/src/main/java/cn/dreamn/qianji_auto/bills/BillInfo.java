@@ -38,9 +38,9 @@ public class BillInfo {
     public static String TYPE_TRANSFER_ACCOUNTS = "2";//转账
     public static String TYPE_CREDIT_CARD_PAYMENT = "3";//信用卡还款
     public static String TYPE_PAYMENT_REFUND = "5";//报销
-    
-    private String type;//账单类型
-    private String money;//大于0
+
+    private String type = "0";//账单类型
+    private String money = "0";//大于0
 
     private String time;//yyyy-MM-dd HH:mm:ss
 
@@ -49,34 +49,38 @@ public class BillInfo {
 
     private String remark;//备注信息
 
-    private String catename;//分类
+    private String catename = "NotFound";//分类
 
-    private String reimbursement;//是否报销
+    private String reimbursement = "false";//是否报销
 
     private String catechoose = "0";//type=0或1有效
 
     private String bookname = "默认账本";//账本名称，不填写则使用默认账本
 
-    private String accountname;//账单所属资产名称(或转账的转出账户）
+    private String accountname = "";//账单所属资产名称(或转账的转出账户）
 
-    private String accountname2;//转账或者还款的转入账户
+    private String accountname2 = "";//转账或者还款的转入账户
 
-    private String fromApp;//来源app
+    private String fromApp = "";//来源app
 
-    private String rawAccount;//没有替换的资产名
-    private String rawAccount2;//没有替换的资产名
-    
-    private String shopAccount;//识别出来的收款账户
+    private String rawAccount = "";//没有替换的资产名
+    private String rawAccount2 = "";//没有替换的资产名
 
-    private String shopRemark;//识别出来的备注
+    private String shopAccount = "";//识别出来的收款账户
 
-    private String extraData;//额外数据来源
+    private String shopRemark = "";//识别出来的备注
 
-    private String fee="0";//手续费
+    private String extraData = "";//额外数据来源
+
+    private String fee = "0";//手续费
 
 
     private String rawMd5;
     private long timeStamp;
+
+    public BillInfo() {
+        setTime();
+    }
 
     public static BillInfo parse(String url) {
         Uri mUri = Uri.parse(url);
@@ -222,6 +226,7 @@ public class BillInfo {
     }
 
     public static String getTypeName(String type) {
+        if (type == null) return "支出";
         if (type.equals(TYPE_PAY)) return "支出";
         if (type.equals(TYPE_CREDIT_CARD_PAYMENT)) return "信用还款";
         if (type.equals(TYPE_INCOME)) return "收入";
@@ -433,6 +438,9 @@ public class BillInfo {
     public boolean isAvaiable() {
         if (this.fee != null && this.fee.equals(""))
             this.fee = "0";
+        if (accountname.equals("")) {
+            accountname = fromApp;
+        }
         try {
             //检查手续费
             if (this.fee != null && Float.parseFloat(this.fee) > Float.parseFloat(this.money)) {

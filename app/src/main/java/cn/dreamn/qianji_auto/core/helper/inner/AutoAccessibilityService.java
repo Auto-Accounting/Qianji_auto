@@ -2,6 +2,8 @@ package cn.dreamn.qianji_auto.core.helper.inner;
 
 import android.accessibilityservice.AccessibilityService;
 import android.app.ActivityManager;
+import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -28,6 +30,10 @@ public class AutoAccessibilityService extends AccessibilityService {
     public AutoAccessibilityService() {
         canAdd = false;
         payTools = null;
+    }
+
+    public static void startAutoNotify(Context context) {
+        context.startService(new Intent(context, AutoBillService.class));
     }
 
     private boolean isServiceRunning(String ServicePackageName) {
@@ -315,6 +321,11 @@ public class AutoAccessibilityService extends AccessibilityService {
     @Override
     public void onInterrupt() {
 
+    }
+
+    @Override
+    protected void onServiceConnected() {
+        startAutoNotify(getApplicationContext());
     }
 }
 

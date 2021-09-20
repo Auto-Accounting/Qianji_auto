@@ -39,7 +39,7 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="5dp"
         android:padding="2dp"
-        android:src="@drawable/ic_monry"
+        android:src="@drawable/ic_money"
         app:srcCompat="@drawable/logo_qianji" />
 
 

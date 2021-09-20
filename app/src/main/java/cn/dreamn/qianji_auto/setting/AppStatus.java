@@ -32,6 +32,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.core.helper.base.ApiUtil;
+import cn.dreamn.qianji_auto.core.helper.inner.AutoAccessibilityService;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import kotlin.jvm.internal.Intrinsics;
 
@@ -58,13 +60,13 @@ public class AppStatus {
     }
 
     private static boolean defaultActive(Context context) {
-        // return ApiUtil.isAccessibilityServiceOn(context, AutoReadAccessibilityService.class);
-        // TODO 判断无障碍是否启用
-        return false;
+        return ApiUtil.isAccessibilityServiceOn(context, AutoAccessibilityService.class);
+
+        //return false;
     }
 
     public static boolean xposedActive(Context context) {
-        Log.i("xp激活状态");
+
         String frame = AppInfo.getFrameWork(context);
         if (frame.equals(context.getString(R.string.frame_taichi)))
             return taichiActive(context);

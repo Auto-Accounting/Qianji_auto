@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="cn.dreamn.qianji_auto">
+    <!--后台运行服务-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <!--结束进程-->
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <!-- 忽略电池优化 -->
@@ -99,6 +101,7 @@
             android:name=".core.helper.inner.AutoAccessibilityService"
             android:description="@string/accessibility_inner_desc"
             android:label="@string/accessibility_inner_title"
+            android:exported="false"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
