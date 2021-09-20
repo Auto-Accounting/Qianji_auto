@@ -272,10 +272,13 @@ public class BillInfo {
 
     public void setTime(String time) {
         this.time = time;
+        this.timeStamp = Tool.dateToStamp(this.time, "yyyy-MM-dd HH:mm:ss");
     }
 
     public void setTimeStamp() {
-        this.timeStamp = Tool.dateToStamp(Tool.getTime("yyyy-MM-dd HH:mm:ss"), "yyyy-MM-dd HH:mm:ss");
+        this.time = Tool.getTime("yyyy-MM-dd HH:mm:ss");
+        this.timeStamp = Tool.dateToStamp(this.time, "yyyy-MM-dd HH:mm:ss");
+
     }
 
     public long getTimeStamp() {
@@ -284,6 +287,7 @@ public class BillInfo {
 
     public void setTimeStamp(long time) {
         this.timeStamp = time;
+        this.time = Tool.stampToDate(time, "yyyy-MM-dd HH:mm:ss");
     }
 
     public String getRemark() {
