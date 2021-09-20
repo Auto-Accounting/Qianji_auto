@@ -185,6 +185,7 @@
         if(js==="")
             return;
         const jsData = getFunction($("#str_input").val(),js);
+        console.log(jsData);
         try {
             const ret = eval(jsData);
             var jsArr=ret.split("|");
