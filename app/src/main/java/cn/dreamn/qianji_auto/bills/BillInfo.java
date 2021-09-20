@@ -145,7 +145,7 @@ public class BillInfo {
                     billInfo.setId(Integer.parseInt(value));
                     break;
                 case "timeStamp":
-                    billInfo.setTimeStamp(Integer.parseInt(value));
+                    billInfo.setTimeStamp(Long.parseLong(value));
                     break;
                 default:
                     break;
