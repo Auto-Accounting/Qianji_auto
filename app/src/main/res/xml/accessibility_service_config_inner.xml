@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeAllMask"
+    android:accessibilityFeedbackType="feedbackAllMask"
+    android:canRetrieveWindowContent="true"
+    android:description="@string/accessibility_inner_desc"
+    android:notificationTimeout="100"
+    android:packageNames="com.tencent.mm,com.eg.android.AlipayGphone,com.unionpay,com.jd.jrapp" />

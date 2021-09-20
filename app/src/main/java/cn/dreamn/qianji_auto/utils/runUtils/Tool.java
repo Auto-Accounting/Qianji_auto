@@ -207,4 +207,33 @@ public class Tool {
         }
         return ret;
     }
+
+    /*
+     * 将时间转换为时间戳
+     */
+    public static long dateToStamp(String time, String format) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        try {
+            Date date = simpleDateFormat.parse(time);
+            return date.getTime();
+        } catch (Throwable e) {
+            return 0;
+        }
+    }
+
+    public static String stampToDate(long time, String format) {
+        String res;
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        Date date = new Date(time);
+        res = simpleDateFormat.format(date);
+        return res;
+    }
+
+    public static String stampToDate(String time, String format) {
+        String res;
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+        Date date = new Date(Long.parseLong(time));
+        res = simpleDateFormat.format(date);
+        return res;
+    }
 }

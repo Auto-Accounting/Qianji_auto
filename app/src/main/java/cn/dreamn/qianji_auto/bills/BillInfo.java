@@ -76,6 +76,7 @@ public class BillInfo {
 
 
     private String rawMd5;
+    private long timeStamp;
 
     public static BillInfo parse(String url) {
         Uri mUri = Uri.parse(url);
@@ -138,6 +139,9 @@ public class BillInfo {
                     break;
                 case "id":
                     billInfo.setId(Integer.parseInt(value));
+                    break;
+                case "timeStamp":
+                    billInfo.setTimeStamp(Integer.parseInt(value));
                     break;
                 default:
                     break;
@@ -268,6 +272,18 @@ public class BillInfo {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public void setTimeStamp() {
+        this.timeStamp = Tool.dateToStamp(Tool.getTime("yyyy-MM-dd HH:mm:ss"), "yyyy-MM-dd HH:mm:ss");
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long time) {
+        this.timeStamp = time;
     }
 
     public String getRemark() {
@@ -403,6 +419,9 @@ public class BillInfo {
         }
         if (id != 0) {
             url += "&id=" + id;
+        }
+        if (timeStamp != 0) {
+            url += "&timeStamp=" + timeStamp;
         }
         return url;
     }

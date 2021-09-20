@@ -13,7 +13,6 @@
 -keepattributes *Annotation*
 #忽略警告
 -ignorewarnings
-
 ##记录生成的日志数据,gradle build时在本项目根目录输出##
 #未混淆的类和成员
 -printseeds seeds.txt
@@ -155,7 +154,7 @@
 # xposed相关混淆
 -keep class de.robv.android.xposed.*{ *; }
 
--dontshrink -keep class cn.dreamn.qianji_auto.core.hook.*{ *; }
+-keep class cn.dreamn.qianji_auto.core.hook.*{ *; }
 
 -keep class cn.dreamn.qianji_auto.setting.AppStatus{*;}
 #rhino混淆

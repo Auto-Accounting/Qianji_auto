@@ -94,19 +94,19 @@
 
 
         <!--无障碍需要的服务信息-->
-        <!-- <service android:name=".core.helper.AutoBillService" />
-         <service
-             android:name=".core.helper.AutoReadAccessibilityService"
-             android:description="@string/accessibility_service_description"
-             android:label="@string/accessibility_service_label"
-             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
-             <intent-filter>
-                 <action android:name="android.accessibilityservice.AccessibilityService" />
-             </intent-filter>
-             <meta-data
-                 android:name="android.accessibilityservice"
-                 android:resource="@xml/accessibility_service_config" />
-         </service>-->
+        <service android:name=".core.helper.AutoBillService" />
+        <service
+            android:name=".core.helper.inner.AutoAccessibilityService"
+            android:description="@string/accessibility_inner_desc"
+            android:label="@string/accessibility_inner_title"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config_inner" />
+        </service>
 
         <!--对外提供文件分享-->
         <provider
