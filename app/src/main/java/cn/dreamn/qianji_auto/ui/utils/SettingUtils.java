@@ -146,8 +146,8 @@ public class SettingUtils {
                             public void input(String data) {
                                 try {
                                     int time = Integer.parseInt(data);
-                                    if (time <= 0)
-                                        throw new Exception("must > 0");
+                                    if (time < 0)
+                                        throw new Exception("must >= 0");
                                     mmkv.encode("auto_timeout", time);
                                     initUi();
 
