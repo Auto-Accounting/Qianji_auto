@@ -26,6 +26,6 @@ public class JsEngine {
             Context.exit();
         }
         if (result != null) return result.toString();
-        return null;
+        return "Undefined";
     }
 }

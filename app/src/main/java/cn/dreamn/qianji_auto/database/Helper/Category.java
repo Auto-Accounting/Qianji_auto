@@ -118,7 +118,7 @@ public class Category {
 
            String jsInner = "\n" +
                    "const isInTimeInner = function (minTime, maxTime,timeHour,timeMinute) {\n" +
-                   "    let regT = /([01\\b]\\d|2[0-3]):([0-5]\\d)/;\n" +
+                   "    var regT = /([01\\b]\\d|2[0-3]):([0-5]\\d)/;\n" +
                    "    const t1 = minTime.match(regT);\n" +
                    "    const t2 = maxTime.match(regT);\n" +
                    "    if(t1==null||t2==null||t1.length<3||t2.length<3){\n" +
