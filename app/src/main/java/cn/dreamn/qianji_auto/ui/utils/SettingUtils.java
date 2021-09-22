@@ -228,7 +228,7 @@ public class SettingUtils {
             BottomArea.list(mContext, mContext.getString(R.string.set_float_style), jsonArray.getJSONArray(5), new BottomArea.ListCallback() {
                 @Override
                 public void onSelect(int position) {
-                    mmkv.encode("auto_cate_table", position == 1);
+                    mmkv.encode("auto_style", position == 0);
                     initUi();
                 }
             });
@@ -348,9 +348,9 @@ public class SettingUtils {
                 break;
         }
 
-        if(mmkv.getBoolean("auto_cate_table",true)){
+        if (mmkv.getBoolean("auto_style", true)) {
             set_float_style.setValue(R.string.set_auto);
-        }else{
+        } else {
             set_float_style.setValue(R.string.set_qianji);
         }
 
