@@ -158,6 +158,11 @@ public class AutoFloatTip extends XFloatView {
         money.setText(BillTools.getCustomBill(billInfo));
         money.setTextColor(BillTools.getColor(getContext(), billInfo));
         int timeCount = Integer.parseInt(SendDataToApp.getTimeout());
+        if (timeCount == 0) {
+            SendDataToApp.end(getContext(), billInfo2);
+            clear();
+            return;
+        }
         String times = timeCount + "s";
 
         time.setText(times);

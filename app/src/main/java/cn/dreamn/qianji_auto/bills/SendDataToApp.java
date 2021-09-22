@@ -108,7 +108,13 @@ public class SendDataToApp {
     //角标超时
     public static String getTimeout() {
         MMKV mmkv = MMKV.defaultMMKV();
-        return mmkv.getString("auto_timeout", "10");
+        String time = mmkv.getString("auto_timeout", "10");
+        try {
+            Integer.parseInt(time);
+        } catch (Throwable e) {
+            return "0";
+        }
+        return time;
     }
 
 
@@ -124,7 +130,7 @@ public class SendDataToApp {
 
             int minLength = str.length() * 20;
 
-            autoFloatTip.setWindowManagerParams(ScreenUtils.getScreenWidth(context), ScreenUtils.getScreenHeight(context) / 2 - 100, 350 + minLength, 150);
+            autoFloatTip.setWindowManagerParams(ScreenUtils.getScreenWidth(context), ScreenUtils.getScreenHeight(context) / 2 - 100, 360 + minLength, 150);
 
             autoFloatTip.show();
         } catch (Exception e) {
