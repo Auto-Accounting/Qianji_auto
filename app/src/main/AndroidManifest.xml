@@ -98,7 +98,7 @@
         <!--无障碍需要的服务信息-->
         <service android:name=".core.helper.AutoBillService" />
         <service
-            android:name=".core.helper.inner.AutoAccessibilityService"
+            android:name=".core.helper.Inner.HelpService"
             android:description="@string/accessibility_inner_desc"
             android:label="@string/accessibility_inner_title"
             android:exported="false"

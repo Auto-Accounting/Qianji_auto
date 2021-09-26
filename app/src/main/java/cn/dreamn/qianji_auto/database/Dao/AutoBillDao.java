@@ -28,6 +28,9 @@ public interface AutoBillDao {
     @Query("SELECT * FROM autobill order by CAST(date as double),id desc")
     AutoBill[] getAll();
 
+    @Query("SELECT * FROM autobill order by id desc limit 1")
+    AutoBill[] getLast();
+
     @Query("SELECT * FROM autobill WHERE id=:id")
     AutoBill[] get(int id);
 

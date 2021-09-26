@@ -177,7 +177,7 @@ public class SendDataToApp {
             }
         };
         Category.getCategory(billInfo, cate -> {
-            // Log.i("cate:" + cate+"数据 "+billInfo.toString());
+            Log.i("cate:" + cate + "数据 " + billInfo.toString());
             if (cate.equals("NotFound")) {
                 MMKV mmkv = MMKV.defaultMMKV();
                 if (mmkv.getBoolean("auto_sort", false)) {
@@ -187,7 +187,6 @@ public class SendDataToApp {
             int id = billInfo.getId();
 
             if (id != 0) {
-
                 AutoBills.update(id, billInfo);
             }
             HandlerUtil.send(mHandler, 0);

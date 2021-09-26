@@ -1,4 +1,4 @@
-package cn.dreamn.qianji_auto.core.helper.inner;
+package cn.dreamn.qianji_auto.core.helper.yimu;
 
 import android.content.Context;
 import android.text.TextUtils;

@@ -1,4 +1,4 @@
-package cn.dreamn.qianji_auto.core.helper.inner;
+package cn.dreamn.qianji_auto.core.helper.yimu;
 
 import android.accessibilityservice.AccessibilityService;
 import android.app.ActivityManager;
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.bills.BillInfo;
+import cn.dreamn.qianji_auto.bills.SendDataToApp;
 import cn.dreamn.qianji_auto.core.helper.AutoBillService;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
@@ -26,6 +27,23 @@ public class AutoAccessibilityService extends AccessibilityService {
     String payTools;
     private boolean canAdd;
     private int flag;
+    public static long time;
+
+    public static void goApp(Context context, BillInfo billInfo) {
+        if (billInfo == null) {
+            Log.i("Billinfo数据为空");
+            return;
+        }
+        //
+        // Log.i("Billinfo数据："+billInfo.toString());
+
+        //防止出现多次识别
+        if (System.currentTimeMillis() - time > 1000L) {
+            time = System.currentTimeMillis();
+            SendDataToApp.call(context, billInfo);
+            //进行记账
+        }
+    }
 
     public AutoAccessibilityService() {
         canAdd = false;

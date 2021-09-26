@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.helper.base.ApiUtil;
-import cn.dreamn.qianji_auto.core.helper.inner.AutoAccessibilityService;
+import cn.dreamn.qianji_auto.core.helper.yimu.AutoAccessibilityService;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import kotlin.jvm.internal.Intrinsics;
 

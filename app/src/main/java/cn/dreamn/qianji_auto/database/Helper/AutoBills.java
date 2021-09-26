@@ -99,7 +99,13 @@ public class AutoBills {
     }
 
     public static void add(BillInfo billInfo) {
-        Task.onThread(()->DbManger.db.AutoBillDao().add(billInfo.toString()));
+        Task.onThread(() -> {
+            DbManger.db.AutoBillDao().add(billInfo.toString());
+            AutoBill[] autoBills = DbManger.db.AutoBillDao().getLast();
+            if (autoBills != null && autoBills.length != 0) {
+                billInfo.setId(autoBills[0].id);
+            }
+        });
     }
 
     public static void update(int id, BillInfo billInfo) {

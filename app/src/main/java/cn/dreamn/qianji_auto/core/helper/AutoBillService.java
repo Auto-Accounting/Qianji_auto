@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.widget.RemoteViews;
 
+import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.ui.activity.MainActivity;
@@ -58,7 +59,13 @@ public class AutoBillService extends Service {
         Bundle app = AppManager.getAppInfo(getApplicationContext());
 
         assert app != null;
+
+
         Intent intent = getPackageManager().getLaunchIntentForPackage(app.getString("appPackage"));
+
+        if (intent == null) {
+            intent = getPackageManager().getLaunchIntentForPackage(App.getAppPackage());
+        }
 
         @SuppressLint("UnspecifiedImmutableFlag") PendingIntent activity_qianji = PendingIntent.getActivity(this, 0, intent, FLAG_CANCEL_CURRENT);
 

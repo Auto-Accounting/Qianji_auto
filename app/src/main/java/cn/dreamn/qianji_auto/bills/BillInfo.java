@@ -247,6 +247,10 @@ public class BillInfo {
         return type;
     }
 
+    public int getTypeInt() {
+        return Integer.parseInt(type);
+    }
+
     public String getType(Boolean real) {
         if (real) {
             String t = type;
@@ -255,7 +259,7 @@ public class BillInfo {
         } else return type;
     }
 
-    public String getRawMd5(){
+    public String getRawMd5() {
         return rawMd5;
     }
 
