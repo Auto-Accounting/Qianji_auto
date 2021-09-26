@@ -11,17 +11,15 @@ import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
-public class analyze_3 extends baseAnalyze {
+public class WxDetailParser extends baseAnalyze {
     public String b;
     public boolean c;
 
-    public BillInfo h(List var1, int var2) {
-        if (var1.size() == 0) {
+    public BillInfo h(List<Object> nodeList, int var2) {
+        if (nodeList.size() == 0) {
             return null;
         } else {
-            StringBuilder var6 = new StringBuilder("[auto] WxDetailParser parse type" + var2 + " ");
-            var6.append(var1.toString());
-            Log.d(var6.toString());
+            Log.d("[auto] WxDetailParser parse type" + var2 + " " + nodeList.toString());
             String var31 = "零钱通";
             String var13 = "零钱";
             String var14 = "¥";
@@ -33,14 +31,14 @@ public class analyze_3 extends baseAnalyze {
             int var30;
             if (var2 == 1) {
                 BillInfo billinfo = new BillInfo();
-                var5 = ((String) var1.get(0)).endsWith("发起的群收款");
+                var5 = ((String) nodeList.get(0)).endsWith("发起的群收款");
                 var2 = var3;
 
-                while (var2 < var1.size()) {
+                while (var2 < nodeList.size()) {
                     String var29;
                     label433:
                     {
-                        var10 = (String) var1.get(var2);
+                        var10 = (String) nodeList.get(var2);
                         var7 = var10.replace("￥", "").replace("¥", "").replace(",", "");
                         if (this.isMoney(var7)) {
                             this.setMoney(billinfo, var7);
@@ -55,12 +53,12 @@ public class analyze_3 extends baseAnalyze {
                             {
                                 label444:
                                 {
-                                    if ("收款方".equals(var10) && var2 < var1.size() - 1) {
+                                    if ("收款方".equals(var10) && var2 < nodeList.size() - 1) {
                                         var30 = var2 + 1;
                                     } else {
-                                        if (!"支付成功".equals(var10) || var2 >= var1.size() - 2) {
-                                            if (var5 && var10.contains("已收齐") && var2 < var1.size() - 1) {
-                                                var7 = ((String) var1.get(var2 + 1)).replace("收到¥", "");
+                                        if (!"支付成功".equals(var10) || var2 >= nodeList.size() - 2) {
+                                            if (var5 && var10.contains("已收齐") && var2 < nodeList.size() - 1) {
+                                                var7 = ((String) nodeList.get(var2 + 1)).replace("收到¥", "");
                                                 billinfo.setType(BillInfo.TYPE_INCOME);
                                                 if (isMoney(var7)) {
                                                     setMoney(billinfo, var7);
@@ -74,7 +72,7 @@ public class analyze_3 extends baseAnalyze {
                                                 var7 = var7.replace("已支付", "");
                                                 if (isMoney(var7)) {
                                                     setMoney(billinfo, var7);
-                                                    var29 = (String) var1.get(0);
+                                                    var29 = (String) nodeList.get(0);
                                                     break label433;
                                                 }
                                                 break label455;
@@ -91,12 +89,12 @@ public class analyze_3 extends baseAnalyze {
                                         }
 
                                         var30 = var2 + 1;
-                                        if (((String) var1.get(var30)).contains("¥")) {
+                                        if (((String) nodeList.get(var30)).contains("¥")) {
                                             break label455;
                                         }
                                     }
 
-                                    var7 = (String) var1.get(var30);
+                                    var7 = (String) nodeList.get(var30);
                                 }
 
                                 billinfo.setShopRemark(var7);
@@ -134,15 +132,15 @@ public class analyze_3 extends baseAnalyze {
                     billInfo = new BillInfo();
 
 
-                    for (var2 = 0; var2 < var1.size(); ++var2) {
-                        var8 = (String) var1.get(var2);
-                        if (("已收款".equals(var8) || "你已收款".equals(var8)) && var2 < var1.size() - 2) {
-                            var8 = ((String) var1.get(var2 + 1)).replace("￥", "").replace("¥", "").replace("元", "").replace(",", "");
+                    for (var2 = 0; var2 < nodeList.size(); ++var2) {
+                        var8 = (String) nodeList.get(var2);
+                        if (("已收款".equals(var8) || "你已收款".equals(var8)) && var2 < nodeList.size() - 2) {
+                            var8 = ((String) nodeList.get(var2 + 1)).replace("￥", "").replace("¥", "").replace("元", "").replace(",", "");
                             if (isMoney(var8)) {
                                 setMoney(billInfo, var8);
                             }
-                        } else if ("收款时间".equals(var8) && var2 < var1.size() - 1) {
-                            billInfo.setTimeStamp(Tool.dateToStamp((String) var1.get(var2 + 1), "yyyy年MM月dd日 hh:mm:ss"));
+                        } else if ("收款时间".equals(var8) && var2 < nodeList.size() - 1) {
+                            billInfo.setTimeStamp(Tool.dateToStamp((String) nodeList.get(var2 + 1), "yyyy年MM月dd日 hh:mm:ss"));
                         }
                     }
 
@@ -163,17 +161,15 @@ public class analyze_3 extends baseAnalyze {
                     if (var2 == 2) {
                         billInfo = new BillInfo();
 
-                        for (var2 = 0; var2 < var1.size(); ++var2) {
-                            var9 = (String) var1.get(var2);
+                        for (var2 = 0; var2 < nodeList.size(); ++var2) {
+                            var9 = (String) nodeList.get(var2);
                             var8 = var9.replace("￥", "").replace("¥", "").replace("元", "").replace(",", "");
                             if (isMoney(var8)) {
                                 setMoney(billInfo, var8);
-                            } else if ("转账时间".equals(var9) && var2 < var1.size() - 1) {
-                                billInfo.setTimeStamp(Tool.dateToStamp((String) var1.get(var2 + 1), "yyyy年MM月dd日 hh:mm:ss"));
-                            } else if ("转账说明".equals(var9) && var2 < var1.size() - 1) {
-                                StringBuilder var33 = new StringBuilder("转账-");
-                                var33.append((String) var1.get(var2 + 1));
-                                billInfo.setShopRemark(var33.toString());
+                            } else if ("转账时间".equals(var9) && var2 < nodeList.size() - 1) {
+                                billInfo.setTimeStamp(Tool.dateToStamp((String) nodeList.get(var2 + 1), "yyyy年MM月dd日 hh:mm:ss"));
+                            } else if ("转账说明".equals(var9) && var2 < nodeList.size() - 1) {
+                                billInfo.setShopRemark("转账-" + (String) nodeList.get(var2 + 1));
                             }
                         }
 
@@ -191,10 +187,10 @@ public class analyze_3 extends baseAnalyze {
                         BillInfo billinfo = new BillInfo();
 
 
-                        for (var2 = 0; var2 < var1.size(); var11 = var31) {
-                            String var19 = (String) var1.get(var2);
+                        for (var2 = 0; var2 < nodeList.size(); var11 = var31) {
+                            String var19 = (String) nodeList.get(var2);
                             boolean var28;
-                            var28 = var2 < var1.size() - 1;
+                            var28 = var2 < nodeList.size() - 1;
 
                             label456:
                             {
@@ -203,8 +199,8 @@ public class analyze_3 extends baseAnalyze {
                                     var31 = var11;
                                     if (var5 || var19.contains("转出") || var19.contains("还款") || var19.contains("零钱充值") || var19.contains("零钱提现") || "提现金额".equals(var19)) {
                                         var30 = var2 + 1;
-                                        if (var30 < var1.size()) {
-                                            var7 = ((String) var1.get(var30)).replace(var14, "").replace("￥", "");
+                                        if (var30 < nodeList.size()) {
+                                            var7 = ((String) nodeList.get(var30)).replace(var14, "").replace("￥", "");
                                             if (isMoney(var7)) {
                                                 setMoney(billinfo, var7);
                                                 billinfo.setShopRemark(var19);
@@ -313,7 +309,7 @@ public class analyze_3 extends baseAnalyze {
                                     if ("支付时间".equals(var19) || var11.equals(var19) || var10.equals(var19)) {
                                         var9 = var10;
                                         if (var28) {
-                                            billinfo.setTimeStamp(Tool.dateToStamp((String) var1.get(var2 + 1), "yyyy-MM-dd HH:mm:ss"));
+                                            billinfo.setTimeStamp(Tool.dateToStamp((String) nodeList.get(var2 + 1), "yyyy-MM-dd HH:mm:ss"));
                                             var31 = var11;
                                             var7 = var8;
                                             break label456;
@@ -331,7 +327,7 @@ public class analyze_3 extends baseAnalyze {
                                                 if ("商品".equals(var19) && var28) {
                                                     if (billinfo.getShopRemark() != null) {
                                                         var32 = new StringBuilder();
-                                                        var32.append((String) var1.get(var2 + 1));
+                                                        var32.append((String) nodeList.get(var2 + 1));
                                                         var32.append("-");
                                                         var10 = billinfo.getShopRemark();
                                                         break label442;
@@ -340,12 +336,12 @@ public class analyze_3 extends baseAnalyze {
                                                     var7 = var8;
                                                     if (!var8.equals(var19) || !var28) {
                                                         if (("提现银行".equals(var19) || "到账银行卡".equals(var19)) && var28) {
-                                                            billinfo.setAccountName2((String) var1.get(var2 + 1));
+                                                            billinfo.setAccountName2((String) nodeList.get(var2 + 1));
                                                             if (billinfo.getAccountName() == null && this.c) {
                                                                 billinfo.setAccountName(var12);
                                                             }
                                                         } else if ("服务费".equals(var19) && var28) {
-                                                            var8 = ((String) var1.get(var2 + 1)).replace("￥", "");
+                                                            var8 = ((String) nodeList.get(var2 + 1)).replace("￥", "");
                                                             if (isMoney(var8)) {
                                                                 billinfo.setFee(var8);
                                                             }
@@ -357,12 +353,12 @@ public class analyze_3 extends baseAnalyze {
                                                         var32 = new StringBuilder();
                                                         var32.append(billinfo.getShopRemark());
                                                         var32.append("-");
-                                                        var10 = (String) var1.get(var2 + 1);
+                                                        var10 = (String) nodeList.get(var2 + 1);
                                                         break label442;
                                                     }
                                                 }
 
-                                                var10 = (String) var1.get(var2 + 1);
+                                                var10 = (String) nodeList.get(var2 + 1);
                                                 break label363;
                                             }
 
@@ -375,7 +371,7 @@ public class analyze_3 extends baseAnalyze {
                                         break label456;
                                     }
 
-                                    billinfo.setAccountName((String) var1.get(var2 + 1));
+                                    billinfo.setAccountName((String) nodeList.get(var2 + 1));
                                     var5 = var19.contains("收");
                                     var7 = var8;
                                     var31 = var11;
@@ -395,7 +391,7 @@ public class analyze_3 extends baseAnalyze {
 
                                     setMoney(billinfo, var20);
                                     if (var2 > 0) {
-                                        billinfo.setShopRemark((String) var1.get(var2 - 1));
+                                        billinfo.setShopRemark((String) nodeList.get(var2 - 1));
                                     }
 
                                     var9 = var10;

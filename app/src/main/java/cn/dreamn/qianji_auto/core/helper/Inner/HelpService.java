@@ -17,7 +17,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 public class HelpService extends AccessibilityService {
     private static final int FLAG_WECHAT_PAY_UI = 1;
-    //微信支付界面9
+    //微信支付界面
     private static final int FLAG_ALIPAY_PAY_UI = 2;
     //支付宝支付界面
     private static final int FLAG_WECHAT_PAY_MONEY_UI = 3;
@@ -52,8 +52,8 @@ public class HelpService extends AccessibilityService {
     public String d = null;
     public boolean e = false;
     public boolean f = false;
-    public int g = 0;
-    public List<Object> h;
+    public int listIndex = 0;
+    public List<Object> globalNodeList;
     public int flag = 0;
 
     public static void goApp(Context context, BillInfo billInfo) {
@@ -61,9 +61,6 @@ public class HelpService extends AccessibilityService {
             Log.i("Billinfo数据为空");
             return;
         }
-        //
-        // Log.i("Billinfo数据："+billInfo.toString());
-
         //防止出现多次识别
         if (System.currentTimeMillis() - time > 1000L) {
             time = System.currentTimeMillis();
@@ -91,16 +88,16 @@ public class HelpService extends AccessibilityService {
     }
 
     public final void findNodeInfo(AccessibilityNodeInfo nodeInfo) {
-        int i = this.g + 1;
-        this.g = i;
+        int i = listIndex + 1;
+        listIndex = i;
         if (i <= 100) {
-            if (this.h.size() <= 70) {
+            if (globalNodeList.size() <= 70) {
                 for (i = 0; i < nodeInfo.getChildCount(); ++i) {
                     AccessibilityNodeInfo childNodeInfo = nodeInfo.getChild(i);
                     if (childNodeInfo != null && childNodeInfo.getChildCount() > 0) {
                         this.findNodeInfo(childNodeInfo);
                     } else if (childNodeInfo != null && !TextUtils.isEmpty(childNodeInfo.getText())) {
-                        this.h.add(childNodeInfo.getText().toString());
+                        globalNodeList.add(childNodeInfo.getText().toString());
                     }
                 }
 
@@ -117,10 +114,9 @@ public class HelpService extends AccessibilityService {
         AccessibilityNodeInfo source = accessibilityEvent.getSource();
         String packageName = accessibilityEvent.getPackageName() == null ? "" : accessibilityEvent.getPackageName().toString();
         String className = accessibilityEvent.getClassName() == null ? "" : accessibilityEvent.getClassName().toString();
-        Log.i("[auto]" + packageName + "__" + className);
         //
         boolean var2;
-        boolean var3 = false;
+        boolean var3;
         boolean var7 = true;
         boolean var5;
         String var20;
@@ -147,16 +143,20 @@ public class HelpService extends AccessibilityService {
             flag = FLAG_WECHAT_PAY_MONEY_UI;
         } else if ("com.tencent.mm".equals(packageName) && source != null && ((source.findAccessibilityNodeInfosByText("账单详情").size() > 0 && source.findAccessibilityNodeInfosByText("查看账单详情").size() == 0) || (source.findAccessibilityNodeInfosByText("零钱提现").size() > 0 && source.findAccessibilityNodeInfosByText("到账成功").size() > 0))) {
             Log.d("[auto]微信账单详情");
+            canAdd = true;
             flag = FLAG_WECHAT_PAY_MONEY_UI;
         } else if ("com.alipay.android.msp.ui.views.MspContainerActivity".equals(className) || "com.alipay.android.msp.ui.views.MspUniRenderActivity".equals(className) || "com.alipay.android.phone.discovery.envelope.get.SnsCouponDetailActivity".equals(className) || "com.eg.android.AlipayGphone".equals(packageName) && source != null && source.findAccessibilityNodeInfosByText("向商家付钱").size() > 0) {
             Log.d("[auto]支付宝支付界面");
+            canAdd = true;
             flag = FLAG_ALIPAY_PAY_UI;
         } else if ("com.eg.android.AlipayGphone".equals(packageName) && source != null && (source.findAccessibilityNodeInfosByText("账单详情").size() > 0 || source.findAccessibilityNodeInfosByText("结果详情").size() > 0)) {
             Log.d("[auto]支付宝账单详情");
+            canAdd = true;
             flag = FLAG_ALIPAY_PAY_DETAIL_UI;
         } else if ("com.unionpay.activity.payment.UPActivityScan".equals(className) || "com.unionpay.activity.payment.UPActivityPaymentQrCodeOut".equals(className)) {
             Log.d("[auto]云闪付支付界面");
-            var29 = FLAG_UNION_PAY_UI;
+            canAdd = true;
+            flag = FLAG_UNION_PAY_UI;
         } else if ("com.unionpay".equals(packageName) && ((source != null && source.findAccessibilityNodeInfosByText("查看账单").size() > 0) || "com.unionpay.cordova.UPActivityWeb".equals(className) || ("android.view.ViewGroup".equals(className) && source != null && source.findAccessibilityNodeInfosByText("交易记录").size() > 0 && source.findAccessibilityNodeInfosByText("筛选").size() > 0) || (source != null && source.findAccessibilityNodeInfosByText("动账通知").size() > 0 && source.findAccessibilityNodeInfosByText("支付助手").size() > 0))) {
             Log.d("[auto]云闪付账单详情");
             flag = FLAG_UNION_PAY_DETAIL_UI;
@@ -167,7 +167,8 @@ public class HelpService extends AccessibilityService {
             canAdd = true;
         } else if (("com.jingdong.app.mall".equals(packageName) || "com.jd.jrapp".equals(packageName)) && source != null && source.findAccessibilityNodeInfosByText("账单详情").size() > 0) {
             Log.d("[auto]京东账单详情");
-            var29 = FLAG_JD_PAY_DETAIL_UI;
+            flag = FLAG_JD_PAY_DETAIL_UI;
+            canAdd = true;
         } else if ("com.jd.lib.cashier.complete.view.CashierCompleteActivity".equals(className)) {
             Log.d("[auto]京东支付界面");
             flag = FLAG_JD_PAY_UI;
@@ -183,16 +184,13 @@ public class HelpService extends AccessibilityService {
             this.d = null;
             this.f = false;
         }
-
-        //
-        Log.i("[auto]页面数据分析完毕");
-        Log.i("[auto]开始分析账单数据：BB??" + (canAdd ? "true" : "false"));
+        Log.i("[auto]开始分析账单数据：canAdd?" + (canAdd ? "true" : "false"));
         //
         if (canAdd && source != null) {
-            this.g = 0;
-            this.h = new ArrayList<>();
+            listIndex = 0;
+            globalNodeList = new ArrayList<>();
             this.findNodeInfo(source);
-            List<Object> nodeList = this.h;
+            List<Object> nodeList = globalNodeList;
             Log.i("[auto]账单信息" + nodeList.toString());
             if (!isNullOrEmpty(nodeList)) {
                 Log.i("[auto]账单信息不为空");
@@ -366,7 +364,7 @@ public class HelpService extends AccessibilityService {
                         analyze_1 var22;
                         label885:
                         {
-                            analyze_3 var21;
+                            WxDetailParser var21;
                             label863:
                             {
                                 int var25;
@@ -512,11 +510,11 @@ public class HelpService extends AccessibilityService {
                                         }
 
                                         if (var29 != 1) {
-                                            var26 = (new analyze_3()).h(nodeList, 2);
+                                            var26 = (new WxDetailParser()).h(nodeList, 2);
                                             break label521;
                                         }
 
-                                        var21 = new analyze_3();
+                                        var21 = new WxDetailParser();
                                         var29 = 3;
                                         break label863;
                                     }
@@ -531,7 +529,7 @@ public class HelpService extends AccessibilityService {
                                 var29 = 1;
                                 if (var25 != 1) {
                                     if (var25 == 3) {
-                                        var21 = new analyze_3();
+                                        var21 = new WxDetailParser();
                                         var21.c = this.f;
                                         var26 = var21.h(nodeList, 0);
                                         break label521;
@@ -571,7 +569,7 @@ public class HelpService extends AccessibilityService {
                                     break label885;
                                 }
 
-                                var21 = new analyze_3();
+                                var21 = new WxDetailParser();
                                 var21.b = this.d;
                                 var21.c = this.f;
                             }

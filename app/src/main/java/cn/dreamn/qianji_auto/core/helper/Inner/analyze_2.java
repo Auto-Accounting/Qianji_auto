@@ -20,7 +20,7 @@ public class analyze_2 extends baseAnalyze {
             String var8;
             label102:
             {
-                Log.i("CXINCX-Log", "[auto]RedDetailParser parseIncome:" + nodeList.toString());
+                Log.i("[auto]RedDetailParser parseIncome:" + nodeList.toString());
                 billinfo = new BillInfo();
                 boolean var4 = this.b;
                 int var2 = 0;
@@ -96,9 +96,10 @@ public class analyze_2 extends baseAnalyze {
                     }
 
                     var8 = (String) nodeList.get(var2);
+
                     Log.i("[auto]当前备注数据" + var8);
                 }
-
+                billinfo.setShopAccount(var8.replace("的红包", ""));
                 billinfo.setShopRemark(var8);
                 Log.i("[auto]当前账单数据" + billinfo.toString());
             }
