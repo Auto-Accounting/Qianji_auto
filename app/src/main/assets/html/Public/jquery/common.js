@@ -4,40 +4,25 @@ function htmlspecialchars(str){
     return str;
 }
 function StringAs(string) { return  string.replace(/([\\"\n\r\t'])/g, "\\$1");}
-const isInTimeInner = function (minTime, maxTime,timeHour,timeMinute){
-    function getNextDate(date, day) {
-        let dd;
-        if(date==null){
-            dd = new Date();
-        } else{
-            dd = new Date(date);
-        }
-        dd.setDate(dd.getDate() + day);
-        const y = dd.getFullYear();
-        const m = dd.getMonth() + 1 < 10 ? "0" + (dd.getMonth() + 1) : dd.getMonth() + 1;
-        const d = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate();
-        return y + "-" + m + "-" + d;
+const isInTimeInner = function (minTime, maxTime,timeHour,timeMinute) {
+    let regT = /([01\b]\d|2[0-3]):([0-5]\d)/;
+    const t1 = minTime.match(regT);
+    const t2 = maxTime.match(regT);
+    if(t1==null||t2==null||t1.length<3||t2.length<3){
+        return false;
     }
-
-
-    const currentTime = new Date(getNextDate(null, 0) + " " + timeHour + ":" + timeMinute);
-
-
-    const endTime1 = new Date(getNextDate(null, 1) + " " + maxTime);
-    const beginTime1 = new Date(getNextDate(null, 0) + " " + minTime);
-
-    const endTime2 = new Date(getNextDate(null, 0) + " " + maxTime);
-    const beginTime2 = new Date(getNextDate(null, -1) + " " + minTime);
-
-
-
-    if(endTime2<beginTime1){
-        return ( beginTime1<=currentTime&&endTime1>=currentTime)||( beginTime2<=currentTime&&endTime2>=currentTime);
-
-    }
-    else{
-        return ( beginTime1<=currentTime&&endTime2>=currentTime);
-
+    const h1 = parseInt(t1[1]), h2 =  parseInt(t2[1]), m1 =  parseInt(t1[2]), m2 =  parseInt(t2[2]);
+    if (h1 > h2)
+        return (timeHour === h1 && timeMinute >= m1) || timeHour > h1 || timeHour < h2 || timeHour === h2 && timeMinute <= m2;
+    else if (h1 < h2)
+        return (timeHour === h1 && timeMinute >= m1) || (timeHour > h1 && timeHour < h2) || timeHour === h2 && timeMinute <= m2;
+    else if (h1 === h2) {
+        if (m1 < m2)
+            return timeHour === h1 && timeMinute >= m1 && timeMinute <= m2;
+        else if (m1 > m2)
+            return (timeHour === h1 && timeMinute >= m1 || timeMinute <= m2) || (timeHour !== h1);
+        else
+            return m1 === m2 && timeMinute === m1 && timeHour === h1;
     }
 };
 function getQueryVariable(variable)

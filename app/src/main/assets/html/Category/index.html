@@ -199,8 +199,8 @@
                     <div class="rule_content3">
                         <button>消费类型</button>
                         <select class="bill_select" id="bill_type">
-                            <option selected value="0"> 支出</option>
-                            <option value="1"> 收入</option>
+                            <option selected value="支出"> 支出</option>
+                            <option value="收入"> 收入</option>
 
                         </select>
                     </div>
@@ -438,7 +438,7 @@
     function getOneRegularJs(jsData, shopAccount, shopRemark, type, hour, minute, source, money) {
         if (shopAccount == null) shopAccount = "";
         if (shopRemark == null) shopRemark = "";
-        var jsInner = "const isInTimeInner=function(minTime,maxTime,timeHour,timeMinute){function getNextDate(date,day){let dd;if(date==null){dd=new Date()}else{dd=new Date(date)}dd.setDate(dd.getDate()+day);const y=dd.getFullYear();const m=dd.getMonth()+1<10?\"0\"+(dd.getMonth()+1):dd.getMonth()+1;const d=dd.getDate()<10?\"0\"+dd.getDate():dd.getDate();return y+\"-\"+m+\"-\"+d}const currentTime=new Date(getNextDate(null,0)+\" \"+timeHour+\":\"+timeMinute);const endTime1=new Date(getNextDate(null,1)+\" \"+maxTime);const beginTime1=new Date(getNextDate(null,0)+\" \"+minTime);const endTime2=new Date(getNextDate(null,0)+\" \"+maxTime);const beginTime2=new Date(getNextDate(null,-1)+\" \"+minTime);return(beginTime1<=currentTime&&endTime1>=currentTime)||(beginTime2<=currentTime&&endTime2>=currentTime)};";
+        var jsInner = "const isInTimeInner=function(a,b,c,d){regT=/([01\\b]\\d|2[0-3]):([0-5]\\d)/;const e=a.match(regT),f=b.match(regT);if(null==e||null==f||e.length<3||f.length<3)return!1;const g=parseInt(e[1]),h=parseInt(f[1]),i=parseInt(e[2]),j=parseInt(f[2]);return g>h?c===g&&d>=i||c>g||h>c||c===h&&j>=d:h>g?c===g&&d>=i||c>g&&h>c||c===h&&j>=d:g===h?j>i?c===g&&d>=i&&j>=d:i>j?c===g&&d>=i||j>=d||c!==g:i===j&&d===i&&c===g:void 0};";
         var js = "function getCategory(shopName,shopRemark,type,hour,minute,source,money){%s  %s return '其它';} getCategory('%s','%s','%s',%s,%s,'%s','%s');";
         return String.format(js, jsInner, jsData, StringAs(shopAccount), StringAs(shopRemark), type, hour, minute, source, money);
     }

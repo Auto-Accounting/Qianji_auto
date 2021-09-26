@@ -117,7 +117,7 @@ public class Category {
                regList.append(value.regular);
            }
 
-           String jsInner = "const isInTimeInner=function(a,b,c,d){function e(a,b){dd=null==a?new Date:new Date(a),dd.setDate(dd.getDate()+b);const c=dd.getFullYear(),d=dd.getMonth()+1<10?\"0\"+(dd.getMonth()+1):dd.getMonth()+1,e=dd.getDate()<10?\"0\"+dd.getDate():dd.getDate();return c+\"-\"+d+\"-\"+e}const f=new Date(e(null,0)+\" \"+c+\":\"+d),g=new Date(e(null,1)+\" \"+b),h=new Date(e(null,0)+\" \"+a),i=new Date(e(null,0)+\" \"+b),j=new Date(e(null,-1)+\" \"+a);return h>i?f>=h&&g>=f||f>=j&&i>=f:f>=h&&i>=f};";
+           String jsInner = "const isInTimeInner=function(a,b,c,d){regT=/([01\\b]\\d|2[0-3]):([0-5]\\d)/;const e=a.match(regT),f=b.match(regT);if(null==e||null==f||e.length<3||f.length<3)return!1;const g=parseInt(e[1]),h=parseInt(f[1]),i=parseInt(e[2]),j=parseInt(f[2]);return g>h?c===g&&d>=i||c>g||h>c||c===h&&j>=d:h>g?c===g&&d>=i||c>g&&h>c||c===h&&j>=d:g===h?j>i?c===g&&d>=i&&j>=d:i>j?c===g&&d>=i||j>=d||c!==g:i===j&&d===i&&c===g:void 0};";
            String js = "function getCategory(shopName,shopRemark,type,hour,minute,money){%s  %s return 'NotFound';} getCategory('%s','%s','%s',%s,%s,'%s');";
 
            String time = billInfo.getTime();
