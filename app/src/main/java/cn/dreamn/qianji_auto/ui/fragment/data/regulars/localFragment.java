@@ -311,7 +311,7 @@ public class localFragment extends BaseFragment {
                         jsonObject2.put("identify", cate.getString("identify"));
                         jsonObject2.put("tableList", JSONObject.parseObject(cate.getString("tableList")));
 
-                        RegularManager.outputRegOne(getContext(), getName(), getType(), jsonObject2, true);
+                        RegularManager.outputRegOne(getContext(), getName() + "_" + cate.getString("name"), getType(), jsonObject2, true);
                         break;
                     case 4:
                         if (finalDisable.equals(getString(R.string.disable))) {

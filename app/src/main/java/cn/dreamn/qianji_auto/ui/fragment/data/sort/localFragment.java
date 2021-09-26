@@ -286,7 +286,7 @@ public class localFragment extends BaseFragment {
                         jsonObject.put("regular", cate.getString("regular"));
                         jsonObject.put("tableList", cate.getString("tableList"));
                         jsonObject.put("des", cate.getString("des"));
-                        RegularManager.outputRegOne(getContext(), getString(R.string.auto), "category", jsonObject, true);
+                        RegularManager.outputRegOne(getContext(), "自动分类_" + cate.getString("name"), "category", jsonObject, true);
                         break;
                     case 5:
                         if (finalDisable.equals(getString(R.string.disable))) {
