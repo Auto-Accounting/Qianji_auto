@@ -42,7 +42,6 @@ public class identifyRegulars {
             String result = "";
             try {
                 result = JsEngine.run(str);
-                if (result == null) return;
             } catch (Throwable ex) {
                 Log.i("错误：" + ex.toString());
             }
