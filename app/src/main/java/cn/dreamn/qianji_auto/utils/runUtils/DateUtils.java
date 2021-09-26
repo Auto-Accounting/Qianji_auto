@@ -72,6 +72,9 @@ public class DateUtils {
             if ((time.length() == 10 || time.length() == 13) && !time.contains(" ")) {
                 //数字类型的时间戳
                 t = Long.parseLong(time);
+                if (time.length() == 10) {
+                    t = t * 1000;
+                }
             } else if (time.contains(":")) {
                 String[] t2 = time.split(":");
                 String format = "HH:mm";
@@ -83,6 +86,8 @@ public class DateUtils {
                     format = "yyyy-MM-dd " + format;
                 }
                 t = dateToStamp(time, format);
+            } else if (time.contains("-")) {
+                t = dateToStamp(time, "yyyy-MM-dd");
             } else {
                 throw new Throwable("not useful date");
             }
