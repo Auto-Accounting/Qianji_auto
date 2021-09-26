@@ -193,7 +193,7 @@ public class MoneyFragment extends BaseFragment {
 
     private void goBillApp(BillInfo billInfo, int i) {
         billInfo.setId(i);
-        SendDataToApp.callNoAdd(getContext(), billInfo, i);
+        SendDataToApp.callNoAdd(getContext(), billInfo);
     }
 
 

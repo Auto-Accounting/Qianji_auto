@@ -24,8 +24,8 @@ import androidx.annotation.NonNull;
 
 import java.util.Set;
 
+import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
 /**
@@ -281,12 +281,12 @@ public class BillInfo {
 
     public void setTime(String time) {
         this.time = time;
-        this.timeStamp = Tool.dateToStamp(this.time, "yyyy-MM-dd HH:mm:ss");
+        this.timeStamp = DateUtils.dateToStamp(this.time, "yyyy-MM-dd HH:mm:ss");
     }
 
     public void setTimeStamp() {
-        this.time = Tool.getTime("yyyy-MM-dd HH:mm:ss");
-        this.timeStamp = Tool.dateToStamp(this.time, "yyyy-MM-dd HH:mm:ss");
+        this.time = DateUtils.getTime("yyyy-MM-dd HH:mm:ss");
+        this.timeStamp = DateUtils.dateToStamp(this.time, "yyyy-MM-dd HH:mm:ss");
 
     }
 
@@ -296,7 +296,7 @@ public class BillInfo {
 
     public void setTimeStamp(long time) {
         this.timeStamp = time;
-        this.time = Tool.stampToDate(time, "yyyy-MM-dd HH:mm:ss");
+        this.time = DateUtils.stampToDate(time, "yyyy-MM-dd HH:mm:ss");
     }
 
     public String getRemark() {
@@ -372,7 +372,7 @@ public class BillInfo {
 
     @SuppressLint("SimpleDateFormat")
     public void setTime() {
-        this.time = Tool.getTime("yyyy-MM-dd HH:mm:ss");
+        this.time = DateUtils.getTime("yyyy-MM-dd HH:mm:ss");
     }
 
     @NonNull

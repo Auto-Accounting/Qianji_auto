@@ -54,7 +54,7 @@ public class SendDataToApp {
                if(msg.what==0){
                    Log.i(TAG, "账单信息更新补充");
                    Caches.AddOrUpdate(billInfo.getRawMd5(), "receive");
-                   billInfo.setTime();
+                  // billInfo.setTime();
                    BillReplace.addMoreInfo(this,billInfo);
                }else if(msg.what==2){
                    BillInfo billInfo2=(BillInfo)msg.obj;
@@ -82,12 +82,8 @@ public class SendDataToApp {
         });
     }
 
-    public static void callNoAdd(Context context, BillInfo billInfo) {
-        billInfo.setTime();
-        callNoAdd(context, billInfo, -1);
-    }
 
-    public static void callNoAdd(Context context, BillInfo billInfo, int id) {
+    public static void callNoAdd(Context context, BillInfo billInfo) {
         //   Log.m(billInfo.dump());
         Handler mHandler = new Handler(Looper.getMainLooper()) {
             @Override
