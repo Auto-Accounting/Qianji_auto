@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.bumptech.glide.Glide;
 import com.github.xiaofeidev.round.RoundImageView;
 import com.scwang.smartrefresh.layout.adapter.SmartRecyclerAdapter;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
@@ -26,6 +25,7 @@ import java.util.List;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
+import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 public class CategoryAdapter extends BaseAdapter {
@@ -104,9 +104,7 @@ public class CategoryAdapter extends BaseAdapter {
         });
         item_text.setText(item.getString("name"));
 
-        Glide.with(mContext)
-                .load(item.getString("icon"))
-                .into(item_image_icon);
+        GlideLoadUtils.getInstance().glideLoad(mContext, item.getString("icon"), item_image_icon, R.drawable.bg);
 
 
         setColor(select == position, item_image_icon, iv_more, item_text);

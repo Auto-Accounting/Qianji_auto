@@ -11,9 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 
 
 public class DataSelectListAdapter extends ArrayAdapter {
@@ -36,9 +35,7 @@ public class DataSelectListAdapter extends ArrayAdapter {
         item_title.setText(bundle.getString("name"));
 
 
-        Glide.with(mContext)
-                .load(bundle.getString("icon"))
-                .into(icon_header);
+        GlideLoadUtils.getInstance().glideLoad(mContext, bundle.getString("icon"), icon_header, R.drawable.bg);
 
         return view;
 

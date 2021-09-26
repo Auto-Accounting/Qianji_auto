@@ -10,12 +10,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.Assets;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
+import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 
 public class MapListAdapter extends BaseAdapter {
     private final Context mContext;
@@ -38,9 +38,7 @@ public class MapListAdapter extends BaseAdapter {
         Handler mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                Glide.with(mContext)
-                        .load((String) msg.obj)
-                        .into(icon_header);
+                GlideLoadUtils.getInstance().glideLoad(mContext, (String) msg.obj, icon_header, R.drawable.bg);
             }
         };
         Assets.getPic(item.getString("mapName"), asset2s -> {

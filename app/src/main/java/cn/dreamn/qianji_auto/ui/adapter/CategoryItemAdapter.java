@@ -5,12 +5,12 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.github.xiaofeidev.round.RoundImageView;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
+import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 
 public class CategoryItemAdapter extends BaseAdapter {
     private final Context mContext;
@@ -31,10 +31,7 @@ public class CategoryItemAdapter extends BaseAdapter {
 
         item_text.setText(item.getString("name"));
 
-
-        Glide.with(mContext)
-                .load(item.getString("icon"))
-                .into(item_image_icon);
+        GlideLoadUtils.getInstance().glideLoad(mContext, item.getString("icon"), item_image_icon, R.drawable.bg);
 
     }
 

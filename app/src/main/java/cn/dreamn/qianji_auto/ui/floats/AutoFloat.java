@@ -40,7 +40,6 @@ import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 import com.afollestad.materialdialogs.datetime.DateTimePickerExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
-import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.tencent.mmkv.MMKV;
 
@@ -429,9 +428,7 @@ public class AutoFloat {
         Handler mHandler1 = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                Glide.with(getContext())
-                        .load((String) msg.obj)
-                        .into(iv_category);
+                GlideLoadUtils.getInstance().glideLoad(getContext(), (String) msg.obj, iv_category, R.drawable.bg);
             }
         };
         CategoryNames.getPic(billInfo.getCateName(), type, book_id, pic -> {

@@ -1,21 +1,15 @@
 package cn.dreamn.qianji_auto.ui.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
+import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 
 public class BookListAdapter extends BaseAdapter {
     private final Context mContext;
@@ -33,20 +27,8 @@ public class BookListAdapter extends BaseAdapter {
         TextView item_title = (TextView) holder.findView(R.id.item_value);
 
         item_title.setText(item.getString("name"));
+        GlideLoadUtils.getInstance().glideLoad(mContext, item.getString("cover"), rl_bg, R.drawable.bg);
 
-        Glide.with(mContext)
-                .load(item.getString("cover"))
-                .into(new CustomTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        rl_bg.setBackground(resource);
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                    }
-                });
 
 
     }

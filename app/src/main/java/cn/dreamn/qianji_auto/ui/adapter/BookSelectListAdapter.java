@@ -3,7 +3,6 @@ package cn.dreamn.qianji_auto.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
-
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 
 
 public class BookSelectListAdapter extends ArrayAdapter {
@@ -42,19 +35,7 @@ public class BookSelectListAdapter extends ArrayAdapter {
 
         item_title.setText(bundle.getString("name"));
 
-        Glide.with(mContext)
-                .load(bundle.getString("cover"))
-                .into(new CustomTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        rl_bg.setBackground(resource);
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                    }
-                });
+        GlideLoadUtils.getInstance().glideLoad(mContext, bundle.getString("cover"), rl_bg, R.drawable.bg);
 
         return view;
 

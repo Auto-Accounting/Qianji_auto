@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
+import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 
 public class DataListAdapter extends BaseAdapter {
     private final Context mContext;
@@ -27,9 +27,7 @@ public class DataListAdapter extends BaseAdapter {
 
         item_title.setText(item.getString("name"));
 
-        Glide.with(mContext)
-                .load(item.getString("icon"))
-                .into(icon_header);
+        GlideLoadUtils.getInstance().glideLoad(mContext, item.getString("icon"), icon_header, R.drawable.bg);
 
 
     }
