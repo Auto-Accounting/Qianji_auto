@@ -117,7 +117,7 @@ public class Category {
                regList.append(value.regular);
            }
 
-           String jsInner = "const isInTimeInner=function(minTime,maxTime,timeHour,timeMinute){function getNextDate(date,day){let dd;if(date==null){dd=new Date()}else{dd=new Date(date)}dd.setDate(dd.getDate()+day);const y=dd.getFullYear();const m=dd.getMonth()+1<10?\"0\"+(dd.getMonth()+1):dd.getMonth()+1;const d=dd.getDate()<10?\"0\"+dd.getDate():dd.getDate();return y+\"-\"+m+\"-\"+d}const currentTime=new Date(getNextDate(null,0)+\" \"+timeHour+\":\"+timeMinute);const endTime1=new Date(getNextDate(null,1)+\" \"+maxTime);const beginTime1=new Date(getNextDate(null,0)+\" \"+minTime);const endTime2=new Date(getNextDate(null,0)+\" \"+maxTime);const beginTime2=new Date(getNextDate(null,-1)+\" \"+minTime);return(beginTime1<=currentTime&&endTime1>=currentTime)||(beginTime2<=currentTime&&endTime2>=currentTime)};";
+           String jsInner = "const isInTimeInner=function(a,b,c,d){function e(a,b){dd=null==a?new Date:new Date(a),dd.setDate(dd.getDate()+b);const c=dd.getFullYear(),d=dd.getMonth()+1<10?\"0\"+(dd.getMonth()+1):dd.getMonth()+1,e=dd.getDate()<10?\"0\"+dd.getDate():dd.getDate();return c+\"-\"+d+\"-\"+e}const f=new Date(e(null,0)+\" \"+c+\":\"+d),g=new Date(e(null,1)+\" \"+b),h=new Date(e(null,0)+\" \"+a),i=new Date(e(null,0)+\" \"+b),j=new Date(e(null,-1)+\" \"+a);return h>i?f>=h&&g>=f||f>=j&&i>=f:f>=h&&i>=f};";
            String js = "function getCategory(shopName,shopRemark,type,hour,minute,money){%s  %s return 'NotFound';} getCategory('%s','%s','%s',%s,%s,'%s');";
 
            String time = billInfo.getTime();
@@ -145,17 +145,6 @@ public class Category {
 
     }
 
-    //获取所有的js
-    public static String getOneRegularJs(String jsData, String shopAccount, String shopRemark, String type, String hour, String minute, String money) {
-        if (shopAccount == null) shopAccount = "";
-        if (shopRemark == null) shopRemark = "";
-
-        //type = BillInfo.getTypeName(type);
-
-        String jsInner = "const isInTimeInner=function(minTime,maxTime,timeHour,timeMinute){function getNextDate(date,day){let dd;if(date==null){dd=new Date()}else{dd=new Date(date)}dd.setDate(dd.getDate()+day);const y=dd.getFullYear();const m=dd.getMonth()+1<10?\"0\"+(dd.getMonth()+1):dd.getMonth()+1;const d=dd.getDate()<10?\"0\"+dd.getDate():dd.getDate();return y+\"-\"+m+\"-\"+d}const currentTime=new Date(getNextDate(null,0)+\" \"+timeHour+\":\"+timeMinute);const endTime1=new Date(getNextDate(null,1)+\" \"+maxTime);const beginTime1=new Date(getNextDate(null,0)+\" \"+minTime);const endTime2=new Date(getNextDate(null,0)+\" \"+maxTime);const beginTime2=new Date(getNextDate(null,-1)+\" \"+minTime);return(beginTime1<=currentTime&&endTime1>=currentTime)||(beginTime2<=currentTime&&endTime2>=currentTime)};";
-        String js = "function getCategory(shopName,shopRemark,type,hour,minute,money){%s  %s return 'NotFound';} getCategory('%s','%s','%s',%s,%s,'%s');";
-        return String.format(js, jsInner, jsData, shopAccount, shopRemark, type, hour, minute, money);
-    }
 
     public static void getAll(Regex getRegular) {
         Task.onThread(() -> {

@@ -30,7 +30,15 @@ const isInTimeInner = function (minTime, maxTime,timeHour,timeMinute){
     const beginTime2 = new Date(getNextDate(null, -1) + " " + minTime);
 
 
-    return ( beginTime1<=currentTime&&endTime1>=currentTime)||( beginTime2<=currentTime&&endTime2>=currentTime);
+
+    if(endTime2<beginTime1){
+        return ( beginTime1<=currentTime&&endTime1>=currentTime)||( beginTime2<=currentTime&&endTime2>=currentTime);
+
+    }
+    else{
+        return ( beginTime1<=currentTime&&endTime2>=currentTime);
+
+    }
 };
 function getQueryVariable(variable)
 {

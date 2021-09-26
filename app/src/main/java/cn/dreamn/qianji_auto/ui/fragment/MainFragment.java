@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -32,11 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.hjq.toast.ToastUtils;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -71,6 +66,7 @@ import cn.dreamn.qianji_auto.utils.files.BackupManager;
 import cn.dreamn.qianji_auto.utils.files.FileUtils;
 import cn.dreamn.qianji_auto.utils.files.RegularManager;
 import cn.dreamn.qianji_auto.utils.runUtils.Data;
+import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 
@@ -168,12 +164,9 @@ public class MainFragment extends BaseFragment {
     LoadingDialog loadingDialog;
 
     private void restore() {
-        // Intent intent = getActivity().getIntent();
         Bundle bundle = getArguments();
         setArguments(null);
-        //Bundle bundle = intent.getExtras();
         if (bundle == null) return;
-      //  Log.i("Bundle数据：" + bundle.toString());
         String str = bundle.getString("url");
         if (str != null) {
             PermissionUtils permissionUtils = new PermissionUtils(getContext());
@@ -182,7 +175,8 @@ public class MainFragment extends BaseFragment {
                 ToastUtils.show(R.string.restore_permission);
                 return;
             }
-            //  Log.i("恢复路径：" + str);
+            Log.i("恢复路径：" + str);
+            str = str.replace("/external_files", "");
             if (str.endsWith("auto.backup")) {
                 loadingDialog = new LoadingDialog(getContext(), getString(R.string.restore_loading));
                 loadingDialog.show();
@@ -330,19 +324,7 @@ public class MainFragment extends BaseFragment {
             @Override
             public void handleMessage(@NonNull Message msg) {
 
-                Glide.with(getContext())
-                        .load(msg.obj)
-                        .into(new CustomTarget<Drawable>() {
-                            @Override
-                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                                book_img.setBackground(resource);
-                            }
-
-                            @Override
-                            public void onLoadCleared(@Nullable Drawable placeholder) {
-
-                            }
-                        });
+                GlideLoadUtils.getInstance().glideLoad(getContext(), (String) msg.obj, book_img, R.drawable.bg);
             }
         };
         BookNames.getIcon(def_book, icon -> {
