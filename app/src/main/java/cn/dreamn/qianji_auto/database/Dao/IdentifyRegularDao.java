@@ -26,7 +26,10 @@ import cn.dreamn.qianji_auto.database.Table.IdentifyRegular;
 @Dao
 public interface IdentifyRegularDao {
     @Query("SELECT * FROM IdentifyRegular WHERE use=1 and identify=:identify and fromApp=:App  order by sort")
-    IdentifyRegular[] load(String identify,String App);
+    IdentifyRegular[] load(String identify, String App);
+
+    @Query("SELECT * FROM IdentifyRegular WHERE use=1 and identify=:identify   order by sort")
+    IdentifyRegular[] load(String identify);
 
     @Query("SELECT * FROM IdentifyRegular WHERE  identify=:identify and fromApp=:App  order by sort,use")
     IdentifyRegular[] loadAll(String identify, String App);
