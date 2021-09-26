@@ -80,7 +80,7 @@ public class DateUtils {
                 }
                 //yyyy-MM-dd HH:mm:ss
                 if (time.contains(" ") && time.contains("-")) {
-                    format = "yyyy-MM-dd HH:mm:ss";
+                    format = "yyyy-MM-dd " + format;
                 }
                 t = dateToStamp(time, format);
             } else {

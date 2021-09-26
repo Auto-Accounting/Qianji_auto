@@ -17,8 +17,8 @@ android {
         applicationId "cn.dreamn.qianji"
         minSdkVersion 24
         targetSdkVersion 31
-        versionCode 131
-        versionName "涅槃 3.0.0 alpha31"
+        versionCode 132
+        versionName "涅槃 3.0.0 alpha32"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {

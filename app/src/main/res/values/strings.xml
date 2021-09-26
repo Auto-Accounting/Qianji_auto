@@ -428,6 +428,6 @@
     <string name="restore_error_2">恢复时发生错误！建议从文件管理器，选择文件打开！</string>
     <string name="accessibility_inner_title">❤️自动记账-懒人模式</string>
     <string name="accessibility_custom_title">⭐自动记账-自定义模式</string>
-    <string name="accessibility_inner_desc">自动记账内置辅助功能【懒人专用】,请不要与【⭐自动记账-自定义模式】同时开启，也不要与Xposed模式同时开启</string>
+    <string name="accessibility_inner_desc">自动记账内置辅助功能【懒人专用】,请不要Xposed模式同时开启</string>
     <string name="accessibility_custom_desc">自动记账自定义辅助功能【高度自定义】,请不要与【❤️自动记账-懒人模式】同时开启，也不要与Xposed模式同时开启</string>
 </resources>
