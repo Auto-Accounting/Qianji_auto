@@ -31,6 +31,8 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import cn.dreamn.qianji_auto.BuildConfig;
@@ -98,8 +100,28 @@ public class Utils {
 
 
     //JSON数据转URL
-    public static String convert(Object object, String key) {
-        StringBuilder paramStr = new StringBuilder();
+    public static String convert(Object object, String k) {
+        List<String> list = convertU(object, k);//.replaceAll("\\r\\n|\\r|\\n", " ");
+        String buff;
+        try {
+            list.sort(String::compareTo);
+            StringBuilder buf = new StringBuilder();
+            for (String s : list) {
+                buf.append(s).append("&");
+            }
+            buff = buf.toString();
+            if (!buff.isEmpty()) {
+                buff = buff.substring(0, buff.length() - 1);
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return buff.replaceAll("\\r\\n|\\r|\\n", " ");
+
+    }
+
+    public static List<String> convertU(Object object, String key) {
+        List<String> paramStr = new ArrayList<>();
         JSONObject jsonObject1;
         Object obj;
         if (object instanceof String && ((String) object).startsWith("{")) {
@@ -115,32 +137,31 @@ public class Utils {
 
         if (obj instanceof String || obj instanceof Number || obj instanceof Boolean) {
             String value = String.valueOf(obj);
-            value = value.replace("\\n", "").replace("\\t", "");
-            value = value.replace("\n", "\\n").replace("\t", "");
-
             if (
                     key != null &&
                             !value.startsWith("#") &&
-                            !value.contains("://")
+                            !value.equals("") &&
+                            !value.equals("\\n") &&
+                            !value.contains("://") &&
+                            !value.startsWith("{")
             ) {
-                paramStr.append("&").append(key).append("=").append(value);
+                paramStr.add(key + "=" + value);
             }
-
-
         } else {
             if (obj instanceof JSONObject) {
                 for (Map.Entry entry : ((JSONObject) obj).entrySet()) {
                     String k = entry.getKey().toString();
                     Object v = entry.getValue();
-                    paramStr.append(convert(v, k));
+                    paramStr.addAll(convertU(v, k));
                 }
             } else if (obj instanceof JSONArray) {
                 for (Object o : ((JSONArray) obj)) {
-                    paramStr.append(convert(o, null));
+
+                    paramStr.addAll(convertU(o, null));
                 }
             }
         }
-        return paramStr.toString().replace("\n", "\\n").replace("\t", "");
+        return paramStr;
     }
 
     public void send(JSONObject jsonObject) {
