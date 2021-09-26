@@ -32,8 +32,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.core.helper.Inner.HelpService;
 import cn.dreamn.qianji_auto.core.helper.base.ApiUtil;
-import cn.dreamn.qianji_auto.core.helper.yimu.AutoAccessibilityService;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import kotlin.jvm.internal.Intrinsics;
 
@@ -60,7 +60,7 @@ public class AppStatus {
     }
 
     public static boolean defaultActive(Context context) {
-        return ApiUtil.isAccessibilityServiceOn(context, AutoAccessibilityService.class);
+        return ApiUtil.isAccessibilityServiceOn(context, HelpService.class);
 
         //return false;
     }
