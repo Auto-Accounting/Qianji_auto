@@ -55,8 +55,17 @@ public class DataBase {
                 }
                 //获取用户ID,根据用户ID获取对应的资产等信息
                 String userId = "u10001";
-
-                Class<?> loginClass = mAppClassLoader.loadClass("com.mutangtech.qianji.app.f.b");
+                Class<?> loginClass = null;
+                try {
+                    loginClass = mAppClassLoader.loadClass("com.mutangtech.qianji.app.f.b");
+                } catch (Throwable e) {
+                    try {
+                        loginClass = mAppClassLoader.loadClass("com.mutangtech.qianji.app.c.b");
+                    } catch (Throwable e2) {
+                        utils.log("钱迹加载类失败！");
+                    }
+                }
+                if (loginClass == null) return;
                 //获取loginClass
                 Method getInstance = loginClass.getDeclaredMethod("getInstance");
                 //反射调用单例模式
