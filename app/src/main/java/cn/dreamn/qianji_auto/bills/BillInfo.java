@@ -361,7 +361,7 @@ public class BillInfo {
     }
 
     public String getShopRemark() {
-        return this.shopRemark;
+        return this.shopRemark == null ? "" : shopRemark;
     }
 
     public void setShopRemark(String name) {

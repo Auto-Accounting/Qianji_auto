@@ -65,10 +65,11 @@ public class Category {
         }
 
         String str = "";
-
+        String pattern = "([(（])\\d+月\\d+日([)）])";
+        String shopRemark = billInfo.getShopRemark().replaceAll(pattern, "");
         //    str += String.format("time = %s && ", time);
         str += String.format("shopName.indexOf('%s')!=-1 && ", billInfo.getShopAccount());
-        str += String.format("shopRemark.indexOf('%s')!=-1 && ", billInfo.getShopRemark());
+        str += String.format("shopRemark.indexOf('%s')!=-1 && ", shopRemark);
         str += String.format("type == '%s' && ", BillInfo.getTypeName(billInfo.getType(true)));
 
         String regular = "if(%s)return '%s';";
@@ -92,7 +93,7 @@ public class Category {
         jsonObject.put("regular_shopName_link", "包含");
         jsonObject.put("regular_shopName", billInfo.getShopAccount());
         jsonObject.put("regular_shopRemark_link", "包含");
-        jsonObject.put("regular_shopRemark", billInfo.getShopRemark());
+        jsonObject.put("regular_shopRemark", shopRemark);
         jsonObject.put("regular_type", BillInfo.getTypeName(billInfo.getType()));
         jsonObject.put("iconImg", "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png");
         jsonObject.put("regular_sort", sort);
