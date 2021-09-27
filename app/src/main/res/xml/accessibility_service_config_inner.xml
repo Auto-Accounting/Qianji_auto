@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
-    android:accessibilityEventTypes="typeAllMask"
+    android:accessibilityEventTypes="typeWindowContentChanged|typeWindowStateChanged"
     android:accessibilityFeedbackType="feedbackAllMask"
-    android:accessibilityFlags="flagDefault"
+    android:accessibilityFlags="flagRetrieveInteractiveWindows|flagDefault|flagIncludeNotImportantViews"
     android:canRequestFilterKeyEvents="true"
     android:canRetrieveWindowContent="true"
+    android:canRequestEnhancedWebAccessibility="true"
     android:description="@string/accessibility_inner_desc"
     android:notificationTimeout="100"
-    android:packageNames="com.tencent.mm,com.eg.android.AlipayGphone,com.unionpay,com.sankuai.meituan.takeoutnew,com.sankuai.meituan,com.jingdong.app.mall,com.jd.jrapp,com.xunmeng.pinduoduo" />
-
+    android:packageNames="com.tencent.mm,com.eg.android.AlipayGphone,com.unionpay,com.sankuai.meituan.takeoutnew,com.sankuai.meituan,com.jingdong.app.mall,com.jd.jrapp,com.xunmeng.pinduoduo" /><!--typeNotificationStateChanged-->
     <!--
         <?xml version="1.0" encoding="UTF-8"?>
     <accessibility-service android:accessibilityEventTypes="0x820" android:accessibilityFeedbackType="0xffffffff" android:accessibilityFlags="0x43" android:canRequestEnhancedWebAccessibility="true" android:canRequestFilterKeyEvents="true" android:canRetrieveWindowContent="true" android:description="@string/auto_service_des" android:notificationTimeout="100" android:packageNames="com.tencent.mm,com.eg.android.AlipayGphone,com.unionpay,com.sankuai.meituan.takeoutnew,com.sankuai.meituan,com.jingdong.app.mall,com.jd.jrapp,com.xunmeng.pinduoduo" xmlns:android="http://schemas.android.com/apk/res/android"/>-->

@@ -45,10 +45,10 @@ public class analyze_2 extends baseAnalyze {
                         ++var2;
                     }
                 } else {
-                    if (HelpService.checkNode(nodeList, "个红包", false)) {
+                    if (NodeListManage.checkNode(nodeList, "个红包", false)) {
                         Log.i("[auto]红包数量");
-                        if (HelpService.checkNode(nodeList, "被抢光", false)) {
-                            if (!HelpService.checkNode(nodeList, "已存入零钱", false)) {
+                        if (NodeListManage.checkNode(nodeList, "被抢光", false)) {
+                            if (!NodeListManage.checkNode(nodeList, "已存入零钱", false)) {
                                 Log.d("[auto]群红包没有抢到");
                                 return null;
                             }
