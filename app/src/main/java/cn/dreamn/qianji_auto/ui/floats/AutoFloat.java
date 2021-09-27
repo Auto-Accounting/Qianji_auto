@@ -382,8 +382,8 @@ public class AutoFloat {
         tv_account2.setText(billInfo.getAccountName2());
         tv_time.setText(billInfo.getTime());
         String remark = billInfo.getRemark();
-        if (remark.length() > 20) {
-            remark = remark.substring(0, 20) + "...";
+        if (remark.length() > 16) {
+            remark = remark.substring(0, 16) + "...";
         }
         tv_remark.setText(remark);
 
