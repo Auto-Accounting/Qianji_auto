@@ -1,11 +1,22 @@
 package cn.dreamn.qianji_auto.core.helper.Inner;
 
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
+
 import android.accessibilityservice.AccessibilityService;
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +24,9 @@ import java.util.List;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
 import cn.dreamn.qianji_auto.core.helper.AutoBillService;
+import cn.dreamn.qianji_auto.database.Helper.AppDatas;
+import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 public class HelpService extends AccessibilityService {
@@ -87,6 +101,10 @@ public class HelpService extends AccessibilityService {
     }
 
     public final void findNodeInfo(AccessibilityNodeInfo nodeInfo) {
+        if (nodeInfo == null) return;
+        if (globalNodeList == null) {
+            globalNodeList = new ArrayList<>();
+        }
         int i = listIndex + 1;
         listIndex = i;
         if (i <= 100) {
@@ -113,7 +131,48 @@ public class HelpService extends AccessibilityService {
         AccessibilityNodeInfo source = accessibilityEvent.getSource();
         String packageName = accessibilityEvent.getPackageName() == null ? "" : accessibilityEvent.getPackageName().toString();
         String className = accessibilityEvent.getClassName() == null ? "" : accessibilityEvent.getClassName().toString();
+        if (accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
 
+            //获取Parcelable对象
+            Parcelable data = accessibilityEvent.getParcelableData();
+
+            //判断是否是Notification对象
+            if (data instanceof Notification) {
+                Log.i("通知栏发生变化 > " + accessibilityEvent.getText().toString());
+                Notification notification = (Notification) data;
+                Bundle extras = notification.extras;
+                if (extras != null) {
+                    String title = extras.getString(NotificationCompat.EXTRA_TITLE, "");
+                    String content = extras.getString(NotificationCompat.EXTRA_TEXT, "");
+
+                    String str = "title=" + title + ",content=" + content;
+                    AppDatas.add("notice", packageName, str);
+                    Handler mHandler = new Handler(Looper.getMainLooper()) {
+                        @Override
+                        public void handleMessage(@NonNull Message msg) {
+                            BillInfo billInfo = (BillInfo) msg.obj;
+                            billInfo.setFromApp(packageName);
+                            SendDataToApp.call(getApplicationContext(), billInfo);
+                        }
+                    };
+                    identifyRegulars.run("notice", packageName, str, billInfo -> {
+                        if (billInfo != null) {
+                            HandlerUtil.send(mHandler, billInfo, HANDLE_OK);
+                        }
+                    });
+
+                }
+            }
+
+
+            return;
+        }
+
+        if (source != null) {
+            globalNodeList = new ArrayList<>();
+            findNodeInfo(source);
+            Log.i("[auto]当前数据: class=" + className + ", " + globalNodeList.toString());
+        }
         boolean var2;
         boolean var3;
         boolean var7 = true;
@@ -173,15 +232,17 @@ public class HelpService extends AccessibilityService {
             canAdd = false;
             this.d = null;
             this.f = false;
+            return;
         } else {
             canAdd = false;
+            return;
         }
 
         Log.i("[auto]开始分析账单数据：canAdd=" + (canAdd ? "true" : "false") + ",flag=" + flag + ",class=" + className + ",source=" + (source == null ? "null" : "not null"));
 
         if (canAdd && source != null) {
             listIndex = 0;
-            globalNodeList = new ArrayList<>();
+
             findNodeInfo(source);
             List<Object> nodeList = globalNodeList;
             Log.i("[auto]账单信息" + nodeList.toString());
