@@ -51,7 +51,7 @@ public class Notice extends AndroidBase {
                         ApplicationInfo applicationInfo = (ApplicationInfo) bundle.get("android.appInfo");
                         aPackage = applicationInfo.packageName;
 
-                        utils.log("通知数据：" + bundle.toString());
+                      //  utils.log("通知数据：" + bundle.toString());
 
                         //收到支付宝支付通知后,自动拉起支付宝
                         if (aPackage.contains("com.eg.android.AlipayGphone")) {

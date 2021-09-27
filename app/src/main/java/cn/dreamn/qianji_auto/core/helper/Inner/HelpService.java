@@ -1,9 +1,8 @@
 package cn.dreamn.qianji_auto.core.helper.Inner;
 
-import static cn.dreamn.qianji_auto.core.helper.yimu.AutoAccessibilityService.startAutoNotify;
-
 import android.accessibilityservice.AccessibilityService;
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -13,6 +12,7 @@ import java.util.List;
 
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
+import cn.dreamn.qianji_auto.core.helper.AutoBillService;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 public class HelpService extends AccessibilityService {
@@ -36,7 +36,6 @@ public class HelpService extends AccessibilityService {
     //京东支付界面
     private static final int FLAG_PDD_DETAIL_UI = 10;
     //拼多多账单详情
-
 
     public static boolean j;
     public static boolean k;
@@ -114,7 +113,7 @@ public class HelpService extends AccessibilityService {
         AccessibilityNodeInfo source = accessibilityEvent.getSource();
         String packageName = accessibilityEvent.getPackageName() == null ? "" : accessibilityEvent.getPackageName().toString();
         String className = accessibilityEvent.getClassName() == null ? "" : accessibilityEvent.getClassName().toString();
-        //
+
         boolean var2;
         boolean var3;
         boolean var7 = true;
@@ -127,69 +126,63 @@ public class HelpService extends AccessibilityService {
         byte var29;
 
         var23 = 3;
+        canAdd = true;
         if ("com.tencent.mm.plugin.remittance.ui.RemittanceBusiUI".equals(className) || "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI".equals(className) || "com.tencent.mm.plugin.wallet_index.ui.WalletBrandUI".equals(className) || "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyDetailUI".equals(className) || "com.tencent.mm.plugin.wallet_index.ui.OrderHandlerUI".equals(className) || "com.tencent.mm.plugin.remittance.ui.RemittanceDetailUI".equals(className) || "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyBusiReceiveUI".equals(className) || "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyBusiDetailUI".equals(className) || "com.tencent.mm.plugin.aa.ui.PaylistAAUI".equals(className) || "com.tencent.mm.plugin.wallet.balance.ui.WalletBalanceResultUI".equals(className) || "com.tencent.mm".equals(packageName) && source != null && source.findAccessibilityNodeInfosByText("支付成功").size() > 0 && source.findAccessibilityNodeInfosByText("查看账单详情").size() == 0) {
             Log.d("[auto]微信支付界面");
             flag = FLAG_WECHAT_PAY_UI;
-            canAdd = true;
         } else if ("com.tencent.mm.plugin.wallet.balance.ui.lqt.WalletLqtSaveFetchFinishUI".equals(className)) {
             Log.d("[auto]微信零钱通_WX_PAY");
-            canAdd = true;
             this.f = true;
             flag = FLAG_WECHAT_PAY_UI;
+            canAdd = false;
         } else if ("com.tencent.mm.plugin.wallet.balance.ui.lqt.WalletLqtSaveFetchFinishProgressNewUI".equals(className)) {
             Log.d("[auto]微信零钱通_WX_BILL");
-            canAdd = true;
             this.f = true;
+            canAdd = false;
             flag = FLAG_WECHAT_PAY_MONEY_UI;
         } else if ("com.tencent.mm".equals(packageName) && source != null && ((source.findAccessibilityNodeInfosByText("账单详情").size() > 0 && source.findAccessibilityNodeInfosByText("查看账单详情").size() == 0) || (source.findAccessibilityNodeInfosByText("零钱提现").size() > 0 && source.findAccessibilityNodeInfosByText("到账成功").size() > 0))) {
             Log.d("[auto]微信账单详情");
-            canAdd = true;
             flag = FLAG_WECHAT_PAY_MONEY_UI;
         } else if ("com.alipay.android.msp.ui.views.MspContainerActivity".equals(className) || "com.alipay.android.msp.ui.views.MspUniRenderActivity".equals(className) || "com.alipay.android.phone.discovery.envelope.get.SnsCouponDetailActivity".equals(className) || "com.eg.android.AlipayGphone".equals(packageName) && source != null && source.findAccessibilityNodeInfosByText("向商家付钱").size() > 0) {
             Log.d("[auto]支付宝支付界面");
-            canAdd = true;
             flag = FLAG_ALIPAY_PAY_UI;
         } else if ("com.eg.android.AlipayGphone".equals(packageName) && source != null && (source.findAccessibilityNodeInfosByText("账单详情").size() > 0 || source.findAccessibilityNodeInfosByText("结果详情").size() > 0)) {
             Log.d("[auto]支付宝账单详情");
-            canAdd = true;
             flag = FLAG_ALIPAY_PAY_DETAIL_UI;
         } else if ("com.unionpay.activity.payment.UPActivityScan".equals(className) || "com.unionpay.activity.payment.UPActivityPaymentQrCodeOut".equals(className)) {
             Log.d("[auto]云闪付支付界面");
-            canAdd = true;
             flag = FLAG_UNION_PAY_UI;
         } else if ("com.unionpay".equals(packageName) && ((source != null && source.findAccessibilityNodeInfosByText("查看账单").size() > 0) || "com.unionpay.cordova.UPActivityWeb".equals(className) || ("android.view.ViewGroup".equals(className) && source != null && source.findAccessibilityNodeInfosByText("交易记录").size() > 0 && source.findAccessibilityNodeInfosByText("筛选").size() > 0) || (source != null && source.findAccessibilityNodeInfosByText("动账通知").size() > 0 && source.findAccessibilityNodeInfosByText("支付助手").size() > 0))) {
             Log.d("[auto]云闪付账单详情");
             flag = FLAG_UNION_PAY_DETAIL_UI;
-            canAdd = true;
         } else if ("com.sankuai.waimai.business.knb.KNBWebViewActivity".equals(className) || "com.sankuai.eh.framework.EHContainerActivity".equals(className) || "com.meituan.android.pay.activity.PayActivity".equals(className) || ("com.sankuai.meituan.takeoutnew".equals(packageName) || "com.sankuai.meituan".equals(packageName)) && ("android.webkit.WebView".equals(className) || "android.view.View".equals(className))) {
             Log.d("[auto]美团账单详情");
             flag = FLAG_MT_PAY_DETAIL_UI;
-            canAdd = true;
         } else if (("com.jingdong.app.mall".equals(packageName) || "com.jd.jrapp".equals(packageName)) && source != null && source.findAccessibilityNodeInfosByText("账单详情").size() > 0) {
             Log.d("[auto]京东账单详情");
             flag = FLAG_JD_PAY_DETAIL_UI;
-            canAdd = true;
         } else if ("com.jd.lib.cashier.complete.view.CashierCompleteActivity".equals(className)) {
             Log.d("[auto]京东支付界面");
             flag = FLAG_JD_PAY_UI;
-            canAdd = true;
         } else if ("com.xunmeng.pinduoduo.activity.NewPageActivity".equals(className) || "com.xunmeng.pinduoduo".equals(packageName) && ("android.webkit.WebView".equals(className) || "android.view.View".equals(className) || "android.widget.FrameLayout".equals(className))) {
             Log.d("[auto]拼多多账单详情");
             flag = FLAG_PDD_DETAIL_UI;
-            canAdd = true;
         } else if ("com.unionpay.activity.UPActivityMain".equals(className) || "com.alipay.mobile.bill.list.ui.BillMainListActivity".equals(className) || "com.tencent.mm.ui.LauncherUI".equals(className) || "com.eg.android.AlipayGphone.AlipayLogin".equals(className) || "com.jd.jrapp.bm.mainbox.main.MainActivity".equals(className) || "com.jingdong.app.mall.MainFrameActivity".equals(className) || "com.sankuai.waimai.business.page.homepage.MainActivity".equals(className) || "com.meituan.android.pt.homepage.activity.MainActivity".equals(className) || "com.xunmeng.pinduoduo.ui.activity.HomeActivity".equals(className)) {
             Log.d("[auto]退出_页面识别失败");
             this.e = false;
             canAdd = false;
             this.d = null;
             this.f = false;
+        } else {
+            canAdd = false;
         }
-        Log.i("[auto]开始分析账单数据：canAdd?" + (canAdd ? "true" : "false"));
-        //
+
+        Log.i("[auto]开始分析账单数据：canAdd=" + (canAdd ? "true" : "false") + ",flag=" + flag + ",class=" + className + ",source=" + (source == null ? "null" : "not null"));
+
         if (canAdd && source != null) {
             listIndex = 0;
             globalNodeList = new ArrayList<>();
-            this.findNodeInfo(source);
+            findNodeInfo(source);
             List<Object> nodeList = globalNodeList;
             Log.i("[auto]账单信息" + nodeList.toString());
             if (!isNullOrEmpty(nodeList)) {
@@ -597,11 +590,13 @@ public class HelpService extends AccessibilityService {
 
     @Override
     public void onInterrupt() {
-
+        Log.i("自动记账辅助服务", "自动记账辅助服务已暂停。");
+        getApplicationContext().stopService(new Intent(getApplicationContext(), AutoBillService.class));
     }
 
     @Override
     protected void onServiceConnected() {
-        startAutoNotify(getApplicationContext());
+        Log.i("自动记账辅助服务", "自动记账辅助服务已启动。");
+        getApplicationContext().startService(new Intent(getApplicationContext(), AutoBillService.class));
     }
 }

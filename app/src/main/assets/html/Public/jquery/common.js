@@ -11,7 +11,7 @@ const isInTimeInner = function (minTime, maxTime,timeHour,timeMinute) {
     if(t1==null||t2==null||t1.length<3||t2.length<3){
         return false;
     }
-    const h1 = parseInt(t1[1]), h2 =  parseInt(t2[1]), m1 =  parseInt(t1[2]), m2 =  parseInt(t2[2]);
+    const h1 = parseInt(t1[1],10), h2 =  parseInt(t2[1],10), m1 =  parseInt(t1[2],10), m2 =  parseInt(t2[2],10);
     if (h1 > h2)
         return (timeHour === h1 && timeMinute >= m1) || timeHour > h1 || timeHour < h2 || timeHour === h2 && timeMinute <= m2;
     else if (h1 < h2)

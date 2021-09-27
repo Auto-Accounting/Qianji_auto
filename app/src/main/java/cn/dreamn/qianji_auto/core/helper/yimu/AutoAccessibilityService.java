@@ -50,9 +50,7 @@ public class AutoAccessibilityService extends AccessibilityService {
         payTools = null;
     }
 
-    public static void startAutoNotify(Context context) {
-        context.startService(new Intent(context, AutoBillService.class));
-    }
+
 
     private boolean isServiceRunning(String ServicePackageName) {
         ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
@@ -338,12 +336,14 @@ public class AutoAccessibilityService extends AccessibilityService {
 
     @Override
     public void onInterrupt() {
-
+        Log.i("自动记账辅助服务", "自动记账辅助服务已暂停。");
+        getApplicationContext().stopService(new Intent(getApplicationContext(), AutoBillService.class));
     }
 
     @Override
     protected void onServiceConnected() {
-        startAutoNotify(getApplicationContext());
+        Log.i("自动记账辅助服务", "自动记账辅助服务已启动。");
+        getApplicationContext().startService(new Intent(getApplicationContext(), AutoBillService.class));
     }
 }
 
