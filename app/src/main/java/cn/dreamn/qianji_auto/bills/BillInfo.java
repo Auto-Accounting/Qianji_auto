@@ -22,6 +22,8 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
+import com.tencent.mmkv.MMKV;
+
 import java.util.Set;
 
 import cn.dreamn.qianji_auto.utils.files.Md5Util;
@@ -255,7 +257,11 @@ public class BillInfo {
     }
 
     public String getRawMd5() {
-        return Md5Util.main(toString());
+        MMKV mmkv = MMKV.defaultMMKV();
+        if (mmkv.getBoolean("dup", false))
+            return Md5Util.main(toString());
+        return "";
+
     }
 
     public void setType(String type) {

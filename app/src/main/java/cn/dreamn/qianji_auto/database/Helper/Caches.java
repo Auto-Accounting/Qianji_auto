@@ -88,6 +88,7 @@ public class Caches {
     }
 
     public static void AddOrUpdate(String name, String data) {
+       if (name.equals("")) return;
         getOne(name, "0",cache -> {
             if(cache!=null){
                 update(name, data);
