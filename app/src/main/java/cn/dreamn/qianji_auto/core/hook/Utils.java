@@ -85,13 +85,12 @@ public class Utils {
 
     public String readData(String key, boolean replace) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("ankio_xp", Context.MODE_PRIVATE); //私有数据
-        String data = sharedPreferences.getString(key, "");
-        if (replace) {
+        /* if (replace) {
             SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
             editor.putString(key, null);
             editor.apply();
-        }
-        return data;
+        }*/
+        return sharedPreferences.getString(key, "");
     }
 
 
