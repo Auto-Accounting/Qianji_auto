@@ -17,8 +17,8 @@ android {
         applicationId "cn.dreamn.qianji"
         minSdkVersion 24
         targetSdkVersion 31
-        versionCode 134
-        versionName "涅槃 3.0.0 alpha34"
+        versionCode 135
+        versionName "涅槃 3.0.0 alpha35"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -29,8 +29,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             applicationVariants.all { variant ->
                 variant.outputs.all {
@@ -44,7 +44,7 @@ android {
          /*   minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-    */    }
+      */  }
     }
 
     compileOptions {
