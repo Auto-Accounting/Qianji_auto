@@ -33,19 +33,14 @@ public class Log {
     public static int MODE_CLOSE = 0;//关闭日志
     public static int MODE_SIMPLE = 1;//简单记录
     public static int MODE_MORE = 2;//详细记录
+    public static String TAG = "自动记账";
+
+    public static void init(String tag) {
+        TAG = tag;
+    }
 
     public static void d(String msg) {
-        if (msg == null) return;
-        MMKV mmkv = MMKV.defaultMMKV();
-        int mode = mmkv.getInt("log_mode", 1);
-        String defaultTag = "Qianji-Auto";
-        Task.onThread(() -> {
-            android.util.Log.i(defaultTag, msg);
-            if (mode != 0 && mode != 1) {
-                DbManger.db.LogDao().add(msg, "自动记账", getTime());
-                DbManger.db.LogDao().deleteTimeout(timeout);
-            }
-        });
+        d(TAG, msg);
 
     }
 
@@ -54,7 +49,6 @@ public class Log {
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
         Task.onThread(() -> {
-
             android.util.Log.i(TAG, msg);
             if (mode != 0 && mode != 1) {
                 DbManger.db.LogDao().add(msg, TAG, getTime());
@@ -64,17 +58,8 @@ public class Log {
     }
 
     public static void i(String msg) {
-        //if (msg == null) return;
-        MMKV mmkv = MMKV.defaultMMKV();
-        int mode = mmkv.getInt("log_mode", 1);
-        String defaultTag = "Qianji-Auto";
-        Task.onThread(() -> {
-            android.util.Log.i(defaultTag, msg);
-            if (mode != 0) {
-                DbManger.db.LogDao().add(msg, "自动记账", getTime());
-                DbManger.db.LogDao().deleteTimeout(timeout);
-            }
-        });
+
+        i(TAG, msg);
 
     }
 
@@ -92,27 +77,13 @@ public class Log {
     }
 
     public static void m(String msg) {
-        if (msg == null) return;
-        MMKV mmkv = MMKV.defaultMMKV();
-        int mode = mmkv.getInt("log_mode", 1);
-        String defaultTag = "Qianji-Auto";
-        Task.onThread(() -> {
-            android.util.Log.i(defaultTag, msg);
-
-            DbManger.db.LogDao().add(msg, "自动记账", getTime());
-            DbManger.db.LogDao().deleteTimeout(timeout);
-
-        });
-
+        m(TAG, msg);
     }
 
     public static void m(String TAG, String msg) {
         if (msg == null) return;
-        MMKV mmkv = MMKV.defaultMMKV();
-        int mode = mmkv.getInt("log_mode", 1);
         Task.onThread(() -> {
             android.util.Log.i(TAG, msg);
-
             DbManger.db.LogDao().add(msg, TAG, getTime());
             DbManger.db.LogDao().deleteTimeout(timeout);
 
@@ -128,9 +99,7 @@ public class Log {
 
 
     public static void del(Integer pos) {
-        Task.onThread(()-> {
-            DbManger.db.LogDao().del(pos);
-        });
+        Task.onThread(() -> DbManger.db.LogDao().del(pos));
     }
 
     public static void delAll(onDelOk ok) {

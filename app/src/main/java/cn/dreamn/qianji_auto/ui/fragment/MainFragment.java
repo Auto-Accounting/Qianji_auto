@@ -239,6 +239,7 @@ public class MainFragment extends BaseFragment {
     @Override
     protected void initViews() {
         app_log.setText(BuildConfig.VERSION_NAME);
+        Log.init("自动记账:MainFragment");
         AutoBillWeb.update(getContext());
         getWechat();
         Data.init(getContext());

@@ -96,7 +96,6 @@ public class HelpService extends AccessibilityService {
         }
 
 
-        boolean var2;
         boolean var3;
         boolean var7 = true;
         boolean var5;
@@ -110,113 +109,94 @@ public class HelpService extends AccessibilityService {
         var23 = 3;
 
         if ("com.tencent.mm.plugin.remittance.ui.RemittanceBusiUI".equals(className) || "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI".equals(className) || "com.tencent.mm.plugin.wallet_index.ui.WalletBrandUI".equals(className) || "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyDetailUI".equals(className) || "com.tencent.mm.plugin.wallet_index.ui.OrderHandlerUI".equals(className) || "com.tencent.mm.plugin.remittance.ui.RemittanceDetailUI".equals(className) || "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyBusiReceiveUI".equals(className) || "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyBusiDetailUI".equals(className) || "com.tencent.mm.plugin.aa.ui.PaylistAAUI".equals(className) || "com.tencent.mm.plugin.wallet.balance.ui.WalletBalanceResultUI".equals(className) || "com.tencent.mm".equals(packageName) && source != null && source.findAccessibilityNodeInfosByText("支付成功").size() > 0 && source.findAccessibilityNodeInfosByText("查看账单详情").size() == 0) {
-
-            Log.d("[auto]微信支付界面1");
+            Log.d("[页面识别]微信支付界面1");
             NodeListManage.setFlag(FLAG_WECHAT_PAY_UI);
         } else if ("com.tencent.mm.plugin.wallet.balance.ui.lqt.WalletLqtSaveFetchFinishUI".equals(className)) {
-            Log.d("[auto]微信零钱通_WX_PAY");
+            Log.d("[页面识别]微信零钱通_WX_PAY");
             this.f = true;
             NodeListManage.setFlag(FLAG_WECHAT_PAY_UI);
 
         } else if ("com.tencent.mm.plugin.wallet.balance.ui.lqt.WalletLqtSaveFetchFinishProgressNewUI".equals(className)) {
-            Log.d("[auto]微信零钱通_WX_BILL");
+            Log.d("[页面识别]微信零钱通_WX_BILL");
             this.f = true;
             NodeListManage.setFlag(FLAG_WECHAT_PAY_MONEY_UI);
         } else if ("com.tencent.mm".equals(packageName) && source != null && ((source.findAccessibilityNodeInfosByText("账单详情").size() > 0 && source.findAccessibilityNodeInfosByText("查看账单详情").size() == 0) || (source.findAccessibilityNodeInfosByText("零钱提现").size() > 0 && source.findAccessibilityNodeInfosByText("到账成功").size() > 0))) {
-            Log.d("[auto]微信账单详情");
+            Log.d("[页面识别]微信账单详情");
             NodeListManage.setFlag(FLAG_WECHAT_PAY_MONEY_UI);
         } else if ("com.alipay.android.msp.ui.views.MspContainerActivity".equals(className) || "com.alipay.android.msp.ui.views.MspUniRenderActivity".equals(className) || "com.alipay.android.phone.discovery.envelope.get.SnsCouponDetailActivity".equals(className) || "com.eg.android.AlipayGphone".equals(packageName) && source != null && source.findAccessibilityNodeInfosByText("向商家付钱").size() > 0) {
-            Log.d("[auto]支付宝支付界面");
+            Log.d("[页面识别]支付宝支付界面");
             NodeListManage.setFlag(FLAG_ALIPAY_PAY_UI);
         } else if ("com.eg.android.AlipayGphone".equals(packageName) && source != null && (source.findAccessibilityNodeInfosByText("账单详情").size() > 0 || source.findAccessibilityNodeInfosByText("结果详情").size() > 0)) {
-            Log.d("[auto]支付宝账单详情");
+            Log.d("[页面识别]支付宝账单详情");
             NodeListManage.setFlag(FLAG_ALIPAY_PAY_DETAIL_UI);
         } else if ("com.unionpay.activity.payment.UPActivityScan".equals(className) || "com.unionpay.activity.payment.UPActivityPaymentQrCodeOut".equals(className)) {
-            Log.d("[auto]云闪付支付界面");
+            Log.d("[页面识别]云闪付支付界面");
             NodeListManage.setFlag(FLAG_UNION_PAY_UI);
         } else if ("com.unionpay".equals(packageName) && ((source != null && source.findAccessibilityNodeInfosByText("查看账单").size() > 0) || "com.unionpay.cordova.UPActivityWeb".equals(className) || ("android.view.ViewGroup".equals(className) && source != null && source.findAccessibilityNodeInfosByText("交易记录").size() > 0 && source.findAccessibilityNodeInfosByText("筛选").size() > 0) || (source != null && source.findAccessibilityNodeInfosByText("动账通知").size() > 0 && source.findAccessibilityNodeInfosByText("支付助手").size() > 0))) {
-            Log.d("[auto]云闪付账单详情");
+            Log.d("[页面识别]云闪付账单详情");
             NodeListManage.setFlag(FLAG_UNION_PAY_DETAIL_UI);
         } else if ("com.sankuai.waimai.business.knb.KNBWebViewActivity".equals(className) || "com.sankuai.eh.framework.EHContainerActivity".equals(className) || "com.meituan.android.pay.activity.PayActivity".equals(className) || ("com.sankuai.meituan.takeoutnew".equals(packageName) || "com.sankuai.meituan".equals(packageName)) && ("android.webkit.WebView".equals(className) || "android.view.View".equals(className))) {
-            Log.d("[auto]美团账单详情");
+            Log.d("[页面识别]美团账单详情");
             NodeListManage.setFlag(FLAG_MT_PAY_DETAIL_UI);
         } else if (("com.jingdong.app.mall".equals(packageName) || "com.jd.jrapp".equals(packageName)) && source != null && source.findAccessibilityNodeInfosByText("账单详情").size() > 0) {
-            Log.d("[auto]京东账单详情");
+            Log.d("[页面识别]京东账单详情");
             NodeListManage.setFlag(FLAG_JD_PAY_DETAIL_UI);
         } else if ("com.jd.lib.cashier.complete.view.CashierCompleteActivity".equals(className)) {
-            Log.d("[auto]京东支付界面");
+            Log.d("[页面识别]京东支付界面");
             NodeListManage.setFlag(FLAG_JD_PAY_UI);
         } else if ("com.xunmeng.pinduoduo.activity.NewPageActivity".equals(className) || "com.xunmeng.pinduoduo".equals(packageName) && ("android.webkit.WebView".equals(className) || "android.view.View".equals(className) || "android.widget.FrameLayout".equals(className))) {
-            Log.d("[auto]拼多多账单详情");
+            Log.d("[页面识别]拼多多账单详情");
             NodeListManage.setFlag(FLAG_PDD_DETAIL_UI);
         } else if ("com.unionpay.activity.UPActivityMain".equals(className) || "com.alipay.mobile.bill.list.ui.BillMainListActivity".equals(className) || "com.tencent.mm.ui.LauncherUI".equals(className) || "com.eg.android.AlipayGphone.AlipayLogin".equals(className) || "com.jd.jrapp.bm.mainbox.main.MainActivity".equals(className) || "com.jingdong.app.mall.MainFrameActivity".equals(className) || "com.sankuai.waimai.business.page.homepage.MainActivity".equals(className) || "com.meituan.android.pt.homepage.activity.MainActivity".equals(className) || "com.xunmeng.pinduoduo.ui.activity.HomeActivity".equals(className)) {
-            Log.d("[auto]退出_页面识别失败");
-            this.e = false;
-
-            this.d = null;
-            this.f = false;
-
+            Log.d("[页面识别]退出_页面识别失败");
         }
         NodeListManage.findNodeInfo(source, packageName, true);
         //啥都不管，先塞数据~
-        Log.i("[auto]当前页面数据：flag=" + NodeListManage.flag + ",class=" + className + ",globalNodeList=" + (NodeListManage.globalNodeList.toString()));
+        Log.i("当前页面数据：flag=" + NodeListManage.flag + ",class=" + className + ",globalNodeList=" + (NodeListManage.globalNodeList.toString()));
 
         if (NodeListManage.flag != FLAG_NO_USE && NodeListManage.globalNodeList.size() != 0) {
             List<Object> nodeList = NodeListManage.globalNodeList;
-            Log.i("[auto]账单信息" + nodeList.toString());
-            if (!NodeListManage.isNullOrEmpty(nodeList)) {
+            if (NodeListManage.isNullOrEmpty(nodeList)) return;
+            boolean isUseful;
+            if (NodeListManage.flag == FLAG_MT_PAY_DETAIL_UI) {
+                Log.i("[FLAG]美团账单详情 FLAG_MT_PAY_DETAIL_UI");
+                isUseful = nodeList.size() > 4 && (NodeListManage.checkNode(nodeList, "交易详情", true) || NodeListManage.checkNode(nodeList, "交易类型", true) || "支付成功".equals(nodeList.get(0)));
+                if (!isUseful) {
+                    Log.i("[页面识别]无效账单详情");
+                    return;
+                }
+            }
 
-                Log.i("[auto]账单信息不为空");
-                if (NodeListManage.flag == FLAG_MT_PAY_DETAIL_UI) {
-                    var2 = nodeList.size() > 4 && (NodeListManage.checkNode(nodeList, "交易详情", true) || NodeListManage.checkNode(nodeList, "交易类型", true) || "支付成功".equals(nodeList.get(0)));
-
-                    if (!var2) {
-                        Log.i("[auto]无效账单详情");
-                        return;
-                    }
+            if (NodeListManage.flag == FLAG_PDD_DETAIL_UI) {
+                Log.i("[FLAG]拼多多账单详情 FLAG_PDD_DETAIL_UI");
+                isUseful = nodeList.size() > 10 && NodeListManage.checkNode(nodeList, "账单详情", true) && (NodeListManage.checkNode(nodeList, "交易单号", true) || NodeListManage.checkNode(nodeList, "提现单号", true));
+                isUseful = isUseful || (nodeList.size() > 6 && (NodeListManage.checkNode(nodeList, "充值成功", true) || NodeListManage.checkNode(nodeList, "提现发起成功", true)));
+                if (!isUseful) {
+                    Log.i("[页面识别]无效账单详情");
+                    return;
                 }
 
-                if (NodeListManage.flag == FLAG_PDD_DETAIL_UI) {
-                    var2 = nodeList.size() > 10 && NodeListManage.checkNode(nodeList, "账单详情", true) && (NodeListManage.checkNode(nodeList, "交易单号", true) || NodeListManage.checkNode(nodeList, "提现单号", true));
+            }
 
-                    label614:
-                    {
-                        if (!var2) {
-                            var2 = nodeList.size() > 6 && (NodeListManage.checkNode(nodeList, "充值成功", true) || NodeListManage.checkNode(nodeList, "提现发起成功", true));
+            boolean var6;
+            var6 = NodeListManage.checkNode(nodeList, "支付成功", true) || NodeListManage.checkNode(nodeList, "充值成功", true);
 
-                            if (!var2) {
-                                break label614;
-                            }
-                        }
-
-                        var2 = true;
-                    }
-
-                    if (!var2) {
-                        Log.i("[auto]无效账单详情");
-
-                        return;
-                    }
+            var5 = var6;
+            if (NodeListManage.flag == FLAG_ALIPAY_PAY_UI) {
+                Log.i("[FLAG]支付宝支付UI FLAG_ALIPAY_PAY_UI");
+                if (!var6) {
+                    var5 = NodeListManage.checkNode(nodeList, "代付成功", true);
                 }
+            }
 
-                boolean var6;
-                var6 = NodeListManage.checkNode(nodeList, "支付成功", true) || NodeListManage.checkNode(nodeList, "充值成功", true);
-
-                var5 = var6;
-                if (NodeListManage.flag == FLAG_ALIPAY_PAY_UI) {
-                    if (!var6) {
-                        var5 = NodeListManage.checkNode(nodeList, "代付成功", true);
-                    }
-                }
-
-                var6 = var5;
-                int var35;
-                if (NodeListManage.flag == FLAG_WECHAT_PAY_UI) {
-                    label848:
-                    {
-                        if (!this.f) {
-                            if (NodeListManage.checkNode(nodeList, "支付方式", true)) {
-                                var35 = nodeList.indexOf("支付方式");
+            var6 = var5;
+            int var35;
+            if (NodeListManage.flag == FLAG_WECHAT_PAY_UI) {
+                label848:
+                {
+                    if (!this.f) {
+                        if (NodeListManage.checkNode(nodeList, "支付方式", true)) {
+                            var35 = nodeList.indexOf("支付方式");
                                 if (var35 < nodeList.size() - 1) {
                                     this.d = (String) nodeList.get(var35 + 1);
                                 }
@@ -256,7 +236,7 @@ public class HelpService extends AccessibilityService {
                         var35 = NodeListManage.flag;
                         if (var35 != FLAG_WECHAT_PAY_MONEY_UI && var35 != FLAG_ALIPAY_PAY_DETAIL_UI && var35 != FLAG_MT_PAY_DETAIL_UI && var35 != FLAG_JD_PAY_DETAIL_UI && var35 != FLAG_PDD_DETAIL_UI) {
                             if (var35 != FLAG_ALIPAY_PAY_UI) {
-                                var5 = var6;
+                                var5 = false;
                                 if (var35 != FLAG_UNION_PAY_DETAIL_UI) {
                                     break label849;
                                 }
@@ -266,7 +246,7 @@ public class HelpService extends AccessibilityService {
                                 var5 = var6;
                                 if (var6) {
                                     this.e = true;
-                                    var5 = var6;
+                                    var5 = true;
                                 }
                                 break label849;
                             }
@@ -303,32 +283,28 @@ public class HelpService extends AccessibilityService {
                     var29 = 1;
                 }
 
-                var20 = "支付宝红包";
-                var6 = var7;
-                if (!NodeListManage.checkNode(nodeList, "支付宝红包", true)) {
-                    if (NodeListManage.flag == FLAG_ALIPAY_PAY_UI && NodeListManage.checkNode(nodeList, "红包编号", false)) {
-                        var6 = var7;
-                    } else {
-                        var6 = false;
-                    }
-                }
+            var20 = "支付宝红包";
+            var6 = true;
+            if (!NodeListManage.checkNode(nodeList, "支付宝红包", true)) {
+                var6 = NodeListManage.flag == FLAG_ALIPAY_PAY_UI && NodeListManage.checkNode(nodeList, "红包编号", false);
+            }
 
-                label854:
-                {
-                    var3 = false;
-                    if (var6) {
-                        if (!NodeListManage.checkNode(nodeList, "红包金额", false) && !NodeListManage.checkNode(nodeList, "人已领取", false) && !NodeListManage.checkNode(nodeList, "领取成功", false)) {
-                            break label854;
-                        }
-                    } else if (!NodeListManage.checkNode(nodeList, "的红包", false) || NodeListManage.flag == FLAG_UNION_PAY_DETAIL_UI) {
-                        var3 = false;
+            label854:
+            {
+                var3 = false;
+                if (var6) {
+                    if (!NodeListManage.checkNode(nodeList, "红包金额", false) && !NodeListManage.checkNode(nodeList, "人已领取", false) && !NodeListManage.checkNode(nodeList, "领取成功", false)) {
                         break label854;
                     }
-
-                    var3 = true;
+                } else if (!NodeListManage.checkNode(nodeList, "的红包", false) || NodeListManage.flag == FLAG_UNION_PAY_DETAIL_UI) {
+                    var3 = false;
+                    break label854;
                 }
-                //此处写入billinfo
-                BillInfo var26;
+
+                var3 = true;
+            }
+            //此处写入billinfo
+            BillInfo var26;
                 label521:
                 {
                     label520:
@@ -359,7 +335,7 @@ public class HelpService extends AccessibilityService {
                                                     label473:
                                                     {
                                                         if (nodeList.size() != 0) {
-                                                            StringBuilder var28 = new StringBuilder("[auto] RedDetailParser parse type " + 0 + " ");
+                                                            StringBuilder var28 = new StringBuilder("[页面识别] RedDetailParser parse type " + 0 + " ");
                                                             var28.append(nodeList.toString());
                                                             Log.d(var28.toString());
                                                             BillInfo billInfo = new BillInfo();
@@ -558,24 +534,25 @@ public class HelpService extends AccessibilityService {
                 }
 
                 if (var26 != null) {
-                    Log.d("[auto]解析成功");
+                    Log.d("[页面识别]解析成功");
                     NodeListManage.goApp(getApplicationContext(), var26);
                 } else {
-                    Log.d("CXINCX-Log", "[auto]解析失败");
+                    Log.d("[页面识别]解析失败");
                 }
-            }
+
         }
     }
 
     @Override
     public void onInterrupt() {
-        Log.i("自动记账辅助服务", "自动记账辅助服务已暂停。");
+        Log.i("自动记账辅助服务已暂停。");
         getApplicationContext().stopService(new Intent(getApplicationContext(), AutoBillService.class));
     }
 
     @Override
     protected void onServiceConnected() {
-        Log.i("自动记账辅助服务", "自动记账辅助服务已启动。");
+        Log.init("自动记账辅助服务");
+        Log.i("自动记账辅助服务已启动。");
         getApplicationContext().startService(new Intent(getApplicationContext(), AutoBillService.class));
     }
 }

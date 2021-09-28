@@ -26,14 +26,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
@@ -100,75 +96,23 @@ public class Utils {
 
 
     //JSON数据转URL
-    public static String convert(Object object, String k) {
-        List<String> list = convertU(object, k);//.replaceAll("\\r\\n|\\r|\\n", " ");
-        String buff;
-        try {
-            list.sort(String::compareTo);
-            StringBuilder buf = new StringBuilder();
-            for (String s : list) {
-                buf.append(s).append("&");
-            }
-            buff = buf.toString();
-            if (!buff.isEmpty()) {
-                buff = buff.substring(0, buff.length() - 1);
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return buff.replaceAll("\\r\\n|\\r|\\n", " ");
+    public static String convert(JSONObject object) {
+        String buff = object.toJSONString();
+        buff = buff.replace("{", "")
+                .replace("}", "")
+                .replace(":\"", ":")
+                .replace("\"", "")
+                .replace("\\", "");
+        return buff.replaceAll("\\r\\n|\\r|\\n", "");
 
     }
 
-    public static List<String> convertU(Object object, String key) {
-        List<String> paramStr = new ArrayList<>();
-        JSONObject jsonObject1;
-        Object obj;
-        if (object instanceof String && ((String) object).startsWith("{")) {
-            try {
-                jsonObject1 = JSONObject.parseObject((String) object);
-                obj = jsonObject1;
-            } catch (Throwable ignored) {
-                obj = object;
-            }
-        } else {
-            obj = object;
-        }
-
-        if (obj instanceof String || obj instanceof Number || obj instanceof Boolean) {
-            String value = String.valueOf(obj);
-            if (
-                    key != null &&
-                            !value.startsWith("#") &&
-                            !value.equals("") &&
-                            !value.equals("\\n") &&
-                            !value.contains("://") &&
-                            !value.startsWith("{")
-            ) {
-                paramStr.add(key + "=" + value);
-            }
-        } else {
-            if (obj instanceof JSONObject) {
-                for (Map.Entry entry : ((JSONObject) obj).entrySet()) {
-                    String k = entry.getKey().toString();
-                    Object v = entry.getValue();
-                    paramStr.addAll(convertU(v, k));
-                }
-            } else if (obj instanceof JSONArray) {
-                for (Object o : ((JSONArray) obj)) {
-
-                    paramStr.addAll(convertU(o, null));
-                }
-            }
-        }
-        return paramStr;
-    }
 
     public void send(JSONObject jsonObject) {
         if (jsonObject == null) return;
         XposedBridge.log("原始数据：" + jsonObject.toJSONString());
         Bundle bundle = new Bundle();
-        bundle.putString("data", convert(jsonObject, null));
+        bundle.putString("data", convert(jsonObject));
         send(bundle, "app");
     }
 

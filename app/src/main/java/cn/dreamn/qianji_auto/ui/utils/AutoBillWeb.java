@@ -65,14 +65,14 @@ public class AutoBillWeb {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 String string = response.body().string();
 
-                Log.m("网页返回结果->", "路径：" + url + "\nBase:" + baseUrl + "\nResult:" + string + "\n");
+                Log.m("自动记账:Web", "Path：" + url + "\nBase:" + baseUrl + "\n\nResult:" + string + "\n");
                 if (response.code() == 200 && response.isSuccessful()) {
 
 
                     callback.onSuccessful(string);
                 } else {
                     callback.onFailure();
-                    Log.d("服务器响应错误" + string);
+                    Log.d("自动记账:Web", "Server Error:\n" + string);
                 }
                 call.cancel();
             }
