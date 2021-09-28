@@ -141,7 +141,7 @@ public class analyze_4 extends baseAnalyze {
                             }
                         }
 
-                        if (super.a) {
+                        if (isSetMoney) {
                             if (billInfo.getShopRemark() == null) {
                                 billInfo.setShopRemark("京东订单");
                             }
@@ -259,7 +259,7 @@ public class analyze_4 extends baseAnalyze {
                             billInfo.setShopRemark(var20);
                         }
 
-                        if (super.a) {
+                        if (isSetMoney) {
                             var17 = billInfo;
                             return var17;
                         }
@@ -409,7 +409,7 @@ public class analyze_4 extends baseAnalyze {
                         billInfo.setAccountName(var20);
                     }
 
-                    if (super.a) {
+                    if (isSetMoney) {
                         if ("多多钱包余额".equals(billInfo.getShopAccount())) {
                             billInfo.setShopAccount("多多钱包");
                         }

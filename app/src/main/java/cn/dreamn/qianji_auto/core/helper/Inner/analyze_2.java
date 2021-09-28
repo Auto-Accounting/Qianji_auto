@@ -104,7 +104,7 @@ public class analyze_2 extends baseAnalyze {
                 Log.i("[auto]当前账单数据" + billinfo.toString());
             }
 
-            if (!super.a) {
+            if (!isSetMoney) {
                 return null;
             } else {
                 if (!this.b && !this.c) {

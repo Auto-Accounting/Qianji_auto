@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 
 import java.util.Set;
 
+import cn.dreamn.qianji_auto.utils.files.Md5Util;
 import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
@@ -75,7 +76,6 @@ public class BillInfo {
     private String fee = "0";//手续费
 
 
-    private String rawMd5;
     private long timeStamp;
 
     public BillInfo() {
@@ -138,9 +138,7 @@ public class BillInfo {
                 case "fee":
                     billInfo.setFee(value);
                     break;
-                case "rawMd5":
-                    billInfo.setRawMd5(value);
-                    break;
+
                 case "id":
                     billInfo.setId(Integer.parseInt(value));
                     break;
@@ -165,9 +163,6 @@ public class BillInfo {
         id = value;
     }
 
-    public void setRawMd5(String value) {
-        rawMd5 = value;
-    }
 
     public void setFee(String value) {
         fee = value;
@@ -197,13 +192,13 @@ public class BillInfo {
     }
 
     public String getrawAccount() {
-        if(rawAccount==null)
-            rawAccount=accountname;
+        if (rawAccount.equals(""))
+            rawAccount = accountname;
         return rawAccount;
     }
     public String getrawAccount2() {
-        if(rawAccount2==null)
-            rawAccount2=accountname2;
+        if (rawAccount2.equals(""))
+            rawAccount2 = accountname2;
         return rawAccount2;
     }
     public String getFromApp() {
@@ -260,7 +255,7 @@ public class BillInfo {
     }
 
     public String getRawMd5() {
-        return rawMd5;
+        return Md5Util.main(toString());
     }
 
     public void setType(String type) {
@@ -427,9 +422,7 @@ public class BillInfo {
         if (fee != null) {
             url += "&fee=" + fee;
         }
-        if (rawMd5 != null) {
-            url += "&rawMd5=" + rawMd5;
-        }
+
         if (id != 0) {
             url += "&id=" + id;
         }

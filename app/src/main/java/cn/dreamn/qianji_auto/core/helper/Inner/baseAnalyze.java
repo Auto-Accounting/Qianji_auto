@@ -6,11 +6,11 @@ package cn.dreamn.qianji_auto.core.helper.Inner;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 
 public abstract class baseAnalyze {
-    public boolean a = false;
+    public boolean isSetMoney = false;
 
     //Renamed from .e()
     public void setMoney(BillInfo billInfo, String money) {
-        a = true;
+        isSetMoney = true;
         billInfo.setMoney(money);
     }
 

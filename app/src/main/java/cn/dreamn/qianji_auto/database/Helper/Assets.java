@@ -217,7 +217,6 @@ public class Assets {
     }
 
     public static void getMap(String assetName,getAssets2String getAssets) {
-        Log.m("获取map" + assetName);
         Task.onThread(() -> {
             if (assetName == null || assetName.equals("")) {
                 getAssets.onGet("");

@@ -19,11 +19,14 @@ public class BillReplace {
                 billInfo.setCateName(str);//设置自动分类
             }
 
-            billInfo.setBookName(BookNames.getDefault());//设置自动记账的账本名
+            if (billInfo.getBookName().equals("") || billInfo.getBookName().equals("默认账本")) {
+                billInfo.setBookName(BookNames.getDefault());//设置自动记账的账本名
+            }
 
-            Assets.getMap(billInfo.getrawAccount(),mapName->{
+
+            Assets.getMap(billInfo.getrawAccount(), mapName -> {
                 billInfo.setAccountName(mapName);
-                Assets.getMap(billInfo.getrawAccount2(),mapName2->{
+                Assets.getMap(billInfo.getrawAccount2(), mapName2 -> {
                     billInfo.setAccountName2(mapName2);
                     HandlerUtil.send(mHandler, billInfo, 2);
                 });

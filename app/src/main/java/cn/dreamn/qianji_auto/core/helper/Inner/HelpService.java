@@ -11,6 +11,7 @@ import static cn.dreamn.qianji_auto.core.helper.Inner.NodeListManage.FLAG_UNION_
 import static cn.dreamn.qianji_auto.core.helper.Inner.NodeListManage.FLAG_UNION_PAY_UI;
 import static cn.dreamn.qianji_auto.core.helper.Inner.NodeListManage.FLAG_WECHAT_PAY_MONEY_UI;
 import static cn.dreamn.qianji_auto.core.helper.Inner.NodeListManage.FLAG_WECHAT_PAY_UI;
+import static cn.dreamn.qianji_auto.core.helper.Inner.TransferDetailParser.AlipayDetailParser;
 import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
 
 import android.accessibilityservice.AccessibilityService;
@@ -50,8 +51,8 @@ public class HelpService extends AccessibilityService {
 
 
     public int c = 0;
-    public String d = null;
-    public boolean e = false;
+    public String payTools = null;
+    public boolean unionFlag = false;
     public boolean f = false;
 
 
@@ -97,19 +98,14 @@ public class HelpService extends AccessibilityService {
 
 
         boolean var3;
-        boolean var7 = true;
-        boolean var5;
+        boolean nodeResult;
         String var20;
 
 
-        //
-        byte var23;
         byte var29;
 
-        var23 = 3;
-
         if ("com.tencent.mm.plugin.remittance.ui.RemittanceBusiUI".equals(className) || "com.tencent.mm.plugin.offline.ui.WalletOfflineCoinPurseUI".equals(className) || "com.tencent.mm.plugin.wallet_index.ui.WalletBrandUI".equals(className) || "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyDetailUI".equals(className) || "com.tencent.mm.plugin.wallet_index.ui.OrderHandlerUI".equals(className) || "com.tencent.mm.plugin.remittance.ui.RemittanceDetailUI".equals(className) || "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyBusiReceiveUI".equals(className) || "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyBusiDetailUI".equals(className) || "com.tencent.mm.plugin.aa.ui.PaylistAAUI".equals(className) || "com.tencent.mm.plugin.wallet.balance.ui.WalletBalanceResultUI".equals(className) || "com.tencent.mm".equals(packageName) && source != null && source.findAccessibilityNodeInfosByText("支付成功").size() > 0 && source.findAccessibilityNodeInfosByText("查看账单详情").size() == 0) {
-            Log.d("[页面识别]微信支付界面1");
+            Log.d("[页面识别]微信支付界面");
             NodeListManage.setFlag(FLAG_WECHAT_PAY_UI);
         } else if ("com.tencent.mm.plugin.wallet.balance.ui.lqt.WalletLqtSaveFetchFinishUI".equals(className)) {
             Log.d("[页面识别]微信零钱通_WX_PAY");
@@ -178,367 +174,325 @@ public class HelpService extends AccessibilityService {
 
             }
 
-            boolean var6;
-            var6 = NodeListManage.checkNode(nodeList, "支付成功", true) || NodeListManage.checkNode(nodeList, "充值成功", true);
+            nodeResult = NodeListManage.checkNode(nodeList, "支付成功", true) || NodeListManage.checkNode(nodeList, "充值成功", true);
 
-            var5 = var6;
             if (NodeListManage.flag == FLAG_ALIPAY_PAY_UI) {
                 Log.i("[FLAG]支付宝支付UI FLAG_ALIPAY_PAY_UI");
-                if (!var6) {
-                    var5 = NodeListManage.checkNode(nodeList, "代付成功", true);
+
+                nodeResult = !nodeResult && NodeListManage.checkNode(nodeList, "代付成功", true);
+
+            }
+
+            int index;
+            if (NodeListManage.flag == FLAG_WECHAT_PAY_UI) {
+                Log.i("[FLAG]微信支付UI FLAG_WECHAT_PAY_UI");
+                nodeResult = true;
+                //微信支付的一个标记位为false
+                if (!this.f) {
+                    if (NodeListManage.checkNode(nodeList, "支付方式", true)) {
+                        index = nodeList.indexOf("支付方式");
+                        if (index < nodeList.size() - 1) {
+                            this.payTools = (String) nodeList.get(index + 1);
+                        }
+                    }
+
+                    if (NodeListManage.checkNode(nodeList, "优先使用此支付方式付款", true)) {
+                        index = nodeList.indexOf("优先使用此支付方式付款") - 1;
+                        if (index >= 0) {
+                            this.payTools = (String) nodeList.get(index);
+                        }
+                    }
+                    if (
+                            !((String) nodeList.get(0)).endsWith("发起的群收款") ||
+                                    NodeListManage.checkNode(nodeList, "已收到", false) ||
+                                    NodeListManage.checkNode(nodeList, "你需支付", true)) {
+                        nodeResult = false;
+                    }
                 }
             }
 
-            var6 = var5;
-            int var35;
-            if (NodeListManage.flag == FLAG_WECHAT_PAY_UI) {
-                label848:
-                {
-                    if (!this.f) {
-                        if (NodeListManage.checkNode(nodeList, "支付方式", true)) {
-                            var35 = nodeList.indexOf("支付方式");
-                                if (var35 < nodeList.size() - 1) {
-                                    this.d = (String) nodeList.get(var35 + 1);
-                                }
-                            }
-
-                            if (NodeListManage.checkNode(nodeList, "优先使用此支付方式付款", true)) {
-                                var35 = nodeList.indexOf("优先使用此支付方式付款") - 1;
-                                if (var35 >= 0) {
-                                    this.d = (String) nodeList.get(var35);
-                                }
-                            }
-
-                            var6 = var5;
-                            if (!((String) nodeList.get(0)).endsWith("发起的群收款")) {
-                                break label848;
-                            }
-
-                            var6 = var5;
-                            if (NodeListManage.checkNode(nodeList, "已收到", false)) {
-                                break label848;
-                            }
-
-                            var6 = var5;
-                            if (NodeListManage.checkNode(nodeList, "你需支付", true)) {
-                                break label848;
+            if (!nodeResult) {
+                int flag2 = NodeListManage.flag;
+                if (flag2 != FLAG_WECHAT_PAY_MONEY_UI && flag2 != FLAG_ALIPAY_PAY_DETAIL_UI && flag2 != FLAG_MT_PAY_DETAIL_UI && flag2 != FLAG_JD_PAY_DETAIL_UI && flag2 != FLAG_PDD_DETAIL_UI
+                ) {
+                    nodeResult = true;
+                    if (flag2 != FLAG_ALIPAY_PAY_UI) {
+                        nodeResult = false;
+                        if (flag2 == FLAG_UNION_PAY_DETAIL_UI) {
+                            nodeResult = NodeListManage.checkNode(nodeList, "交易详情", true) || NodeListManage.checkNode(nodeList, "订单详情", true);
+                            if (nodeResult) {
+                                unionFlag = true;
+                                nodeResult = true;
                             }
                         }
-
-                        var6 = true;
+                    } else if (!NodeListManage.checkNode(nodeList, "交易成功", true) && !NodeListManage.checkNode(nodeList, "还款成功", true) && !NodeListManage.checkNode(nodeList, "退款成功", true) && !NodeListManage.checkNode(nodeList, "自动扣款成功", true) && !NodeListManage.checkNode(nodeList, "有退款", true) && !NodeListManage.checkNode(nodeList, "已全额退款", true) && !NodeListManage.checkNode(nodeList, "亲情卡付款成功", true) && !NodeListManage.checkNode(nodeList, "付款成功", false)) {
+                        nodeResult = false;
                     }
                 }
+            }
 
-                var5 = var6;
-                if (!var6) {
-                    label849:
-                    {
-                        var35 = NodeListManage.flag;
-                        if (var35 != FLAG_WECHAT_PAY_MONEY_UI && var35 != FLAG_ALIPAY_PAY_DETAIL_UI && var35 != FLAG_MT_PAY_DETAIL_UI && var35 != FLAG_JD_PAY_DETAIL_UI && var35 != FLAG_PDD_DETAIL_UI) {
-                            if (var35 != FLAG_ALIPAY_PAY_UI) {
-                                var5 = false;
-                                if (var35 != FLAG_UNION_PAY_DETAIL_UI) {
-                                    break label849;
-                                }
-
-                                var6 = NodeListManage.checkNode(nodeList, "交易详情", true) || NodeListManage.checkNode(nodeList, "订单详情", true);
-
-                                var5 = var6;
-                                if (var6) {
-                                    this.e = true;
-                                    var5 = true;
-                                }
-                                break label849;
-                            }
-
-                            if (!NodeListManage.checkNode(nodeList, "交易成功", true) && !NodeListManage.checkNode(nodeList, "还款成功", true) && !NodeListManage.checkNode(nodeList, "退款成功", true) && !NodeListManage.checkNode(nodeList, "自动扣款成功", true) && !NodeListManage.checkNode(nodeList, "有退款", true) && !NodeListManage.checkNode(nodeList, "已全额退款", true) && !NodeListManage.checkNode(nodeList, "亲情卡付款成功", true) && !NodeListManage.checkNode(nodeList, "付款成功", false)) {
-                                var5 = false;
-                                break label849;
-                            }
-                        }
-
-                        var5 = true;
+            boolean payTransfer = NodeListManage.checkNode(nodeList, "转账成功", true);
+            if (!NodeListManage.checkNode(nodeList, "已收款", true) && !NodeListManage.checkNode(nodeList, "资金待入账", true) && !NodeListManage.checkNode(nodeList, "你已收款", true)) {
+                var29 = 0;
+                if (NodeListManage.flag == FLAG_WECHAT_PAY_UI) {
+                    if (NodeListManage.checkNode(nodeList, "已收款", false) || NodeListManage.checkNode(nodeList, "提醒对方收款", false)) {
+                        var29 = 3;
                     }
                 }
-
-                boolean var8 = NodeListManage.checkNode(nodeList, "转账成功", true);
-                if (!NodeListManage.checkNode(nodeList, "已收款", true) && !NodeListManage.checkNode(nodeList, "资金待入账", true) && !NodeListManage.checkNode(nodeList, "你已收款", true)) {
-                    label547:
-                    {
-                        if (NodeListManage.flag == FLAG_WECHAT_PAY_UI) {
-                            var29 = var23;
-                            if (NodeListManage.checkNode(nodeList, "已收款", false)) {
-                                break label547;
-                            }
-
-                            if (NodeListManage.checkNode(nodeList, "提醒对方收款", false)) {
-                                var29 = var23;
-                                break label547;
-                            }
-                        }
-
-                        var29 = 0;
-                    }
-                } else {
-                    var29 = 1;
-                }
+            } else {
+                var29 = 1;
+            }
 
             var20 = "支付宝红包";
-            var6 = true;
             if (!NodeListManage.checkNode(nodeList, "支付宝红包", true)) {
-                var6 = NodeListManage.flag == FLAG_ALIPAY_PAY_UI && NodeListManage.checkNode(nodeList, "红包编号", false);
+                nodeResult = NodeListManage.flag == FLAG_ALIPAY_PAY_UI && NodeListManage.checkNode(nodeList, "红包编号", false);
             }
 
-            label854:
-            {
-                var3 = false;
-                if (var6) {
-                    if (!NodeListManage.checkNode(nodeList, "红包金额", false) && !NodeListManage.checkNode(nodeList, "人已领取", false) && !NodeListManage.checkNode(nodeList, "领取成功", false)) {
-                        break label854;
-                    }
-                } else if (!NodeListManage.checkNode(nodeList, "的红包", false) || NodeListManage.flag == FLAG_UNION_PAY_DETAIL_UI) {
+            var3 = true;
+            if (nodeResult) {
+                if (!NodeListManage.checkNode(nodeList, "红包金额", false) && !NodeListManage.checkNode(nodeList, "人已领取", false) && !NodeListManage.checkNode(nodeList, "领取成功", false)) {
                     var3 = false;
-                    break label854;
                 }
-
-                var3 = true;
+            } else if (!NodeListManage.checkNode(nodeList, "的红包", false) || NodeListManage.flag == FLAG_UNION_PAY_DETAIL_UI) {
+                var3 = false;
             }
             //此处写入billinfo
-            BillInfo var26;
-                label521:
+            BillInfo billinfo;
+            label521:
+            {
+                label520:
                 {
-                    label520:
+                    TransferDetailParser var22;
+                    label885:
                     {
-                        analyze_1 var22;
-                        label885:
+                        WxDetailParser wechatDetail;
+                        label863:
                         {
-                            WxDetailParser var21;
-                            label863:
-                            {
-                                int var25;
-                                if (!var5) {
-                                    int var4 = NodeListManage.flag;
-                                    if (var4 != FLAG_UNION_PAY_DETAIL_UI || !this.e) {
-                                        if (var8) {
-                                            var26 = (new analyze_1(0)).h(nodeList, 2);
-                                            break label521;
-                                        }
+                            int var25;
+                            if (!nodeResult) {
+                                if (NodeListManage.flag != FLAG_UNION_PAY_DETAIL_UI || !this.unionFlag) {
+                                    //转账成功
+                                    if (payTransfer) {
+                                        billinfo = (new TransferDetailParser(AlipayDetailParser)).h(nodeList, 2);
+                                        break label521;
+                                    }
 
-                                        if (var29 == 0) {
-                                            if (var3) {
-                                                analyze_2 var12 = new analyze_2();
-                                                var5 = var4 == FLAG_ALIPAY_PAY_DETAIL_UI || var4 == FLAG_ALIPAY_PAY_UI;
+                                    if (var29 == 0) {
+                                        if (var3) {
+                                            analyze_2 var12 = new analyze_2();
+                                            nodeResult = NodeListManage.flag == FLAG_ALIPAY_PAY_DETAIL_UI || NodeListManage.flag == FLAG_ALIPAY_PAY_UI;
 
-                                                var12.b = var6;
-                                                var12.c = var5;
-                                                if (var4 != FLAG_WECHAT_PAY_UI || !NodeListManage.checkNode(nodeList, "已存入零钱", false)) {
-                                                    label473:
-                                                    {
-                                                        if (nodeList.size() != 0) {
-                                                            StringBuilder var28 = new StringBuilder("[页面识别] RedDetailParser parse type " + 0 + " ");
-                                                            var28.append(nodeList.toString());
-                                                            Log.d(var28.toString());
-                                                            BillInfo billInfo = new BillInfo();
-                                                            var35 = 0;
+                                            var12.b = nodeResult;
+                                            var12.c = nodeResult;
+                                            if (NodeListManage.flag != FLAG_WECHAT_PAY_UI || !NodeListManage.checkNode(nodeList, "已存入零钱", false)) {
+                                                label473:
+                                                {
+                                                    if (nodeList.size() != 0) {
+                                                        StringBuilder var28 = new StringBuilder("[页面识别] RedDetailParser parse type " + 0 + " ");
+                                                        var28.append(nodeList.toString());
+                                                        Log.d(var28.toString());
+                                                        BillInfo billInfo = new BillInfo();
+                                                        index = 0;
 
-                                                            label469:
-                                                            {
-                                                                while (true) {
-                                                                    if (var35 >= nodeList.size()) {
-                                                                        break label469;
-                                                                    }
-
-                                                                    label465:
-                                                                    {
-                                                                        label464:
-                                                                        {
-                                                                            String var30 = (String) nodeList.get(var35);
-                                                                            if (var30.contains("红包金额")) {
-                                                                                var25 = var30.indexOf("元");
-                                                                                if (var25 <= 4) {
-                                                                                    break label464;
-                                                                                }
-
-                                                                                var30 = var30.substring(0, var25).replace("红包金额", "").replace(",", "");
-                                                                                if (!var12.isMoney(var30)) {
-                                                                                    break label464;
-                                                                                }
-
-                                                                                var12.setMoney(billInfo, var30);
-                                                                                if (var12.b) {
-                                                                                    break;
-                                                                                }
-                                                                            } else {
-                                                                                if (!var30.contains("个红包共")) {
-                                                                                    if (var30.contains("人已领取")) {
-                                                                                        var25 = var30.indexOf("元");
-                                                                                        if (var25 > 4) {
-                                                                                            var30 = var30.substring(var30.indexOf("人已领取") + 6, var25).replace(",", "");
-                                                                                            if (var12.isMoney(var30)) {
-                                                                                                var12.setMoney(billInfo, var30);
-                                                                                                if (var35 < 1) {
-                                                                                                    break;
-                                                                                                }
-
-                                                                                                --var35;
-                                                                                                if ("恭喜发财，万事如意！".equals(nodeList.get(var35))) {
-                                                                                                    break;
-                                                                                                }
-
-                                                                                                var28 = new StringBuilder();
-                                                                                                var20 = "支付宝红包-";
-                                                                                                break label465;
-                                                                                            }
-                                                                                        }
-                                                                                    }
-                                                                                    break label464;
-                                                                                }
-
-                                                                                var25 = var30.indexOf("元");
-                                                                                if (var25 <= 4) {
-                                                                                    break label464;
-                                                                                }
-
-                                                                                var30 = var30.substring(var30.indexOf("个红包共") + 4, var25).replace(",", "");
-                                                                                if (!var12.isMoney(var30)) {
-                                                                                    break label464;
-                                                                                }
-
-                                                                                var12.setMoney(billInfo, var30);
-                                                                                if (var35 >= 1) {
-                                                                                    --var35;
-                                                                                    if (!((String) nodeList.get(var35)).endsWith("的红包")) {
-                                                                                        var28 = new StringBuilder();
-                                                                                        var20 = "微信红包-";
-                                                                                        break label465;
-                                                                                    }
-                                                                                }
-                                                                            }
-
-                                                                            var20 = "微信红包";
-                                                                            break;
-                                                                        }
-
-                                                                        ++var35;
-                                                                        continue;
-                                                                    }
-
-                                                                    var28.append(var20);
-                                                                    var28.append((String) nodeList.get(var35));
-                                                                    var20 = var28.toString();
-                                                                    break;
+                                                        label469:
+                                                        {
+                                                            while (true) {
+                                                                if (index >= nodeList.size()) {
+                                                                    break label469;
                                                                 }
 
-                                                                billInfo.setShopRemark(var20);
+                                                                label465:
+                                                                {
+                                                                    label464:
+                                                                    {
+                                                                        String var30 = (String) nodeList.get(index);
+                                                                        if (var30.contains("红包金额")) {
+                                                                            var25 = var30.indexOf("元");
+                                                                            if (var25 <= 4) {
+                                                                                break label464;
+                                                                            }
+
+                                                                            var30 = var30.substring(0, var25).replace("红包金额", "").replace(",", "");
+                                                                            if (!var12.isMoney(var30)) {
+                                                                                break label464;
+                                                                            }
+
+                                                                            var12.setMoney(billInfo, var30);
+                                                                            if (var12.b) {
+                                                                                break;
+                                                                            }
+                                                                        } else {
+                                                                            if (!var30.contains("个红包共")) {
+                                                                                if (var30.contains("人已领取")) {
+                                                                                    var25 = var30.indexOf("元");
+                                                                                    if (var25 > 4) {
+                                                                                        var30 = var30.substring(var30.indexOf("人已领取") + 6, var25).replace(",", "");
+                                                                                        if (var12.isMoney(var30)) {
+                                                                                            var12.setMoney(billInfo, var30);
+                                                                                            if (index < 1) {
+                                                                                                break;
+                                                                                            }
+
+                                                                                            --index;
+                                                                                            if ("恭喜发财，万事如意！".equals(nodeList.get(index))) {
+                                                                                                break;
+                                                                                            }
+
+                                                                                            var28 = new StringBuilder();
+                                                                                            var20 = "支付宝红包-";
+                                                                                            break label465;
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                                break label464;
+                                                                            }
+
+                                                                            var25 = var30.indexOf("元");
+                                                                            if (var25 <= 4) {
+                                                                                break label464;
+                                                                            }
+
+                                                                            var30 = var30.substring(var30.indexOf("个红包共") + 4, var25).replace(",", "");
+                                                                            if (!var12.isMoney(var30)) {
+                                                                                break label464;
+                                                                            }
+
+                                                                            var12.setMoney(billInfo, var30);
+                                                                            if (index >= 1) {
+                                                                                --index;
+                                                                                if (!((String) nodeList.get(index)).endsWith("的红包")) {
+                                                                                    var28 = new StringBuilder();
+                                                                                    var20 = "微信红包-";
+                                                                                    break label465;
+                                                                                }
+                                                                            }
+                                                                        }
+
+                                                                        var20 = "微信红包";
+                                                                        break;
+                                                                    }
+
+                                                                    ++index;
+                                                                    continue;
+                                                                }
+
+                                                                var28.append(var20);
+                                                                var28.append((String) nodeList.get(index));
+                                                                var20 = var28.toString();
+                                                                break;
                                                             }
 
-                                                            if (var12.a) {
-                                                                var26 = billInfo;
-                                                                break label473;
-                                                            }
+                                                            billInfo.setShopRemark(var20);
                                                         }
 
-                                                        var26 = null;
+                                                        if (var12.isSetMoney) {
+                                                            billinfo = billInfo;
+                                                            break label473;
+                                                        }
                                                     }
 
-                                                    if (var26 != null) {
-                                                        break label521;
-                                                    }
+                                                    billinfo = null;
                                                 }
 
-                                                var26 = var12.h(nodeList);
-                                                break label521;
-                                            }
-                                            break label520;
-                                        }
-
-                                        if (var4 == 2) {
-                                            var22 = new analyze_1(0);
-                                            break label885;
-                                        }
-
-                                        if (var29 != 1) {
-                                            var26 = (new WxDetailParser()).h(nodeList, 2);
-                                            break label521;
-                                        }
-
-                                        var21 = new WxDetailParser();
-                                        var29 = 3;
-                                        break label863;
-                                    }
-                                }
-
-                                var25 = NodeListManage.flag;
-                                if (var25 == 2 || var25 == 6) {
-                                    var22 = new analyze_1(0);
-                                    break label885;
-                                }
-
-                                var29 = 1;
-                                if (var25 != 1) {
-                                    if (var25 == 3) {
-                                        var21 = new WxDetailParser();
-                                        var21.c = this.f;
-                                        var26 = var21.h(nodeList, 0);
-                                        break label521;
-                                    }
-
-                                    if (var25 == 4) {
-                                        var26 = (new analyze_1(2)).h(nodeList, 1);
-                                        break label521;
-                                    }
-
-                                    if (var25 == 5) {
-                                        var22 = new analyze_1(2);
-                                    } else {
-                                        if (var25 != 7) {
-                                            analyze_4 var24;
-                                            if (var25 == 8) {
-                                                var24 = new analyze_4(0);
-                                            } else {
-                                                if (var25 == 9) {
-                                                    var26 = (new analyze_4(0)).h(nodeList, 1);
+                                                if (billinfo != null) {
                                                     break label521;
                                                 }
-
-                                                if (var25 != 10) {
-                                                    break label520;
-                                                }
-
-                                                var24 = new analyze_4(1);
                                             }
 
-                                            var26 = var24.h(nodeList, 0);
+                                            billinfo = var12.h(nodeList);
                                             break label521;
                                         }
-
-                                        var22 = new analyze_1(1);
+                                        break label520;
                                     }
-                                    break label885;
-                                }
 
-                                var21 = new WxDetailParser();
-                                var21.b = this.d;
-                                var21.c = this.f;
+                                    if (NodeListManage.flag == FLAG_ALIPAY_PAY_UI) {
+                                        var22 = new TransferDetailParser(0);
+                                        break label885;
+                                    }
+
+                                    if (var29 != 1) {
+                                        billinfo = (new WxDetailParser()).run(nodeList, 2);
+                                        break label521;
+                                    }
+
+                                    wechatDetail = new WxDetailParser();
+                                    var29 = 3;
+                                    break label863;
+                                }
                             }
 
-                            var26 = var21.h(nodeList, var29);
-                            break label521;
+                            var25 = NodeListManage.flag;
+                            if (var25 == 2 || var25 == 6) {
+                                var22 = new TransferDetailParser(0);
+                                break label885;
+                            }
+
+                            var29 = 1;
+                            if (var25 != 1) {
+                                if (var25 == 3) {
+                                    wechatDetail = new WxDetailParser();
+                                    wechatDetail.c = this.f;
+                                    billinfo = wechatDetail.run(nodeList, 0);
+                                    break label521;
+                                }
+
+                                if (var25 == 4) {
+                                    billinfo = (new TransferDetailParser(2)).h(nodeList, 1);
+                                    break label521;
+                                }
+
+                                if (var25 == 5) {
+                                    var22 = new TransferDetailParser(2);
+                                } else {
+                                    if (var25 != 7) {
+                                        analyze_4 var24;
+                                        if (var25 == 8) {
+                                            var24 = new analyze_4(0);
+                                        } else {
+                                            if (var25 == 9) {
+                                                billinfo = (new analyze_4(0)).h(nodeList, 1);
+                                                break label521;
+                                            }
+
+                                            if (var25 != 10) {
+                                                break label520;
+                                            }
+
+                                            var24 = new analyze_4(1);
+                                        }
+
+                                        billinfo = var24.h(nodeList, 0);
+                                        break label521;
+                                    }
+
+                                    var22 = new TransferDetailParser(1);
+                                }
+                                break label885;
+                            }
+
+                            wechatDetail = new WxDetailParser();
+                            wechatDetail.b = this.payTools;
+                            wechatDetail.c = this.f;
                         }
 
-                        var26 = var22.h(nodeList, 0);
+                        billinfo = wechatDetail.run(nodeList, var29);
                         break label521;
                     }
 
-                    var26 = null;
+                    billinfo = var22.h(nodeList, 0);
+                    break label521;
                 }
 
-                if (var26 != null) {
-                    Log.d("[页面识别]解析成功");
-                    NodeListManage.goApp(getApplicationContext(), var26);
-                } else {
-                    Log.d("[页面识别]解析失败");
-                }
+                billinfo = null;
+            }
+
+            if (billinfo != null) {
+                Log.i("数据：" + billinfo.toString());
+                Log.d("[页面识别]解析成功");
+                NodeListManage.goApp(getApplicationContext(), billinfo);
+            } else {
+                Log.d("[页面识别]解析失败");
+            }
 
         }
     }

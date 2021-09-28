@@ -48,6 +48,7 @@ public class SendDataToApp {
 
     public static void call(Context context, BillInfo billInfo) {
         Log.i(TAG, "当前进入记账流程");
+        Log.i("原始数据：" + billInfo.toString());
         Handler mHandler=new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
