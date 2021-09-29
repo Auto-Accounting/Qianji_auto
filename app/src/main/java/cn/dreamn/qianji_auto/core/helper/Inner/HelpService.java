@@ -48,6 +48,7 @@ public class HelpService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+        Log.i("-----------------无障碍事件---------------------");
         AccessibilityNodeInfo source = accessibilityEvent.getSource();
         String packageName = accessibilityEvent.getPackageName() == null ? "" : accessibilityEvent.getPackageName().toString();
         String className = accessibilityEvent.getClassName() == null ? "" : accessibilityEvent.getClassName().toString();
@@ -88,8 +89,7 @@ public class HelpService extends AccessibilityService {
 
 
         boolean alipayRed;
-        boolean nodeResult;
-        String var20;
+        boolean nodeResult = false;
 
 
         int weChatType;
@@ -101,7 +101,6 @@ public class HelpService extends AccessibilityService {
             Log.d("[页面识别]微信零钱通_WX_PAY");
             wechatTransferLqt = true;
             NodeListManage.setFlag(FLAG_WECHAT_PAY_UI);
-
         } else if ("com.tencent.mm.plugin.wallet.balance.ui.lqt.WalletLqtSaveFetchFinishProgressNewUI".equals(className)) {
             Log.d("[页面识别]微信零钱通_WX_BILL");
             wechatTransferLqt = true;
@@ -136,14 +135,17 @@ public class HelpService extends AccessibilityService {
         } else if ("com.unionpay.activity.UPActivityMain".equals(className) || "com.alipay.mobile.bill.list.ui.BillMainListActivity".equals(className) || "com.tencent.mm.ui.LauncherUI".equals(className) || "com.eg.android.AlipayGphone.AlipayLogin".equals(className) || "com.jd.jrapp.bm.mainbox.main.MainActivity".equals(className) || "com.jingdong.app.mall.MainFrameActivity".equals(className) || "com.sankuai.waimai.business.page.homepage.MainActivity".equals(className) || "com.meituan.android.pt.homepage.activity.MainActivity".equals(className) || "com.xunmeng.pinduoduo.ui.activity.HomeActivity".equals(className)) {
             Log.d("[页面识别]退出_页面识别失败");
         }
+
         NodeListManage.findNodeInfo(source, packageName, true);
         //啥都不管，先塞数据~
         Log.i("当前页面数据：flag=" + NodeListManage.flag + ",class=" + className + ",globalNodeList=" + (NodeListManage.globalNodeList.toString()));
 
-        if (NodeListManage.flag != FLAG_NO_USE && NodeListManage.globalNodeList.size() != 0) {
+        if (NodeListManage.flag != FLAG_NO_USE && NodeListManage.isNullOrEmpty(NodeListManage.globalNodeList)) {
+            //flag有数据，node也有数据
             List<Object> nodeList = NodeListManage.globalNodeList;
-            if (NodeListManage.isNullOrEmpty(nodeList)) return;
+            //Log.d("[页面识别]拼多多账单详情");
             boolean isUseful;
+            Log.d("[FLAG]FLAG判断");
             if (NodeListManage.flag == FLAG_MT_PAY_DETAIL_UI) {
                 Log.i("[FLAG]美团账单详情 FLAG_MT_PAY_DETAIL_UI");
                 isUseful = nodeList.size() > 4 && (NodeListManage.checkNode(nodeList, "交易详情", true) || NodeListManage.checkNode(nodeList, "交易类型", true) || "支付成功".equals(nodeList.get(0)));
@@ -151,9 +153,7 @@ public class HelpService extends AccessibilityService {
                     Log.i("[页面识别]无效账单详情");
                     return;
                 }
-            }
-
-            if (NodeListManage.flag == FLAG_PDD_DETAIL_UI) {
+            } else if (NodeListManage.flag == FLAG_PDD_DETAIL_UI) {
                 Log.i("[FLAG]拼多多账单详情 FLAG_PDD_DETAIL_UI");
                 isUseful = nodeList.size() > 10 && NodeListManage.checkNode(nodeList, "账单详情", true) && (NodeListManage.checkNode(nodeList, "交易单号", true) || NodeListManage.checkNode(nodeList, "提现单号", true));
                 isUseful = isUseful || (nodeList.size() > 6 && (NodeListManage.checkNode(nodeList, "充值成功", true) || NodeListManage.checkNode(nodeList, "提现发起成功", true)));
@@ -162,34 +162,27 @@ public class HelpService extends AccessibilityService {
                     return;
                 }
 
-            }
-
-            nodeResult = NodeListManage.checkNode(nodeList, "支付成功", true) || NodeListManage.checkNode(nodeList, "充值成功", true);
-
-            if (NodeListManage.flag == FLAG_ALIPAY_PAY_UI) {
+            } else if (NodeListManage.flag == FLAG_ALIPAY_PAY_UI) {
                 Log.i("[FLAG]支付宝支付UI FLAG_ALIPAY_PAY_UI");
-
-                nodeResult = !nodeResult && NodeListManage.checkNode(nodeList, "代付成功", true);
-
-            }
-
-            int index;
-            if (NodeListManage.flag == FLAG_WECHAT_PAY_UI) {
+                nodeResult = !(NodeListManage.checkNode(nodeList, "支付成功", true) || NodeListManage.checkNode(nodeList, "充值成功", true)) && NodeListManage.checkNode(nodeList, "代付成功", true);
+            } else if (NodeListManage.flag == FLAG_WECHAT_PAY_UI) {
+                int index;
                 Log.i("[FLAG]微信支付UI FLAG_WECHAT_PAY_UI");
                 nodeResult = true;
                 //微信支付的一个标记位为false
-                if (!this.wechatTransferLqt) {
+                if (!wechatTransferLqt) {
+                    Log.i("微信：零钱通，获取支付工具");
                     if (NodeListManage.checkNode(nodeList, "支付方式", true)) {
                         index = nodeList.indexOf("支付方式");
                         if (index < nodeList.size() - 1) {
-                            this.payTools = (String) nodeList.get(index + 1);
+                            payTools = (String) nodeList.get(index + 1);
                         }
                     }
 
                     if (NodeListManage.checkNode(nodeList, "优先使用此支付方式付款", true)) {
                         index = nodeList.indexOf("优先使用此支付方式付款") - 1;
                         if (index >= 0) {
-                            this.payTools = (String) nodeList.get(index);
+                            payTools = (String) nodeList.get(index);
                         }
                     }
                     if (
@@ -200,15 +193,15 @@ public class HelpService extends AccessibilityService {
                     }
                 }
             }
-
+            Log.d("[FLAG]nodeResult 1 判断结束，进入是否记账判断");
+            int index;
             if (!nodeResult) {
-                int flag2 = NodeListManage.flag;
-                if (flag2 != FLAG_WECHAT_PAY_MONEY_UI && flag2 != FLAG_ALIPAY_PAY_DETAIL_UI && flag2 != FLAG_MT_PAY_DETAIL_UI && flag2 != FLAG_JD_PAY_DETAIL_UI && flag2 != FLAG_PDD_DETAIL_UI
-                ) {
+                Log.d("[FLAG]nodeResult = false 再次进行判断");
+                if (NodeListManage.flag != FLAG_WECHAT_PAY_MONEY_UI && NodeListManage.flag != FLAG_ALIPAY_PAY_DETAIL_UI && NodeListManage.flag != FLAG_MT_PAY_DETAIL_UI && NodeListManage.flag != FLAG_JD_PAY_DETAIL_UI && NodeListManage.flag != FLAG_PDD_DETAIL_UI) {
                     nodeResult = true;
-                    if (flag2 != FLAG_ALIPAY_PAY_UI) {
+                    if (NodeListManage.flag != FLAG_ALIPAY_PAY_UI) {
                         nodeResult = false;
-                        if (flag2 == FLAG_UNION_PAY_DETAIL_UI) {
+                        if (NodeListManage.flag == FLAG_UNION_PAY_DETAIL_UI) {
                             nodeResult = NodeListManage.checkNode(nodeList, "交易详情", true) || NodeListManage.checkNode(nodeList, "订单详情", true);
                             if (nodeResult) {
                                 unionFlag = true;
@@ -220,117 +213,136 @@ public class HelpService extends AccessibilityService {
                     }
                 }
             }
-
+            Log.d("[FLAG]nodeResult 2 判断结束，进入是否记账判断");
             boolean payTransfer = NodeListManage.checkNode(nodeList, "转账成功", true);
+            Log.d("判断是否有转账成功payTransfer：" + (payTransfer ? "true" : "false"));
             if (!NodeListManage.checkNode(nodeList, "已收款", true) && !NodeListManage.checkNode(nodeList, "资金待入账", true) && !NodeListManage.checkNode(nodeList, "你已收款", true)) {
+                Log.d("确定为微信收款TYPE_WECHAT_OTHER");
                 weChatType = WxDetailParser.TYPE_WECHAT_OTHER;
                 if (NodeListManage.flag == FLAG_WECHAT_PAY_UI) {
                     if (NodeListManage.checkNode(nodeList, "已收款", false) || NodeListManage.checkNode(nodeList, "提醒对方收款", false)) {
+                        Log.d("确定为微信收款TYPE_WECHAT_REC");
                         weChatType = WxDetailParser.TYPE_WECHAT_REC;
                     }
                 }
             } else {
+                Log.d("确定为微信群收款");
                 weChatType = WxDetailParser.TYPE_WECHAT_GROUP;
             }
-
-
             alipayRed = true;
             if (nodeResult) {
+                Log.d("检查支付宝红包");
                 if (!NodeListManage.checkNode(nodeList, "红包金额", false) && !NodeListManage.checkNode(nodeList, "人已领取", false) && !NodeListManage.checkNode(nodeList, "领取成功", false)) {
+                    Log.d("不是红包1");
                     alipayRed = false;
                 }
             } else if (!NodeListManage.checkNode(nodeList, "的红包", false) || NodeListManage.flag == FLAG_UNION_PAY_DETAIL_UI) {
+                Log.d("不是红包2");
                 alipayRed = false;
             }
+            Log.d("进入账单确认核对页面");
             //此处写入billinfo
             BillInfo billinfo = null;
-            TransferDetailParser transferDetailParser;
-            WxDetailParser wechatDetail;
+            TransferDetailParser transferDetailParser;//转账处理
+            WxDetailParser wechatDetail;//微信处理
             // weChatType = WxDetailParser.TYPE_WECHAT_GROUP;
-            if (!nodeResult && (NodeListManage.flag != FLAG_UNION_PAY_DETAIL_UI || !this.unionFlag)) {
+            if (!nodeResult && (NodeListManage.flag != FLAG_UNION_PAY_DETAIL_UI || !unionFlag)) {
                 //转账成功
                 if (payTransfer) {
+                    Log.d("支付宝转账成功---------->处理");
                     billinfo = (new TransferDetailParser(AlipayDetailParser)).h(nodeList, 2);
+                    Log.d("支付宝转账成功---------->处理结束，BillInfo已确定");
 
                 } else if (weChatType == WxDetailParser.TYPE_WECHAT_OTHER) {
+
                     if (alipayRed) {
+                        Log.d("红包处理");
                         RedDetailParser redDetail = new RedDetailParser();
-                        redDetail.alipay = nodeResult;
+                        redDetail.alipay = false;
                         redDetail.alipay2 = NodeListManage.flag == FLAG_ALIPAY_PAY_DETAIL_UI || NodeListManage.flag == FLAG_ALIPAY_PAY_UI;
                         if (NodeListManage.flag != FLAG_WECHAT_PAY_UI || !NodeListManage.checkNode(nodeList, "已存入零钱", false)) {
-                            if (nodeList.size() != 0) {
-                                Log.d("[页面识别] RedDetailParser parse type " + 0 + " " + nodeList.toString());
-                                BillInfo billInfo = new BillInfo();
-                                index = 0;
+                            Log.d("[页面识别] RedDetailParser parse type 666" + nodeList.toString());
+                            BillInfo billInfo = new BillInfo();
+                            index = 0;
 
-                                while (true) {
-                                    if (index >= nodeList.size()) {
-                                        break;
-                                    }
-                                    Log.i("当前红包数据" + (String) nodeList.get(index));
-                                    String nodeStr = (String) nodeList.get(index);
-                                    if (nodeStr.contains("红包金额")) {
-                                        int mIndex = nodeStr.indexOf("元");
-                                        if (mIndex > 4) {
-                                            nodeStr = nodeStr.substring(0, mIndex).replace("红包金额", "").replace(",", "");
-                                            if (redDetail.isMoney(nodeStr)) {
-                                                redDetail.setMoney(billInfo, nodeStr);
-                                                if (redDetail.alipay) {
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        if (!nodeStr.contains("个红包共")) {
-                                            if (nodeStr.contains("人已领取")) {
-                                                int mIndex = nodeStr.indexOf("元");
-                                                if (mIndex > 4) {
-                                                    nodeStr = nodeStr.substring(nodeStr.indexOf("人已领取") + 6, mIndex).replace(",", "");
-                                                    if (redDetail.isMoney(nodeStr)) {
-                                                        redDetail.setMoney(billInfo, nodeStr);
-                                                        if (index < 1) {
-                                                            break;
-                                                        }
-                                                        --index;
-                                                        if ("恭喜发财，万事如意！".equals(nodeList.get(index))) {
-                                                            break;
-                                                        }
-                                                        billInfo.setShopRemark("支付宝红包");
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                        }
-
-                                        int mIndex = nodeStr.indexOf("元");
-                                        if (mIndex <= 4) {
-                                            break;
-                                        }
-
-                                        nodeStr = nodeStr.substring(nodeStr.indexOf("个红包共") + 4, mIndex).replace(",", "");
+                            while (true) {
+                                if (index >= nodeList.size()) {
+                                    Log.d("循环已经越界，pass");
+                                    break;
+                                }
+                                Log.i("当前红包数据(alipayRed):" + (String) nodeList.get(index));
+                                String nodeStr = (String) nodeList.get(index);
+                                if (nodeStr.contains("红包金额")) {
+                                    Log.d("有 红包金额");
+                                    int mIndex = nodeStr.indexOf("元");
+                                    Log.d("找到中文 元 的位置" + mIndex);
+                                    if (mIndex > 4) {
+                                        nodeStr = nodeStr.substring(0, mIndex).replace("红包金额", "").replace(",", "");
+                                        Log.d("金额 " + nodeStr);
                                         if (redDetail.isMoney(nodeStr)) {
                                             redDetail.setMoney(billInfo, nodeStr);
-                                            if (index >= 1) {
-                                                --index;
-                                                if (!((String) nodeList.get(index)).endsWith("的红包")) {
-                                                    billInfo.setShopRemark("微信红包");
+                                            if (redDetail.alipay) {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if (!nodeStr.contains("个红包共")) {
+
+                                        if (nodeStr.contains("人已领取")) {
+                                            Log.d("属于群红包 ");
+                                            int mIndex = nodeStr.indexOf("元");
+                                            Log.d("找到中文 元 的位置" + mIndex);
+                                            if (mIndex > 4) {
+                                                nodeStr = nodeStr.substring(nodeStr.indexOf("人已领取") + 6, mIndex).replace(",", "");
+                                                if (redDetail.isMoney(nodeStr)) {
+                                                    redDetail.setMoney(billInfo, nodeStr);
+                                                    if (index < 1) {
+                                                        break;
+                                                    }
+                                                    --index;
+                                                    if ("恭喜发财，万事如意！".equals(nodeList.get(index))) {
+                                                        break;
+                                                    }
+                                                    Log.d("可能是支付宝红包");
+                                                    billInfo.setShopRemark("支付宝红包");
                                                     break;
                                                 }
                                             }
                                         }
-
-
                                     }
-                                    ++index;
-                                    // billInfo.setShopRemark((String) nodeList.get(index));
-                                }
+                                    Log.d("再找 元");
+                                    int mIndex = nodeStr.indexOf("元");
+                                    if (mIndex <= 4) {
+                                        break;
+                                    }
+                                    Log.d("找到" + mIndex);
+                                    nodeStr = nodeStr.substring(nodeStr.indexOf("个红包共") + 4, mIndex).replace(",", "");
+                                    Log.d("金额" + nodeStr);
+                                    if (redDetail.isMoney(nodeStr)) {
+                                        redDetail.setMoney(billInfo, nodeStr);
+                                        if (index >= 1) {
+                                            --index;
+                                            if (!((String) nodeList.get(index)).endsWith("的红包")) {
+                                                billInfo.setShopRemark("微信红包");
+                                                break;
+                                            }
+                                        }
+                                    }
 
-                                if (redDetail.isSetMoney) {
-                                    billinfo = billInfo;
+
                                 }
+                                Log.d("数据递增" + index);
+                                ++index;
+                                // billInfo.setShopRemark((String) nodeList.get(index));
+                            }
+
+                            if (redDetail.isSetMoney) {
+                                billinfo = billInfo;
                             }
 
                             if (billinfo == null) {
+                                Log.d("红包处理,billinfo为NULL");
                                 billinfo = redDetail.run(nodeList);
                             }
                         }
@@ -338,12 +350,16 @@ public class HelpService extends AccessibilityService {
                 }
 
                 if (NodeListManage.flag == FLAG_ALIPAY_PAY_UI) {
+                    Log.d("进入阿里的分析");
                     transferDetailParser = new TransferDetailParser(AlipayDetailParser);
                     billinfo = transferDetailParser.h(nodeList, 0);
+                    Log.d("分析完毕");
                 }
 
                 if (weChatType != WxDetailParser.TYPE_WECHAT_GROUP) {
+                    Log.d("进入微信的分析");
                     billinfo = (new WxDetailParser()).run(nodeList, WxDetailParser.TYPE_WECHAT_TRANSFER);
+                    Log.d("微信分析完毕");
                 }
 
 
@@ -353,7 +369,7 @@ public class HelpService extends AccessibilityService {
             } else if (NodeListManage.flag != FLAG_WECHAT_PAY_UI) {
                 if (NodeListManage.flag == FLAG_WECHAT_PAY_MONEY_UI) {
                     wechatDetail = new WxDetailParser();
-                    wechatDetail.wechatTransferLqt = this.wechatTransferLqt;
+                    wechatDetail.wechatTransferLqt = wechatTransferLqt;
                     billinfo = wechatDetail.run(nodeList, WxDetailParser.TYPE_WECHAT_OTHER);
 
                 } else if (NodeListManage.flag == FLAG_UNION_PAY_UI) {
@@ -404,6 +420,7 @@ public class HelpService extends AccessibilityService {
             }
 
         }
+        Log.i("-----------------无障碍事件结束---------------------");
     }
 
     @Override
