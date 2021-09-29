@@ -253,6 +253,13 @@
 
         });
 
+        setInterval(function () {
+            localStorage.setItem("cate",encodeURIComponent(getData().toString()));
+        },2000);
+        const data = localStorage.getItem("cate");
+        if(data!==undefined&&data!==null){
+            setData(data)
+        }
 
         function showTip(str){
             $("#tip_content").html(str);
@@ -322,13 +329,20 @@
         return JSON.stringify(json);
     }
 
-    function setData() {
-        let data = decodeURIComponent(getQueryVariable("data"));
+    function setData(d) {
+
+        let data;
+        if(d!==undefined){
+             data = decodeURIComponent(d);
+        }else{
+             data = decodeURIComponent(getQueryVariable("data"))
+        }
+        console.log(data);
         const id = getQueryVariable("id");
-        if(data!==undefined&&id!==undefined){
+        if(data!==undefined&&data!=="undefined"){
             $("#cate_id").val(id);
             var json=JSON.parse(data);
-
+            console.log(json);
             $("#sort_name").val(json["regular_name"]);
             $("#sort_remark").val(json["regular_remark"]);
             $("#time_condition1").val(json["regular_time1_link"]);

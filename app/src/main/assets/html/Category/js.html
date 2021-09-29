@@ -214,6 +214,18 @@
 
         });
 
+        setInterval(function () {
+            editor.save();
+            localStorage.setItem("code",encodeURIComponent( $("#code").val()));
+            localStorage.setItem("sort_name",( $("#sort_name").val()));
+            localStorage.setItem("des",( $("#sort_remark").val()));
+        },2000);
+        const data = localStorage.getItem("code");
+        const name = localStorage.getItem("sort_name");
+        const des = localStorage.getItem("des");
+        if(data!==undefined&&data!==null){
+            setData(data,name,des)
+        }
 
         function showTip(str){
             $("#tip_content").html(str);
@@ -288,15 +300,26 @@
         }
     });
 
-    function setData() {
-        let data = decodeURI(getQueryVariable("data"));
+    function setData(d,n,de) {
+        console.log(d);
+        let data,name,des;
+        if(d!==undefined){
+            data = decodeURIComponent(d);
+            name=n;
+            des=de;
+        }else{
+            data = decodeURIComponent(getQueryVariable("data"));
+            name=getQueryVariable("name");
+            des=getQueryVariable("des");
+        }
+
+
         const id = getQueryVariable("id");
-        const name=getQueryVariable("name");
-        const des=getQueryVariable("des");
+
        /* const bool=getCookie("lineWrapping")==="true";
         $("#js_style").prop("checked",bool)
         editor.setOption("lineWrapping",bool)*/
-        if(data!==undefined&&id!==undefined&&name!==undefined&&des!==undefined){
+        if(data!==undefined&&data!=="undefined"){
 
             $("#cate_id").val(id);
 

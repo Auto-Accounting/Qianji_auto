@@ -178,7 +178,13 @@
         return jsArrElement;
     }
 
-
+    setInterval(function () {
+        localStorage.setItem("reg",encodeURIComponent(JSON.stringify(getData())));
+    },2000);
+    const data = localStorage.getItem("reg");
+    if(data!==undefined&&data!==null){
+        setData(data)
+    }
 
     $("#test").on("click", function (e) {
         var js=getJs();
@@ -241,11 +247,17 @@
         $("#result_content2").html(str);
     });
 
-    function setData(){
-        let data = decodeURIComponent(getQueryVariable("data"));
+    function setData(d) {
+        console.log(d);
+        let data;
+        if(d!==undefined){
+            data = decodeURIComponent(d);
+        }else{
+            data = decodeURIComponent(getQueryVariable("data"))
+        }
        // const id = getQueryVariable("id");
         //const type= getQueryVariable("type");
-        if(data!==undefined){
+        if(data!==undefined&&data!=="undefined"){
             let json1=JSON.parse(data);
 
             $("#sort_name").val(json1["name"]);
