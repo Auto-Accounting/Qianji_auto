@@ -12,430 +12,235 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class WxDetailParser extends baseAnalyze {
-    public String b;
-    public boolean c;
+    public static int TYPE_WECHAT_GROUP = 1;
+    public static int TYPE_WECHAT_TRANSFER = 2;
+    public static int TYPE_WECHAT_REC = 3;
+    public static int TYPE_WECHAT_OTHER = 0;
+    public String payTools;
+    public boolean wechatTransferLqt;
 
-    public BillInfo run(List<Object> nodeList, int var2) {
+    public BillInfo run(List<Object> nodeList, int type) {
         if (nodeList.size() == 0) return null;
-        Log.d("[auto] WxDetailParser parse type" + var2 + " " + nodeList.toString());
-        String var31 = "零钱通";
-        String var13 = "零钱";
-        String var14 = "¥";
-        byte var3 = 0;
-        boolean var5;
-        String var7;
-        String var10;
-        BillInfo var27;
-        int var30;
-        if (var2 == 1) {
+        Log.d("[auto] WxDetailParser parse type" + type + " " + nodeList.toString());
+
+        String replaceStr;
+        String nodeStr;
+        if (type == TYPE_WECHAT_GROUP) {
             BillInfo billinfo = new BillInfo();
-            var5 = ((String) nodeList.get(0)).endsWith("发起的群收款");
-            var2 = var3;
-
-            while (var2 < nodeList.size()) {
-                String var29;
-                label433:
-                {
-                    var10 = (String) nodeList.get(var2);
-                    var7 = var10.replace("￥", "").replace("¥", "").replace(",", "");
-                    if (this.isMoney(var7)) {
-                        this.setMoney(billinfo, var7);
-                        if (this.c) {
-                            billinfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
-                            billinfo.setAccountName2(var31);
-                            var29 = "转入零钱通";
-                            break label433;
-                        }
+            int index = 0;
+            while (index < nodeList.size()) {
+                nodeStr = (String) nodeList.get(index);
+                replaceStr = nodeStr.replace("￥", "").replace("¥", "").replace(",", "");
+                if (isMoney(replaceStr)) {
+                    setMoney(billinfo, replaceStr);
+                    if (wechatTransferLqt) {
+                        billinfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
+                        billinfo.setAccountName2("零钱通");
+                        billinfo.setShopRemark("转入零钱通");
+                        break;
+                    }
+                } else {
+                    if ("收款方".equals(nodeStr) && index < nodeList.size() - 1) {
+                        Log.i("收款方:" + nodeStr);
+                        billinfo.setShopAccount((String) nodeList.get(index + 1));
                     } else {
-                        label455:
-                        {
-                            label444:
-                            {
-                                if ("收款方".equals(var10) && var2 < nodeList.size() - 1) {
-                                    var30 = var2 + 1;
-                                } else {
-                                    if (!"支付成功".equals(var10) || var2 >= nodeList.size() - 2) {
-                                        if (var5 && var10.contains("已收齐") && var2 < nodeList.size() - 1) {
-                                            var7 = ((String) nodeList.get(var2 + 1)).replace("收到¥", "");
-                                            billinfo.setType(BillInfo.TYPE_INCOME);
-                                            if (isMoney(var7)) {
-                                                setMoney(billinfo, var7);
-                                                var29 = "我发起的群收款-已收齐";
-                                                break label433;
-                                            }
-                                            break label455;
-                                        }
-
-                                        if (var5 && var10.contains("已支付")) {
-                                            var7 = var7.replace("已支付", "");
-                                            if (isMoney(var7)) {
-                                                setMoney(billinfo, var7);
-                                                var29 = (String) nodeList.get(0);
-                                                break label433;
-                                            }
-                                            break label455;
-                                        }
-
-                                        if (!"充值成功".equals(var10)) {
-                                            break label455;
-                                        }
-
-                                        billinfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
-                                        billinfo.setAccountName2("微信钱包");
-                                        var7 = "微信零钱充值";
-                                        break label444;
-                                    }
-
-                                    var30 = var2 + 1;
-                                    if (((String) nodeList.get(var30)).contains("¥")) {
-                                        break label455;
-                                    }
+                        if (!"支付成功".equals(nodeStr) || index >= nodeList.size() - 2) {
+                            if (((String) nodeList.get(0)).endsWith("发起的群收款") && nodeStr.contains("已收齐") && index < nodeList.size() - 1) {
+                                replaceStr = ((String) nodeList.get(index + 1)).replace("收到¥", "");
+                                billinfo.setType(BillInfo.TYPE_INCOME);
+                                if (isMoney(replaceStr)) {
+                                    setMoney(billinfo, replaceStr);
+                                    billinfo.setShopRemark("我发起的群收款-已收齐");
+                                    break;
                                 }
-
-                                var7 = (String) nodeList.get(var30);
+                            } else if (((String) nodeList.get(0)).endsWith("发起的群收款") && nodeStr.contains("已支付")) {
+                                replaceStr = replaceStr.replace("已支付", "");
+                                if (isMoney(replaceStr)) {
+                                    setMoney(billinfo, replaceStr);
+                                    billinfo.setShopRemark((String) nodeList.get(0));
+                                    break;
+                                }
+                            } else if ("充值成功".equals(nodeStr)) {
+                                billinfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
+                                billinfo.setAccountName2("微信");
+                                billinfo.setShopRemark("微信零钱充值");
+                                break;
                             }
-
-                            billinfo.setShopRemark(var7);
+                        } else if (!((String) nodeList.get(index + 1)).contains("¥")) {
+                            billinfo.setShopRemark((String) nodeList.get(index + 1));
                         }
                     }
-
-                    ++var2;
-                    continue;
                 }
-                billinfo.setShopRemark(var29);
-                break;
+                ++index;
             }
 
-            if (!TextUtils.isEmpty(this.b)) {
-                if ("零钱".equals(this.b)) {
-                    this.b = "微信钱包";
-                }
-
-                billinfo.setAccountName(this.b);
+            if (!TextUtils.isEmpty(payTools)) {
+                billinfo.setAccountName(payTools);
             }
 
             if (isSetMoney) {
-                var27 = billinfo;
+                return billinfo;
             } else {
-                var27 = null;
+                return null;
+            }
+        } else if (type == TYPE_WECHAT_REC) {
+            BillInfo billInfo = new BillInfo();
+            for (int index = 0; index < nodeList.size(); ++index) {
+                String node = (String) nodeList.get(index);
+                if (("已收款".equals(node) || "你已收款".equals(node)) && index < nodeList.size() - 2) {
+                    node = ((String) nodeList.get(index + 1)).replace("￥", "").replace("¥", "").replace("元", "").replace(",", "");
+                    if (isMoney(node)) {
+                        setMoney(billInfo, node);
+                    }
+                } else if ("收款时间".equals(node) && index < nodeList.size() - 1) {
+                    billInfo.setTimeStamp(Tool.dateToStamp((String) nodeList.get(index + 1), "yyyy年MM月dd日 hh:mm:ss"));
+                }
             }
 
-            return var27;
-        } else {
-            String var12 = "零钱通";
-            var10 = "收款时间";
-            String var8;
-            BillInfo billInfo;
-            if (var2 == 3) {
-                billInfo = new BillInfo();
-
-
-                for (var2 = 0; var2 < nodeList.size(); ++var2) {
-                    var8 = (String) nodeList.get(var2);
-                    if (("已收款".equals(var8) || "你已收款".equals(var8)) && var2 < nodeList.size() - 2) {
-                        var8 = ((String) nodeList.get(var2 + 1)).replace("￥", "").replace("¥", "").replace("元", "").replace(",", "");
-                        if (isMoney(var8)) {
-                            setMoney(billInfo, var8);
-                        }
-                    } else if ("收款时间".equals(var8) && var2 < nodeList.size() - 1) {
-                        billInfo.setTimeStamp(Tool.dateToStamp((String) nodeList.get(var2 + 1), "yyyy年MM月dd日 hh:mm:ss"));
-                    }
-                }
-
-                if (isSetMoney) {
-                    billInfo.setShopRemark("微信收款");
-                    billInfo.setAccountName("微信钱包");
-                    billInfo.setType(BillInfo.TYPE_INCOME);
-                    var27 = billInfo;
-                } else {
-                    var27 = null;
-                }
-
-                return var27;
+            if (isSetMoney) {
+                billInfo.setShopRemark("微信收款");
+                billInfo.setAccountName("零钱");
+                billInfo.setType(BillInfo.TYPE_INCOME);
+                return billInfo;
             } else {
-                var8 = "转账说明";
-                String var11 = "转账时间";
-                String var9;
-                if (var2 == 2) {
-                    billInfo = new BillInfo();
+                return null;
+            }
 
-                    for (var2 = 0; var2 < nodeList.size(); ++var2) {
-                        var9 = (String) nodeList.get(var2);
-                        var8 = var9.replace("￥", "").replace("¥", "").replace("元", "").replace(",", "");
-                        if (isMoney(var8)) {
-                            setMoney(billInfo, var8);
-                        } else if ("转账时间".equals(var9) && var2 < nodeList.size() - 1) {
-                            billInfo.setTimeStamp(Tool.dateToStamp((String) nodeList.get(var2 + 1), "yyyy年MM月dd日 hh:mm:ss"));
-                        } else if ("转账说明".equals(var9) && var2 < nodeList.size() - 1) {
-                            billInfo.setShopRemark((String) nodeList.get(var2 + 1));
-                        } else if (var9.startsWith("待") && var9.endsWith("收款")) {
+        } else if (type == TYPE_WECHAT_TRANSFER) {
+            BillInfo billInfo = new BillInfo();
 
-                            billInfo.setShopAccount(var9.substring(1, var9.lastIndexOf("收款")));
-                        }
-                    }
+            for (int index = 0; index < nodeList.size(); ++index) {
+                String node = (String) nodeList.get(index);
+                node = node.replace("￥", "").replace("¥", "").replace("元", "").replace(",", "");
+                if (isMoney(node)) {
+                    setMoney(billInfo, node);
+                } else if ("转账时间".equals(node) && index < nodeList.size() - 1) {
+                    billInfo.setTimeStamp(Tool.dateToStamp((String) nodeList.get(index + 1), "yyyy年MM月dd日 hh:mm:ss"));
+                } else if ("转账说明".equals(node) && index < nodeList.size() - 1) {
+                    billInfo.setShopRemark((String) nodeList.get(index + 1));
+                } else if (node.startsWith("待") && node.endsWith("收款")) {
+                    billInfo.setShopAccount(node.substring(1, node.lastIndexOf("收款")));
+                }
+            }
 
-                    if (isSetMoney) {
+            if (isSetMoney) {
 
-                        if (billInfo.getShopRemark().equals("")) {
-                            billInfo.setShopRemark("微信转账");
-                        }
-                        if (billInfo.getAccountName().equals("")) {
-                            billInfo.setAccountName("微信");
-                        }
-                        return billInfo;
-                    }
+                if (billInfo.getShopRemark().equals("")) {
+                    billInfo.setShopRemark("微信转账");
+                }
+                if (billInfo.getAccountName().equals("")) {
+                    billInfo.setAccountName("零钱");
+                }
+                return billInfo;
+            }
 
-                    return null;
-                } else {
-                    BillInfo billinfo = new BillInfo();
+            return null;
+        } else {
+            BillInfo billinfo = new BillInfo();
+            for (int index = 0; index < nodeList.size(); index++) {
+                String node = (String) nodeList.get(index);
+                boolean indexLast = index < nodeList.size() - 1;
 
-
-                    for (var2 = 0; var2 < nodeList.size(); var11 = var31) {
-                        String var19 = (String) nodeList.get(var2);
-                        boolean var28;
-                        var28 = var2 < nodeList.size() - 1;
-
-                        label456:
-                        {
-                            if (!isSetMoney) {
-                                var5 = var19.contains("转入");
-                                var31 = var11;
-                                if (var5 || var19.contains("转出") || var19.contains("还款") || var19.contains("零钱充值") || var19.contains("零钱提现") || "提现金额".equals(var19)) {
-                                    var30 = var2 + 1;
-                                    if (var30 < nodeList.size()) {
-                                        var7 = ((String) nodeList.get(var30)).replace(var14, "").replace("￥", "");
-                                        if (isMoney(var7)) {
-                                            setMoney(billinfo, var7);
-                                            billinfo.setShopRemark(var19);
-                                            billinfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
-                                            if ("提现金额".equals(var19)) {
-                                                billinfo.setAccountName("微信钱包");
-                                                billinfo.setShopRemark("微信零钱提现");
-                                            } else {
-                                                var30 = var19.indexOf("-");
-                                                if (var30 != -1) {
-                                                    label337:
-                                                    {
-                                                        Exception var10000;
-                                                        label424:
-                                                        {
-                                                            boolean var10001;
-                                                            try {
-                                                                if (var19.startsWith("转入")) {
-                                                                    billinfo.setAccountName2(var19.substring(2, var30));
-                                                                    billinfo.setAccountName(var19.substring(var30 + 3));
-                                                                    break label337;
-                                                                }
-                                                            } catch (Exception var23) {
-                                                                var10000 = var23;
-                                                                var10001 = false;
-                                                                break label424;
-                                                            }
-
-                                                            label419:
-                                                            {
-                                                                try {
-                                                                    if (var19.contains("转出")) {
-                                                                        billinfo.setAccountName(var19.substring(0, var19.indexOf("转出")));
-                                                                        var7 = var19.substring(var30 + 2);
-                                                                        break label419;
-                                                                    }
-                                                                } catch (Exception var26) {
-                                                                    var10000 = var26;
-                                                                    var10001 = false;
-                                                                    break label424;
-                                                                }
-
-                                                                try {
-                                                                    if (var19.contains("还款")) {
-                                                                        String[] var36 = var19.split("还款");
-                                                                        if (var36.length < 2) {
-                                                                            break label337;
-                                                                        }
-
-                                                                        var7 = var36[1].substring(1);
-                                                                        break label419;
-                                                                    }
-                                                                } catch (Exception var25) {
-                                                                    var10000 = var25;
-                                                                    var10001 = false;
-                                                                    break label424;
-                                                                }
-
-                                                                try {
-                                                                    if (var19.contains("零钱充值")) {
-                                                                        billinfo.setAccountName2("微信钱包");
-                                                                        break label337;
-                                                                    }
-                                                                } catch (Exception var24) {
-                                                                    var10000 = var24;
-                                                                    break label424;
-                                                                }
-
-                                                                try {
-                                                                    if (var19.contains("零钱提现")) {
-                                                                        billinfo.setAccountName("微信钱包");
-                                                                    }
-                                                                    break label337;
-                                                                } catch (Exception var22) {
-                                                                    var10000 = var22;
-                                                                    break label424;
-                                                                }
-                                                            }
-
-                                                            try {
-                                                                billinfo.setAccountName2(var7);
-                                                                break label337;
-                                                            } catch (Exception var21) {
-                                                                var10000 = var21;
-                                                            }
-                                                        }
-
-                                                        Exception var38 = var10000;
-                                                        var38.printStackTrace();
-                                                    }
-                                                }
-                                            }
+                if (!isSetMoney) {
+                    if (node.contains("转入") || node.contains("转出") || node.contains("还款") || node.contains("零钱充值") || node.contains("零钱提现") || "提现金额".equals(node)) {
+                        int j = index + 1;
+                        if (j < nodeList.size()) {
+                            replaceStr = ((String) nodeList.get(j)).replace("¥", "").replace("￥", "");
+                            if (isMoney(replaceStr)) {
+                                setMoney(billinfo, replaceStr);
+                                billinfo.setShopRemark(node);
+                                billinfo.setType(BillInfo.TYPE_TRANSFER_ACCOUNTS);
+                                int i = node.indexOf("-");
+                                if ("提现金额".equals(node)) {
+                                    billinfo.setAccountName("零钱");
+                                    billinfo.setShopAccount("微信");
+                                    billinfo.setShopRemark("零钱提现");
+                                } else if (i != -1) {
+                                    if (node.startsWith("转入")) {
+                                        billinfo.setAccountName2(node.substring(2, i));
+                                        billinfo.setAccountName(node.substring(i + 3));
+                                        break;
+                                    } else if (node.contains("转出")) {
+                                        billinfo.setAccountName(node.substring(0, node.indexOf("转出")));
+                                        billinfo.setShopRemark(node.substring(i + 2));
+                                        break;
+                                    } else if (node.contains("还款")) {
+                                        String[] strs = node.split("还款");
+                                        if (strs.length >= 2) {
+                                            billinfo.setShopRemark(strs[1].substring(1));
+                                            break;
                                         }
+                                    } else if (node.contains("零钱充值")) {
+                                        billinfo.setAccountName2("零钱");
+                                        break;
+                                    } else if (node.contains("零钱提现")) {
+                                        billinfo.setAccountName("零钱");
+                                        break;
                                     }
-
-                                    var7 = var8;
-                                    var9 = var10;
-                                    break label456;
                                 }
                             }
-
-                            if (!var19.contains("-") && !var19.contains("+")) {
-                                if ("支付时间".equals(var19) || var11.equals(var19) || var10.equals(var19)) {
-                                    var9 = var10;
-                                    if (var28) {
-                                        billinfo.setTimeStamp(Tool.dateToStamp((String) nodeList.get(var2 + 1), "yyyy-MM-dd HH:mm:ss"));
-                                        var31 = var11;
-                                        var7 = var8;
-                                        break label456;
-                                    }
-                                }
-
-                                var9 = var10;
-                                var31 = var11;
-                                if (billinfo.getAccountName() != null || !"支付方式".equals(var19) && !"收款帐号".equals(var19) && !"退款方式".equals(var19) || !var28) {
-                                    label363:
-                                    {
-                                        StringBuilder var32;
-                                        label442:
-                                        {
-                                            if ("商品".equals(var19) && var28) {
-                                                if (billinfo.getShopRemark() != null) {
-                                                    var32 = new StringBuilder();
-                                                    var32.append((String) nodeList.get(var2 + 1));
-                                                    var32.append("-");
-                                                    var10 = billinfo.getShopRemark();
-                                                    break label442;
-                                                }
-                                            } else {
-                                                var7 = var8;
-                                                if (!var8.equals(var19) || !var28) {
-                                                    if (("提现银行".equals(var19) || "到账银行卡".equals(var19)) && var28) {
-                                                        billinfo.setAccountName2((String) nodeList.get(var2 + 1));
-                                                        if (billinfo.getAccountName() == null && this.c) {
-                                                            billinfo.setAccountName(var12);
-                                                        }
-                                                    } else if ("服务费".equals(var19) && var28) {
-                                                        var8 = ((String) nodeList.get(var2 + 1)).replace("￥", "");
-                                                        if (isMoney(var8)) {
-                                                            billinfo.setFee(var8);
-                                                        }
-                                                    }
-                                                    break label456;
-                                                }
-
-                                                if (billinfo.getShopRemark() != null) {
-                                                    var32 = new StringBuilder();
-                                                    var32.append(billinfo.getShopRemark());
-                                                    var32.append("-");
-                                                    var10 = (String) nodeList.get(var2 + 1);
-                                                    break label442;
-                                                }
-                                            }
-
-                                            var10 = (String) nodeList.get(var2 + 1);
-                                            break label363;
-                                        }
-
-                                        var32.append(var10);
-                                        var10 = var32.toString();
-                                    }
-
-                                    var7 = var8;
-                                    billinfo.setShopRemark(var10);
-                                    break label456;
-                                }
-
-                                billinfo.setAccountName((String) nodeList.get(var2 + 1));
-                                var5 = var19.contains("收");
-                                var7 = var8;
-                                var31 = var11;
-                                if (!var5) {
-                                    break label456;
-                                }
-
-                                var31 = var11;
+                        }
+                    }
+                } else if (!node.contains("-") && !node.contains("+")) {
+                    if ("支付时间".equals(node) || "转账时间".equals(node) || "收款时间".equals(node)) {
+                        if (index < nodeList.size() - 1) {
+                            billinfo.setTimeStamp(Tool.dateToStamp((String) nodeList.get(index + 1), "yyyy-MM-dd HH:mm:ss"));
+                        }
+                    } else {
+                        if (billinfo.getAccountName() != null || !"支付方式".equals(node) && !"收款帐号".equals(node) && !"退款方式".equals(node) || !indexLast) {
+                            if ("商品".equals(node) && indexLast) {
+                                billinfo.setShopRemark((String) nodeList.get(index + 1));
                             } else {
-                                String var20 = var19.replace("+", "").replace("-", "");
-                                var9 = var10;
-                                var7 = var8;
-                                var31 = var11;
-                                if (!isMoney(var20)) {
-                                    break label456;
+                                if (!"转账说明".equals(node) || !indexLast) {
+                                    if (("提现银行".equals(node) || "到账银行卡".equals(node)) && indexLast) {
+                                        billinfo.setAccountName2((String) nodeList.get(index + 1));
+                                        if (billinfo.getAccountName() == null && wechatTransferLqt) {
+                                            billinfo.setAccountName("零钱通");
+                                        }
+                                    } else if ("服务费".equals(node) && indexLast) {
+                                        String m = ((String) nodeList.get(index + 1)).replace("￥", "");
+                                        if (isMoney(m)) {
+                                            billinfo.setFee(m);
+                                        }
+                                    }
+                                } else if (billinfo.getShopRemark() != null) {
+                                    billinfo.setShopRemark(billinfo.getShopRemark() + "-" + (String) nodeList.get(index + 1));
                                 }
-
-                                setMoney(billinfo, var20);
-                                if (var2 > 0) {
-                                    billinfo.setShopRemark((String) nodeList.get(var2 - 1));
-                                }
-
-                                var9 = var10;
-                                var7 = var8;
-                                var31 = var11;
-                                if (!var19.contains("+")) {
-                                    break label456;
-                                }
-
-                                var31 = var11;
                             }
+                        }
 
-                            var7 = var8;
-                            var9 = var10;
+                        billinfo.setAccountName((String) nodeList.get(index + 1));
+                        if (node.contains("收")) {
                             billinfo.setType(BillInfo.TYPE_INCOME);
                         }
-
-                        ++var2;
-                        var10 = var9;
-                        var8 = var7;
+                    }
+                } else {
+                    String m = node.replace("+", "").replace("-", "");
+                    if (isMoney(m)) {
+                        setMoney(billinfo, m);
+                    }
+                    if (index > 0) {
+                        billinfo.setShopRemark((String) nodeList.get(index - 1));
                     }
 
-                    if (isSetMoney) {
-                        if (var13.equals(billinfo.getAccountName())) {
-                            billinfo.setAccountName("微信钱包");
-                        }
-
-                        if (var13.equals(billinfo.getAccountName2())) {
-                            billinfo.setAccountName2("微信钱包");
-                        }
-
-                        if (billinfo.getTypeInt() == 1 && billinfo.getAccountName() == null) {
-                            billinfo.setAccountName("微信钱包");
-                        }
-                        var27 = billinfo;
-                    } else {
-                        var27 = null;
+                    if (node.contains("+")) {
+                        billinfo.setType(BillInfo.TYPE_INCOME);
                     }
 
-                    return var27;
                 }
             }
 
+            if (isSetMoney) {
+                if (billinfo.getTypeInt() == 1 && billinfo.getAccountName() == null) {
+                    billinfo.setAccountName("零钱");
+                }
+                return billinfo;
+            } else {
+                return null;
+            }
         }
+
+
     }
 }
 

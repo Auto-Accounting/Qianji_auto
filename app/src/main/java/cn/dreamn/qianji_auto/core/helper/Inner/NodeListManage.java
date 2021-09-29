@@ -85,6 +85,7 @@ public class NodeListManage {
         if (!packageName.equals(pkg)) {
             //如果传入的包名错误，就清空重置
             globalNodeList = new ArrayList<>();
+            packageName = pkg;
         }
         if (isFirst) {
             listIndex = 0;
