@@ -57,7 +57,7 @@ public class LoginInfo {
 
             } else {
                 // utils.toast("自动记账：当前版本微信尚未适配！");
-                utils.log("当前版本微信尚未适配！");
+                utils.log("当前版本微信尚未适配！微信版本：" + utils.getVerName());
             }
 
         } catch (Throwable e) {
