@@ -94,8 +94,12 @@ public class RegularManager {
             return;
         }
         JSONArray jsonArray = jsonObject.getJSONArray("data");
-
-        BottomArea.msg(context, String.format(context.getString(R.string.restore_title), name), context.getString(R.string.restore_body), context.getString(R.string.yes), context.getString(R.string.no), new BottomArea.MsgCallback() {
+        if (type.equals("category")) {
+            restoreCate(jsonArray, loadDialog, mHandler, context);
+        } else {
+            restoreReg(jsonArray, loadDialog, mHandler, context);
+        }
+      /*  BottomArea.msg(context, String.format(context.getString(R.string.restore_title), name), context.getString(R.string.restore_body), context.getString(R.string.yes), context.getString(R.string.no), new BottomArea.MsgCallback() {
             @Override
             public void cancel() {
                 if (type.equals("category")) {
@@ -118,7 +122,7 @@ public class RegularManager {
 
             }
         });
-
+*/
 
     }
 
