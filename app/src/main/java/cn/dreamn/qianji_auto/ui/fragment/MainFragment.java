@@ -201,7 +201,6 @@ public class MainFragment extends BaseFragment {
                 });
             } else if (str.endsWith(".backup_app_ankio")) {
                 Log.i("file" + str);
-                Log.i("file:" + FileUtils.get(str));
                 RegularManager.restoreFromData(getContext(), "", "app", FileUtils.get(str), new RegularManager.End() {
                     @Override
                     public void onFinish(int code) {
