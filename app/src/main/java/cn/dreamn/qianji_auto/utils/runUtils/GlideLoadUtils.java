@@ -68,11 +68,10 @@ public class GlideLoadUtils {
      * @param default_image 图片展示错误的本地图片 id
      */
     public void glideLoad(Context context, String url, View imageView, int default_image) {
-        if (context instanceof Activity) {
-            glideLoad(context, url, imageView, default_image);
+        if (context instanceof Activity && !((Activity) context).isDestroyed()) {
+            setImg(context, url, imageView, default_image);
             return;
         }
-
         if (context != null) {
             setImg(context, url, imageView, default_image);
         } else {
