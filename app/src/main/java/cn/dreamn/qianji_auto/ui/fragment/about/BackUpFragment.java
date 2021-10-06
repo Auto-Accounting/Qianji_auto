@@ -101,7 +101,8 @@ public class BackUpFragment extends BaseFragment {
         rl_site_url.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BottomArea.list(getContext(), getString(R.string.please_select), Arrays.asList(getString(R.string.jgy), getString(R.string.ct_pri), getString(R.string.ct_pub), getString(R.string.TeraCloud), getString(R.string.source_custom)), new BottomArea.ListCallback() {
+                List<String> list = Arrays.asList(getString(R.string.jgy), getString(R.string.ct_pri), getString(R.string.ct_pub), getString(R.string.TeraCloud), getString(R.string.source_custom));
+                BottomArea.list(getContext(), getString(R.string.please_select), list, new BottomArea.ListCallback() {
                     @Override
                     public void onSelect(int position) {
                         if (position == 4) {
@@ -122,7 +123,7 @@ public class BackUpFragment extends BaseFragment {
                                 }
                             });
                         } else {
-                            mmkv.encode("webdav_url", String.valueOf(position));
+                            mmkv.encode("webdav_url", list.get(position));
                         }
                     }
                 });

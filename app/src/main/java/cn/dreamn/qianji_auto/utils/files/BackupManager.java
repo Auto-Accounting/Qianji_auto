@@ -236,13 +236,13 @@ public class BackupManager {
 
     public static String getUrl(String text) {
         switch (text) {
-            case "0":
+            case "坚果云":
                 return "https://dav.jianguoyun.com/dav/";
-            case "1":
+            case "城通网盘私有云":
                 return "https://webdav.ctfile.com/";
-            case "2":
+            case "城通网盘公有云":
                 return "https://pubdav.ctfile.com/";
-            case "3":
+            case "TeraCloud":
                 return "https://seto.teracloud.jp/dav/";
         }
         return text;
