@@ -190,6 +190,7 @@ public class remoteFragment extends BaseFragment {
                                                 @Override
                                                 public void onFailure() {
                                                     ToastUtils.show(R.string.remote_error);
+                                                    HandlerUtil.send(handler1, -1);
                                                 }
 
                                                 @Override
