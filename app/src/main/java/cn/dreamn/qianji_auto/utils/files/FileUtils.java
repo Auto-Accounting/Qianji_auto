@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import cn.dreamn.qianji_auto.utils.runUtils.Cmd;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 
@@ -61,7 +62,8 @@ public class FileUtils {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "";
+            Cmd.exec(new String[]{"cat " + fileName});
+            return Cmd.getResult();
         }
     }
 
