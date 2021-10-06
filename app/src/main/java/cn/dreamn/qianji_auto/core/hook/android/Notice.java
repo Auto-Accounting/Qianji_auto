@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 
+import java.util.Arrays;
+
 import cn.dreamn.qianji_auto.core.hook.template.android.AndroidBase;
 import cn.dreamn.qianji_auto.utils.runUtils.Cmd;
 import de.robv.android.xposed.XC_MethodHook;
@@ -61,7 +63,7 @@ public class Notice extends AndroidBase {
                         }
                         //不在监控范围不转发
                         String[] s2 = utils.readDataByApp("apps", "apps").split(",");
-                        // utils.log("通知范围：" + Arrays.toString(s2) + "app" + aPackage);
+                        utils.log("通知范围：" + Arrays.toString(s2) + "app" + aPackage);
                         if (!isIn(s2, aPackage)) return;
 
                         // utils.log("包名:" + aPackage, true);

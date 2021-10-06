@@ -273,7 +273,7 @@ public class BillInfo {
     }
 
     public void setMoney(String money) {
-        this.money = money;
+        this.money = BillTools.getMoney(money);
     }
 
     public String getTime() {
