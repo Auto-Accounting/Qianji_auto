@@ -82,6 +82,7 @@ public class QianJi implements IApp {
     @Override
     public void asyncDataBefore(Context context) {
         if (AppStatus.getActiveMode().equals("xposed")) {
+            Log.i("自动记账同步", "同步开始");
             Cmd.exec(new String[]{"am force-stop com.mutangtech.qianji"});
             //杀死其他应用
             //  Tool.stopApp(context,"com.mutangtech.qianji");
@@ -91,6 +92,7 @@ public class QianJi implements IApp {
             intent.putExtra("needAsync", "true");
             MMKV mmkv = MMKV.defaultMMKV();
             mmkv.encode("needAsync", true);
+            Log.i("自动记账同步", "正在前往钱迹");
             context.startActivity(intent);
         } else {
             ToastUtils.show(R.string.not_support);

@@ -41,9 +41,9 @@ public class AutoError {
     }
 
     public static String getSolvedUrl(String problems) {
-        String url = "https://pan.ankio.net";
+        String url = "http://docs.qianjiapp.com/plugin/auto_tasker.html";
         // TODO 预计公测之后 根据不同错误信息给出解决方案地址，需要等文档到位。
-
+        // Log.i("自动记账同步","正在前往钱迹");
         if (problems.contains("bookname")) {
 
         } else if (problems.contains("accountname")) {

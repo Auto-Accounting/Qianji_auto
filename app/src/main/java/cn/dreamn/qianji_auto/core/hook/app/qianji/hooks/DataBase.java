@@ -35,7 +35,7 @@ public class DataBase {
     private static SQLiteDatabase db = null;
 
     public static void init(Utils utils) {
-
+        utils.log("自动记账同步：钱迹初始化", false);
         ClassLoader mAppClassLoader = utils.getClassLoader();
         XposedHelpers.findAndHookConstructor("com.mutangtech.qianji.data.model.DaoMaster", mAppClassLoader, SQLiteDatabase.class, new XC_MethodHook() {
             @Override
@@ -44,7 +44,7 @@ public class DataBase {
                 SQLiteDatabase database = (SQLiteDatabase) param.args[0];
                 // 获取数据库操作对象
                 final DBHelper[] dbHelper = new DBHelper[1];
-
+                utils.log("自动记账同步：获取钱迹数据库对象", false);
                 if (database != null && database.isOpen()) {
                     db = database;
                     utils.log("使用钱迹对象获取信息", false);
