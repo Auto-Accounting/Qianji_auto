@@ -8,7 +8,6 @@ import android.os.Bundle;
 import java.util.Arrays;
 
 import cn.dreamn.qianji_auto.core.hook.template.android.AndroidBase;
-import cn.dreamn.qianji_auto.utils.runUtils.Cmd;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -56,11 +55,11 @@ public class Notice extends AndroidBase {
                       //  utils.log("通知数据：" + bundle.toString());
 
                         //收到支付宝支付通知后,自动拉起支付宝
-                        if (aPackage.contains("com.eg.android.AlipayGphone")) {
+                      /*  if (aPackage.contains("com.eg.android.AlipayGphone")) {
                             Cmd.exec(new String[]{
                                     "am start -n com.eg.android.AlipayGphone/com.eg.android.AlipayGphone.AlipayLogin"
                             });
-                        }
+                        }*/
                         //不在监控范围不转发
                         String[] s2 = utils.readDataByApp("apps", "apps").split(",");
                         utils.log("通知范围：" + Arrays.toString(s2) + "app" + aPackage);
