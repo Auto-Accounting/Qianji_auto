@@ -61,5 +61,11 @@ public interface IdentifyRegularDao {
 
     @Query("DELETE FROM IdentifyRegular WHERE identify=:identify ")
     void clean(String identify);
+
+    @Query("SELECT * FROM IdentifyRegular WHERE  identify=:identify and fromApp=:App and name=:name limit 1")
+    IdentifyRegular[] getByName(String identify, String App, String name);
+
+    @Query("SELECT * FROM IdentifyRegular WHERE  identify=:identify and fromApp=:App and name=:name and regular=:regular limit 1")
+    IdentifyRegular[] getByName(String identify, String App, String name, String regular);
 }
 

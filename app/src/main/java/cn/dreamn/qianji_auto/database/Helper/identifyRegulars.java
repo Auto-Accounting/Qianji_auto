@@ -150,8 +150,20 @@ public class identifyRegulars {
     public static void add(String regex, String name, String text, String tableList, String identify, String fromApp, String des, Finish finish) {
 
         Task.onThread(() -> {
-            DbManger.db.IdentifyRegularDao().add(regex, name, text, tableList, identify, fromApp, des);
-            finish.onFinish();
+            IdentifyRegular[] identifyRegular = DbManger.db.IdentifyRegularDao().getByName(identify, fromApp, name, regex);
+            if (identifyRegular != null && identifyRegular.length == 1) {
+                finish.onFinish();
+            } else {
+                identifyRegular = DbManger.db.IdentifyRegularDao().getByName(identify, fromApp, name);
+                if (identifyRegular != null && identifyRegular.length == 1) {
+                    DbManger.db.IdentifyRegularDao().update(identifyRegular[0].id, regex, name, text, tableList, identify, fromApp, des);
+                } else {
+                    DbManger.db.IdentifyRegularDao().add(regex, name, text, tableList, identify, fromApp, des);
+                    finish.onFinish();
+                }
+            }
+
+
         });
     }
 
