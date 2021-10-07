@@ -43,7 +43,7 @@ public class Msg {
                     ContentValues contentValues = (ContentValues) param.args[2];
                     String tableName = (String) param.args[0];
                     String arg = (String) param.args[1];
-
+                  //  utils.log("微信数据："+contentValues.toString());
                     if (!tableName.equals("message") || TextUtils.isEmpty(tableName)) {
                         return;
                     }
@@ -58,6 +58,8 @@ public class Msg {
 
                     XmlToJson xmlToJson = new XmlToJson.Builder(contentValues.getAsString("content")).build();
                     String xml = xmlToJson.toString();
+
+
                     jsonObject.put("content", JSONObject.parseObject(xml));
                     jsonObject.put("cache_money", utils.readData("cache_wechat_payMoney", true));
                     jsonObject.put("cache_user", utils.readData("cache_wechat_payUser"));
