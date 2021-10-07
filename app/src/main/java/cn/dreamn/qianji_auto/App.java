@@ -2,6 +2,8 @@ package cn.dreamn.qianji_auto;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.view.Gravity;
 
 import com.hjq.permissions.XXPermissions;
@@ -70,7 +72,6 @@ public class App extends Application {
     }
 
     private void initToast() {  // 初始化 Toast 框架
-
         ToastUtils.init(this);
         ToastUtils.setGravity(Gravity.BOTTOM, 0, 20);
     }
@@ -99,5 +100,16 @@ public class App extends Application {
                 .debug(isDebug() ? "PageLog" : null)
                 .setContainActivityClazz(BaseActivity.class)
                 .init(this);
+    }
+
+    @Override
+    public Resources getResources() {//还原字体大小
+        Resources res = super.getResources();
+        Configuration configuration = res.getConfiguration();
+        if (configuration.fontScale != 1.0f) {
+            configuration.fontScale = 1.0f;
+            res.updateConfiguration(configuration, res.getDisplayMetrics());
+        }
+        return res;
     }
 }
