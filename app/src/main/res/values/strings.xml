@@ -114,7 +114,7 @@
     <string name="mode_select">请选择模式</string>
     <string name="mode_xp">Xposed模式</string>
     <string name="mode_helper">无障碍模式</string>
-    <string name="qianji_async_desc">🧚‍♀️你可以一键将钱迹中的「资产」、「账本」、「分类」等数据同步到自动记账，期间手机会跳转到钱迹，完成同步后将自动跳回本页面。 \n\n❗❗❗️ 同步前，请将钱迹从多任务页面划掉，确保开启所有权限，并将钱迹加入Xposde模块作用域中。</string>
+    <string name="qianji_async_desc">🧚‍♀️你可以一键将钱迹中的「资产」、「账本」、「分类」等数据同步到自动记账，期间手机会跳转到钱迹，完成同步后将自动跳回本页面。 \n\n❗❗❗️ 同步前，请将钱迹从多任务页面划掉，确保开启所有权限，并将钱迹加入Xposed模块作用域中。</string>
     <string name="qianji_async_no_support">钱迹只支持Xposed用户同步，无障碍用户需要手动配置。</string>
     <string name="help_5_title">使用习惯</string>
     <string name="help_5_desc">让自动记账更熟悉你。</string>
