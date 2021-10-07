@@ -124,6 +124,7 @@ public class BackUpFragment extends BaseFragment {
                             });
                         } else {
                             mmkv.encode("webdav_url", list.get(position));
+                            initViews();
                         }
                     }
                 });
