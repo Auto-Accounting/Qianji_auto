@@ -103,15 +103,9 @@ public class SendDataToApp {
 
 
     //角标超时
-    public static String getTimeout() {
+    public static Integer getTimeout() {
         MMKV mmkv = MMKV.defaultMMKV();
-        String time = mmkv.getString("auto_timeout", "10");
-        try {
-            Integer.parseInt(time);
-        } catch (Throwable e) {
-            return "0";
-        }
-        return time;
+        return mmkv.getInt("auto_timeout", 10);
     }
 
 
@@ -218,7 +212,7 @@ public class SendDataToApp {
                 return;
             }
             Log.i(TAG, "半自动模式 -> 下一步");
-            if (getTimeout().equals("0")) {
+            if (getTimeout() == 0) {
                 end(context, billInfo);
             } else {
                 Log.i("存在超时，弹出超时面板");
