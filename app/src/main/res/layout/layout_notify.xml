@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="自动记账运行中"
+            android:text="自动记账前台服务"
             android:textSize="16sp" />
 
     </LinearLayout>
