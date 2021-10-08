@@ -27,8 +27,6 @@ public class AutoBillService extends Service {
 
     private static final int serviceId = 6699;
 
-    private RemoteViews remoteViews;
-
     public IBinder onBind(Intent intent) {
         return null;
     }
@@ -70,7 +68,7 @@ public class AutoBillService extends Service {
         @SuppressLint("UnspecifiedImmutableFlag") PendingIntent activity_qianji = PendingIntent.getActivity(this, 0, intent, FLAG_CANCEL_CURRENT);
 
 
-        remoteViews = new RemoteViews(getPackageName(), R.layout.layout_notify);
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_notify);
         remoteViews.setImageViewResource(R.id.btn_qianji, app.getInt("appIcon"));
         remoteViews.setOnClickPendingIntent(R.id.icon, activity);
         remoteViews.setOnClickPendingIntent(R.id.btn_qianji, activity_qianji);
