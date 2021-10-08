@@ -56,17 +56,19 @@ public class CategoryNames {
         void onGet(boolean isSucceed);
     }
     private static Bundle toBundle(CategoryName categoryName){
-        Bundle bundle=new Bundle();
-        bundle.putInt("id",categoryName.id);
-        bundle.putString("book_id",categoryName.book_id);
-        bundle.putString("icon",categoryName.icon);
-        bundle.putString("level",categoryName.level);
-        bundle.putString("name",categoryName.name);
-        bundle.putString("parent_id",categoryName.parent_id);
-        bundle.putString("sort",categoryName.sort);
-        bundle.putString("self_id",categoryName.self_id);
-        bundle.putString("type",categoryName.type);
-
+        Bundle bundle = new Bundle();
+        bundle.putInt("id", categoryName.id);
+        bundle.putString("book_id", categoryName.book_id);
+        bundle.putString("icon", categoryName.icon);
+        bundle.putString("level", categoryName.level);
+        bundle.putString("name", categoryName.name);
+        bundle.putString("parent_id", categoryName.parent_id);
+        bundle.putString("sort", categoryName.sort);
+        bundle.putString("self_id", categoryName.self_id);
+        bundle.putString("type", categoryName.type);
+        if (bundle.getString("icon") == null || bundle.getString("icon").startsWith("http")) {
+            bundle.putString("icon", "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png");
+        }
         return bundle;
     }
     private static Bundle[] toBundles(CategoryName[] categoryNames,Bundle add){
@@ -240,6 +242,7 @@ public class CategoryNames {
                     cate.putString("sort", "1000");
                     cate.putString("type", type);
                 }
+
                 getOne.onGet(cate);
                 dialog.dismiss();
             }
