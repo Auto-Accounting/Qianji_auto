@@ -24,6 +24,7 @@ import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
 import cn.dreamn.qianji_auto.core.helper.AutoBillService;
 import cn.dreamn.qianji_auto.core.helper.Inner.wechat.RedPackage;
+import cn.dreamn.qianji_auto.core.helper.Inner.wechat.Transerfer;
 import cn.dreamn.qianji_auto.database.Helper.AppDatas;
 import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
@@ -112,6 +113,19 @@ public class HelpService extends AccessibilityService {
             } else if (NodeListManage.isNeedPage(new String[]{"的红包", "元", "回复表情到聊天"}, null, "com.tencent.mm")) {
                 Log.i("[页面识别]微信收红包详情");
                 billInfo = RedPackage.runReceiveInDetail(nodeList);
+            }
+
+            //微信转账
+
+            else if (NodeListManage.isNeedPage(new String[]{"转账说明", "取消", "确定"}, null, "com.tencent.mm")) {
+                Log.i("[页面识别]微信转账说明");
+                Transerfer.findRemark(nodeList);
+            } else if (NodeListManage.isNeedPage(new String[]{"向", "转账", "￥"}, null, "com.tencent.mm")) {
+                Log.i("[页面识别]微信转账识别");
+                billInfo = Transerfer.run(nodeList);
+            } else if (NodeListManage.isNeedPage(new String[]{"待", "收款", "1天内对方未收款，将退还给你。提醒对方收款", "转账时间"}, null, "com.tencent.mm")) {
+                Log.i("[页面识别]微信转账详情识别");
+                billInfo = Transerfer.runInDetail(nodeList);
             }
 
 

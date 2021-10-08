@@ -137,7 +137,7 @@ public class NodeListManage {
         int i = listIndex + 1;
         listIndex = i;
         if (i <= 100) {
-            if (globalNodeList.size() > 200) {
+            if (globalNodeList.size() > 70) {
                 globalNodeList.remove(0);
             }
             for (i = 0; i < nodeInfo.getChildCount(); ++i) {
