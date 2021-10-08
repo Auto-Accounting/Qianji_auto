@@ -34,7 +34,7 @@ public class BillTools {
         double d = 0;
 
         if (str != null && str.length() != 0) {
-            str = str.replace(",", "");
+            str = str.replace(",", "").replace("¥", "");
             StringBuilder bf = new StringBuilder();
 
             char[] chars = str.toCharArray();
@@ -90,8 +90,8 @@ public class BillTools {
         }
     }
 
-    public static boolean isMoney(String arg1) {
-        return (arg1.matches("^-?([1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|0?\\.0+|0)$")) || (arg1.matches("^(-?[1-9]\\d*)|0$"));
+    public static boolean isMoney(String money) {
+        return money.matches("^-?([1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|0?\\.0+|0)$") || money.matches("^(-?[1-9]\\d*)|0$");
     }
 
 

@@ -34,10 +34,12 @@ public class NodeListManage {
     //拼多多账单详情
     public static final int FLAG_NO_USE = -1;
     public static int flag = FLAG_NO_USE;//目前检测不为使用状态
-    public static List<Object> globalNodeList = new ArrayList<>();//数据列表
+    public static List<String> globalNodeList = new ArrayList<>();//数据列表
     public static long time;
     public static String packageName = "";
     public static int listIndex = 0;
+    public static String nodeData = "";
+    private static String className = "";
 
     public static void setFlag(int Flag) {
         clear();//每次设置flag就是有新的目标出现
@@ -63,10 +65,16 @@ public class NodeListManage {
         }
     }
 
+    public static void updateEvent(String pkg, String cls) {
+        className = cls;
+        packageName = pkg;
+    }
+
     //验证节点
-    public static boolean checkNode(List<Object> nodeList, String checkStr, boolean equals) {
-        for (Object node : nodeList) {
-            String nodeName = (String) node;
+    public static boolean checkNode(List<String> nodeList, String checkStr, boolean equals) {
+        //从最后的数据开始查找
+        for (int i = nodeList.size() - 1; i >= 0; i--) {
+            String nodeName = (String) nodeList.get(i);
             if (equals) {
                 if (!nodeName.equals(checkStr)) {
                     continue;
@@ -81,12 +89,47 @@ public class NodeListManage {
         return false;
     }
 
-    public static void findNodeInfo(AccessibilityNodeInfo nodeInfo, String pkg, boolean isFirst) {
-        if (!packageName.equals(pkg)) {
-            //如果传入的包名错误，就清空重置
-            globalNodeList = new ArrayList<>();
-            packageName = pkg;
+    //验证节点
+    public static int indexOf(List<String> nodeList, String checkStr, boolean equals) {
+        //从最后的数据开始查找
+        for (int i = nodeList.size() - 1; i >= 0; i--) {
+            String nodeName = (String) nodeList.get(i);
+            if (equals) {
+                if (!nodeName.contains(checkStr)) {
+                    continue;
+                }
+                return i;
+            }
+            if (!nodeName.contains(checkStr)) {
+                continue;
+            }
+            return i;
         }
+        return -1;
+    }
+
+    public static boolean isNeedPage(String[] text, String cls, String pkg) {
+        if (cls != null) {
+            if (!cls.contains(className)) return false;
+        }
+        if (pkg != null) {
+            if (!pkg.contains(packageName)) return false;
+        }
+
+        if (text != null) {
+            for (String s : text) {
+                if (!NodeListManage.checkNode(NodeListManage.globalNodeList, s, false))
+                    return false;
+            }
+        }
+
+
+        return true;
+    }
+
+
+    public static void findNodeInfo(AccessibilityNodeInfo nodeInfo, boolean isFirst) {
+
         if (isFirst) {
             listIndex = 0;
         }
@@ -94,21 +137,24 @@ public class NodeListManage {
         int i = listIndex + 1;
         listIndex = i;
         if (i <= 100) {
-            if (globalNodeList.size() <= 70) {
-                for (i = 0; i < nodeInfo.getChildCount(); ++i) {
-                    AccessibilityNodeInfo childNodeInfo = nodeInfo.getChild(i);
-                    if (childNodeInfo != null && childNodeInfo.getChildCount() > 0) {
-                        findNodeInfo(childNodeInfo, packageName, false);
-                    } else if (childNodeInfo != null && !TextUtils.isEmpty(childNodeInfo.getText())) {
-                        globalNodeList.add(childNodeInfo.getText().toString());
+            if (globalNodeList.size() > 200) {
+                globalNodeList.remove(0);
+            }
+            for (i = 0; i < nodeInfo.getChildCount(); ++i) {
+                AccessibilityNodeInfo childNodeInfo = nodeInfo.getChild(i);
+                if (childNodeInfo != null && childNodeInfo.getChildCount() > 0) {
+                    findNodeInfo(childNodeInfo, false);
+                } else if (childNodeInfo != null && !TextUtils.isEmpty(childNodeInfo.getText())) {
+                    if (childNodeInfo.getContentDescription() != null) {
+                        globalNodeList.add(childNodeInfo.getContentDescription().toString());
                     }
+                    globalNodeList.add(childNodeInfo.getText().toString());
                 }
-
             }
         }
     }
 
-    public static boolean isNullOrEmpty(List<Object> list) {
+    public static boolean isNullOrEmpty(List<String> list) {
         return list == null || list.size() == 0;
     }
 
