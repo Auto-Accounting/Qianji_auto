@@ -178,9 +178,9 @@
         return jsArrElement;
     }
 
-    setInterval(function () {
+    let intval =  setInterval(function () {
         localStorage.setItem("reg",encodeURIComponent(JSON.stringify(getData())));
-    },2000);
+    },1300);
     const data = localStorage.getItem("reg");
     if(data!==undefined&&data!==null){
         setData(data)
@@ -227,6 +227,9 @@
        window.AndroidJS.Save(
            getQueryVariable("id"),JSON.stringify(getData()),getQueryVariable("type")
        );
+        clearInterval(intval);
+        localStorage.setItem("reg",null);
+
     });
 
     $("#result_count").bind("DOMNodeInserted",function(e){

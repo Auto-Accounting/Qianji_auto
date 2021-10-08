@@ -214,12 +214,13 @@
 
         });
 
-        setInterval(function () {
+        let intval =  setInterval(function () {
             editor.save();
             localStorage.setItem("code",encodeURIComponent( $("#code").val()));
             localStorage.setItem("sort_name",( $("#sort_name").val()));
             localStorage.setItem("des",( $("#sort_remark").val()));
-        },2000);
+
+        },1300);
         const data = localStorage.getItem("code");
         const name = localStorage.getItem("sort_name");
         const des = localStorage.getItem("des");
@@ -276,6 +277,10 @@
             let js = $("#code").val();
             console.log(js);
             try{
+                clearInterval(intval);
+                localStorage.setItem("code",null);
+                localStorage.setItem("sort_name",null);
+                localStorage.setItem("des",null);
                 window.AndroidJS.Save("",js,$("#sort_name").val(),$("#sort_remark").val(),$("#cate_id").val());
             }catch(e){}
         });

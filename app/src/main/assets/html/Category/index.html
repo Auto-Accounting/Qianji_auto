@@ -253,9 +253,9 @@
 
         });
 
-        setInterval(function () {
+       let intval = setInterval(function () {
             localStorage.setItem("cate",encodeURIComponent(getData().toString()));
-        },2000);
+        },1300);
         const data = localStorage.getItem("cate");
         if(data!==undefined&&data!==null){
             setData(data)
@@ -302,6 +302,8 @@
             }
         });
         $("#save").on("click", function (e) {
+            clearInterval(intval);
+            localStorage.setItem("cate",null);
             window.AndroidJS.Save(getData(),getJs(),$("#sort_name").val(),$("#sort_remark").val(),$("#cate_id").val());
         });
         setData();
