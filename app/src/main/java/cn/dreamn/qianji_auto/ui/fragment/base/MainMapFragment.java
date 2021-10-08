@@ -179,7 +179,7 @@ public class MainMapFragment extends BaseFragment {
         BottomArea.input(getContext(), getString(R.string.assert_change_name), assets.getString("name"), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
             @Override
             public void input(String data) {
-                Assets.showAssetSelect(getContext(), getString(R.string.assert_choose), false, asset2s -> Assets.addMap(data, asset2s.getString("name"), () -> {
+                Assets.showAssetSelect(getContext(), getString(R.string.assert_choose), false, asset2s -> Assets.updMap(assets.getInt("id"), data, asset2s.getString("name"), () -> {
                     HandlerUtil.send(mHandler, getString(R.string.assert_change_success), HANDLE_REFRESH);
                 }));
 

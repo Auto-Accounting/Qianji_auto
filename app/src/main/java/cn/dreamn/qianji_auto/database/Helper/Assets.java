@@ -47,6 +47,8 @@ import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 
 public class Assets {
+
+
     public interface getAssets2{
         void onGet(Asset2[] asset2s);
     }
@@ -252,8 +254,11 @@ public class Assets {
 
     }
 
-    public static void updMap(int id, String assetName, String mapName) {
-        Task.onThread(() -> DbManger.db.AssetDao().update(id, assetName, mapName));
+    public static void updMap(int id, String assetName, String mapName, whenFinish finish) {
+        Task.onThread(() -> {
+            DbManger.db.AssetDao().update(id, assetName, mapName);
+            finish.onFinish();
+        });
     }
 
     public static void showAssetSelect(Context context, String title, boolean isFloat, getAssetOne getOne) {
