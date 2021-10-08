@@ -228,6 +228,7 @@ public class WebViewFragment extends BaseFragment {
                     BookNames.showBookSelect(getContext(), getString(R.string.set_choose_book), false, bundle -> {
                         //Log.d("账本信息", bundle.toString());
                         CategoryNames.showCategorySelect(getContext(), getString(R.string.set_choose_category), bundle.getString("book_id"), type, false, categoryNames -> {
+
                             doJsFunction(String.format("setCategory('%s','%s')", StringEscapeUtils.escapeHtml4(categoryNames.getString("name")), StringEscapeUtils.escapeHtml4(categoryNames.getString("icon"))));
 
                         });

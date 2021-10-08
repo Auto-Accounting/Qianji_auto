@@ -227,7 +227,20 @@ public class CategoryNames {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getOne.onGet(cateName.get());
+                Bundle cate = cateName.get();
+                if (cate == null) {
+                    cate = new Bundle();
+                    cate.putInt("id", -2);
+                    cate.putString("book_id", "-2");
+                    cate.putString("icon", "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png");
+                    cate.putString("level", "2");
+                    cate.putString("name", "其他");
+                    cate.putString("parent_id", "-2");
+                    cate.putString("self_id", "-2");
+                    cate.putString("sort", "1000");
+                    cate.putString("type", type);
+                }
+                getOne.onGet(cate);
                 dialog.dismiss();
             }
         });
