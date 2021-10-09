@@ -1,8 +1,7 @@
 package cn.dreamn.qianji_auto.core.helper;
 
-import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -52,7 +51,7 @@ public class AutoBillService extends Service {
 
 
     private void startServer() {
-        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent activity = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), FLAG_CANCEL_CURRENT);
+        PendingIntent activity = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), FLAG_IMMUTABLE);
 
         Bundle app = AppManager.getAppInfo(getApplicationContext());
 
@@ -65,7 +64,7 @@ public class AutoBillService extends Service {
             intent = getPackageManager().getLaunchIntentForPackage(App.getAppPackage());
         }
 
-        @SuppressLint("UnspecifiedImmutableFlag") PendingIntent activity_qianji = PendingIntent.getActivity(this, 0, intent, FLAG_CANCEL_CURRENT);
+        PendingIntent activity_qianji = PendingIntent.getActivity(this, 0, intent, FLAG_IMMUTABLE);
 
 
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_notify);
