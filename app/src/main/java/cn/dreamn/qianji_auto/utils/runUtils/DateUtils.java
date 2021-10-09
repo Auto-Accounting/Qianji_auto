@@ -5,8 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import io.reactivex.annotations.NonNull;
-
 /**
  * 格式化时间 工具类
  */
@@ -63,10 +61,10 @@ public class DateUtils {
         return res;
     }
 
-    public static long getAnyTime(@NonNull String time) {
+    public static long getAnyTime(String time) {
         long t;
         try {
-            if (time.contains("undefined")) {
+            if (time.contains("undefined") || time.equals("")) {
                 throw new Throwable("not useful date");
             }
             if ((time.length() == 10 || time.length() == 13) && !time.contains(" ")) {
@@ -77,7 +75,7 @@ public class DateUtils {
                 }
             } else {
                 String format = "";
-                String[] t2 = null;
+                String[] t2;
                 if (time.contains("年")) {
                     format += "yyyy年";
                 }
@@ -125,6 +123,8 @@ public class DateUtils {
                     format += "ss秒";
                 }
 
+                Log.i("Time原始数据：" + time + "计算格式化数据:" + format);
+                if (format.equals("")) throw new Throwable("not useful date");
                 t = dateToStamp(time, format);
             }
         } catch (Throwable e) {
