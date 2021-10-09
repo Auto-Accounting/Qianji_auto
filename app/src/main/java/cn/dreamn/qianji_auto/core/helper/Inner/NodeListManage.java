@@ -108,12 +108,9 @@ public class NodeListManage {
         return -1;
     }
 
-    public static boolean isNeedPage(String[] text, String cls, String pkg) {
+    public static boolean isNeedPage(String[] text, String cls) {
         if (cls != null) {
             if (!cls.contains(className)) return false;
-        }
-        if (pkg != null) {
-            if (!pkg.contains(packageName)) return false;
         }
 
         if (text != null) {
@@ -146,8 +143,10 @@ public class NodeListManage {
                     findNodeInfo(childNodeInfo, false);
                 } else if (childNodeInfo != null && !TextUtils.isEmpty(childNodeInfo.getText())) {
                     if (childNodeInfo.getContentDescription() != null) {
+                        //   if(!globalNodeList.contains(childNodeInfo.getContentDescription().toString()))
                         globalNodeList.add(childNodeInfo.getContentDescription().toString());
                     }
+                    // if(!globalNodeList.contains(childNodeInfo.getText().toString()))
                     globalNodeList.add(childNodeInfo.getText().toString());
                 }
             }

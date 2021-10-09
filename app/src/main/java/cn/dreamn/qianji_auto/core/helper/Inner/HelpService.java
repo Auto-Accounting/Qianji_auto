@@ -23,6 +23,7 @@ import java.util.List;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
 import cn.dreamn.qianji_auto.core.helper.AutoBillService;
+import cn.dreamn.qianji_auto.core.helper.Inner.wechat.QrScan;
 import cn.dreamn.qianji_auto.core.helper.Inner.wechat.RedPackage;
 import cn.dreamn.qianji_auto.core.helper.Inner.wechat.Transerfer;
 import cn.dreamn.qianji_auto.database.Helper.AppDatas;
@@ -50,13 +51,19 @@ public class HelpService extends AccessibilityService {
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
 
-        AccessibilityNodeInfo source = accessibilityEvent.getSource();
         String packageName = accessibilityEvent.getPackageName() == null ? "" : accessibilityEvent.getPackageName().toString();
-        String className = accessibilityEvent.getClassName() == null ? "" : accessibilityEvent.getClassName().toString();
-
+        //获取监控范围数据
         SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(getApplicationContext(), "apps", Context.MODE_PRIVATE);
         String[] apps = sharedPreferences.getString("apps", "").split(",");
         if (!isIn(apps, packageName)) return;
+        //不再监控范围不管
+
+        AccessibilityNodeInfo source = this.getRootInActiveWindow();
+        if (source == null) {
+            source = accessibilityEvent.getSource();
+        }
+        String className = accessibilityEvent.getClassName() == null ? "" : accessibilityEvent.getClassName().toString();
+
 
         int type = accessibilityEvent.getEventType();
         if (type == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
@@ -90,9 +97,13 @@ public class HelpService extends AccessibilityService {
                 }
             }
         } else if (type == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED || type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+
             NodeListManage.updateEvent(packageName, className);
+
             NodeListManage.findNodeInfo(source, true);
+
             Log.i("-----------------无障碍窗口内容变化事件---------------------");
+
             Log.i("当前页面数据：class=" + className + ",globalNodeList=" + (NodeListManage.globalNodeList.toString()));
 
 
@@ -101,31 +112,38 @@ public class HelpService extends AccessibilityService {
             List<String> nodeList = NodeListManage.globalNodeList;
             if (NodeListManage.isNullOrEmpty(nodeList)) return;
 
-            if (NodeListManage.isNeedPage(new String[]{"发红包", "塞钱进红包", "红包封面"}, null, "com.tencent.mm")) {
-                Log.i("[页面识别]微信红包备注页面");
-                RedPackage.findMoneyAndRemark(nodeList);
-            } else if (NodeListManage.isNeedPage(new String[]{"微信红包", "￥", "微信支付", "请"}, "android.widget.FrameLayout", "com.tencent.mm")) {
-                Log.i("[页面识别]微信红包确认页面");
-                billInfo = RedPackage.run(nodeList);
-            } else if (NodeListManage.isNeedPage(new String[]{"的红包", "红包金额", "元，等待对方领取", "未领取的红包", "将于24小时后发起退款"}, null, "com.tencent.mm")) {
-                Log.i("[页面识别]微信发红包详情");
-                billInfo = RedPackage.runInDetail(nodeList);
-            } else if (NodeListManage.isNeedPage(new String[]{"的红包", "元", "回复表情到聊天"}, null, "com.tencent.mm")) {
-                Log.i("[页面识别]微信收红包详情");
-                billInfo = RedPackage.runReceiveInDetail(nodeList);
-            }
+            if (packageName.equals("com.tencent.mm")) {
+                if (NodeListManage.isNeedPage(new String[]{"发红包", "塞钱进红包", "红包封面"}, null)) {
+                    Log.i("[页面识别]微信红包备注页面");
+                    RedPackage.findMoneyAndRemark(nodeList);
+                } else if (NodeListManage.isNeedPage(new String[]{"微信红包", "￥", "微信支付", "请"}, "android.widget.FrameLayout")) {
+                    Log.i("[页面识别]微信红包确认页面");
+                    billInfo = RedPackage.run(nodeList);
+                } else if (NodeListManage.isNeedPage(new String[]{"的红包", "红包金额", "元，等待对方领取", "未领取的红包", "将于24小时后发起退款"}, null)) {
+                    Log.i("[页面识别]微信发红包详情");
+                    billInfo = RedPackage.runInDetail(nodeList);
+                } else if (NodeListManage.isNeedPage(new String[]{"的红包", "元", "回复表情到聊天"}, null)) {
+                    Log.i("[页面识别]微信收红包详情");
+                    billInfo = RedPackage.runReceiveInDetail(nodeList);
+                }
 
-            //微信转账
+                //微信转账
 
-            else if (NodeListManage.isNeedPage(new String[]{"转账说明", "取消", "确定"}, null, "com.tencent.mm")) {
-                Log.i("[页面识别]微信转账说明");
-                Transerfer.findRemark(nodeList);
-            } else if (NodeListManage.isNeedPage(new String[]{"向", "转账", "￥"}, null, "com.tencent.mm")) {
-                Log.i("[页面识别]微信转账识别");
-                billInfo = Transerfer.run(nodeList);
-            } else if (NodeListManage.isNeedPage(new String[]{"待", "收款", "1天内对方未收款，将退还给你。提醒对方收款", "转账时间"}, null, "com.tencent.mm")) {
-                Log.i("[页面识别]微信转账详情识别");
-                billInfo = Transerfer.runInDetail(nodeList);
+                else if (NodeListManage.isNeedPage(new String[]{"转账说明", "取消", "确定"}, null)) {
+                    Log.i("[页面识别]微信转账说明");
+                    Transerfer.findRemark(nodeList);
+                } else if (NodeListManage.isNeedPage(new String[]{"^向", "转账$", "￥"}, null)) {
+                    Log.i("[页面识别]微信转账识别");
+                    billInfo = Transerfer.run(nodeList);
+                } else if (NodeListManage.isNeedPage(new String[]{"待", "收款", "1天内对方未收款，将退还给你。提醒对方收款", "转账时间"}, null)) {
+                    Log.i("[页面识别]微信转账详情识别");
+                    billInfo = Transerfer.runInDetail(nodeList);
+                }
+                //微信扫码支付
+                else if (NodeListManage.isNeedPage(new String[]{"完成", "支付成功", "¥"}, null)) {
+                    Log.i("[页面识别]微信扫码识别");
+                    billInfo = QrScan.run(nodeList);
+                }
             }
 
 

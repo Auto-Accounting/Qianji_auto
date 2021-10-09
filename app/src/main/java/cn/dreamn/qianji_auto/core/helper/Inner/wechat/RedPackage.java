@@ -33,10 +33,13 @@ public class RedPackage {
 
     public static BillInfo runInDetail(List<String> nodeList) {
         NodeListManage.clear();
-        int index = NodeListManage.indexOf(nodeList, "元，等待对方领取", true);
-        // Log.i("微信红包："+index+"长度"+nodeList.size()+nodeList.toString());
+        int index = NodeListManage.indexOf(nodeList, "等待对方领取", true);
+        Log.i("微信红包：" + index + "长度" + nodeList.size() + nodeList.toString());
         if (index >= 2) {
             money = BillTools.getMoney(nodeList.get(index));
+            if (nodeList.get(index - 2).equals("正在加载...")) {
+                index++;
+            }
             BillInfo billInfo = new BillInfo();
             billInfo.setShopRemark(nodeList.get(index - 1));
             billInfo.setMoney(money);
