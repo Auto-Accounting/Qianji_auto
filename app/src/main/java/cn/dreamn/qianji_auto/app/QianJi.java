@@ -71,7 +71,7 @@ public class QianJi implements IApp {
             }
         };
         //如果不是xp模式需要延时
-        if (!AppStatus.xposedActive(context)) {
+        if (!AppStatus.getActiveMode().equals("xposed")) {
             delay(mHandler);
         } else {
             mHandler.sendEmptyMessage(0);

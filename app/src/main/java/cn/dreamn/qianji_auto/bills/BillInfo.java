@@ -316,8 +316,8 @@ public class BillInfo {
         this.catename = name;
     }
 
-    public Boolean getCateChoose() {
-        return catechoose.equals("1");
+    public String getCateChoose() {
+        return catechoose;
     }
 
     public void setCateChoose(Boolean Open) {

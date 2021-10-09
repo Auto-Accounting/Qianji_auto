@@ -66,7 +66,7 @@ public class CategoryNames {
         bundle.putString("sort", categoryName.sort);
         bundle.putString("self_id", categoryName.self_id);
         bundle.putString("type", categoryName.type);
-        if (bundle.getString("icon") == null || bundle.getString("icon").startsWith("http")) {
+        if (bundle.getString("icon") == null || !bundle.getString("icon").startsWith("http")) {
             bundle.putString("icon", "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png");
         }
         return bundle;
@@ -145,11 +145,16 @@ public class CategoryNames {
     public static void getPic(String name, String type, String book_id,getCateNameStr getCateName) {
         Task.onThread(()->{
             CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type, book_id);
-            if (categoryNames != null && categoryNames.length != 0){
-                getCateName.onGet( categoryNames[0].icon);
+            if (categoryNames != null && categoryNames.length != 0) {
+                String imgSrc = categoryNames[0].icon;
+                if (imgSrc == null || !imgSrc.startsWith("http")) {
+                    imgSrc = "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png";
+                }
+                //"https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png"
+                getCateName.onGet(imgSrc);
                 return;
             }
-            getCateName.onGet("");
+            getCateName.onGet("https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png");
         });
 
     }

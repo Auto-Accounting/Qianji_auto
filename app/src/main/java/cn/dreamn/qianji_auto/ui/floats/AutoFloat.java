@@ -432,8 +432,6 @@ public class AutoFloat {
             }
         };
         CategoryNames.getPic(billInfo.getCateName(), type, book_id, pic -> {
-            if (pic == null || pic.equals(""))
-                pic = "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png";
             //  myBitmapUtils.disPlay(iv_category, pic);
             Message message = new Message();
             message.obj = pic;
@@ -535,6 +533,10 @@ public class AutoFloat {
             ll_account2.setVisibility(View.GONE);
             ll_time.setVisibility(View.GONE);
         } else {
+            if (!mmkv.getBoolean("auto_style", true)) {
+                ll_category.setVisibility(View.GONE);
+            }
+
             if (mmkv.getBoolean("layout_money", false)) {
                 layout_money.setVisibility(View.GONE);
             } else if (mmkv.getBoolean("ll_fee", false)) {
