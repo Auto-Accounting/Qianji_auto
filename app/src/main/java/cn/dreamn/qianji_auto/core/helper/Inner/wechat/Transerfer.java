@@ -50,11 +50,11 @@ public class Transerfer {
         if (index + 3 < nodeList.size() && index > 2) {
             BillInfo billInfo = new BillInfo();
             if (nodeList.get(index + 1).equals("转账说明") && index + 6 < nodeList.size()) {
-                billInfo.setTimeStamp(DateUtils.dateToStamp(nodeList.get(index + 6), "yyyy年MM月日 HH:mm:ss"));
+                billInfo.setTimeStamp(DateUtils.dateToStamp(nodeList.get(index + 6), "yyyy年MM月dd日 HH:mm:ss"));
                 billInfo.setShopRemark(nodeList.get(index + 3));
             } else {
                 billInfo.setShopRemark("微信转账");
-                billInfo.setTimeStamp(DateUtils.dateToStamp(nodeList.get(index + 1), "yyyy年MM月日 HH:mm:ss"));
+                billInfo.setTimeStamp(DateUtils.dateToStamp(nodeList.get(index + 1), "yyyy年MM月dd日 HH:mm:ss"));
 
             }
             money = BillTools.getMoney(nodeList.get(index - 1));

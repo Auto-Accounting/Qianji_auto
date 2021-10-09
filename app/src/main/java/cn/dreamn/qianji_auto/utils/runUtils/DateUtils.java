@@ -75,21 +75,57 @@ public class DateUtils {
                 if (time.length() == 10) {
                     t = t * 1000;
                 }
-            } else if (time.contains(":")) {
-                String[] t2 = time.split(":");
-                String format = "HH:mm";
-                if (t2.length != 1) {
-                    format = "HH:mm:ss";
-                }
-                //yyyy-MM-dd HH:mm:ss
-                if (time.contains(" ") && time.contains("-")) {
-                    format = "yyyy-MM-dd " + format;
-                }
-                t = dateToStamp(time, format);
-            } else if (time.contains("-")) {
-                t = dateToStamp(time, "yyyy-MM-dd");
             } else {
-                throw new Throwable("not useful date");
+                String format = "";
+                String[] t2 = null;
+                if (time.contains("年")) {
+                    format += "yyyy年";
+                }
+                if (time.contains("月")) {
+                    format += "MM月";
+                }
+                if (time.contains("日")) {
+                    format += "dd日";
+                }
+                if (time.contains("-")) {
+                    t2 = time.split("-");
+                    if (t2.length == 3) {
+                        format += "yyyy-MM-dd";
+                    } else if (t2.length == 2) {
+                        format += "MM-dd";
+                    }
+                } else if (time.contains("/")) {
+                    t2 = time.split("/");
+                    if (t2.length == 3) {
+                        format += "yyyy/MM/dd";
+                    } else if (t2.length == 2) {
+                        format += "MM/dd";
+                    }
+                }
+
+                if (time.contains(" ")) {
+                    format += " ";
+                }
+
+                if (time.contains(":")) {
+                    t2 = time.split(":");
+                    if (t2.length == 3) {
+                        format += "HH:mm:ss";
+                    } else if (t2.length == 2) {
+                        format += "HH:mm";
+                    }
+                }
+                if (time.contains("时")) {
+                    format += "HH时";
+                }
+                if (time.contains("分")) {
+                    format += "mm分";
+                }
+                if (time.contains("秒")) {
+                    format += "ss秒";
+                }
+
+                t = dateToStamp(time, format);
             }
         } catch (Throwable e) {
             t = dateToStamp(getTime("yyyy-MM-dd HH:mm:ss"), "yyyy-MM-dd HH:mm:ss");
