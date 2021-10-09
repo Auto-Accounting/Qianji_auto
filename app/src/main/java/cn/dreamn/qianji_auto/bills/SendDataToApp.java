@@ -133,14 +133,7 @@ public class SendDataToApp {
     }
 
     public static void showFloatByAlert(Context context, BillInfo billInfo) {
-        MMKV mmkv = MMKV.defaultMMKV();
 
-        if (!mmkv.getBoolean("auto_style", true)) {
-            Log.i(TAG, "唤起钱迹分类面板");
-            billInfo.setCateChoose(true);//选择钱迹分类
-            goApp(context, billInfo);
-            return;
-        }
         try {
 
             AutoFloat autoFloat2 = new AutoFloat(context);
@@ -159,8 +152,14 @@ public class SendDataToApp {
 
 
     public static void goApp(Context context, BillInfo billInfo) {
-
-        Handler mHandler=new Handler(Looper.getMainLooper()){
+        MMKV mmkv = MMKV.defaultMMKV();
+        if (!mmkv.getBoolean("auto_style", true)) {
+            Log.i(TAG, "唤起钱迹分类面板");
+            billInfo.setCateChoose(true);//选择钱迹分类
+            AppManager.sendToApp(context, billInfo);
+            return;
+        }
+        Handler mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 Log.i(TAG, "前往记账app2");
@@ -170,7 +169,6 @@ public class SendDataToApp {
         Category.getCategory(billInfo, cate -> {
             Log.i("cate:" + cate + "数据 " + billInfo.toString());
             if (cate.equals("NotFound")) {
-                MMKV mmkv = MMKV.defaultMMKV();
                 if (mmkv.getBoolean("auto_sort", false)) {
                     Category.setCateJs(billInfo, billInfo.getCateName());
                 }
