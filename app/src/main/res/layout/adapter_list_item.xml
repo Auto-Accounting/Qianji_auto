@@ -47,7 +47,7 @@
             android:text="已适配"
             android:textColor="@color/background_white"
             android:textSize="13sp"
-            android:visibility="gone" />
+            android:visibility="invisible" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
             android:text="已适配"
             android:textColor="@color/background_white"
             android:textSize="13sp"
-            android:visibility="gone" />
+            android:visibility="invisible" />
     </RelativeLayout>
 
     <TextView
@@ -70,6 +70,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:ellipsize="end"
+        android:maxLines="10"
         android:padding="2dp"
         android:text="TextView"
         android:textColor="@color/black" />
