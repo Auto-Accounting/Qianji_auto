@@ -52,7 +52,7 @@ public class XposedBroadcast extends BroadcastReceiver {
         } else if (action.equals("cn.dreamn.qianji_auto.XPOSED")) {
             Bundle extData = intent.getExtras();
             if (extData == null) return;
-            String data = extData.getString("data");
+            String data = extData.getString("data").replace("\t", "").replace("\n", "n");
             // data.replaceAll("([\\\\\"\\n\\r\\t'])","\\\\$1");
             //([\\"\n\r\t'])
             // string.replace(/([\\"\n\r\t'])/g, "\\$1");

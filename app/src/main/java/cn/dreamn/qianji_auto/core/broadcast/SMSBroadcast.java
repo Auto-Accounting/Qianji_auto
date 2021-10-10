@@ -65,7 +65,7 @@ public class SMSBroadcast extends BroadcastReceiver {
                 user = msg.getDisplayOriginatingAddress();
                 msg2.append(msg.getDisplayMessageBody());
             }
-            String data = msg2.toString().replace("\t", "").replace("\n", "\\n");
+            String data = msg2.toString().replace("\t", "").replace("\n", "n");
             AppDatas.add("sms", user, data);
             String finalUser = user;
             Handler mHandler = new Handler(Looper.getMainLooper()) {

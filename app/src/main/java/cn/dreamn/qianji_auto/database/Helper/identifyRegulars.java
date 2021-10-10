@@ -37,7 +37,6 @@ import cn.dreamn.qianji_auto.utils.runUtils.Task;
 public class identifyRegulars {
 
     public static void run(String identify, String app, String data, BundleGet get) {
-        data = data.replace("\n", "n");
         getAllRegularJs(data, identify, app, str -> {
             //获得所有Js
             String result = "";
