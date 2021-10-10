@@ -167,7 +167,7 @@ public class SendDataToApp {
             }
         };
         Category.getCategory(billInfo, cate -> {
-            Log.i("cate:" + cate + "数据 " + billInfo.toString());
+            Log.i("再次获取cate:" + cate + "数据： " + billInfo.toString());
             if (cate.equals("NotFound")) {
                 if (mmkv.getBoolean("auto_sort", false)) {
                     Category.setCateJs(billInfo, billInfo.getCateName());

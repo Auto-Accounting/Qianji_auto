@@ -292,7 +292,7 @@ public class SettingUtils {
         set_default.setValue(BookNames.getDefault());
         set_remark.setValue(Remark.getRemarkTpl());
 
-        if (mmkv.getBoolean("auto_sort", true)) {
+        if (mmkv.getBoolean("auto_sort", false)) {
             set_sort.setValue(R.string.set_open);
         } else {
             set_sort.setValue(R.string.set_close);
