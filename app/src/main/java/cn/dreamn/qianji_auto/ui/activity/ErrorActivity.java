@@ -23,6 +23,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.hjq.toast.ToastUtils;
+
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseActivity;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
@@ -44,14 +46,15 @@ public class ErrorActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         Activity context = this;
         if (bundle != null) {
-            Log.i("Error", bundle.getString("errorInfo"));//记录错误日志
+            String errorInfo = bundle.getString("errorInfo");
+            Log.i("Error", errorInfo);//记录错误日志
 
             TextView textView = findViewById(R.id.textView_body2);
             textView.setText(bundle.getString("errorInfo"));
 
             Button button_last = findViewById(R.id.button_last);
             Button button_next = findViewById(R.id.button_next);
-
+            Activity activity = this;
             button_next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -63,8 +66,10 @@ public class ErrorActivity extends BaseActivity {
 
                         @Override
                         public void sure() {
+                            Tool.clipboard(activity, errorInfo);
+                            ToastUtils.show(R.string.copied);
                             Tool.goUrl(context, getString(R.string.github_issue_error));
-                            Tool.restartApp(context);
+                            // Tool.restartApp(context);
                         }
                     });
                 }
