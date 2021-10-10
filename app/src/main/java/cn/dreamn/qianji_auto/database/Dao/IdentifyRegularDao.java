@@ -34,6 +34,8 @@ public interface IdentifyRegularDao {
     @Query("SELECT * FROM IdentifyRegular WHERE  identify=:identify and fromApp=:App  order by sort,use")
     IdentifyRegular[] loadAll(String identify, String App);
 
+    @Query("SELECT * FROM IdentifyRegular WHERE  identify='sms' and fromApp=:user or fromApp=''  order by sort,use")
+    IdentifyRegular[] loadAllSMS(String user);
 
     @Query("SELECT * FROM IdentifyRegular WHERE  identify=:identify order by sort,use")
     IdentifyRegular[] loadAll(String identify);

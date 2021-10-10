@@ -101,7 +101,7 @@ public class identifyRegulars {
     public static void getAll(String identify, String fromApp, boolean onlyUse, getAll getA) {
         Task.onThread(() -> {
             IdentifyRegular[] identifyRegular;
-            if (onlyUse) {
+            if (onlyUse) {//是否只加载使用的规则
                 if (fromApp == null) {
                     identifyRegular = DbManger.db.IdentifyRegularDao().load(identify);
                 } else {
@@ -110,9 +110,11 @@ public class identifyRegulars {
             } else {
                 if (fromApp == null) {
                     identifyRegular = DbManger.db.IdentifyRegularDao().loadAll(identify);
-                } else {
+                } else if (identify.equals("sms")) {
+                    identifyRegular = DbManger.db.IdentifyRegularDao().loadAllSMS(fromApp);
+                } else
                     identifyRegular = DbManger.db.IdentifyRegularDao().loadAll(identify, fromApp);
-                }
+
             }
 
 
