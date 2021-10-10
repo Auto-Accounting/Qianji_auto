@@ -65,8 +65,8 @@ public class Category {
         }
 
         String str = "";
-        String pattern = "([(（])\\d+月\\d+日([)）])";
-        String shopRemark = billInfo.getShopRemark().replaceAll(pattern, "");
+        // String pattern = "([(（])\\d+月\\d+日([)）])";
+        String shopRemark = billInfo.getShopRemark();
         //    str += String.format("time = %s && ", time);
         str += String.format("shopName.indexOf('%s')!=-1 && ", billInfo.getShopAccount());
         str += String.format("shopRemark.indexOf('%s')!=-1 && ", shopRemark);
