@@ -22,28 +22,13 @@
 
     </cn.dreamn.qianji_auto.ui.components.TitleBar>
 
-    <com.shehuan.statusview.StatusView
-        android:id="@+id/status"
+    <cn.dreamn.qianji_auto.ui.components.LogScreen
+        android:id="@+id/logScreen"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/title_bar">
-
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/refreshLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.scwang.smartrefresh.layout.header.ClassicsHeader
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <com.yanzhenjie.recyclerview.SwipeRecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never" />
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-    </com.shehuan.statusview.StatusView>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_bar"
+        android:layout_marginTop="0dp"
+        android:background="@color/background_deep_gray"
+        android:padding="10dp" />
 
 </RelativeLayout>

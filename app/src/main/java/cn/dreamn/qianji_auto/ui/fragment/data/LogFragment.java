@@ -21,35 +21,26 @@ import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_ERR;
 import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
 import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.MenuInflater;
-import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.hjq.toast.ToastUtils;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
-import com.shehuan.statusview.StatusView;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
-import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.Arrays;
-import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.ui.adapter.LogAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
-import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
+import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
+import cn.dreamn.qianji_auto.ui.components.LogScreen;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -58,19 +49,20 @@ import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 @Page(name = "日志", anim = CoreAnim.slide)
 public class LogFragment extends BaseFragment {
-    @BindView(R.id.status)
-    StatusView statusView;
+
     @BindView(R.id.title_bar)
     cn.dreamn.qianji_auto.ui.components.TitleBar title_bar;
-    @BindView(R.id.refreshLayout)
-    SmartRefreshLayout refreshLayout;
-    @BindView(R.id.recycler_view)
-    SwipeRecyclerView recyclerView;
-    private LogAdapter mAdapter;
-    private List<Bundle> list;
 
+    @BindView(R.id.logScreen)
+    LogScreen logScreen;
+
+
+    StringBuilder logData = new StringBuilder();
 
     Handler mHandler;
+
+
+    LoadingDialog loadingDialog;
 
     @Override
     protected int getLayoutId() {
@@ -79,16 +71,23 @@ public class LogFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
+
         mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what) {
                     case HANDLE_ERR:
-                        if (statusView != null) statusView.showEmptyView();
                         break;
                     case HANDLE_OK:
-                        mAdapter.refresh(list);
-                        if (statusView != null) statusView.showContentView();
+                        if (loadingDialog != null) {
+                            loadingDialog.close();
+                        }
+                        if (logData.toString().equals("")) {
+                            logScreen.printLog("No log");
+                        } else {
+                            logScreen.printLog(logData.toString());
+                        }
+
                         break;
                     case HANDLE_REFRESH:
                         loadFromData();
@@ -99,23 +98,11 @@ public class LogFragment extends BaseFragment {
                     ToastUtils.show(d);
             }
         };
-        statusView.setEmptyView(R.layout.fragment_empty_view);
-        statusView.setLoadingView(R.layout.fragment_loading_view);
 
-        statusView.setOnEmptyViewConvertListener(viewHolder -> {
-            viewHolder.setText(R.id.empty_info, getString(R.string.log_empty));
-        });
-        statusView.setOnLoadingViewConvertListener(viewHolder -> {
-            LVCircularRing lv_circularring = viewHolder.getView(R.id.lv_circularring);
-            lv_circularring.startAnim();
-            viewHolder.setText(R.id.loading_text, getString(R.string.main_loading));
-        });
-        initLayout();
     }
 
-    @SuppressLint("CheckResult")
-    @Override
-    protected void initListeners() {
+
+    protected void initData() {
         MMKV mmkv = MMKV.defaultMMKV();
         if (mmkv.getBoolean("show_log_tip", true)) {
             BottomArea.msg(getContext(), getString(R.string.log_cache_title), getString(R.string.log_cache_body), getString(R.string.log_cache_know), getString(R.string.log_cache_no_show), new BottomArea.MsgCallback() {
@@ -130,14 +117,6 @@ public class LogFragment extends BaseFragment {
                 }
             });
         }
-
-
-        refreshLayout.setOnRefreshListener(refreshlayout -> {
-           loadFromData();
-            refreshlayout.finishRefresh(0);//传入false表示刷新失败
-        });
-
-
     }
 
     @Override
@@ -155,25 +134,8 @@ public class LogFragment extends BaseFragment {
                 switch (item.getItemId()) {
                     case R.id.sendLog:
                         String fileName = "temp.log";
-                        Handler mHandler2 = new Handler(Looper.getMainLooper()) {
-                            @Override
-                            public void handleMessage(@NonNull Message msg) {
-                                Tool.shareFile(getContext(), Tool.getCacheFileName(getContext(), fileName));
-                            }
-                        };
-                        //写出日志到临时文件
-                        Task.onThread(() -> {
-                            StringBuilder l = new StringBuilder();
-                            if (list == null) {
-                                ToastUtils.show(R.string.log_null);
-                                return;
-                            }
-                            for (Bundle bundle : list) {
-                                l.append("[").append(bundle.getString("time")).append("]").append("[").append(bundle.getString("sub")).append("]").append(bundle.getString("title")).append("\n");
-                            }
-                            Tool.writeToCache(getContext(), fileName, l.toString());
-                            HandlerUtil.send(mHandler2, HANDLE_OK);
-                        });
+                        Tool.writeToCache(getContext(), fileName, logData.toString());
+                        Tool.shareFile(getContext(), Tool.getCacheFileName(getContext(), fileName));
                         break;
                     case R.id.cleanLog:
                         BottomArea.msg(getContext(), getString(R.string.log_clean_title), getString(R.string.log_clean_body), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.MsgCallback() {
@@ -223,30 +185,29 @@ public class LogFragment extends BaseFragment {
         //  return null;
     }
 
-    private void initLayout() {
-        mAdapter = new LogAdapter(getContext());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(mAdapter);
 
-        refreshLayout.setEnableRefresh(true);
-        mAdapter.setOnItemClickListener(new SmartViewHolder.OnItemClickListener() {
-            @Override
-            public void onItemClick(View itemView, int position) {
-                Bundle bundle = list.get(position);
-                String str = bundle.getString("title");
-                Tool.clipboard(getContext(), str);
-                ToastUtils.show(R.string.copied);
-            }
-        });
-    }
 
     public void loadFromData() {
-        if (statusView != null) statusView.showLoadingView();
+        loadingDialog = new LoadingDialog(getContext(), getString(R.string.log_loading));
+        loadingDialog.show();
+        logData = new StringBuilder();
         Task.onThread(() -> Log.getAll(logs -> {
             if (logs == null || logs.length == 0) {
-                HandlerUtil.send(mHandler, HANDLE_ERR);
+                logData.append("");
+                HandlerUtil.send(mHandler, HANDLE_OK);
             } else {
-                list = Arrays.asList(logs);
+                for (Bundle bundle : logs) {
+                    StringBuilder ss = new StringBuilder();
+                    ss.append("[").append(bundle.getString("time")).append("]").append("[").append(bundle.getString("sub")).append("]");
+                    String log = bundle.getString("title");
+                    if (log != null) {
+                        String[] logList = log.split("\n");
+                        for (String l : logList) {
+                            logData.append(ss).append(l).append("\n");
+                        }
+                    }
+
+                }
                 HandlerUtil.send(mHandler, HANDLE_OK);
             }
         }));
