@@ -30,6 +30,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.helper.Inner.HelpService;
@@ -52,6 +53,10 @@ public class AppStatus {
         return mmkv.getString("helper_choose", "xposed");
     }
 
+    public static boolean isXposed() {
+        MMKV mmkv = MMKV.defaultMMKV();
+        return Objects.requireNonNull(mmkv.getString("helper_choose", "xposed")).equals("xposed");
+    }
 
     public static String getFrameWork(Context context) {
         if (getActiveMode().equals("helper")) {

@@ -245,6 +245,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void getWechat() {
+        if (!AppStatus.isXposed()) return;//不是Xp模式不需要
         AutoBillWeb.getCouldRegular(new AutoBillWeb.WebCallback() {
             @Override
             public void onFailure() {
