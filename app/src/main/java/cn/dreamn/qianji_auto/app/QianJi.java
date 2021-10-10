@@ -71,7 +71,7 @@ public class QianJi implements IApp {
             }
         };
         //如果不是xp模式需要延时
-        if (!AppStatus.getActiveMode().equals("xposed")) {
+        if (!AppStatus.isXposed()) {
             delay(mHandler);
         } else {
             mHandler.sendEmptyMessage(0);
@@ -81,7 +81,7 @@ public class QianJi implements IApp {
 
     @Override
     public void asyncDataBefore(Context context) {
-        if (AppStatus.getActiveMode().equals("xposed")) {
+        if (AppStatus.isXposed()) {
             Log.i("自动记账同步", "同步开始");
             Cmd.exec(new String[]{"am force-stop com.mutangtech.qianji"});
             //杀死其他应用
@@ -222,7 +222,7 @@ public class QianJi implements IApp {
     public String getQianJi(BillInfo billInfo) {
 
 
-        String url = "qianji://publicapi/addbill?&type=" + billInfo.getType(true) + "&money=" + billInfo.getMoney();
+        String url = "qianji://publicapi/addbill?&type=" + billInfo.getType(true) + "&money=" + billInfo.getMoney() + "&catechoose=1";
         MMKV mmkv = MMKV.defaultMMKV();
         //懒人模式
         if (mmkv.getBoolean("lazy_mode", true)) {
