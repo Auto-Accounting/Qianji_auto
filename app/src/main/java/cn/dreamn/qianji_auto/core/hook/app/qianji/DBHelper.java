@@ -82,11 +82,11 @@ public class DBHelper {
     }
 
     @SuppressLint("Range")
-    public JSONArray getCategory(String userId) {
+    public JSONArray getCategory() {
         if (!db.isOpen()) {
             openDb();
         }
-        Cursor cursor = db.rawQuery("select * from category where USER_ID = '" + userId + "'", null);
+        Cursor cursor = db.rawQuery("select * from category ", null);
         JSONArray jsonArray = new JSONArray();
         while (cursor.moveToNext()) {
             JSONObject jsonObject = new JSONObject();
@@ -106,11 +106,11 @@ public class DBHelper {
     }
 
     @SuppressLint("Range")
-    public JSONArray getAsset(String userId) {
+    public JSONArray getAsset() {
         if (!db.isOpen()) {
             openDb();
         }
-        Cursor cursor = db.rawQuery("select * from user_asset where STATUS = 0 and USERID = '" + userId + "'", null);
+        Cursor cursor = db.rawQuery("select * from user_asset where STATUS = 0 ", null);
         JSONArray jsonArray = new JSONArray();
         while (cursor.moveToNext()) {
             JSONObject jsonObject = new JSONObject();
@@ -126,11 +126,11 @@ public class DBHelper {
     }
 
     @SuppressLint("Range")
-    public JSONArray getUserBook(String userId) {
+    public JSONArray getUserBook() {
         if (!db.isOpen()) {
             openDb();
         }
-        Cursor cursor = db.rawQuery("select * from user_book where USERID = '" + userId + "'", null);
+        Cursor cursor = db.rawQuery("select * from user_book ", null);
         JSONArray jsonArray = new JSONArray();
         while (cursor.moveToNext()) {
             JSONObject jsonObject = new JSONObject();
@@ -144,11 +144,11 @@ public class DBHelper {
     }
 
     @SuppressLint("Range")
-    public JSONArray getBills(String userId) {
+    public JSONArray getBills() {
         if (!db.isOpen()) {
             openDb();
         }
-        Cursor cursor = db.rawQuery("select * from user_bill where USERID = '" + userId + "'", null);
+        Cursor cursor = db.rawQuery("select * from user_bill ", null);
         JSONArray jsonArray = new JSONArray();
         while (cursor.moveToNext()) {
             JSONObject jsonObject = new JSONObject();

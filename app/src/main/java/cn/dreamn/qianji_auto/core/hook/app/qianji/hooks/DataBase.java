@@ -24,8 +24,6 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 
-import java.lang.reflect.Method;
-
 import cn.dreamn.qianji_auto.core.hook.Utils;
 import cn.dreamn.qianji_auto.core.hook.app.qianji.DBHelper;
 import de.robv.android.xposed.XC_MethodHook;
@@ -53,35 +51,9 @@ public class DataBase {
                     utils.log("钱迹数据库对象无法获取到数据，尝试文件模式", false);
                     dbHelper[0] = new DBHelper(utils);
                 }
-                //获取用户ID,根据用户ID获取对应的资产等信息
-                String userId = "u10001";
-                Class<?> loginClass = null;
-                try {
-                    loginClass = mAppClassLoader.loadClass("com.mutangtech.qianji.app.f.b");
-                } catch (Throwable e) {
-                    try {
-                        loginClass = mAppClassLoader.loadClass("com.mutangtech.qianji.app.c.b");
-                    } catch (Throwable e2) {
-                        utils.log("钱迹加载类失败！");
-                    }
-                }
-                if (loginClass == null) return;
-                //获取loginClass
-                Method getInstance = loginClass.getDeclaredMethod("getInstance");
-                //反射调用单例模式
-                Object object = getInstance.invoke(null);
-                //获取对象
-                Method getLoginUserID = loginClass.getMethod("getLoginUserID");
-                //获取UserID方法
-                String uid = (String) getLoginUserID.invoke(object);
-                //获取最终的UID
-                if (uid != null && !uid.equals("")) {
-                    userId = uid;
-                }
-                utils.log("获取到用户ID:" + userId);
 
 
-                String finalUserId = userId;
+
                 final boolean[] hooked = {false};
                 XposedHelpers.findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
                     protected void beforeHookedMethod(MethodHookParam param) {
@@ -99,10 +71,10 @@ public class DataBase {
                                 utils.log("钱迹收到同步信号:" + intent.getStringExtra("needAsync"));
 
                                 JSONObject jsonObject = new JSONObject();
-                                jsonObject.put("asset", dbHelper[0].getAsset(finalUserId));
-                                jsonObject.put("category", dbHelper[0].getCategory(finalUserId));
-                                jsonObject.put("userBook", dbHelper[0].getUserBook(finalUserId));
-                                jsonObject.put("billInfo", dbHelper[0].getBills(finalUserId));
+                                jsonObject.put("asset", dbHelper[0].getAsset());
+                                jsonObject.put("category", dbHelper[0].getCategory());
+                                jsonObject.put("userBook", dbHelper[0].getUserBook());
+                                jsonObject.put("billInfo", dbHelper[0].getBills());
 
                                 utils.send2auto(jsonObject.toJSONString());
 
