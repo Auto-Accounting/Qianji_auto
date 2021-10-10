@@ -324,7 +324,7 @@
     <string name="change_success">修改成功！</string>
     <string name="set_choose_category">请选择分类</string>
     <string name="async_success">同步成功！</string>
-    <string name="update_wechat">微信云规则已更新！</string>
+    <string name="update_wechat">微信适配文件已更新完毕！</string>
     <string name="regular_test">测试规则</string>
     <string name="regular_error">没有任何规则有效！</string>
     <string name="js_error">JS脚本执行出错，建议前去日志查看错误信息。</string>
