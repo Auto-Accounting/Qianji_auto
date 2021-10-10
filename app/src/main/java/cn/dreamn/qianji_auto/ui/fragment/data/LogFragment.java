@@ -34,6 +34,7 @@ import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindView;
@@ -58,7 +59,7 @@ public class LogFragment extends BaseFragment {
 
 
     StringBuilder logData = new StringBuilder();
-
+    ArrayList<String> list;
     Handler mHandler;
 
 
@@ -82,12 +83,7 @@ public class LogFragment extends BaseFragment {
                         if (loadingDialog != null) {
                             loadingDialog.close();
                         }
-                        if (logData.toString().equals("")) {
-                            logScreen.printLog("No log");
-                        } else {
-                            logScreen.printLog(logData.toString());
-                        }
-
+                        logScreen.printLog(list);
                         break;
                     case HANDLE_REFRESH:
                         loadFromData();
@@ -190,10 +186,10 @@ public class LogFragment extends BaseFragment {
     public void loadFromData() {
         loadingDialog = new LoadingDialog(getContext(), getString(R.string.log_loading));
         loadingDialog.show();
-        logData = new StringBuilder();
+        list = new ArrayList<>();
         Task.onThread(() -> Log.getAll(logs -> {
             if (logs == null || logs.length == 0) {
-                logData.append("");
+                list.add("no log");
                 HandlerUtil.send(mHandler, HANDLE_OK);
             } else {
                 for (Bundle bundle : logs) {
@@ -203,7 +199,7 @@ public class LogFragment extends BaseFragment {
                     if (log != null) {
                         String[] logList = log.split("\n");
                         for (String l : logList) {
-                            logData.append(ss).append(l).append("\n");
+                            list.add(ss.toString() + l);
                         }
                     }
 

@@ -3,8 +3,6 @@ package cn.dreamn.qianji_auto.ui.components;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,32 +40,18 @@ public class LogScreen extends LinearLayout {
 
     private void init(AttributeSet attrs, int defStyle) {
         mRecyclerView = new RecyclerView(getContext());
+        LogsAdapter logsAdapter = new LogsAdapter();
+        mRecyclerView.setAdapter(logsAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(new RecyclerView.Adapter() {
-            @NonNull
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return new MyViewHolder(new TextView(getContext()));
-            }
-
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-                TextView tv = (TextView) holder.itemView;
-                tv.setTextColor(Color.BLACK);
-                tv.setTextSize(10);
-                tv.setHorizontallyScrolling(true);
-                tv.setMovementMethod(ScrollingMovementMethod.getInstance());
-                tv.setText(mLogList.get(position));
-            }
-
-            @Override
-            public int getItemCount() {
-                return mLogList.size();
-            }
-        });
         addView(mRecyclerView);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void printLog(ArrayList<String> log) {
+        mLogList.clear();
+        mLogList.addAll(log);
+        Objects.requireNonNull(mRecyclerView.getAdapter()).notifyDataSetChanged();
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -75,11 +59,32 @@ public class LogScreen extends LinearLayout {
 
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    public void printLog(String log) {
-        mLogList.clear();
-        mLogList.add(log);
-        Objects.requireNonNull(mRecyclerView.getAdapter()).notifyDataSetChanged();
+    private class LogsAdapter extends RecyclerView.Adapter {
+        @NonNull
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new MyViewHolder(new TextView(getContext()));
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            TextView view = (TextView) holder.itemView;
+            view.setText(mLogList.get(position));
+            view.measure(0, 0);
+            int desiredWidth = view.getMeasuredWidth();
+            LayoutParams mParams = new LayoutParams(mRecyclerView.getLayoutParams());
+            mParams.width = desiredWidth;
+            view.setLayoutParams(mParams);
+            if (mRecyclerView.getWidth() < desiredWidth) {
+                mRecyclerView.requestLayout();
+            }
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return mLogList.size();
+        }
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {

@@ -22,13 +22,24 @@
 
     </cn.dreamn.qianji_auto.ui.components.TitleBar>
 
-    <cn.dreamn.qianji_auto.ui.components.LogScreen
-        android:id="@+id/logScreen"
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/title_bar"
-        android:layout_marginTop="0dp"
-        android:background="@color/background_deep_gray"
-        android:padding="10dp" />
+        android:layout_marginTop="0dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <cn.dreamn.qianji_auto.ui.components.LogScreen
+                android:id="@+id/logScreen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:background="@color/background_deep_gray" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
 </RelativeLayout>
