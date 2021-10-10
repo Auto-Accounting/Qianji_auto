@@ -222,11 +222,11 @@ public class QianJi implements IApp {
     public String getQianJi(BillInfo billInfo) {
 
 
-        String url = "qianji://publicapi/addbill?&type=" + billInfo.getType(true) + "&money=" + billInfo.getMoney() + "&catechoose=1";
+        String url = "qianji://publicapi/addbill?&type=" + billInfo.getType(true) + "&money=" + billInfo.getMoney();
         MMKV mmkv = MMKV.defaultMMKV();
         //懒人模式
         if (mmkv.getBoolean("lazy_mode", true)) {
-            return url;
+            return url + "&catechoose=1";
         }
 
         if (billInfo.getTime() != null) {
