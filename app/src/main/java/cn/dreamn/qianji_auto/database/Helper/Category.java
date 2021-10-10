@@ -24,16 +24,14 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.database.Table.Regular;
+import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.JsEngine;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
-import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class Category {
     public interface getStrings{
@@ -120,24 +118,12 @@ public class Category {
            String jsInner = "const isInTimeInner=function(a,b,c,d){regT=/([01\\b]\\d|2[0-3]):([0-5]\\d)/;const e=a.match(regT),f=b.match(regT);if(null==e||null==f||e.length<3||f.length<3)return!1;const g=parseInt(e[1],10),h=parseInt(f[1],10),i=parseInt(e[2],10),j=parseInt(f[2],10);return g>h?c===g&&d>=i||c>g||h>c||c===h&&j>=d:h>g?c===g&&d>=i||c>g&&h>c||c===h&&j>=d:g===h?j>i?c===g&&d>=i&&j>=d:i>j?c===g&&d>=i||j>=d||c!==g:i===j&&d===i&&c===g:void 0};";
            String js = "function getCategory(shopName,shopRemark,type,hour,minute,money){%s  %s return 'NotFound';} getCategory('%s','%s','%s',%s,%s,'%s');";
 
-           String time = billInfo.getTime();
            String hour, minute;
-           if (time != null) {
-               String pattern = "\\d{4}-\\d{2}-\\d{2}\\s(\\d{2}):(\\d{2}):\\d{2}";
-               Pattern r = Pattern.compile(pattern);
-               Matcher m = r.matcher(time);
-               if (m.find()) { //此处find（）每次被调用后，会偏移到下一个匹配
-                   hour = m.group(1);
-                   minute = m.group(2);
-               } else {
-                   hour = Tool.getTime("HH");
-                   minute = Tool.getTime("mm");
-               }
 
-           } else {
-               hour = Tool.getTime("HH");
-               minute = Tool.getTime("mm");
-           }
+           long stamp = billInfo.getTimeStamp();
+           hour = DateUtils.getTime("HH", stamp);
+           minute = DateUtils.getTime("mm", stamp);
+
 
            getStr.onGet(String.format(js, jsInner, regList.toString(), billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType()), hour, minute, billInfo.getMoney()));
        });
