@@ -15,13 +15,13 @@ public class NotificationClickReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Log.i("通知被点击啦！！！ ");
+
         String bill=intent.getStringExtra("billinfo");
         if(bill==null){
             Log.i("通知没有携带数据！！！ ");
             return;
         }
-
+        Log.i("通知数据：" + bill);
         BillInfo billInfo=BillInfo.parse(bill);
         MMKV mmkv=MMKV.defaultMMKV();
         switch (mmkv.getString("notice_click_window","edit")){
