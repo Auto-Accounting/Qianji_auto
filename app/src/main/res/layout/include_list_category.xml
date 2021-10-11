@@ -1,53 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <com.yanzhenjie.recyclerview.SwipeRecyclerView
-        android:id="@+id/recycler_view"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/sure"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="0dp"
-        android:background="@color/background_white"
-        android:backgroundTint="@color/background_white"
-        android:overScrollMode="never"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:paddingBottom="15dp"
-        tools:ignore="MissingConstraints" />
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/sure"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
-        android:padding="10dp">
-
-
-        <Button
-            android:id="@+id/button_next"
-            style="@null"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/btn_normal_1"
-            android:lineSpacingExtra="10sp"
-            android:stateListAnimator="@null"
-            android:text="确定"
-            android:textAppearance="?android:attr/textAppearanceButton"
-            android:textColor="@color/background_white"
-            android:textSize="16sp"
-            app:cornerRadius="100dp" />
-    </LinearLayout>
+            <com.yanzhenjie.recyclerview.SwipeRecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/background_white"
+                android:backgroundTint="@color/background_white"
+                android:overScrollMode="never"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="15dp"
+                tools:ignore="MissingConstraints">
+
+            </com.yanzhenjie.recyclerview.SwipeRecyclerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
 
-</RelativeLayout>
+                <Button
+                    android:id="@+id/button_next"
+                    style="@null"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/btn_normal_1"
+                    android:lineSpacingExtra="10sp"
+                    android:stateListAnimator="@null"
+                    android:text="确定"
+                    android:textAppearance="?android:attr/textAppearanceButton"
+                    android:textColor="@color/background_white"
+                    android:textSize="16sp"
+                    app:cornerRadius="100dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
