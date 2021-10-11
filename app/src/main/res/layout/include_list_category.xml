@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <com.yanzhenjie.recyclerview.SwipeRecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/sure"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
         android:background="@color/background_white"
         android:backgroundTint="@color/background_white"
         android:overScrollMode="never"
@@ -20,8 +22,11 @@
         tools:ignore="MissingConstraints" />
 
     <LinearLayout
+        android:id="@+id/sure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
         android:padding="10dp">
 
 
@@ -45,4 +50,4 @@
     </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>
