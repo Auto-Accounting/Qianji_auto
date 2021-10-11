@@ -101,9 +101,10 @@ public class QianJi implements IApp {
 
     @Override
     public void asyncDataAfter(Context context, Bundle extData) {
+        ToastUtils.show("收到钱迹数据！正在后台同步中...");
         String json = extData.getString("data");
         JSONObject jsonObject = JSONObject.parseObject(json);
-        //Toasty.info(context,"收到钱迹数据！正在后台同步中...").show();
+
         JSONArray asset = jsonObject.getJSONArray("asset");
         JSONArray category = jsonObject.getJSONArray("category");
         JSONArray userBook = jsonObject.getJSONArray("userBook");
@@ -141,6 +142,8 @@ public class QianJi implements IApp {
                 }
                 String self = self_id;
                 String s = sort;
+
+                Log.d("cate->" + name);
                 CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type, book_id);
                 if (categoryNames.length != 0) {
                     break;
@@ -169,6 +172,7 @@ public class QianJi implements IApp {
                 JSONObject jsonObject1 = userBook.getJSONObject(i);
 
                 String bookName = jsonObject1.getString("name");
+                Log.d("book->" + bookName);
                 String icon = jsonObject1.getString("cover");
                 String bid = jsonObject1.getString("id");
                 if (bid == null || bid.equals("")) {

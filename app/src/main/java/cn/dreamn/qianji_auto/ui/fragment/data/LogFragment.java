@@ -83,6 +83,8 @@ public class LogFragment extends BaseFragment {
                         if (loadingDialog != null) {
                             loadingDialog.close();
                         }
+                        String fileName = "temp.log";
+                        Tool.writeToCache(getContext(), fileName, logData.toString());
                         logScreen.printLog(list);
                         break;
                     case HANDLE_REFRESH:
@@ -130,7 +132,6 @@ public class LogFragment extends BaseFragment {
                 switch (item.getItemId()) {
                     case R.id.sendLog:
                         String fileName = "temp.log";
-                        Tool.writeToCache(getContext(), fileName, logData.toString());
                         Tool.shareFile(getContext(), Tool.getCacheFileName(getContext(), fileName));
                         break;
                     case R.id.cleanLog:
@@ -187,6 +188,7 @@ public class LogFragment extends BaseFragment {
         loadingDialog = new LoadingDialog(getContext(), getString(R.string.log_loading));
         loadingDialog.show();
         list = new ArrayList<>();
+        logData = new StringBuilder();
         Task.onThread(() -> Log.getAll(logs -> {
             if (logs == null || logs.length == 0) {
                 list.add("no log");
@@ -199,6 +201,7 @@ public class LogFragment extends BaseFragment {
                     if (log != null) {
                         String[] logList = log.split("\n");
                         for (String l : logList) {
+                            logData.append(ss.toString() + l).append("\n");
                             list.add(ss.toString() + l);
                         }
                     }

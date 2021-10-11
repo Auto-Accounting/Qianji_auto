@@ -174,6 +174,7 @@ public class Tool {
 
     public static String getCacheFileName(Context mContext, String fileName) {
         String path = mContext.getExternalCacheDir().getPath() + "/";
+        Log.d(path + fileName);
         return path + fileName;
     }
 
