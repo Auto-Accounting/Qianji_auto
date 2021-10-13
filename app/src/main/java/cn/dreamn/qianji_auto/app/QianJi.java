@@ -146,7 +146,7 @@ public class QianJi implements IApp {
                 Log.d("cate->" + name);
                 CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type, book_id);
                 if (categoryNames.length != 0) {
-                    break;
+                    continue;
                 }
                 DbManger.db.CategoryNameDao().add(name, icon, level, type, self, parent_id, book_id, s);
 
@@ -194,33 +194,31 @@ public class QianJi implements IApp {
 
     private void delay(Handler mHandler) {
 
-        Task.onThread(() -> {
-            Caches.getCacheData("float_time", "", cache -> {
-                if (!cache.equals("")) {
-                    long time = Long.parseLong(cache);
-                    long t = System.currentTimeMillis() - time;
-                    t = t / 1000;
-                    if (t < 4) {
-                        long finalT = t;
-                        Caches.getCacheData("show_tip", "false", cache1 -> {
-                            if (!cache1.equals("true")) {
-                                Looper.prepare();
-                                ToastUtils.show("距离上一次发起请求时间为" + finalT + "s,稍后为您自动记账。");
-                                Looper.loop();
-                                Caches.AddOrUpdate("show_tip", "true");
-                            }
-                            new Handler().postDelayed(() -> {
-                                delay(mHandler);
-                            }, finalT * 100);
-                        });
-                        return;
-
-                    }
+        Task.onThread(() -> Caches.getCacheData("float_time", "", cache -> {
+            if (!cache.equals("")) {
+                long time = Long.parseLong(cache);
+                long t = System.currentTimeMillis() - time;
+                t = t / 1000;
+                if (t < 4) {
+                    long finalT = t;
+                    Caches.getCacheData("show_tip", "false", cache1 -> {
+                        if (!cache1.equals("true")) {
+                            Looper.prepare();
+                            ToastUtils.show("距离上一次发起请求时间为" + finalT + "s,稍后为您自动记账。");
+                            Looper.loop();
+                            Caches.AddOrUpdate("show_tip", "true");
+                        }
+                        new Handler().postDelayed(() -> {
+                            delay(mHandler);
+                        }, finalT * 100);
+                    });
+                    return;
 
                 }
-                mHandler.sendEmptyMessage(0);
-            });
-        });
+
+            }
+            mHandler.sendEmptyMessage(0);
+        }));
     }
 
     public String getQianJi(BillInfo billInfo) {
