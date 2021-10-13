@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.lang.reflect.Method;
+
 import cn.dreamn.qianji_auto.core.hook.Utils;
 import cn.dreamn.qianji_auto.core.hook.app.qianji.DBHelper;
 import de.robv.android.xposed.XC_MethodHook;
@@ -52,6 +54,27 @@ public class DataBase {
                     dbHelper[0] = new DBHelper(utils);
                 }
 
+                Class<?> loginClass = null;
+                try {
+                    loginClass = mAppClassLoader.loadClass("com.mutangtech.qianji.app.f.b");
+                } catch (Throwable e) {
+                    try {
+                        loginClass = mAppClassLoader.loadClass("com.mutangtech.qianji.app.c.b");
+                    } catch (Throwable e2) {
+                        utils.log("钱迹加载类失败！");
+                    }
+                }
+                if (loginClass == null) return;
+                //获取loginClass
+                Method getInstance = loginClass.getDeclaredMethod("getInstance");
+                //反射调用单例模式
+                Object object = getInstance.invoke(null);
+                //获取对象
+                Method IsVip = loginClass.getMethod("isVip");
+                boolean isVip;
+                isVip = (boolean) IsVip.invoke(object);
+                //获取最终的UID
+                utils.log("钱迹用户:" + (isVip ? "会员" : "非会员"));
 
 
                 final boolean[] hooked = {false};
@@ -73,7 +96,7 @@ public class DataBase {
                                 JSONObject jsonObject = new JSONObject();
                                 jsonObject.put("asset", dbHelper[0].getAsset());
                                 jsonObject.put("category", dbHelper[0].getCategory());
-                                jsonObject.put("userBook", dbHelper[0].getUserBook());
+                                jsonObject.put("userBook", dbHelper[0].getUserBook(isVip));
                                 jsonObject.put("billInfo", dbHelper[0].getBills());
 
                                 utils.send2auto(jsonObject.toJSONString());

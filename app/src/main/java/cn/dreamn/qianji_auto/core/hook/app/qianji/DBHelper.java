@@ -126,7 +126,7 @@ public class DBHelper {
     }
 
     @SuppressLint("Range")
-    public JSONArray getUserBook() {
+    public JSONArray getUserBook(boolean isVip) {
         if (!db.isOpen()) {
             openDb();
         }
@@ -140,6 +140,14 @@ public class DBHelper {
             jsonArray.add(jsonObject);
         }
         cursor.close();
+        if (!isVip) {//Vip会自动附加
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", "-1");
+            jsonObject.put("name", "默认账本");
+            jsonObject.put("cover", "http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
+            jsonArray.add(jsonObject);
+        }
+
         return jsonArray;
     }
 
