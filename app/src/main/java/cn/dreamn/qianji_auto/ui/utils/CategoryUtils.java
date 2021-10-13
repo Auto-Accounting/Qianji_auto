@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -126,22 +127,68 @@ public class CategoryUtils {
         return mAdapter;
     }
 
-    public CategoryUtils(SwipeRecyclerView recyclerView, String book_id, String type, Context context,Boolean allowChange){
-        this.book_id=book_id;
-        this.recyclerView=recyclerView;
-        this.mAdapter=new CategoryAdapter(context,allowChange);
-        this.allowChange=allowChange;
-        this.type=type;
-        mContext=context;
+    public CategoryUtils(SwipeRecyclerView recyclerView, String book_id, String type, Context context, Boolean allowChange) {
+        Log.init("category");
+        this.book_id = book_id;
+        this.recyclerView = recyclerView;
+        this.mAdapter = new CategoryAdapter(context, allowChange);
+        this.allowChange = allowChange;
+        this.type = type;
+        mContext = context;
     }
-    class SpecialSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
 
-        @Override
-        public int getSpanSize(int i) {
-            if (list.size() <= i) return 1;
-            Bundle bundle=list.get(i);
-            return bundle.containsKey("change") ?5:1;
+    private void resetRVHeight() {
+
+        ViewGroup.LayoutParams lp = recyclerView.getLayoutParams();
+        int height1 = recyclerView.getHeight();
+        int height = ScreenUtils.getScreenHeight(mContext);
+        Log.d("屏幕高度：" + height);
+        Log.d("recyclerView高度：" + height1);
+        int height2 = height - ScreenUtils.dip2px(mContext, 200);//减去底部和顶部
+        // Log.d("55dip："+ScreenUtils.dip2px(mContext,55));
+        Log.d("计算最大限制高度：" + height2);
+        if (height1 > height2) {
+            Log.d("超出高度：recyclerView高度" + height1 + "_计算:" + height2);
+            lp.height = height2;
+            recyclerView.setLayoutParams(lp);
         }
+
+
+    }
+
+    private void openItem(int position, int left) {
+
+        Bundle item = list.get(position);
+        //  Log.m("postion:" + position + " data" + item.toString());
+        int real = getItemPos(position);
+
+        Handler mmHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                expand = true;
+                Bundle[] bundles = (Bundle[]) msg.obj;
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", -1);
+                bundle.putBundle("item", item);
+                bundle.putString("name", null);
+                bundle.putString("book_id", item.getString("book_id"));
+                bundle.putInt("left", left + 13);
+                bundle.putInt("leftRaw", left);
+                bundle.putSerializable("data", bundles);
+                bundle.putBoolean("change", bundles.length != 0);
+                list.set(real - 1, bundle);
+                mAdapter.replaceNotNotify(real - 1, bundle);
+                mAdapter.notifyItemChanged(real - 1);
+
+                mAdapter.notifyItemChanged(position);
+                resetRVHeight();
+            }
+        };
+
+        CategoryNames.getChildrens(item.getString("self_id"), book_id, item.getString("type"), allowChange, books -> {
+            //      Log.m("子类" + Arrays.toString(books));
+            HandlerUtil.send(mmHandler, books, HANDLE_REFRESH);
+        });
     }
 
 
@@ -192,49 +239,6 @@ public class CategoryUtils {
         });
     }
 
-    private void openItem(int position,int left) {
-
-        Bundle item = list.get(position);
-        //  Log.m("postion:" + position + " data" + item.toString());
-        int real = getItemPos(position);
-
-        Handler mmHandler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                expand = true;
-                Bundle[] bundles = (Bundle[]) msg.obj;
-                Bundle bundle = new Bundle();
-                bundle.putInt("id", -1);
-                bundle.putBundle("item", item);
-                bundle.putString("name", null);
-                bundle.putString("book_id", item.getString("book_id"));
-                bundle.putInt("left", left + 13);
-                bundle.putInt("leftRaw", left);
-                bundle.putSerializable("data", bundles);
-                bundle.putBoolean("change", bundles.length != 0);
-                list.set(real - 1, bundle);
-                mAdapter.replaceNotNotify(real - 1, bundle);
-                mAdapter.notifyItemChanged(real - 1);
-
-                mAdapter.notifyItemChanged(position);
-            }
-        };
-
-        CategoryNames.getChildrens(item.getString("self_id"), book_id, item.getString("type"), allowChange, books -> {
-            //      Log.m("子类" + Arrays.toString(books));
-            HandlerUtil.send(mmHandler, books, HANDLE_REFRESH);
-        });
-    }
-
-    public void clean() {//全部清除
-        list.clear();
-        topInt = -1;
-        if (mAdapter != null) {
-            mAdapter.setSelect(-1);
-            mAdapter.refresh(null);
-        }
-    }
-
     public void refreshData(String book_id, int parent, finishRefresh f) {
         Log.m("ref_book_id", book_id);
         Log.m("ref_book_parent", String.valueOf(parent));
@@ -247,6 +251,33 @@ public class CategoryUtils {
             topInt = -1;
             refreshSubData(dataItem, index, data.getInt("leftRaw"));
         } else refreshData(book_id, f);
+        resetRVHeight();
+    }
+
+    public void clean() {//全部清除
+        list.clear();
+        topInt = -1;
+        if (mAdapter != null) {
+            mAdapter.setSelect(-1);
+            mAdapter.refresh(null);
+        }
+    }
+
+    private void closeItem(int position) {
+        //  Bundle item=list.get(position);
+        expand = false;
+        int real = getItemPos(position);
+        Bundle bundle1 = new Bundle();
+        bundle1.putString("name", null);//保留数据
+        bundle1.putBoolean("change", false);//保留数据
+        try {
+            list.set(real - 1, bundle1);
+            mAdapter.replaceNotNotify(real - 1, bundle1);
+            mAdapter.notifyItemChanged(real - 1);
+        } catch (Exception e) {
+            Log.d("发生越界:" + e.toString());
+        }
+        resetRVHeight();
 
     }
 
@@ -255,7 +286,27 @@ public class CategoryUtils {
         refreshData(f);
     }
 
-    private static class MyHandler extends Handler {
+    private boolean isOpenItem() {
+        return expand;
+    }
+
+    private int getItemPos(int position) {
+        int line = position / 6;
+        line = line + 1;
+        return line * 6;
+    }
+
+    class SpecialSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
+
+        @Override
+        public int getSpanSize(int i) {
+            if (list.size() <= i) return 1;
+            Bundle bundle = list.get(i);
+            return bundle.containsKey("change") ? 5 : 1;
+        }
+    }
+
+    private class MyHandler extends Handler {
         private final WeakReference<CategoryUtils> categoryUtilsWeakReference;
 
         public MyHandler(CategoryUtils categoryUtilsWeakReference1) {
@@ -274,37 +325,9 @@ public class CategoryUtils {
                     int state = (msg.what == HANDLE_REFRESH) ? HANDLE_OK : HANDLE_ERR;
                     categoryUtils.getFinish().onFinish(state);
                 }
+
             }
         }
-    }
-
-
-    private boolean isOpenItem() {
-        return expand;
-    }
-
-    private int getItemPos(int position) {
-        int line = position / 6;
-        line = line + 1;
-        return line * 6;
-    }
-
-    private void closeItem(int position) {
-        //  Bundle item=list.get(position);
-        expand = false;
-        int real = getItemPos(position);
-        Bundle bundle1 = new Bundle();
-        bundle1.putString("name", null);//保留数据
-        bundle1.putBoolean("change", false);//保留数据
-        try {
-            list.set(real - 1, bundle1);
-            mAdapter.replaceNotNotify(real - 1, bundle1);
-            mAdapter.notifyItemChanged(real - 1);
-        } catch (Exception e) {
-            Log.d("发生越界:" + e.toString());
-        }
-
-
     }
 
     public interface Click {
@@ -314,4 +337,6 @@ public class CategoryUtils {
 
         void onParentLongClick(Bundle bundle, int position);//父标签长按
     }
+
+
 }

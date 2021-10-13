@@ -34,25 +34,49 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 public class Category {
-    public interface getStrings{
-        void onGet(String str);
+    public static void getCategory(BillInfo billInfo, String js, getStrings getStr) {
+        getCategoryRegularJs(billInfo, js, string -> {
+            try {
+                String result = JsEngine.run(string);
+                Log.m("Qianji_Cate", "自动分类结果：" + result);
+                if (result.contains("Undefined")) {
+                    getStr.onGet("NotFound");
+                } else getStr.onGet(result);
+            } catch (Exception e) {
+                Log.d(" 自动分类执行出错！" + e.toString());
+                e.printStackTrace();
+                getStr.onGet("NotFound");
+            }
+        });
     }
 
-    public static void getCategory(BillInfo billInfo,getStrings getStr) {
-            getCategoryRegularJs(billInfo,string->{
-                try {
-                    String result = JsEngine.run(string);
-                    Log.m("Qianji_Cate", "自动分类结果：" + result);
-                    if (result.contains("Undefined")) {
-                        getStr.onGet("NotFound");
-                    } else getStr.onGet(result);
-                } catch (Exception e) {
-                    Log.d(" 自动分类执行出错！" + e.toString());
-                    e.printStackTrace();
-                    getStr.onGet("NotFound");
-                }
-            });
+    public static void getCategory(BillInfo billInfo, getStrings getStr) {
+        getCategory(billInfo, null, getStr);
+    }
 
+    public static void getCategoryRegularJs(BillInfo billInfo, String jsAdd, getStrings getStr) {
+        StringBuilder regList = new StringBuilder();
+
+        Task.onThread(() -> {
+            Regular[] regular = DbManger.db.RegularDao().load();
+            if (jsAdd != null) {
+                regList.append(jsAdd);
+            }
+            for (Regular value : regular) {
+                regList.append(value.regular);
+            }
+
+            String jsInner = "const isInTimeInner=function(a,b,c,d){regT=/([01\\b]\\d|2[0-3]):([0-5]\\d)/;const e=a.match(regT),f=b.match(regT);if(null==e||null==f||e.length<3||f.length<3)return!1;const g=parseInt(e[1],10),h=parseInt(f[1],10),i=parseInt(e[2],10),j=parseInt(f[2],10);return g>h?c===g&&d>=i||c>g||h>c||c===h&&j>=d:h>g?c===g&&d>=i||c>g&&h>c||c===h&&j>=d:g===h?j>i?c===g&&d>=i&&j>=d:i>j?c===g&&d>=i||j>=d||c!==g:i===j&&d===i&&c===g:void 0};";
+            String js = "function getCategory(shopName,shopRemark,type,hour,minute,money){%s  %s return 'NotFound';} getCategory('%s','%s','%s',%s,%s,'%s');";
+
+            String hour, minute;
+
+            long stamp = billInfo.getTimeStamp();
+            hour = DateUtils.getTime("HH", stamp);
+            minute = DateUtils.getTime("mm", stamp);
+
+            getStr.onGet(String.format(js, jsInner, regList.toString(), billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType()), hour, minute, billInfo.getMoney()));
+        });
     }
 
     //准备自动规则
@@ -104,31 +128,8 @@ public class Category {
 
     }
 
-    //获取所有的js
-    public static void getCategoryRegularJs(BillInfo billInfo , getStrings getStr) {
-
-        StringBuilder regList = new StringBuilder();
-
-       Task.onThread(()-> {
-           Regular[] regular = DbManger.db.RegularDao().load();
-           for (Regular value : regular) {
-               regList.append(value.regular);
-           }
-
-           String jsInner = "const isInTimeInner=function(a,b,c,d){regT=/([01\\b]\\d|2[0-3]):([0-5]\\d)/;const e=a.match(regT),f=b.match(regT);if(null==e||null==f||e.length<3||f.length<3)return!1;const g=parseInt(e[1],10),h=parseInt(f[1],10),i=parseInt(e[2],10),j=parseInt(f[2],10);return g>h?c===g&&d>=i||c>g||h>c||c===h&&j>=d:h>g?c===g&&d>=i||c>g&&h>c||c===h&&j>=d:g===h?j>i?c===g&&d>=i&&j>=d:i>j?c===g&&d>=i||j>=d||c!==g:i===j&&d===i&&c===g:void 0};";
-           String js = "function getCategory(shopName,shopRemark,type,hour,minute,money){%s  %s return 'NotFound';} getCategory('%s','%s','%s',%s,%s,'%s');";
-
-           String hour, minute;
-
-           long stamp = billInfo.getTimeStamp();
-           hour = DateUtils.getTime("HH", stamp);
-           minute = DateUtils.getTime("mm", stamp);
-
-
-           getStr.onGet(String.format(js, jsInner, regList.toString(), billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType()), hour, minute, billInfo.getMoney()));
-       });
-
-
+    public interface getStrings {
+        void onGet(String str);
     }
 
 

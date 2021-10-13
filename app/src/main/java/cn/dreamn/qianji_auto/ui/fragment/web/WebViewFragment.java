@@ -28,8 +28,6 @@ import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.core.PageOption;
 import com.xuexiang.xpage.enums.CoreAnim;
 
-import org.apache.commons.text.StringEscapeUtils;
-
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -197,12 +195,10 @@ public class WebViewFragment extends BaseFragment {
             }
         };
 
-        if (url.startsWith("file:///android_asset/html/Category/")) {
+        if (url.startsWith("file:///android_asset/html/cate/")) {
             //== webview 与js交互=========================
             //定义提供html页面调用的方法
             Object appToJsObject = new Object() {
-
-
                 @JavascriptInterface
                 public void Save(String data, String js, String name, String des, String id) {
                     if (id.equals("")) {
@@ -223,14 +219,27 @@ public class WebViewFragment extends BaseFragment {
                 }
 
                 @JavascriptInterface
-                public void SelectCategory(String type) {
+                public void testCategory(String js) {
+
+                }
+
+                @JavascriptInterface
+                public void selectCategory(String type) {
+                    switch (type) {
+                        case "支出":
+                        case "报销":
+                            type = "0";
+                            break;
+                        case "收入":
+                            type = "1";
+                            break;
+                    }
                     //选择分类
+                    String finalType = type;
                     BookNames.showBookSelect(getContext(), getString(R.string.set_choose_book), false, bundle -> {
                         //Log.d("账本信息", bundle.toString());
-                        CategoryNames.showCategorySelect(getContext(), getString(R.string.set_choose_category), bundle.getString("book_id"), type, false, categoryNames -> {
-
-                            doJsFunction(String.format("setCategory('%s','%s')", StringEscapeUtils.escapeHtml4(categoryNames.getString("name")), StringEscapeUtils.escapeHtml4(categoryNames.getString("icon"))));
-
+                        CategoryNames.showCategorySelect(getContext(), getString(R.string.set_choose_category), bundle.getString("book_id"), finalType, false, categoryNames -> {
+                            doJsFunction(String.format("webviewCallback.setCategory('%s')", categoryNames.getString("name")));
                         });
                     });
                 }

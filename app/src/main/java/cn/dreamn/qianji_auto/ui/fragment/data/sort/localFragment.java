@@ -144,7 +144,7 @@ public class localFragment extends BaseFragment {
                 public void onSelect(int index) {
                     switch (index) {
                         case 0:
-                            WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Category/index.min.html");
+                            WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/index.html");
                             break;
                         case 1:
                             WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Category/js.min.html");
