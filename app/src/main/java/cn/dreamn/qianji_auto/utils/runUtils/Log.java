@@ -112,7 +112,7 @@ public class Log {
     public static void getAll(onResult ret) {
         Task.onThread(()-> {
 
-            cn.dreamn.qianji_auto.database.Table.Log[] logs = DbManger.db.LogDao().loadAll();
+            cn.dreamn.qianji_auto.database.Table.Log[] logs = DbManger.db.LogDao().loadLimit();
             if (logs == null || logs.length <= 0) {
                 ret.getLog(null);
                 return;

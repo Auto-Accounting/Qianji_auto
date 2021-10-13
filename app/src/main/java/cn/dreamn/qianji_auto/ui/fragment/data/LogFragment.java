@@ -188,7 +188,7 @@ public class LogFragment extends BaseFragment {
         loadingDialog = new LoadingDialog(getContext(), getString(R.string.log_loading));
         loadingDialog.show();
         list = new ArrayList<>();
-        logData = new StringBuilder();
+
         Task.onThread(() -> Log.getAll(logs -> {
             if (logs == null || logs.length == 0) {
                 list.add("no log");

@@ -27,6 +27,9 @@ public interface LogDao {
     @Query("SELECT * FROM Log order by pos DESC")
     Log[] loadAll();
 
+    @Query("SELECT * FROM Log order by pos DESC limit 10000")
+    Log[] loadLimit();
+
     @Query("DELETE FROM Log WHERE (strftime('%s','now'))- time > :timeout")
     void deleteTimeout(int timeout);
 
