@@ -53,7 +53,21 @@ public class NickName {
                 utils.log("hook错误！获取不到昵称。错误：" + e2.toString());
             }
         }
+        try {
+            //获取昵称
+            XposedHelpers.findAndHookMethod("com.tencent.mm.ui.chatting.d.af", mAppClassLoader, "setMMTitle", CharSequence.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) {
+                    CharSequence UserName = (CharSequence) param.args[0];
+                    if (UserName.equals("")) return;
+                    utils.writeData("cache_userName", UserName.toString());
+                    utils.log("微信名：" + UserName.toString());
+                }
+            });
 
+        } catch (Error | Exception e2) {
+            utils.log("hook错误！获取不到昵称。错误：" + e2.toString());
+        }
 
         //
     }
