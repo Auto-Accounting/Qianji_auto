@@ -35,7 +35,7 @@ public class DataSelectListAdapter extends ArrayAdapter {
         item_title.setText(bundle.getString("name"));
 
 
-        GlideLoadUtils.getInstance().glideLoad(mContext, bundle.getString("icon"), icon_header, R.drawable.bg);
+        GlideLoadUtils.getInstance().glideLoad(mContext, bundle.getString("icon"), icon_header, R.drawable.bg_timepicker);
 
         return view;
 

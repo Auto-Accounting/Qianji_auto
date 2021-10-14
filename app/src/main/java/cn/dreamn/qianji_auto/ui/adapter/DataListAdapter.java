@@ -27,7 +27,7 @@ public class DataListAdapter extends BaseAdapter {
 
         item_title.setText(item.getString("name"));
 
-        GlideLoadUtils.getInstance().glideLoad(mContext, item.getString("icon"), icon_header, R.drawable.bg);
+        GlideLoadUtils.getInstance().glideLoad(mContext, item.getString("icon"), icon_header, R.drawable.bg_timepicker);
 
 
     }

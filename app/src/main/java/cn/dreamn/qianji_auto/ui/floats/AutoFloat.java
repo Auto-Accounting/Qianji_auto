@@ -38,12 +38,14 @@ import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
-import com.afollestad.materialdialogs.datetime.DateTimePickerExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.google.android.material.textfield.TextInputEditText;
 import com.tencent.mmkv.MMKV;
 
+import net.ankio.timepicker.listener.OnTimeSelectListener;
+
 import java.util.Arrays;
+import java.util.Date;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
@@ -53,6 +55,7 @@ import cn.dreamn.qianji_auto.database.Helper.Assets;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
@@ -253,25 +256,14 @@ public class AutoFloat {
         });
         ll_time.setOnClickListener(v -> {
             Log.m("请修改时间信息");
+            BottomArea.selectTime(getContext(), false, true, new OnTimeSelectListener() {
+                @Override
+                public void onTimeSelect(Date date, View v) {
+                    billInfo2.setTime(Tool.getTime("yyyy-MM-dd HH:mm:ss", date.getTime()));
+                    mMainHandler.sendEmptyMessage(0);
+                }
+            });
 
-            BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
-            MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
-            DateTimePickerExtKt.dateTimePicker(dialog, null, null, false,
-                    false, true,
-                    (materialDialog, dateTime) -> {
-                        billInfo2.setTime(Tool.getTime("yyyy-MM-dd HH:mm:ss", dateTime.getTimeInMillis()));
-                        mMainHandler.sendEmptyMessage(0);
-                        return null;
-                    });
-            //
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
-            } else {
-                dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
-            }
-
-            dialog.cornerRadius(15f, null);
-            dialog.show();
         });
         ll_type.setOnClickListener(v -> {
             Log.m("请选择收支类型");

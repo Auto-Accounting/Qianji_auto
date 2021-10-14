@@ -104,7 +104,7 @@ public class CategoryAdapter extends BaseAdapter {
         });
         item_text.setText(item.getString("name"));
 
-        GlideLoadUtils.getInstance().glideLoad(mContext, item.getString("icon"), item_image_icon, R.drawable.bg);
+        GlideLoadUtils.getInstance().glideLoad(mContext, item.getString("icon"), item_image_icon, R.drawable.bg_timepicker);
 
 
         setColor(select == position, item_image_icon, iv_more, item_text);
