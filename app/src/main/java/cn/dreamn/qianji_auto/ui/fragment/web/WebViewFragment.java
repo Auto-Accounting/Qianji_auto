@@ -10,7 +10,9 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
+import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -19,25 +21,43 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 
+import com.afollestad.materialdialogs.LayoutMode;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
+import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 import com.alibaba.fastjson.JSONObject;
 import com.hjq.toast.ToastUtils;
+import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.core.PageOption;
 import com.xuexiang.xpage.enums.CoreAnim;
 
+import net.ankio.timepicker.listener.OnTimeSelectListener;
+
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.TitleBar;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
+import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
@@ -200,17 +220,27 @@ public class WebViewFragment extends BaseFragment {
             //定义提供html页面调用的方法
             Object appToJsObject = new Object() {
                 @JavascriptInterface
-                public void Save(String data, String js, String name, String des, String id) {
+                public void save(String js, String data) {
+                    JSONObject jsonObject = JSONObject.parseObject(data);
+                    int version = Integer.parseInt(jsonObject.getString("version"));
+                    String regular_name = jsonObject.getString("regular_name");
+                    String regular_remark = jsonObject.getString("regular_remark");
+                    String data_id = jsonObject.getString("data_id");
+                    String id = jsonObject.getString("data_id");
+                    if (data_id.equals("")) {
+                        jsonObject.put("data_id", Tool.getRandomString(32));
+                    }
+                    version++;
+                    jsonObject.put("version", version);
                     if (id.equals("")) {
-
                         //存储规则
-                        Category.addCategory(js, name, data, des, () -> {
+                        Category.addCategory(js, regular_name, data, regular_remark, () -> {
                             ToastUtils.show(R.string.save_success);
                             popToBack();
                         });
                     } else {
                         //存储规则
-                        Category.changeCategory(Integer.parseInt(id), js, name, data, des, () -> {
+                        Category.changeCategory(Integer.parseInt(id), js, regular_name, data, regular_remark, () -> {
                             ToastUtils.show(R.string.change_success);
                             popToBack();
                         });
@@ -219,7 +249,148 @@ public class WebViewFragment extends BaseFragment {
                 }
 
                 @JavascriptInterface
+                public void toast(String msg) {
+                    ToastUtils.show(msg);
+                }
+
+                @JavascriptInterface
+                public void selectTime(String dom) {
+                    BottomArea.selectTime(getContext(), true, false, new OnTimeSelectListener() {
+                        @Override
+                        public void onTimeSelect(Date date, View v) {
+                            String time = DateUtils.getTime("HH:mm", date.getTime());
+                            doJsFunction(String.format("webviewCallback.setTime('%s','%s')", dom, time));
+                        }
+                    });
+                }
+
+                @SuppressLint("SetTextI18n")
+                @JavascriptInterface
                 public void testCategory(String js) {
+                    LayoutInflater factory = LayoutInflater.from(getContext());
+                    View mView = factory.inflate(R.layout.float_test_sort, null);
+                    BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+                    MaterialDialog dialog = new MaterialDialog(getContext(), bottomSheet);
+                    dialog.cancelable(false);
+                    DialogCustomViewExtKt.customView(dialog, null, mView,
+                            false, true, false, false);
+                    dialog.cornerRadius(15f, null);
+                    dialog.show();
+
+                    LinearLayout layout_money = mView.findViewById(R.id.layout_money);
+                    TextView tv_money = mView.findViewById(R.id.tv_money);
+
+                    LinearLayout ll_type = mView.findViewById(R.id.ll_type);
+                    TextView tv_type = mView.findViewById(R.id.tv_type);
+
+                    LinearLayout ll_time = mView.findViewById(R.id.ll_time);
+                    TextView tv_time = mView.findViewById(R.id.tv_time);
+
+                    LinearLayout ll_shopname = mView.findViewById(R.id.ll_shopname);
+                    TextView tv_shopname = mView.findViewById(R.id.tv_shopname);
+
+                    LinearLayout ll_remark = mView.findViewById(R.id.ll_remark);
+                    TextView tv_remark = mView.findViewById(R.id.tv_remark);
+
+                    Button button_last = mView.findViewById(R.id.button_last);
+                    Button button_next = mView.findViewById(R.id.button_next);
+
+                    MMKV mmkv = MMKV.defaultMMKV();
+                    JSONObject jsonObject = JSONObject.parseObject(mmkv.getString("cache_category", "{}"));
+                    try {
+                        String m = jsonObject.getString("tv_money");
+                        if (m == null) m = "0";
+                        tv_money.setText("￥" + m);
+
+                        m = jsonObject.getString("tv_type");
+                        if (m == null) m = "支出";
+                        tv_type.setText(m);
+
+                        tv_time.setText(jsonObject.getString("tv_time"));
+                        tv_shopname.setText(jsonObject.getString("tv_shopname"));
+                        tv_remark.setText(jsonObject.getString("tv_remark"));
+                    } catch (Throwable ignored) {
+                    }
+                    layout_money.setOnClickListener(view -> BottomArea.input(getContext(), getString(R.string.input_money), tv_money.getText().toString().replace("￥", ""), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+                        @Override
+                        public void input(String data) {
+                            tv_money.setText("￥" + data);
+                            jsonObject.put("tv_money", data);
+                        }
+
+                        @Override
+                        public void cancel() {
+
+                        }
+                    }));
+                    List<String> list = Arrays.asList("支出", "收入", "报销");
+                    ll_type.setOnClickListener(view -> BottomArea.list(getContext(), getString(R.string.select_type), list, new BottomArea.ListCallback() {
+                        @Override
+                        public void onSelect(int i) {
+                            tv_type.setText(list.get(i));
+                            jsonObject.put("tv_type", list.get(i));
+
+                        }
+
+                    }));
+                    ll_time.setOnClickListener(view -> {
+                        BottomArea.selectTime(getContext(), true, false, (date, v) -> {
+                            tv_time.setText(Tool.getTime("yyyy-MM-dd HH:mm:ss", date.getTime()));
+                            jsonObject.put("tv_time", Tool.getTime("yyyy-MM-dd HH:mm:ss", date.getTime()));
+                        });
+                    });
+                    ll_shopname.setOnClickListener(view -> BottomArea.input(getContext(), getString(R.string.input_data), tv_shopname.getText().toString(), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+                        @Override
+                        public void input(String data) {
+                            tv_shopname.setText(data);
+                            jsonObject.put("tv_shopname", data);
+                        }
+
+                        @Override
+                        public void cancel() {
+
+                        }
+                    }));
+                    ll_remark.setOnClickListener(view -> BottomArea.input(getContext(), getString(R.string.input_data), tv_remark.getText().toString(), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+                        @Override
+                        public void input(String data) {
+                            tv_remark.setText(data);
+                            jsonObject.put("tv_remark", data);
+                        }
+
+                        @Override
+                        public void cancel() {
+
+                        }
+                    }));
+
+                    button_last.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mmkv.encode("cache_category", jsonObject.toJSONString());
+                            dialog.dismiss();
+                        }
+                    });
+
+                    button_next.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mmkv.encode("cache_category", jsonObject.toJSONString());
+                            BillInfo billInfo = new BillInfo();
+                            billInfo.setShopRemark(tv_remark.getText().toString());
+                            billInfo.setTime(tv_time.getText().toString());
+                            billInfo.setShopAccount(tv_shopname.getText().toString());
+                            billInfo.setType(BillInfo.getTypeId(tv_type.getText().toString()));
+                            billInfo.setMoney(tv_money.getText().toString().replace("￥", ""));
+                            Handler handler = new Handler(Looper.getMainLooper()) {
+                                @Override
+                                public void handleMessage(@NonNull Message msg) {
+                                    BottomArea.msg(getContext(), "分类结果", (String) msg.obj);
+                                }
+                            };
+                            Category.getCategory(billInfo, js, str -> HandlerUtil.send(handler, str, -1));
+                        }
+                    });
 
                 }
 

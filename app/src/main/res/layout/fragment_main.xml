@@ -97,7 +97,7 @@
                         android:id="@+id/book_img"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/bg">
+                        android:background="@drawable/bg_timepicker">
 
                         <View
                             android:id="@+id/view_headImg"

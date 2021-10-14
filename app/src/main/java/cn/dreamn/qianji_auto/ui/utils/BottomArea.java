@@ -187,7 +187,7 @@ public class BottomArea {
                 .setRangDate(startDate, endDate)
                 .setCancelText("取消")//取消按钮文字
                 .setSubmitText("确定")//确认按钮文字
-                .setTitleSize(20)//标题文字大小
+                .setTitleSize(18)//标题文字大小
                 .setTitleText("请选择时间")//标题文字
                 .setOutSideCancelable(false)//点击屏幕，点在控件外部范围时，是否取消显示
                 .isCyclic(false)//是否循环滚动

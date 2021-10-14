@@ -121,7 +121,7 @@ public class SendDataToApp {
 
             int minLength = str.length() * 20;
 
-            autoFloatTip.setWindowManagerParams(ScreenUtils.getScreenWidth(context), ScreenUtils.getScreenHeight(context) / 2 - 100, 360 + minLength, 150);
+            autoFloatTip.setWindowManagerParams(ScreenUtils.getScreenWidth(context), ScreenUtils.getScreenHeight(context) / 2 - 100, 380 + minLength, 150);
 
             autoFloatTip.show();
         } catch (Exception e) {

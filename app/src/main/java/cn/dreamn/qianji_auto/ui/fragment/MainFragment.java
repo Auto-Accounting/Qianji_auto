@@ -325,7 +325,7 @@ public class MainFragment extends BaseFragment {
             @Override
             public void handleMessage(@NonNull Message msg) {
 
-                GlideLoadUtils.getInstance().glideLoad(getContext(), (String) msg.obj, book_img, R.drawable.bg);
+                GlideLoadUtils.getInstance().glideLoad(getContext(), (String) msg.obj, book_img, R.drawable.bg_timepicker);
             }
         };
         BookNames.getIcon(def_book, icon -> {

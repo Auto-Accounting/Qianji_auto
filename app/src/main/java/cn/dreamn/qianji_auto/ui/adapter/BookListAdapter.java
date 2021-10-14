@@ -27,7 +27,7 @@ public class BookListAdapter extends BaseAdapter {
         TextView item_title = (TextView) holder.findView(R.id.item_value);
 
         item_title.setText(item.getString("name"));
-        GlideLoadUtils.getInstance().glideLoad(mContext, item.getString("cover"), rl_bg, R.drawable.bg);
+        GlideLoadUtils.getInstance().glideLoad(mContext, item.getString("cover"), rl_bg, R.drawable.bg_timepicker);
 
 
 

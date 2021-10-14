@@ -38,7 +38,7 @@ public class MapListAdapter extends BaseAdapter {
         Handler mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                GlideLoadUtils.getInstance().glideLoad(mContext, (String) msg.obj, icon_header, R.drawable.bg);
+                GlideLoadUtils.getInstance().glideLoad(mContext, (String) msg.obj, icon_header, R.drawable.bg_timepicker);
             }
         };
         Assets.getPic(item.getString("mapName"), asset2s -> {

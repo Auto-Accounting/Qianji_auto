@@ -35,7 +35,7 @@ public class BookSelectListAdapter extends ArrayAdapter {
 
         item_title.setText(bundle.getString("name"));
 
-        GlideLoadUtils.getInstance().glideLoad(mContext, bundle.getString("cover"), rl_bg, R.drawable.bg);
+        GlideLoadUtils.getInstance().glideLoad(mContext, bundle.getString("cover"), rl_bg, R.drawable.bg_timepicker);
 
         return view;
 
