@@ -32,6 +32,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.JsEngine;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class Category {
     public static void getCategory(BillInfo billInfo, String js, getStrings getStr) {
@@ -117,9 +118,12 @@ public class Category {
         jsonObject.put("regular_shopRemark_link", "包含");
         jsonObject.put("regular_shopRemark", shopRemark);
         jsonObject.put("regular_type", BillInfo.getTypeName(billInfo.getType()));
+
         jsonObject.put("iconImg", "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png");
         jsonObject.put("regular_sort", sort);
-        Category.addCategory(regular, billInfo.getShopAccount(), jsonObject.toJSONString(), "[自动生成]", new Finish() {
+        String data_id = Tool.getRandomString(32);
+        jsonObject.put("data_id", data_id);
+        Category.addCategory(regular, billInfo.getShopAccount(), jsonObject.toJSONString(), "[自动生成]", data_id, new Finish() {
             @Override
             public void onFinish() {
 
@@ -146,6 +150,7 @@ public class Category {
                 bundle.putString("des", regular1.des);
                 bundle.putString("regular", regular1.regular);
                 bundle.putString("tableList", regular1.tableList);
+                bundle.putString("dataId", regular1.dataId);
                 bundleList.add(bundle);
             }
             getRegular.onGet(bundleList.toArray(new Bundle[0]));
@@ -183,16 +188,26 @@ public class Category {
     }
 
 
-    public static void addCategory(String js, String name, String tableList, String des, Finish finish) {
+    public static void addCategory(String js, String name, String tableList, String des, String dataId, Finish finish) {
         Task.onThread(() -> {
-            DbManger.db.RegularDao().add(js, name, tableList, des);
+            if (dataId != null && !dataId.equals("")) {
+                Regular[] regulars = DbManger.db.RegularDao().loadByDataId(dataId);
+                if (regulars != null && regulars.length != 0) {
+                    DbManger.db.RegularDao().update(regulars[0].id, js, name, tableList, des, dataId);
+                } else {
+                    DbManger.db.RegularDao().add(js, name, tableList, des, dataId);
+                }
+            } else {
+                DbManger.db.RegularDao().add(js, name, tableList, des, dataId);
+            }
             finish.onFinish();
         });
     }
 
-    public static void changeCategory(int id, String js, String name, String tableList, String des, Finish finish) {
+
+    public static void changeCategory(int id, String js, String name, String tableList, String des, String dataId, Finish finish) {
         Task.onThread(() -> {
-            DbManger.db.RegularDao().update(id, js, name, tableList, des);
+            DbManger.db.RegularDao().update(id, js, name, tableList, des, dataId);
             finish.onFinish();
         });
     }

@@ -35,6 +35,7 @@ public class LoadingDialog {
     }
 
     public void show() {
+
         mLoadingDialog.show();
         mLoadingView.startAnim();
     }

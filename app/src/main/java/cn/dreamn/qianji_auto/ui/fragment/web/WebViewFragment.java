@@ -1,9 +1,11 @@
 package cn.dreamn.qianji_auto.ui.fragment.web;
 
+import static cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment.KEY_DATA;
 import static cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment.KEY_URL;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -47,6 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
+import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.database.Helper.BookNames;
@@ -62,9 +65,10 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
-@Page(name = "WebView", params = {KEY_URL}, anim = CoreAnim.slide)
+@Page(name = "WebView", params = {KEY_URL, KEY_DATA}, anim = CoreAnim.slide)
 public class WebViewFragment extends BaseFragment {
     public static final String KEY_URL = "KEY_URL";
+    public static final String KEY_DATA = "KEY_DATA";
 
     @BindView(R.id.title_bar)
     TitleBar title_bar;
@@ -102,10 +106,7 @@ public class WebViewFragment extends BaseFragment {
 
     @Override
     protected void initTitle() {
-        // super.initTitle();
         title_bar.setInner(getActivity());
-
-
         title_bar.setLeftIconOnClickListener(v -> popToBack());
     }
 
@@ -149,12 +150,8 @@ public class WebViewFragment extends BaseFragment {
         public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
             super.onReceivedHttpError(view, request, errorResponse);
         }
-
-
     };
     Handler mHandler;
-
-
 
     public static void openUrl(BaseFragment baseFragment, String url) {
         PageOption.to(WebViewFragment.class)
@@ -163,10 +160,20 @@ public class WebViewFragment extends BaseFragment {
                 .open(baseFragment);
     }
 
+    public static void openUrl(BaseFragment baseFragment, String url, String data) {
+        PageOption.to(WebViewFragment.class)
+                .setNewActivity(true)
+                .putString(KEY_URL, url)
+                .putString(KEY_DATA, data)
+                .open(baseFragment);
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void initViews() {
+        Log.init("webview");
         String url = getUrl();
+        String data = getData();
         if (!url.startsWith("file:///android_asset/")) {
             title_bar.setRightIcon("&#xe60c;", 16);
             title_bar.setRightIconOnClickListener(v -> {
@@ -182,7 +189,6 @@ public class WebViewFragment extends BaseFragment {
                         case R.id.copy:
                             Tool.clipboard(getContext(), webView.getUrl());
                             ToastUtils.show(R.string.copied);
-
                             break;
                         case R.id.web:
                             Tool.goUrl(getContext(), webView.getUrl());
@@ -202,6 +208,9 @@ public class WebViewFragment extends BaseFragment {
         webSettings.setDomStorageEnabled(true);// 打开本地缓存提供JS调用,至关重要
         webSettings.setAllowFileAccess(true);
         webSettings.setAppCacheEnabled(true);
+        if (App.isDebug()) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
         //  webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 //用handler访问让方法在主进程内处理
         mHandler = new Handler(Looper.myLooper()) {
@@ -226,21 +235,22 @@ public class WebViewFragment extends BaseFragment {
                     String regular_name = jsonObject.getString("regular_name");
                     String regular_remark = jsonObject.getString("regular_remark");
                     String data_id = jsonObject.getString("data_id");
-                    String id = jsonObject.getString("data_id");
+                    String id = jsonObject.getString("id");
                     if (data_id.equals("")) {
-                        jsonObject.put("data_id", Tool.getRandomString(32));
+                        data_id = Tool.getRandomString(32);
+                        jsonObject.put("data_id", data_id);
                     }
                     version++;
                     jsonObject.put("version", version);
                     if (id.equals("")) {
                         //存储规则
-                        Category.addCategory(js, regular_name, data, regular_remark, () -> {
+                        Category.addCategory(js, regular_name, jsonObject.toJSONString(), regular_remark, data_id, () -> {
                             ToastUtils.show(R.string.save_success);
                             popToBack();
                         });
                     } else {
                         //存储规则
-                        Category.changeCategory(Integer.parseInt(id), js, regular_name, data, regular_remark, () -> {
+                        Category.changeCategory(Integer.parseInt(id), js, regular_name, jsonObject.toJSONString(), regular_remark, data_id, () -> {
                             ToastUtils.show(R.string.change_success);
                             popToBack();
                         });
@@ -414,10 +424,17 @@ public class WebViewFragment extends BaseFragment {
                         });
                     });
                 }
+
+                @JavascriptInterface
+                public void initData() {
+                    if (!data.equals("")) {
+                        doJsFunction(String.format("webviewCallback.setData('%s')", Uri.encode(data)));
+                    }
+                }
             };
-
-
             webView.addJavascriptInterface(appToJsObject, "AndroidJS");
+
+
         } else if (url.startsWith("file:///android_asset/html/Regulars/")) {
             //== webview 与js交互=========================
             //定义提供html页面调用的方法
@@ -503,6 +520,21 @@ public class WebViewFragment extends BaseFragment {
 
         if (TextUtils.isEmpty(target)) {
             target = getString(R.string.githubUrl);
+        }
+        return target;
+    }
+
+    public String getData() {
+        String target = "";
+        Bundle bundle = getArguments();
+
+        if (bundle != null) {
+            Log.d("webview", bundle.toString());
+            target = bundle.getString(KEY_DATA);
+        }
+
+        if (TextUtils.isEmpty(target)) {
+            target = "";
         }
         return target;
     }

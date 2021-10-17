@@ -159,8 +159,8 @@ public class RegularManager {
         Task.onThread(() -> {
             for (int i = 0; i < array.size(); i++) {
                 JSONObject jsonObject1 = array.getJSONObject(i);
-
-                Category.addCategory(jsonObject1.getString("regular"), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des"), new Category.Finish() {
+                JSONObject jsonObject = JSONObject.parseObject(jsonObject1.getString("tableList"));
+                Category.addCategory(jsonObject1.getString("regular"), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des"), jsonObject.getString("data_id"), new Category.Finish() {
                     @Override
                     public void onFinish() {
                         // Log.d("finish data" + jsonObject1.toString());
@@ -237,9 +237,11 @@ public class RegularManager {
         }
     }
 
-    public static void outputRegOne(Context context, String name, String type, JSONObject js, boolean share) {
+    public static void outputRegOne(Context context, String name, String type, String dataId, String version, JSONObject js, boolean share) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("from", type);
+        jsonObject.put("id", dataId);
+        jsonObject.put("version", version);
         JSONArray jsonArray = new JSONArray();
         jsonArray.add(js);
         jsonObject.put("data", jsonArray);
@@ -255,8 +257,8 @@ public class RegularManager {
 
     }
 
-    public static void outputRegOne(Context context, String name, String type, JSONObject js) {
-        outputRegOne(context, name, type, js, false);
+    public static void outputRegOne(Context context, String name, String type, String dataId, String version, JSONObject js) {
+        outputRegOne(context, name, type, dataId, version, js, false);
     }
 
     public static void output(Context mContext, String name, String type) {

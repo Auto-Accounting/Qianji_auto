@@ -56,6 +56,7 @@ import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.files.RegularManager;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
@@ -139,18 +140,15 @@ public class localFragment extends BaseFragment {
         });
         action_cate.setOnClickListener(v -> {
 
-            BottomArea.list(getContext(), getString(R.string.select_edit), Arrays.asList(getString(R.string.edit_default), getString(R.string.edit_js)), new BottomArea.ListCallback() {
-                @Override
-                public void onSelect(int index) {
-                    switch (index) {
-                        case 0:
-                            WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/index.html");
-                            break;
-                        case 1:
-                            WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Category/js.min.html");
-                            break;
+            BottomArea.list(getContext(), getString(R.string.select_edit), Arrays.asList(getString(R.string.edit_default), getString(R.string.edit_js)), index -> {
+                switch (index) {
+                    case 0:
+                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/index.html");
+                        break;
+                    case 1:
+                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/js.html");
+                        break;
 
-                    }
                 }
             });
 
@@ -250,11 +248,30 @@ public class localFragment extends BaseFragment {
                         if (cate.getString("tableList") == null || cate.getString("tableList").equals("")) {
                             ToastUtils.show(getString(R.string.edit_error));
                             break;
+                            //兼容beta6以前。
+                        } else {
+                            JSONObject jsonObject = JSONObject.parseObject(cate.getString("tableList"));
+                            if (jsonObject.containsKey("code")) {
+                                ToastUtils.show(getString(R.string.edit_error));
+                                break;
+                            }
                         }
-                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Category/index.min.html?id=" + cate.getInt("id") + "&data=" + Uri.encode(cate.getString("tableList")));
+                        JSONObject js = JSONObject.parseObject(cate.getString("tableList"));
+                        js.put("id", String.valueOf(cate.getInt("id")));
+                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/index.html", Uri.encode(js.toJSONString()));
                         break;
                     case 2:
-                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Category/js.min.html?id=" + cate.getInt("id") + "&data=" + Uri.encode(cate.getString("regular")) + "&name=" + Uri.encode(cate.getString("name")) + "&des=" + Uri.encode(cate.getString("des")));
+                        JSONObject js1 = JSONObject.parseObject(cate.getString("tableList"));
+                        if ("".equals(cate.getString("tableList")) || js1 == null) {
+                            //兼容beta6以前
+                            js1 = new JSONObject();
+                            js1.put("code", cate.getString("regular"));
+                            js1.put("regular_name", cate.getString("name"));
+                            js1.put("regular_remark", cate.getString("des"));
+                            js1.put("version", "1");
+                        }
+                        js1.put("id", String.valueOf(cate.getInt("id")));
+                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/js.html", Uri.encode(js1.toJSONString()));
                         break;
                     case 3:
 
@@ -266,12 +283,19 @@ public class localFragment extends BaseFragment {
 
                             @Override
                             public void sure() {
+                                JSONObject js1 = JSONObject.parseObject(cate.getString("tableList"));
+                                if (js1 == null || "".equals(js1.getString("data_id"))) {
+                                    Log.i(cate.getString("tableList"));
+                                    ToastUtils.show(R.string.beta6Tip);
+                                    return;
+                                }
                                 JSONObject jsonObject = new JSONObject();
                                 jsonObject.put("name", cate.getString("name"));
                                 jsonObject.put("regular", cate.getString("regular"));
                                 jsonObject.put("tableList", cate.getString("tableList"));
                                 jsonObject.put("des", cate.getString("des"));
-                                RegularManager.outputRegOne(getContext(), getString(R.string.auto), "category", jsonObject);
+
+                                RegularManager.outputRegOne(getContext(), getString(R.string.auto), "category", js1.getString("data_id"), js1.getString("version"), jsonObject);
 
                                 Tool.goUrl(getContext(), getString(R.string.github_issue_category));
 
@@ -281,12 +305,17 @@ public class localFragment extends BaseFragment {
 
                         break;
                     case 4:
+                        JSONObject js2 = JSONObject.parseObject(cate.getString("tableList"));
+                        if (js2 == null || "".equals(js2.getString("data_id"))) {
+                            ToastUtils.show(R.string.beta6Tip);
+                            return;
+                        }
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("name", cate.getString("name"));
                         jsonObject.put("regular", cate.getString("regular"));
                         jsonObject.put("tableList", cate.getString("tableList"));
                         jsonObject.put("des", cate.getString("des"));
-                        RegularManager.outputRegOne(getContext(), "自动分类_" + cate.getString("name"), "category", jsonObject, true);
+                        RegularManager.outputRegOne(getContext(), "自动分类_" + cate.getString("name"), "category", js2.getString("data_id"), js2.getString("version"), jsonObject, true);
                         break;
                     case 5:
                         if (finalDisable.equals(getString(R.string.disable))) {

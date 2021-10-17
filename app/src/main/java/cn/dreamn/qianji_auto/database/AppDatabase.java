@@ -56,7 +56,7 @@ import cn.dreamn.qianji_auto.database.Table.Regular;
         CategoryName.class,
         AppData.class,
         IdentifyRegular.class
-}, version = 10, exportSchema = false)
+}, version = 11, exportSchema = false)
 
 public abstract class AppDatabase extends RoomDatabase {
     public abstract LogDao LogDao();
@@ -268,6 +268,14 @@ public abstract class AppDatabase extends RoomDatabase {
 
             database.execSQL("ALTER TABLE AppData ADD COLUMN  use  INTEGER NOT NULL DEFAULT 1");
             database.execSQL("ALTER TABLE AppData ADD COLUMN  sort INTEGER NOT NULL DEFAULT 0");
+
+        }
+    };
+    static final Migration MIGRATION_10_11 = new Migration(10, 11) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+
+            database.execSQL("ALTER TABLE Regular ADD COLUMN  dataId Text NOT NULL DEFAULT ''");
 
         }
     };

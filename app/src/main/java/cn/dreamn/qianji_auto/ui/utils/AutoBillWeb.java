@@ -152,8 +152,6 @@ public class AutoBillWeb {
             public void handleMessage(@NonNull Message msg) {
                 //新版本更新
                 JSONObject jsonObject = (JSONObject) msg.obj;
-
-
                 BottomArea.msg(context, context.getString(R.string.new_version) + jsonObject.getString("version"), jsonObject.getString("log"), context.getString(R.string.update_go), context.getString(R.string.update_cancel), new BottomArea.MsgCallback() {
                     @Override
                     public void cancel() {

@@ -31,17 +31,20 @@ public interface RegularDao {
     @Query("SELECT * FROM regular WHERE use=1  order by sort,id")
     Regular[] load();
 
+    @Query("SELECT * FROM regular WHERE dataId=:data limit 1")
+    Regular[] loadByDataId(String data);
+
     @Query("DELETE FROM regular WHERE id=:id")
     void delete(int id);
 
     @Query("UPDATE  regular set sort=:sort WHERE id=:id")
     void setSort(int id, int sort);
 
-    @Query("INSERT INTO regular(regular,name,tableList,use,sort,des) values(:regular,:name,:tableList,1,0,:des)")
-    void add(String regular, String name, String tableList, String des);
+    @Query("INSERT INTO regular(regular,name,tableList,use,sort,des,dataId) values(:regular,:name,:tableList,1,0,:des,:dataId)")
+    void add(String regular, String name, String tableList, String des, String dataId);
 
-    @Query("UPDATE  regular SET regular=:regular,name=:name,tableList=:tableList,des=:des WHERE id=:id")
-    void update(int id, String regular, String name, String tableList, String des);
+    @Query("UPDATE  regular SET regular=:regular,name=:name,tableList=:tableList,des=:des,dataId=:dataId WHERE id=:id")
+    void update(int id, String regular, String name, String tableList, String des, String dataId);
 
     @Query("UPDATE  regular SET use=1 WHERE id=:id")
     void enable(int id);

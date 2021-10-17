@@ -21,6 +21,6 @@ android {
     }
 }
 dependencies {
-    implementation 'com.afollestad.material-dialogs:core:3.3.0'
+    api 'com.afollestad.material-dialogs:core:3.3.0'
     api project(path: ':material-dialogs-bottomsheets')
 }

@@ -65,6 +65,7 @@ dependencies {
     implementation project(path: ':filechooser')
     implementation project(path: ':material-dialogs-bottomsheets')
     implementation 'com.google.android.material:material:1.4.0'
+    implementation project(path: ':timepicker')
 
 
     testImplementation 'junit:junit:4.13.2'
@@ -119,8 +120,9 @@ dependencies {
     implementation 'com.github.SheHuan:StatusView:1.0.5'
     //material-dialogs
     implementation 'com.afollestad.material-dialogs:core:3.3.0'
-    implementation 'com.afollestad.material-dialogs:color:3.3.0'
-    implementation 'com.afollestad.material-dialogs:datetime:3.3.0'
+    //implementation 'com.afollestad.material-dialogs:color:3.3.0'
+   // implementation 'com.afollestad.material-dialogs:datetime:3.3.0'
+    //选择器
     //悬浮按钮
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     //悬浮窗

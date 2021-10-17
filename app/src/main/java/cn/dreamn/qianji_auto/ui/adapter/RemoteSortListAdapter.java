@@ -24,8 +24,9 @@ public class RemoteSortListAdapter extends BaseAdapter {
 
 
         TextView app_name = (TextView) holder.findView(R.id.app_name);
-
+        TextView app_update = (TextView) holder.findView(R.id.app_update);
         app_name.setText(item.getString("name"));
+        app_update.setText(item.getString("date"));
     }
 
 }

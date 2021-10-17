@@ -43,6 +43,7 @@ import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
@@ -202,11 +203,12 @@ public class remoteFragment extends BaseFragment {
                 // Log.m("网页返回结果->  " + data);
                 List<Bundle> datas = new ArrayList<>();
                 try {
-                    JSONArray jsonArray = JSONArray.parseArray(data);
-                    for (int i = 0; i < jsonArray.size(); i++) {
-                        String str = jsonArray.getString(i);
+                    JSONObject jsonObject = JSONObject.parseObject(data);
+                    for (Map.Entry entry : jsonObject.entrySet()) {
                         Bundle bundle = new Bundle();
-                        bundle.putString("name", str);
+                        JSONObject jsonObject1 = (JSONObject) entry.getValue();
+                        bundle.putString("date", jsonObject1.getString("date"));
+                        bundle.putString("name", jsonObject1.getString("name"));
                         datas.add(bundle);
                     }
                 } catch (Exception | Error e) {

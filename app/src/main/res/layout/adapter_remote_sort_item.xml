@@ -16,9 +16,22 @@
         android:layout_centerInParent="false"
         android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
+        android:maxLength="30"
         android:text="TextView"
         android:textColor="@color/black"
         android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/app_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="15dp"
+        android:text="2021-10-17 01:50:28"
+        android:textColor="@color/darkGrey"
+        android:textSize="14sp" />
 
 </RelativeLayout>
 

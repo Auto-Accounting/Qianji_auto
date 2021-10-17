@@ -1,6 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!--图标数据-->
-
     <string name="icon_caozuorizhi1">&#xe63e;</string>
     <string name="icon_qidong1">&#xe63f;</string>
     <string name="icon_chaoqiangshengdian1">&#xe63d;</string>
@@ -292,7 +291,7 @@
     <string name="could_body">目前，上传规则需要手动在Github建立Issue。\n点击『去提交』后将复制规则到剪切板并打开浏览器提交Issue。</string>
     <string name="regular_know">我知道了</string>
     <string name="regular_upload">去提交</string>
-    <string name="github_issue_category">https://github.com/dreamncn/Qianji_auto/issues</string>
+    <string name="github_issue_category">http://gitbot.ankio.net/submit/2</string>
     <string name="deny_success">禁用成功</string>
     <string name="enable_success">启用成功</string>
     <string name="import_auto">导入至自动记账</string>
@@ -428,5 +427,7 @@
     <string name="restore_error_2">恢复时发生错误！建议从文件管理器，选择文件打开！</string>
     <string name="accessibility_inner_title">❤️自动记账-懒人模式❤️</string>
     <string name="accessibility_inner_desc">自动记账无障碍模式,请不要Xposed模式同时开启。如果开启后未有自动记账运行通知，请重新开启。</string>
-    <string name="log_loading">日志加载中...</string>
+    <string name="log_loading">日志加载中…</string>
+    <string name="input_data">请输入数据</string>
+    <string name="beta6Tip">您使用的是Beta7以下版本的规则，请重新编辑保存后再分享！</string>
 </resources>
