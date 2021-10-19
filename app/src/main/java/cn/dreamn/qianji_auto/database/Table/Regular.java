@@ -30,6 +30,7 @@ public class Regular {
     public String tableList;
     public String des;
     public String dataId;//云端ID
+    public String version;//版本号
     public int use = 1;//是否启用该规则
     public int sort = 0;//排序
 

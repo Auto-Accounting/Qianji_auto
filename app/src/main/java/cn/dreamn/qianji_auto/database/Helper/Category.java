@@ -123,13 +123,29 @@ public class Category {
         jsonObject.put("regular_sort", sort);
         String data_id = Tool.getRandomString(32);
         jsonObject.put("data_id", data_id);
-        Category.addCategory(regular, billInfo.getShopAccount(), jsonObject.toJSONString(), "[自动生成]", data_id, new Finish() {
+        jsonObject.put("version", "0");
+        Category.addCategory(regular, billInfo.getShopAccount(), jsonObject.toJSONString(), "[自动生成]", data_id, "0", new Finish() {
             @Override
             public void onFinish() {
 
             }
         });
 
+    }
+
+    public static void getAllDataId(Regex getRegular) {
+        Task.onThread(() -> {
+            Regular[] regular = DbManger.db.RegularDao().getDataId();
+            List<Bundle> bundleList = new ArrayList<>();
+            for (Regular regular1 : regular) {
+                Bundle bundle = new Bundle();
+                bundle.putString("name", regular1.name);
+                bundle.putString("dataId", regular1.dataId);
+                bundle.putString("version", regular1.version);
+                bundleList.add(bundle);
+            }
+            getRegular.onGet(bundleList.toArray(new Bundle[0]));
+        });
     }
 
     public interface getStrings {
@@ -151,6 +167,7 @@ public class Category {
                 bundle.putString("regular", regular1.regular);
                 bundle.putString("tableList", regular1.tableList);
                 bundle.putString("dataId", regular1.dataId);
+                bundle.putString("version", regular1.version);
                 bundleList.add(bundle);
             }
             getRegular.onGet(bundleList.toArray(new Bundle[0]));
@@ -188,26 +205,26 @@ public class Category {
     }
 
 
-    public static void addCategory(String js, String name, String tableList, String des, String dataId, Finish finish) {
+    public static void addCategory(String js, String name, String tableList, String des, String dataId, String version, Finish finish) {
         Task.onThread(() -> {
             if (dataId != null && !dataId.equals("")) {
                 Regular[] regulars = DbManger.db.RegularDao().loadByDataId(dataId);
                 if (regulars != null && regulars.length != 0) {
-                    DbManger.db.RegularDao().update(regulars[0].id, js, name, tableList, des, dataId);
+                    DbManger.db.RegularDao().update(regulars[0].id, js, name, tableList, des, dataId, version);
                 } else {
-                    DbManger.db.RegularDao().add(js, name, tableList, des, dataId);
+                    DbManger.db.RegularDao().add(js, name, tableList, des, dataId, version);
                 }
             } else {
-                DbManger.db.RegularDao().add(js, name, tableList, des, dataId);
+                DbManger.db.RegularDao().add(js, name, tableList, des, dataId, version);
             }
             finish.onFinish();
         });
     }
 
 
-    public static void changeCategory(int id, String js, String name, String tableList, String des, String dataId, Finish finish) {
+    public static void changeCategory(int id, String js, String name, String tableList, String des, String dataId, String version, Finish finish) {
         Task.onThread(() -> {
-            DbManger.db.RegularDao().update(id, js, name, tableList, des, dataId);
+            DbManger.db.RegularDao().update(id, js, name, tableList, des, dataId, version);
             finish.onFinish();
         });
     }

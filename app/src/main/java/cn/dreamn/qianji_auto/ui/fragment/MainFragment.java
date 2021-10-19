@@ -17,9 +17,7 @@
 
 package cn.dreamn.qianji_auto.ui.fragment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
@@ -60,15 +58,14 @@ import cn.dreamn.qianji_auto.ui.fragment.data.regulars.MainAutoLearnFragment;
 import cn.dreamn.qianji_auto.ui.fragment.data.sort.MainAutoSortFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
-import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
+import cn.dreamn.qianji_auto.ui.utils.UpdateUtils;
 import cn.dreamn.qianji_auto.utils.files.BackupManager;
 import cn.dreamn.qianji_auto.utils.files.FileUtils;
 import cn.dreamn.qianji_auto.utils.files.RegularManager;
 import cn.dreamn.qianji_auto.utils.runUtils.Data;
 import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 
 
 @Page(name = "自动记账", anim = CoreAnim.zoom)
@@ -239,32 +236,21 @@ public class MainFragment extends BaseFragment {
     protected void initViews() {
         app_log.setText(BuildConfig.VERSION_NAME);
         Log.init("自动记账:MainFragment");
-        AutoBillWeb.update(getContext());
-        getWechat();
+        //AutoBillWeb.update(getContext());
+        UpdateUtils.checkUpdate(getContext(), new UpdateUtils.Update() {
+            @Override
+            public void onNoUpdate() {
+                Log.i("无更新");
+            }
+
+            @Override
+            public void onUpdate(String title, String body, String url, int ver) {
+                Log.i("有更新");
+            }
+        });
         Data.init(getContext());
     }
 
-    private void getWechat() {
-        if (!AppStatus.isXposed()) return;//不是Xp模式不需要
-        AutoBillWeb.getCouldRegular(new AutoBillWeb.WebCallback() {
-            @Override
-            public void onFailure() {
-                Log.d("尝试更新微信适配文件失败");
-            }
-
-            @Override
-            public void onSuccessful(String data) {
-                Log.d(data);
-                SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(getContext(), "wechat", Context.MODE_PRIVATE);
-                if (!sharedPreferences.getString("red", "").contains(data)) {
-                    sharedPreferences.edit().putString("red", data).apply();
-                    ToastUtils.show(R.string.update_wechat);
-                    Log.d("微信适配文件已更新！");
-                }
-
-            }
-        });
-    }
 
     @Override
     public void onResume() {

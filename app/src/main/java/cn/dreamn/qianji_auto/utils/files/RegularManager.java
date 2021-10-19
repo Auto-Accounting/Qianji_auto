@@ -160,7 +160,7 @@ public class RegularManager {
             for (int i = 0; i < array.size(); i++) {
                 JSONObject jsonObject1 = array.getJSONObject(i);
                 JSONObject jsonObject = JSONObject.parseObject(jsonObject1.getString("tableList"));
-                Category.addCategory(jsonObject1.getString("regular"), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des"), jsonObject.getString("data_id"), new Category.Finish() {
+                Category.addCategory(jsonObject1.getString("regular"), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des"), jsonObject.getString("data_id"), jsonObject.getString("version"), new Category.Finish() {
                     @Override
                     public void onFinish() {
                         // Log.d("finish data" + jsonObject1.toString());

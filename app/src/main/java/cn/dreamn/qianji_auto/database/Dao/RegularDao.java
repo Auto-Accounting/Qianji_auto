@@ -40,11 +40,11 @@ public interface RegularDao {
     @Query("UPDATE  regular set sort=:sort WHERE id=:id")
     void setSort(int id, int sort);
 
-    @Query("INSERT INTO regular(regular,name,tableList,use,sort,des,dataId) values(:regular,:name,:tableList,1,0,:des,:dataId)")
-    void add(String regular, String name, String tableList, String des, String dataId);
+    @Query("INSERT INTO regular(regular,name,tableList,use,sort,des,dataId,version) values(:regular,:name,:tableList,1,0,:des,:dataId,:version)")
+    void add(String regular, String name, String tableList, String des, String dataId, String version);
 
-    @Query("UPDATE  regular SET regular=:regular,name=:name,tableList=:tableList,des=:des,dataId=:dataId WHERE id=:id")
-    void update(int id, String regular, String name, String tableList, String des, String dataId);
+    @Query("UPDATE  regular SET regular=:regular,name=:name,tableList=:tableList,des=:des,dataId=:dataId,version=:version WHERE id=:id")
+    void update(int id, String regular, String name, String tableList, String des, String dataId, String version);
 
     @Query("UPDATE  regular SET use=1 WHERE id=:id")
     void enable(int id);
@@ -57,5 +57,8 @@ public interface RegularDao {
 
     @Query("DELETE FROM regular")
     void clean();
+
+    @Query("SELECT * FROM regular")
+    Regular[] getDataId();
 }
 

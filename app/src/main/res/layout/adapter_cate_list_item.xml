@@ -24,15 +24,32 @@
                 android:layout_width="10dp"
                 android:layout_height="30dp"
 
-                android:background="@color/succeed" />
+                android:background="@drawable/bg_cate_green" />
 
             <View
                 android:id="@+id/view_auto"
                 android:layout_width="10dp"
                 android:layout_height="30dp"
 
-                android:background="@color/succeed" />
+                android:background="@drawable/bg_cate_green_bottom" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="false"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:layout_toStartOf="@+id/icon_info"
+            android:background="@drawable/btn_normal_1"
+            android:paddingStart="8dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="2dp"
+            android:text="有更新"
+
+            android:textColor="@color/white" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -49,8 +66,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
+                android:ellipsize="end"
                 android:padding="2dp"
                 android:text="TextView"
+                android:maxLength="16"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -59,7 +78,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
+                android:ellipsize="end"
                 android:text="TextView"
+                android:maxLength="16"
                 android:textColor="@color/gray"
                 android:textSize="13sp" />
 

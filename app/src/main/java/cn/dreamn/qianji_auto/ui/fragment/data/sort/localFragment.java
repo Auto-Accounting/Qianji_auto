@@ -29,6 +29,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,6 +54,7 @@ import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
+import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.files.RegularManager;
@@ -83,6 +85,7 @@ public class localFragment extends BaseFragment {
     FloatingActionButton action_delAll;
     private CateItemListAdapter mAdapter;
     private List<Bundle> list;
+    private JSONObject jsonObject;
     Handler mHandler;
 
     @Override
@@ -93,7 +96,7 @@ public class localFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        loadFromData();
+        getUpdate();
     }
 
     @Override
@@ -107,6 +110,8 @@ public class localFragment extends BaseFragment {
                         break;
                     case HANDLE_OK:
                         mAdapter.refresh(list);
+                        mAdapter.setUpdateJSON(jsonObject);
+
                         if (statusView != null) statusView.showContentView();
                         break;
                     case HANDLE_REFRESH:
@@ -193,6 +198,37 @@ public class localFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(this::OnItemClickListen);
         mAdapter.setOnMoreClick(item -> {
             BottomArea.msg(getContext(), item.getString("name"), item.getString("des"));
+        });
+        mAdapter.setOnUpdateClick(json -> {
+            Handler handler = new Handler(Looper.getMainLooper()) {
+                @Override
+                public void handleMessage(@NonNull Message msg) {
+                    RegularManager.restoreFromData(getContext(), "", "category", (String) msg.obj, code -> {
+                    });
+                }
+            };
+            BottomArea.msg(getContext(), json.getString("title"), json.getString("log"), getContext().getString(R.string.update_go), getContext().getString(R.string.update_cancel), new BottomArea.MsgCallback() {
+                @Override
+                public void cancel() {
+
+                }
+
+                @Override
+                public void sure() {
+                    AutoBillWeb.getCategory(json.getString("name"), new AutoBillWeb.WebCallback() {
+                        @Override
+                        public void onFailure() {
+
+                        }
+
+                        @Override
+                        public void onSuccessful(String data) {
+                            HandlerUtil.send(handler, data, -1);
+
+                        }
+                    });
+                }
+            });
         });
         recyclerView.setLongPressDragEnabled(true);
         recyclerView.setOnItemMoveListener(new OnItemMoveListener() {
@@ -334,12 +370,26 @@ public class localFragment extends BaseFragment {
 
     }
 
+    private void getUpdate() {
+        AutoBillWeb.getCategoryList(new AutoBillWeb.WebCallback() {
+
+            @Override
+            public void onFailure() {
+                HandlerUtil.send(mHandler, HANDLE_REFRESH);
+            }
+
+            @Override
+            public void onSuccessful(String data) {
+                jsonObject = JSONObject.parseObject(data);
+                HandlerUtil.send(mHandler, HANDLE_REFRESH);
+            }
+        });
+    }
 
     public void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
         Task.onThread(() -> {
             Category.getAll(regulars -> {
-
                 if (regulars == null || regulars.length == 0) {
                     HandlerUtil.send(mHandler, HANDLE_ERR);
                 } else {

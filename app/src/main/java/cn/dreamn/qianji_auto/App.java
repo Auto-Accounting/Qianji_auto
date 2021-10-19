@@ -55,13 +55,14 @@ public class App extends Application {
      * 初始化基础库
      */
     private void initLibs() {
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
         initMMKV();
         initFragment();
         initTheme();
         initToast();
         initDatabase();
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
+
         XXPermissions.setScopedStorage(true);
         MultiprocessSharedPreferences.setAuthority("cn.dreamn.qianji_auto.provider");
     }

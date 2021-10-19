@@ -2,9 +2,12 @@ package cn.dreamn.qianji_auto.ui.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +30,7 @@ import java.util.List;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.adapter.ListArrayAdapter;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class BottomArea {
@@ -70,6 +74,55 @@ public class BottomArea {
 
         dialog.cornerRadius(15f, null);
         dialog.show();
+    }
+
+    static public void msgAuto(Context context, String title, String msg, String rightName, String leftName, MsgCallback callback) {
+        LayoutInflater factory = LayoutInflater.from(context);
+        final View textEntryView = factory.inflate(R.layout.include_list_msg, null);
+        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+        MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
+        dialog.title(null, title);
+
+        TextView textView_body = textEntryView.findViewById(R.id.textView_body);
+        textView_body.setText(msg);
+        textView_body.setMovementMethod(ScrollingMovementMethod.getInstance());
+
+        Button button_next = textEntryView.findViewById(R.id.button_next);
+        Button button_last = textEntryView.findViewById(R.id.button_last);
+        button_next.setText(rightName);
+        button_next.setOnClickListener(v -> {
+            callback.sure();
+            dialog.dismiss();
+        });
+        button_last.setText(leftName);
+        button_last.setOnClickListener(v -> {
+            callback.cancel();
+            dialog.dismiss();
+        });
+
+        DialogCustomViewExtKt.customView(dialog, null, textEntryView,
+                false, true, false, false);
+
+        dialog.cornerRadius(15f, null);
+        dialog.show();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                ViewGroup.LayoutParams lp = textView_body.getLayoutParams();
+                int height1 = textView_body.getHeight();
+                int height = ScreenUtils.getScreenHeight(context);
+                Log.d("屏幕高度：" + height);
+                Log.d("recyclerView高度：" + height1);
+                int height2 = height - ScreenUtils.dip2px(context, 200);//减去底部和顶部
+                // Log.d("55dip："+ScreenUtils.dip2px(mContext,55));
+                Log.d("计算最大限制高度：" + height2);
+                if (height1 > height2) {
+                    Log.d("超出高度：recyclerView高度" + height1 + "_计算:" + height2);
+                    lp.height = height2;
+                    textView_body.setLayoutParams(lp);
+                }
+            }
+        });
     }
 
     static public void input(Context context, String title, String msg, String rightName, String leftName, InputCallback inputCallback) {

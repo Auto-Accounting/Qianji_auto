@@ -244,13 +244,13 @@ public class WebViewFragment extends BaseFragment {
                     jsonObject.put("version", version);
                     if (id.equals("")) {
                         //存储规则
-                        Category.addCategory(js, regular_name, jsonObject.toJSONString(), regular_remark, data_id, () -> {
+                        Category.addCategory(js, regular_name, jsonObject.toJSONString(), regular_remark, data_id, String.valueOf(version), () -> {
                             ToastUtils.show(R.string.save_success);
                             popToBack();
                         });
                     } else {
                         //存储规则
-                        Category.changeCategory(Integer.parseInt(id), js, regular_name, jsonObject.toJSONString(), regular_remark, data_id, () -> {
+                        Category.changeCategory(Integer.parseInt(id), js, regular_name, jsonObject.toJSONString(), regular_remark, data_id, String.valueOf(version), () -> {
                             ToastUtils.show(R.string.change_success);
                             popToBack();
                         });

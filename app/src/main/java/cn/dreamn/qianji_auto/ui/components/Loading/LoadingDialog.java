@@ -8,12 +8,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.utils.runUtils.Task;
 
 public class LoadingDialog {
     LVCircularRing mLoadingView;
     Dialog mLoadingDialog;
 
     public LoadingDialog(Context context, String msg) {
+        if (!Task.isMainThread()) return;
         // 首先得到整个View
         View view = LayoutInflater.from(context).inflate(
                 R.layout.components_loading_dialog_view, null);
@@ -35,12 +37,13 @@ public class LoadingDialog {
     }
 
     public void show() {
-
+        if (!Task.isMainThread()) return;
         mLoadingDialog.show();
         mLoadingView.startAnim();
     }
 
     public void close() {
+        if (!Task.isMainThread()) return;
         if (mLoadingDialog != null) {
             mLoadingView.stopAnim();
             mLoadingDialog.dismiss();
