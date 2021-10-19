@@ -416,56 +416,10 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:background="@color/background_white"
-                android:backgroundTint="@color/background_white"
-                android:id="@+id/item_support"
-                android:orientation="vertical">
-
-                <RelativeLayout
-
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:padding="10dp">
-
-                    <cn.dreamn.qianji_auto.ui.components.IconView
-                        android:id="@+id/iconView15"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="5dp"
-                        android:text="&#xe62d;"
-                        android:textColor="@color/gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="10dp"
-                        android:layout_toStartOf="@+id/iconView15"
-                        android:text="一分也是爱"
-                        android:textColor="@color/gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="10dp"
-                        android:text="打赏支持"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                </RelativeLayout>
-            </LinearLayout>
-
-            <LinearLayout
                 android:id="@+id/item_home"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:background="@color/background_white"
                 android:backgroundTint="@color/background_white"

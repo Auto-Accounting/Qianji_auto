@@ -43,6 +43,7 @@
                 android:layout_below="@+id/item_image_icon"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
+                android:maxLength="10"
                 android:text="TextView"
                 android:textColor="@color/black"
                 android:textSize="14sp" />

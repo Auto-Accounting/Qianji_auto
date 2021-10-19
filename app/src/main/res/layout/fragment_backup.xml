@@ -64,6 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textView14"
                     android:layout_marginTop="10dp"
+                    android:maxLength="20"
                     android:text="@string/webdav_site"
                     android:textColor="@color/gray"
                     android:textSize="12sp" />
@@ -95,6 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textView15"
                     android:layout_marginTop="10dp"
+                    android:maxLength="20"
                     android:text="@string/webdav_user"
                     android:textColor="@color/gray"
                     android:textSize="12sp" />
@@ -126,6 +128,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textView16"
                     android:layout_marginTop="10dp"
+                    android:maxLength="20"
                     android:text="@string/webdav_passwd"
                     android:textColor="@color/gray"
                     android:textSize="12sp" />

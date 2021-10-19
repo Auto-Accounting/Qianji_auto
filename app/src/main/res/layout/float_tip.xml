@@ -22,7 +22,7 @@
 
     <RelativeLayout
         android:id="@+id/tip"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@drawable/bg_layout_tip"
         android:paddingStart="15dp"

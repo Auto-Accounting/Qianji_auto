@@ -25,6 +25,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@+id/icon_header"
+        android:maxLength="16"
         android:text="TextView"
         android:textColor="@color/black"
         android:textSize="16sp" />
@@ -37,6 +38,7 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="10dp"
         android:background="@drawable/btn_normal_1"
+        android:maxLength="4"
         android:padding="10dp"
         android:text="TextView"
         android:textColor="@color/white"

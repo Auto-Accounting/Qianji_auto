@@ -42,8 +42,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginStart="10dp"
                 android:text="@string/icon_zuojiantou11"
-                android:textColor="@color/black"
-                android:textSize="24sp" />
+                android:textColor="@color/black" />
 
 
             <com.google.android.material.tabs.TabLayout

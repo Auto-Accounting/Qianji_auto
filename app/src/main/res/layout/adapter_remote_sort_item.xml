@@ -16,7 +16,7 @@
         android:layout_centerInParent="false"
         android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
-        android:maxLength="30"
+        android:maxLength="16"
         android:text="TextView"
         android:textColor="@color/black"
         android:textSize="16sp" />
