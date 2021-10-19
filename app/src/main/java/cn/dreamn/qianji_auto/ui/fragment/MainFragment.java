@@ -235,20 +235,9 @@ public class MainFragment extends BaseFragment {
     @Override
     protected void initViews() {
         app_log.setText(BuildConfig.VERSION_NAME);
-        Log.init("自动记账:MainFragment");
-        //AutoBillWeb.update(getContext());
-        UpdateUtils.checkUpdate(getContext(), new UpdateUtils.Update() {
-            @Override
-            public void onNoUpdate() {
-                Log.i("无更新");
-            }
-
-            @Override
-            public void onUpdate(String title, String body, String url, int ver) {
-                Log.i("有更新");
-            }
-        });
+        UpdateUtils.checkUpdate(getContext(), () -> Log.i("无更新"));
         Data.init(getContext());
+        Log.init("自动记账:MainFragment");
     }
 
 

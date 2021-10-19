@@ -140,7 +140,7 @@ public class localFragment extends BaseFragment {
     protected void initListeners() {
         BaseFragment baseFragment = this;
         refreshLayout.setOnRefreshListener(refreshlayout -> {
-            loadFromData();
+            getUpdate();
             refreshlayout.finishRefresh(0);//传入false表示刷新失败
         });
         action_cate.setOnClickListener(v -> {
@@ -371,6 +371,7 @@ public class localFragment extends BaseFragment {
     }
 
     private void getUpdate() {
+        if (statusView != null) statusView.showLoadingView();
         AutoBillWeb.getCategoryList(new AutoBillWeb.WebCallback() {
 
             @Override
