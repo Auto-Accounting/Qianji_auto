@@ -150,7 +150,7 @@ public class AutoFloat {
     }
 
     private void initData() {
-        Log.m("初始化窗口");
+        Log.i("初始化窗口");
         //  Caches.AddOrUpdate("float_lock", "true");
         bindView();
         setVisible();
@@ -170,7 +170,7 @@ public class AutoFloat {
             });
         });
         ll_book.setOnClickListener(v -> {
-            Log.m("账本选择");
+            Log.i("账本选择");
             BookNames.showBookSelect(getContext(), context.getString(R.string.select_book), true, bundle -> {
                 billInfo2.setBookName(bundle.getString("name"));
                 book_id = bundle.getString("book_id");
@@ -179,7 +179,7 @@ public class AutoFloat {
 
         });
         ll_account1.setOnClickListener(v -> {
-            Log.m("账户1选择");
+            Log.i("账户1选择");
             Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, asset2s -> {
                 String asset1 = billInfo2.getAccountName();//原始资产
                 Assets.isInAsset2(asset1, bool -> {
@@ -196,7 +196,7 @@ public class AutoFloat {
 
         });
         ll_account2.setOnClickListener(v -> {
-            Log.m("账户2选择");
+            Log.i("账户2选择");
             Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, asset2s -> {
                 String asset1 = billInfo2.getAccountName2();//原始资产
                 Assets.isInAsset2(asset1, bool -> {
@@ -239,7 +239,7 @@ public class AutoFloat {
             });
         });
         ll_remark.setOnClickListener(v -> {
-            Log.m("请输入备注信息");
+            Log.i("请输入备注信息");
 
             input(getContext().getString(R.string.select_remark), billInfo2.getRemark(), new InputData() {
                 @Override
@@ -255,7 +255,7 @@ public class AutoFloat {
 
         });
         ll_time.setOnClickListener(v -> {
-            Log.m("请修改时间信息");
+            Log.i("请修改时间信息");
             BottomArea.selectTime(getContext(), false, true, new OnTimeSelectListener() {
                 @Override
                 public void onTimeSelect(Date date, View v) {
@@ -266,7 +266,7 @@ public class AutoFloat {
 
         });
         ll_type.setOnClickListener(v -> {
-            Log.m("请选择收支类型");
+            Log.i("请选择收支类型");
 
             String[] strings = {getContext().getString(R.string.float_out), getContext().getString(R.string.float_in), getContext().getString(R.string.float_transfer), getContext().getString(R.string.float_pay_for)};
 

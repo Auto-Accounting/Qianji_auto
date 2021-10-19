@@ -17,12 +17,12 @@
 
 package cn.dreamn.qianji_auto.utils.runUtils;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.tencent.mmkv.MMKV;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.dreamn.qianji_auto.database.DbManger;
 
@@ -41,65 +41,54 @@ public class Log {
 
     public static void d(String msg) {
         d(TAG, msg);
-
     }
 
     public static void d(String TAG, String msg) {
         if (msg == null) return;
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
-        Task.onThread(() -> {
+        if (mode == MODE_CLOSE || mode == MODE_MORE) return;//不记录
+        if (mode == MODE_SIMPLE) {
             android.util.Log.i(TAG, msg);
-            if (mode != 0 && mode != 1) {
-                DbManger.db.LogDao().add(msg, TAG, getTime());
-                DbManger.db.LogDao().deleteTimeout(timeout);
-            }
-        });
+            addToDB(TAG, msg);
+        }
     }
 
     public static void i(String msg) {
-
         i(TAG, msg);
-
     }
 
     public static void i(String TAG, String msg) {
         if (msg == null) return;
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
-        Task.onThread(() -> {
+        if (mode == MODE_CLOSE) return;//不记录
+        if (mode == MODE_MORE || mode == MODE_SIMPLE) {
             android.util.Log.i(TAG, msg);
-            if (mode != 0) {
-                DbManger.db.LogDao().add(msg, TAG, getTime());
-                DbManger.db.LogDao().deleteTimeout(timeout);
-            }
-        });
+            addToDB(TAG, msg);
+        }
     }
 
-    public static void m(String msg) {
-        m(TAG, msg);
-    }
 
-    public static void m(String TAG, String msg) {
-        if (msg == null) return;
+    private static void addToDB(String TAG, String msg) {
         Task.onThread(() -> {
             android.util.Log.i(TAG, msg);
-            DbManger.db.LogDao().add(msg, TAG, getTime());
             DbManger.db.LogDao().deleteTimeout(timeout);
-
+            DbManger.db.LogDao().del(getLimit());
+            DbManger.db.LogDao().add(msg, TAG, DateUtils.getTime("yyyy-MM-dd HH:mm:ss"));
         });
     }
 
 
-    @SuppressLint("SimpleDateFormat")
-    private static String getTime() {
-        return Tool.getTime("yyyy-MM-dd HH:mm:ss");
-
+    private static int getLimit() {
+        MMKV mmkv = MMKV.defaultMMKV();
+        int mode = mmkv.getInt("log_mode", 1);
+        return (mode == MODE_MORE) ? 1000 : 500;
     }
 
 
-    public static void del(Integer pos) {
-        Task.onThread(() -> DbManger.db.LogDao().del(pos));
+    public static void delLimit(int limit) {
+        Task.onThread(() -> DbManger.db.LogDao().del(limit));
     }
 
     public static void delAll(onDelOk ok) {
@@ -112,7 +101,7 @@ public class Log {
     public static void getAll(onResult ret) {
         Task.onThread(()-> {
 
-            cn.dreamn.qianji_auto.database.Table.Log[] logs = DbManger.db.LogDao().loadLimit();
+            cn.dreamn.qianji_auto.database.Table.Log[] logs = DbManger.db.LogDao().loadLimit(getLimit());
             if (logs == null || logs.length <= 0) {
                 ret.getLog(null);
                 return;
@@ -127,7 +116,7 @@ public class Log {
                 bundle.putString("sub", log.sub);
                 bundleArrayList.add(bundle);
             }
-            ret.getLog(bundleArrayList.toArray(new Bundle[0]));
+            ret.getLog(bundleArrayList);
         });
 
     }
@@ -137,7 +126,7 @@ public class Log {
     }
 
     public interface onResult {
-        void getLog(Bundle[] logs);
+        void getLog(List<Bundle> logs);
     }
 }
 

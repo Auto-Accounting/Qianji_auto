@@ -36,7 +36,7 @@ public class Task {
             try {
                 runnable.run();
             } catch (Exception e) {
-                Log.m("task", e.toString());
+                Log.i("task", e.toString());
             }
         };
         sMainHandler.postDelayed(run, msec);

@@ -217,7 +217,7 @@ public class sortsFragment extends BaseFragment {
 
             @Override
             public void onItemClick(Bundle bundle, Bundle parent, int position) {
-                Log.m("当前点击数据：" + bundle.toString() + "\n父类数据：" + parent.toString());
+                Log.i("当前点击数据：" + bundle.toString() + "\n父类数据：" + parent.toString());
                 if (bundle.getInt("id") == -2) {
                     multiple_actions_down.collapse();
                     BottomArea.input(getContext(), getString(R.string.sort_input_child), "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
@@ -324,8 +324,8 @@ public class sortsFragment extends BaseFragment {
 
     private void refreshData(String book_id,int parentPos) {
         if (statusView != null) statusView.showLoadingView();
-        Log.m("book_id", book_id);
-        Log.m("book_parent", String.valueOf(parentPos));
+        Log.i("book_id", book_id);
+        Log.i("book_parent", String.valueOf(parentPos));
         categoryUtils.refreshData(book_id, parentPos, (state) -> {
             HandlerUtil.send(mHandler, state);
         });

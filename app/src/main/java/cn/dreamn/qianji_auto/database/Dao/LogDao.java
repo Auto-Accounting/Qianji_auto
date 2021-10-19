@@ -27,8 +27,8 @@ public interface LogDao {
     @Query("SELECT * FROM Log order by pos DESC")
     Log[] loadAll();
 
-    @Query("SELECT * FROM Log order by pos DESC limit 10000")
-    Log[] loadLimit();
+    @Query("SELECT * FROM Log order by pos DESC limit :limit")
+    Log[] loadLimit(int limit);
 
     @Query("DELETE FROM Log WHERE (strftime('%s','now'))- time > :timeout")
     void deleteTimeout(int timeout);
@@ -36,8 +36,8 @@ public interface LogDao {
     @Query("INSERT INTO Log(time,time2,title,sub) values(strftime('%s','now'),:time2,:title,:sub)")
     void add(String title, String sub, String time2);
 
-    @Query("DELETE FROM Log WHERE pos=:pos")
-    void del(Integer pos);
+    @Query("DELETE FROM Log WHERE pos not in (SELECT pos FROM Log order by pos DESC limit :limit)")
+    void del(int limit);
 
     @Query("DELETE FROM Log")
     void delAll();

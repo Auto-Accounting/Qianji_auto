@@ -163,7 +163,7 @@ public class Tool {
             fos.write(data.getBytes());
             fos.close();
         } catch (Exception e) {
-            Log.i("写入缓存异常！" + e);
+            Log.d("写入缓存异常！" + e);
         }
     }
 

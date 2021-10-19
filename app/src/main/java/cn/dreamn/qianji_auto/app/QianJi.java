@@ -194,6 +194,7 @@ public class QianJi implements IApp {
 
     private void delay(Handler mHandler) {
 
+
         Task.onThread(() -> Caches.getCacheData("float_time", "", cache -> {
             if (!cache.equals("")) {
                 long time = Long.parseLong(cache);

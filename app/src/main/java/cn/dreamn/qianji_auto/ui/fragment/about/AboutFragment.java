@@ -47,7 +47,6 @@ import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
-import cn.dreamn.qianji_auto.utils.supportUtils.DonateUtil;
 
 
 @Page(name = "关于", anim = CoreAnim.slide)
@@ -85,8 +84,6 @@ public class AboutFragment extends BaseFragment {
     @BindView(R.id.item_star)
     LinearLayout item_star;
 
-    @BindView(R.id.item_support)
-    LinearLayout item_support;
     @BindView(R.id.item_home)
     LinearLayout item_home;
 
@@ -158,25 +155,7 @@ public class AboutFragment extends BaseFragment {
 
             return false;
         });
-        item_support.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               /* if(AppStatus.xposedActive(getContext())){
-                    BottomSheet bottomSheet2 = new BottomSheet(LayoutMode.WRAP_CONTENT);
-                    MaterialDialog dialog2 = new MaterialDialog(getContext(), bottomSheet2);
-                    dialog2.title(null, "请选择捐赠渠道");
-                    dialog2.cornerRadius(15f,null);
-                    DialogListExtKt.listItems(dialog2, null, Arrays.asList("支付宝", "微信", "QQ"), null, true, (materialDialog, index, text) -> {
-                        String[] s = new String[]{"stable", "alpha", "beta"};
-                        mmkv.encode("version_channel", s[index]);
-                        ToastUtils.show( "设置成功！");
-                        return null;
-                    });
-                    dialog2.show();
-                }*/
-                DonateUtil.openAlipayPayPage(getContext());
-            }
-        });
+
         item_group.setOnClickListener(v -> {
             String key = "ifoJ5lHBaEqX-dloMkG4d3Ra89zXCLti";
             Intent intent = new Intent();

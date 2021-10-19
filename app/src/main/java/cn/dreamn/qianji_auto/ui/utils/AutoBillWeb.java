@@ -65,7 +65,7 @@ public class AutoBillWeb {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 String string = response.body().string();
 
-                Log.m("自动记账:Web", "Path：" + url + "\nBase:" + baseUrl + "\n\nResult:" + string + "\n");
+                Log.i("自动记账:Web", "Path：" + url + "\nBase:" + baseUrl + "\n\nResult:" + string + "\n");
                 if (response.code() == 200 && response.isSuccessful()) {
 
 
@@ -187,7 +187,7 @@ public class AutoBillWeb {
                         callback.onUpdateEnd();
                     }
                 }
-                // Log.m("更新数据：" + data);
+                // Log.i("更新数据：" + data);
             }
         });
     }

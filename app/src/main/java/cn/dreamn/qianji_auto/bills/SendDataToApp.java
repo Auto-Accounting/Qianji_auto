@@ -22,22 +22,27 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.SystemClock;
 
 import androidx.annotation.NonNull;
 
 import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 
+import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.database.Helper.AutoBills;
 import cn.dreamn.qianji_auto.database.Helper.Caches;
 import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
+import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.ui.utils.ScreenUtils;
+import cn.dreamn.qianji_auto.ui.utils.task.ConsumptionTask;
+import cn.dreamn.qianji_auto.ui.utils.task.RunBody;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
@@ -85,7 +90,7 @@ public class SendDataToApp {
 
 
     public static void callNoAdd(Context context, BillInfo billInfo) {
-        //   Log.m(billInfo.dump());
+        //   Log.i(billInfo.dump());
         Handler mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -152,6 +157,8 @@ public class SendDataToApp {
 
 
     public static void goApp(Context context, BillInfo billInfo) {
+
+
         MMKV mmkv = MMKV.defaultMMKV();
         if (!mmkv.getBoolean("auto_style", true)) {
             Log.i(TAG, "唤起钱迹分类面板");
@@ -164,6 +171,7 @@ public class SendDataToApp {
             public void handleMessage(@NonNull Message msg) {
                 Log.i(TAG, "前往记账app2");
                 AppManager.sendToApp(context, billInfo);
+
             }
         };
         Category.getCategory(billInfo, cate -> {
@@ -188,35 +196,50 @@ public class SendDataToApp {
 
 
     public static void run(Context context, BillInfo billInfo) {
-        Log.i(TAG, "唤起自动记账面板...");
-        MMKV mmkv = MMKV.defaultMMKV();
-        Log.i(TAG, "记账请求发起，账单初始信息：\n" + billInfo.dump());
 
-        if (isReception(context)) {
-            Log.i(TAG, "当前处于锁屏状态");
-            if (mmkv.getBoolean("autoIncome", false)) {
-                Log.i(TAG, "全自动模式->直接对钱迹发起请求");
-                goApp(context, billInfo);
-            } else {
-                Log.i(TAG, "半自动模式->发出记账通知");
-                //通知处理
-                Tool.notice(context, context.getString(R.string.notice_name), "￥" + billInfo.getMoney() + " - " + billInfo.getRemark(), billInfo);
+        RunBody runBody = new RunBody() {
+            @Override
+            public void run(Context context, ConsumptionTask task) {
+                Log.i(TAG, "唤起自动记账面板...");
+                MMKV mmkv = MMKV.defaultMMKV();
+                Log.i(TAG, "记账请求发起，账单初始信息：\n" + billInfo.dump());
+
+                if (isReception(context)) {
+                    Log.i(TAG, "当前处于锁屏状态");
+                    if (mmkv.getBoolean("autoIncome", false)) {
+                        Log.i(TAG, "全自动模式->直接对钱迹发起请求");
+                        goApp(context, billInfo);
+                    } else {
+                        Log.i(TAG, "半自动模式->发出记账通知");
+                        //通知处理
+                        Tool.notice(context, context.getString(R.string.notice_name), "￥" + billInfo.getMoney() + " - " + billInfo.getRemark(), billInfo);
+                    }
+                } else {
+                    Log.i(TAG, "当前处于前台状态");
+                    if (mmkv.getBoolean("autoPay", false)) {
+                        Log.i(TAG, "全自动模式->直接对钱迹发起请求");
+                        goApp(context, billInfo);
+                        App.lineUpTaskHelp.exOk(task);
+                        return;
+                    }
+                    Log.i(TAG, "半自动模式 -> 下一步");
+                    if (getTimeout() == 0) {
+                        end(context, billInfo);
+                    } else {
+                        Log.i("存在超时，弹出超时面板");
+                        showTip(context, billInfo);
+                    }
+                }
+                App.lineUpTaskHelp.exOk(task);
+                if (!AppStatus.isXposed()) {
+                    SystemClock.sleep(3000);
+                }
             }
-        } else {
-            Log.i(TAG, "当前处于前台状态");
-            if (mmkv.getBoolean("autoPay", false)) {
-                Log.i(TAG, "全自动模式->直接对钱迹发起请求");
-                goApp(context, billInfo);
-                return;
-            }
-            Log.i(TAG, "半自动模式 -> 下一步");
-            if (getTimeout() == 0) {
-                end(context, billInfo);
-            } else {
-                Log.i("存在超时，弹出超时面板");
-                showTip(context, billInfo);
-            }
-        }
+        };
+        ConsumptionTask task = new ConsumptionTask();
+        task.taskNo = String.valueOf(App.index++);
+        task.runnable = runBody;
+        App.lineUpTaskHelp.addTask(task);
 
 
     }

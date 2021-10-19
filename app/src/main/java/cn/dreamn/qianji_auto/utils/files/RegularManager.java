@@ -56,7 +56,7 @@ public class RegularManager {
                 String file = files[0];
                 String data = FileUtils.get(file);
 
-             //   Log.m(data);
+             //   Log.i(data);
                 restoreFromData(context, name, type, data, end);
             });
 
@@ -88,7 +88,7 @@ public class RegularManager {
         };
         JSONObject jsonObject = JSONObject.parseObject(data);
         String from = jsonObject.getString("from");
-        Log.m("当前恢复类型：" + name + "  type:" + type + " from:" + from);
+        Log.i("当前恢复类型：" + name + "  type:" + type + " from:" + from);
         if (from == null || !from.equals(type)) {
             ToastUtils.show(String.format(context.getString(R.string.set_error), name));
             return;
@@ -127,7 +127,7 @@ public class RegularManager {
     }
 
     private static void restoreReg(JSONArray array, LoadingDialog loadDialog, Handler mHandler, Context context) {
-        Log.m("当前恢复类型：" + array.toJSONString());
+        Log.i("当前恢复类型：" + array.toJSONString());
         loadDialog.show();
         Task.onThread(() -> {
             for (int i = 0; i < array.size(); i++) {
@@ -154,7 +154,7 @@ public class RegularManager {
     }
 
     private static void restoreCate(JSONArray array, LoadingDialog loadDialog, Handler mHandler, Context context) {
-        // Log.m("当前恢复类型："+array.toJSONString());
+        // Log.i("当前恢复类型："+array.toJSONString());
         loadDialog.show();
         Task.onThread(() -> {
             for (int i = 0; i < array.size(); i++) {
@@ -187,7 +187,7 @@ public class RegularManager {
                         String newFileName = Environment.getExternalStorageDirectory().getPath() + "/Download/QianJiAuto/" + fileName;
                         FileUtils.makeRootDirectory(Environment.getExternalStorageDirectory().getPath() + "/Download/QianJiAuto/");
                         FileUtils.copyFile(context.getExternalCacheDir().getPath() + "/" + fileName, newFileName);
-                        Log.m(fileName);
+                        Log.i(fileName);
                         FileUtils.del(fileName);
                         break;
                     case 1:

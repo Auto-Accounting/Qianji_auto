@@ -79,13 +79,13 @@ public class FileUtils {
         try {
             File oldFile = new File(oldPath$Name);
             if (!oldFile.exists()) {
-                Log.m("--Method--", "copyFile:  oldFile not exist.");
+                Log.i("--Method--", "copyFile:  oldFile not exist.");
                 return false;
             } else if (!oldFile.isFile()) {
-                Log.m("--Method--", "copyFile:  oldFile not file.");
+                Log.i("--Method--", "copyFile:  oldFile not file.");
                 return false;
             } else if (!oldFile.canRead()) {
-                Log.m("--Method--", "copyFile:  oldFile cannot read.");
+                Log.i("--Method--", "copyFile:  oldFile cannot read.");
                 return false;
             }
 

@@ -48,7 +48,7 @@ public class CategoryUtils {
         clean();
         finish = f;
         CategoryNames.getParents(book_id, type, books -> {
-            //Log.m("books" + Arrays.toString(books));
+            //Log.i("books" + Arrays.toString(books));
             if (books == null || books.length == 0) {
                 HandlerUtil.send(mHandler, HANDLE_ERR);
             } else {
@@ -65,11 +65,11 @@ public class CategoryUtils {
                         list.add(bundle);
                     }
                 }
-                // Log.m("还差"+(realLen-list.size())+"条数据");
+                // Log.i("还差"+(realLen-list.size())+"条数据");
                 int len2 = realLen - list.size() - 1;
                 //长度补全
                 for (int j = 0; j < len2; j++) {
-                    // Log.m("循环次数+"+j);
+                    // Log.i("循环次数+"+j);
                     Bundle bundle = new Bundle();
                     bundle.putString("name", null);//保留数据
                     // bundle.putBoolean("change",true);//保留数据
@@ -79,7 +79,7 @@ public class CategoryUtils {
                 bundle.putString("name", null);//保留数据
                 bundle.putBoolean("change", false);//保留数据
                 list.add(bundle);
-                //  Log.m("输出" + list.toString());
+                //  Log.i("输出" + list.toString());
                 HandlerUtil.send(mHandler, list, HANDLE_REFRESH);
             }
 
@@ -94,7 +94,7 @@ public class CategoryUtils {
         int real = getItemPos(position);//当前的item
         int real2 = getItemPos(topInt);//上一个item
 
-        // Log.m("real " + real + " real2 " + real2);
+        // Log.i("real " + real + " real2 " + real2);
 
         if (real2 != real) {//item不同布局则清除上一个
             closeItem(topInt);
@@ -159,7 +159,7 @@ public class CategoryUtils {
     private void openItem(int position, int left) {
 
         Bundle item = list.get(position);
-        //  Log.m("postion:" + position + " data" + item.toString());
+        //  Log.i("postion:" + position + " data" + item.toString());
         int real = getItemPos(position);
 
         Handler mmHandler = new Handler(Looper.getMainLooper()) {
@@ -186,7 +186,7 @@ public class CategoryUtils {
         };
 
         CategoryNames.getChildrens(item.getString("self_id"), book_id, item.getString("type"), allowChange, books -> {
-            //      Log.m("子类" + Arrays.toString(books));
+            //      Log.i("子类" + Arrays.toString(books));
             HandlerUtil.send(mmHandler, books, HANDLE_REFRESH);
         });
     }
@@ -240,8 +240,8 @@ public class CategoryUtils {
     }
 
     public void refreshData(String book_id, int parent, finishRefresh f) {
-        Log.m("ref_book_id", book_id);
-        Log.m("ref_book_parent", String.valueOf(parent));
+        Log.i("ref_book_id", book_id);
+        Log.i("ref_book_parent", String.valueOf(parent));
 
         if (parent != -2) {
             Bundle data = list.get(parent);

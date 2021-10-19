@@ -10,17 +10,16 @@ import cn.dreamn.qianji_auto.R;
 
 public class JsEngine {
     public static String run(String jsCode) {
-
-        Log.m("js运行代码", jsCode);
+        jsCode = jsCode.replace("\n", "");
+        Log.i("js运行代码", jsCode);
         Context rhino = Context.enter();
-
         rhino.setOptimizationLevel(-1);
         Object result = null;
         try {
             Scriptable scope = rhino.initStandardObjects();
             result = rhino.evaluateString(scope, jsCode, "JavaScript", 1, null);
         } catch (Throwable e) {
-            Log.i("JS执行错误:" + e.toString());
+            Log.i("JS执行错误:" + e.toString() + " 错误代码:" + jsCode);
             ToastUtils.show(R.string.js_error);
         } finally {
             Context.exit();

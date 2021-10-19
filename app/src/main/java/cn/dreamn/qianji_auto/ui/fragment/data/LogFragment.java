@@ -45,7 +45,6 @@ import cn.dreamn.qianji_auto.ui.components.LogScreen;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 @Page(name = "日志", anim = CoreAnim.slide)
@@ -189,10 +188,9 @@ public class LogFragment extends BaseFragment {
         loadingDialog.show();
         list = new ArrayList<>();
 
-        Task.onThread(() -> Log.getAll(logs -> {
-            if (logs == null || logs.length == 0) {
+        Log.getAll(logs -> {
+            if (logs == null || logs.size() == 0) {
                 list.add("no log");
-                HandlerUtil.send(mHandler, HANDLE_OK);
             } else {
                 for (Bundle bundle : logs) {
                     StringBuilder ss = new StringBuilder();
@@ -207,9 +205,9 @@ public class LogFragment extends BaseFragment {
                     }
 
                 }
-                HandlerUtil.send(mHandler, HANDLE_OK);
             }
-        }));
+            HandlerUtil.send(mHandler, HANDLE_OK);
+        });
     }
 
     @Override

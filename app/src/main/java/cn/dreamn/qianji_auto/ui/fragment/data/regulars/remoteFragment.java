@@ -277,7 +277,7 @@ public class remoteFragment extends BaseFragment {
 
             @Override
             public void onSuccessful(String data) {
-              //  Log.m("网页返回结果->  " + data);
+              //  Log.i("网页返回结果->  " + data);
                 List<Bundle> datas = new ArrayList<>();
                 try {
                     JSONArray jsonArray = JSONArray.parseArray(data);
@@ -287,7 +287,7 @@ public class remoteFragment extends BaseFragment {
                         String pkg = jsonObject.getString("name");
                         String count = String.valueOf(jsonObject.getInteger("count"));
                         String appName = "";
-                        Log.m(mType);
+                        Log.i(mType);
                         if (mType.equals("sms")) {
                             appName = pkg;
                         } else {
@@ -308,7 +308,7 @@ public class remoteFragment extends BaseFragment {
                     e.printStackTrace();
                 }
                 list = datas;
-                //Log.m("数据" + list.toString());
+                //Log.i("数据" + list.toString());
                 HandlerUtil.send(mHandler, HANDLE_OK);
             }
         });

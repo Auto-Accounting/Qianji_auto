@@ -15,11 +15,16 @@ import com.xuexiang.xpage.config.AppPageConfig;
 import cn.dreamn.qianji_auto.database.DbManger;
 import cn.dreamn.qianji_auto.ui.base.BaseActivity;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
+import cn.dreamn.qianji_auto.ui.utils.task.ConsumptionTask;
+import cn.dreamn.qianji_auto.ui.utils.task.LineUpTaskHelp;
 import cn.dreamn.qianji_auto.utils.runUtils.CrashHandler;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 
 
 public class App extends Application {
+    public static LineUpTaskHelp lineUpTaskHelp;
+    public static int index = 0;
+
     /**
      * @return 当前app是否是调试开发模式
      */
@@ -62,7 +67,7 @@ public class App extends Application {
         initTheme();
         initToast();
         initDatabase();
-
+        initTasker();
         XXPermissions.setScopedStorage(true);
         MultiprocessSharedPreferences.setAuthority("cn.dreamn.qianji_auto.provider");
     }
@@ -101,6 +106,21 @@ public class App extends Application {
                 .debug(isDebug() ? "PageLog" : null)
                 .setContainActivityClazz(BaseActivity.class)
                 .init(this);
+    }
+
+    private void initTasker() {
+        lineUpTaskHelp = LineUpTaskHelp.getInstance();
+        lineUpTaskHelp.setOnTaskListener(new LineUpTaskHelp.OnTaskListener() {
+            @Override
+            public void exNextTask(ConsumptionTask task) {
+                task.runnable.run(getApplicationContext(), task);
+            }
+
+            @Override
+            public void noTask() {
+
+            }
+        });
     }
 
     @Override
