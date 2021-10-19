@@ -53,6 +53,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.database.Helper.Category;
 import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
@@ -130,7 +131,10 @@ public class localFragment extends BaseFragment {
             viewHolder.setText(R.id.empty_info, String.format(getString(R.string.no_regular), getString(R.string.auto)));
         });
         statusView.setOnLoadingViewConvertListener(viewHolder -> {
+            LVCircularRing lv_circularring = viewHolder.getView(R.id.lv_circularring);
+            lv_circularring.startAnim();
             viewHolder.setText(R.id.loading_text, getString(R.string.main_loading));
+
         });
         initLayout();
     }
@@ -371,7 +375,9 @@ public class localFragment extends BaseFragment {
     }
 
     private void getUpdate() {
-        if (statusView != null) statusView.showLoadingView();
+        if (statusView != null) {
+            statusView.showLoadingView();
+        }
         AutoBillWeb.getCategoryList(new AutoBillWeb.WebCallback() {
 
             @Override

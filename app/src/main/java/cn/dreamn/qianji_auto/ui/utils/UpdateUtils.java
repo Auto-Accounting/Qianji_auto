@@ -16,6 +16,8 @@ import com.tencent.mmkv.MMKV;
 import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.setting.AppStatus;
+import cn.dreamn.qianji_auto.ui.utils.task.ConsumptionTask;
+import cn.dreamn.qianji_auto.ui.utils.task.RunBody;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
@@ -31,6 +33,8 @@ public class UpdateUtils {
                 if (msg.what == -1) {
                     update.onNoUpdate();
                 }
+                RunBody runBody = (RunBody) msg.obj;
+                runBody.run(context, null);
             }
         };
         checkAndroidUpdate(context, handler);
@@ -56,19 +60,24 @@ public class UpdateUtils {
                         Log.i("线程context已被销毁！");
                         return;
                     }
-                    BottomArea.msg(context, context.getString(R.string.new_version) + jsonObject.getString("version"), jsonObject1.getString("log"), context.getString(R.string.update_go), context.getString(R.string.update_cancel), new BottomArea.MsgCallback() {
+                    RunBody runBody = new RunBody() {
                         @Override
-                        public void cancel() {
+                        public void run(Context context, ConsumptionTask task) {
+                            BottomArea.msg(context, context.getString(R.string.new_version) + jsonObject.getString("version"), jsonObject1.getString("log"), context.getString(R.string.update_go), context.getString(R.string.update_cancel), new BottomArea.MsgCallback() {
+                                @Override
+                                public void cancel() {
 
+                                }
+
+                                @Override
+                                public void sure() {
+                                    Tool.goUrl(context, jsonObject1.getString("download"));
+
+                                }
+                            });
                         }
-
-                        @Override
-                        public void sure() {
-                            Tool.goUrl(context, jsonObject1.getString("download"));
-
-                        }
-                    });
-                    HandlerUtil.send(handler, 0);
+                    };
+                    HandlerUtil.send(handler, runBody, 0);
                 } else {
                     HandlerUtil.send(handler, -1);
                 }
