@@ -38,7 +38,7 @@ import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 
 @Page(name = "记账监控", anim = CoreAnim.slide)
 public class MonitorFragment extends BaseFragment implements TextWatcher {
@@ -127,7 +127,7 @@ public class MonitorFragment extends BaseFragment implements TextWatcher {
 
     private void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
-        Task.onThread(() -> {
+        TaskThread.onThread(() -> {
 
             SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(getContext(), "apps", Context.MODE_PRIVATE);
             String[] apps = sharedPreferences.getString("apps", "").split(",");

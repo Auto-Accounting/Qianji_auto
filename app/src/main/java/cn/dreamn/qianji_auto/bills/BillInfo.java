@@ -26,7 +26,7 @@ import com.tencent.mmkv.MMKV;
 
 import java.util.Set;
 
-import cn.dreamn.qianji_auto.utils.files.Md5Util;
+import cn.dreamn.qianji_auto.data.local.Md5Util;
 import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 

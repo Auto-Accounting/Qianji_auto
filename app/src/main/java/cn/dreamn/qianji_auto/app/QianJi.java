@@ -16,13 +16,13 @@ import com.tencent.mmkv.MMKV;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
-import cn.dreamn.qianji_auto.database.DbManger;
-import cn.dreamn.qianji_auto.database.Helper.Caches;
-import cn.dreamn.qianji_auto.database.Table.CategoryName;
+import cn.dreamn.qianji_auto.data.database.DbManger;
+import cn.dreamn.qianji_auto.data.database.Helper.Caches;
+import cn.dreamn.qianji_auto.data.database.Table.CategoryName;
 import cn.dreamn.qianji_auto.setting.AppStatus;
-import cn.dreamn.qianji_auto.utils.runUtils.Cmd;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.RootUtils;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class QianJi implements IApp {
@@ -59,8 +59,8 @@ public class QianJi implements IApp {
                     Caches.AddOrUpdate("show_tip", "false");
                     Caches.AddOrUpdate("float_time", String.valueOf(System.currentTimeMillis()));
                     //    Tool.goUrl(context, getQianJi(billInfo));
-                    if (Cmd.hasRootPermission()) {
-                        Cmd.exec(new String[]{"am start \"" + getQianJi(billInfo) + "\""});
+                    if (RootUtils.hasRootPermission()) {
+                        RootUtils.exec(new String[]{"am start \"" + getQianJi(billInfo) + "\""});
                     } else {
                         Tool.goUrl(context, getQianJi(billInfo));
                     }
@@ -70,12 +70,8 @@ public class QianJi implements IApp {
                 }
             }
         };
-        //如果不是xp模式需要延时
-        if (!AppStatus.isXposed()) {
-            delay(mHandler);
-        } else {
-            mHandler.sendEmptyMessage(0);
-        }
+
+        mHandler.sendEmptyMessage(0);
 
     }
 
@@ -83,7 +79,7 @@ public class QianJi implements IApp {
     public void asyncDataBefore(Context context) {
         if (AppStatus.isXposed()) {
             Log.i("自动记账同步", "同步开始");
-            Cmd.exec(new String[]{"am force-stop com.mutangtech.qianji"});
+            RootUtils.exec(new String[]{"am force-stop com.mutangtech.qianji"});
             //杀死其他应用
             //  Tool.stopApp(context,"com.mutangtech.qianji");
             Intent intent = new Intent();
@@ -122,7 +118,7 @@ public class QianJi implements IApp {
             return;
         }
 
-        Task.onThread(() -> {
+        TaskThread.onThread(() -> {
             DbManger.db.CategoryNameDao().clean();
             for (int i = 0; i < category.size(); i++) {
                 JSONObject jsonObject1 = category.getJSONObject(i);
@@ -187,7 +183,7 @@ public class QianJi implements IApp {
             mHandler.sendEmptyMessage(0);
         });
 
-        Cmd.exec(new String[]{"am force-stop com.mutangtech.qianji"});
+        RootUtils.exec(new String[]{"am force-stop com.mutangtech.qianji"});
         // TODO 4.0新增: 处理钱迹账单报销数据，并加入数据库，此处预留修改位。
 
     }
@@ -195,7 +191,7 @@ public class QianJi implements IApp {
     private void delay(Handler mHandler) {
 
 
-        Task.onThread(() -> Caches.getCacheData("float_time", "", cache -> {
+        TaskThread.onThread(() -> Caches.getCacheData("float_time", "", cache -> {
             if (!cache.equals("")) {
                 long time = Long.parseLong(cache);
                 long t = System.currentTimeMillis() - time;

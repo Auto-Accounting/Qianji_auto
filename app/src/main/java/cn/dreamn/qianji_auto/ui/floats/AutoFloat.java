@@ -51,14 +51,13 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.BillTools;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
-import cn.dreamn.qianji_auto.database.Helper.Assets;
-import cn.dreamn.qianji_auto.database.Helper.BookNames;
-import cn.dreamn.qianji_auto.database.Helper.Category;
-import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.data.database.Helper.Assets;
+import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
+import cn.dreamn.qianji_auto.data.database.Helper.Category;
+import cn.dreamn.qianji_auto.data.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
 /**
@@ -259,7 +258,7 @@ public class AutoFloat {
             BottomArea.selectTime(getContext(), false, true, new OnTimeSelectListener() {
                 @Override
                 public void onTimeSelect(Date date, View v) {
-                    billInfo2.setTime(Tool.getTime("yyyy-MM-dd HH:mm:ss", date.getTime()));
+                    billInfo2.setTime(DateUtils.getTime("yyyy-MM-dd HH:mm:ss", date.getTime()));
                     mMainHandler.sendEmptyMessage(0);
                 }
             });

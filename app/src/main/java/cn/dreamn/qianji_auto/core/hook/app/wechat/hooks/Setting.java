@@ -36,7 +36,7 @@ import cn.dreamn.qianji_auto.core.hook.Utils;
 import cn.dreamn.qianji_auto.core.hook.ui.ViewUtil;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.utils.ScreenUtils;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -47,7 +47,7 @@ public class Setting {
                 Activity activity = (Activity) param.thisObject;
                 final String activityClzName = activity.getClass().getName();
                 if (activityClzName.contains("com.tencent.mm.plugin.setting.ui.setting.SettingsUI")) {
-                    Task.onMain(100, () -> doSettingsMenuInject(activity, utils));
+                    TaskThread.onMain(100, () -> doSettingsMenuInject(activity, utils));
 
 
                 }

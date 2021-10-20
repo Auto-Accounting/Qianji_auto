@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.data.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
 import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;

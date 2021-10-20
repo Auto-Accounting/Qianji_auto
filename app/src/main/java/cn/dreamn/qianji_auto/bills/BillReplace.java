@@ -2,9 +2,9 @@ package cn.dreamn.qianji_auto.bills;
 
 import android.os.Handler;
 
-import cn.dreamn.qianji_auto.database.Helper.Assets;
-import cn.dreamn.qianji_auto.database.Helper.BookNames;
-import cn.dreamn.qianji_auto.database.Helper.Category;
+import cn.dreamn.qianji_auto.data.database.Helper.Assets;
+import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
+import cn.dreamn.qianji_auto.data.database.Helper.Category;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 
 public class BillReplace {

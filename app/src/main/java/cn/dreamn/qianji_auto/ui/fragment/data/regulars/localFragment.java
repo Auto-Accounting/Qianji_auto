@@ -49,7 +49,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.data.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
@@ -58,7 +58,7 @@ import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.files.RegularManager;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
@@ -333,7 +333,7 @@ public class localFragment extends BaseFragment {
 
     public void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
-        Task.onThread(() -> {
+        TaskThread.onThread(() -> {
             identifyRegulars.getAll(type, null, regulars -> {
                 if (regulars == null || regulars.length == 0) {
                     HandlerUtil.send(mHandler, HANDLE_ERR);

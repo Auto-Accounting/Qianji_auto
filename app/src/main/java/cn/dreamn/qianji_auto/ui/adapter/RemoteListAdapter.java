@@ -9,8 +9,8 @@ import android.widget.TextView;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.setting.AppInfo;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
-import cn.dreamn.qianji_auto.utils.runUtils.AppUtils;
 
 public class RemoteListAdapter extends BaseAdapter {
     private final Context mContext;
@@ -29,9 +29,9 @@ public class RemoteListAdapter extends BaseAdapter {
         TextView app_name = (TextView) holder.findView(R.id.app_name);
         TextView app_count = (TextView) holder.findView(R.id.app_count);
         if (item.getString("type").equals("sms")) {
-            icon_header.setImageBitmap(AppUtils.getBitmap(mContext, "com.android.providers.telephony"));
+            icon_header.setImageDrawable(AppInfo.getIcon(mContext, "com.android.providers.telephony"));
         } else {
-            icon_header.setImageBitmap(AppUtils.getBitmap(mContext, item.getString("pkg")));
+            icon_header.setImageDrawable(AppInfo.getIcon(mContext, item.getString("pkg")));
         }
 
         app_name.setText(item.getString("name"));

@@ -31,7 +31,6 @@ import java.util.List;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.adapter.ListArrayAdapter;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class BottomArea {
     //显示底部信息
@@ -224,7 +223,7 @@ public class BottomArea {
         Calendar startDate = Calendar.getInstance();
         startDate.set(2010, 0, 1);
         Calendar endDate = Calendar.getInstance();
-        endDate.set(Integer.parseInt(Tool.getTime("yyyy")) + 2, 0, 1);
+        endDate.set(Integer.parseInt(DateUtils.getTime("yyyy")) + 2, 0, 1);
         boolean[] show = new boolean[]{true, true, true, true, true, false};
         if (onlyTime) {
             show = new boolean[]{false, false, false, true, true, false};

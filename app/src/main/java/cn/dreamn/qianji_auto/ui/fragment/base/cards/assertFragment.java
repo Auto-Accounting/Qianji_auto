@@ -45,14 +45,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.Assets;
+import cn.dreamn.qianji_auto.data.database.Helper.Assets;
 import cn.dreamn.qianji_auto.ui.adapter.DataListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.IconView;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 
 
 @Page(name = "资产", anim = CoreAnim.slide)
@@ -245,7 +245,7 @@ public class assertFragment extends BaseFragment {
 
     public void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
-        Task.onThread(() -> {
+        TaskThread.onThread(() -> {
             Assets.getAllIcon(asset2s -> {
                 if (asset2s == null || asset2s.length == 0) {
                     HandlerUtil.send(mHandler, HANDLE_ERR);

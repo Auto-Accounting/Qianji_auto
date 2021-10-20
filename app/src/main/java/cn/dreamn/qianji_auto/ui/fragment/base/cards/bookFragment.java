@@ -42,14 +42,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.BookNames;
+import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.ui.adapter.BookListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.IconView;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 
 
 @Page(name = "账本", anim = CoreAnim.slide)
@@ -205,7 +205,7 @@ public class bookFragment extends BaseFragment {
 
     public void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
-        Task.onThread(() -> {
+        TaskThread.onThread(() -> {
             BookNames.getAllIcon(false, books -> {
                 if (books == null || books.length == 0) {
                     HandlerUtil.send(mHandler, HANDLE_ERR);

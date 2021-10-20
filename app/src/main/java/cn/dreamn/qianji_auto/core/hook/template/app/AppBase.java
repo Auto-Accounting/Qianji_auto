@@ -22,7 +22,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
@@ -96,7 +96,7 @@ public abstract class AppBase implements AppHooker {
 
         hookBefore();
         utils = new Utils(mContext, mAppClassLoader, getAppName(), getPackPageName());
-        Task.onMain(100, () -> {
+        TaskThread.onMain(100, () -> {
             XposedBridge.log(" 自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName());
         });
         try {

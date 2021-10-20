@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.Assets;
+import cn.dreamn.qianji_auto.data.database.Helper.Assets;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
 import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 

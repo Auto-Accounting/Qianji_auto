@@ -16,7 +16,6 @@ import java.util.List;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
-import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class MoneyAdapter extends BaseAdapter {
     private final Context mContext;
@@ -46,12 +45,12 @@ public class MoneyAdapter extends BaseAdapter {
         String data=item.getString("date");
         String text=data;
 
-        if(data.equals(Tool.getTime("MM.dd"))){
-            text+=" 今天";
-        }else if(data.equals(Tool.getTime("MM.dd", -1))){
-            text+=" 昨天";
-        }else if(data.equals(Tool.getTime("MM.dd", -2))){
-            text+=" 前天";
+        if (data.equals(DateUtils.getTime("MM.dd"))) {
+            text += " 今天";
+        } else if (data.equals(DateUtils.getTime("MM.dd", -1))) {
+            text += " 昨天";
+        } else if (data.equals(DateUtils.getTime("MM.dd", -2))) {
+            text += " 前天";
         }
         date_title.setText(text);
 

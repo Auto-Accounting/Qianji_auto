@@ -52,10 +52,10 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
-import cn.dreamn.qianji_auto.database.Helper.BookNames;
-import cn.dreamn.qianji_auto.database.Helper.Category;
-import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
-import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
+import cn.dreamn.qianji_auto.data.database.Helper.Category;
+import cn.dreamn.qianji_auto.data.database.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.data.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.TitleBar;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
@@ -345,8 +345,8 @@ public class WebViewFragment extends BaseFragment {
                     }));
                     ll_time.setOnClickListener(view -> {
                         BottomArea.selectTime(getContext(), true, false, (date, v) -> {
-                            tv_time.setText(Tool.getTime("yyyy-MM-dd HH:mm:ss", date.getTime()));
-                            jsonObject.put("tv_time", Tool.getTime("yyyy-MM-dd HH:mm:ss", date.getTime()));
+                            tv_time.setText(DateUtils.getTime("yyyy-MM-dd HH:mm:ss", date.getTime()));
+                            jsonObject.put("tv_time", DateUtils.getTime("yyyy-MM-dd HH:mm:ss", date.getTime()));
                         });
                     });
                     ll_shopname.setOnClickListener(view -> BottomArea.input(getContext(), getString(R.string.input_data), tv_shopname.getText().toString(), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {

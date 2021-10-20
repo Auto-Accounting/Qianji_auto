@@ -44,13 +44,13 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
-import cn.dreamn.qianji_auto.database.Helper.AutoBills;
+import cn.dreamn.qianji_auto.data.database.Helper.AutoBills;
 import cn.dreamn.qianji_auto.ui.adapter.MoneyAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
@@ -133,7 +133,7 @@ public class MoneyFragment extends BaseFragment {
 
     private void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
-        Task.onThread(() -> {
+        TaskThread.onThread(() -> {
             AutoBills.getDates(datas -> {
                 if (datas == null || datas.length == 0) {
                     HandlerUtil.send(mHandler, HANDLE_ERR);

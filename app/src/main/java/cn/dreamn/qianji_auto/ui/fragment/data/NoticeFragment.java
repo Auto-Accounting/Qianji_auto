@@ -50,8 +50,8 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
-import cn.dreamn.qianji_auto.database.Helper.AppDatas;
-import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.data.database.Helper.AppDatas;
+import cn.dreamn.qianji_auto.data.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.adapter.ItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
@@ -59,7 +59,7 @@ import cn.dreamn.qianji_auto.ui.components.TitleBar;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
@@ -232,7 +232,7 @@ public class NoticeFragment extends BaseFragment {
 
     private void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
-        Task.onThread(() -> {
+        TaskThread.onThread(() -> {
             AppDatas.getAll(getType(), datas -> {
                 if (datas == null || datas.size() == 0) {
                     HandlerUtil.send(mHandler, HANDLE_ERR);

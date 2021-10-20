@@ -42,7 +42,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.Assets;
+import cn.dreamn.qianji_auto.data.database.Helper.Assets;
 import cn.dreamn.qianji_auto.ui.adapter.MapListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.IconView;
@@ -50,8 +50,7 @@ import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.components.TitleBar;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
-
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 
 
 @Page(name = "主页资产映射", anim = CoreAnim.slide)
@@ -214,7 +213,7 @@ public class MainMapFragment extends BaseFragment {
 
     public void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
-        Task.onThread(() -> {
+        TaskThread.onThread(() -> {
             Assets.getAllMap(assets -> {
                 if (assets == null || assets.length == 0) {
                     HandlerUtil.send(mHandler, HANDLE_ERR);

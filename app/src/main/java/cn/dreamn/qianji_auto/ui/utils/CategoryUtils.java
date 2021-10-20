@@ -20,7 +20,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.data.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.adapter.CategoryAdapter;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 

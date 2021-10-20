@@ -42,8 +42,8 @@ import java.util.Arrays;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.BookNames;
-import cn.dreamn.qianji_auto.database.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
+import cn.dreamn.qianji_auto.data.database.Helper.CategoryNames;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;

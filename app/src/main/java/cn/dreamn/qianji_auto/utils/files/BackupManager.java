@@ -25,6 +25,8 @@ import java.util.TimeZone;
 import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.data.local.FileUtils;
+import cn.dreamn.qianji_auto.data.local.ZipUtils;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -34,7 +36,7 @@ public class BackupManager {
 
     public static void init(Context context) {
         CACHE_PATH = context.getExternalCacheDir().getPath() + "/";
-        //FileUtils.makeRootDirectory(CACHE_PATH);
+        Log.init("备份恢复");
     }
 
     @SuppressLint("SdCardPath")
@@ -65,6 +67,13 @@ public class BackupManager {
             ZipUtils.zipFile(filename2, filename, jsonObject.toJSONString());
             Log.i("配置已备份到该路径", filename);
             //删掉！
+            /*ConsumptionTask task=new ConsumptionTask();
+            task.taskNo=String.valueOf(App.index++);
+            task.runnable= (context1, task1) -> {
+                FileUtils.del(filename2);
+                App.lineUpTaskHelp.exOk(task1);
+            };
+            App.lineUpTaskHelp.addTask(task);*/
             //  FileUtils.del(filename2);
             return filename;
         } catch (Exception e) {

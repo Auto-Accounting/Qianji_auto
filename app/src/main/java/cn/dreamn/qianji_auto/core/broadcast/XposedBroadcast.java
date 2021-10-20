@@ -31,8 +31,8 @@ import androidx.annotation.NonNull;
 
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
-import cn.dreamn.qianji_auto.database.Helper.AppDatas;
-import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.data.database.Helper.AppDatas;
+import cn.dreamn.qianji_auto.data.database.Helper.identifyRegulars;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 

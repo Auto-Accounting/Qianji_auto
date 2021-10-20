@@ -46,6 +46,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.setting.AppInfo;
 import cn.dreamn.qianji_auto.ui.adapter.RemoteListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
@@ -54,7 +55,6 @@ import cn.dreamn.qianji_auto.ui.utils.AutoBillWeb;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.files.RegularManager;
-import cn.dreamn.qianji_auto.utils.runUtils.AppUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 
@@ -291,7 +291,7 @@ public class remoteFragment extends BaseFragment {
                         if (mType.equals("sms")) {
                             appName = pkg;
                         } else {
-                            appName = AppUtils.getAppName(getContext(), pkg);
+                            appName = AppInfo.getName(getContext(), pkg);
                         }
                         if (appName.equals("unknown")) {
                             continue;

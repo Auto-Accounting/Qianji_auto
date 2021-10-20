@@ -12,12 +12,12 @@ import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.PageConfig;
 import com.xuexiang.xpage.config.AppPageConfig;
 
-import cn.dreamn.qianji_auto.database.DbManger;
+import cn.dreamn.qianji_auto.data.database.DbManger;
 import cn.dreamn.qianji_auto.ui.base.BaseActivity;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.utils.task.ConsumptionTask;
 import cn.dreamn.qianji_auto.ui.utils.task.LineUpTaskHelp;
-import cn.dreamn.qianji_auto.utils.runUtils.CrashHandler;
+import cn.dreamn.qianji_auto.utils.runUtils.CrashUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 
 
@@ -60,8 +60,8 @@ public class App extends Application {
      * 初始化基础库
      */
     private void initLibs() {
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(this);
+        CrashUtils crashUtils = CrashUtils.getInstance();
+        crashUtils.init(this);
         initMMKV();
         initFragment();
         initTheme();

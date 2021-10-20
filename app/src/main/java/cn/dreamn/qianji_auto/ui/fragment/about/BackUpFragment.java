@@ -48,7 +48,7 @@ import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.utils.files.BackupManager;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
@@ -189,7 +189,7 @@ public class BackUpFragment extends BaseFragment {
                 };
                 dialog.show();
 
-                Task.onThread(() -> {
+                TaskThread.onThread(() -> {
                     String url = mmkv.getString("webdav_url", "");
                     String name = mmkv.getString("webdav_name", "");
                     String password = mmkv.getString("webdav_password", "");
@@ -213,7 +213,7 @@ public class BackUpFragment extends BaseFragment {
                 }
             };
             dialog.show();
-            Task.onThread(() -> BackupManager.backUpToLocal(getContext(), mHandler));
+            TaskThread.onThread(() -> BackupManager.backUpToLocal(getContext(), mHandler));
         });
         rl_restore_local.setOnClickListener(v -> {
             PermissionUtils permissionUtils = new PermissionUtils(getContext());
@@ -254,7 +254,7 @@ public class BackUpFragment extends BaseFragment {
                     @Override
                     public void onSelectedFilePaths(String[] files) {
                         dialog.dismiss();
-                        Task.onThread(() -> {
+                        TaskThread.onThread(() -> {
                             BackupManager.init(getContext());
                             BackupManager.restoreFromLocal(files[0], getContext(), mHandler);
                         });
@@ -287,7 +287,7 @@ public class BackUpFragment extends BaseFragment {
 
 
                         BottomArea.list(getContext(), getString(R.string.select_cloud), (List<String>) msg.obj, (position, text) -> {
-                            Task.onThread(() -> {
+                            TaskThread.onThread(() -> {
                                 BackupManager.restoreFromWebDavByBackground(getContext(), mmkv.getString("webdav_url", ""), mmkv.getString("webdav_name", ""), mmkv.getString("webdav_password", ""), text, this);
 
                             });
@@ -299,7 +299,7 @@ public class BackUpFragment extends BaseFragment {
                 }
             };
             dialog[0].show();
-            Task.onThread(() -> {
+            TaskThread.onThread(() -> {
                 BackupManager.restoreFromWebDav(getContext(), mmkv.getString("webdav_url", ""), mmkv.getString("webdav_name", ""), mmkv.getString("webdav_password", ""), mHandler);
             });
         });

@@ -3,7 +3,7 @@ package cn.dreamn.qianji_auto.core.hook.app.wechat.hooks;
 import android.util.Log;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
-import cn.dreamn.qianji_auto.utils.files.FileUtils;
+import cn.dreamn.qianji_auto.data.local.FileUtils;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;

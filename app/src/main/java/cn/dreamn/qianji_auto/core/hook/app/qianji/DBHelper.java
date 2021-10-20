@@ -25,7 +25,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
-import cn.dreamn.qianji_auto.utils.files.FileUtils;
+import cn.dreamn.qianji_auto.data.local.FileUtils;
 
 public class DBHelper {
 

@@ -19,14 +19,15 @@ import com.hjq.toast.ToastUtils;
 import java.util.Arrays;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.database.Helper.Category;
-import cn.dreamn.qianji_auto.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.data.database.Helper.Category;
+import cn.dreamn.qianji_auto.data.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.data.local.FileUtils;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.Task;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class RegularManager {
@@ -129,7 +130,7 @@ public class RegularManager {
     private static void restoreReg(JSONArray array, LoadingDialog loadDialog, Handler mHandler, Context context) {
         Log.i("当前恢复类型：" + array.toJSONString());
         loadDialog.show();
-        Task.onThread(() -> {
+        TaskThread.onThread(() -> {
             for (int i = 0; i < array.size(); i++) {
                 JSONObject jsonObject1 = array.getJSONObject(i);
                 identifyRegulars.add(
@@ -156,7 +157,7 @@ public class RegularManager {
     private static void restoreCate(JSONArray array, LoadingDialog loadDialog, Handler mHandler, Context context) {
         // Log.i("当前恢复类型："+array.toJSONString());
         loadDialog.show();
-        Task.onThread(() -> {
+        TaskThread.onThread(() -> {
             for (int i = 0; i < array.size(); i++) {
                 JSONObject jsonObject1 = array.getJSONObject(i);
                 JSONObject jsonObject = JSONObject.parseObject(jsonObject1.getString("tableList"));
@@ -180,7 +181,7 @@ public class RegularManager {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 JSONObject jsonObject1 = (JSONObject) msg.obj;
-                String fileName = name + "_" + Tool.getTime("yyyyMMddHHmmss") + ".backup_" + type + "_ankio";
+                String fileName = name + "_" + DateUtils.getTime("yyyyMMddHHmmss") + ".backup_" + type + "_ankio";
                 Tool.writeToCache(context, fileName, jsonObject1.toJSONString());
                 switch (index) {
                     case 0:
@@ -246,7 +247,7 @@ public class RegularManager {
         jsonArray.add(js);
         jsonObject.put("data", jsonArray);
         if (share) {
-            String fileName = name + "_" + Tool.getTime("yyyyMMddHHmmss") + ".backup_" + type + "_ankio";
+            String fileName = name + "_" + DateUtils.getTime("yyyyMMddHHmmss") + ".backup_" + type + "_ankio";
             Tool.writeToCache(context, fileName, jsonObject.toJSONString());
             Tool.shareFile(context, context.getExternalCacheDir().getPath() + "/" + fileName);
         } else {

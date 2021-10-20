@@ -9,9 +9,9 @@ import android.widget.TextView;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.setting.AppInfo;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
-import cn.dreamn.qianji_auto.utils.runUtils.AppUtils;
-import cn.dreamn.qianji_auto.utils.runUtils.Tool;
+import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
 
 public class ItemListAdapter extends BaseAdapter {
     private final Context mContext;
@@ -38,12 +38,12 @@ public class ItemListAdapter extends BaseAdapter {
             fromApp = "com.android.phone";
             appName = item.getString("fromApp");
         } else {
-            appName = AppUtils.getAppName(mContext, fromApp);
+            appName = AppInfo.getName(mContext, fromApp);
         }
 
         tv_data.setText(item.getString("rawData"));
-        tv_date.setText(Tool.getShortTime(Long.parseLong(item.getString("time") + "000"), "yyyy-MM-dd HH:mm:ss"));
-        iv_appIcon.setImageBitmap(AppUtils.getBitmap(mContext, fromApp));
+        tv_date.setText(DateUtils.getShortTime(Long.parseLong(item.getString("time") + "000"), "yyyy-MM-dd HH:mm:ss"));
+        iv_appIcon.setImageDrawable(AppInfo.getIcon(mContext, fromApp));
         tv_appName.setText(appName);
 /*
         //已适配 未适配

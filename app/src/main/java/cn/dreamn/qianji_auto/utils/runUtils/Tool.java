@@ -1,6 +1,5 @@
 package cn.dreamn.qianji_auto.utils.runUtils;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Notification;
@@ -22,15 +21,13 @@ import androidx.core.content.FileProvider;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.core.broadcast.NotificationClickReceiver;
-import cn.dreamn.qianji_auto.utils.files.FileUtils;
+import cn.dreamn.qianji_auto.data.local.FileUtils;
 
 public class Tool {
     public static void clipboard(Context context, String text) {
@@ -109,28 +106,6 @@ public class Tool {
 
     }
 
-    @SuppressLint("SimpleDateFormat")
-    public static String getTime(String s) {
-        return getTime(s, 0);
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    public static String getTime(String s, int day) {
-        long time = System.currentTimeMillis();
-        time = time + (long) day * 24 * 60 * 60 * 1000;
-        return (new SimpleDateFormat(s)).format(new Date(time));
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    public static String getShortTime(long date, String format) {
-
-        return (new SimpleDateFormat(format)).format(new Date(date));
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    public static String getTime(String s, long time) {
-        return (new SimpleDateFormat(s)).format(new Date(time));
-    }
 
     public static void restartApp(Activity context) {
         Intent intent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
@@ -210,34 +185,6 @@ public class Tool {
         return ret;
     }
 
-    /*
-     * 将时间转换为时间戳
-     */
-    public static long dateToStamp(String time, String format) {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
-        try {
-            Date date = simpleDateFormat.parse(time);
-            return date.getTime();
-        } catch (Throwable e) {
-            return 0;
-        }
-    }
-
-    public static String stampToDate(long time, String format) {
-        String res;
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
-        Date date = new Date(time);
-        res = simpleDateFormat.format(date);
-        return res;
-    }
-
-    public static String stampToDate(String time, String format) {
-        String res;
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
-        Date date = new Date(Long.parseLong(time));
-        res = simpleDateFormat.format(date);
-        return res;
-    }
 
     public static String getRandomString(int length) {
         String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

@@ -24,7 +24,7 @@ import com.tencent.mmkv.MMKV;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.dreamn.qianji_auto.database.DbManger;
+import cn.dreamn.qianji_auto.data.database.DbManger;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 
 
@@ -68,7 +68,7 @@ public class Log {
 
 
     public static void addToDB(String TAG, String msg) {
-        Task.onThread(() -> {
+        TaskThread.onThread(() -> {
             DbManger.db.LogDao().deleteTimeout(timeout);
             DbManger.db.LogDao().del(getLimit());
             DbManger.db.LogDao().add(msg, TAG, DateUtils.getTime("yyyy-MM-dd HH:mm:ss"));
@@ -84,27 +84,27 @@ public class Log {
 
 
     public static void delLimit(int limit) {
-        Task.onThread(() -> DbManger.db.LogDao().del(limit));
+        TaskThread.onThread(() -> DbManger.db.LogDao().del(limit));
     }
 
     public static void delAll(onDelOk ok) {
-        Task.onThread(() -> {
+        TaskThread.onThread(() -> {
             DbManger.db.LogDao().delAll();
             ok.ok();
         });
     }
 
     public static void getAll(onResult ret) {
-        Task.onThread(()-> {
+        TaskThread.onThread(() -> {
 
-            cn.dreamn.qianji_auto.database.Table.Log[] logs = DbManger.db.LogDao().loadLimit(getLimit());
+            cn.dreamn.qianji_auto.data.database.Table.Log[] logs = DbManger.db.LogDao().loadLimit(getLimit());
             if (logs == null || logs.length <= 0) {
                 ret.getLog(null);
                 return;
             }
 
             ArrayList<Bundle> bundleArrayList = new ArrayList<>();
-            for (cn.dreamn.qianji_auto.database.Table.Log log : logs) {
+            for (cn.dreamn.qianji_auto.data.database.Table.Log log : logs) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", log.pos);
                 bundle.putString("time", log.time2);
