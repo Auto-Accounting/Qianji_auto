@@ -74,8 +74,8 @@ public class MainAutoLearnFragment extends BaseFragment {
     protected void initViews() {
         List<Fragment> tabFragments = new ArrayList<>();  //实例化集合
 
-        tabFragments.add(new localFragment(getType()));
-        tabFragments.add(new remoteFragment(getType()));
+        tabFragments.add(new outFragment(getType(), false));
+        tabFragments.add(new outFragment(getType(), true));
         TabAdapter adapter = new TabAdapter(getChildFragmentManager(), tabFragments, new String[]{"本地", "云端"}); //参数1为fragment管理器
         viewPager.setAdapter(adapter); //给viewPager设置适配器
         tabLayout.setupWithViewPager(viewPager); //将tabLayout与viewPager建立匹配

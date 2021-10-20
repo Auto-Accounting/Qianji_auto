@@ -41,10 +41,10 @@ import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.ui.utils.ScreenUtils;
-import cn.dreamn.qianji_auto.ui.utils.task.ConsumptionTask;
-import cn.dreamn.qianji_auto.ui.utils.task.RunBody;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
+import cn.dreamn.qianji_auto.utils.task.ConsumptionTask;
+import cn.dreamn.qianji_auto.utils.task.RunBody;
 
 
 public class SendDataToApp {

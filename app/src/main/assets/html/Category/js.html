@@ -1,0 +1,357 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>规则编辑(JS)</title>
+    <link href="../Public/css/category.min.css" rel="stylesheet">
+
+    <link href="../Public/hight/codemirror.min.css" rel="stylesheet">
+    <script src="../Public/hight/codemirror.min.js"></script>
+    <script src="../Public/hight/javascript.min.js"></script>
+    <link href="../Public/css/tip.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="rule">
+    <form action="" onsubmit="return false">
+        <div class="sort_name">
+            <label for="sort_name">规则名称</label>
+            <div class="rule_content">
+                <div class="rule_content1">
+                    <input id="sort_name" placeholder="分类规则名称" type="text">
+                </div>
+            </div>
+
+            <div class="rule_content">
+                <div class="rule_content1">
+
+                    <textarea cols="30" id="sort_remark" name="sort_remark" placeholder="请输入备注..."
+                              rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+        <input id="cate_id" style="display: none" type="text">
+        <div class="sort_name">
+            <label>Js编辑器风格</label>
+            <div class="rule_content">
+                <div class="rule_content3">
+                    <button>自动换行</button>
+                    <div class="testswitch">
+                        <input class="testswitch-checkbox" id="js_style" type="checkbox">
+                        <label class="testswitch-label" for="js_style">
+                            <span class="testswitch-inner" data-off="OFF" data-on="ON"></span>
+                            <span class="testswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="sort_name">
+            <label for="sort_name">JS代码</label>
+            <div>
+                <textarea id="code" name="code">/*
+* 可用变量
+*
+* shopName 商户名称,shopRemark 商户备注,type 账单类型（支出、收入）,hour 当前时,minute 当前分,money 金额
+* 可用内置函数（判断是否在当前时间段） isInTimeInner(minTime, maxTime,timeHour,timeMinute)
+* minTime 最小时间（如12:00）, maxTime 最大时间（如13:00）,timeHour 当前时,timeMinute 当前分
+* 比如：if(true)return '其它';
+*/
+
+</textarea>
+            </div>
+        </div>
+
+
+        <div class="buttons">
+            <button class="button1" id="test">测试</button>
+            <button id="save">保存</button>
+        </div>
+    </form>
+</div>
+
+
+<!-- 弹窗 -->
+<div class="modal" id="myModal">
+
+    <!-- 弹窗内容 -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close cancel">&times;</span>
+            <h4>请完善测试数据</h4>
+        </div>
+        <div class="modal-body">
+            <div class="time_condition">
+                <!--   <label>当前时间</label>-->
+                <div class="rule_content">
+                    <div class="rule_content3">
+                        <button>
+                            当前时间
+                        </button>
+                        <input id="time_now" placeholder="仅可输入数字，24小时计数法" type="time">
+                    </div>
+                </div>
+            </div>
+
+            <div class="price_condition">
+                <!-- <label>金额大小</label>-->
+                <div class="rule_content">
+                    <div class="rule_content3">
+                        <button>
+                            金额
+                        </button>
+                        <input id="price_now" placeholder="仅可输入数字" type="number" value="0.1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="merchant_name">
+                <!-- <label>商户名称满足条件</label>-->
+                <div class="rule_content">
+                    <div class="rule_content3">
+                        <button>
+                            商户名称
+                        </button>
+                        <input id="shop_name" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="merchant_name">
+                <!-- <label>商户名称满足条件</label>-->
+                <div class="rule_content">
+                    <div class="rule_content3">
+                        <button>
+                            商户备注
+                        </button>
+                        <input id="shop_remark" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="merchant_name">
+                <!-- <label>商户名称满足条件</label>-->
+                <div class="rule_content">
+                    <div class="rule_content3">
+                        <button>
+                            账单类型
+                        </button>
+                        <input id="type" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="merchant_name">
+
+
+                <div class="rule_content">
+
+                    <div class="rule_content3">
+                        <button>消费类型</button>
+                        <select id="bill_type">
+                            <option selected value="支出"> 支出</option>
+                            <option value="收入"> 收入</option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="buttons">
+                    <button class="button1" id="go">测试</button>
+                    <button class="cancel">取消</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal" id="tip">
+
+    <!-- 弹窗内容 -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close cancel2">&times;</span>
+            <h4>测试结果</h4>
+        </div>
+        <div class="modal-body">
+            <p id="tip_content"></p>
+        </div>
+        <div class="modal-footer">
+            <div class="buttons">
+                <button class="cancel2">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../Public/jquery/jquery.js"></script>
+<script src="../Public/jquery/common.min.js"></script>
+
+<!--<script src="../Public/jquery/category.js"></script>-->
+<script>
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        lineNumbers: true, // 显示行数
+        indentUnit: 2,
+        styleActiveLine: true, // 当前行背景高亮
+        matchBrackets: true,
+        lineWrapping: false,
+    });
+    editor.setSize('auto', '800px');
+
+
+</script>
+<script>
+    $(function () {
+
+        $("#category").on("click", function (e) {
+            try {
+                window.AndroidJS.SelectCategory($("#consumption_type").val());
+            } catch (e) {
+                //不是在安卓WebVIew打开
+                const word = prompt("请输入分类名称", "");
+                if (word) {
+                    setCategory(word, "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png");
+                }
+            }
+
+        });
+
+        let intval = setInterval(function () {
+            editor.save();
+            localStorage.setItem("code", encodeURIComponent($("#code").val()));
+            localStorage.setItem("sort_name", ($("#sort_name").val()));
+            localStorage.setItem("des", ($("#sort_remark").val()));
+
+        }, 1300);
+        const data = localStorage.getItem("code");
+        const name = localStorage.getItem("sort_name");
+        const des = localStorage.getItem("des");
+        if (data !== undefined && data !== null) {
+            setData(data, name, des)
+        }
+
+        function showTip(str) {
+            $("#tip_content").html(str);
+            $("#tip").css("display", "block");
+        }
+
+        $(".cancel").on("click", function (e) {
+            $("#myModal").css("display", "none");
+            //  $("#tip").css("display", "none")
+        });
+        $(".cancel2").on("click", function (e) {
+            //  $("#myModal").css("display", "none")
+            $("#tip").css("display", "none");
+        });
+        $("#test").on("click", function (e) {
+            //   console.log(e)
+            $("#myModal").css("display", "block");
+            //  window.AndroidJS.Test(getData());
+        });
+        $("#go").on("click", function (e) {
+            const name = $("#sort_name").val();
+            if (name === "") {
+                Toast("名称不能为空", 2000);
+                return "";
+            }
+            const js = $("#code").val();
+            if (js === "")
+                return;
+            let regT = /([01\b]\d|2[0-3]):([0-5]\d)/;
+            const t1 = $("#time_now").val().match(regT);
+            let h1 = 0, m1 = 0;
+            if (t1 != null && t1.length >= 3) {
+                h1 = parseInt(t1[1]);
+                m1 = parseInt(t1[2]);
+            }
+
+            const jsData = getOneRegularJs(js, $("#shop_name").val(), $("#shop_remark").val(), $("#bill_type").val(), h1, m1, $("#type").val(), $("#price_now").val());
+            console.log(jsData);
+            try {
+                const ret = eval(jsData);
+                showTip("自动分类结果：" + ret)
+            } catch (e) {
+                showTip("自动分类执行出错：" + e)
+                // console.log(e)
+            }
+        });
+        $("#save").on("click", function (e) {
+            editor.save();
+            let js = $("#code").val();
+            console.log(js);
+            try {
+                clearInterval(intval);
+                localStorage.setItem("code", null);
+                localStorage.setItem("sort_name", null);
+                localStorage.setItem("des", null);
+                window.AndroidJS.Save("", js, $("#sort_name").val(), $("#sort_remark").val(), $("#cate_id").val());
+            } catch (e) {
+            }
+        });
+        setData();
+    });
+
+
+    if (localStorage.getItem("lineWrapping") === "true") {
+        editor.setOption("lineWrapping", true);
+    }
+    $("#js_style").on('click', function () {
+        if ($("#js_style").is(':checked')) {
+            //  setCookie("lineWrapping","true",365)
+            localStorage.setItem("lineWrapping", "true");
+            editor.setOption("lineWrapping", true);
+        } else {
+            //    setCookie("lineWrapping","false",365)
+            localStorage.setItem("lineWrapping", "false");
+            editor.setOption("lineWrapping", false);
+        }
+    });
+
+    function setData(d, n, de) {
+        console.log(d);
+        let data, name, des;
+        if (d !== undefined) {
+            data = decodeURIComponent(d);
+            name = n;
+            des = de;
+        } else {
+            data = decodeURIComponent(getQueryVariable("data"));
+            name = getQueryVariable("name");
+            des = getQueryVariable("des");
+        }
+
+
+        const id = getQueryVariable("id");
+
+        /* const bool=getCookie("lineWrapping")==="true";
+         $("#js_style").prop("checked",bool)
+         editor.setOption("lineWrapping",bool)*/
+        if (data !== undefined && data !== "undefined") {
+
+            $("#cate_id").val(id);
+
+            $("#code").val(decodeURIComponent(data));
+            editor.setValue(decodeURIComponent(data));
+            $("#sort_name").val(decodeURIComponent(name));
+
+            $("#sort_remark").val(decodeURIComponent(des));
+            // $("#code").html(data)
+        }
+
+
+    }
+
+
+    function getOneRegularJs(jsData, shopAccount, shopRemark, type, hour, minute, source, money) {
+        if (shopAccount == null) shopAccount = "";
+        if (shopRemark == null) shopRemark = "";
+        var jsInner = "const isInTimeInner=function(a,b,c,d){regT=/([01\\b]\\d|2[0-3]):([0-5]\\d)/;const e=a.match(regT),f=b.match(regT);if(null==e||null==f||e.length<3||f.length<3)return!1;const g=parseInt(e[1],10),h=parseInt(f[1],10),i=parseInt(e[2],10),j=parseInt(f[2],10);return g>h?c===g&&d>=i||c>g||h>c||c===h&&j>=d:h>g?c===g&&d>=i||c>g&&h>c||c===h&&j>=d:g===h?j>i?c===g&&d>=i&&j>=d:i>j?c===g&&d>=i||j>=d||c!==g:i===j&&d===i&&c===g:void 0};";
+        var js = "function getCategory(shopName,shopRemark,type,hour,minute,source,money){%s  %s return '其它';} getCategory('%s','%s','%s',%s,%s,'%s','%s');";
+        return String.format(js, jsInner, jsData, StringAs(shopAccount), StringAs(shopRemark), type, hour, minute, source, money);
+    }
+
+
+
+</script>
+
+</body>
+</html>

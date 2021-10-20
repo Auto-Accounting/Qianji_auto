@@ -26,6 +26,7 @@ import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
+import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
@@ -160,6 +161,7 @@ public class RegularManager {
         TaskThread.onThread(() -> {
             for (int i = 0; i < array.size(); i++) {
                 JSONObject jsonObject1 = array.getJSONObject(i);
+                if (jsonObject1 == null) continue;
                 JSONObject jsonObject = JSONObject.parseObject(jsonObject1.getString("tableList"));
                 Category.addCategory(jsonObject1.getString("regular"), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des"), jsonObject.getString("data_id"), jsonObject.getString("version"), new Category.Finish() {
                     @Override

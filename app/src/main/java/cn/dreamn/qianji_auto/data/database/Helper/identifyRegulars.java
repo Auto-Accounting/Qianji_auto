@@ -77,10 +77,8 @@ public class identifyRegulars {
     }
 
 
-
-
     //获取所有的js
-    public static void getAllRegularJs(String Body,String identify,String fromApp,getString getStr) {
+    public static void getAllRegularJs(String Body, String identify, String fromApp, getString getStr) {
 
         getAll(identify, fromApp, true, identifyRegulars -> {
             StringBuilder smsList = new StringBuilder();
@@ -133,15 +131,29 @@ public class identifyRegulars {
                 bundle.putString("tableList", regular1.tableList);
                 bundleList.add(bundle);
             }
-            getA.onGet(bundleList.toArray(new Bundle[0]));
+            getA.onGet(bundleList);
 
 
         });
     }
 
 
-    public static void getAll(String identify,String fromApp,getAll getA) {
+    public static void getAll(String identify, String fromApp, getAll getA) {
         getAll(identify, fromApp, false, getA);
+    }
+
+    public static void getAllApps(String identify, getAll list) {
+        TaskThread.onThread(() -> {
+            IdentifyRegular[] identifyRegular = DbManger.db.IdentifyRegularDao().loadApps(identify);
+            List<Bundle> list1 = new ArrayList<>();
+            for (IdentifyRegular i : identifyRegular) {
+                Bundle bundle = new Bundle();
+                bundle.putString("pkg", i.fromApp);
+                bundle.putString("type", identify);
+                list1.add(bundle);
+            }
+            list.onGet(list1);
+        });
     }
 
     public interface getString {
@@ -183,7 +195,11 @@ public class identifyRegulars {
     }
 
     public interface getAll {
-        void onGet(Bundle[] identifyRegulars);
+        void onGet(List<Bundle> identifyRegulars);
+    }
+
+    public interface GetStringList {
+        void onGet(List<String> strings);
     }
 
     public interface Finish {

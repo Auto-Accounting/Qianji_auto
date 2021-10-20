@@ -15,10 +15,10 @@ import com.xuexiang.xpage.config.AppPageConfig;
 import cn.dreamn.qianji_auto.data.database.DbManger;
 import cn.dreamn.qianji_auto.ui.base.BaseActivity;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
-import cn.dreamn.qianji_auto.ui.utils.task.ConsumptionTask;
-import cn.dreamn.qianji_auto.ui.utils.task.LineUpTaskHelp;
 import cn.dreamn.qianji_auto.utils.runUtils.CrashUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
+import cn.dreamn.qianji_auto.utils.task.ConsumptionTask;
+import cn.dreamn.qianji_auto.utils.task.LineUpTaskHelp;
 
 
 public class App extends Application {

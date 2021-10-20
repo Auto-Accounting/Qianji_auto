@@ -1,4 +1,4 @@
-package cn.dreamn.qianji_auto.ui.utils;
+package cn.dreamn.qianji_auto.utils.runUtils;
 
 import android.content.Context;
 import android.os.Handler;
@@ -17,8 +17,7 @@ import java.util.Objects;
 import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.setting.AppStatus;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.Tool;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;

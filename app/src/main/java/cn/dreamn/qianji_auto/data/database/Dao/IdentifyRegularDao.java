@@ -64,6 +64,9 @@ public interface IdentifyRegularDao {
     @Query("DELETE FROM IdentifyRegular WHERE identify=:identify ")
     void clean(String identify);
 
+    @Query("select * from  IdentifyRegular  where  id  in (select  max(id)  from  IdentifyRegular  WHERE  identify=:identify   group by  fromApp having COUNT(*)>1  order by sort)")
+    IdentifyRegular[] loadApps(String identify);
+
     @Query("SELECT * FROM IdentifyRegular WHERE  identify=:identify and fromApp=:App and name=:name limit 1")
     IdentifyRegular[] getByName(String identify, String App, String name);
 

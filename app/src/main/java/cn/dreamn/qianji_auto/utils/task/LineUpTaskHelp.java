@@ -1,4 +1,4 @@
-package cn.dreamn.qianji_auto.ui.utils.task;
+package cn.dreamn.qianji_auto.utils.task;
 
 import android.text.TextUtils;
 
@@ -97,7 +97,7 @@ public class LineUpTaskHelp {
         Iterator<ConsumptionTask> iterator = lineUpBeans.iterator();
         if (TextUtils.isEmpty(planNo)) return;
         while (iterator.hasNext()) {
-            ConsumptionTask task = (ConsumptionTask) iterator.next();
+            ConsumptionTask task = iterator.next();
             if (task.planNo.equals(planNo)) {
                 iterator.remove();
             }
@@ -113,7 +113,7 @@ public class LineUpTaskHelp {
         Iterator<ConsumptionTask> iterator = lineUpBeans.iterator();
         if (TextUtils.isEmpty(taskNo)) return;
         while (iterator.hasNext()) {
-            ConsumptionTask task = (ConsumptionTask) iterator.next();
+            ConsumptionTask task = iterator.next();
             if (task.taskNo.equals(taskNo)) {
                 iterator.remove();
                 break;

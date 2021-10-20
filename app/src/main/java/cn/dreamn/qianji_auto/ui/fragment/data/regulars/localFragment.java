@@ -64,7 +64,8 @@ import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 @Page(name = "本地识别规则", anim = CoreAnim.slide)
 public class localFragment extends BaseFragment {
-    private final String type;
+    private String type;
+    private String fromApp;
     @BindView(R.id.status)
     StatusView statusView;
     @BindView(R.id.refreshLayout)
@@ -85,8 +86,16 @@ public class localFragment extends BaseFragment {
     private List<Bundle> list;
     Handler mHandler;
 
-    public localFragment(String type) {
-        this.type = type;
+    public localFragment() {
+        Bundle bundle = getArguments();
+        this.type = "sms";
+        this.fromApp = null;
+        if (bundle == null) return;
+        bundle = bundle.getBundle("data");
+        this.type = bundle.getString("type");
+        this.fromApp = bundle.getString("fromApp");
+        Log.init("本地规则：" + type);
+        Log.i("From:" + fromApp);
     }
 
     private String getName() {
@@ -332,13 +341,14 @@ public class localFragment extends BaseFragment {
 
 
     public void loadFromData() {
+        Log.i("hello->>>>type:" + type + ",from:" + fromApp);
         if (statusView != null) statusView.showLoadingView();
         TaskThread.onThread(() -> {
-            identifyRegulars.getAll(type, null, regulars -> {
-                if (regulars == null || regulars.length == 0) {
+            identifyRegulars.getAll(type, fromApp, regulars -> {
+                if (regulars == null || regulars.size() == 0) {
                     HandlerUtil.send(mHandler, HANDLE_ERR);
                 } else {
-                    list = Arrays.asList(regulars);
+                    list = regulars;
                     HandlerUtil.send(mHandler, HANDLE_OK);
                 }
             });

@@ -1,4 +1,4 @@
-package cn.dreamn.qianji_auto.ui.utils;
+package cn.dreamn.qianji_auto.utils.runUtils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -16,11 +16,10 @@ import com.tencent.mmkv.MMKV;
 import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.setting.AppStatus;
-import cn.dreamn.qianji_auto.ui.utils.task.ConsumptionTask;
-import cn.dreamn.qianji_auto.ui.utils.task.RunBody;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
-import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
-import cn.dreamn.qianji_auto.utils.runUtils.Tool;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
+import cn.dreamn.qianji_auto.utils.task.ConsumptionTask;
+import cn.dreamn.qianji_auto.utils.task.RunBody;
 
 public class UpdateUtils {
 

@@ -1,4 +1,4 @@
-package cn.dreamn.qianji_auto.ui.utils.task;
+package cn.dreamn.qianji_auto.utils.task;
 
 public class ConsumptionTask {
     /*
