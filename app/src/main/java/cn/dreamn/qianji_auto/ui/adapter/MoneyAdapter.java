@@ -71,13 +71,13 @@ public class MoneyAdapter extends BaseAdapter {
 
         moneyItemAdapter.setOnItemClickListener((itemView, position1) -> {
             if(itemListen != null && position1 < datas.length){
-                //     Log.m("click "+position1);
+                //     Log.i("click "+position1);
                 itemListen.onClick(datas[position1], position1);
             }
         });
         moneyItemAdapter.setOnItemLongClickListener((itemView, position1) -> {
             if(itemListen != null && position1 < datas.length){
-                //      Log.m("long click "+position1);
+                //      Log.i("long click "+position1);
                 itemListen.onLongClick(datas[position1], position1);
             }
         });

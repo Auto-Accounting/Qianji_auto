@@ -23,7 +23,9 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.SystemClock;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -40,6 +42,7 @@ import java.util.List;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.TitleBar;
 import cn.dreamn.qianji_auto.ui.fragment.helper.HelperFragment;
@@ -86,6 +89,10 @@ public class AboutFragment extends BaseFragment {
 
     @BindView(R.id.item_home)
     LinearLayout item_home;
+
+    @BindView(R.id.imgview)
+    ImageView imageView;
+    long[] mHits = null;
 
     @Override
     protected int getLayoutId() {
@@ -208,6 +215,9 @@ public class AboutFragment extends BaseFragment {
                 openPage(HelperFragment.class);
             }
         });
+        imageView.setOnClickListener(v -> {
+            onDisplaySettingButton();
+        });
     }
 
     @Override
@@ -225,7 +235,22 @@ public class AboutFragment extends BaseFragment {
     }
 
 
-
+    public void onDisplaySettingButton() {
+        if (mHits == null) {
+            mHits = new long[5];
+        }
+        System.arraycopy(mHits, 1, mHits, 0, mHits.length - 1);//把从第二位至最后一位之间的数字复制到第一位至倒数第一位
+        mHits[mHits.length - 1] = SystemClock.uptimeMillis();//记录一个时间
+        if (SystemClock.uptimeMillis() - mHits[0] <= 1000) {//一秒内连续点击。
+            mHits = null;    //这里说明一下，我们在进来以后需要还原状态，否则如果点击过快，第六次，第七次 都会不断进来触发该效果。重新开始计数即可
+            if (AppStatus.isDebug(getContext())) {
+                ToastUtils.show(R.string.debug_opened);
+                return;
+            }
+            AppStatus.setDebug(getContext(), true);
+            ToastUtils.show(R.string.debug_open);
+        }
+    }
 
 
 }

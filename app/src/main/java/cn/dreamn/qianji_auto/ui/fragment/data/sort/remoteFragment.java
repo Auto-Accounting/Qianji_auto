@@ -200,7 +200,7 @@ public class remoteFragment extends BaseFragment {
 
             @Override
             public void onSuccessful(String data) {
-                // Log.m("网页返回结果->  " + data);
+                // Log.i("网页返回结果->  " + data);
                 List<Bundle> datas = new ArrayList<>();
                 try {
                     JSONObject jsonObject = JSONObject.parseObject(data);
@@ -217,7 +217,7 @@ public class remoteFragment extends BaseFragment {
                     e.printStackTrace();
                 }
                 list = datas;
-                //  Log.m("数据" + list.toString());
+                //  Log.i("数据" + list.toString());
                 HandlerUtil.send(mHandler, HANDLE_OK);
             }
         });

@@ -39,7 +39,7 @@ public class Category {
         getCategoryRegularJs(billInfo, js, string -> {
             try {
                 String result = JsEngine.run(string);
-                Log.m("Qianji_Cate", "自动分类结果：" + result);
+                Log.i("Qianji_Cate", "自动分类结果：" + result);
                 if (result.contains("Undefined")) {
                     getStr.onGet("NotFound");
                 } else getStr.onGet(result);

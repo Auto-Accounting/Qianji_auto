@@ -47,7 +47,26 @@
                     android:text="3.0.0 beta1"
                     android:textColor="@color/gray"
                     android:textSize="12sp" />
+
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/debug_flag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/mode_select1"
+                android:layout_weight="1"
+                android:background="@drawable/btn_red"
+                android:gravity="center_horizontal"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="5dp"
+                android:text="调试"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
 
             <cn.dreamn.qianji_auto.ui.components.IconView
                 android:id="@+id/mode_select1"

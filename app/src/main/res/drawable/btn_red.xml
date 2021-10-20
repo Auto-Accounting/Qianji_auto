@@ -10,6 +10,6 @@
     <corners android:radius="300dp" />
 
     <!-- 填充颜色 -->
-    <solid android:color="@color/error" />
+    <solid android:color="@color/warnning" />
 
 </shape>

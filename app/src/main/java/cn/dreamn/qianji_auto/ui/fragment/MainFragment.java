@@ -154,6 +154,8 @@ public class MainFragment extends BaseFragment {
     @BindView(R.id.default_book)
     TextView default_book;
 
+    @BindView(R.id.debug_flag)
+    TextView debug_flag;
 
     @BindView(R.id.view_headImg)
     View view_headImg;
@@ -280,22 +282,26 @@ public class MainFragment extends BaseFragment {
             mode_select2.setBackgroundColor(ThemeManager.getColor(getActivity(), R.color.button_go_setting_bg));
             mode_select2.setBackgroundTintList(ColorStateList.valueOf(ThemeManager.getColor(getActivity(), R.color.button_go_setting_bg)));
             active_status.setText(String.format(getString(R.string.active_true), AppStatus.getFrameWork(getContext())));
-            active_status.setTextColor(ThemeManager.getColor(getActivity(), R.color.background_white));
 
         } else {
             mode_select2.setBackgroundColor(ThemeManager.getColor(getActivity(), R.color.disable_bg));
             mode_select2.setBackgroundTintList(ColorStateList.valueOf(ThemeManager.getColor(getActivity(), R.color.disable_bg)));
             active_status.setText(String.format(getString(R.string.active_false), AppStatus.getFrameWork(getContext())));
-            active_status.setTextColor(ThemeManager.getColor(getActivity(), R.color.background_white));
 
         }
+        active_status.setTextColor(ThemeManager.getColor(getActivity(), R.color.background_white));
         setHeadImg();
+
+        if (AppStatus.isDebug(getContext())) {
+            debug_flag.setVisibility(View.VISIBLE);
+        } else {
+            debug_flag.setVisibility(View.GONE);
+        }
     }
 
     public void setHeadImg() {
         String def_book = BookNames.getDefault();
         default_book.setText(def_book);
-
         Handler mHandler3 = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -365,7 +371,6 @@ public class MainFragment extends BaseFragment {
             ToastUtils.show(R.string.wait);
             //TODO 4.0新增功能：更换自动记账皮肤。
         });
-
         rl_backup.setOnClickListener(v -> {
             openNewPage(BackUpFragment.class);
         });
@@ -375,13 +380,17 @@ public class MainFragment extends BaseFragment {
         rl_video_teach.setOnClickListener(v -> {
             WebViewFragment.openUrl(this, getString(R.string.biliUrl));
         });
-        rl_github.setOnClickListener(v->{
+        rl_github.setOnClickListener(v -> {
             WebViewFragment.openUrl(this, getString(R.string.githubUrl));
         });
-        rl_about.setOnClickListener(v->{
+        rl_about.setOnClickListener(v -> {
             openNewPage(AboutFragment.class);
         });
-
+        debug_flag.setOnClickListener(v -> {
+            AppStatus.setDebug(getContext(), false);
+            debug_flag.setVisibility(View.GONE);
+            ToastUtils.show(R.string.debug_closed);
+        });
 
     }
     @Override

@@ -20,6 +20,7 @@ package cn.dreamn.qianji_auto.setting;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -36,10 +37,28 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.helper.Inner.HelpService;
 import cn.dreamn.qianji_auto.core.helper.base.ApiUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 import kotlin.jvm.internal.Intrinsics;
 
 
 public class AppStatus {
+
+    public static boolean isDebug() {
+        MMKV mmkv = MMKV.defaultMMKV();
+        return mmkv.getBoolean("debug", false);
+    }
+
+    public static boolean isDebug(Context context) {
+        SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(context, "app", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("debug", false);
+    }
+
+    public static void setDebug(Context context, boolean b) {
+        SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(context, "app", Context.MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean("debug", b).apply();
+        MMKV mmkv = MMKV.defaultMMKV();
+        mmkv.encode("debug", b);
+    }
 
     public static boolean isActive(Context context) {
         if (getActiveMode().equals("helper")) {

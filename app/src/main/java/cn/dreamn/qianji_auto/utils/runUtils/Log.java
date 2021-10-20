@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.database.DbManger;
+import cn.dreamn.qianji_auto.setting.AppStatus;
 
 
 public class Log {
@@ -47,11 +48,9 @@ public class Log {
         if (msg == null) return;
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
-        if (mode == MODE_CLOSE || mode == MODE_MORE) return;//不记录
-        if (mode == MODE_SIMPLE) {
-            android.util.Log.i(TAG, msg);
-            addToDB(TAG, msg);
-        }
+        if (mode == MODE_CLOSE || mode == MODE_MORE || !AppStatus.isDebug()) return;//不记录
+        android.util.Log.i(TAG, msg);
+        addToDB(TAG, msg);
     }
 
     public static void i(String msg) {
@@ -62,11 +61,9 @@ public class Log {
         if (msg == null) return;
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
-        if (mode == MODE_CLOSE) return;//不记录
-        if (mode == MODE_MORE || mode == MODE_SIMPLE) {
-            android.util.Log.i(TAG, msg);
-            addToDB(TAG, msg);
-        }
+        if (mode == MODE_CLOSE || !AppStatus.isDebug()) return;//不记录
+        android.util.Log.i(TAG, msg);
+        addToDB(TAG, msg);
     }
 
 
@@ -82,7 +79,7 @@ public class Log {
     private static int getLimit() {
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
-        return (mode == MODE_MORE) ? 1000 : 500;
+        return (mode == MODE_MORE || AppStatus.isDebug()) ? 1000 : 500;
     }
 
 

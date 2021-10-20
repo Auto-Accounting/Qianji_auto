@@ -430,4 +430,7 @@
     <string name="log_loading">日志加载中…</string>
     <string name="input_data">请输入数据</string>
     <string name="beta6Tip">您使用的是Beta7以下版本的规则，请重新编辑保存后再分享！</string>
+    <string name="debug_closed">已关闭调试模式。</string>
+    <string name="debug_opened">您已开启调试模式！</string>
+    <string name="debug_open">已开启调试模式！</string>
 </resources>
