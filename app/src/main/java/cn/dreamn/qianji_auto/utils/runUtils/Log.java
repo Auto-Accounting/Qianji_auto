@@ -70,9 +70,8 @@ public class Log {
     }
 
 
-    private static void addToDB(String TAG, String msg) {
+    public static void addToDB(String TAG, String msg) {
         Task.onThread(() -> {
-            android.util.Log.i(TAG, msg);
             DbManger.db.LogDao().deleteTimeout(timeout);
             DbManger.db.LogDao().del(getLimit());
             DbManger.db.LogDao().add(msg, TAG, DateUtils.getTime("yyyy-MM-dd HH:mm:ss"));

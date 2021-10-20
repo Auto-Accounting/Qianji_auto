@@ -48,5 +48,8 @@ public interface AutoBillDao {
 
     @Query("DELETE FROM autobill")
     void delAll();
+
+    @Query("DELETE FROM autobill WHERE id not in (SELECT id FROM autobill order by id DESC limit :limit)")
+    void delLimit(int limit);
 }
 

@@ -48,19 +48,15 @@ public class XposedBroadcast extends BroadcastReceiver {
             if (extData == null) return;
             String tag = extData.getString("tag");
             String msg = extData.getString("msg");
-            Log.i(tag, msg);
+            Log.i("Xposed日志-" + tag, msg);
         } else if (action.equals("cn.dreamn.qianji_auto.XPOSED")) {
             Bundle extData = intent.getExtras();
             if (extData == null) return;
             String data = extData.getString("data").replace("\t", "").replace("\n", "n");
-            // data.replaceAll("([\\\\\"\\n\\r\\t'])","\\\\$1");
-            //([\\"\n\r\t'])
-            // string.replace(/([\\"\n\r\t'])/g, "\\$1");
             String identify = extData.getString("app_identify");
             String app = extData.getString("app_package");
             String appName = extData.getString("app_name");
-            String log = "自动记账收到数据：\n源自：" + app + "\n数据：" + data;
-            Log.i("自动记账（Xp）", log);
+            Log.i("Xposed - 自动记账", "自动记账收到数据：AppName:" + appName + ",源自:" + app + ",数据：" + data);
             AppDatas.add(identify, app, data);
             Handler mHandler = new Handler(Looper.getMainLooper()) {
                 @Override
@@ -74,7 +70,6 @@ public class XposedBroadcast extends BroadcastReceiver {
                 if (billInfo != null) {
                     HandlerUtil.send(mHandler, billInfo, HANDLE_OK);
                 }
-
             });
         }
     }

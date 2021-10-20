@@ -24,7 +24,7 @@ import androidx.room.PrimaryKey;
 public class Log {
     @PrimaryKey(autoGenerate = true)
     public int pos;
-    public String time;//发生时间
+    public String time;//发生时间,时间戳
     public String title;//标题
     public String sub;
     public String time2;//不知道干嘛用的？？？
