@@ -13,17 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
-
 import cn.dreamn.qianji_auto.R;
 
 
 public class AppAdapter extends ArrayAdapter {
 
-
-    public interface CallAdapter{
-        void tryRegex(String item, CardView cardView);
-    }
 
     public AppAdapter(Context context, int resource, Bundle[] bundles) {
         super(context, resource, bundles);

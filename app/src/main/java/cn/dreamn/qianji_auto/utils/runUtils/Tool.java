@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.MediaStore;
 
 import androidx.core.app.NotificationCompat;
@@ -21,6 +22,7 @@ import androidx.core.content.FileProvider;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.Locale;
 import java.util.Random;
 
@@ -162,6 +164,7 @@ public class Tool {
     }
 
     public static String getAssert(Context context, String fileName, String fileName2) {
+        Log.d("assert_path:" + fileName + "\nassert_path2:" + fileName2);
         String ret = "";
         try {
             InputStream is = context.getResources().getAssets().open(fileName);
@@ -196,4 +199,37 @@ public class Tool {
         }
         return sb.toString();
     }
+
+    public static Bundle class2Bundle(Object cls) {
+        if (cls == null) return null;
+        Field[] fields = cls.getClass().getDeclaredFields();
+        Bundle bundle = new Bundle();
+        for (Field field : fields) {
+
+            try {
+                String name = field.getName();    //获取属性的名字
+                String type = field.getGenericType().toString();    //获取属性的类型
+                if (type.equals("class java.lang.String")) {   //如果type是类类型，则前面包含"class "，后面跟类名
+                    java.lang.reflect.Method m = cls.getClass().getMethod("get" + name);
+                    String value = (String) m.invoke(cls);    //调用getter方法获取属性值
+                    if (value != null) {
+                        bundle.putString(name, value);
+                    }
+                }
+                if (type.equals("int")) {
+                    java.lang.reflect.Method m = cls.getClass().getMethod("get" + name);
+                    Integer value = (Integer) m.invoke(cls);
+                    if (value != null) {
+                        bundle.putInt(name, value);
+                    }
+                }
+            } catch (Throwable e) {
+                Log.init("convert");
+                Log.d(e.toString());
+            }
+        }
+        return bundle;
+    }
+
+
 }

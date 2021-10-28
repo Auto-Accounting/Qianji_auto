@@ -30,7 +30,7 @@
             android:textSize="36sp"
              />
 
-    <cn.dreamn.qianji_auto.ui.components.AdaptionSizeTextView
+    <TextView
         android:id="@+id/item_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
         android:textSize="18sp"
          />
 
-        <cn.dreamn.qianji_auto.ui.components.AdaptionSizeTextView
+        <TextView
             android:id="@+id/item_sub"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -57,10 +57,10 @@
             android:layout_toStartOf="@+id/icon_isOk"
             android:layout_toEndOf="@+id/icon_header"
             android:gravity="center_vertical"
+            android:maxWidth="100dp"
             android:text=""
             android:textColor="@color/gray"
-            android:textSize="12sp"
-             />
+            android:textSize="12sp" />
 
         <cn.dreamn.qianji_auto.ui.components.IconView
             android:id="@+id/icon_isOk"

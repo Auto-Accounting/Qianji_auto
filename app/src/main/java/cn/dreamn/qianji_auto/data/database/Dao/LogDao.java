@@ -24,19 +24,13 @@ import cn.dreamn.qianji_auto.data.database.Table.Log;
 
 @Dao
 public interface LogDao {
-    @Query("SELECT * FROM Log order by pos DESC")
-    Log[] loadAll();
+    @Query("SELECT * FROM Log order by id DESC limit :from,:to")
+    Log[] loadAll(int from, int to);
 
-    @Query("SELECT * FROM Log order by pos DESC limit :limit")
-    Log[] loadLimit(int limit);
+    @Query("INSERT INTO Log(time,title,body) values(strftime('%s','now'),:title,:body)")
+    void add(String title, String body);
 
-    @Query("DELETE FROM Log WHERE (strftime('%s','now'))- time > :timeout")
-    void deleteTimeout(int timeout);
-
-    @Query("INSERT INTO Log(time,time2,title,sub) values(strftime('%s','now'),:time2,:title,:sub)")
-    void add(String title, String sub, String time2);
-
-    @Query("DELETE FROM Log WHERE pos not in (SELECT pos FROM Log order by pos DESC limit :limit)")
+    @Query("DELETE FROM Log WHERE id not in (SELECT id FROM Log order by id DESC limit :limit)")
     void del(int limit);
 
     @Query("DELETE FROM Log")

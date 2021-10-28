@@ -20,7 +20,7 @@ public class AutoError {
                 String string = (String) param.args[0];
                 //钱迹弹出错误信息，转发给自动记账处理~
                 if (string != null) {
-                    utils.sendString("钱迹错误：" + string);
+                   // utils.sendString("钱迹错误：" + string);
                     String url = getSolvedUrl(string);
                     Intent v0 = new Intent(utils.getContext(), WebViewActivity);
                     v0.putExtra("param_web_url", url);

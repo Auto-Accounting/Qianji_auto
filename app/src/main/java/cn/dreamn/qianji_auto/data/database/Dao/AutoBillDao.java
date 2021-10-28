@@ -25,8 +25,8 @@ import cn.dreamn.qianji_auto.data.database.Table.AutoBill;
 
 @Dao
 public interface AutoBillDao {
-    @Query("SELECT * FROM autobill order by CAST(date as double),id desc")
-    AutoBill[] getAll();
+    @Query("SELECT * FROM autobill order by CAST(date as double),id desc limit :from,:to")
+    AutoBill[] getAll(int from, int to);
 
     @Query("SELECT * FROM autobill order by id desc limit 1")
     AutoBill[] getLast();
@@ -37,7 +37,7 @@ public interface AutoBillDao {
     @Query("DELETE FROM autobill WHERE id=:id")
     void del(int id);
 
-    @Query("INSERT INTO autobill(billInfo,date) values(:billInfo,strftime('%m.%d','now','localtime'))")
+    @Query("INSERT INTO autobill(billInfo,date,isRecord) values(:billInfo,strftime('%m.%d','now','localtime'),0)")
     void add(String billInfo);
 
     @Query("SELECT * from autobill WHERE date=:date order by id desc")
@@ -45,6 +45,12 @@ public interface AutoBillDao {
 
     @Query("UPDATE autobill SET billInfo=:billInfo WHERE id=:id")
     void update(int id, String billInfo);
+
+    @Query("UPDATE autobill SET isRecord=1 WHERE billInfo=:billInfo AND isRecord=0")
+    void update(String billInfo);
+
+    @Query("SELECT * FROM autobill WHERE isRecord=0 order by CAST(date as double),id desc")
+    AutoBill[] getNoRecord();
 
     @Query("DELETE FROM autobill")
     void delAll();

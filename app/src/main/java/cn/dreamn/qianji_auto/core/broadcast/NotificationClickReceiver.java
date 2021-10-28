@@ -16,6 +16,7 @@ public class NotificationClickReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
 
+        //TODO 点击通知弹出待记账列表
         String bill=intent.getStringExtra("billinfo");
         if(bill==null){
             Log.i("通知没有携带数据！！！ ");

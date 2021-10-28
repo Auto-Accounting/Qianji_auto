@@ -16,10 +16,9 @@ import com.tencent.mmkv.MMKV;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
-import cn.dreamn.qianji_auto.data.database.DbManger;
-import cn.dreamn.qianji_auto.data.database.Helper.Caches;
-import cn.dreamn.qianji_auto.data.database.Table.CategoryName;
+import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.setting.AppStatus;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.RootUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
@@ -56,9 +55,6 @@ public class QianJi implements IApp {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 if (msg.what == 0) {
-                    Caches.AddOrUpdate("show_tip", "false");
-                    Caches.AddOrUpdate("float_time", String.valueOf(System.currentTimeMillis()));
-                    //    Tool.goUrl(context, getQianJi(billInfo));
                     if (RootUtils.hasRootPermission()) {
                         RootUtils.exec(new String[]{"am start \"" + getQianJi(billInfo) + "\""});
                     } else {
@@ -100,16 +96,20 @@ public class QianJi implements IApp {
         ToastUtils.show("收到钱迹数据！正在后台同步中...");
         String json = extData.getString("data");
         JSONObject jsonObject = JSONObject.parseObject(json);
-
         JSONArray asset = jsonObject.getJSONArray("asset");
         JSONArray category = jsonObject.getJSONArray("category");
         JSONArray userBook = jsonObject.getJSONArray("userBook");
-        JSONArray billInfo = jsonObject.getJSONArray("billInfo");
 
         Handler mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                ToastUtils.show(R.string.async_success);
+                if (msg.what == 1) {
+                    Log.i((String) msg.obj);
+                    ToastUtils.show((String) msg.obj);
+                } else {
+                    ToastUtils.show(R.string.async_success);
+                }
+
             }
         };
 
@@ -119,8 +119,9 @@ public class QianJi implements IApp {
         }
 
         TaskThread.onThread(() -> {
-            DbManger.db.CategoryNameDao().clean();
+            Db.db.CategoryDao().clean();
             for (int i = 0; i < category.size(); i++) {
+                HandlerUtil.send(mHandler, "正在处理分类数据（" + (i + 1) + "/" + category.size() + "）", 1);
                 JSONObject jsonObject1 = category.getJSONObject(i);
                 String name = jsonObject1.getString("name");
                 String icon = jsonObject1.getString("icon");
@@ -130,6 +131,7 @@ public class QianJi implements IApp {
                 String parent_id = jsonObject1.getString("parent");
                 String book_id = jsonObject1.getString("book_id");
                 String sort = jsonObject1.getString("sort");
+
                 if (self_id == null || self_id.equals("")) {
                     self_id = String.valueOf(System.currentTimeMillis());
                 }
@@ -137,50 +139,44 @@ public class QianJi implements IApp {
                     sort = "500";
                 }
                 String self = self_id;
-                String s = sort;
 
-                Log.d("cate->" + name);
-                CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type, book_id);
-                if (categoryNames.length != 0) {
-                    continue;
-                }
-                DbManger.db.CategoryNameDao().add(name, icon, level, type, self, parent_id, book_id, s);
+                Db.db.CategoryDao().add(name, icon, level, type, self, parent_id, book_id, sort);
 
             }
+
             Log.i("分类数据处理完毕");
 
-
             //资产数据处理
-            DbManger.db.Asset2Dao().clean();
+            Db.db.AssetDao().clean();
 
             for (int i = 0; i < asset.size(); i++) {
+                HandlerUtil.send(mHandler, "正在处理资产数据（" + (i + 1) + "/" + category.size() + "）", 1);
+
                 JSONObject jsonObject1 = asset.getJSONObject(i);
-                Log.d(jsonObject1.getString("name") + "->type->" + jsonObject1.getString("type"));
                 if (jsonObject1.getString("type").equals("5"))
                     continue;
-                DbManger.db.Asset2Dao().add(jsonObject1.getString("name"), jsonObject1.getString("icon"), jsonObject1.getInteger("sort"));
+                Db.db.AssetDao().add(jsonObject1.getString("name"), jsonObject1.getString("icon"), jsonObject1.getInteger("sort"));
 
             }
+
             Log.i("资产数据处理完毕");
 
-            DbManger.db.BookNameDao().clean();
+            Db.db.BookNameDao().clean();
             for (int i = 0; i < userBook.size(); i++) {
+                HandlerUtil.send(mHandler, "正在处理账本数据（" + (i + 1) + "/" + category.size() + "）", 1);
                 JSONObject jsonObject1 = userBook.getJSONObject(i);
-
                 String bookName = jsonObject1.getString("name");
-                Log.d("book->" + bookName);
                 String icon = jsonObject1.getString("cover");
                 String bid = jsonObject1.getString("id");
                 if (bid == null || bid.equals("")) {
                     bid = String.valueOf(System.currentTimeMillis());
                 }
-                DbManger.db.BookNameDao().add(bookName, icon, bid);
-
+                Db.db.BookNameDao().add(bookName, icon, bid);
             }
 
             Log.i("账本数据处理完毕");
 
-            mHandler.sendEmptyMessage(0);
+            HandlerUtil.send(mHandler, 0);
         });
 
         RootUtils.exec(new String[]{"am force-stop com.mutangtech.qianji"});
@@ -188,38 +184,8 @@ public class QianJi implements IApp {
 
     }
 
-    private void delay(Handler mHandler) {
-
-
-        TaskThread.onThread(() -> Caches.getCacheData("float_time", "", cache -> {
-            if (!cache.equals("")) {
-                long time = Long.parseLong(cache);
-                long t = System.currentTimeMillis() - time;
-                t = t / 1000;
-                if (t < 4) {
-                    long finalT = t;
-                    Caches.getCacheData("show_tip", "false", cache1 -> {
-                        if (!cache1.equals("true")) {
-                            Looper.prepare();
-                            ToastUtils.show("距离上一次发起请求时间为" + finalT + "s,稍后为您自动记账。");
-                            Looper.loop();
-                            Caches.AddOrUpdate("show_tip", "true");
-                        }
-                        new Handler().postDelayed(() -> {
-                            delay(mHandler);
-                        }, finalT * 100);
-                    });
-                    return;
-
-                }
-
-            }
-            mHandler.sendEmptyMessage(0);
-        }));
-    }
 
     public String getQianJi(BillInfo billInfo) {
-
 
         String url = "qianji://publicapi/addbill?&type=" + billInfo.getType(true) + "&money=" + billInfo.getMoney();
         MMKV mmkv = MMKV.defaultMMKV();

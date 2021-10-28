@@ -26,11 +26,12 @@ import cn.dreamn.qianji_auto.core.helper.AutoBillService;
 import cn.dreamn.qianji_auto.core.helper.Inner.wechat.QrScan;
 import cn.dreamn.qianji_auto.core.helper.Inner.wechat.RedPackage;
 import cn.dreamn.qianji_auto.core.helper.Inner.wechat.Transerfer;
-import cn.dreamn.qianji_auto.data.database.Helper.AppDatas;
-import cn.dreamn.qianji_auto.data.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.data.data.RegularCenter;
+import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 
 public class HelpService extends AccessibilityService {
 
@@ -79,20 +80,29 @@ public class HelpService extends AccessibilityService {
                     String content = extras.getString(NotificationCompat.EXTRA_TEXT, "");
 
                     String str = "title=" + title + ",content=" + content;
-                    AppDatas.add("notice", packageName, str);
+
+                    TaskThread.onThread(() -> {
+                        Db.db.AppDataDao().add(str, "notice", packageName);
+                    });
+
                     Handler mHandler = new Handler(Looper.getMainLooper()) {
                         @Override
                         public void handleMessage(@NonNull Message msg) {
                             BillInfo billInfo = (BillInfo) msg.obj;
                             billInfo.setFromApp(packageName);
-                            SendDataToApp.call(getApplicationContext(), billInfo);
+                            SendDataToApp.call(billInfo);
                         }
                     };
-                    identifyRegulars.run("notice", packageName, str, billInfo -> {
-                        if (billInfo != null) {
-                            HandlerUtil.send(mHandler, billInfo, HANDLE_OK);
+                    RegularCenter.getInstance("notice").run(packageName, str, null, new TaskThread.TaskResult() {
+                        @Override
+                        public void onEnd(Object obj) {
+                            BillInfo billInfo = (BillInfo) obj;
+                            if (billInfo != null) {
+                                HandlerUtil.send(mHandler, billInfo, HANDLE_OK);
+                            }
                         }
                     });
+
 
                 }
             }

@@ -433,4 +433,6 @@
     <string name="debug_closed">已关闭调试模式。</string>
     <string name="debug_opened">您已开启调试模式！</string>
     <string name="debug_open">已开启调试模式！</string>
+    <string name="category">自动分类</string>
+    <string name="submit_regular">http://gitbot.ankio.net/submit/2</string>
 </resources>

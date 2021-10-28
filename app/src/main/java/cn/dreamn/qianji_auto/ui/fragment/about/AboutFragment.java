@@ -210,7 +210,7 @@ public class AboutFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 MMKV mmkv = MMKV.defaultMMKV();
-                mmkv.encode("version_3_0", true);
+                mmkv.encode("version", 2);
                 mmkv.encode("helper_page", 0);
                 openPage(HelperFragment.class);
             }

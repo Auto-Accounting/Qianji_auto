@@ -26,11 +26,14 @@ public class Regular {
     @PrimaryKey(autoGenerate = true)
     public int id;
     public String regular;//翻译后的规则
-    public String name;
-    public String tableList;
-    public String des;
+    public String name;//名称
+    public String remark;//说明
+    public String identify;//category/sms/app/notice
+    public String app;//
+    public String data;//规则在编辑页面中的数据
     public String dataId;//云端ID
     public String version;//版本号
+
     public int use = 1;//是否启用该规则
     public int sort = 0;//排序
 

@@ -61,7 +61,7 @@ public class Msg {
 
 
                     jsonObject.put("content", JSONObject.parseObject(xml));
-                    jsonObject.put("cache_money", utils.readData("cache_wechat_payMoney", true));
+                    jsonObject.put("cache_money", utils.readData("cache_wechat_payMoney"));
                     jsonObject.put("cache_user", utils.readData("cache_wechat_payUser"));
                     jsonObject.put("cache_user2", utils.readData("cache_userName"));
                     jsonObject.put("cache_paytools", utils.readData("cache_wechat_paytool"));
@@ -76,7 +76,10 @@ public class Msg {
                         jsonObject.put("title", "卡片消息");
                         utils.send(jsonObject);
                     } else {
-                    //    utils.log("微信数据【不确定是否要发送】：" + type + "\n \n" + contentValues.toString());
+                        if (utils.isDebug()) {
+                            utils.log("微信数据(其他未定义数据)：" + type + "\n \n" + contentValues.toString());
+                        }
+                        //    utils.log("微信数据【不确定是否要发送】：" + type + "\n \n" + contentValues.toString());
                     }
                 } catch (Exception e) {
                     utils.log("获取账单信息出错：" + e.getMessage(), true);

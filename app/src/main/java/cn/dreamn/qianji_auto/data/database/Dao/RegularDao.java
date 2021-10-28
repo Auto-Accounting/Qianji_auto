@@ -25,28 +25,35 @@ import cn.dreamn.qianji_auto.data.database.Table.Regular;
 
 @Dao
 public interface RegularDao {
-    @Query("SELECT * FROM regular  order by sort,id")
-    Regular[] loadAll();
+    @Query("SELECT * FROM regular WHERE identify=:type AND app=:app order by sort,id limit :from,:to")
+    Regular[] load(String type, String app, int from, int to);
 
-    @Query("SELECT * FROM regular WHERE use=1  order by sort,id")
-    Regular[] load();
+    @Query("SELECT * FROM regular WHERE identify=:type  order by sort,id limit :from,:to")
+    Regular[] load(String type, int from, int to);
 
-    @Query("SELECT * FROM regular WHERE dataId=:data limit 1")
-    Regular[] loadByDataId(String data);
+
+    @Query("SELECT * FROM regular WHERE identify=:type AND (app=:app OR app='') and use=1  order by sort,id limit :from,:to")
+    Regular[] loadUse(String type, String app, int from, int to);
+
+    @Query("SELECT * FROM regular WHERE dataId=:dataId limit 1")
+    Regular[] loadByDataId(String dataId);
+
+    @Query("select * from  Regular  where  id  in (select  max(id)  from  Regular  WHERE  identify=:type   group by app having COUNT(*)>1  order by sort)")
+    Regular[] loadApps(String type);
 
     @Query("DELETE FROM regular WHERE id=:id")
     void delete(int id);
 
-    @Query("UPDATE  regular set sort=:sort WHERE id=:id")
+    @Query("UPDATE regular set sort=:sort WHERE id=:id")
     void setSort(int id, int sort);
 
-    @Query("INSERT INTO regular(regular,name,tableList,use,sort,des,dataId,version) values(:regular,:name,:tableList,1,0,:des,:dataId,:version)")
-    void add(String regular, String name, String tableList, String des, String dataId, String version);
+    @Query("INSERT INTO regular(regular,name,data,use,sort,remark,dataId,version,app,identify) values(:regular,:name,:data,1,0,:remark,:dataId,:version,:app,:type)")
+    void add(String regular, String name, String data, String remark, String dataId, String version, String app, String type);
 
-    @Query("UPDATE  regular SET regular=:regular,name=:name,tableList=:tableList,des=:des,dataId=:dataId,version=:version WHERE id=:id")
-    void update(int id, String regular, String name, String tableList, String des, String dataId, String version);
+    @Query("UPDATE  regular SET regular=:regular,name=:name,data=:data,remark=:remark,dataId=:dataId,version=:version,app=:app,identify=:type WHERE id=:id")
+    void update(int id, String regular, String name, String data, String remark, String dataId, String version, String app, String type);
 
-    @Query("UPDATE  regular SET use=1 WHERE id=:id")
+    @Query("UPDATE regular SET use=1 WHERE id=:id")
     void enable(int id);
 
     @Query("UPDATE  regular SET use=0 WHERE id=:id")
@@ -55,10 +62,13 @@ public interface RegularDao {
     @Query("SELECT * FROM regular WHERE id=:id")
     Regular[] getOne(int id);
 
-    @Query("DELETE FROM regular")
-    void clean();
+    @Query("DELETE FROM regular WHERE identify=:type")
+    void clean(String type);
 
-    @Query("SELECT * FROM regular")
-    Regular[] getDataId();
+    @Query("SELECT * FROM regular  WHERE identify=:type")
+    Regular[] getDataId(String type);
+
+    @Query("SELECT * FROM regular  WHERE identify=:type and app=:app")
+    Regular[] getDataId(String type, String app);
 }
 

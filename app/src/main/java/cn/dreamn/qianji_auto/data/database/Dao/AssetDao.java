@@ -22,30 +22,35 @@ import androidx.room.Query;
 
 import cn.dreamn.qianji_auto.data.database.Table.Asset;
 
+
 @Dao
 public interface AssetDao {
-    @Query("SELECT * FROM asset")
-    Asset[] getAll();
+    @Query("SELECT * FROM Asset order by sort,id limit :from,:to")
+    Asset[] getAll(int from, int to);
 
-    @Query("SELECT * FROM asset WHERE id=:id")
+    @Query("SELECT * FROM Asset WHERE id=:id")
     Asset[] get(int id);
 
-    @Query("SELECT * FROM asset WHERE name=:name")
+    @Query("SELECT * FROM Asset WHERE name=:name limit 1")
     Asset[] get(String name);
 
-    @Query("DELETE FROM asset WHERE id=:id")
+    @Query("DELETE FROM Asset WHERE id=:id")
     void del(int id);
 
-    @Query("DELETE FROM asset WHERE name=:name")
-    void del(String name);
 
-    @Query("INSERT INTO asset(name,mapName) values(:name,:mapName)")
-    void add(String name, String mapName);
+    @Query("INSERT INTO Asset(name,icon,sort) values(:name,:icon,:sort)")
+    void add(String name, String icon, int sort);
 
-    @Query("UPDATE  asset SET name=:name,mapName=:mapName WHERE id=:id")
-    void update(int id, String name, String mapName);
+    @Query("INSERT INTO Asset(name,icon,sort) values(:name,'',0)")
+    void add(String name);
 
-    @Query("SELECT * FROM asset WHERE name like 'reg:%'")
-    Asset[] getAllFromRegex();
+    @Query("UPDATE  Asset SET name=:name WHERE id=:id")
+    void update(int id, String name);
+
+    @Query("DELETE FROM Asset")
+    void clean();
+
+    @Query("UPDATE  Asset set sort=:sort WHERE id=:id")
+    void setSort(int id, int sort);
 }
 

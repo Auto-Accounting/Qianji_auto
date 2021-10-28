@@ -6,7 +6,7 @@
     android:background="@color/background_white">
 
 
-    <cn.dreamn.qianji_auto.ui.components.AdaptionSizeTextView
+    <TextView
         android:id="@+id/item_title2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@+id/view4" />
 
-    <cn.dreamn.qianji_auto.ui.components.AdaptionSizeTextView
+    <TextView
         android:id="@+id/item_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

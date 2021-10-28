@@ -30,7 +30,6 @@ import cn.dreamn.qianji_auto.data.local.FileUtils;
 public class DBHelper {
 
     private final Utils utils;
-    private final String NEW_PATH = "/data/data/com.mutangtech.qianji/qianjiapp_copy";
     boolean isObj = false;
     //SQLiteDatabase
     private SQLiteDatabase db;
@@ -50,6 +49,7 @@ public class DBHelper {
     private void openDb() {
         isObj = false;
         utils.log("Qianji-Copy 开始复制文件", false);
+        @SuppressLint("SdCardPath") String NEW_PATH = "/data/data/com.mutangtech.qianji/qianjiapp_copy";
         FileUtils.del(NEW_PATH);//尝试删掉这里的文件
         boolean copyed = FileUtils.copyFile("/data/data/com.mutangtech.qianji/databases/qianjiapp", NEW_PATH);
         if (copyed) {

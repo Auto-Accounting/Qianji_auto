@@ -57,7 +57,7 @@ public class hookReceive {
     }
 
     private static void analyze(Utils utils, String data) {
-        utils.log("收到消息：" + data, true);
+        utils.log("支付宝原始数据：" + data, true);
         JSONObject jsonObject = JSON.parseObject(data);
         if (!jsonObject.containsKey("pl")) return;
         String str = jsonObject.getString("pl");

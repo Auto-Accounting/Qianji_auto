@@ -37,14 +37,18 @@ import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
-import cn.dreamn.qianji_auto.data.database.Helper.AutoBills;
+import cn.dreamn.qianji_auto.data.database.Db;
+import cn.dreamn.qianji_auto.data.database.Table.AutoBill;
 import cn.dreamn.qianji_auto.ui.adapter.MoneyAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
@@ -134,14 +138,52 @@ public class MoneyFragment extends BaseFragment {
     private void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
         TaskThread.onThread(() -> {
-            AutoBills.getDates(datas -> {
-                if (datas == null || datas.length == 0) {
-                    HandlerUtil.send(mHandler, HANDLE_ERR);
-                } else {
-                    list = Arrays.asList(datas);
-                    HandlerUtil.send(mHandler, HANDLE_OK);
+            AutoBill[] autoBills = Db.db.AutoBillDao().getAll(0, 200);
+            if (autoBills.length == 0) {
+                HandlerUtil.send(mHandler, HANDLE_ERR);
+            } else {
+                Map<String, List<Bundle>> haspMap = new HashMap<>();
+
+
+                for (AutoBill autoBill : autoBills) {
+
+                    List<Bundle> bundles;
+                    if (haspMap.containsKey(autoBill.date)) {
+                        bundles = haspMap.get(autoBill.date);
+                    } else {
+                        bundles = new ArrayList<>();
+                        haspMap.put(autoBill.date, bundles);
+                    }
+
+                    new Bundle();
+                    Bundle bundle = Tool.class2Bundle(autoBill);
+                    assert bundles != null;
+                    bundles.add(bundle);
+                    haspMap.replace(autoBill.date, bundles);
                 }
-            });
+
+                List<Map.Entry<String, List<Bundle>>> listHash = new ArrayList<>(haspMap.entrySet()); //转换为list
+                listHash.sort((o1, o2) -> {
+                    Double l = Double.parseDouble(o1.getKey());
+                    Double r = Double.parseDouble(o2.getKey());
+                    return r.compareTo(l);
+                });
+
+
+                List<Bundle> bundles = new ArrayList<>();
+
+                for (int i = 0; i < listHash.size(); i++) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("date", listHash.get(i).getKey());
+                    List<Bundle> bundles1 = listHash.get(i).getValue();
+                    bundle.putSerializable("data", bundles1.toArray(new Bundle[0]));
+                    bundles.add(bundle);
+                }
+
+                list = bundles;
+
+                HandlerUtil.send(mHandler, HANDLE_OK);
+            }
         });
     }
 
@@ -154,8 +196,6 @@ public class MoneyFragment extends BaseFragment {
                 switch (position) {
                     case 0:
                         goBillApp(billInfo, bundle.getInt("id"));
-                        /* int id = bundle.getInt("id");
-                         */
                         break;
                     case 1:
                         del(bundle);
@@ -174,21 +214,17 @@ public class MoneyFragment extends BaseFragment {
         BillInfo billInfo = BillInfo.parse(bundle.getString("billinfo"));
 
         Context mContext = getContext();
-
-
         Tool.clipboard(mContext, billInfo.toString());
-
         ToastUtils.show(R.string.copied);
 
     }
 
     private void del(Bundle bundle) {
         int id = bundle.getInt("id");
-        AutoBills.del(id, () -> {
-            ToastUtils.show(R.string.del_success);
-            HandlerUtil.send(mHandler, HANDLE_REFRESH);
+        TaskThread.onThread(() -> {
+            Db.db.AutoBillDao().del(id);
+            HandlerUtil.send(mHandler, getString(R.string.del_success), HANDLE_REFRESH);
         });
-
     }
 
     private void goBillApp(BillInfo billInfo, int i) {
@@ -227,7 +263,8 @@ public class MoneyFragment extends BaseFragment {
 
                 @Override
                 public void sure() {
-                    AutoBills.delAll(() -> {
+                    TaskThread.onThread(() -> {
+                        Db.db.AutoBillDao().delAll();
                         HandlerUtil.send(mHandler, getString(R.string.log_clean_success), HANDLE_REFRESH);
                     });
                 }

@@ -37,75 +37,64 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.data.database.DbManger;
-import cn.dreamn.qianji_auto.data.database.Table.CategoryName;
+import cn.dreamn.qianji_auto.data.database.Db;
+import cn.dreamn.qianji_auto.data.database.Table.Category;
 import cn.dreamn.qianji_auto.ui.utils.CategoryUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 
-public class CategoryNames {
-    public interface getCateNameObj{
-        void onGet(Bundle[] categoryNames);
-    }
-    public interface getCateNameOneObj{
-        void onGet(Bundle categoryNames);
-    }
-    public interface getCateNameStr{
-        void onGet(String categoryNames);
-    }
-    public interface getCateNameBoolean{
-        void onGet(boolean isSucceed);
-    }
-    private static Bundle toBundle(CategoryName categoryName){
+public class Categorys {
+    private static Bundle toBundle(Category category) {
         Bundle bundle = new Bundle();
-        bundle.putInt("id", categoryName.id);
-        bundle.putString("book_id", categoryName.book_id);
-        bundle.putString("icon", categoryName.icon);
-        bundle.putString("level", categoryName.level);
-        bundle.putString("name", categoryName.name);
-        bundle.putString("parent_id", categoryName.parent_id);
-        bundle.putString("sort", categoryName.sort);
-        bundle.putString("self_id", categoryName.self_id);
-        bundle.putString("type", categoryName.type);
+        bundle.putInt("id", category.id);
+        bundle.putString("book_id", category.book_id);
+        bundle.putString("icon", category.icon);
+        bundle.putString("level", category.level);
+        bundle.putString("name", category.name);
+        bundle.putString("parent_id", category.parent_id);
+        bundle.putString("sort", category.sort);
+        bundle.putString("self_id", category.self_id);
+        bundle.putString("type", category.type);
         if (bundle.getString("icon") == null || !bundle.getString("icon").startsWith("http")) {
             bundle.putString("icon", "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png");
         }
         return bundle;
     }
-    private static Bundle[] toBundles(CategoryName[] categoryNames,Bundle add){
+
+    private static Bundle[] toBundles(Category[] categories, Bundle add) {
         ArrayList<Bundle> bundleArrayList = new ArrayList<>();
-        for (CategoryName category:categoryNames) {
+        for (Category category : categories) {
             bundleArrayList.add(toBundle(category));
         }
-        if(add!=null)
-         bundleArrayList.add(add);
+        if (add != null)
+            bundleArrayList.add(add);
         return bundleArrayList.toArray(new Bundle[0]);
     }
-    public static void getParentByPay(String book_id,getCateNameObj getCateName) {
+
+    public static void getParentByPay(String book_id, TaskThread.TaskResult taskResult) {
+        TaskThread.onThread(() -> taskResult.onEnd(toBundles(Db.db.CategoryDao().get("0", book_id), null)));
+
+    }
+
+    public static void getParents(String book_id, String type, TaskThread.TaskResult taskResult) {
         TaskThread.onThread(() -> {
-            getCateName.onGet(toBundles(DbManger.db.CategoryNameDao().get("0", book_id), null));
+            taskResult.onEnd(toBundles(Db.db.CategoryDao().get(type, book_id), null));
         });
 
     }
-    public static void getParents(String book_id,String type,getCateNameObj getCateName) {
-        TaskThread.onThread(() -> {
-            getCateName.onGet(toBundles(DbManger.db.CategoryNameDao().get(type, book_id), null));
-        });
 
+    public static void getParentByIncome(String book_id, TaskThread.TaskResult taskResult) {
+        TaskThread.onThread(() -> taskResult.onEnd(toBundles(Db.db.CategoryDao().get("1", book_id), null)));
     }
 
-    public static void getParentByIncome(String book_id,getCateNameObj getCateName) {
-        TaskThread.onThread(() -> getCateName.onGet(toBundles(DbManger.db.CategoryNameDao().get("1", book_id), null)));
+    public static void getChildrenByPay(String parent_id, String book_id, TaskThread.TaskResult taskResult) {
+        TaskThread.onThread(() -> taskResult.onEnd(toBundles(Db.db.CategoryDao().get("0", parent_id, book_id), null)));
     }
 
-    public static void getChildrenByPay(String parent_id, String book_id,getCateNameObj getCateName) {
-        TaskThread.onThread(() -> getCateName.onGet(toBundles(DbManger.db.CategoryNameDao().get("0", parent_id, book_id), null)));
+    public static void getChildrenByIncome(String parent_id, String book_id, TaskThread.TaskResult taskResult) {
+        TaskThread.onThread(() -> taskResult.onEnd(toBundles(Db.db.CategoryDao().get("1", parent_id, book_id), null)));
     }
 
-    public static void getChildrenByIncome(String parent_id, String book_id,getCateNameObj getCateName) {
-        TaskThread.onThread(() -> getCateName.onGet(toBundles(DbManger.db.CategoryNameDao().get("1", parent_id, book_id), null)));
-    }
-
-    public static void getChildrens(String parent_id, String book_id,String type,Boolean allow,getCateNameObj getCateName) {
+    public static void getChildrens(String parent_id, String book_id, String type, Boolean allow, TaskThread.TaskResult taskResult) {
         TaskThread.onThread(() -> {
             Bundle bundle = null;
             if (allow) {
@@ -117,13 +106,14 @@ public class CategoryNames {
                 bundle.putString("name", "添加子类");
                 bundle.putString("parent_id", "-2");
                 bundle.putString("self_id", "-2");
-        bundle.putString("sort","1000");
-        bundle.putString("type",type);
+                bundle.putString("sort", "1000");
+                bundle.putString("type", type);
             }
-        getCateName.onGet(toBundles(DbManger.db.CategoryNameDao().get(type, parent_id, book_id),bundle));
-    });
+            taskResult.onEnd(toBundles(Db.db.CategoryDao().get(type, parent_id, book_id), bundle));
+        });
     }
-    public static void getChildren(String parent_id, String book_id,String type,Boolean allow,getCateNameObj getCateName) {
+
+    public static void getChildren(String parent_id, String book_id, String type, Boolean allow, TaskThread.TaskResult taskResult) {
         TaskThread.onThread(() -> {
             Bundle bundle = null;
             if (allow) {
@@ -138,88 +128,88 @@ public class CategoryNames {
                 bundle.putString("sort","1000");
                 bundle.putString("type",type);
             }
-            getCateName.onGet(toBundles(DbManger.db.CategoryNameDao().getOne(type, parent_id, book_id),bundle));
+            taskResult.onEnd(toBundles(Db.db.CategoryDao().getOne(type, parent_id, book_id), bundle));
         });
     }
 
-    public static void getPic(String name, String type, String book_id,getCateNameStr getCateName) {
+    public static void getPic(String name, String type, String book_id, TaskThread.TaskResult taskResult) {
         TaskThread.onThread(() -> {
-            CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type, book_id);
-            if (categoryNames != null && categoryNames.length != 0) {
-                String imgSrc = categoryNames[0].icon;
+            Category[] categories = Db.db.CategoryDao().getByName(name, type, book_id);
+            if (categories != null && categories.length != 0) {
+                String imgSrc = categories[0].icon;
                 if (imgSrc == null || !imgSrc.startsWith("http")) {
                     imgSrc = "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png";
                 }
                 //"https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png"
-                getCateName.onGet(imgSrc);
+                taskResult.onEnd(imgSrc);
                 return;
             }
-            getCateName.onGet("https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png");
+            taskResult.onEnd("https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png");
         });
 
     }
 
-    public static void insert(String name, String icon, String level, String type, String self_id, String parent_id, String book_id, String sort,getCateNameBoolean getCateName) {
+    public static void insert(String name, String icon, String level, String type, String self_id, String parent_id, String book_id, String sort, TaskThread.TaskResult taskResult) {
         if (self_id == null || self_id.equals("")) {
             self_id = String.valueOf(System.currentTimeMillis());
         }
         if (sort == null || sort.equals("")) {
             sort = "500";
         }
-        String self=self_id;
-        String s=sort;
+        String self = self_id;
+        String s = sort;
         TaskThread.onThread(() -> {
-            CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type, book_id);
-            if (categoryNames.length != 0) {
-                getCateName.onGet(false);
+            Category[] categories = Db.db.CategoryDao().getByName(name, type, book_id);
+            if (categories.length != 0) {
+                taskResult.onEnd(false);
                 return;
             }
-            DbManger.db.CategoryNameDao().add(name, icon, level, type, self, parent_id, book_id, s);
-            getCateName.onGet(true);
+            Db.db.CategoryDao().add(name, icon, level, type, self, parent_id, book_id, s);
+            taskResult.onEnd(true);
         });
 
 
     }
 
 
-    public static void update(int id, String name, String type, String book_id,getCateNameBoolean getCateName) {
+    public static void update(int id, String name, String type, String book_id, TaskThread.TaskResult taskResult) {
         TaskThread.onThread(() -> {
-            CategoryName[] categoryNames = DbManger.db.CategoryNameDao().getByName(name, type, book_id);
-            if (categoryNames.length != 0) {
-                getCateName.onGet(false);
+            Category[] categories = Db.db.CategoryDao().getByName(name, type, book_id);
+            if (categories.length != 0) {
+                taskResult.onEnd(false);
                 return;
             }
-            DbManger.db.CategoryNameDao().update(id, name);
-            getCateName.onGet(true);
+            Db.db.CategoryDao().update(id, name);
+            taskResult.onEnd(true);
         });
     }
 
     public static void del(int id) {
         TaskThread.onThread(() -> {
-            CategoryName[] categoryNames = DbManger.db.CategoryNameDao().get(id);
-            if (categoryNames.length == 0) return;
+            Category[] categories = Db.db.CategoryDao().get(id);
+            if (categories.length == 0) return;
 
-            String self_id = categoryNames[0].self_id;
-            String type = categoryNames[0].type;
-            String book_id = categoryNames[0].book_id;
-            DbManger.db.CategoryNameDao().del(id);
+            String self_id = categories[0].self_id;
+            String type = categories[0].type;
+            String book_id = categories[0].book_id;
+            Db.db.CategoryDao().del(id);
 
-            CategoryName[] categoryNames2 = DbManger.db.CategoryNameDao().get(type, book_id, self_id);
-            for (CategoryName categoryName : categoryNames2) {
-                DbManger.db.CategoryNameDao().del(categoryName.id);
+            Category[] categoryNames2 = Db.db.CategoryDao().get(type, book_id, self_id);
+            for (Category category : categoryNames2) {
+                Db.db.CategoryDao().del(category.id);
             }
         });
 
     }
 
     public static void clean() {
-        TaskThread.onThread(() -> DbManger.db.CategoryNameDao().clean());
+        TaskThread.onThread(() -> Db.db.CategoryDao().clean());
     }
 
 
-    public static void showCategorySelect(Context context, String title,String book_id,String type, boolean isFloat,getCateNameOneObj  getOne ) {
+    public static void showCategorySelect(Context context, String title, String book_id, String type, boolean isFloat, TaskThread.TaskResult taskResult) {
 
-        AtomicReference<Bundle> cateName=new AtomicReference<>();
+        AtomicReference<Bundle> cateName = new AtomicReference<>();
 
         LayoutInflater factory = LayoutInflater.from(context);
         final View textEntryView = factory.inflate(R.layout.include_list_category, null);
@@ -227,7 +217,7 @@ public class CategoryNames {
         //final TextView list_title = textEntryView.findViewById(R.id.list_title);
 
         final SwipeRecyclerView recycler_view = textEntryView.findViewById(R.id.recycler_view);
-        final Button button=textEntryView.findViewById(R.id.button_next);
+        final Button button = textEntryView.findViewById(R.id.button_next);
 
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
         MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
@@ -248,7 +238,7 @@ public class CategoryNames {
                     cate.putString("type", type);
                 }
 
-                getOne.onGet(cate);
+                taskResult.onEnd(cate);
                 dialog.dismiss();
             }
         });

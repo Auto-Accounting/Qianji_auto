@@ -18,6 +18,15 @@ layui.define(function (exports) {
         saveCategory:function (js,data){
             window.AndroidJS.save(js,data);
         },
+        saveReg:function (js,data){
+            window.AndroidJS.save(js,data);
+        },
+        selectReg:function (dom,data){
+            window.AndroidJS.selectReg(dom,data);
+        },
+        testReg:function (data){
+            window.AndroidJS.testReg(data);
+        },
         initData:function () {
             window.AndroidJS.initData();
         }

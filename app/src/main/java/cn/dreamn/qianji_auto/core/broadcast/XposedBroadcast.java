@@ -31,10 +31,11 @@ import androidx.annotation.NonNull;
 
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
-import cn.dreamn.qianji_auto.data.database.Helper.AppDatas;
-import cn.dreamn.qianji_auto.data.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.data.data.RegularCenter;
+import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 
 
 public class XposedBroadcast extends BroadcastReceiver {
@@ -57,20 +58,28 @@ public class XposedBroadcast extends BroadcastReceiver {
             String app = extData.getString("app_package");
             String appName = extData.getString("app_name");
             Log.i("Xposed - 自动记账", "自动记账收到数据：AppName:" + appName + ",源自:" + app + ",数据：" + data);
-            AppDatas.add(identify, app, data);
+            TaskThread.onThread(() -> {
+                Db.db.AppDataDao().add(data, identify, app);
+            });
             Handler mHandler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(@NonNull Message msg) {
                     BillInfo billInfo = (BillInfo) msg.obj;
                     billInfo.setFromApp(app);
-                    SendDataToApp.call(context, billInfo);
+                    SendDataToApp.call(billInfo);
                 }
             };
-            identifyRegulars.run(identify, app, data, billInfo -> {
-                if (billInfo != null) {
-                    HandlerUtil.send(mHandler, billInfo, HANDLE_OK);
+
+            RegularCenter.getInstance("app").run(app, data, null, new TaskThread.TaskResult() {
+                @Override
+                public void onEnd(Object obj) {
+                    BillInfo billInfo = (BillInfo) obj;
+                    if (billInfo != null) {
+                        HandlerUtil.send(mHandler, billInfo, HANDLE_OK);
+                    }
                 }
             });
+
         }
     }
 }

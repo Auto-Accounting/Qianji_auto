@@ -101,7 +101,8 @@ public class AppFragment extends BaseFragment {
         help_skip.setOnClickListener(v -> {
 
             MMKV mmkv = MMKV.defaultMMKV();
-            mmkv.encode("version_3_0", false);
+
+            mmkv.encode("version", 3);
             openNewPage(MainFragment.class);
         });
         button_next.setOnClickListener(v -> {

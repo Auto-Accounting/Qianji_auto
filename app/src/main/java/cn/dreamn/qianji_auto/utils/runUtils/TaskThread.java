@@ -29,6 +29,11 @@ import android.os.Looper;
 
 public class TaskThread {
 
+
+    public interface TaskResult {
+        void onEnd(Object obj);
+    }
+
     private static final Handler sMainHandler = new Handler(Looper.getMainLooper());
 
     public static void onMain(long msec, final Runnable runnable) {

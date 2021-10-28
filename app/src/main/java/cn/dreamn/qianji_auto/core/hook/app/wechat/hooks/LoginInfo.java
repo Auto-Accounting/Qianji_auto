@@ -51,7 +51,7 @@ public class LoginInfo {
                 String jsData = jsonObject.getJSONObject(utils.getVerName()).getJSONObject("red").toJSONString();
                 if (!utils.readData("red").equals(jsData)) {
                     utils.writeData("red", jsData);
-                    utils.toast("自动记账：微信适配文件已加载！");
+                    utils.toast("自动记账：微信适配文件更新！");
                     //不一样才需要加载
                 }
 

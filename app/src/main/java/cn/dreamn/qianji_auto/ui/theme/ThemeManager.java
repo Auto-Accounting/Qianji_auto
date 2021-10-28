@@ -17,11 +17,10 @@ import cn.dreamn.qianji_auto.ui.utils.StatusBarUtil;
 
 public class ThemeManager {
     private final Context mContext;
-    private final MMKV mmkv;
 
     public ThemeManager(Context context) {
         mContext = context;
-        mmkv = MMKV.defaultMMKV();
+        MMKV mmkv = MMKV.defaultMMKV();
     }
 
     public static void init() {

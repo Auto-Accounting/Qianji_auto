@@ -35,252 +35,121 @@ import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 import com.hjq.toast.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.data.database.DbManger;
+import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Table.Asset;
-import cn.dreamn.qianji_auto.data.database.Table.Asset2;
+import cn.dreamn.qianji_auto.data.database.Table.AssetMap;
 import cn.dreamn.qianji_auto.ui.adapter.DataSelectListAdapter;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
 public class Assets {
 
-
-    public interface getAssets2{
-        void onGet(Asset2[] asset2s);
-    }
-    public interface getAssets{
-        void onGet(Bundle[] asset2s);
-    }
-    public interface getAssetOne{
-        void onGet(Bundle asset2s);
-    }
-    public interface getAssets2Strings{
-        void onGet(String[] asset2s);
-    }
-
-    public interface getAssets2String {
-        void onGet(String asset2s);
-    }
-
-    public interface getAssets2Bundle {
-        void onGet(Bundle[] asset2s);
-    }
-
-    public interface whenFinish {
-        void onFinish();
-    }
-
-    public static void isInAsset2(String string, isIn get) {
+    public static void isInAsset(String string, TaskThread.TaskResult taskResult) {
         TaskThread.onThread(() -> {
-            Asset2[] asset2s = DbManger.db.Asset2Dao().get(string);
-            if (asset2s == null || asset2s.length == 0) {
-                get.in(false);
+            Asset[] assets = Db.db.AssetDao().get(string);
+            if (assets == null || assets.length == 0) {
+                taskResult.onEnd(false);
             }
-            get.in(true);
+            taskResult.onEnd(true);
         });
     }
 
-    public static void getAllAccount(getAssets2 getAsset) {
-        TaskThread.onThread(() -> getAsset.onGet(DbManger.db.Asset2Dao().getAll()));
+
+    public static void getAllAccount(TaskThread.TaskResult taskResult) {
+        TaskThread.onThread(() -> {
+            Asset[] assets = Db.db.AssetDao().getAll(0, 500);
+            taskResult.onEnd(assets);
+        });
     }
 
-    public static void getAllAccountName(getAssets2Strings getAssets) {
+
+    public static void getPic(String name, TaskThread.TaskResult taskResult) {
         TaskThread.onThread(() -> {
-            Asset2[] assets = DbManger.db.Asset2Dao().getAll();
-            if (assets.length <= 0) {
-                getAssets.onGet(null);
+            Asset[] assets = Db.db.AssetDao().get(name);
+            if (assets != null && assets.length != 0) {
+                taskResult.onEnd(assets[0].icon);
                 return;
             }
-            String[] result = new String[assets.length];
-            for (int i = 0; i < assets.length; i++) {
-                result[i] = assets[i].name;
-            }
-            getAssets.onGet(result);
+            taskResult.onEnd("https://pic.dreamn.cn/uPic/2021032022075916162492791616249279427UY2ok6支付.png");
         });
     }
 
-    public static void getAllIcon(getAssets2Bundle getAsset) {
+    public static void getAllMap(TaskThread.TaskResult taskResult) {
         TaskThread.onThread(() -> {
-            Asset2[] assets = DbManger.db.Asset2Dao().getAll();
-            if (assets == null || assets.length <= 0) {
-                getAsset.onGet(null);
+            AssetMap[] assetMaps = Db.db.AssetMapDao().getAll(0, 500);
+            if (assetMaps == null || assetMaps.length <= 0) {
+                taskResult.onEnd(null);
                 return;
             }
-
-            ArrayList<Bundle> bundleArrayList = new ArrayList<>();
-            for (Asset2 asset : assets) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("id", asset.id);
-                bundle.putString("name", asset.name);
-                bundle.putString("icon", asset.icon);
-                bundleArrayList.add(bundle);
+            List<Bundle> list = new ArrayList<>();
+            for (AssetMap assetMap : assetMaps) {
+                Bundle bundle = Tool.class2Bundle(assetMap);
+                list.add(bundle);
             }
-            getAsset.onGet(bundleArrayList.toArray(new Bundle[0]));
+            taskResult.onEnd(list);
         });
     }
 
-    public static void addAsset(String assetName, whenFinish finish) {
-        TaskThread.onThread(() -> {
 
-            DbManger.db.Asset2Dao().add(assetName);
-            finish.onFinish();
-        });
-    }
-
-    public static void getPic(String name, getAssets2String getAssets) {
-        TaskThread.onThread(() -> {
-            Asset2[] asset2s = DbManger.db.Asset2Dao().get(name);
-            if (asset2s != null && asset2s.length != 0) {
-                getAssets.onGet(asset2s[0].icon);
-                return;
-            }
-            getAssets.onGet("https://pic.dreamn.cn/uPic/2021032022075916162492791616249279427UY2ok6支付.png");
-        });
-    }
-
-    public static void getMap(getAssets2Strings getAssets) {
-        TaskThread.onThread(() -> {
-            Asset[] assets = DbManger.db.AssetDao().getAll();
-            if (assets == null || assets.length <= 0) {
-                getAssets.onGet(null);
-                return;
-            }
-            String[] result = new String[assets.length];
-            for (int i = 0; i < assets.length; i++) {
-                result[i] = assets[i].mapName;
-            }
-            getAssets.onGet(result);
-        });
-    }
-
-    public static void getAllMap(getAssets getAsset) {
-        TaskThread.onThread(() -> {
-            Asset[] asset = DbManger.db.AssetDao().getAll();
-            if (asset == null || asset.length <= 0) {
-                getAsset.onGet(null);
-                return;
-            }
-
-            ArrayList<Bundle> bundleArrayList = new ArrayList<>();
-            for (Asset asset1 : asset) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("id", asset1.id);
-                bundle.putString("name", asset1.name);
-                bundle.putString("mapName", asset1.mapName);
-                bundleArrayList.add(bundle);
-            }
-            getAsset.onGet(bundleArrayList.toArray(new Bundle[0]));
-        });
-    }
-
-    public static void delAsset(int id,whenFinish when) {
-        TaskThread.onThread(() -> {
-            DbManger.db.Asset2Dao().del(id);
-            when.onFinish();
-        });
-    }
-
-    public static void addMap(String assetName, String mapName, whenFinish when) {
-        Log.i("添加映射：" + assetName + "->" + mapName);
-        TaskThread.onThread(() -> {
-            DbManger.db.AssetDao().del(assetName);//删掉已有的，再添加没有的
-            DbManger.db.AssetDao().add(assetName, mapName);
-            when.onFinish();
-        });
-    }
-
-    public static void addAsset(String assetName, String icon, int sort,whenFinish finish) {
-        TaskThread.onThread(() -> {
-            DbManger.db.Asset2Dao().add(assetName, icon, sort);
-            finish.onFinish();
-        });
-    }
-
-    public static void cleanAsset() {
-        TaskThread.onThread(() -> DbManger.db.Asset2Dao().clean());
-    }
-
-    public static void updAsset(int id, String assetName,whenFinish when) {
-        TaskThread.onThread(() -> {
-            DbManger.db.Asset2Dao().update(id, assetName);
-            when.onFinish();
-        });
-    }
-
-    public static void delMap(int id,whenFinish when) {
-        TaskThread.onThread(() -> {
-            DbManger.db.AssetDao().del(id);
-            when.onFinish();
-        });
-    }
-
-    public static void getMap(String assetName,getAssets2String getAssets) {
+    public static void getMap(String assetName, TaskThread.TaskResult taskResult) {
         TaskThread.onThread(() -> {
             if (assetName == null || assetName.equals("")) {
-                getAssets.onGet("");
+                taskResult.onEnd("");
                 return;
             }
             // 正则匹配内容  需要在内容中以regex:开头
-            Asset[] assetsArr = DbManger.db.AssetDao().getAllFromRegex();
+            AssetMap[] assetsArr = Db.db.AssetMapDao().getAllFromRegex();
             if (assetsArr.length > 0) {
-                for (Asset item : assetsArr) {
+                for (AssetMap item : assetsArr) {
                     // 替换掉 'regex:'
                     String pattern = item.name.replaceFirst("reg:", "");
                     if (pattern.equals("")) return;
                     boolean isMatch = Pattern.matches(pattern, assetName);
                     if (isMatch) {
                         Log.i("资产匹配", String.format("源内容：[%s]，被正则表达式：[%s]，成功匹配。", assetName, pattern));
-                        getAssets.onGet(item.mapName);
+                        taskResult.onEnd(item.mapName);
                         return;
                     }
                 }
             }
-            Asset[] assets = DbManger.db.AssetDao().get(assetName);
-            //没有资产创造资产
-            if (assets.length <= 0) {
-                //  DbManger.db.AssetDao().add(assetName, assetName);
-                getAssets.onGet(assetName);
+            AssetMap[] assetMaps = Db.db.AssetMapDao().get(assetName);
+            if (assetMaps.length <= 0) {
+                taskResult.onEnd(assetName);
                 return;
             }
-            String mapName = assets[0].mapName;
+            String mapName = assetMaps[0].mapName;
             if (mapName == null) {
-                getAssets.onGet(assetName);
-            } else getAssets.onGet(mapName);
+                taskResult.onEnd(assetName);
+            } else taskResult.onEnd(mapName);
         });
 
     }
 
-    public static void updMap(int id, String assetName, String mapName, whenFinish finish) {
-        TaskThread.onThread(() -> {
-            DbManger.db.AssetDao().update(id, assetName, mapName);
-            finish.onFinish();
-        });
-    }
 
-    public static void showAssetSelect(Context context, String title, boolean isFloat, getAssetOne getOne) {
+    public static void showAssetSelect(Context context, String title, boolean isFloat, TaskThread.TaskResult taskResult) {
 
         LayoutInflater factory = LayoutInflater.from(context);
         final View textEntryView = factory.inflate(R.layout.include_list_data, null);
 
-        //final TextView list_title = textEntryView.findViewById(R.id.list_title);
-
         final ListView list_view = textEntryView.findViewById(R.id.list_view);
 
-        final Handler mHandler=new Handler(Looper.getMainLooper()){
+        final Handler mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
-                Bundle[] assets=(Bundle[])msg.obj;
+                Asset[] assets = (Asset[]) msg.obj;
                 if(assets==null){
                     ToastUtils.show(R.string.no_assets);
                     return;
                 }
                 DataSelectListAdapter adapter = new DataSelectListAdapter(context,assets);//listdata和str均可
                 list_view.setAdapter(adapter);
-
                 BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
                 MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
                 if(isFloat){
@@ -295,29 +164,22 @@ public class Assets {
                 DialogCustomViewExtKt.customView(dialog, null, textEntryView,
                         false, true, false, false);
                 dialog.show();
-
-
                 list_view.setOnItemClickListener((parent, view, position, id) -> {
-                    getOne.onGet(assets[position]);
+                    taskResult.onEnd(assets[position]);
                     dialog.dismiss();
                 });
             }
         };
 
-        getAllIcon(asset2s -> {
-            Message message = new Message();
-            message.obj = asset2s;
-            mHandler.sendMessage(message);
+        getAllAccount(asset -> {
+            HandlerUtil.send(mHandler, asset, 0);
         });
 
 
     }
 
     public static void setSort(int id, int fromPosition) {
-        TaskThread.onThread(() -> DbManger.db.Asset2Dao().setSort(id, fromPosition));
+        TaskThread.onThread(() -> Db.db.AssetDao().setSort(id, fromPosition));
     }
 
-    public interface isIn {
-        void in(boolean isIn);
-    }
 }

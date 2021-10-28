@@ -20,6 +20,7 @@ package cn.dreamn.qianji_auto.ui.floats;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -51,14 +52,17 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.BillTools;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
+import cn.dreamn.qianji_auto.data.data.RegularCenter;
+import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Helper.Assets;
 import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
-import cn.dreamn.qianji_auto.data.database.Helper.Category;
-import cn.dreamn.qianji_auto.data.database.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.data.database.Helper.Categorys;
+import cn.dreamn.qianji_auto.data.database.Table.BookName;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 
 
 /**
@@ -162,7 +166,8 @@ public class AutoFloat {
     protected void initListener() {
         ll_category.setOnClickListener(v -> {
             //分类选择
-            CategoryNames.showCategorySelect(getContext(), context.getString(R.string.select_sort), book_id, billInfo2.getType(), true, categoryNames -> {
+            Categorys.showCategorySelect(getContext(), context.getString(R.string.select_sort), book_id, billInfo2.getType(), true, obj -> {
+                Bundle categoryNames = (Bundle) obj;
                 if (categoryNames != null) {
                     billInfo2.setCateName(categoryNames.getString("name"));
                     mMainHandler.sendEmptyMessage(0);
@@ -171,7 +176,8 @@ public class AutoFloat {
         });
         ll_book.setOnClickListener(v -> {
             Log.i("账本选择");
-            BookNames.showBookSelect(getContext(), context.getString(R.string.select_book), true, bundle -> {
+            BookNames.showBookSelect(getContext(), context.getString(R.string.select_book), true, obj -> {
+                Bundle bundle = (Bundle) obj;
                 billInfo2.setBookName(bundle.getString("name"));
                 book_id = bundle.getString("book_id");
                 mMainHandler.sendEmptyMessage(0);
@@ -180,13 +186,15 @@ public class AutoFloat {
         });
         ll_account1.setOnClickListener(v -> {
             Log.i("账户1选择");
-            Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, asset2s -> {
+            Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, obj1 -> {
+                Bundle asset2s = (Bundle) obj1;
                 String asset1 = billInfo2.getAccountName();//原始资产
-                Assets.isInAsset2(asset1, bool -> {
+                Assets.isInAsset(asset1, obj -> {
+                    Boolean bool = (Boolean) obj;
                     //如果原始资产不再已有范围之内
                     if (!bool) {
-                        Log.i("原始资产不再已有范围之内");
-                        Assets.addMap(asset1, asset2s.getString("name"), () -> {
+                        TaskThread.onThread(() -> {
+                            Db.db.AssetMapDao().add(asset1, asset2s.getString("name"));
                         });
                     }
                 });
@@ -197,13 +205,14 @@ public class AutoFloat {
         });
         ll_account2.setOnClickListener(v -> {
             Log.i("账户2选择");
-            Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, asset2s -> {
+            Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, obj1 -> {
+                Bundle asset2s = (Bundle) obj1;
                 String asset1 = billInfo2.getAccountName2();//原始资产
-                Assets.isInAsset2(asset1, bool -> {
+                Assets.isInAsset(asset1, obj -> {
+                    Boolean bool = (Boolean) obj;
                     if (!bool) {
-                        Log.i("原始资产不再已有范围之内");
-                        Assets.addMap(asset1, asset2s.getString("name"), () -> {
-
+                        TaskThread.onThread(() -> {
+                            Db.db.AssetMapDao().add(asset1, asset2s.getString("name"));
                         });
                     }
                 });
@@ -301,16 +310,17 @@ public class AutoFloat {
         button_fail.setOnClickListener(v -> this.clear());
         chip_bx.setOnClickListener(v -> {
             billInfo2.setRrimbursement(chip_bx.getText().toString().equals(context.getString(R.string.n_bx)));
-            Category.getCategory(billInfo2, cate -> {
-                if (cate.equals("NotFound")) {
-                    billInfo2.setCateName("其它");//设置自动分类
-
-                } else {
-                    billInfo2.setCateName(cate);//设置自动分类
+            RegularCenter.getInstance("category").run(billInfo2, null, new TaskThread.TaskResult() {
+                @Override
+                public void onEnd(Object obj) {
+                    String cate = (String) obj;
+                    if (cate.equals("NotFound")) {
+                        billInfo2.setCateName("其它");//设置自动分类
+                    } else {
+                        billInfo2.setCateName(cate);//设置自动分类
+                    }
+                    mMainHandler.sendEmptyMessage(0);
                 }
-                //账单修改报销后重新分类
-
-                mMainHandler.sendEmptyMessage(0);
             });
 
         });
@@ -374,9 +384,6 @@ public class AutoFloat {
         tv_account2.setText(billInfo.getAccountName2());
         tv_time.setText(billInfo.getTime());
         String remark = billInfo.getRemark();
-        if (remark.length() > 16) {
-            remark = remark.substring(0, 16) + "...";
-        }
         tv_remark.setText(remark);
 
 
@@ -406,13 +413,12 @@ public class AutoFloat {
         }
 
         setVisible();
-        BookNames.getAllLen(length -> {
-            if (length != 0) {
-                BookNames.getOne(billInfo.getBookName(), bundle -> {
-                    if (bundle.getString("book_id") != null) {
-                        book_id = bundle.getString("book_id");
-                    }
-                });
+
+        TaskThread.onThread(() -> {
+            BookName[] bookNames = Db.db.BookNameDao().getAll();
+            if (bookNames.length != 0) {
+                BookName[] bookName = Db.db.BookNameDao().get(billInfo.getBookName());
+                book_id = bookName[0].book_id;
             }
         });
 
@@ -423,7 +429,7 @@ public class AutoFloat {
                 GlideLoadUtils.getInstance().glideLoad(getContext(), (String) msg.obj, iv_category, R.drawable.bg);
             }
         };
-        CategoryNames.getPic(billInfo.getCateName(), type, book_id, pic -> {
+        Categorys.getPic(billInfo.getCateName(), type, book_id, pic -> {
             //  myBitmapUtils.disPlay(iv_category, pic);
             Message message = new Message();
             message.obj = pic;

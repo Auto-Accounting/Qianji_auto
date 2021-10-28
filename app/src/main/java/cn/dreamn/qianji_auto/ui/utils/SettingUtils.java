@@ -2,6 +2,7 @@ package cn.dreamn.qianji_auto.ui.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -83,7 +84,6 @@ public class SettingUtils {
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-
     }
 
     private void initListen() {
@@ -107,7 +107,8 @@ public class SettingUtils {
         });
 
         set_default.setOnClickListener(v -> {
-            BookNames.showBookSelect(mContext, mContext.getString(R.string.set_choose_book), false, bundle -> {
+            BookNames.showBookSelect(mContext, mContext.getString(R.string.set_choose_book), false, obj -> {
+                Bundle bundle = (Bundle) obj;
                 BookNames.change(bundle.getString("name"));
                 initUi();
             });
@@ -172,7 +173,6 @@ public class SettingUtils {
                     @Override
                     public void onSelect(int position) {
                         mmkv.encode("click_window", jsonArray.getJSONArray(4).getJSONObject(position).getString("value"));
-
                         initUi();
                     }
                 });

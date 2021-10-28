@@ -36,7 +36,7 @@ public class MainActivity extends BaseActivity {
     private void openMainPage() {
         //MMKV检查
         MMKV mmkv = MMKV.defaultMMKV();
-        if (mmkv.getBoolean("version_3_0", true)) {//不是3.0版本
+        if (mmkv.getInt("version", 2) != 3) {//不是3.0版本
 
             String[] fragments = {
                     "引导设置",
@@ -46,10 +46,6 @@ public class MainActivity extends BaseActivity {
                     "使用习惯",
                     "完成设置"
             };
-            //开启设置
-            //        ThemeManager themeManager = new ThemeManager(this);
-            //         themeManager.setStatusBar(this, null, R.color.background_white);
-
             openPage(fragments[mmkv.getInt("helper_page", 0)]);
         }else{
             openNewPage(MainFragment.class);

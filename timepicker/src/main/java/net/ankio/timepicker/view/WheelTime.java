@@ -290,13 +290,12 @@ public class WheelTime {
                     if (endDay > 29) {
                         endDay = 29;
                     }
-                    wv_day.setAdapter(new NumericWheelAdapter(startDay, endDay));
                 } else {
                     if (endDay > 28) {
                         endDay = 28;
                     }
-                    wv_day.setAdapter(new NumericWheelAdapter(startDay, endDay));
                 }
+                wv_day.setAdapter(new NumericWheelAdapter(startDay, endDay));
             }
             wv_day.setCurrentItem(day - startDay);
         } else if (year == startYear && month + 1 == startMonth) {
@@ -552,15 +551,14 @@ public class WheelTime {
                 if (endD > 29) {
                     endD = 29;
                 }
-                wv_day.setAdapter(new NumericWheelAdapter(startD, endD));
-//                maxItem = endD;
+                //                maxItem = endD;
             } else {
                 if (endD > 28) {
                     endD = 28;
                 }
-                wv_day.setAdapter(new NumericWheelAdapter(startD, endD));
-//                maxItem = endD;
+                //                maxItem = endD;
             }
+            wv_day.setAdapter(new NumericWheelAdapter(startD, endD));
         }
 
         if (currentItem > wv_day.getAdapter().getItemsCount() - 1) {

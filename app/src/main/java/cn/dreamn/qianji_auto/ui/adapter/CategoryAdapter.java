@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.data.database.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.data.database.Helper.Categorys;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
 import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -34,7 +34,6 @@ public class CategoryAdapter extends BaseAdapter {
     private final Boolean allow;
 
     private int select = -1;
-    private List<Bundle> list;
 
     private Item itemListen;
 
@@ -47,7 +46,7 @@ public class CategoryAdapter extends BaseAdapter {
 
     @Override
     public SmartRecyclerAdapter<Bundle> refresh(Collection<Bundle> collection) {
-        this.list = (List<Bundle>) collection;
+        List<Bundle> list = (List<Bundle>) collection;
         return super.refresh(collection);
     }
 
@@ -91,8 +90,8 @@ public class CategoryAdapter extends BaseAdapter {
 
             }
         };
-        CategoryNames.getChildren(item.getString("self_id"), item.getString("book_id"), item.getString("type"), allow, categoryNames -> {
-
+        Categorys.getChildren(item.getString("self_id"), item.getString("book_id"), item.getString("type"), allow, obj -> {
+            Bundle[] categoryNames = (Bundle[]) obj;
             Message message = new Message();
             message.what = 2001;
             if (categoryNames.length <= 0) {

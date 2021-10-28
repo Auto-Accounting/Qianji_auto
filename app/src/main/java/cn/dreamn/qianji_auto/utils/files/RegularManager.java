@@ -1,7 +1,6 @@
 package cn.dreamn.qianji_auto.utils.files;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,8 +18,8 @@ import com.hjq.toast.ToastUtils;
 import java.util.Arrays;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.data.database.Helper.Category;
-import cn.dreamn.qianji_auto.data.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.data.database.Db;
+import cn.dreamn.qianji_auto.data.database.Table.Regular;
 import cn.dreamn.qianji_auto.data.local.FileUtils;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
@@ -36,9 +35,7 @@ public class RegularManager {
         PermissionUtils permissionUtils = new PermissionUtils(context);
         permissionUtils.grant(PermissionUtils.Storage);
         try {
-
             final DialogProperties properties = new DialogProperties();
-
             FilePickerDialog dialog = new FilePickerDialog(context, properties);
             dialog.setTitle(String.format(context.getString(R.string.select_title), name));
             dialog.setPositiveBtnName(context.getString(R.string.select_check));
@@ -52,13 +49,10 @@ public class RegularManager {
             dialog.setProperties(properties);
             dialog.show();
 
-
             dialog.setDialogSelectionListener(files -> {
                 dialog.dismiss();
                 String file = files[0];
                 String data = FileUtils.get(file);
-
-             //   Log.i(data);
                 restoreFromData(context, name, type, data, end);
             });
 
@@ -77,7 +71,6 @@ public class RegularManager {
             public void handleMessage(@NonNull Message msg) {
                 loadDialog.close();
                 if (msg.what == -1) {
-
                     //失败
                     ToastUtils.show(R.string.restore_failed);
                 } else {
@@ -96,58 +89,27 @@ public class RegularManager {
             return;
         }
         JSONArray jsonArray = jsonObject.getJSONArray("data");
-        if (type.equals("category")) {
-            restoreCate(jsonArray, loadDialog, mHandler, context);
-        } else {
-            restoreReg(jsonArray, loadDialog, mHandler, context);
-        }
-      /*  BottomArea.msg(context, String.format(context.getString(R.string.restore_title), name), context.getString(R.string.restore_body), context.getString(R.string.yes), context.getString(R.string.no), new BottomArea.MsgCallback() {
-            @Override
-            public void cancel() {
-                if (type.equals("category")) {
-                    restoreCate(jsonArray, loadDialog, mHandler, context);
-                } else {
-                    restoreReg(jsonArray, loadDialog, mHandler, context);
-                }
+        restore(jsonArray, loadDialog, mHandler, context);
 
-            }
-
-            @Override
-            public void sure() {
-                if (type.equals("category")) {
-                    Category.clear();
-                    restoreCate(jsonArray, loadDialog, mHandler, context);
-                } else {
-                    identifyRegulars.clear(type);
-                    restoreReg(jsonArray, loadDialog, mHandler, context);
-                }
-
-            }
-        });
-*/
 
     }
 
-    private static void restoreReg(JSONArray array, LoadingDialog loadDialog, Handler mHandler, Context context) {
+    private static void restore(JSONArray array, LoadingDialog loadDialog, Handler mHandler, Context context) {
         Log.i("当前恢复类型：" + array.toJSONString());
         loadDialog.show();
         TaskThread.onThread(() -> {
             for (int i = 0; i < array.size(); i++) {
                 JSONObject jsonObject1 = array.getJSONObject(i);
-                identifyRegulars.add(
+                Db.db.RegularDao().add(
                         jsonObject1.getString("regular"),
                         jsonObject1.getString("name"),
-                        jsonObject1.getString("text"),
-                        jsonObject1.getString("tableList"),
-                        jsonObject1.getString("identify"),
-                        jsonObject1.getString("fromApp"),
-                        jsonObject1.getString("des"),
-                        new identifyRegulars.Finish() {
-                            @Override
-                            public void onFinish() {
-                                //   Log.d("finish data" + jsonObject1.toString());
-                            }
-                        });
+                        jsonObject1.getString("data"),
+                        jsonObject1.getString("remark"),
+                        jsonObject1.getString("dataId"),
+                        jsonObject1.getString("version"),
+                        jsonObject1.getString("app"),
+                        jsonObject1.getString("type")
+                );
             }
 
             HandlerUtil.send(mHandler, context.getString(R.string.restore_success), 1);
@@ -155,24 +117,6 @@ public class RegularManager {
 
     }
 
-    private static void restoreCate(JSONArray array, LoadingDialog loadDialog, Handler mHandler, Context context) {
-        // Log.i("当前恢复类型："+array.toJSONString());
-        loadDialog.show();
-        TaskThread.onThread(() -> {
-            for (int i = 0; i < array.size(); i++) {
-                JSONObject jsonObject1 = array.getJSONObject(i);
-                if (jsonObject1 == null) continue;
-                JSONObject jsonObject = JSONObject.parseObject(jsonObject1.getString("tableList"));
-                Category.addCategory(jsonObject1.getString("regular"), jsonObject1.getString("name"), jsonObject1.getString("tableList"), jsonObject1.getString("des"), jsonObject.getString("data_id"), jsonObject.getString("version"), new Category.Finish() {
-                    @Override
-                    public void onFinish() {
-                        // Log.d("finish data" + jsonObject1.toString());
-                    }
-                });
-            }
-            HandlerUtil.send(mHandler, context.getString(R.string.restore_success), 1);
-        });
-    }
 
     public static void outputReg(Context context, String name, String type, int index) {
         LoadingDialog loadDialog = new LoadingDialog(context, context.getString(R.string.output));
@@ -198,6 +142,7 @@ public class RegularManager {
                         FileUtils.del(fileName);
                         break;
                     case 2:
+
                         Tool.clipboard(context, jsonObject1.toJSONString());
                         FileUtils.del(fileName);
                         break;
@@ -206,38 +151,25 @@ public class RegularManager {
                 ToastUtils.show(R.string.output_success);
             }
         };
-        if (type.equals("category")) {
-            Category.getAll(bundle -> {
-                JSONArray jsonArray = new JSONArray();
-                for (Bundle regular : bundle) {
-                    JSONObject jsonObject1 = new JSONObject();
-                    jsonObject1.put("name", regular.getString("name"));
-                    jsonObject1.put("regular", regular.getString("regular"));
-                    jsonObject1.put("tableList", regular.getString("tableList"));
-                    jsonObject1.put("des", regular.getString("des"));
-                    jsonArray.add(jsonObject1);
-                }
-                jsonObject.put("data", jsonArray);
-                HandlerUtil.send(mHandler, jsonObject, 1);
-            });
-        } else {
-            identifyRegulars.getAll(type, null, bundle -> {
-                JSONArray jsonArray = new JSONArray();
-                for (Bundle regular : bundle) {
-                    JSONObject jsonObject1 = new JSONObject();
-                    jsonObject1.put("name", regular.getString("name"));
-                    jsonObject1.put("regular", regular.getString("regular"));
-                    jsonObject1.put("tableList", regular.getString("tableList"));
-                    jsonObject1.put("des", regular.getString("des"));
-                    jsonObject1.put("fromApp", regular.getString("fromApp"));
-                    jsonObject1.put("identify", regular.getString("identify"));
-                    jsonObject1.put("text", regular.getString("text"));
-                    jsonArray.add(jsonObject1);
-                }
-                jsonObject.put("data", jsonArray);
-                HandlerUtil.send(mHandler, jsonObject, 1);
-            });
-        }
+        TaskThread.onThread(() -> {
+            Regular[] regulars = Db.db.RegularDao().load(type, 0, 500);
+            JSONArray jsonArray = new JSONArray();
+            for (Regular regular : regulars) {
+                JSONObject jsonObject1 = new JSONObject();
+                jsonObject1.put("name", regular.name);
+                jsonObject1.put("regular", regular.regular);
+                jsonObject1.put("data", regular.data);
+                jsonObject1.put("remark", regular.remark);
+                jsonObject1.put("app", regular.app);
+                jsonObject1.put("identify", regular.identify);
+                jsonObject1.put("version", regular.version);
+                jsonObject1.put("dataId", regular.dataId);
+                jsonArray.add(jsonObject1);
+            }
+            jsonObject.put("data", jsonArray);
+            HandlerUtil.send(mHandler, jsonObject, 1);
+        });
+
     }
 
     public static void outputRegOne(Context context, String name, String type, String dataId, String version, JSONObject js, boolean share) {

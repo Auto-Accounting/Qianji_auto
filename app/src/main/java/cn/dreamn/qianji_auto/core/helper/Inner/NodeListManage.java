@@ -60,7 +60,7 @@ public class NodeListManage {
         //防止出现多次识别
         if (System.currentTimeMillis() - time > 1000L) {
             time = System.currentTimeMillis();
-            SendDataToApp.call(context, billInfo);
+            SendDataToApp.call(billInfo);
             //进行记账
         }
     }

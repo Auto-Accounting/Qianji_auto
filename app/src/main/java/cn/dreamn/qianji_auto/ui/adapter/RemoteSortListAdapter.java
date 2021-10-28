@@ -1,7 +1,6 @@
 package cn.dreamn.qianji_auto.ui.adapter;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -11,11 +10,9 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
 
 public class RemoteSortListAdapter extends BaseAdapter {
-    private final Context mContext;
 
-    public RemoteSortListAdapter(Context context) {
+    public RemoteSortListAdapter() {
         super(R.layout.adapter_remote_sort_item);
-        mContext = context;
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

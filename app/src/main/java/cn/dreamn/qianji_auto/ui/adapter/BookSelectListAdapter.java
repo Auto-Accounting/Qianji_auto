@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 
@@ -18,9 +20,20 @@ import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 public class BookSelectListAdapter extends ArrayAdapter {
 
     private final Context mContext;
-    public BookSelectListAdapter(Context context, Bundle[] bundles) {
-        super(context, R.layout.adapter_book_item_select, bundles);
-        mContext=context;
+    private final ArrayList<Bundle> books;
+
+    public BookSelectListAdapter(Context context, ArrayList<Bundle> bundles) {
+        super(context, R.layout.adapter_book_item_select);
+        mContext = context;
+        books = bundles;
+    }
+
+    @Override
+    public int getCount() {
+        if (books == null) return 0;
+        else {
+            return books.size();
+        }
     }
 
     @Override

@@ -42,6 +42,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Helper.Assets;
 import cn.dreamn.qianji_auto.ui.adapter.MapListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
@@ -131,9 +132,13 @@ public class MainMapFragment extends BaseFragment {
             BottomArea.input(getContext(), getString(R.string.assert_input), "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
                 @Override
                 public void input(String data) {
-                    Assets.showAssetSelect(getContext(), getString(R.string.assert_choose), false, asset2s -> Assets.addMap(data, asset2s.getString("name"), () -> {
-                        HandlerUtil.send(mHandler, getString(R.string.add_success), HANDLE_REFRESH);
-                    }));
+                    Assets.showAssetSelect(getContext(), getString(R.string.assert_choose), false, obj -> {
+                        Bundle asset2s = (Bundle) obj;
+                        TaskThread.onThread(() -> {
+                            Db.db.AssetMapDao().add(data, asset2s.getString("name"));
+                            HandlerUtil.send(mHandler, getString(R.string.add_success), HANDLE_REFRESH);
+                        });
+                    });
                 }
 
                 @Override
@@ -178,9 +183,13 @@ public class MainMapFragment extends BaseFragment {
         BottomArea.input(getContext(), getString(R.string.assert_change_name), assets.getString("name"), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
             @Override
             public void input(String data) {
-                Assets.showAssetSelect(getContext(), getString(R.string.assert_choose), false, asset2s -> Assets.updMap(assets.getInt("id"), data, asset2s.getString("name"), () -> {
-                    HandlerUtil.send(mHandler, getString(R.string.assert_change_success), HANDLE_REFRESH);
-                }));
+                Assets.showAssetSelect(getContext(), getString(R.string.assert_choose), false, obj -> {
+                    Bundle asset2s = (Bundle) obj;
+                    TaskThread.onThread(() -> {
+                        Db.db.AssetMapDao().update(assets.getInt("id"), data, asset2s.getString("name"));
+                        HandlerUtil.send(mHandler, getString(R.string.assert_change_success), HANDLE_REFRESH);
+                    });
+                });
 
             }
 
@@ -202,10 +211,10 @@ public class MainMapFragment extends BaseFragment {
 
             @Override
             public void sure() {
-                Assets.delMap(assets.getInt("id"), () -> {
+                TaskThread.onThread(() -> {
+                    Db.db.AssetMapDao().del(assets.getInt("id"));
                     HandlerUtil.send(mHandler, getString(R.string.del_success), HANDLE_REFRESH);
                 });
-
             }
         });
     }
@@ -214,11 +223,12 @@ public class MainMapFragment extends BaseFragment {
     public void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
         TaskThread.onThread(() -> {
-            Assets.getAllMap(assets -> {
-                if (assets == null || assets.length == 0) {
+            Assets.getAllMap(obj -> {
+                List<Bundle> list1 = (List<Bundle>) obj;
+                if (list1 == null || list1.size() == 0) {
                     HandlerUtil.send(mHandler, HANDLE_ERR);
                 } else {
-                    list = Arrays.asList(assets);
+                    list = list1;
                     HandlerUtil.send(mHandler, HANDLE_OK);
                 }
             });

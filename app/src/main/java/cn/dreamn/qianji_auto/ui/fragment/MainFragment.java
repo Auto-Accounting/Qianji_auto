@@ -53,11 +53,10 @@ import cn.dreamn.qianji_auto.ui.fragment.base.MainModeFragment;
 import cn.dreamn.qianji_auto.ui.fragment.base.MainSetFragment;
 import cn.dreamn.qianji_auto.ui.fragment.base.cards.MainCardFragment;
 import cn.dreamn.qianji_auto.ui.fragment.base.sorts.MainSortFragment;
+import cn.dreamn.qianji_auto.ui.fragment.data.AppFragment;
 import cn.dreamn.qianji_auto.ui.fragment.data.LogFragment;
 import cn.dreamn.qianji_auto.ui.fragment.data.MoneyFragment;
-import cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment;
 import cn.dreamn.qianji_auto.ui.fragment.data.regulars.MainAutoLearnFragment;
-import cn.dreamn.qianji_auto.ui.fragment.data.sort.MainAutoSortFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
@@ -264,7 +263,8 @@ public class MainFragment extends BaseFragment {
                     setHeadImg();
                 }
             };
-            BookNames.showBookSelect(getContext(), getString(R.string.set_choose_book), false, bundle -> {
+            BookNames.showBookSelect(getContext(), getString(R.string.set_choose_book), false, obj -> {
+                Bundle bundle = (Bundle) obj;
                 BookNames.change(bundle.getString("name"));
                 HandlerUtil.send(mHandler, HandlerUtil.HANDLE_OK);
             });
@@ -343,19 +343,19 @@ public class MainFragment extends BaseFragment {
             //TODO 4.0新增功能，年度账单，授权自动记账使用本地化分析功能（由JS实现，传入参数如data={}等），样式采用html。
         });
         rl_app_log.setOnClickListener(v -> {
-            NoticeFragment.openWithType(this, "app");
+            AppFragment.openWithType(this, "app");
         });
         rl_sms_log.setOnClickListener(v -> {
-            NoticeFragment.openWithType(this, "sms");
+            AppFragment.openWithType(this, "sms");
         });
         rl_notice_log.setOnClickListener(v -> {
-            NoticeFragment.openWithType(this, "notice");
+            AppFragment.openWithType(this, "notice");
         });
         rl_log.setOnClickListener(v->{
             openNewPage(LogFragment.class);
         });
         rl_auto_sort.setOnClickListener(v->{
-            openNewPage(MainAutoSortFragment.class);
+            MainAutoLearnFragment.openWithType(this, "category");
         });
         rl_app.setOnClickListener(v -> {
             MainAutoLearnFragment.openWithType(this, "app");

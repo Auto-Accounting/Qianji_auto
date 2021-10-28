@@ -17,13 +17,12 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.data;
 
-import static cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment.KEY_DATA;
+import static cn.dreamn.qianji_auto.ui.fragment.data.AppFragment.KEY_DATA;
 import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_ERR;
 import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
 import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
 
 import android.annotation.SuppressLint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -43,6 +42,7 @@ import com.xuexiang.xpage.core.PageOption;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,8 +50,9 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
-import cn.dreamn.qianji_auto.data.database.Helper.AppDatas;
-import cn.dreamn.qianji_auto.data.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.data.data.RegularCenter;
+import cn.dreamn.qianji_auto.data.database.Db;
+import cn.dreamn.qianji_auto.data.database.Table.AppData;
 import cn.dreamn.qianji_auto.ui.adapter.ItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
@@ -65,7 +66,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 @Page(name = "通知列表", params = {KEY_DATA}, anim = CoreAnim.slide)
 
-public class NoticeFragment extends BaseFragment {
+public class AppFragment extends BaseFragment {
 
     public static final String KEY_DATA = "KEY_DATA";
 
@@ -85,7 +86,7 @@ public class NoticeFragment extends BaseFragment {
 
     public static void openWithType(BaseFragment baseFragment, String type) {
         //sms notice app
-        PageOption.to(NoticeFragment.class)
+        PageOption.to(AppFragment.class)
                 .setNewActivity(true)
                 .putString(KEY_DATA, type)
                 .open(baseFragment);
@@ -181,29 +182,20 @@ public class NoticeFragment extends BaseFragment {
                 @Override
                 public void onSelect(int position) {
                     if (position == 0) {
-                        AppDatas.del(item.getInt("id"));
-                        HandlerUtil.send(mHandler, getString(R.string.del_success), HANDLE_REFRESH);
+                        TaskThread.onThread(() -> {
+                            Db.db.AppDataDao().del(item.getInt("id"));
+                            HandlerUtil.send(mHandler, getString(R.string.del_success), HANDLE_REFRESH);
+                        });
                     } else if (position == 1) {
 
                         JSONObject jsonObject = new JSONObject();
-
-                        jsonObject.put("account1", "");
-                        jsonObject.put("account2", "");
                         jsonObject.put("type", "0");
-                        jsonObject.put("money", "");
-                        jsonObject.put("fee", "");
-                        jsonObject.put("shopName", "");
-                        jsonObject.put("shopRemark", "");
-
-                        JSONObject jsonObject2 = new JSONObject();
-                        jsonObject2.put("name", getString(R.string.reg_create));
-                        jsonObject2.put("text", item.getString("rawData"));
-                        jsonObject2.put("regular", item.getString("rawData"));
-                        jsonObject2.put("fromApp", item.getString("fromApp"));
-                        jsonObject2.put("des", "");
-                        jsonObject2.put("identify", getType());
-                        jsonObject2.put("tableList", jsonObject);
-                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/Regulars/index.min.html?data=" + Uri.encode(jsonObject2.toJSONString()) + "&type=" + getType());
+                        jsonObject.put("name", getString(R.string.reg_create));
+                        jsonObject.put("text", item.getString("rawData"));
+                        jsonObject.put("regular", item.getString("rawData"));
+                        jsonObject.put("fromApp", item.getString("fromApp"));
+                        jsonObject.put("identify", getType());
+                        WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/reg/index.html", jsonObject.toJSONString());
                     } else if (position == 2) {
                         Handler mHandler = new Handler(Looper.getMainLooper()) {
                             @Override
@@ -213,14 +205,16 @@ public class NoticeFragment extends BaseFragment {
                                 SendDataToApp.callNoAdd(getContext(), billInfo);
                             }
                         };
-                        identifyRegulars.run(getType(), item.getString("fromApp"), item.getString("rawData"), billInfo -> {
+
+                        RegularCenter.getInstance(getType()).run(item.getString("fromApp"), item.getString("rawData"), null, obj -> {
+                            BillInfo billInfo = (BillInfo) obj;
                             if (billInfo != null) {
                                 HandlerUtil.send(mHandler, billInfo, HANDLE_OK);
                             } else {
                                 ToastUtils.show(R.string.regular_error);
                             }
-
                         });
+
                     } else if (position == 3) {
                         Tool.clipboard(getContext(), item.getString("rawData"));
                         ToastUtils.show(R.string.copied);
@@ -233,15 +227,19 @@ public class NoticeFragment extends BaseFragment {
     private void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
         TaskThread.onThread(() -> {
-            AppDatas.getAll(getType(), datas -> {
-                if (datas == null || datas.size() == 0) {
-                    HandlerUtil.send(mHandler, HANDLE_ERR);
-                } else {
-                    list = datas;
-                    HandlerUtil.send(mHandler, HANDLE_OK);
+            AppData[] appDatas = Db.db.AppDataDao().loadAll(getType(), 0, 200);
+            if (appDatas == null || appDatas.length == 0) {
+                HandlerUtil.send(mHandler, HANDLE_ERR);
+            } else {
+                list = new ArrayList<>();
 
+                for (AppData appData : appDatas) {
+                    Bundle bundle = Tool.class2Bundle(appData);
+                    list.add(bundle);
                 }
-            });
+                HandlerUtil.send(mHandler, HANDLE_OK);
+            }
+            Db.db.AppDataDao().delTooMore(1000);
         });
     }
 
@@ -260,9 +258,11 @@ public class NoticeFragment extends BaseFragment {
 
                 @Override
                 public void sure() {
-                    AppDatas.delAll(getType(), () -> {
+                    TaskThread.onThread(() -> {
+                        Db.db.AppDataDao().delAll(getType());
                         HandlerUtil.send(mHandler, getString(R.string.log_clean_success), HANDLE_REFRESH);
                     });
+
                 }
             });
         });

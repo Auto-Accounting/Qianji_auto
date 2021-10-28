@@ -6,6 +6,7 @@
 
 .label-title {
     margin: 10px 0 10px 0;
+    font-size: larger;
 }
 
 .layui-textarea {
@@ -93,7 +94,7 @@
 
 .img {
     position: absolute;
-    left: 10px;
+    right: 10px;
     top: 11px;
     cursor: pointer;
     border-width: 0;

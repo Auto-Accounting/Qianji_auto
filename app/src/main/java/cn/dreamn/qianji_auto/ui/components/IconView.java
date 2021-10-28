@@ -5,16 +5,18 @@ import android.graphics.Typeface;
 import android.text.Html;
 import android.util.AttributeSet;
 
-public class IconView extends AdaptionSizeTextView {
+public class IconView extends androidx.appcompat.widget.AppCompatTextView {
 
     public IconView(Context context) {
         super(context);
         init(context);
     }
+
     public IconView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
+
     public IconView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);

@@ -43,7 +43,7 @@ import java.util.Arrays;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
-import cn.dreamn.qianji_auto.data.database.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.data.database.Helper.Categorys;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
@@ -166,7 +166,8 @@ public class sortsFragment extends BaseFragment {
         refreshLayout.setOnRefreshListener(RefreshLayout::finishRefresh);
 
         action_switch.setOnClickListener(v -> {
-            BookNames.showBookSelect(getContext(), getString(R.string.set_choose_book), false, bundle -> {
+            BookNames.showBookSelect(getContext(), getString(R.string.set_choose_book), false, obj -> {
+                Bundle bundle = (Bundle) obj;
                 this.setBook(bundle);
                 other.setBook(bundle);
                 view_hide.setVisibility(View.GONE);
@@ -179,8 +180,8 @@ public class sortsFragment extends BaseFragment {
             BottomArea.input(getContext(), getString(R.string.sort_input), "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
                 @Override
                 public void input(String data) {
-                    CategoryNames.insert(data, "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png", "1", type, null, null, book.getString("book_id"), null, isSucceed -> {
-
+                    Categorys.insert(data, "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png", "1", type, null, null, book.getString("book_id"), null, obj -> {
+                        Boolean isSucceed = (Boolean) obj;
                         if (isSucceed) {
                             HandlerUtil.send(mHandler, getString(R.string.add_success), -2, HANDLE_REFRESH);
                         } else {
@@ -223,7 +224,8 @@ public class sortsFragment extends BaseFragment {
                     BottomArea.input(getContext(), getString(R.string.sort_input_child), "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
                         @Override
                         public void input(String data) {
-                            CategoryNames.insert(data, "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png", "2", type, null, parent.getString("self_id"), parent.getString("book_id"), null, isSucceed -> {
+                            Categorys.insert(data, "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png", "2", type, null, parent.getString("self_id"), parent.getString("book_id"), null, obj -> {
+                                Boolean isSucceed = (Boolean) obj;
                                 if (isSucceed) {
                                     HandlerUtil.send(mHandler, getString(R.string.add_success), position, HANDLE_REFRESH);
                                 } else {
@@ -284,7 +286,8 @@ public class sortsFragment extends BaseFragment {
         BottomArea.input(getContext(), String.format(getString(R.string.sort_edit), parent, bundle.getString("name")), bundle.getString("name"), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
             @Override
             public void input(String data) {
-                CategoryNames.update(bundle.getInt("id"), data, type, bundle.getString("book_id"), isSucceed -> {
+                Categorys.update(bundle.getInt("id"), data, type, bundle.getString("book_id"), obj -> {
+                    Boolean isSucceed = (Boolean) obj;
                     if (isSucceed) {
                         HandlerUtil.send(mHandler, getString(R.string.assert_change_success), parentPos, HANDLE_REFRESH);
                     } else {
@@ -312,12 +315,12 @@ public class sortsFragment extends BaseFragment {
 
                 @Override
                 public void sure() {
-                    CategoryNames.del(bundle.getInt("id"));
+                    Categorys.del(bundle.getInt("id"));
                     HandlerUtil.send(mHandler, getString(R.string.del_success), position, HANDLE_REFRESH);
                 }
             });
         }else{
-            CategoryNames.del(bundle.getInt("id"));
+            Categorys.del(bundle.getInt("id"));
             HandlerUtil.send(mHandler, getString(R.string.del_success), position, HANDLE_REFRESH);
         }
     }

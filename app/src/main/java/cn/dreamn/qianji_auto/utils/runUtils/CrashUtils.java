@@ -31,8 +31,6 @@ public class CrashUtils implements Thread.UncaughtExceptionHandler {
     // CrashHandler实例
     @SuppressLint("StaticFieldLeak")
     private static final CrashUtils INSTANCE = new CrashUtils();
-    // 系统默认的UncaughtException处理类
-    private Thread.UncaughtExceptionHandler mDefaultHandler;
     // 程序的Context对象
     private Context mContext;
 
@@ -52,7 +50,8 @@ public class CrashUtils implements Thread.UncaughtExceptionHandler {
     public void init(Context context) {
         mContext = context;
         // 获取系统默认的UncaughtException处理器
-        mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
+        // 系统默认的UncaughtException处理类
+        Thread.UncaughtExceptionHandler mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         // 设置该CrashHandler为程序的默认处理器
         Thread.setDefaultUncaughtExceptionHandler(this);
         //nameString = BmobUserManager.getInstance(mContext).getCurrentUserName();

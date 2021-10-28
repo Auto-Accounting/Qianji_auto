@@ -52,16 +52,17 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
+import cn.dreamn.qianji_auto.data.data.RegularCenter;
+import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
-import cn.dreamn.qianji_auto.data.database.Helper.Category;
-import cn.dreamn.qianji_auto.data.database.Helper.CategoryNames;
-import cn.dreamn.qianji_auto.data.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.data.database.Helper.Categorys;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.TitleBar;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
@@ -234,26 +235,32 @@ public class WebViewFragment extends BaseFragment {
                     int version = Integer.parseInt(jsonObject.getString("version"));
                     String regular_name = jsonObject.getString("regular_name");
                     String regular_remark = jsonObject.getString("regular_remark");
-                    String data_id = jsonObject.getString("data_id");
+                    String dataId = jsonObject.getString("dataId");
                     String id = jsonObject.getString("id");
-                    if (data_id.equals("")) {
-                        data_id = Tool.getRandomString(32);
-                        jsonObject.put("data_id", data_id);
+                    if (dataId.equals("")) {
+                        dataId = Tool.getRandomString(32);
+                        jsonObject.put("dataId", dataId);
                     }
                     version++;
                     jsonObject.put("version", version);
+                    int finalVersion = version;
+                    String finalDataId = dataId;
                     if (id.equals("")) {
-                        //存储规则
-                        Category.addCategory(js, regular_name, jsonObject.toJSONString(), regular_remark, data_id, String.valueOf(version), () -> {
+
+                        TaskThread.onThread(() -> {
+                            Db.db.RegularDao().add(
+                                    js, regular_name, jsonObject.toJSONString(), regular_remark, finalDataId, String.valueOf(finalVersion), "", "category"
+                            );
                             ToastUtils.show(R.string.save_success);
                             popToBack();
                         });
+
                     } else {
-                        //存储规则
-                        Category.changeCategory(Integer.parseInt(id), js, regular_name, jsonObject.toJSONString(), regular_remark, data_id, String.valueOf(version), () -> {
-                            ToastUtils.show(R.string.change_success);
-                            popToBack();
-                        });
+                        Db.db.RegularDao().update(
+                                Integer.parseInt(id), js, regular_name, jsonObject.toJSONString(), regular_remark, finalDataId, String.valueOf(finalVersion), "", "category"
+                        );
+                        ToastUtils.show(R.string.save_success);
+                        popToBack();
                     }
 
                 }
@@ -398,7 +405,13 @@ public class WebViewFragment extends BaseFragment {
                                     BottomArea.msg(getContext(), "分类结果", (String) msg.obj);
                                 }
                             };
-                            Category.getCategory(billInfo, js, str -> HandlerUtil.send(handler, str, -1));
+                            RegularCenter.getInstance("category").run(billInfo, js, new TaskThread.TaskResult() {
+                                @Override
+                                public void onEnd(Object obj) {
+                                    String str = (String) obj;
+                                    HandlerUtil.send(handler, str, -1);
+                                }
+                            });
                         }
                     });
 
@@ -417,9 +430,11 @@ public class WebViewFragment extends BaseFragment {
                     }
                     //选择分类
                     String finalType = type;
-                    BookNames.showBookSelect(getContext(), getString(R.string.set_choose_book), false, bundle -> {
+                    BookNames.showBookSelect(getContext(), getString(R.string.set_choose_book), false, obj -> {
+                        Bundle bundle = (Bundle) obj;
                         //Log.d("账本信息", bundle.toString());
-                        CategoryNames.showCategorySelect(getContext(), getString(R.string.set_choose_category), bundle.getString("book_id"), finalType, false, categoryNames -> {
+                        Categorys.showCategorySelect(getContext(), getString(R.string.set_choose_category), bundle.getString("book_id"), finalType, false, obj2 -> {
+                            Bundle categoryNames = (Bundle) obj2;
                             doJsFunction(String.format("webviewCallback.setCategory('%s')", categoryNames.getString("name")));
                         });
                     });
@@ -435,60 +450,62 @@ public class WebViewFragment extends BaseFragment {
             webView.addJavascriptInterface(appToJsObject, "AndroidJS");
 
 
-        } else if (url.startsWith("file:///android_asset/html/Regulars/")) {
+        } else if (url.startsWith("file:///android_asset/html/reg/")) {
             //== webview 与js交互=========================
             //定义提供html页面调用的方法
             Object appToJsObject = new Object() {
-
+                @JavascriptInterface
+                public void initData() {
+                    if (!data.equals("")) {
+                        doJsFunction(String.format("webviewCallback.setData('%s')", Uri.encode(data)));
+                    }
+                }
 
                 @JavascriptInterface
-                public void Save(String id, String data, String identify) {
+                public void toast(String msg) {
+                    ToastUtils.show(msg);
+                }
 
-                    // Json2["name"]=$("#sort_name").val();
-                    //        Json2["text"]=$("#str_input").val();
-                    //        Json2["regular"]=$("#regex_input").val();
-                    //        Json2["fromApp"]=$("#sort_package").val();
-                    //        Json2["des"]=$("#sort_remark").val();
-                    //        Json2["identify"]=getQueryVariable("type");
-                    //        Json2["tableList"]=Json;
+                @JavascriptInterface
+                public void save(String js, String data) {
 
                     JSONObject jsonObject = JSONObject.parseObject(data);
-                    String regular = jsonObject.getString("regular");
+                    int version = Integer.parseInt(jsonObject.getString("version"));
                     String name = jsonObject.getString("name");
-                    String text = jsonObject.getString("text");
+                    String regular_remark = jsonObject.getString("regular_remark");
+                    String dataId = jsonObject.getString("dataId");
+                    String id = jsonObject.getString("id");
                     String fromApp = jsonObject.getString("fromApp");
-                    String des = jsonObject.getString("des");
-                    String tableList = jsonObject.getJSONObject("tableList").toJSONString();
-                    if (id.equals("undefined")) {
-                        identifyRegulars.add(
-                                regular,
-                                name,
-                                text,
-                                tableList,
-                                identify,
-                                fromApp,
-                                des,
-                                () -> {
-                                    ToastUtils.show(R.string.save_success);
-                                    popToBack();
-                                });
+                    String identify = jsonObject.getString("identify");
+                    if (dataId.equals("")) {
+                        dataId = Tool.getRandomString(32);
+                        jsonObject.put("dataId", dataId);
+                    }
+                    version++;
+                    jsonObject.put("version", version);
+
+                    int finalVersion = version;
+                    String finalDataId = dataId;
+
+                    if (id.equals("")) {
+
+
+                        TaskThread.onThread(() -> {
+                            Db.db.RegularDao().add(
+                                    js, name, jsonObject.toJSONString(), regular_remark, finalDataId, String.valueOf(finalVersion), fromApp, identify
+                            );
+                            ToastUtils.show(R.string.save_success);
+                            popToBack();
+                        });
 
                     } else {
-                        identifyRegulars.change(
-                                Integer.parseInt(id),
-                                regular,
-                                name,
-                                text,
-                                tableList,
-                                identify,
-                                fromApp,
-                                des,
-                                () -> {
-                                    ToastUtils.show(R.string.change_success);
-                                    popToBack();
-                                });
-
+                        Db.db.RegularDao().update(
+                                Integer.parseInt(id), js, name, jsonObject.toJSONString(), regular_remark, dataId, String.valueOf(version), fromApp, identify
+                        );
+                        ToastUtils.show(R.string.save_success);
+                        popToBack();
                     }
+
 
                 }
 

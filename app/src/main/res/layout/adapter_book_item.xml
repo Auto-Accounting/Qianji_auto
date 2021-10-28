@@ -22,7 +22,7 @@
             android:background="@color/bg_alpha25"
             android:backgroundTint="@color/bg_alpha25" />
 
-        <cn.dreamn.qianji_auto.ui.components.AdaptionSizeTextView
+        <TextView
             android:id="@+id/item_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

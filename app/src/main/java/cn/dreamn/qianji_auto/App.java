@@ -12,7 +12,7 @@ import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.PageConfig;
 import com.xuexiang.xpage.config.AppPageConfig;
 
-import cn.dreamn.qianji_auto.data.database.DbManger;
+import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.ui.base.BaseActivity;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.utils.runUtils.CrashUtils;
@@ -74,7 +74,7 @@ public class App extends Application {
 
 
     private void initDatabase() {
-        DbManger.init(this);
+        Db.init(this);
     }
 
     private void initToast() {  // 初始化 Toast 框架

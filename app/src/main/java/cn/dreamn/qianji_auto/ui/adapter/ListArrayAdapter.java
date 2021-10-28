@@ -1,7 +1,6 @@
 package cn.dreamn.qianji_auto.ui.adapter;
 
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +19,15 @@ public class ListArrayAdapter extends ArrayAdapter {
     JSONArray jsonArray;
 
     public ListArrayAdapter(Context context, int resource, JSONArray js) {
-        super(context, resource, js.toArray());
+        super(context, resource);
         jsonArray = js;
+        //   Log.d(jsonArray.toString());
+    }
+
+    @Override
+    public int getCount() {
+        if (jsonArray == null) return 0;
+        return jsonArray.size();
     }
 
     @Override
@@ -29,17 +35,18 @@ public class ListArrayAdapter extends ArrayAdapter {
 
         JSONObject jsonObject = jsonArray.getJSONObject(position);
 
-        @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.adapter_list_items2, null, false);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.adapter_list_items2, null, false);
 
         IconView iconView = view.findViewById(R.id.icon_header);
         iconView.setFont(jsonObject.getString("icon"));
-        IconView iconView2 = view.findViewById(R.id.icon_isOk);
 
         TextView textView = view.findViewById(R.id.item_value);
         textView.setText(jsonObject.getString("name"));
         TextView textView2 = view.findViewById(R.id.item_sub);
         textView2.setText(jsonObject.getString("sub"));
 
+        // Log.d(jsonObject.getString("name"));
+        //  Log.d(jsonObject.getString("sub"));
         return view;
 
 

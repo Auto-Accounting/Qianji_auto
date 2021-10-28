@@ -39,13 +39,15 @@ import com.xuexiang.xpage.enums.CoreAnim;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 import com.yanzhenjie.recyclerview.touch.OnItemMoveListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.data.database.Helper.Assets;
+import cn.dreamn.qianji_auto.data.database.Db;
+import cn.dreamn.qianji_auto.data.database.Table.Asset;
 import cn.dreamn.qianji_auto.ui.adapter.DataListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.IconView;
@@ -53,6 +55,7 @@ import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
 @Page(name = "资产", anim = CoreAnim.slide)
@@ -134,7 +137,8 @@ public class assertFragment extends BaseFragment {
             BottomArea.input(getContext(), getString(R.string.assert_input), "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
                 @Override
                 public void input(String data) {
-                    Assets.addAsset(data, "https://pic.dreamn.cn/uPic/2021032022075916162492791616249279427UY2ok6支付.png", 0, () -> {
+                    TaskThread.onThread(() -> {
+                        Db.db.AssetDao().add(data, "https://pic.dreamn.cn/uPic/2021032022075916162492791616249279427UY2ok6支付.png", 0);
                         HandlerUtil.send(mHandler, getString(R.string.add_success), HANDLE_REFRESH);
                     });
                 }
@@ -150,8 +154,8 @@ public class assertFragment extends BaseFragment {
     }
 
 
-    private void initLayout(){
-        mAdapter=new DataListAdapter(getContext());
+    private void initLayout() {
+        mAdapter = new DataListAdapter(getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLongPressDragEnabled(true);
@@ -170,9 +174,10 @@ public class assertFragment extends BaseFragment {
                 //   Logs.d(mDataList.get(toPosition).get(KEY_TITLE)+"key id"+mDataList.get(toPosition).get(KEY_ID)+" to"+toPosition);
                 list.get(fromPosition).getInt("id");
 
-                Assets.setSort(list.get(fromPosition).getInt("id"), fromPosition);
-                Assets.setSort(list.get(toPosition).getInt("id"), toPosition);
-
+                TaskThread.onThread(() -> {
+                    Db.db.AssetDao().setSort(list.get(fromPosition).getInt("id"), fromPosition);
+                    Db.db.AssetDao().setSort(list.get(toPosition).getInt("id"), toPosition);
+                });
                 // 返回true，表示数据交换成功，ItemView可以交换位置。
                 return true;
             }
@@ -186,6 +191,7 @@ public class assertFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(this::OnItemClickListen);
         refreshLayout.setEnableRefresh(true);
     }
+
     @SuppressLint("CheckResult")
     private void OnItemClickListen(View view, int position) {
         if (list == null || position >= list.size()) return;
@@ -208,13 +214,15 @@ public class assertFragment extends BaseFragment {
 
 
     }
+
     @SuppressLint("CheckResult")
     private void change(Bundle assest) {
 
         BottomArea.input(getContext(), getString(R.string.assert_change_name), assest.getString("name"), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
             @Override
             public void input(String data) {
-                Assets.updAsset(assest.getInt("id"), data, () -> {
+                TaskThread.onThread(() -> {
+                    Db.db.AssetDao().update(assest.getInt("id"), data);
                     HandlerUtil.send(mHandler, getString(R.string.assert_change_success), HANDLE_REFRESH);
                 });
             }
@@ -235,7 +243,8 @@ public class assertFragment extends BaseFragment {
 
             @Override
             public void sure() {
-                Assets.delAsset(assest.getInt("id"), () -> {
+                TaskThread.onThread(() -> {
+                    Db.db.AssetDao().del(assest.getInt("id"));
                     HandlerUtil.send(mHandler, getString(R.string.del_success), HANDLE_REFRESH);
                 });
             }
@@ -246,14 +255,26 @@ public class assertFragment extends BaseFragment {
     public void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
         TaskThread.onThread(() -> {
-            Assets.getAllIcon(asset2s -> {
-                if (asset2s == null || asset2s.length == 0) {
+            TaskThread.onThread(() -> {
+                Asset[] assets = Db.db.AssetDao().getAll(0, 200);
+                if (assets == null || assets.length == 0) {
                     HandlerUtil.send(mHandler, HANDLE_ERR);
+                    return;
+                }
+
+                if (list != null) {
+                    list.clear();
                 } else {
-                    list = Arrays.asList(asset2s);
+                    list = new ArrayList<>();
+                }
+                for (Asset asset : assets) {
+                    Bundle bundle = Tool.class2Bundle(asset);
+                    list.add(bundle);
                     HandlerUtil.send(mHandler, HANDLE_OK);
                 }
+
             });
+
         });
     }
 

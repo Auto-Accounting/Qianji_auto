@@ -2,15 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/background"
     android:backgroundTint="@color/background"
     android:orientation="vertical">
 
 
+    <cn.dreamn.qianji_auto.ui.components.TitleBar
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <com.shehuan.statusview.StatusView
         android:id="@+id/status"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/titleBar">
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/refreshLayout"
@@ -33,4 +41,68 @@
 
     </com.shehuan.statusview.StatusView>
 
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/multiple_actions_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
+
+        app:fab_addButtonColorNormal="@color/button_go_setting_bg"
+
+        app:fab_addButtonColorPressed="@color/button_go_setting_bg"
+        app:fab_addButtonPlusIconColor="@color/background_white"
+        app:fab_addButtonSize="normal"
+        app:fab_expandDirection="up"
+        app:fab_labelStyle="@style/menu_labels_style"
+        tools:ignore="RelativeOverlap">
+
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_cate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ensureMinTouchTargetSize="false"
+            app:fabSize="auto"
+            app:fab_addButtonColorPressed="@color/button_go_setting_bg"
+            app:fab_colorNormal="@color/button_go_setting_bg"
+            app:fab_icon="@drawable/ic_cate"
+            app:fab_size="mini"
+            app:fab_title="添加规则" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_import"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="auto"
+            app:fab_colorNormal="@color/button_go_setting_bg"
+            app:fab_icon="@drawable/ic_switch"
+            app:fab_size="mini"
+            app:fab_title="导入" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_export"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:fabSize="auto"
+            app:fab_colorNormal="@color/button_go_setting_bg"
+            app:fab_icon="@drawable/ic_switch"
+            app:fab_size="mini"
+            app:fab_title="导出" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_delAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:fabSize="auto"
+            app:fab_colorNormal="@color/button_go_setting_bg"
+            app:fab_icon="@drawable/ic_delete"
+            app:fab_size="mini"
+            app:fab_title="全部删除" />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </RelativeLayout>

@@ -37,9 +37,10 @@ import com.tencent.mmkv.MMKV;
 import java.util.ArrayList;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.data.database.DbManger;
+import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Table.BookName;
 import cn.dreamn.qianji_auto.ui.adapter.BookSelectListAdapter;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 
 
@@ -56,84 +57,42 @@ public class BookNames {
         mmkv.encode("defaultBookName", bookName);
     }
 
-    public interface getBookBundle{
-        void onGet(Bundle bundle);
-    }
-    public interface getBookBundles{
-        void onGet(Bundle[] bundle);
-    }
-    public interface getBookStrings{
-        void onGet(String[] bundle);
-    }
-    public interface getBookString{
-        void onGet(String bundle);
-    }
-    public interface getBookInt{
-        void onGet(int length);
-    }
-    public interface whenFinish{
-        void onFinish();
-    }
-    public static void getOne(String name,getBookBundle getBook) {
-        TaskThread.onThread(() -> {
-            BookName[] bookNames = DbManger.db.BookNameDao().get(name);
-            Bundle bundle = new Bundle();
-            if (bookNames != null && bookNames.length != 0) {
-                bundle.putString("icon", bookNames[0].icon);
-                bundle.putString("name", bookNames[0].name);
-                bundle.putString("book_id", bookNames[0].book_id);
-            }
-            getBook.onGet(bundle);
-        });
 
-    }
-
-    public static void getAll(getBookStrings getBook) {
+    public static void getIcon(String bookName, TaskThread.TaskResult taskResult) {
 
         TaskThread.onThread(() -> {
-            BookName[] bookNames = DbManger.db.BookNameDao().getAll();
-            String[] result = new String[bookNames.length + 1];
-            for (int i = 0; i < bookNames.length; i++) {
-                result[i] = bookNames[i].name;
-            }
-            result[bookNames.length] = "默认账本";
-            getBook.onGet(result);
-        });
-    }
-    public static void getIcon(String bookName,getBookString getBook) {
-
-        TaskThread.onThread(() -> {
-            BookName[] bookNames = DbManger.db.BookNameDao().get(bookName);
+            BookName[] bookNames = Db.db.BookNameDao().get(bookName);
             if (bookNames.length <= 0) {
-                getBook.onGet("http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
+                taskResult.onEnd("http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
             } else {
-                getBook.onGet(bookNames[0].icon);
+                taskResult.onEnd(bookNames[0].icon);
             }
 
         });
     }
 
 
-    public static void getAllIcon(Boolean add,getBookBundles getBook) {
+    public static void getAllIcon(Boolean isAdd, TaskThread.TaskResult taskResult) {
         TaskThread.onThread(() -> {
-            BookName[] bookNames = DbManger.db.BookNameDao().getAll();
+            BookName[] bookNames = Db.db.BookNameDao().getAll();
             ArrayList<Bundle> bundleArrayList = new ArrayList<>();
-
+            boolean add = isAdd;
             for (BookName bookName : bookNames) {
                 Bundle bundle = new Bundle();
+                if (bookName.name.equals("默认账本")) {
+                    add = false;
+                }
                 bundle.putString("name", bookName.name);
                 bundle.putInt("id", bookName.id);
                 String bid = bookName.book_id;
                 if (bid == null || bid.equals("")) bid = "-1";
                 bundle.putString("book_id", bid);
-            //http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2
-            if(bookName.icon==null|| bookName.icon.equals("")){
-                bundle.putString("cover", "http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
-            }else{
-                bundle.putString("cover", bookName.icon);
+                //http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2
+                if (bookName.icon == null || bookName.icon.equals("")) {
+                    bundle.putString("cover", "http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
+                } else {
+                    bundle.putString("cover", bookName.icon);
             }
-
-
             bundleArrayList.add(bundle);
         }
 
@@ -146,74 +105,13 @@ public class BookNames {
             bundle.putString("cover", "http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
             bundleArrayList.add(bundle);
         }
-
-
-            getBook.onGet(bundleArrayList.toArray(new Bundle[0]));
-        });
-
-    }
-
-    public static void del(int id,whenFinish when) {
-        TaskThread.onThread(() -> {
-            DbManger.db.BookNameDao().del(id);
-            when.onFinish();
-        });
-    }
-
-    public static void upd(int id, String bookName,whenFinish when) {
-        TaskThread.onThread(() -> {
-            DbManger.db.BookNameDao().update(id, bookName);
-            when.onFinish();
-        });
-    }
-
-    public static void add(String bookName,whenFinish when) {
-
-        TaskThread.onThread(() -> {
-            DbManger.db.BookNameDao().add(bookName, "http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2", String.valueOf(System.currentTimeMillis()));
-            when.onFinish();
-        });
-    }
-
-    public static void add(String bookName, String icon,final String book_id,whenFinish when) {
-        TaskThread.onThread(() -> {
-
-            String bid = book_id;
-            if (bid == null || bid.equals("")) {
-                bid = String.valueOf(System.currentTimeMillis());
-            }
-            DbManger.db.BookNameDao().add(bookName, icon, bid);
-            when.onFinish();
-        });
-    }
-
-    public static void clean() {
-        clean(null);
-    }
-
-    public static void clean(whenFinish when) {
-        TaskThread.onThread(() -> {
-            DbManger.db.BookNameDao().clean();
-            if (when != null)
-                when.onFinish();
-        });
-    }
-
-    public static void getAllLen(getBookInt getBook) {
-        TaskThread.onThread(() -> {
-            BookName[] bookNames = DbManger.db.BookNameDao().getAll();
-            getBook.onGet(bookNames.length);
-
+            taskResult.onEnd(bundleArrayList);
         });
 
     }
 
 
-    public interface BookSelect {
-        void onSelect(Bundle bundle);
-    }
-
-    public static void showBookSelect(Context context, String title,boolean isFloat, BookSelect getOne ) {
+    public static void showBookSelect(Context context, String title, boolean isFloat, TaskThread.TaskResult taskResult) {
 
         LayoutInflater factory = LayoutInflater.from(context);
         final View textEntryView = factory.inflate(R.layout.include_list_data, null);
@@ -222,17 +120,16 @@ public class BookNames {
 
         final ListView list_view = textEntryView.findViewById(R.id.list_view);
 
-        final Handler mHandler=new Handler(Looper.getMainLooper()){
+        final Handler mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
-                Bundle[] books=(Bundle[])msg.obj;
-                if(books.length==1&&!isFloat){
-                    getOne.onSelect(books[0]);
+                ArrayList<Bundle> books = (ArrayList<Bundle>) msg.obj;
+                if (books.size() == 1 && !isFloat) {
+                    taskResult.onEnd(books.get(0));
                     return;
                 }
-                BookSelectListAdapter adapter = new BookSelectListAdapter(context,books);//listdata和str均可
+                BookSelectListAdapter adapter = new BookSelectListAdapter(context, books);//listdata和str均可
                 list_view.setAdapter(adapter);
-
 
 
                 BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
@@ -255,7 +152,7 @@ public class BookNames {
 
 
                 list_view.setOnItemClickListener((parent, view, position, id) -> {
-                    getOne.onSelect(books[position]);
+                    taskResult.onEnd(books.get(position));
                     dialog.dismiss();
                 });
                // dialog.setOnCancelListener(dialog1 -> getOne.onSelect(null));
@@ -263,9 +160,7 @@ public class BookNames {
         };
 
         getAllIcon(true,books -> {
-            Message message=new Message();
-            message.obj=books;
-            mHandler.sendMessage(message);
+            HandlerUtil.send(mHandler, books, 0);
         });
 
 

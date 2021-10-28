@@ -20,7 +20,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.dreamn.qianji_auto.data.database.Helper.CategoryNames;
+import cn.dreamn.qianji_auto.data.database.Helper.Categorys;
 import cn.dreamn.qianji_auto.ui.adapter.CategoryAdapter;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
@@ -47,7 +47,8 @@ public class CategoryUtils {
     public void refreshData(finishRefresh f) {
         clean();
         finish = f;
-        CategoryNames.getParents(book_id, type, books -> {
+        Categorys.getParents(book_id, type, obj -> {
+            Bundle[] books = (Bundle[]) obj;
             //Log.i("books" + Arrays.toString(books));
             if (books == null || books.length == 0) {
                 HandlerUtil.send(mHandler, HANDLE_ERR);
@@ -185,7 +186,7 @@ public class CategoryUtils {
             }
         };
 
-        CategoryNames.getChildrens(item.getString("self_id"), book_id, item.getString("type"), allowChange, books -> {
+        Categorys.getChildrens(item.getString("self_id"), book_id, item.getString("type"), allowChange, books -> {
             //      Log.i("子类" + Arrays.toString(books));
             HandlerUtil.send(mmHandler, books, HANDLE_REFRESH);
         });

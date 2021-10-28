@@ -24,11 +24,10 @@ import cn.dreamn.qianji_auto.data.database.Table.AppData;
 
 @Dao
 public interface AppDataDao {
-    @Query("SELECT * FROM AppData WHERE identify=:identify  order by id  desc")
-    AppData[] loadAll(String identify);
+    @Query("SELECT * FROM AppData WHERE identify=:identify  order by id desc limit :from,:to")
+    AppData[] loadAll(String identify, int from, int to);
 
-
-    @Query("INSERT INTO AppData(rawData,identify,fromApp,time,sort,use) values(:rawData,:identify,:fromApp,strftime('%s','now'),1,1)")
+    @Query("INSERT INTO AppData(rawData,identify,fromApp,time) values(:rawData,:identify,:fromApp,strftime('%s','now'))")
     void add(String rawData, String identify, String fromApp);
 
     @Query("DELETE FROM AppData WHERE id=:pos")
@@ -36,5 +35,8 @@ public interface AppDataDao {
 
     @Query("DELETE FROM AppData WHERE identify=:identify")
     void delAll(String identify);
+
+    @Query("DELETE FROM AppData WHERE id not in (SELECT id FROM AppData order by id DESC limit :limit)")
+    void delTooMore(int limit);
 }
 

@@ -42,6 +42,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.ui.adapter.BookListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
@@ -123,8 +124,10 @@ public class bookFragment extends BaseFragment {
             BottomArea.input(getContext(), getString(R.string.book_input), "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
                 @Override
                 public void input(String data) {
-                    BookNames.add(data, () -> {
+                    TaskThread.onThread(() -> {
+                        Db.db.BookNameDao().add(data, "http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2", String.valueOf(System.currentTimeMillis()));
                         HandlerUtil.send(mHandler, getString(R.string.add_success), HANDLE_REFRESH);
+
                     });
                 }
 
@@ -173,7 +176,8 @@ public class bookFragment extends BaseFragment {
         BottomArea.input(getContext(), getString(R.string.book_change), bookName.getString("name"), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
             @Override
             public void input(String data) {
-                BookNames.upd(bookName.getInt("id"), data, () -> {
+                TaskThread.onThread(() -> {
+                    Db.db.BookNameDao().update(bookName.getInt("id"), data);
                     HandlerUtil.send(mHandler, getString(R.string.assert_change_success), HANDLE_REFRESH);
                 });
             }
@@ -194,9 +198,11 @@ public class bookFragment extends BaseFragment {
 
             @Override
             public void sure() {
-                BookNames.del(bookName.getInt("id"), () -> {
+                TaskThread.onThread(() -> {
+                    Db.db.BookNameDao().del(bookName.getInt("id"));
                     HandlerUtil.send(mHandler, getString(R.string.del_success), HANDLE_REFRESH);
                 });
+
             }
         });
 
@@ -206,11 +212,12 @@ public class bookFragment extends BaseFragment {
     public void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
         TaskThread.onThread(() -> {
-            BookNames.getAllIcon(false, books -> {
-                if (books == null || books.length == 0) {
+            BookNames.getAllIcon(false, obj -> {
+                List<Bundle> bundleArrayList = (List<Bundle>) obj;
+                if (bundleArrayList == null || bundleArrayList.size() == 0) {
                     HandlerUtil.send(mHandler, HANDLE_ERR);
                 } else {
-                    list = Arrays.asList(books);
+                    list = bundleArrayList;
                     HandlerUtil.send(mHandler, HANDLE_OK);
                 }
             });

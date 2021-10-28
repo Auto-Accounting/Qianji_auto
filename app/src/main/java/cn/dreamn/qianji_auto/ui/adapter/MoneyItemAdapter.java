@@ -37,9 +37,6 @@ public class MoneyItemAdapter extends BaseAdapter {
         date.setText(billInfo.getTime());
         money.setText(BillTools.getCustomBill(billInfo));
         String remarkStr=billInfo.getRemark();
-        if(remarkStr.length()>20){
-            remarkStr=remarkStr.substring(0,20)+"...";
-        }
         remark.setText(remarkStr);
         paytools.setText(billInfo.getAccountName());
 

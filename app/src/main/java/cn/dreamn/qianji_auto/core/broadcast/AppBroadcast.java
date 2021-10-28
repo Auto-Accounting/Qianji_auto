@@ -52,11 +52,6 @@ public class AppBroadcast extends BroadcastReceiver {
         }
         Log.d("收到数据");
         AppManager.AsyncEnd(context, extData);
-
-        /*Intent intent1 = new Intent();
-        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent1.setClass(context, MainActivity.class);
-        context.startActivity(intent1);*/
         Log.i("钱迹数据同步完毕");
     }
 }

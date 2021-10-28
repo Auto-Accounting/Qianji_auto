@@ -50,7 +50,7 @@ public class Notice extends AndroidBase {
                         ApplicationInfo applicationInfo = (ApplicationInfo) bundle.get("android.appInfo");
                         aPackage = applicationInfo.packageName;
 
-                      //  utils.log("通知数据：" + bundle.toString());
+                        //  utils.log("通知数据：" + bundle.toString());
 
                         //收到支付宝支付通知后,自动拉起支付宝
                        /* if (aPackage.contains("com.eg.android.AlipayGphone")) {
@@ -59,13 +59,14 @@ public class Notice extends AndroidBase {
                             });
                         }*/
                         //不在监控范围不转发
-                        String[] s2 = utils.readDataByApp("apps", "apps").split(",");
-                        // utils.log("通知范围：" + Arrays.toString(s2) + "app" + aPackage);
-                        if (!isIn(s2, aPackage)) return;
+                        if (!utils.isDebug()) {//非Debug模式
+                            String[] s2 = utils.readDataByApp("apps", "apps").split(",");
+                            if (!isIn(s2, aPackage)) return;
+                        }
 
-                        // utils.log("包名:" + aPackage, true);
-                        // utils.log("标题:" + title, true);
-                        // utils.log("主体" + text, true);
+
+                        utils.log("包名:" + aPackage + "\n标题:" + title + "\n主体" + text, true);
+
                         String s = "title=" + title + ",body=" + text;
                         utils.sendString(s, "notice", aPackage);
                         //转发数据给自动记账

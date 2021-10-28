@@ -79,17 +79,9 @@ public class Utils {
         editor.apply();//提交修改
     }
 
-    public String readData(String key) {
-        return readData(key, false);
-    }
 
-    public String readData(String key, boolean replace) {
+    public String readData(String key) {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("ankio_xp", Context.MODE_PRIVATE); //私有数据
-        /* if (replace) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();//获取编辑器
-            editor.putString(key, null);
-            editor.apply();
-        }*/
         return sharedPreferences.getString(key, "");
     }
 
@@ -103,7 +95,6 @@ public class Utils {
                 .replace("\"", "")
                 .replace("\\", "");
         return buff.replaceAll("\\r\\n|\\r|\\n", "");
-
     }
 
 

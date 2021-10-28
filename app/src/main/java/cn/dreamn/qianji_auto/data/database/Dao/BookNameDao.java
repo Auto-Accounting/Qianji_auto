@@ -34,7 +34,6 @@ public interface BookNameDao {
     @Query("DELETE FROM bookname WHERE id=:id")
     void del(int id);
 
-
     @Query("INSERT INTO bookname(name,icon,book_id) values(:name,:icon,:book_id)")
     void add(String name, String icon, String book_id);
 

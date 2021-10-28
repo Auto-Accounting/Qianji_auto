@@ -25,17 +25,13 @@ import android.content.Intent;
 public class BootBroadcast extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-     /*   String action = intent.getAction();
+    /*    String action = intent.getAction();
         if (action == null) return;
         //android.intent.action.BOOT_COMPLETED
-        Log.i("开机启动检测");
-        if (!Status.getActiveMode().equals("helper")) {
-            Logs.i("Xposed模式下不启动后台服务");
+        if (AppStatus.isXposed()) {
             return;
         }//不是无障碍模式不启动
-        Logs.i("无障碍模式下后台服务启动");
-        ServerManger.startAccessibility(context);
-        ServerManger.startAutoNotify(context);*/
+       */
 
     }
 }

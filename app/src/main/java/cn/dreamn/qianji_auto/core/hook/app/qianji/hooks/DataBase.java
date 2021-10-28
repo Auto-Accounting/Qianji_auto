@@ -76,7 +76,6 @@ public class DataBase {
                 //获取最终的UID
                 utils.log("钱迹用户:" + (isVip ? "会员" : "非会员"));
 
-
                 final boolean[] hooked = {false};
                 XposedHelpers.findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
                     protected void beforeHookedMethod(MethodHookParam param) {
@@ -97,7 +96,7 @@ public class DataBase {
                                 jsonObject.put("asset", dbHelper[0].getAsset());
                                 jsonObject.put("category", dbHelper[0].getCategory());
                                 jsonObject.put("userBook", dbHelper[0].getUserBook(isVip));
-                                jsonObject.put("billInfo", dbHelper[0].getBills());
+                               // jsonObject.put("billInfo", dbHelper[0].getBills());
 
                                 utils.send2auto(jsonObject.toJSONString());
 

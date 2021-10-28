@@ -15,22 +15,19 @@
  *
  */
 
-package cn.dreamn.qianji_auto.data.database.Table;
+package cn.dreamn.qianji_auto.data.database;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
+import android.content.Context;
 
-@Entity
-public class CategoryName {
-    @PrimaryKey(autoGenerate = true)
-    public int id;
-    public String name;//分类名
-    public String icon;//分类图标
-    public String level;//分类等级
-    public String type;//类型
-    public String self_id;//钱迹中自己的id
-    public String parent_id;//父类id
-    public String book_id;//所属账本
-    public String sort;//排序
+import androidx.room.Room;
+
+
+public class Db {
+    public static AppDatabase db;
+
+    public static void init(Context context) {
+        db = Room.databaseBuilder(context, AppDatabase.class, "ankio").
+                fallbackToDestructiveMigration().
+                build();
+    }
 }
-

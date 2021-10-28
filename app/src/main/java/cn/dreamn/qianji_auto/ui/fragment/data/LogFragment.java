@@ -21,7 +21,6 @@ import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_ERR;
 import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
 import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
 
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -39,12 +38,15 @@ import java.util.Arrays;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.components.LogScreen;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
+import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 @Page(name = "日志", anim = CoreAnim.slide)
@@ -142,8 +144,10 @@ public class LogFragment extends BaseFragment {
 
                             @Override
                             public void sure() {
-                                Log.delAll(() -> {
+                                TaskThread.onThread(() -> {
+                                    Db.db.LogDao().delAll();
                                     HandlerUtil.send(mHandler, getString(R.string.log_clean_success), HANDLE_REFRESH);
+
                                 });
                             }
                         });
@@ -188,25 +192,16 @@ public class LogFragment extends BaseFragment {
         loadingDialog.show();
         list = new ArrayList<>();
 
-        Log.getAll(logs -> {
-            if (logs == null || logs.size() == 0) {
+        TaskThread.onThread(() -> {
+            cn.dreamn.qianji_auto.data.database.Table.Log[] logs = Db.db.LogDao().loadAll(0, Log.getLimit());
+            if (logs == null || logs.length == 0) {
                 list.add("no log");
             } else {
-                for (Bundle bundle : logs) {
-                    StringBuilder ss = new StringBuilder();
-                    ss.append("[").append(bundle.getString("time")).append("]").append("[").append(bundle.getString("sub")).append("]");
-                    String log = bundle.getString("title");
-                    if (log != null) {
-                        String[] logList = log.split("\n");
-                        for (String l : logList) {
-                            logData.append(ss.toString() + l).append("\n");
-                            list.add(ss.toString() + l);
-                        }
-                    }
-
+                for (cn.dreamn.qianji_auto.data.database.Table.Log log : logs) {
+                    list.add("[" + DateUtils.getAnyTime(log.time) + "]" + "[" + log.body + "]" + log.title.replace("\n", "\\n"));
                 }
+                HandlerUtil.send(mHandler, HANDLE_OK);
             }
-            HandlerUtil.send(mHandler, HANDLE_OK);
         });
     }
 

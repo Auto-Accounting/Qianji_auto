@@ -27,4 +27,5 @@ public class AutoBill {
     public int id;
     public String billInfo;//识别出来的账单数据集
     public String date;//账单时间
+    public int isRecord;
 }

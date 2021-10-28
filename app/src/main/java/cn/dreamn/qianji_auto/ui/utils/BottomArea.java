@@ -198,6 +198,7 @@ public class BottomArea {
 
     static public void list(Context context, String title, JSONArray list, ListCallback listCallback) {
 
+
         LayoutInflater factory = LayoutInflater.from(context);
         final View textEntryView = factory.inflate(R.layout.include_list_data, null);
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);

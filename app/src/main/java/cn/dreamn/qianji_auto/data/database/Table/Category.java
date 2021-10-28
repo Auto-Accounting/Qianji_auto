@@ -21,20 +21,16 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class IdentifyRegular {
-    //其他信息处理规则
+public class Category {
     @PrimaryKey(autoGenerate = true)
     public int id;
-
-    public String regular;//翻译后的规则
-   // public String num;//remark|account|type|money|num
-    public String name;//规则名
-    public String text;//测试文本
-    public String des;
-    public String tableList;
-    public String identify;//规则属于APP、短信、通知
-    public String fromApp;//规则匹配具体APP
-    public int use = 1;//是否启用该规则
-
-    public int sort = 0;//排序
+    public String name;//分类名
+    public String icon;//分类图标
+    public String level;//分类等级
+    public String type;//类型
+    public String self_id;//钱迹中自己的id
+    public String parent_id;//父类id
+    public String book_id;//所属账本
+    public String sort;//排序
 }
+

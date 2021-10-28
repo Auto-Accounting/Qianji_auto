@@ -22,11 +22,8 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
-import com.tencent.mmkv.MMKV;
-
 import java.util.Set;
 
-import cn.dreamn.qianji_auto.data.local.Md5Util;
 import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
@@ -77,6 +74,7 @@ public class BillInfo {
 
     private String fee = "0";//手续费
 
+    private boolean isAuto = false;
 
     private long timeStamp;
 
@@ -129,10 +127,10 @@ public class BillInfo {
                     billInfo.setFromApp(value);
                     break;
                 case "rawAccount":
-                    billInfo.setrawAccount(value);
+                    billInfo.setRawAccount(value);
                     break;
                 case "rawAccount2":
-                    billInfo.setrawAccount2(value);
+                    billInfo.setRawAccount2(value);
                     break;
                 case "extraData":
                     billInfo.setExtraData(value);
@@ -165,24 +163,34 @@ public class BillInfo {
         id = value;
     }
 
+    public boolean isAuto() {
+        return isAuto;
+    }
+
+    public void setAuto(boolean value) {
+        isAuto = value;
+    }
 
     public void setFee(String value) {
         fee = value;
     }
 
     public void setExtraData(String value) {
-        extraData=value;
+        extraData = value;
     }
 
-    public void setrawAccount(String value) {
-        rawAccount=value;
+    public String getRawAccount() {
+        if (rawAccount.equals(""))
+            rawAccount = accountname;
+        return rawAccount;
     }
-    public void setrawAccount2(String value) {
-        rawAccount2=value;
+
+    public void setRawAccount(String value) {
+        rawAccount = value;
     }
 
     public void setFromApp(String value) {
-        fromApp=value;
+        fromApp = value;
     }
 
     public String getFee() {
@@ -193,16 +201,16 @@ public class BillInfo {
         return extraData;
     }
 
-    public String getrawAccount() {
-        if (rawAccount.equals(""))
-            rawAccount = accountname;
-        return rawAccount;
-    }
-    public String getrawAccount2() {
+    public String getRawAccount2() {
         if (rawAccount2.equals(""))
             rawAccount2 = accountname2;
         return rawAccount2;
     }
+
+    public void setRawAccount2(String value) {
+        rawAccount2 = value;
+    }
+
     public String getFromApp() {
         return fromApp;
     }
@@ -254,14 +262,6 @@ public class BillInfo {
             if (getReimbursement()) t = TYPE_PAYMENT_REFUND;
             return t;
         } else return type;
-    }
-
-    public String getRawMd5() {
-        MMKV mmkv = MMKV.defaultMMKV();
-        if (mmkv.getBoolean("dup", false))
-            return Md5Util.main(toString());
-        return "";
-
     }
 
     public void setType(String type) {

@@ -18,7 +18,7 @@
 
         android:layout_marginStart="15dp" />
 
-    <cn.dreamn.qianji_auto.ui.components.AdaptionSizeTextView
+    <TextView
         android:id="@+id/item_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

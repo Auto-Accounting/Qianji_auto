@@ -59,7 +59,7 @@ public class ChinaDate {
      * @param y 年的总天数
      * @return 农历
      */
-    final private static int lYearDays(int y) {
+    private static int lYearDays(int y) {
         int i, sum = 348;
         for (i = 0x8000; i > 0x8; i >>= 1) {
             if ((lunarInfo[y - 1900] & i) != 0)
@@ -124,7 +124,7 @@ public class ChinaDate {
      * @param num 月日的offset 传回干支,0是甲子
      * @return 干支
      */
-    final private static String cyclicalm(int num) {
+    private static String cyclicalm(int num) {
         return (Gan[num % 10] + Zhi[num % 12]);
     }
 

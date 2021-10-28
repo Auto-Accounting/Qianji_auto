@@ -4,13 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.setting.AppInfo;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
-import cn.dreamn.qianji_auto.ui.components.AdaptionSizeTextView;
 
 public class AppListAdapter extends BaseAdapter {
 
@@ -24,7 +24,7 @@ public class AppListAdapter extends BaseAdapter {
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Bundle item, int position) {
         ImageView imageView = holder.findViewById(R.id.icon_header);
-        AdaptionSizeTextView textView = holder.findViewById(R.id.item_value);
+        TextView textView = holder.findViewById(R.id.item_value);
         RelativeLayout rl = holder.findViewById(R.id.rl);
         imageView.setImageDrawable(AppInfo.getIcon(mContext, item.getString("pkg")));
         textView.setText(item.getString("name"));

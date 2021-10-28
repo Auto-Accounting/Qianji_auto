@@ -19,9 +19,8 @@ public class PickerViewAnimateUtil {
      * @return the id of the animation resource
      */
     public static int getAnimationResource(int gravity, boolean isInAnimation) {
-        switch (gravity) {
-            case Gravity.BOTTOM:
-                return isInAnimation ? R.anim.pickerview_slide_in_bottom : R.anim.pickerview_slide_out_bottom;
+        if (gravity == Gravity.BOTTOM) {
+            return isInAnimation ? R.anim.pickerview_slide_in_bottom : R.anim.pickerview_slide_out_bottom;
         }
         return INVALID;
     }

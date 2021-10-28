@@ -17,6 +17,7 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.base.sorts;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -63,7 +64,8 @@ public class MainSortFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
-        BookNames.showBookSelect(getContext(), getString(R.string.set_choose_book), false, bundle -> {
+        BookNames.showBookSelect(getContext(), getString(R.string.set_choose_book), false, obj -> {
+            Bundle bundle = (Bundle) obj;
             sf1 = new sortsFragment(bundle, "0");
             sf2 = new sortsFragment(bundle, "1");
             sf1.setObj(sf2);

@@ -23,7 +23,6 @@ public class MoneyAdapter extends BaseAdapter {
 
     private Item itemListen;
 
-    private List<Bundle> list;
     public MoneyAdapter(Context context) {
         super(R.layout.adapter_money_list);
         mContext = context;
@@ -34,7 +33,7 @@ public class MoneyAdapter extends BaseAdapter {
 
     @Override
     public SmartRecyclerAdapter<Bundle> refresh(Collection<Bundle> collection) {
-        this.list = (List<Bundle>) collection;
+        List<Bundle> list = (List<Bundle>) collection;
         return super.refresh(collection);
     }
 

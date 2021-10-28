@@ -32,9 +32,10 @@ import androidx.annotation.NonNull;
 
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
-import cn.dreamn.qianji_auto.data.database.Helper.AppDatas;
-import cn.dreamn.qianji_auto.data.database.Helper.identifyRegulars;
+import cn.dreamn.qianji_auto.data.data.RegularCenter;
+import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 
 
 public class SMSBroadcast extends BroadcastReceiver {
@@ -66,22 +67,26 @@ public class SMSBroadcast extends BroadcastReceiver {
                 msg2.append(msg.getDisplayMessageBody());
             }
             String data = msg2.toString().replace("\t", "").replace("\n", "n");
-            AppDatas.add("sms", user, data);
             String finalUser = user;
+            TaskThread.onThread(() -> Db.db.AppDataDao().add(data, "sms", finalUser));
             Handler mHandler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(@NonNull Message msg) {
                     BillInfo billInfo = (BillInfo) msg.obj;
                     billInfo.setFromApp(finalUser);
-                    SendDataToApp.call(context, billInfo);
+                    SendDataToApp.call(billInfo);
                 }
             };
-            identifyRegulars.run("sms", user, data, billInfo -> {
-                if (billInfo != null) {
-                    HandlerUtil.send(mHandler, billInfo, HANDLE_OK);
+            RegularCenter.getInstance("sms").run(user, data, null, new TaskThread.TaskResult() {
+                @Override
+                public void onEnd(Object obj) {
+                    BillInfo billInfo = (BillInfo) obj;
+                    if (billInfo != null) {
+                        HandlerUtil.send(mHandler, billInfo, HANDLE_OK);
+                    }
                 }
-
             });
+
         }
 
     }

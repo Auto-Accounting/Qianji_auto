@@ -21,11 +21,11 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Asset2 {
+public class AssetMap {
     //账户列表
     @PrimaryKey(autoGenerate = true)
     public int id;
     public String name;//账户名
-    public String icon;//图标
-    public int sort = 0;
+    public String mapName;//映射账户名
+
 }

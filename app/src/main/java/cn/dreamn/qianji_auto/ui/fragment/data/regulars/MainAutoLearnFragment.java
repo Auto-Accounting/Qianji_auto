@@ -17,7 +17,7 @@
 
 package cn.dreamn.qianji_auto.ui.fragment.data.regulars;
 
-import static cn.dreamn.qianji_auto.ui.fragment.data.NoticeFragment.KEY_DATA;
+import static cn.dreamn.qianji_auto.ui.fragment.data.AppFragment.KEY_DATA;
 
 import android.os.Bundle;
 import android.view.View;
@@ -73,7 +73,6 @@ public class MainAutoLearnFragment extends BaseFragment {
     @Override
     protected void initViews() {
         List<Fragment> tabFragments = new ArrayList<>();  //实例化集合
-
         tabFragments.add(new outFragment(getType(), false));
         tabFragments.add(new outFragment(getType(), true));
         TabAdapter adapter = new TabAdapter(getChildFragmentManager(), tabFragments, new String[]{"本地", "云端"}); //参数1为fragment管理器
@@ -88,18 +87,6 @@ public class MainAutoLearnFragment extends BaseFragment {
             target = bundle.getString(KEY_DATA);
         }
         return target;
-    }
-
-    private String getName() {
-        switch (getType()) {
-            case "sms":
-                return getString(R.string.sms);
-            case "notice":
-                return getString(R.string.notice);
-            case "app":
-                return getString(R.string.app);
-        }
-        return "";
     }
 
     @Override
