@@ -182,6 +182,11 @@ public class outFragment extends BaseFragment {
         return (type.equals("category") || (type.equals("sms") && !isWeb) || type.equals("notice_detail") || type.equals("app_detail"));
     }
 
+    private boolean isHasBar() {
+        return (type.equals("category") || (type.equals("sms")) || type.equals("notice") || type.equals("app"));
+    }
+
+
     @SuppressLint("CheckResult")
     @Override
     protected void initListeners() {
@@ -248,11 +253,16 @@ public class outFragment extends BaseFragment {
     private void initLayout() {
         BaseFragment baseFragment = this;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        if (isDataList()) {
+        if (isHasBar()) {
+            titleBar.setVisibility(View.GONE);
+        } else {
             titleBar.setTitle(getName());
             titleBar.setLeftIconOnClickListener(v -> {
                 popToBack();
             });
+        }
+        if (isDataList()) {
+
 
             cAdapter = new CateItemListAdapter(getContext());
             recyclerView.setAdapter(cAdapter);
@@ -378,7 +388,7 @@ public class outFragment extends BaseFragment {
                     }
 
                     String finalDisable = disable;
-                    BottomArea.list(getContext(), String.format(getString(R.string.assert_change), cate.getString("name")), Arrays.asList(getString(R.string.del), getString(R.string.edit_default), getString(R.string.upload_cloud), getString(R.string.share_share), disable), new BottomArea.ListCallback() {
+                    BottomArea.list(getContext(), String.format(getString(R.string.assert_change), cate.getString("name")), Arrays.asList(getString(R.string.del), getString(R.string.edit), getString(R.string.upload_cloud), getString(R.string.share_share), disable), new BottomArea.ListCallback() {
                         @Override
                         public void onSelect(int position) {
                             switch (position) {
@@ -392,18 +402,13 @@ public class outFragment extends BaseFragment {
 
                                     String data = cate.getString("data");
                                     if (type.equals("category")) {
-                                        BottomArea.list(getContext(), getString(R.string.select_edit), Arrays.asList(getString(R.string.edit_default), getString(R.string.edit_js)), index -> {
-                                            switch (index) {
-                                                case 0:
-                                                    WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/index.html", data);
-                                                    break;
-                                                case 1:
-                                                    WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/js.html", data);
-                                                    break;
+                                        if (data.contains("regular_sort")) {
+                                            WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/index.html", data);
 
-                                            }
-                                        });
+                                        } else {
+                                            WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/js.html", data);
 
+                                        }
                                     } else {
                                         WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/reg/index.html", data);
                                     }
@@ -448,8 +453,10 @@ public class outFragment extends BaseFragment {
                     });
                 });
             }
+            cAdapter.setOnMoreClick(item -> {
+                BottomArea.msg(getContext(), item.getString("name"), item.getString("remark"));
+            });
         } else {//不是数据部分
-            titleBar.setVisibility(View.GONE);
             rAdapter = new RemoteListAdapter(getContext(), isWeb);
             recyclerView.setAdapter(rAdapter);
             rAdapter.setOnItemClickListener((itemView, position) -> {
@@ -531,7 +538,7 @@ public class outFragment extends BaseFragment {
                 if (type.equals("notice") || type.equals("app")) {
                     regulars = Db.db.RegularDao().loadApps(this.type);
                 } else if (type.equals("sms") || type.equals("category")) {
-                    regulars = Db.db.RegularDao().load(this.type, null, 0, 500);
+                    regulars = Db.db.RegularDao().load(this.type, "", 0, 500);
                 } else {
                     //notice_detail,app_detail
                     String t = type;

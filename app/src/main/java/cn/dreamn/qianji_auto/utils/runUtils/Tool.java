@@ -118,7 +118,7 @@ public class Tool {
 
     public static void shareFile(Context context, String filePath) {
         Intent shareIntent2 = new Intent();
-        Uri uri = FileProvider.getUriForFile(context, "cn.dreamn.qianji_auto.fileprovider.share", new File(filePath));
+        Uri uri = FileProvider.getUriForFile(context, "cn.dreamn.qianji_auto.fileprovider", new File(filePath));
         // grantUriPermission(getPackageName(),uri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
         shareIntent2.putExtra(Intent.EXTRA_STREAM, uri);
         //重点:针对7.0以上的操作
@@ -128,6 +128,7 @@ public class Tool {
         shareIntent2.setAction(Intent.ACTION_SEND);
         shareIntent2.setType("*/*");
         context.startActivity(Intent.createChooser(shareIntent2, "分享到"));
+
     }
 
     public static void writeToCache(Context mContext, String fileName, String data) {
@@ -210,15 +211,15 @@ public class Tool {
                 String name = field.getName();    //获取属性的名字
                 String type = field.getGenericType().toString();    //获取属性的类型
                 if (type.equals("class java.lang.String")) {   //如果type是类类型，则前面包含"class "，后面跟类名
-                    java.lang.reflect.Method m = cls.getClass().getMethod("get" + name);
-                    String value = (String) m.invoke(cls);    //调用getter方法获取属性值
+                    //  java.lang.reflect.Method m = cls.getClass().getMethod("get" + name);
+                    String value = (String) field.get(cls); //调用getter方法获取属性值
                     if (value != null) {
                         bundle.putString(name, value);
                     }
                 }
                 if (type.equals("int")) {
-                    java.lang.reflect.Method m = cls.getClass().getMethod("get" + name);
-                    Integer value = (Integer) m.invoke(cls);
+                    // java.lang.reflect.Method m = cls.getClass().getMethod("get" + name);
+                    Integer value = (Integer) field.get(cls);
                     if (value != null) {
                         bundle.putInt(name, value);
                     }

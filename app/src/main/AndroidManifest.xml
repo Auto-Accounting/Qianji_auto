@@ -114,7 +114,7 @@
         <!--对外提供文件分享-->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="cn.dreamn.qianji_auto.fileprovider.share"
+            android:authorities="cn.dreamn.qianji_auto.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

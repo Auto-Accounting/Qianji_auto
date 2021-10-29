@@ -91,9 +91,10 @@ public class QianJi implements IApp {
         }
     }
 
+
     @Override
     public void asyncDataAfter(Context context, Bundle extData) {
-        ToastUtils.show("收到钱迹数据！正在后台同步中...");
+        // ToastUtils.show("收到钱迹数据！正在后台同步中...");
         String json = extData.getString("data");
         JSONObject jsonObject = JSONObject.parseObject(json);
         JSONArray asset = jsonObject.getJSONArray("asset");
@@ -105,7 +106,6 @@ public class QianJi implements IApp {
             public void handleMessage(@NonNull Message msg) {
                 if (msg.what == 1) {
                     Log.i((String) msg.obj);
-                    ToastUtils.show((String) msg.obj);
                 } else {
                     ToastUtils.show(R.string.async_success);
                 }
@@ -120,8 +120,9 @@ public class QianJi implements IApp {
 
         TaskThread.onThread(() -> {
             Db.db.CategoryDao().clean();
+
             for (int i = 0; i < category.size(); i++) {
-                HandlerUtil.send(mHandler, "正在处理分类数据（" + (i + 1) + "/" + category.size() + "）", 1);
+                HandlerUtil.send(mHandler, "（" + (i + 1) + "/" + category.size() + "）正在处理【分类数据】", 1);
                 JSONObject jsonObject1 = category.getJSONObject(i);
                 String name = jsonObject1.getString("name");
                 String icon = jsonObject1.getString("icon");
@@ -150,8 +151,7 @@ public class QianJi implements IApp {
             Db.db.AssetDao().clean();
 
             for (int i = 0; i < asset.size(); i++) {
-                HandlerUtil.send(mHandler, "正在处理资产数据（" + (i + 1) + "/" + category.size() + "）", 1);
-
+                HandlerUtil.send(mHandler, "（" + (i + 1) + "/" + asset.size() + "）正在处理【资产数据】", 1);
                 JSONObject jsonObject1 = asset.getJSONObject(i);
                 if (jsonObject1.getString("type").equals("5"))
                     continue;
@@ -163,7 +163,7 @@ public class QianJi implements IApp {
 
             Db.db.BookNameDao().clean();
             for (int i = 0; i < userBook.size(); i++) {
-                HandlerUtil.send(mHandler, "正在处理账本数据（" + (i + 1) + "/" + category.size() + "）", 1);
+                HandlerUtil.send(mHandler, "（" + (i + 1) + "/" + userBook.size() + "）正在处理【账本数据】", 1);
                 JSONObject jsonObject1 = userBook.getJSONObject(i);
                 String bookName = jsonObject1.getString("name");
                 String icon = jsonObject1.getString("cover");

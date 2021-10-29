@@ -43,7 +43,6 @@ import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.ui.utils.ScreenUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
-import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 import cn.dreamn.qianji_auto.utils.task.ConsumptionTask;
 import cn.dreamn.qianji_auto.utils.task.RunBody;
 
@@ -207,7 +206,7 @@ public class SendDataToApp {
                 } else {
                     Log.i(TAG, "半自动模式->发出记账通知");
                     //通知处理
-                    Tool.notice(context1, context1.getString(R.string.notice_name), "￥" + billInfo.getMoney() + " - " + billInfo.getRemark(), billInfo);
+                    //  Tool.notice(context1, context1.getString(R.string.notice_name), "￥" + billInfo.getMoney() + " - " + billInfo.getRemark(), billInfo);
                 }
             } else {
                 Log.i(TAG, "当前处于前台状态");

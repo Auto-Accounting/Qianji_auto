@@ -51,7 +51,7 @@ public class DBHelper {
         utils.log("Qianji-Copy 开始复制文件", false);
         @SuppressLint("SdCardPath") String NEW_PATH = "/data/data/com.mutangtech.qianji/qianjiapp_copy";
         FileUtils.del(NEW_PATH);//尝试删掉这里的文件
-        boolean copyed = FileUtils.copyFile("/data/data/com.mutangtech.qianji/databases/qianjiapp", NEW_PATH);
+        @SuppressLint("SdCardPath") boolean copyed = FileUtils.copyFile("/data/data/com.mutangtech.qianji/databases/qianjiapp", NEW_PATH);
         if (copyed) {
             utils.log("Qianji-Copy 文件复制成功", false);
         } else {

@@ -44,7 +44,8 @@ public class Log {
         android.util.Log.d(TAG, msg);
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
-        if (mode == MODE_CLOSE || mode == MODE_MORE || !AppStatus.isDebug()) return;//不记录
+
+        if (!AppStatus.isDebug() && (mode == MODE_CLOSE || mode == MODE_MORE)) return;//不记录
         addToDB(TAG, msg);
     }
 
@@ -57,7 +58,7 @@ public class Log {
         android.util.Log.i(TAG, msg);
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
-        if (mode == MODE_CLOSE || !AppStatus.isDebug()) return;//不记录
+        if (mode == MODE_CLOSE && !AppStatus.isDebug()) return;//不记录
         addToDB(TAG, msg);
     }
 

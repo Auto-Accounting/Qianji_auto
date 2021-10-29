@@ -191,17 +191,19 @@ public class LogFragment extends BaseFragment {
         loadingDialog = new LoadingDialog(getContext(), getString(R.string.log_loading));
         loadingDialog.show();
         list = new ArrayList<>();
-
+        logData = new StringBuilder();
         TaskThread.onThread(() -> {
             cn.dreamn.qianji_auto.data.database.Table.Log[] logs = Db.db.LogDao().loadAll(0, Log.getLimit());
             if (logs == null || logs.length == 0) {
                 list.add("no log");
             } else {
                 for (cn.dreamn.qianji_auto.data.database.Table.Log log : logs) {
-                    list.add("[" + DateUtils.getAnyTime(log.time) + "]" + "[" + log.body + "]" + log.title.replace("\n", "\\n"));
+                    logData.append("[").append(DateUtils.getTime(DateUtils.getAnyTime(log.time))).append("]").append("[").append(log.body).append("]").append(log.title.replace("\n", "\\n")).append("\n");
+
+                    list.add("[" + DateUtils.getTime(DateUtils.getAnyTime(log.time)) + "]" + "[" + log.body + "]" + log.title.replace("\n", "\\n"));
                 }
-                HandlerUtil.send(mHandler, HANDLE_OK);
             }
+            HandlerUtil.send(mHandler, HANDLE_OK);
         });
     }
 

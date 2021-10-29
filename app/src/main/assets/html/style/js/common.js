@@ -11,6 +11,9 @@ layui.define('form', function (exports) {
     };
 
     const obj = {
+        isAndroid:function (){
+
+        },
         autoSave: function (dom, name,editor) {
             flag = setInterval(function () {
                 if(editor!==undefined){

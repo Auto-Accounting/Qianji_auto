@@ -5,8 +5,6 @@ import android.text.TextUtils;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
-
 
 public class LineUpTaskHelp {
 
@@ -43,7 +41,7 @@ public class LineUpTaskHelp {
      * @param task 一个任务
      */
     public void addTask(ConsumptionTask task) {
-        Log.i("Post", "任务加入排队中" + task.taskNo);
+        android.util.Log.i("Post", "任务加入排队中" + task.taskNo);
         if (!checkTask()) {
             if (onTaskListener != null) onTaskListener.exNextTask(task);
         }

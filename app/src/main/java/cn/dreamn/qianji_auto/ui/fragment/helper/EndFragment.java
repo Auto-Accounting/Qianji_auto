@@ -66,7 +66,7 @@ public class EndFragment extends BaseFragment {
         });
         button_go_setting.setOnClickListener(v-> {
             MMKV mmkv=MMKV.defaultMMKV();
-            mmkv.encode("version_3_0",false);
+            mmkv.encode("version", 3);
 
             openNewPage(MainFragment.class);
         });

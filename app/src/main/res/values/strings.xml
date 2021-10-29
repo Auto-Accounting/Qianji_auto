@@ -435,4 +435,5 @@
     <string name="debug_open">已开启调试模式！</string>
     <string name="category">自动分类</string>
     <string name="submit_regular">http://gitbot.ankio.net/submit/2</string>
+    <string name="edit">编辑</string>
 </resources>

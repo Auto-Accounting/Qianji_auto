@@ -42,7 +42,7 @@ public class CateItemListAdapter extends BaseAdapter {
         IconView icon_info = (IconView) holder.findView(R.id.icon_info);
         TextView tv_update = (TextView) holder.findView(R.id.update);
         tv_title.setText(item.getString("name"));
-        String des = item.getString("des");
+        String des = item.getString("remark");
         boolean isAuto = false;
         if (des != null) {
             if (des.startsWith("[自动生成]")) {

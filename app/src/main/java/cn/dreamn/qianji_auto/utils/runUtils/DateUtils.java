@@ -141,5 +141,9 @@ public class DateUtils {
         return t;
     }
 
+    public static String getTime(long t) {
+        return getTime("yyyy-MM-dd HH:mm:ss", t);
+    }
+
 }
 

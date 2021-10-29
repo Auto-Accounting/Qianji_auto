@@ -39,7 +39,7 @@ public class BookSelectListAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Bundle bundle = (Bundle) getItem(position);
+        Bundle bundle = books.get(position);
 
         @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.adapter_book_item_select, null, false);
         RelativeLayout rl_bg = view.findViewById(R.id.rl_bg);

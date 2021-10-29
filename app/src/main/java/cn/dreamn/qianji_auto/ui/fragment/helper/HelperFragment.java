@@ -52,7 +52,7 @@ public class HelperFragment extends BaseFragment {
     protected void Listeners() {
         help_skip.setOnClickListener(v -> {
             MMKV mmkv=MMKV.defaultMMKV();
-            mmkv.encode("version_3_0",false);
+            mmkv.encode("version", 3);
             openNewPage(MainFragment.class);
         });
         button_go_setting.setOnClickListener(v-> openNewPage(AppFragment.class));
