@@ -212,7 +212,7 @@ public class outFragment extends BaseFragment {
                     });
                 } else {
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("type", this.type);
+                    jsonObject.put("identify", this.type);
                     WebViewFragment.openUrl(this, "file:///android_asset/html/reg/index.html", jsonObject.toJSONString());
                 }
 
@@ -400,7 +400,9 @@ public class outFragment extends BaseFragment {
                                     break;
                                 case 1://编辑
 
-                                    String data = cate.getString("data");
+                                    JSONObject jsonObject = JSONObject.parseObject(cate.getString("data"));
+                                    jsonObject.put("id", cate.getInt("id"));
+                                    String data = jsonObject.toJSONString();
                                     if (type.equals("category")) {
                                         if (data.contains("regular_sort")) {
                                             WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/index.html", data);

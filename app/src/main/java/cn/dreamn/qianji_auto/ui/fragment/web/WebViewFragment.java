@@ -5,7 +5,6 @@ import static cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment.KEY_URL;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -34,6 +33,7 @@ import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
@@ -43,19 +43,21 @@ import com.xuexiang.xpage.enums.CoreAnim;
 
 import net.ankio.timepicker.listener.OnTimeSelectListener;
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
-import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.data.data.RegularCenter;
 import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.data.database.Helper.Categorys;
+import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.TitleBar;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
@@ -64,6 +66,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
+import cn.dreamn.qianji_auto.utils.runUtils.URLParamEncoder;
 
 
 @Page(name = "WebView", params = {KEY_URL, KEY_DATA}, anim = CoreAnim.slide)
@@ -209,11 +212,9 @@ public class WebViewFragment extends BaseFragment {
         webSettings.setDomStorageEnabled(true);// 打开本地缓存提供JS调用,至关重要
         webSettings.setAllowFileAccess(true);
         webSettings.setAppCacheEnabled(true);
-        if (App.isDebug()) {
+        if (AppStatus.isDebug()) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
-        //  webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-//用handler访问让方法在主进程内处理
         mHandler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(Message msg) {
@@ -231,6 +232,8 @@ public class WebViewFragment extends BaseFragment {
             Object appToJsObject = new Object() {
                 @JavascriptInterface
                 public void save(String js, String data) {
+                    Log.d(data);
+                    Log.d(js);
                     JSONObject jsonObject = JSONObject.parseObject(data);
                     int version = Integer.parseInt(jsonObject.getString("version"));
                     String regular_name = jsonObject.getString("regular_name");
@@ -245,24 +248,21 @@ public class WebViewFragment extends BaseFragment {
                     jsonObject.put("version", version);
                     int finalVersion = version;
                     String finalDataId = dataId;
-                    if (id.equals("")) {
 
-                        TaskThread.onThread(() -> {
+                    TaskThread.onThread(() -> {
+                        if (id.equals("")) {
                             Db.db.RegularDao().add(
                                     js, regular_name, jsonObject.toJSONString(), regular_remark, finalDataId, String.valueOf(finalVersion), "", "category"
                             );
-                            ToastUtils.show(R.string.save_success);
-                            popToBack();
-                        });
 
-                    } else {
-                        Db.db.RegularDao().update(
-                                Integer.parseInt(id), js, regular_name, jsonObject.toJSONString(), regular_remark, finalDataId, String.valueOf(finalVersion), "", "category"
-                        );
+                        } else {
+                            Db.db.RegularDao().update(
+                                    Integer.parseInt(id), js, regular_name, jsonObject.toJSONString(), regular_remark, finalDataId, String.valueOf(finalVersion), "", "category"
+                            );
+                        }
                         ToastUtils.show(R.string.save_success);
                         popToBack();
-                    }
-
+                    });
                 }
 
                 @JavascriptInterface
@@ -443,7 +443,8 @@ public class WebViewFragment extends BaseFragment {
                 @JavascriptInterface
                 public void initData() {
                     if (!data.equals("")) {
-                        doJsFunction(String.format("webviewCallback.setData('%s')", Uri.encode(data)));
+                        Log.d(String.format("webviewCallback.setData('%s')", URLParamEncoder.encode(data.getBytes(StandardCharsets.UTF_8))));
+                        doJsFunction(String.format("webviewCallback.setData('%s')", URLParamEncoder.encode(data.getBytes(StandardCharsets.UTF_8))));
                     }
                 }
             };
@@ -457,8 +458,45 @@ public class WebViewFragment extends BaseFragment {
                 @JavascriptInterface
                 public void initData() {
                     if (!data.equals("")) {
-                        doJsFunction(String.format("webviewCallback.setData('%s')", Uri.encode(data)));
+                        doJsFunction(String.format("webviewCallback.setData('%s')", URLParamEncoder.encode(data.getBytes(StandardCharsets.UTF_8))));
                     }
+                }
+
+                @JavascriptInterface
+                public void selectReg(String dom, String regex) {
+                    if (dom.equals("regular_app")) {
+                        BottomArea.list(getContext(), "请选择APP", Arrays.asList("微信", "支付宝", "QQ"), new BottomArea.ListCallback() {
+                            @Override
+                            public void onSelect(int position) {
+                                String pkg = "";
+                                switch (position) {
+                                    case 0:
+                                        pkg = "com.tencent.mm";
+                                        break;
+                                    case 1:
+                                        pkg = "om.eg.android.AlipayGphone";
+                                        break;
+                                    case 2:
+                                        pkg = "com.tencent.mobileqq";
+                                        break;
+                                }
+                                doJsFunction(String.format("webviewCallback.setSelect('%s','%s')", dom, pkg));
+                            }
+                        });
+                    } else {
+                        JSONArray jsonArray = JSONArray.parseArray(regex);
+                        List<String> list = new ArrayList<>();
+                        for (int i = 1; i < jsonArray.size(); i++)
+                            list.add("【$" + i + "】" + jsonArray.getString(i));
+                        BottomArea.list(getContext(), "请选择数据", list, new BottomArea.ListCallback() {
+                            @Override
+                            public void onSelect(int position) {
+                                doJsFunction(String.format("webviewCallback.setSelect('%s','%s')", dom, "$" + (position + 1)));
+                            }
+                        });
+                    }
+
+
                 }
 
                 @JavascriptInterface
