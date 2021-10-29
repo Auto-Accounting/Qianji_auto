@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="webkit" name="renderer">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+    <title>自动分类规则编辑</title>
+    <link href="../style/layui/css/layui.css" rel="stylesheet">
+    <link href="../style/css/style.css" rel="stylesheet">
+    <link href="../style/css/regex.css" rel="stylesheet">
+    <style>
+        .layui-form-item .layui-form-select {width: 100%;}.layui-form-item .layui-select-title .layui-input {color: black;text-align: left;border-radius: 10px;background-color: #f2f2f2;}
+    </style>
+</head>
+<body>
+<div style="padding: 15px;">
+    <form action="" class="layui-form layui-form-pane" id="form" lay-filter="form"><input
+            autocomplete="off" class="layui-input" name="id" style="display: none" type="text"
+            value=""><input autocomplete="off" class="layui-input" name="identify"
+                            style="display: none" type="text" value=""><input autocomplete="off"
+                                                                              class="layui-input"
+                                                                              name="dataId"
+                                                                              style="display: none"
+                                                                              type="text"
+                                                                              value=""><input
+            autocomplete="off" class="layui-input" name="version" style="display: none" type="text"
+            value="1">
+        <div class="label-title">规则名称</div>
+        <input autocomplete="off" class="layui-input" id="regular_name" name="regular_name"
+               placeholder="分类规则名称" type="text">
+        <div class="label-title">规则备注</div>
+        <textarea class="layui-textarea" id="regular_remark" name="regular_remark"
+                  placeholder="使用注意事项、作者信息等..."
+                  style="margin-bottom: 15px"></textarea>
+        <div class="label-title">APP包名/短信发件人号码</div>
+        <div class="layui-form-item" style="position: relative;"><input autocomplete="off"
+                                                                        class="layui-input"
+                                                                        id="regular_app"
+                                                                        name="regular_app"
+                                                                        placeholder="APP包名/短信发件人号码"
+                                                                        type="text"><img class="img"
+                                                                                         data-dom="regular_app"
+                                                                                         id="img"
+                                                                                         src="../style/img/category_right.png">
+        </div>
+        <div class="label-title">正则表达式</div>
+        <div class="main " style="background-color: #fff">
+            <div class="inner">
+                <div id="regex"><h4>常用正则：</h4>
+                    <ul class="clearfix">
+                        <li><a data-reg="(\d+(\.\d+)?)" href="#">浮点数</a></li>
+                        <li><a data-reg="(\d{4})" href="#">4位整数</a></li>
+                        <li><a data-reg="(((?!支付宝|微信).)*)" href="#">不包含『支付宝』『微信』的字符串</a></li>
+                        <li><a data-reg="(.*)" href="#">任意不换行字符(分组)</a></li>
+                        <li><a data-reg=".*" href="#">任意不换行字符(不分组)</a></li>
+                    </ul>
+                </div>
+                <div class="regex-wrapper mgb10"> <textarea cols="1000" id="regex_input"
+                                                            name="regex_input" rows="3"
+                                                            style="display: none;"
+                                                            tabindex="1"></textarea></div>
+                <div class="label-title">测试数据</div>
+                <div class="str-wrapper"> <textarea cols="100" id="str_input" name="str_input"
+                                                    rows="10" style="display: none;"
+                                                    tabindex="2"></textarea></div>
+                <h3 style="display: none">共找到 <var id="result_count">0</var> 处匹配结果</h3>
+                <pre id="result_content" style="display: none"></pre>
+                <h3>共找到 <var id="result_count2">0</var> 处分组结果</h3>
+                <pre id="result_content2"></pre>
+            </div>
+        </div>
+        <div class="label-title">匹配项目所在位置</div>
+        <div class="label-sub-title">收支类型</div>
+        <div class="layui-form-item" style="position: relative;"><select lay-filter="type"
+                                                                         name="type"
+                                                                         style="width: 100%;">
+            <option selected="selected" value="支出">支出</option>
+            <option value="收入">收入</option>
+            <option value="转账">转账</option>
+            <option value="信用还款">信用还款</option>
+        </select></div>
+        <div class="account1_area">
+            <div class="label-sub-title account1">支出账户</div>
+            <div class="layui-form-item" style="position: relative;"><input autocomplete="off"
+                                                                            class="layui-input"
+                                                                            id="account_name1"
+                                                                            name="account_name1"
+                                                                            placeholder="使用$1、$2或直接填写"
+                                                                            type="text"><img
+                    class="img" data-dom="account_name1" src="../style/img/category_right.png">
+            </div>
+        </div>
+        <div class="account2_area">
+            <div class="label-sub-title account2">转入账户</div>
+            <div class="layui-form-item" style="position: relative;"><input autocomplete="off"
+                                                                            class="layui-input"
+                                                                            id="account_name2"
+                                                                            name="account_name2"
+                                                                            placeholder="使用$1、$2或直接填写"
+                                                                            type="text"><img
+                    class="img" data-dom="account_name2" src="../style/img/category_right.png">
+            </div>
+        </div>
+        <div class="label-sub-title">金额</div>
+        <div class="layui-form-item" style="position: relative;"><input autocomplete="off"
+                                                                        class="layui-input"
+                                                                        id="money" name="money"
+                                                                        placeholder="使用$1、$2或直接填写"
+                                                                        type="text"><img class="img"
+                                                                                         data-dom="money"
+                                                                                         src="../style/img/category_right.png">
+        </div>
+        <div class="fee_area">
+            <div class="label-sub-title fee">手续费</div>
+            <div class="layui-form-item" style="position: relative;"><input autocomplete="off"
+                                                                            class="layui-input"
+                                                                            id="fee" name="fee"
+                                                                            placeholder="没有留空"
+                                                                            type="text"><img
+                    class="img" data-dom="fee" src="../style/img/category_right.png"></div>
+        </div>
+        <div class="label-sub-title">商户名称</div>
+        <div class="layui-form-item" style="position: relative;"><input autocomplete="off"
+                                                                        class="layui-input"
+                                                                        id="shopName"
+                                                                        name="shopName"
+                                                                        placeholder="使用$1、$2或直接填写"
+                                                                        type="text"><img class="img"
+                                                                                         data-dom="shopName"
+                                                                                         src="../style/img/category_right.png">
+        </div>
+        <div class="label-sub-title">商户备注</div>
+        <div class="layui-form-item" style="position: relative;"><input autocomplete="off"
+                                                                        class="layui-input"
+                                                                        id="shopRemark"
+                                                                        name="shopRemark"
+                                                                        placeholder="使用$1、$2或直接填写"
+                                                                        type="text"><img class="img"
+                                                                                         data-dom="shopRemark"
+                                                                                         src="../style/img/category_right.png">
+        </div>
+        <div class="label-sub-title">时间</div>
+        <div class="layui-form-item" style="position: relative;"><input autocomplete="off"
+                                                                        class="layui-input"
+                                                                        id="time" name="time"
+                                                                        placeholder="没有留空"
+                                                                        type="text"><img class="img"
+                                                                                         data-dom="time"
+                                                                                         src="../style/img/category_right.png">
+        </div>
+        <div class="label-sub-title">直接记账</div>
+        <div class="layui-form-item" style="position: relative;"><select id="auto" lay-filter="auto"
+                                                                         name="auto"
+                                                                         style="width: 100%;">
+            <option selected="selected" value="0">否</option>
+            <option value="1">是</option>
+        </select></div>
+        <div class="layui-form-item" style="text-align: center;margin-top: 10px">
+            <button class="layui-btn" id="test" lay-filter="test" type="button">测试</button>
+            <button class="layui-btn" id="save" lay-filter="save" type="button">保存</button>
+        </div>
+    </form>
+</div>
+<script src="../style/layui/layui.js"></script>
+<script> window.jQuery = layui.$; </script>
+<script src="../style/js/regex_1.js"></script>
+<script src="../style/js/regex_2.js"></script>
+<script>
+     let webviewCallback; let url = window.location.href, baseurl = '../js/'; if (url.indexOf("/Auto-CateJs/") !== -1 || url.indexOf("android_asset") !== -1) { baseurl = '../style/js/'; } layui.config({ base: baseurl  }).extend({  common: 'common', baseFamily: 'baseFamily', webview: 'webview' }); layui.use(['layer', 'form', 'common','baseFamily', 'webview'], function () { const layer = layui.layer , form = layui.form , common = layui.common , webview = layui.webview, baseFamily = layui.baseFamily, $=layui.$; let regexData = null; String.format = function () { let s = arguments[0]; for (let i = 0; i < arguments.length - 1; i++) { const reg = new RegExp("%s", "m"); s = s.replace(reg, arguments[i + 1]); } return s; }; webviewCallback = { setData: function (data) { common.restoreFromData("form",baseFamily.decrypt(data,"base16")); }, setSelect: function (dom, data) { const jq = layui.$("input[name=" + dom + "]"); jq.val(jq.val() + data); } }; common.restore("form", "auto_reg"); common.autoSave("form", "auto_reg"); function getJs() { var data = ";try{pattern=/%s/;if(pattern.test(a)){var array=pattern.exec(a);var remark='%s',account='%s',type='%s',money='%s',shopName='%s',account2='%s',fee='%s',time='%s';for(var i=array.length-1;i>=1;i--){var rep=\"$\"+i.toString();var repStr=array[i];remark=remark.replace(rep,repStr);account=account.replace(rep,repStr);type=type.replace(rep,repStr);money=money.replace(rep,repStr);shopName=shopName.replace(rep,repStr);account2=account2.replace(rep,repStr);fee=fee.replace(rep,repStr);time=time.replace(rep,repStr)}return remark+'|'+account+'|'+type+'|'+money+'|'+account2+'|'+shopName+'|'+fee+\"|\"+time}}catch(e){console.log(e)};"; if ($("#regular_name").val() === "") { webview.toast("规则名称不能为空"); return ""; } if ($("#regex_input").val() === "") { webview.toast("正则不能为空"); return ""; } if ($("#str_input").val() === "") { webview.toast("测试文本不能为空"); return ""; } data = String.format(data, $("#regex_input").val(), $("#shopRemark").val(),$("#account_name1").val(), $("#type").val(), $("#money").val(), $("#shopName").val(), $("#account_name2").val(), $("#fee").val(), $("#time").val()); return data; } layui.$("#result_count").bind("DOMSubtreeModified", function (e) { var data = layui.$("#regex_input").val(); var str = ""; var len = 1; try { var pattern = eval("/" + data + "/"); if (pattern.test(layui.$("#str_input").val())) { var array = pattern.exec(layui.$("#str_input").val()); regexData = array; len = array.length; for (var i = 1; i < len; i++) { str += "<b>【$" + i + "】</b> " + array[i] + "<br>"; } } } catch (e) { } layui.$("#result_count2").html((len - 1).toString()); layui.$("#result_content2").html(str); }); layui.$("#save").on("click", function (e) { webview.saveReg(getJs(), JSON.stringify(form.val("form"))) common.cleanSave("auto_reg"); }); layui.$("#test").on("click", function (e) { try { const js = getJs(); if (js !== "") webview.testReg(js); } catch (e) { console.log(e.toString()) } }); layui.$("img").on('click', function () { const dom = layui.$(this).data("dom"); if (regexData === null&&dom!=="regular_app") return; webview.selectReg(dom, JSON.stringify(regexData)); }); function setArea(type){ layui.$(".account2_area").css("display", "block"); layui.$(".fee_area").css("display", "block"); if (type === "支出") { layui.$(".account1").html("支出账户"); layui.$(".account2_area").css("display", "none"); layui.$(".fee_area").css("display", "none"); } else if (type === "收入") { layui.$(".account1").html("收入账户"); layui.$(".account2_area").css("display", "none"); layui.$(".fee_area").css("display", "none"); } else if (type === "转账") { layui.$(".account1").html("转出账户"); layui.$(".account2").html("转入账户"); } else { layui.$(".account1").html("付款账户"); layui.$(".account2").html("还入账户"); } form.render(); } form.on('select(type)', function (data) { setArea(data.value); }); webview.initData(); } );
+</script>
+</body>
+</html>

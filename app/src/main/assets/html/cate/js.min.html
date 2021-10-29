@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="webkit" name="renderer">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+    <title>自动分类规则编辑</title>
+    <link href="../style/layui/css/layui.css" rel="stylesheet">
+    <link href="../style/css/style.css" rel="stylesheet">
+    <link href="../style/codemirror/codemirror.min.css" rel="stylesheet">
+</head>
+<body>
+<div style="padding: 15px;">
+    <form action="" class="layui-form layui-form-pane" id="form" lay-filter="form"><input
+            autocomplete="off" class="layui-input" name="id" style="display: none" type="text"
+            value=""><input autocomplete="off" class="layui-input" name="dataId"
+                            style="display: none" type="text" value=""><input autocomplete="off"
+                                                                              class="layui-input"
+                                                                              name="version"
+                                                                              style="display: none"
+                                                                              type="text" value="1">
+        <div class="label-title">规则名称</div>
+        <input autocomplete="off" class="layui-input" name="regular_name" placeholder="分类规则名称"
+               type="text">
+        <div class="label-title">规则说明</div>
+        <textarea class="layui-textarea" name="regular_remark" placeholder="使用注意事项、作者信息等..."
+                  style="margin-bottom: 15px"></textarea>
+        <div class="layui-form-item"><label class="layui-form-label title">编辑器风格</label>
+            <div class="layui-input-block line">
+                <div style="position: relative;float: right;"><input lay-filter="auto_wrap"
+                                                                     name="auto_wrap" title="自动换行"
+                                                                     type="checkbox"></div>
+            </div>
+        </div>
+        <div class="label-title">JS代码</div>
+        <textarea id="code" name="code">/*
+* 可用变量
+*
+* shopName 商户名称,shopRemark 商户备注,type 账单类型（支出、收入）,hour 当前时,minute 当前分,money 金额
+* 可用内置函数（判断是否在当前时间段） isInTimeInner(minTime, maxTime,timeHour,timeMinute)
+* minTime 最小时间（如12:00）, maxTime 最大时间（如13:00）,timeHour 当前时,timeMinute 当前分
+* 比如：if(true)return '其它';
+*/
+
+</textarea>
+        <div class="layui-form-item" style="text-align: center;margin-top: 10px">
+            <button class="layui-btn" id="test" lay-filter="test" type="button">测试</button>
+            <button class="layui-btn" id="save" lay-filter="save" type="button">保存</button>
+        </div>
+    </form>
+</div>
+<script src="../style/layui/layui.js"></script>
+<script src="../style/codemirror/codemirror.min.js"></script>
+<script src="../style/codemirror/javascript.min.js"></script>
+<script>
+     let webviewCallback; let url = window.location.href, baseurl = '../js/'; if(url.indexOf("/Auto-CateJs/")!==-1||url.indexOf("android_asset")!==-1){ baseurl='../style/js/'; } layui.config({ base: baseurl  }).extend({  common: 'common', baseFamily: 'baseFamily', webview: 'webview' }); layui.use(['layer', 'form', 'common','baseFamily','webview'], function () { const layer = layui.layer , form = layui.form , common = layui.common , webview = layui.webview ,baseFamily = layui.baseFamily; String.format = function () { console.log(arguments); let s = arguments[0]; for (let i = 0; i < arguments.length - 1; i++) { const reg = new RegExp("%s", "m"); s = s.replace(reg, arguments[i + 1]); } return s; }; let lineWrapping = (localStorage.getItem("lineWrapping") === "true"); const editor = CodeMirror.fromTextArea(document.getElementById("code"), { lineNumbers: true,  indentUnit: 2, styleActiveLine: true,  matchBrackets: true, lineWrapping: lineWrapping, }); editor.setSize('auto', '600px'); webviewCallback = { setData:function (data) { common.restoreFromData("form",baseFamily.decrypt(data,"base16"),editor); } }; common.restore("form", "auto_cate_js",editor); common.autoSave("form", "auto_cate_js",editor); function getJs() { return layui.$("#code").val(); } form.on('checkbox(auto_wrap)', function(data){ if(data.elem.checked){ localStorage.setItem("lineWrapping", "true"); editor.setOption("lineWrapping", true); }else{ editor.setOption("lineWrapping", false); localStorage.setItem("lineWrapping", "false"); } }); layui.$("#save").on("click", function (e) { const data = JSON.stringify(form.val("form")); webview.saveCategory(getJs(),data) common.cleanSave("auto_cate_js"); }); layui.$("#test").on("click", function (e) { try { const js = getJs(); if(js!=="") webview.testCategory(js); } catch (e) { console.log(e.toString()) } }); webview.initData(); });
+
+</script>
+</body>
+</html>
