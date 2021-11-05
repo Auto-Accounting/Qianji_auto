@@ -43,7 +43,8 @@ public class Msg {
                     ContentValues contentValues = (ContentValues) param.args[2];
                     String tableName = (String) param.args[0];
                     String arg = (String) param.args[1];
-                  //  utils.log("微信数据："+contentValues.toString());
+                    if (utils.isDebug())
+                        utils.log("微信数据：" + contentValues.toString() + " table:" + tableName + " arg:" + arg);
                     if (!tableName.equals("message") || TextUtils.isEmpty(tableName)) {
                         return;
                     }

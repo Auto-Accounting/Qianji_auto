@@ -44,12 +44,14 @@ import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.components.TitleBar;
 import cn.dreamn.qianji_auto.ui.fragment.helper.HelperFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
-import cn.dreamn.qianji_auto.utils.runUtils.AutoBillWeb;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
+import cn.dreamn.qianji_auto.utils.runUtils.UpdateUtils;
+import cn.dreamn.qianji_auto.utils.task.RunBody;
 
 
 @Page(name = "关于", anim = CoreAnim.slide)
@@ -118,21 +120,24 @@ public class AboutFragment extends BaseFragment {
             openNewPage(DevsFragment.class);
         });
         item_update.setOnClickListener(v -> {
+            LoadingDialog loadingDialog = new LoadingDialog(getContext(), getString(R.string.about_check_update));
+            loadingDialog.show();
             //"正在检测更新中,请稍候"
-            ToastUtils.show(R.string.about_check_update);
+            // ToastUtils.show(R.string.about_check_update);
             Handler mHandler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(@NonNull Message msg) {
-                    ToastUtils.show(R.string.about_check_no_update);
+                    loadingDialog.close();
+                    if (msg.what == -1) {
+                        ToastUtils.show(R.string.about_check_no_update);
+                        return;
+                    }
+                    RunBody runBody = (RunBody) msg.obj;
+                    if (runBody == null) return;
+                    runBody.run(getContext(), null);
                 }
             };
-            AutoBillWeb.update(getContext(), new AutoBillWeb.CallbackWith() {
-                @Override
-                public void onUpdateEnd() {
-                    mHandler.sendEmptyMessage(0);
-                }
-            });
-
+            UpdateUtils.checkAndroidUpdate(getContext(), mHandler);
         });
         item_update.setOnLongClickListener(v -> {
 

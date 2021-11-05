@@ -74,16 +74,13 @@ public class Log {
     public static int getLimit() {
         MMKV mmkv = MMKV.defaultMMKV();
         int mode = mmkv.getInt("log_mode", 1);
-        return (mode == MODE_MORE || AppStatus.isDebug()) ? 1000 : 500;
+        return (mode == MODE_MORE || AppStatus.isDebug()) ? 500 : 200;
     }
 
 
     public static void delLimit(int limit) {
         TaskThread.onThread(() -> Db.db.LogDao().del(limit));
     }
-
-
-
 
 }
 

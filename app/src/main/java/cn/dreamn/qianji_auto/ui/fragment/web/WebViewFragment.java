@@ -2,6 +2,7 @@ package cn.dreamn.qianji_auto.ui.fragment.web;
 
 import static cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment.KEY_DATA;
 import static cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment.KEY_URL;
+import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -53,6 +54,7 @@ import java.util.List;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
+import cn.dreamn.qianji_auto.bills.SendDataToApp;
 import cn.dreamn.qianji_auto.data.data.RegularCenter;
 import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
@@ -474,7 +476,7 @@ public class WebViewFragment extends BaseFragment {
                                         pkg = "com.tencent.mm";
                                         break;
                                     case 1:
-                                        pkg = "om.eg.android.AlipayGphone";
+                                        pkg = "com.eg.android.AlipayGphone";
                                         break;
                                     case 2:
                                         pkg = "com.tencent.mobileqq";
@@ -505,16 +507,43 @@ public class WebViewFragment extends BaseFragment {
                 }
 
                 @JavascriptInterface
+                public void testReg(String js, String type, String app, String data) {
+                    Handler mHandler = new Handler(Looper.getMainLooper()) {
+                        @Override
+                        public void handleMessage(@NonNull Message msg) {
+                            BillInfo billInfo = (BillInfo) msg.obj;
+                            billInfo.setFromApp(app);
+                            SendDataToApp.callNoAdd(getContext(), billInfo);
+                        }
+                    };
+                    RegularCenter.getInstance(type).run(app, data, js, new TaskThread.TaskResult() {
+                        @Override
+                        public void onEnd(Object obj) {
+                            BillInfo billInfo = (BillInfo) obj;
+                            if (billInfo != null) {
+                                HandlerUtil.send(mHandler, billInfo, HANDLE_OK);
+                            }
+                        }
+                    });
+                }
+
+
+                @JavascriptInterface
                 public void save(String js, String data) {
 
                     JSONObject jsonObject = JSONObject.parseObject(data);
                     int version = Integer.parseInt(jsonObject.getString("version"));
-                    String name = jsonObject.getString("name");
+                    String name = jsonObject.getString("regular_name");
                     String regular_remark = jsonObject.getString("regular_remark");
                     String dataId = jsonObject.getString("dataId");
                     String id = jsonObject.getString("id");
-                    String fromApp = jsonObject.getString("fromApp");
+                    String fromApp = jsonObject.getString("regular_app");
+
                     String identify = jsonObject.getString("identify");
+                    if (fromApp.equals("") && !identify.equals("sms")) {
+                        ToastUtils.show("请填写APP名称后再提交！");
+                        return;
+                    }
                     if (dataId.equals("")) {
                         dataId = Tool.getRandomString(32);
                         jsonObject.put("dataId", dataId);
@@ -525,9 +554,9 @@ public class WebViewFragment extends BaseFragment {
                     int finalVersion = version;
                     String finalDataId = dataId;
 
+                    Log.i("提交数据:" + jsonObject.toJSONString());
+
                     if (id.equals("")) {
-
-
                         TaskThread.onThread(() -> {
                             Db.db.RegularDao().add(
                                     js, name, jsonObject.toJSONString(), regular_remark, finalDataId, String.valueOf(finalVersion), fromApp, identify

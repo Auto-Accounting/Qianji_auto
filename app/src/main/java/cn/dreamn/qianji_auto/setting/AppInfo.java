@@ -56,7 +56,7 @@ public class AppInfo {
             return packageInfo.applicationInfo.loadLabel(pm).toString();
         } catch (Throwable e) {
             e.printStackTrace();
-            return "未安装";
+            return pkg;
         }
     }
 

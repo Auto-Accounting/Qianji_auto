@@ -415,10 +415,12 @@ public class AutoFloat {
         setVisible();
 
         TaskThread.onThread(() -> {
-            BookName[] bookNames = Db.db.BookNameDao().getAll();
+            BookName[] bookNames = Db.db.BookNameDao().get(billInfo.getBookName());
             if (bookNames.length != 0) {
-                BookName[] bookName = Db.db.BookNameDao().get(billInfo.getBookName());
-                book_id = bookName[0].book_id;
+                //  BookName[] bookName = Db.db.BookNameDao().get(billInfo.getBookName());
+                book_id = bookNames[0].book_id;
+            } else {
+                book_id = "-1";
             }
         });
 

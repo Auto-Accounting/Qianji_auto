@@ -38,7 +38,7 @@ public interface RegularDao {
     @Query("SELECT * FROM regular WHERE dataId=:dataId limit 1")
     Regular[] loadByDataId(String dataId);
 
-    @Query("select * from  Regular  where  id  in (select  max(id)  from  Regular  WHERE  identify=:type   group by app having COUNT(*)>1  order by sort)")
+    @Query("select * from  Regular  where  id  in (select  max(id)  from  Regular  WHERE  identify=:type   group by app having COUNT(*)>0  order by sort)")
     Regular[] loadApps(String type);
 
     @Query("DELETE FROM regular WHERE id=:id")
@@ -64,6 +64,9 @@ public interface RegularDao {
 
     @Query("DELETE FROM regular WHERE identify=:type")
     void clean(String type);
+
+    @Query("DELETE FROM regular WHERE identify=:type  and app=:app")
+    void clean(String type, String app);
 
     @Query("SELECT * FROM regular  WHERE identify=:type")
     Regular[] getDataId(String type);

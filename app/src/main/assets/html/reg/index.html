@@ -21,7 +21,6 @@
             border-radius: 10px;
             background-color: #f2f2f2;
         }
-
     </style>
 </head>
 <body>
@@ -55,11 +54,12 @@
                 <div id="regex">
                     <h4>常用正则：</h4>
                     <ul class="clearfix">
-                        <li><a data-reg="(\d+(\.\d+)?)" href="#">浮点数</a></li>
-                        <li><a data-reg="(\d{4})" href="#">4位整数</a></li>
-                        <li><a data-reg="(((?!支付宝|微信).)*)" href="#">不包含『支付宝』『微信』的字符串</a></li>
-                        <li><a data-reg="(.*)" href="#">任意不换行字符(分组)</a></li>
-                        <li><a data-reg=".*" href="#">任意不换行字符(不分组)</a></li>
+                        <li><a data-reg="(\d+(\.\d+)?)" href="javascript:;">浮点数</a></li>
+                        <li><a data-reg="(\d{4})" href="javascript:;">4位整数</a></li>
+                        <li><a data-reg="(((?!支付宝|微信).)*)" href="javascript:;">不包含『支付宝』『微信』的字符串</a>
+                        </li>
+                        <li><a data-reg="(.*)" href="javascript:;">任意不换行字符(分组)</a></li>
+                        <li><a data-reg=".*" href="javascript:;">任意不换行字符(不分组)</a></li>
                     </ul>
                 </div>
 
@@ -83,11 +83,11 @@
         <div class="label-title">匹配项目所在位置</div>
         <div class="label-sub-title">收支类型</div>
         <div class="layui-form-item" style="position: relative;">
-            <select lay-filter="type" name="type" style="width: 100%;">
-                <option selected="selected" value="支出">支出</option>
-                <option value="收入">收入</option>
-                <option value="转账">转账</option>
-                <option value="信用还款">信用还款</option>
+            <select id="type" lay-filter="type" name="type" style="width: 100%;">
+                <option selected="selected" value="0">支出</option>
+                <option value="1">收入</option>
+                <option value="2">转账</option>
+                <option value="3">信用还款</option>
             </select>
         </div>
 
@@ -160,7 +160,6 @@
 <script src="../style/layui/layui.js"></script>
 <script>
     window.jQuery = layui.$;
-
 </script>
 <script src="../style/js/regex_1.js"></script>
 <script src="../style/js/regex_2.js"></script>
@@ -224,7 +223,7 @@
         common.autoSave("form", "auto_reg");
 
         function getJs() {
-            var data = ";try{pattern=/%s/;if(pattern.test(a)){var array=pattern.exec(a);var remark='%s',account='%s',type='%s',money='%s',shopName='%s',account2='%s',fee='%s',time='%s';for(var i=array.length-1;i>=1;i--){var rep=\"$\"+i.toString();var repStr=array[i];remark=remark.replace(rep,repStr);account=account.replace(rep,repStr);type=type.replace(rep,repStr);money=money.replace(rep,repStr);shopName=shopName.replace(rep,repStr);account2=account2.replace(rep,repStr);fee=fee.replace(rep,repStr);time=time.replace(rep,repStr)}return remark+'|'+account+'|'+type+'|'+money+'|'+account2+'|'+shopName+'|'+fee+\"|\"+time}}catch(e){console.log(e)};";
+            var data = ";try{pattern=/%s/;if(pattern.test(a)){var array=pattern.exec(a);var remark='%s',account='%s',type='%s',money='%s',shopName='%s',account2='%s',fee='%s',time='%s';for(var i=array.length-1;i>=1;i--){var rep=\"$\"+i.toString();var repStr=array[i];remark=remark.replace(rep,repStr);account=account.replace(rep,repStr);type=type.replace(rep,repStr);money=money.replace(rep,repStr);shopName=shopName.replace(rep,repStr);account2=account2.replace(rep,repStr);fee=fee.replace(rep,repStr);time=time.replace(rep,repStr)}return remark+'##'+account+'##'+type+'##'+money+'##'+account2+'##'+shopName+'##'+fee+'##'+time+'##%s'}}catch(e){console.log(e)};";
 
             //获取名称
             if ($("#regular_name").val() === "") {
@@ -241,7 +240,7 @@
                 webview.toast("测试文本不能为空");
                 return "";
             }
-            data = String.format(data, $("#regex_input").val(), $("#shopRemark").val(),$("#account_name1").val(), $("#type").val(), $("#money").val(), $("#shopName").val(), $("#account_name2").val(), $("#fee").val(), $("#time").val());
+            data = String.format(data, $("#regex_input").val(), $("#shopRemark").val(),$("#account_name1").val(), $("#type").val(), $("#money").val(), $("#shopName").val(), $("#account_name2").val(), $("#fee").val(), $("#time").val(),$("#auto").val());
             return data;
         }
 
@@ -274,7 +273,7 @@
         layui.$("#test").on("click", function (e) {
             try {
                 const js = getJs();
-                if (js !== "") webview.testReg(js);
+                if (js !== "") webview.testReg(js,$("#identify").val(),$("#regular_app").val(),$("#str_input").val());
             } catch (e) {
                 console.log(e.toString())
             }
@@ -286,6 +285,14 @@
             if (regexData === null&&dom!=="regular_app") return;
             webview.selectReg(dom, JSON.stringify(regexData));
         });
+
+       /* layui.$(".clearfix a").on('click',function () {
+            const reg = layui.$(this).data("reg");
+            console.log(reg,layui.$("#regex_input").html(),layui.$("#regex_input").val())
+            $("#regex_input").val(layui.$("#regex_input").val()+reg);
+         //   location.reload();
+        })
+*/
         function setArea(type){
             layui.$(".account2_area").css("display", "block");
             layui.$(".fee_area").css("display", "block");
@@ -312,7 +319,6 @@
         webview.initData();
     }
 );
-
 </script>
 </body>
 </html>

@@ -13,27 +13,33 @@ import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
 import cn.dreamn.qianji_auto.ui.components.IconView;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 public class CateItemListAdapter extends BaseAdapter {
     private final Context mContext;
 
     private MoreClick moreClick;
     private UpdateClick updateClick;
-
+    private ImportClick importClick;
     private JSONObject jsonObject;
+    private boolean isWeb = false;
 
     public CateItemListAdapter(Context context) {
         super(R.layout.adapter_cate_list_item);
         mContext = context;
     }
 
-    public void setUpdateJSON(JSONObject jsonObject) {
+    public void setUpdateJSON(JSONObject jsonObject, boolean isWeb) {
+        // Log.i("cadapter","json数据："+jsonObject.toJSONString());
         this.jsonObject = jsonObject;
+        this.isWeb = isWeb;
+
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Bundle item, int position) {
+        // Log.i("cadapter","数据："+item.toString());
 
         View view_status = holder.findView(R.id.view_status);
         View view_auto = holder.findView(R.id.view_auto);
@@ -71,20 +77,35 @@ public class CateItemListAdapter extends BaseAdapter {
                 moreClick.onClick(item);
         });
 
+        String dataId = item.getString("dataId");
+        if (dataId == null || dataId.equals("")) {
+            //   Log.i("dataId=null");
+            return;
+        }
+        if (isWeb) {
+            // Log.i("isweb=true");
+            tv_update.setVisibility(View.VISIBLE);
+            tv_update.setText("导入");
+            tv_update.setOnClickListener(v -> {
+                if (importClick != null)
+                    importClick.onClick(dataId);
+            });
+            return;
+        }
+        // Log.i("isweb=false");
         //获取云端Id
         tv_update.setVisibility(View.INVISIBLE);
         if (jsonObject == null) {
-
+            Log.i("jsonObject=null");
             return;
         }
-        String dataId = item.getString("dataId");
-        if (dataId == null || dataId.equals("")) {
 
-            return;
-        }
+
+        Log.d("item", item.toString());
+        Log.d("item", jsonObject.toString());
+
         String version = item.getString("version");
         if (version == null || version.equals("")) {
-
             return;
         }
         String name = item.getString("name");
@@ -106,6 +127,7 @@ public class CateItemListAdapter extends BaseAdapter {
             JSONObject js = new JSONObject();
             js.put("title", title);
             js.put("log", updateLog);
+            js.put("dataId", dataId);
             js.put("name", jsonObject1.getString("name"));
             tv_update.setOnClickListener(v -> {
                 if (updateClick != null)
@@ -129,11 +151,20 @@ public class CateItemListAdapter extends BaseAdapter {
             this.updateClick = updateClick;
     }
 
+    public void setOnImportClick(ImportClick importClick) {
+        if (importClick != null)
+            this.importClick = importClick;
+    }
+
     public interface MoreClick {
         void onClick(Bundle item);
     }
 
     public interface UpdateClick {
         void onClick(JSONObject data);
+    }
+
+    public interface ImportClick {
+        void onClick(String dataId);
     }
 }

@@ -32,13 +32,19 @@ layui.define('form', function (exports) {
         },
         restore: function (dom, name,editor) {
             let data = JSON.parse(localStorage.getItem(name));
-
+            console.log(localStorage.getItem(name))
             if (data != null) {
-                if(editor!==undefined){
+               if(editor!==undefined){
                     editor.setValue(data.code);
                 }
                 form.val(dom, data);
                 form.render();
+               try{
+                   layui.$("#regex_input").trigger("restore");
+                   layui.$("#str_input").trigger("restore");
+               }catch (e) {
+                   
+               }
             }
         },
         restoreFromData: function (dom, data,editor) {
@@ -51,6 +57,12 @@ layui.define('form', function (exports) {
                 }
                 form.val(dom, res);
                 form.render();
+                try{
+                    layui.$("#regex_input").trigger("restore");
+                    layui.$("#str_input").trigger("restore");
+                }catch (e) {
+
+                }
             }
         }
     };

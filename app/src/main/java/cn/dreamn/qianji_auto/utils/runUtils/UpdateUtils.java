@@ -18,7 +18,6 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
-import cn.dreamn.qianji_auto.utils.task.ConsumptionTask;
 import cn.dreamn.qianji_auto.utils.task.RunBody;
 
 public class UpdateUtils {
@@ -31,8 +30,10 @@ public class UpdateUtils {
             public void handleMessage(@NonNull Message msg) {
                 if (msg.what == -1) {
                     update.onNoUpdate();
+                    return;
                 }
                 RunBody runBody = (RunBody) msg.obj;
+                if (runBody == null) return;
                 runBody.run(context, null);
             }
         };
@@ -42,7 +43,7 @@ public class UpdateUtils {
 
 
     public static void checkAndroidUpdate(Context context, Handler handler) {
-        AutoBillWeb.getUpdate(new AutoBillWeb.WebCallback() {
+        AutoBillWeb.getUpdate(context, new AutoBillWeb.WebCallback() {
             @Override
             public void onFailure() {
             }
@@ -51,31 +52,29 @@ public class UpdateUtils {
             public void onSuccessful(String data) {
                 JSONObject jsonObject = JSONArray.parseObject(data);
                 MMKV mmkv = MMKV.defaultMMKV();
+
                 String channel = mmkv.getString("version_channel", "stable");
                 channel = "beta";//临时强制更新
                 JSONObject jsonObject1 = jsonObject.getJSONObject(channel);
-                if (App.getAppVerCode() < jsonObject1.getInteger("verNum")) {
+                //增加下次不再检测
+                if (App.getAppVerCode() < jsonObject1.getInteger("verNum") && mmkv.getInt("updateVersion", 0) != jsonObject1.getInteger("verNum")) {
                     if (context == null) {
                         Log.i("线程context已被销毁！");
                         return;
                     }
-                    RunBody runBody = new RunBody() {
+                    RunBody runBody = (context1, task) -> BottomArea.msg(context1, context1.getString(R.string.new_version) + jsonObject1.getString("version"), jsonObject1.getString("log"), context1.getString(R.string.update_go), context1.getString(R.string.update_cancel), new BottomArea.MsgCallback() {
                         @Override
-                        public void run(Context context, ConsumptionTask task) {
-                            BottomArea.msg(context, context.getString(R.string.new_version) + jsonObject.getString("version"), jsonObject1.getString("log"), context.getString(R.string.update_go), context.getString(R.string.update_cancel), new BottomArea.MsgCallback() {
-                                @Override
-                                public void cancel() {
-
-                                }
-
-                                @Override
-                                public void sure() {
-                                    Tool.goUrl(context, jsonObject1.getString("download"));
-
-                                }
-                            });
+                        public void cancel() {
+                            MMKV mmkv1 = MMKV.defaultMMKV();
+                            mmkv1.encode("updateVersion", jsonObject1.getInteger("verNum"));
                         }
-                    };
+
+                        @Override
+                        public void sure() {
+                            Tool.goUrl(context1, jsonObject1.getString("download"));
+
+                        }
+                    });
                     HandlerUtil.send(handler, runBody, 0);
                 } else {
                     HandlerUtil.send(handler, -1);
@@ -86,7 +85,7 @@ public class UpdateUtils {
 
     public static void checkXposedRegularUpdate(Context context) {
         if (!AppStatus.isXposed()) return;//不是Xp模式不需要
-        AutoBillWeb.getCouldRegular(new AutoBillWeb.WebCallback() {
+        AutoBillWeb.getCouldRegular(context, new AutoBillWeb.WebCallback() {
             @Override
             public void onFailure() {
                 Log.d("尝试更新微信适配文件失败");

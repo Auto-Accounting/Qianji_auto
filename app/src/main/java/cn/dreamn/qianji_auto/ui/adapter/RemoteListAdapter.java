@@ -31,18 +31,18 @@ public class RemoteListAdapter extends BaseAdapter {
         ImageView icon_header = (ImageView) holder.findView(R.id.icon_header);
         TextView app_name = (TextView) holder.findView(R.id.app_name);
         TextView app_count = (TextView) holder.findView(R.id.app_count);
-        if (item.getString("type").equals("sms")) {
+        if (item.getString("identify").equals("sms")) {
             icon_header.setImageDrawable(AppInfo.getIcon(mContext, "com.android.providers.telephony"));
         } else {
 
-            icon_header.setImageDrawable(AppInfo.getIcon(mContext, item.getString("pkg")));
+            icon_header.setImageDrawable(AppInfo.getIcon(mContext, item.getString("app")));
         }
 
         if (isWeb) {
             app_name.setText(item.getString("name"));
             app_count.setText(item.getString("count"));
         } else {
-            app_name.setText(AppInfo.getName(mContext, item.getString("pkg")));
+            app_name.setText(AppInfo.getName(mContext, item.getString("app")));
             app_count.setVisibility(View.GONE);
         }
 

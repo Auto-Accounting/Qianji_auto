@@ -118,7 +118,7 @@ public class RegularManager {
     }
 
 
-    public static void outputReg(Context context, String name, String type, int index) {
+    public static void outputReg(Context context, String name, String type, int index, String app) {
         LoadingDialog loadDialog = new LoadingDialog(context, context.getString(R.string.output));
         loadDialog.show();
         JSONObject jsonObject = new JSONObject();
@@ -152,19 +152,15 @@ public class RegularManager {
             }
         };
         TaskThread.onThread(() -> {
-            Regular[] regulars = Db.db.RegularDao().load(type, 0, 500);
+            Regular[] regulars;
+            if (app != null) {
+                regulars = Db.db.RegularDao().load(type, app, 0, 500);
+            } else {
+                regulars = Db.db.RegularDao().load(type, 0, 500);
+            }
             JSONArray jsonArray = new JSONArray();
             for (Regular regular : regulars) {
-                JSONObject jsonObject1 = new JSONObject();
-                jsonObject1.put("name", regular.name);
-                jsonObject1.put("regular", regular.regular);
-                jsonObject1.put("data", regular.data);
-                jsonObject1.put("remark", regular.remark);
-                jsonObject1.put("app", regular.app);
-                jsonObject1.put("identify", regular.identify);
-                jsonObject1.put("version", regular.version);
-                jsonObject1.put("dataId", regular.dataId);
-                jsonArray.add(jsonObject1);
+                jsonArray.add(Tool.class2JSONObject(regular));
             }
             jsonObject.put("data", jsonArray);
             HandlerUtil.send(mHandler, jsonObject, 1);
@@ -196,13 +192,13 @@ public class RegularManager {
         outputRegOne(context, name, type, dataId, version, js, false);
     }
 
-    public static void output(Context mContext, String name, String type) {
+    public static void output(Context mContext, String name, String type, String app) {
         PermissionUtils permissionUtils = new PermissionUtils(mContext);
         permissionUtils.grant(PermissionUtils.Storage);
         BottomArea.list(mContext, mContext.getString(R.string.share_title), Arrays.asList(mContext.getString(R.string.share_download), mContext.getString(R.string.share_share), mContext.getString(R.string.share_clipboard)), new BottomArea.ListCallback() {
             @Override
             public void onSelect(int position) {
-                outputReg(mContext, name, type, position);
+                outputReg(mContext, name, type, position, app);
             }
         });
     }

@@ -19,12 +19,15 @@ import android.provider.MediaStore;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.FileProvider;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Set;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
@@ -230,6 +233,46 @@ public class Tool {
             }
         }
         return bundle;
+    }
+
+    public static JSONObject bundle2JSONObject(Bundle bundle) {
+        Set<String> keySet = bundle.keySet();
+        JSONObject jsonObject = new JSONObject();
+        for (String key : keySet) {
+            jsonObject.put(key, bundle.get(key));
+        }
+        return jsonObject;
+    }
+
+    public static JSONObject class2JSONObject(Object cls) {
+        if (cls == null) return null;
+        Field[] fields = cls.getClass().getDeclaredFields();
+        JSONObject jsonObject = new JSONObject();
+        for (Field field : fields) {
+
+            try {
+                String name = field.getName();    //获取属性的名字
+                String type = field.getGenericType().toString();    //获取属性的类型
+                if (type.equals("class java.lang.String")) {   //如果type是类类型，则前面包含"class "，后面跟类名
+                    //  java.lang.reflect.Method m = cls.getClass().getMethod("get" + name);
+                    String value = (String) field.get(cls); //调用getter方法获取属性值
+                    if (value != null) {
+                        jsonObject.put(name, value);
+                    }
+                }
+                if (type.equals("int")) {
+                    // java.lang.reflect.Method m = cls.getClass().getMethod("get" + name);
+                    Integer value = (Integer) field.get(cls);
+                    if (value != null) {
+                        jsonObject.put(name, value);
+                    }
+                }
+            } catch (Throwable e) {
+                Log.init("convert");
+                Log.d(e.toString());
+            }
+        }
+        return jsonObject;
     }
 
 

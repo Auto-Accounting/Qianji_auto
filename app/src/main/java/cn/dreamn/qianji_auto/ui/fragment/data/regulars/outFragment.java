@@ -22,14 +22,17 @@ import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
 import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -38,30 +41,34 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
-import com.xuexiang.xpage.core.PageOption;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Table.Regular;
+import cn.dreamn.qianji_auto.setting.AppInfo;
 import cn.dreamn.qianji_auto.ui.adapter.CateItemListAdapter;
 import cn.dreamn.qianji_auto.ui.adapter.RemoteListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
-import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.components.TitleBar;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.files.RegularManager;
+import cn.dreamn.qianji_auto.utils.runUtils.AutoBillWeb;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
+import cn.dreamn.qianji_auto.utils.task.ConsumptionTask;
+import cn.dreamn.qianji_auto.utils.task.RunBody;
 
 
 @Page(name = "APP规则页面", anim = CoreAnim.slide)
@@ -84,7 +91,6 @@ public class outFragment extends BaseFragment {
     FloatingActionButton action_export;
     @BindView(R.id.action_delAll)
     FloatingActionButton action_delAll;
-    LoadingDialog loadingDialog;
     private String type;
     private String app;
     Handler mHandler;
@@ -94,13 +100,8 @@ public class outFragment extends BaseFragment {
     private List<Bundle> list;
 
     public outFragment() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            this.type = bundle.getString("type");
-            this.isWeb = bundle.getBoolean("isWeb");
-            this.app = bundle.getString("app");
 
-        }
+
     }
 
     public outFragment(String type, Boolean isWeb) {
@@ -114,16 +115,34 @@ public class outFragment extends BaseFragment {
         return this.type;
     }
 
+    private String getLastType() {
+        if (type.equals("notice_detail")) return "notice";
+        if (type.equals("app_detail")) return "app";
+        if (type.equals("sms_detail")) return "sms";
+
+        return this.type;
+    }
+
+
     private String getName() {
         switch (type) {
-            case "notice":
             case "notice_detail":
+                if (isWeb) return "云 · 通知规则 · " + AppInfo.getName(getContext(), app);
+                return "通知规则 · " + AppInfo.getName(getContext(), app);
+            case "notice":
+
                 return getString(R.string.notice);
             case "app":
-            case "app_detail":
                 return getString(R.string.app);
+            case "app_detail":
+                if (isWeb) return "云 · APP规则 · " + AppInfo.getName(getContext(), app);
+                return "APP规则 · " + AppInfo.getName(getContext(), app);
+
+
             case "sms":
                 return getString(R.string.sms);
+            case "sms_detail":
+                return "云 · 短信规则 · " + getString(R.string.sms);
             case "category":
                 return getString(R.string.category);
         }
@@ -137,6 +156,13 @@ public class outFragment extends BaseFragment {
 
     @Override
     protected void initViews() {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            this.type = bundle.getString("type");
+            this.isWeb = bundle.getBoolean("isWeb");
+            this.app = bundle.getString("app");
+
+        }
         mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
@@ -147,6 +173,7 @@ public class outFragment extends BaseFragment {
                     case HANDLE_OK:
                         if (isDataList()) {
                             cAdapter.refresh(list);
+                            //  Log.d("刷新数据：");
                         } else {
                             rAdapter.refresh(list);
                         }
@@ -179,7 +206,7 @@ public class outFragment extends BaseFragment {
     }
 
     private boolean isDataList() {
-        return (type.equals("category") || (type.equals("sms") && !isWeb) || type.equals("notice_detail") || type.equals("app_detail"));
+        return (type.equals("category") || (type.equals("sms") && !isWeb) || type.equals("notice_detail") || type.equals("app_detail") || type.equals("sms_detail"));
     }
 
     private boolean isHasBar() {
@@ -207,12 +234,14 @@ public class outFragment extends BaseFragment {
                             case 1:
                                 WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/js.html");
                                 break;
-
                         }
                     });
                 } else {
                     JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("identify", this.type);
+                    jsonObject.put("identify", getLastType());
+                    if (app != null) {
+                        jsonObject.put("regular_app", app);
+                    }
                     WebViewFragment.openUrl(this, "file:///android_asset/html/reg/index.html", jsonObject.toJSONString());
                 }
 
@@ -220,7 +249,7 @@ public class outFragment extends BaseFragment {
             });
             action_import.setOnClickListener(v -> {
 
-                RegularManager.importReg(getContext(), getName(), getType(), new RegularManager.End() {
+                RegularManager.importReg(getContext(), getName(), getLastType(), new RegularManager.End() {
                     @Override
                     public void onFinish(int code) {
                     }
@@ -228,7 +257,7 @@ public class outFragment extends BaseFragment {
 
             });
             action_export.setOnClickListener(v -> {
-                RegularManager.output(getContext(), getName(), getType());
+                RegularManager.output(getContext(), getName(), getLastType(), app);
             });
             action_delAll.setOnClickListener(v -> {
                 BottomArea.msg(getContext(), getString(R.string.log_clean_title), String.format(getString(R.string.reg_clean_body), getName()), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.MsgCallback() {
@@ -239,15 +268,43 @@ public class outFragment extends BaseFragment {
                     @Override
                     public void sure() {
                         TaskThread.onThread(() -> {
-                            Db.db.RegularDao().clean(getType());
+                            if (app != null) {
+                                Db.db.RegularDao().clean(getLastType(), app);
+                            } else {
+                                Db.db.RegularDao().clean(getLastType());
+                            }
                             HandlerUtil.send(mHandler, getString(R.string.log_clean_success), HANDLE_REFRESH);
                         });
                     }
                 });
 
             });
+
+
         }
 
+    }
+
+
+    private void intoLocal(String dataId) {
+        Handler handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                RegularManager.restoreFromData(getContext(), getName(), getLastType(), (String) msg.obj, code -> {
+                });
+            }
+        };
+        AutoBillWeb.getById(dataId, getContext(), new AutoBillWeb.WebCallback() {
+            @Override
+            public void onFailure() {
+
+            }
+
+            @Override
+            public void onSuccessful(String data) {
+                HandlerUtil.send(handler, data, 0);
+            }
+        });
     }
 
     private void initLayout() {
@@ -262,120 +319,31 @@ public class outFragment extends BaseFragment {
             });
         }
         if (isDataList()) {
-
-
             cAdapter = new CateItemListAdapter(getContext());
             recyclerView.setAdapter(cAdapter);
             if (isWeb) {
                 cAdapter.setOnItemClickListener(new SmartViewHolder.OnItemClickListener() {
                     @Override
                     public void onItemClick(View itemView, int position) {
-                        loadingDialog = new LoadingDialog(getContext(), getString(R.string.main_loading));
-                        loadingDialog.show();
                         Bundle bundle = list.get(position);
-                        String pkg = bundle.getString("app");
-                       /* Handler handler = new Handler(Looper.getMainLooper()) {
+                        String dataId = bundle.getString("dataId");
+                        BottomArea.msg(getContext(), bundle.getString("name"), bundle.getString("remark"), "导入", "关闭", new BottomArea.MsgCallback() {
                             @Override
-                            public void handleMessage(@NonNull Message msg) {
-                                if (loadingDialog != null)
-                                    loadingDialog.close();
-                                Handler handler1 = this;
-                                String data = (String) msg.obj;
-                                switch (msg.what) {
-                                    case 1:
-                                        if (bundle.getString("count").equals("0")) {
-                                            ToastUtils.show(R.string.remote_zero);
-                                            return;
-                                        }
+                            public void cancel() {
 
-                                        try {
-                                            JSONArray jsonArray = JSONArray.parseArray(data);
-                                            List<String> regular = new ArrayList<>();
-                                            for (int i = 0; i < jsonArray.size(); i++) {
-                                                String name = jsonArray.getString(i);
-                                                regular.add(name);
-                                            }
-                                            BottomArea.listLong(getContext(), getString(R.string.remote_tip), regular, new BottomArea.ListCallback() {
-                                                @Override
-                                                public void onSelect(int position) {
-                                                    String title = regular.get(position);
-
-                                                    loadingDialog = new LoadingDialog(getContext(), getString(R.string.main_loading));
-                                                    loadingDialog.show();
-                                                    AutoBillWeb.getData(mType, pkg, title, new AutoBillWeb.WebCallback() {
-                                                        @Override
-                                                        public void onFailure() {
-                                                            ToastUtils.show(R.string.remote_error);
-                                                            HandlerUtil.send(handler1, -1);
-                                                        }
-
-                                                        @Override
-                                                        public void onSuccessful(String data) {
-                                                            HandlerUtil.send(handler1, data, 2);
-
-
-                                                        }
-                                                    });
-
-                                                }
-                                            });
-                                        } catch (Throwable e) {
-                                            ToastUtils.show(R.string.reg_error);
-                                            Log.i("解析错误：" + e.toString() + "\n" + data);
-                                            loadingDialog.close();
-                                        }
-
-                                        break;
-                                    case 2:
-
-                                        try {
-                                            JSONObject jsonObject = JSONObject.parseObject(data);
-                                            JSONArray jsonArray = jsonObject.getJSONArray("data");
-                                            if (jsonArray.size() == 0) {
-                                                ToastUtils.show(R.string.reg_error);
-                                                return;
-                                            }
-                                            String des = jsonObject.getJSONArray("data").getJSONObject(0).getString("des");
-                                            String name = jsonObject.getJSONArray("data").getJSONObject(0).getString("name");
-                                            BottomArea.msg(getContext(), name, des, getString(R.string.remote_download), getString(R.string.remote_cancle), new BottomArea.MsgCallback() {
-                                                @Override
-                                                public void cancel() {
-
-                                                }
-
-                                                @Override
-                                                public void sure() {
-                                                    RegularManager.restoreFromData(getContext(), getName(), mType, data, new RegularManager.End() {
-                                                        @Override
-                                                        public void onFinish(int code) {
-
-                                                        }
-                                                    });
-                                                }
-                                            });
-                                        } catch (Throwable e) {
-                                            ToastUtils.show(R.string.reg_error);
-                                            Log.i("解析错误：" + e.toString() + "\n" + data);
-                                        }
-
-                                        break;
-                                }
-                            }
-                        };
-
-                        AutoBillWeb.getDataListByApp(type, pkg, new AutoBillWeb.WebCallback() {
-                            @Override
-                            public void onFailure() {
-                                ToastUtils.show(R.string.remote_error);
-                                loadingDialog.close();
                             }
 
                             @Override
-                            public void onSuccessful(String data) {
-                                HandlerUtil.send(handler, data, 1);
-
+                            public void sure() {
+                                intoLocal(dataId);
                             }
-                        });*/
+                        });
+                    }
+                });
+                cAdapter.setOnImportClick(new CateItemListAdapter.ImportClick() {
+                    @Override
+                    public void onClick(String dataId) {
+                        intoLocal(dataId);
                     }
                 });
             } else {
@@ -426,7 +394,7 @@ public class outFragment extends BaseFragment {
 
                                         @Override
                                         public void sure() {
-                                            RegularManager.outputRegOne(getContext(), getName(), getType(), cate.getString("dataId"), cate.getString("version"), JSONObject.parseObject(cate.getString("data")));
+                                            RegularManager.outputRegOne(getContext(), getName(), getLastType(), cate.getString("dataId"), cate.getString("version"), Tool.bundle2JSONObject(cate));
                                             Tool.goUrl(getContext(), getString(R.string.submit_regular));
 
                                         }
@@ -435,7 +403,7 @@ public class outFragment extends BaseFragment {
 
                                     break;
                                 case 3:
-                                    RegularManager.outputRegOne(getContext(), getName(), getType(), cate.getString("dataId"), cate.getString("version"), JSONObject.parseObject(cate.getString("data")), true);
+                                    RegularManager.outputRegOne(getContext(), getName(), getLastType(), cate.getString("dataId"), cate.getString("version"), Tool.bundle2JSONObject(cate), true);
 
                                     break;
                                 case 4:
@@ -454,10 +422,28 @@ public class outFragment extends BaseFragment {
                         }
                     });
                 });
+                cAdapter.setOnUpdateClick(new CateItemListAdapter.UpdateClick() {
+                    @Override
+                    public void onClick(JSONObject data) {
+                        BottomArea.msg(getContext(), data.getString("title"), data.getString("log"), "更新", "关闭", new BottomArea.MsgCallback() {
+                            @Override
+                            public void cancel() {
+
+                            }
+
+                            @Override
+                            public void sure() {
+                                intoLocal(data.getString("dataId"));
+                            }
+                        });
+                    }
+                });
             }
             cAdapter.setOnMoreClick(item -> {
                 BottomArea.msg(getContext(), item.getString("name"), item.getString("remark"));
             });
+
+
         } else {//不是数据部分
             rAdapter = new RemoteListAdapter(getContext(), isWeb);
             recyclerView.setAdapter(rAdapter);
@@ -467,12 +453,7 @@ public class outFragment extends BaseFragment {
                 bundle.putString("type", getNextType());
                 bundle.putString("app", pkg);
                 bundle.putBoolean("isWeb", isWeb);
-                PageOption.to(outFragment.class)
-                        .setNewActivity(true)
-                        .putString("type", getNextType())
-                        .putString("app", pkg)
-                        .putBoolean("isWeb", isWeb)
-                        .open(this);
+                openPage(outFragment.class, bundle);
             });
         }
         refreshLayout.setEnableRefresh(true);
@@ -484,82 +465,159 @@ public class outFragment extends BaseFragment {
     private String getNextType() {
         if (type.equals("notice")) return "notice_detail";
         if (type.equals("app")) return "app_detail";
+        if (type.equals("sms")) return "sms_detail";
         return type;
     }
 
     public void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
         if (isWeb) {
-            //TODO 网络部分也区分，category不分类
-           /* AutoBillWeb.getDataList(type, new AutoBillWeb.WebCallback() {
-                @Override
-                public void onFailure() {
-                    HandlerUtil.send(mHandler, HANDLE_ERR);
-                }
-
-                @Override
-                public void onSuccessful(String data) {
-                    //  Log.i("网页返回结果->  " + data);
-                    List<Bundle> datas = new ArrayList<>();
-                    try {
-                        JSONArray jsonArray = JSONArray.parseArray(data);
-                        for (int i = 0; i < jsonArray.size(); i++) {
-                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                            String pkg = jsonObject.getString("name");
-                            String count = String.valueOf(jsonObject.getInteger("count"));
-                            String appName;
-
-                            if (type.equals("sms")) {
-                                appName = pkg;
-                            } else {
-                                appName = AppInfo.getName(getContext(), pkg);
-                            }
-                            if (appName.equals("unknown")) {
-                                continue;
-                            }
-                            Bundle bundle = new Bundle();
-                            bundle.putString("pkg", pkg);
-                            bundle.putString("name", appName);
-                            bundle.putString("count", count);
-                            bundle.putString("type", type);
-                            datas.add(bundle);
-                        }
-                    } catch (Exception | Error e) {
-                        Log.i("JSON解析错误！！" + e.toString());
-                        e.printStackTrace();
-                    }
-                    list = datas;
-                    //Log.i("数据" + list.toString());
-                    HandlerUtil.send(mHandler, HANDLE_OK);
-                }
-            });*/
-        } else {
             TaskThread.onThread(() -> {
-                Regular[] regulars;
-                if (type.equals("notice") || type.equals("app")) {
-                    regulars = Db.db.RegularDao().loadApps(this.type);
-                } else if (type.equals("sms") || type.equals("category")) {
-                    regulars = Db.db.RegularDao().load(this.type, "", 0, 500);
-                } else {
-                    //notice_detail,app_detail
-                    String t = type;
-                    if (t.equals("notice_detail")) t = "notice";
-                    if (t.equals("app_detail")) t = "app";
-                    regulars = Db.db.RegularDao().load(t, this.app, 0, 500);
-                }
-                if (regulars.length == 0) {
-                    HandlerUtil.send(mHandler, HANDLE_ERR);
-                    return;
-                }
-                List<Bundle> bundleList = new ArrayList<>();
-                for (Regular regular : regulars) {
-                    Bundle bundle = Tool.class2Bundle(regular);
-                    bundleList.add(bundle);
-                }
-                list = bundleList;
-                HandlerUtil.send(mHandler, HANDLE_OK);
+                AutoBillWeb.getList(getContext(), new AutoBillWeb.WebCallback() {
+                    @Override
+                    public void onFailure() {
+                        Log.d("Web访问失败");
+                        HandlerUtil.send(mHandler, HANDLE_ERR);
+                    }
+
+                    @Override
+                    public void onSuccessful(String data) {
+                        JSONObject jsonObject = null;
+
+                        try {
+                            jsonObject = JSON.parseObject(data);
+                        } catch (Exception e) {
+                            Log.d("JSON解析失败！" + data);
+                            HandlerUtil.send(mHandler, HANDLE_ERR);
+                            return;
+                        }
+
+                        if (!jsonObject.containsKey(getLastType())) {
+                            Log.d("缺失环境");
+                            HandlerUtil.send(mHandler, HANDLE_ERR);
+                            return;
+                        }
+                        JSONObject jsonObject1 = jsonObject.getJSONObject(getLastType());
+
+                        List<Bundle> bundleList = new ArrayList<>();
+                        if (type.equals("app") || type.equals("notice") || type.equals("sms")) {
+                            for (Map.Entry<String, Object> stringObjectEntry : jsonObject1.entrySet()) {
+                                String key = stringObjectEntry.getKey();
+                                JSONObject value = (JSONObject) stringObjectEntry.getValue();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("identify", getLastType());
+                                bundle.putString("app", key);
+                                bundle.putString("name", type.equals("sms") ? key : AppInfo.getName(getContext(), key));
+                                bundle.putString("count", String.valueOf(value.size()));
+                                //Db.db.RegularDao().loadByDataId()
+                                //bundle.putBoolean("install",false);//判断是否安装
+                                bundleList.add(bundle);
+                            }
+                        } else if (type.equals("category") || type.equals("app_detail") || type.equals("notice_detail") || type.equals("sms_detail")) {
+                            if (app != null) {
+                                jsonObject1 = jsonObject1.getJSONObject(app);
+                            }
+                            //分类
+                            for (Map.Entry<String, Object> stringObjectEntry : jsonObject1.entrySet()) {
+                                String key = stringObjectEntry.getKey();
+                                JSONObject value = (JSONObject) stringObjectEntry.getValue();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("log", value.getString("version"));
+                                bundle.putString("date", value.getString("date"));
+                                bundle.putString("dataId", key);
+                                bundle.putString("version", value.getString("version"));
+                                bundle.putString("name", value.getString("name"));
+                                bundle.putString("remark", value.getString("remark"));
+                                bundleList.add(bundle);
+                            }
+
+                        }
+                        if (bundleList.size() == 0) {
+                            Log.d("数据为空");
+                            HandlerUtil.send(mHandler, HANDLE_ERR);
+                            return;
+                        }
+                        list = bundleList;
+                        HandlerUtil.send(mHandler, HANDLE_OK);
+                    }
+                });
+
             });
+        } else {
+
+            RunBody runBody = new RunBody() {
+                @Override
+                public void run(Context context, ConsumptionTask task) {
+                    TaskThread.onThread(() -> {
+                        Regular[] regulars;
+                        if (type.equals("notice") || type.equals("app")) {
+                            regulars = Db.db.RegularDao().loadApps(getLastType());
+                        } else if (app == null) {
+                            regulars = Db.db.RegularDao().load(getLastType(), "", 0, 200);
+                        } else {
+                            regulars = Db.db.RegularDao().load(getLastType(), app, 0, 200);
+                        }
+
+                        if (regulars.length == 0) {
+                            Log.d("规则长度为0");
+                            HandlerUtil.send(mHandler, HANDLE_ERR);
+                            return;
+                        }
+                        List<Bundle> bundleList = new ArrayList<>();
+                        for (Regular regular : regulars) {
+                            Bundle bundle = Tool.class2Bundle(regular);
+                            bundleList.add(bundle);
+                        }
+                        list = bundleList;
+                        HandlerUtil.send(mHandler, HANDLE_OK);
+                    });
+
+                }
+            };
+
+
+            if (isDataList()) {
+                AutoBillWeb.getList(getContext(), new AutoBillWeb.WebCallback() {
+                    @Override
+                    public void onFailure() {
+                        runBody.run(null, null);
+                    }
+
+                    @Override
+                    public void onSuccessful(String data) {
+                        JSONObject jsonObject = null;
+
+                        try {
+                            jsonObject = JSON.parseObject(data);
+                        } catch (Exception e) {
+                            Log.d("解析JSON失败：" + data);
+                            runBody.run(null, null);
+                            //   HandlerUtil.send(mHandler, HANDLE_ERR);
+                            return;
+                        }
+
+
+                        if (!jsonObject.containsKey(getLastType())) {
+                            Log.d("JSON不包含数据：" + data);
+                            runBody.run(null, null);
+                            //    HandlerUtil.send(mHandler, HANDLE_ERR);
+                            return;
+                        }
+                        JSONObject jsonObject1 = jsonObject.getJSONObject(getLastType());
+                        //Log.i(jsonObject1.toJSONString());
+                        if (app != null) {
+                            jsonObject1 = jsonObject1.getJSONObject(app);
+                        }
+                        //  Log.i(app);
+                        //更新文件加上
+                        cAdapter.setUpdateJSON(jsonObject1, isWeb);
+                        runBody.run(null, null);
+                    }
+                });
+            } else {
+                runBody.run(null, null);
+            }
+
 
         }
 

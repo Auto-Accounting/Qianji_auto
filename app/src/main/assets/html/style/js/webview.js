@@ -24,8 +24,8 @@ layui.define(function (exports) {
         selectReg:function (dom,data){
             window.AndroidJS.selectReg(dom,data);
         },
-        testReg:function (data){
-            window.AndroidJS.testReg(data);
+        testReg:function (js,type,app,data){
+            window.AndroidJS.testReg(js,type,app,data);
         },
         initData:function () {
             window.AndroidJS.initData();

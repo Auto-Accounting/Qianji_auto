@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10px"
     android:background="@color/background_white"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="65dp">
 
         <LinearLayout
             android:id="@+id/view_table"
@@ -22,14 +23,14 @@
             <View
                 android:id="@+id/view_status"
                 android:layout_width="10dp"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
 
                 android:background="@drawable/bg_cate_green" />
 
             <View
                 android:id="@+id/view_auto"
                 android:layout_width="10dp"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
 
                 android:background="@drawable/bg_cate_green_bottom" />
         </LinearLayout>
