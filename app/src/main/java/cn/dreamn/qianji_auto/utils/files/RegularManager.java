@@ -100,16 +100,39 @@ public class RegularManager {
         TaskThread.onThread(() -> {
             for (int i = 0; i < array.size(); i++) {
                 JSONObject jsonObject1 = array.getJSONObject(i);
-                Db.db.RegularDao().add(
-                        jsonObject1.getString("regular"),
-                        jsonObject1.getString("name"),
-                        jsonObject1.getString("data"),
-                        jsonObject1.getString("remark"),
-                        jsonObject1.getString("dataId"),
-                        jsonObject1.getString("version"),
-                        jsonObject1.getString("app"),
-                        jsonObject1.getString("type")
-                );
+                if (jsonObject1.containsKey("tableList")) {
+                    //老版本转换
+                    jsonObject1 = convert(jsonObject1);
+                }
+
+                Regular[] regular = Db.db.RegularDao().getByDataId(jsonObject1.getString("dataId"));
+
+                if (regular != null && regular.length != 0) {
+                    Db.db.RegularDao().update(
+                            regular[0].id,
+                            jsonObject1.getString("regular"),
+                            jsonObject1.getString("name"),
+                            jsonObject1.getString("data"),
+                            jsonObject1.getString("remark"),
+                            jsonObject1.getString("dataId"),
+                            jsonObject1.getString("version"),
+                            jsonObject1.getString("app"),
+                            jsonObject1.getString("identify")
+                    );
+                } else {
+                    Db.db.RegularDao().add(
+                            jsonObject1.getString("regular"),
+                            jsonObject1.getString("name"),
+                            jsonObject1.getString("data"),
+                            jsonObject1.getString("remark"),
+                            jsonObject1.getString("dataId"),
+                            jsonObject1.getString("version"),
+                            jsonObject1.getString("app"),
+                            jsonObject1.getString("identify")
+                    );
+                }
+
+
             }
 
             HandlerUtil.send(mHandler, context.getString(R.string.restore_success), 1);
@@ -117,6 +140,79 @@ public class RegularManager {
 
     }
 
+
+    public static JSONObject convert(JSONObject jsonObject) {
+        JSONObject jsonObject1 = new JSONObject();
+
+        String string = jsonObject.getString("tableList");
+
+        JSONObject jsonObject3 = new JSONObject();
+        if (!string.equals("")) {
+            JSONObject jsonObject2 = JSONObject.parseObject(string);
+            if (jsonObject2.containsKey("shopRemark")) {
+                jsonObject3.put("id", "");
+                jsonObject3.put("dataId", "");
+                jsonObject3.put("identify", jsonObject.getString("identify"));
+                jsonObject3.put("version", "0");
+                jsonObject3.put("regular_name", jsonObject.getString("name"));
+                jsonObject3.put("regular_remark", jsonObject.getString("des"));
+                jsonObject3.put("regular_app", jsonObject.getString("fromApp"));
+                jsonObject3.put("regex_input", jsonObject.getString("regular"));
+                jsonObject3.put("str_input", jsonObject.getString("text"));
+                jsonObject3.put("type", jsonObject2.getString("type"));
+                jsonObject3.put("account_name1", jsonObject2.getString("account1"));
+                jsonObject3.put("account_name2", jsonObject2.getString("account2"));
+                jsonObject3.put("money", jsonObject2.getString("money"));
+                jsonObject3.put("fee", jsonObject2.getString("fee"));
+                jsonObject3.put("shopName", jsonObject2.getString("shopName"));
+                jsonObject3.put("shopRemark", jsonObject2.getString("shopRemark"));
+                jsonObject3.put("time", jsonObject2.getString("time"));
+                jsonObject3.put("auto", "0");
+
+            } else {
+
+                jsonObject3.put("id", "");
+                jsonObject3.put("dataId", "");
+                jsonObject3.put("version", "0");
+                jsonObject3.put("regular_name", jsonObject2.getString("regular_name"));
+                jsonObject3.put("regular_remark", jsonObject2.getString("regular_remark"));
+                jsonObject3.put("regular_time1", jsonObject2.getString("regular_time1"));
+                jsonObject3.put("regular_time2", jsonObject2.getString("regular_time2"));
+                jsonObject3.put("regular_money1_link", jsonObject2.getString("regular_money1_link"));
+                jsonObject3.put("regular_money1", jsonObject2.getString("regular_money1"));
+                jsonObject3.put("regular_money2_link", jsonObject2.getString("regular_money2_link"));
+                jsonObject3.put("regular_money2", jsonObject2.getString("regular_money2"));
+                jsonObject3.put("regular_shopName_link", jsonObject2.getString("regular_shopName_link"));
+                jsonObject3.put("regular_shopName", jsonObject2.getString("regular_shopName"));
+                jsonObject3.put("regular_shopRemark_link", jsonObject2.getString("regular_shopRemark_link"));
+                jsonObject3.put("regular_shopRemark", jsonObject2.getString("regular_shopRemark"));
+                jsonObject3.put("regular_type", jsonObject2.getString("regular_type"));
+                jsonObject3.put("regular_sort", jsonObject2.getString("regular_sort"));
+                jsonObject3.put("iconImg", "https://pic.dreamn.cn/uPic/2021032310470716164676271616467627123WiARFwd8b1f5bdd0fca9378a915d8531cb740b.png");
+            }
+        } else {
+            jsonObject3.put("id", "");
+            jsonObject3.put("dataId", "");
+            jsonObject3.put("version", "0");
+            jsonObject3.put("regular_name", jsonObject.getString("name"));
+            jsonObject3.put("regular_remark", jsonObject.getString("des"));
+            jsonObject3.put("auto_wrap", "false");
+            jsonObject3.put("code", jsonObject.getString("regular"));
+
+        }
+
+        jsonObject1.put("data", jsonObject3.toJSONString());
+
+        jsonObject1.put("remark", jsonObject.getString("des"));
+        jsonObject1.put("regular", jsonObject.getString("regular"));
+        jsonObject1.put("name", jsonObject.getString("name"));
+
+        jsonObject1.put("version", "0");
+        jsonObject1.put("dataId", "");
+        jsonObject1.put("app", jsonObject.getString("fromApp"));
+        jsonObject1.put("identify", jsonObject.getString("identify"));
+        return jsonObject1;
+    }
 
     public static void outputReg(Context context, String name, String type, int index, String app) {
         LoadingDialog loadDialog = new LoadingDialog(context, context.getString(R.string.output));
@@ -154,9 +250,9 @@ public class RegularManager {
         TaskThread.onThread(() -> {
             Regular[] regulars;
             if (app != null) {
-                regulars = Db.db.RegularDao().load(type, app, 0, 500);
+                regulars = Db.db.RegularDao().load(type, app, 0, 200);
             } else {
-                regulars = Db.db.RegularDao().load(type, 0, 500);
+                regulars = Db.db.RegularDao().load(type, 0, 200);
             }
             JSONArray jsonArray = new JSONArray();
             for (Regular regular : regulars) {

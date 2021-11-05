@@ -73,5 +73,8 @@ public interface RegularDao {
 
     @Query("SELECT * FROM regular  WHERE identify=:type and app=:app")
     Regular[] getDataId(String type, String app);
+
+    @Query("SELECT * FROM regular  WHERE dataId=:dataId")
+    Regular[] getByDataId(String dataId);
 }
 
