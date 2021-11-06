@@ -100,14 +100,18 @@ public class RegularManager {
         TaskThread.onThread(() -> {
             for (int i = 0; i < array.size(); i++) {
                 JSONObject jsonObject1 = array.getJSONObject(i);
+
                 if (jsonObject1.containsKey("tableList")) {
                     //老版本转换
                     jsonObject1 = convert(jsonObject1);
                 }
 
-                Regular[] regular = Db.db.RegularDao().getByDataId(jsonObject1.getString("dataId"));
+                String dataId = jsonObject1.getString("dataId");
+                Regular[] regular = null;
+                if (!dataId.equals(""))
+                    regular = Db.db.RegularDao().getByDataId(dataId);
 
-                if (regular != null && regular.length != 0) {
+                if (!dataId.equals("") && regular != null && regular.length != 0) {
                     Db.db.RegularDao().update(
                             regular[0].id,
                             jsonObject1.getString("regular"),
@@ -208,9 +212,15 @@ public class RegularManager {
         jsonObject1.put("name", jsonObject.getString("name"));
 
         jsonObject1.put("version", "0");
-        jsonObject1.put("dataId", "");
-        jsonObject1.put("app", jsonObject.getString("fromApp"));
-        jsonObject1.put("identify", jsonObject.getString("identify"));
+        jsonObject1.put("dataId", Tool.getRandomString(32));
+        String s1 = jsonObject.getString("fromApp");
+        if (s1 == null)
+            s1 = "";
+        jsonObject1.put("app", s1);
+        String s = jsonObject.getString("identify");
+        if (s == null)
+            s = "category";
+        jsonObject1.put("identify", s);
         return jsonObject1;
     }
 

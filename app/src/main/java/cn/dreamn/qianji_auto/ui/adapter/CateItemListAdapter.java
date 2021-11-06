@@ -76,12 +76,13 @@ public class CateItemListAdapter extends BaseAdapter {
             if (moreClick != null)
                 moreClick.onClick(item);
         });
-
+        tv_update.setVisibility(View.INVISIBLE);
         String dataId = item.getString("dataId");
         if (dataId == null || dataId.equals("")) {
             //   Log.i("dataId=null");
             return;
         }
+
         if (isWeb) {
             // Log.i("isweb=true");
             tv_update.setVisibility(View.VISIBLE);
@@ -94,7 +95,6 @@ public class CateItemListAdapter extends BaseAdapter {
         }
         // Log.i("isweb=false");
         //获取云端Id
-        tv_update.setVisibility(View.INVISIBLE);
         if (jsonObject == null) {
             Log.i("jsonObject=null");
             return;

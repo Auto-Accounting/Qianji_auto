@@ -15,12 +15,15 @@
         layout="@layout/dialog_file_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/footer"
         android:layout_below="@+id/header"
         android:dividerHeight="1dp"
         tools:listitem="@layout/dialog_file_list_item" />
 
     <include
         android:id="@+id/footer"
-        layout="@layout/dialog_footer" />
+        layout="@layout/dialog_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp" />
 </RelativeLayout>

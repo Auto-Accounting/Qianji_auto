@@ -10,7 +10,7 @@ import cn.dreamn.qianji_auto.R;
 
 public class JsEngine {
     public static String run(String jsCode) {
-        jsCode = jsCode.replace("\n", "");
+        //jsCode = jsCode.replace("\n", "");
         Log.i("js运行代码", jsCode);
         Context rhino = Context.enter();
         rhino.setOptimizationLevel(-1);

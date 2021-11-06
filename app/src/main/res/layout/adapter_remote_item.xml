@@ -26,7 +26,11 @@
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@+id/icon_header"
         android:maxLength="16"
+
         android:text="TextView"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:singleLine="true"
         android:textColor="@color/black"
         android:textSize="16sp" />
 
@@ -41,6 +45,7 @@
         android:maxLength="4"
         android:padding="10dp"
         android:text="TextView"
+
         android:textColor="@color/white"
         android:textSize="12sp" />
 

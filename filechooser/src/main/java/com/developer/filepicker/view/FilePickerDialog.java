@@ -98,9 +98,9 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
             select.setEnabled(false);
             int color;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                color = context.getResources().getColor(R.color.colorAccent, context.getTheme());
+                color = context.getResources().getColor(R.color.background_white, context.getTheme());
             } else {
-                color = context.getResources().getColor(R.color.colorAccent);
+                color = context.getResources().getColor(R.color.background_white);
             }
             select.setTextColor(Color.argb(128, Color.red(color), Color.green(color),
                     Color.blue(color)));
@@ -139,10 +139,10 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
                     select.setEnabled(false);
                     int color;
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                        color = context.getResources().getColor(R.color.colorAccent,
+                        color = context.getResources().getColor(R.color.background_white,
                                 context.getTheme());
                     } else {
-                        color = context.getResources().getColor(R.color.colorAccent);
+                        color = context.getResources().getColor(R.color.background_white);
                     }
                     select.setTextColor(Color.argb(128, Color.red(color), Color.green(color),
                             Color.blue(color)));
@@ -151,10 +151,10 @@ public class FilePickerDialog implements AdapterView.OnItemClickListener {
                     select.setEnabled(true);
                     int color;
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                        color = context.getResources().getColor(R.color.colorAccent,
+                        color = context.getResources().getColor(R.color.background_white,
                                 context.getTheme());
                     } else {
-                        color = context.getResources().getColor(R.color.colorAccent);
+                        color = context.getResources().getColor(R.color.background_white);
                     }
                     select.setTextColor(color);
                     String button_label = positiveBtnNameStr + " (" + size + ") ";

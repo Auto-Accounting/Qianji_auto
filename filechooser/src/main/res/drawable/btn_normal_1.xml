@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:shape="rectangle"
+    tools:ignore="MissingDefaultResource">
+    <stroke
+        android:width="0.05dp"
+        android:color="@color/background" />
+    <!-- 圆角的半径 -->
+    <corners android:radius="300dp" />
+
+    <!-- 填充颜色 -->
+    <solid android:color="@color/blue" />
+
+</shape>

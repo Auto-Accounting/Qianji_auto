@@ -206,10 +206,18 @@ public class outFragment extends BaseFragment {
     }
 
     private boolean isDataList() {
+        if (type == null) {
+            popToBack();
+            return false;
+        }
         return (type.equals("category") || (type.equals("sms") && !isWeb) || type.equals("notice_detail") || type.equals("app_detail") || type.equals("sms_detail"));
     }
 
     private boolean isHasBar() {
+        if (type == null) {
+            popToBack();
+            return false;
+        }
         return (type.equals("category") || (type.equals("sms")) || type.equals("notice") || type.equals("app"));
     }
 

@@ -44,10 +44,10 @@
             android:layout_marginEnd="5dp"
             android:layout_toStartOf="@+id/icon_info"
             android:background="@drawable/btn_normal_1"
-            android:paddingStart="8dp"
-            android:paddingTop="2dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="2dp"
+            android:paddingStart="10dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="8dp"
             android:text="有更新"
 
             android:textColor="@color/white" />
@@ -68,8 +68,10 @@
                 android:layout_marginEnd="10dp"
                 android:ellipsize="end"
                 android:maxLength="16"
+                android:maxLines="1"
                 android:padding="2dp"
                 android:text="TextView"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -80,7 +82,9 @@
                 android:layout_marginTop="0dp"
                 android:ellipsize="end"
                 android:maxLength="16"
+                android:maxLines="1"
                 android:text="TextView"
+                android:singleLine="true"
                 android:textColor="@color/gray"
                 android:textSize="13sp" />
 
