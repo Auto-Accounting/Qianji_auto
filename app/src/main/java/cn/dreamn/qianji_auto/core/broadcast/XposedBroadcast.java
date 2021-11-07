@@ -66,7 +66,7 @@ public class XposedBroadcast extends BroadcastReceiver {
                 public void handleMessage(@NonNull Message msg) {
                     BillInfo billInfo = (BillInfo) msg.obj;
                     billInfo.setFromApp(app);
-                    SendDataToApp.call(billInfo);
+                    SendDataToApp.call(context, billInfo);
                 }
             };
 

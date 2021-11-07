@@ -149,7 +149,7 @@ public class RegularManager {
         JSONObject jsonObject1 = new JSONObject();
 
         String string = jsonObject.getString("tableList");
-
+        String regular = jsonObject.getString("regular");
         JSONObject jsonObject3 = new JSONObject();
         if (!string.equals("")) {
             JSONObject jsonObject2 = JSONObject.parseObject(string);
@@ -172,6 +172,10 @@ public class RegularManager {
                 jsonObject3.put("shopRemark", jsonObject2.getString("shopRemark"));
                 jsonObject3.put("time", jsonObject2.getString("time"));
                 jsonObject3.put("auto", "0");
+
+                String reg = ";try{pattern=/%s/;if(pattern.test(a)){var array=pattern.exec(a);var remark='%s',account='%s',type='%s',money='%s',shopName='%s',account2='%s',fee='%s',time='%s';for(var i=array.length-1;i>=1;i--){var rep=\"$\"+i.toString();var repStr=array[i];remark=remark.replace(rep,repStr);account=account.replace(rep,repStr);type=type.replace(rep,repStr);money=money.replace(rep,repStr);shopName=shopName.replace(rep,repStr);account2=account2.replace(rep,repStr);fee=fee.replace(rep,repStr);time=time.replace(rep,repStr)}return remark+'##'+account+'##'+type+'##'+money+'##'+account2+'##'+shopName+'##'+fee+'##'+time+'##%s'}}catch(e){console.log(e)};";
+
+                regular = String.format(reg, jsonObject.getString("regular"), jsonObject3.getString("shopRemark"), jsonObject3.getString("account1"), jsonObject3.getString("type"), jsonObject3.getString("money"), jsonObject3.getString("shopName"), jsonObject3.getString("account2"), jsonObject3.getString("fee"), jsonObject3.getString("time"), jsonObject3.getString("auto"));
 
             } else {
 
@@ -208,7 +212,9 @@ public class RegularManager {
         jsonObject1.put("data", jsonObject3.toJSONString());
 
         jsonObject1.put("remark", jsonObject.getString("des"));
-        jsonObject1.put("regular", jsonObject.getString("regular"));
+
+
+        jsonObject1.put("regular", regular);
         jsonObject1.put("name", jsonObject.getString("name"));
 
         jsonObject1.put("version", "0");

@@ -60,7 +60,7 @@ public class NodeListManage {
         //防止出现多次识别
         if (System.currentTimeMillis() - time > 1000L) {
             time = System.currentTimeMillis();
-            SendDataToApp.call(billInfo);
+            SendDataToApp.call(context, billInfo);
             //进行记账
         }
     }
@@ -74,7 +74,7 @@ public class NodeListManage {
     public static boolean checkNode(List<String> nodeList, String checkStr, boolean equals) {
         //从最后的数据开始查找
         for (int i = nodeList.size() - 1; i >= 0; i--) {
-            String nodeName = (String) nodeList.get(i);
+            String nodeName = nodeList.get(i);
             if (equals) {
                 if (!nodeName.equals(checkStr)) {
                     continue;
@@ -93,7 +93,7 @@ public class NodeListManage {
     public static int indexOf(List<String> nodeList, String checkStr, boolean equals) {
         //从最后的数据开始查找
         for (int i = nodeList.size() - 1; i >= 0; i--) {
-            String nodeName = (String) nodeList.get(i);
+            String nodeName = nodeList.get(i);
             if (equals) {
                 if (!nodeName.contains(checkStr)) {
                     continue;

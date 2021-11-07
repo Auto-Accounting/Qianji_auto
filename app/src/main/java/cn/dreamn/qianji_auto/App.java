@@ -17,13 +17,10 @@ import cn.dreamn.qianji_auto.ui.base.BaseActivity;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.utils.runUtils.CrashUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
-import cn.dreamn.qianji_auto.utils.task.ConsumptionTask;
-import cn.dreamn.qianji_auto.utils.task.LineUpTaskHelp;
 
 
 public class App extends Application {
-    public static LineUpTaskHelp lineUpTaskHelp;
-    public static int index = 0;
+
 
     /**
      * @return 当前app是否是调试开发模式
@@ -109,18 +106,7 @@ public class App extends Application {
     }
 
     private void initTasker() {
-        lineUpTaskHelp = LineUpTaskHelp.getInstance();
-        lineUpTaskHelp.setOnTaskListener(new LineUpTaskHelp.OnTaskListener() {
-            @Override
-            public void exNextTask(ConsumptionTask task) {
-                task.runnable.run(getApplicationContext(), task);
-            }
 
-            @Override
-            public void noTask() {
-
-            }
-        });
     }
 
     @Override

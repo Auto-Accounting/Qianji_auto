@@ -90,7 +90,7 @@ public class HelpService extends AccessibilityService {
                         public void handleMessage(@NonNull Message msg) {
                             BillInfo billInfo = (BillInfo) msg.obj;
                             billInfo.setFromApp(packageName);
-                            SendDataToApp.call(billInfo);
+                            SendDataToApp.call(getApplicationContext(), billInfo);
                         }
                     };
                     RegularCenter.getInstance("notice").run(packageName, str, null, new TaskThread.TaskResult() {

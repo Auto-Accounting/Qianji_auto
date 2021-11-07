@@ -26,7 +26,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class QianJi implements IApp {
     private static QianJi qianJi;
-
+    static long time = 0;
     public static QianJi getInstance(){
         if(qianJi==null)
             qianJi=new QianJi();
@@ -51,10 +51,12 @@ public class QianJi implements IApp {
 
     @Override
     public void sendToApp(Context context,BillInfo billInfo) {
+
         Handler mHandler=new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
                 if (msg.what == 0) {
+                    time = System.currentTimeMillis();
                     if (RootUtils.hasRootPermission()) {
                         RootUtils.exec(new String[]{"am start \"" + getQianJi(billInfo) + "\""});
                     } else {
@@ -66,9 +68,28 @@ public class QianJi implements IApp {
                 }
             }
         };
+        if (AppStatus.isXposed()) {
+            mHandler.sendEmptyMessage(0);
+        } else {
+            delay(mHandler);
+        }
 
-        mHandler.sendEmptyMessage(0);
 
+    }
+
+    private void delay(Handler handler) {
+        long m = System.currentTimeMillis() - time;
+        if (m < 3000) {
+            ToastUtils.show("稍后为您记账！");
+            TaskThread.onMain(m, new Runnable() {
+                @Override
+                public void run() {
+                    delay(handler);
+                }
+            });
+        } else {
+            handler.sendEmptyMessage(0);
+        }
     }
 
     @Override

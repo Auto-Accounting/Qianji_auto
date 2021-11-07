@@ -74,7 +74,7 @@ public class SMSBroadcast extends BroadcastReceiver {
                 public void handleMessage(@NonNull Message msg) {
                     BillInfo billInfo = (BillInfo) msg.obj;
                     billInfo.setFromApp(finalUser);
-                    SendDataToApp.call(billInfo);
+                    SendDataToApp.call(context, billInfo);
                 }
             };
             RegularCenter.getInstance("sms").run(user, data, null, new TaskThread.TaskResult() {
