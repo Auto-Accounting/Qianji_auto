@@ -30,6 +30,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -42,9 +43,11 @@ import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
+import com.yanzhenjie.recyclerview.touch.OnItemMoveListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -328,6 +331,7 @@ public class outFragment extends BaseFragment {
             });
         }
         if (isDataList()) {
+            Log.i("dataList");
             cAdapter = new CateItemListAdapter(getContext());
             recyclerView.setAdapter(cAdapter);
             if (isWeb) {
@@ -356,6 +360,41 @@ public class outFragment extends BaseFragment {
                     }
                 });
             } else {
+                recyclerView.setLongPressDragEnabled(true);
+                recyclerView.setOnItemMoveListener(new OnItemMoveListener() {
+                    @Override
+                    public boolean onItemMove(RecyclerView.ViewHolder srcHolder, RecyclerView.ViewHolder targetHolder) {
+                        // 此方法在Item拖拽交换位置时被调用。
+                        // 第一个参数是要交换为之的Item，第二个是目标位置的Item。
+
+                        // 交换数据，并更新adapter。
+                        int fromPosition = srcHolder.getAdapterPosition();
+                        int toPosition = targetHolder.getAdapterPosition();
+
+                        Collections.swap(list, fromPosition, toPosition);
+                        cAdapter.notifyItemMoved(fromPosition, toPosition);
+                        //   Logs.d(mDataList.get(toPosition).get(KEY_TITLE)+"key id"+mDataList.get(toPosition).get(KEY_ID)+" to"+toPosition);
+
+                        TaskThread.onThread(() -> {
+                            Bundle from = list.get(fromPosition);
+                            Bundle to = list.get(toPosition);
+                            from.putInt("sort", toPosition);
+                            to.putInt("sort", fromPosition);
+                            Db.db.RegularDao().setSort(from.getInt("id"), to.getInt("sort"));
+                            Db.db.RegularDao().setSort(to.getInt("id"), from.getInt("sort"));
+                        });
+                        // 返回true，表示数据交换成功，ItemView可以交换位置。
+                        return true;
+                    }
+
+                    @Override
+                    public void onItemDismiss(RecyclerView.ViewHolder viewHolder) {
+
+                    }
+
+                });// 监听拖拽，更新UI。
+
+
                 cAdapter.setOnItemClickListener((itemView, position) -> {
                     if (list == null || position >= list.size()) return;
                     Bundle cate = list.get(position);
@@ -584,8 +623,11 @@ public class outFragment extends BaseFragment {
                             return;
                         }
                         List<Bundle> bundleList = new ArrayList<>();
+                        int index = 0;
                         for (Regular regular : regulars) {
                             Bundle bundle = Tool.class2Bundle(regular);
+                            Db.db.RegularDao().setSort(regular.id, ++index);
+                            bundle.putInt("sort", ++index);
                             bundleList.add(bundle);
                         }
                         list = bundleList;

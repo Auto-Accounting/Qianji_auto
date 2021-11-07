@@ -25,10 +25,10 @@ import cn.dreamn.qianji_auto.data.database.Table.Regular;
 
 @Dao
 public interface RegularDao {
-    @Query("SELECT * FROM regular WHERE identify=:type AND app=:app order by sort,id limit :from,:to")
+    @Query("SELECT * FROM regular WHERE identify=:type AND app=:app order by sort  limit :from,:to")
     Regular[] load(String type, String app, int from, int to);
 
-    @Query("SELECT * FROM regular WHERE identify=:type  order by sort,id limit :from,:to")
+    @Query("SELECT * FROM regular WHERE identify=:type  order by sort  limit :from,:to")
     Regular[] load(String type, int from, int to);
 
 
