@@ -57,6 +57,7 @@ import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Helper.Assets;
 import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.data.database.Helper.Categorys;
+import cn.dreamn.qianji_auto.data.database.Table.Asset;
 import cn.dreamn.qianji_auto.data.database.Table.BookName;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
@@ -187,18 +188,18 @@ public class AutoFloat {
         ll_account1.setOnClickListener(v -> {
             Log.i("账户1选择");
             Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, obj1 -> {
-                Bundle asset2s = (Bundle) obj1;
+                Asset asset = (Asset) obj1;
                 String asset1 = billInfo2.getAccountName();//原始资产
                 Assets.isInAsset(asset1, obj -> {
                     Boolean bool = (Boolean) obj;
                     //如果原始资产不再已有范围之内
                     if (!bool) {
                         TaskThread.onThread(() -> {
-                            Db.db.AssetMapDao().add(asset1, asset2s.getString("name"));
+                            Db.db.AssetMapDao().add(asset1, asset.name);
                         });
                     }
                 });
-                billInfo2.setAccountName(asset2s.getString("name"));
+                billInfo2.setAccountName(asset.name);
                 mMainHandler.sendEmptyMessage(0);
             });
 
@@ -206,17 +207,17 @@ public class AutoFloat {
         ll_account2.setOnClickListener(v -> {
             Log.i("账户2选择");
             Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, obj1 -> {
-                Bundle asset2s = (Bundle) obj1;
+                Asset asset = (Asset) obj1;
                 String asset1 = billInfo2.getAccountName2();//原始资产
                 Assets.isInAsset(asset1, obj -> {
                     Boolean bool = (Boolean) obj;
                     if (!bool) {
                         TaskThread.onThread(() -> {
-                            Db.db.AssetMapDao().add(asset1, asset2s.getString("name"));
+                            Db.db.AssetMapDao().add(asset1, asset.name);
                         });
                     }
                 });
-                billInfo2.setAccountName2(asset2s.getString("name"));
+                billInfo2.setAccountName2(asset.name);
                 mMainHandler.sendEmptyMessage(0);
             });
 
