@@ -185,9 +185,9 @@ public class MainMapFragment extends BaseFragment {
             @Override
             public void input(String data) {
                 Assets.showAssetSelect(getContext(), getString(R.string.assert_choose), false, obj -> {
-                    Bundle asset2s = (Bundle) obj;
+                    Asset asset2s = (Asset) obj;
                     TaskThread.onThread(() -> {
-                        Db.db.AssetMapDao().update(assets.getInt("id"), data, asset2s.getString("name"));
+                        Db.db.AssetMapDao().update(assets.getInt("id"), data, asset2s.name);
                         HandlerUtil.send(mHandler, getString(R.string.assert_change_success), HANDLE_REFRESH);
                     });
                 });
