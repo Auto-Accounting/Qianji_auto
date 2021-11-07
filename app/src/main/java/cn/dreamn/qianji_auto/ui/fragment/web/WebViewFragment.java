@@ -61,6 +61,7 @@ import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.data.database.Helper.Categorys;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
+import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
 import cn.dreamn.qianji_auto.ui.components.TitleBar;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
@@ -87,6 +88,7 @@ public class WebViewFragment extends BaseFragment {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
+
             //网页加载进度
             // if(progressBar!=null)
             //     progressBar.setProgress(newProgress);
@@ -104,6 +106,7 @@ public class WebViewFragment extends BaseFragment {
             }
         }
     };
+    private LoadingDialog loadingDialog;
 
     @Override
     protected int getLayoutId() {
@@ -115,7 +118,6 @@ public class WebViewFragment extends BaseFragment {
         title_bar.setInner(getActivity());
         title_bar.setLeftIconOnClickListener(v -> popToBack());
     }
-
     /**
      * 和网页url加载相关，统计加载时间
      */
@@ -130,6 +132,7 @@ public class WebViewFragment extends BaseFragment {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            loadingDialog = new LoadingDialog(getContext(), "loading...");
             mTimer.put(url, System.currentTimeMillis());
           /*  if (url.equals(getUrl())) {
                 //   progressBar.setVisibility(View.GONE);
@@ -144,6 +147,9 @@ public class WebViewFragment extends BaseFragment {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             Long startTime = mTimer.get(url);
+            if (loadingDialog != null)
+                loadingDialog.close();
+
             if (startTime != null) {
                 long overTime = System.currentTimeMillis();
                 //统计页面的使用时长
@@ -459,8 +465,13 @@ public class WebViewFragment extends BaseFragment {
             Object appToJsObject = new Object() {
                 @JavascriptInterface
                 public void initData() {
-                    if (!data.equals("")) {
-                        doJsFunction(String.format("webviewCallback.setData('%s')", URLParamEncoder.encode(data.getBytes(StandardCharsets.UTF_8))));
+                    try {
+                        JSONObject jsonObject = JSONObject.parseObject(data);
+                        jsonObject.getString("identify");
+                        doJsFunction(String.format("webviewCallback.setData('%s','%s')", URLParamEncoder.encode(data.getBytes(StandardCharsets.UTF_8)), jsonObject.getString("identify")));
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        Log.d("初始化错误！" + e);
                     }
                 }
 
