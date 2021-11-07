@@ -51,7 +51,6 @@ import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 import cn.dreamn.qianji_auto.utils.runUtils.UpdateUtils;
-import cn.dreamn.qianji_auto.utils.task.RunBody;
 
 
 @Page(name = "关于", anim = CoreAnim.slide)
@@ -132,9 +131,9 @@ public class AboutFragment extends BaseFragment {
                         ToastUtils.show(R.string.about_check_no_update);
                         return;
                     }
-                    RunBody runBody = (RunBody) msg.obj;
-                    if (runBody == null) return;
-                    runBody.run(getContext(), null);
+                    Runnable runnable = (Runnable) msg.obj;
+                    if (runnable == null) return;
+                    runnable.run();
                 }
             };
             UpdateUtils.checkAndroidUpdate(getContext(), mHandler);

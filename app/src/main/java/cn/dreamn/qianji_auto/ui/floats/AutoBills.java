@@ -95,12 +95,12 @@ public class AutoBills {
         ContextThemeWrapper ctx = new ContextThemeWrapper(context, R.style.Theme_AppCompat_Light_NoActionBar);
         context = ctx;
         LayoutInflater factory = LayoutInflater.from(ctx);
-        mView = factory.inflate(R.layout.float_autoBill, null);
+        mView = factory.inflate(R.layout.float_autobill, null);
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
         dialog = new MaterialDialog(context, bottomSheet);
         // dialog.cancelable(false);
         ListView listView = mView.findViewById(R.id.list_view);
-        billListAdapter = new BillListAdapter(context, R.layout.float_autoBill, null);
+        billListAdapter = new BillListAdapter(context, R.layout.float_autobill, null);
         listView.setAdapter(billListAdapter);
 
         listView.setOnItemClickListener((parent, view, position, id) -> {

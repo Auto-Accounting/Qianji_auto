@@ -145,7 +145,7 @@ public class RegularManager {
     }
 
 
-    public static JSONObject convert(JSONObject jsonObject) {
+    private static JSONObject convert(JSONObject jsonObject) {
         JSONObject jsonObject1 = new JSONObject();
 
         String string = jsonObject.getString("tableList");
@@ -265,11 +265,12 @@ public class RegularManager {
         };
         TaskThread.onThread(() -> {
             Regular[] regulars;
-            if (app != null) {
+            if (app != null && !app.equals("")) {
                 regulars = Db.db.RegularDao().load(type, app, 0, 200);
             } else {
                 regulars = Db.db.RegularDao().load(type, 0, 200);
             }
+            // Log.i("数据总量："+regulars.length);
             JSONArray jsonArray = new JSONArray();
             for (Regular regular : regulars) {
                 jsonArray.add(Tool.class2JSONObject(regular));
@@ -310,6 +311,7 @@ public class RegularManager {
         BottomArea.list(mContext, mContext.getString(R.string.share_title), Arrays.asList(mContext.getString(R.string.share_download), mContext.getString(R.string.share_share), mContext.getString(R.string.share_clipboard)), new BottomArea.ListCallback() {
             @Override
             public void onSelect(int position) {
+                //Log.i("导出：name="+name+",type="+type+",position="+ position+",app="+ app);
                 outputReg(mContext, name, type, position, app);
             }
         });
