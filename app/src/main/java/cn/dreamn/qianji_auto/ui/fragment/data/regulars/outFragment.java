@@ -122,6 +122,10 @@ public class outFragment extends BaseFragment {
 
 
     private String getName() {
+        if (getContext() == null) {
+            popToBack();
+            return "";
+        }
         switch (type) {
             case "notice_detail":
                 if (isWeb) return "云 · 通知规则 · " + AppInfo.getName(getContext(), app);
