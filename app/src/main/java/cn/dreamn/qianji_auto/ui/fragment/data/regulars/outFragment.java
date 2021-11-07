@@ -244,7 +244,7 @@ public class outFragment extends BaseFragment {
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("identify", getLastType());
-                    if (app != null) {
+                    if (app != null && !app.equals("")) {
                         jsonObject.put("regular_app", app);
                     }
                     WebViewFragment.openUrl(this, "file:///android_asset/html/reg/index.html", jsonObject.toJSONString());
@@ -273,7 +273,7 @@ public class outFragment extends BaseFragment {
                     @Override
                     public void sure() {
                         TaskThread.onThread(() -> {
-                            if (app != null) {
+                            if (app != null && !app.equals("")) {
                                 Db.db.RegularDao().clean(getLastType(), app);
                             } else {
                                 Db.db.RegularDao().clean(getLastType());
@@ -487,7 +487,7 @@ public class outFragment extends BaseFragment {
 
                     @Override
                     public void onSuccessful(String data) {
-                        JSONObject jsonObject = null;
+                        JSONObject jsonObject;
 
                         try {
                             jsonObject = JSON.parseObject(data);
@@ -498,11 +498,14 @@ public class outFragment extends BaseFragment {
                         }
 
                         if (!jsonObject.containsKey(getLastType())) {
-                            Log.d("缺失环境");
+                            Log.d("缺失环境:" + jsonObject.toJSONString());
                             HandlerUtil.send(mHandler, HANDLE_ERR);
                             return;
                         }
+
+
                         JSONObject jsonObject1 = jsonObject.getJSONObject(getLastType());
+
                         if (jsonObject1 == null) {
                             HandlerUtil.send(mHandler, HANDLE_ERR);
                             return;
@@ -522,7 +525,8 @@ public class outFragment extends BaseFragment {
                                 bundleList.add(bundle);
                             }
                         } else if (type.equals("category") || type.equals("app_detail") || type.equals("notice_detail") || type.equals("sms_detail")) {
-                            if (app != null) {
+                            Log.i("当前App:" + app);
+                            if (app != null && !app.equals("") && jsonObject1.containsKey(app)) {
                                 jsonObject1 = jsonObject1.getJSONObject(app);
                             }
                             if (jsonObject1 == null) {
@@ -617,7 +621,7 @@ public class outFragment extends BaseFragment {
                         }
                         JSONObject jsonObject1 = jsonObject.getJSONObject(getLastType());
                         //Log.i(jsonObject1.toJSONString());
-                        if (app != null) {
+                        if (app != null && !app.equals("")) {
                             jsonObject1 = jsonObject1.getJSONObject(app);
                         }
                         //  Log.i(app);
