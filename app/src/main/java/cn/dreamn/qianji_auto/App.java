@@ -17,6 +17,7 @@ import cn.dreamn.qianji_auto.ui.base.BaseActivity;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.utils.runUtils.CrashUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 
 
 public class App extends Application {
@@ -106,7 +107,7 @@ public class App extends Application {
     }
 
     private void initTasker() {
-
+        TaskThread.initThread();
     }
 
     @Override

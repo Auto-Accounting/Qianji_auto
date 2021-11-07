@@ -20,7 +20,8 @@ package cn.dreamn.qianji_auto.utils.runUtils;
 import android.os.Handler;
 import android.os.Looper;
 
-
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -29,7 +30,7 @@ import android.os.Looper;
 
 public class TaskThread {
 
-
+    static ExecutorService executorService;
     public interface TaskResult {
         void onEnd(Object obj);
     }
@@ -52,20 +53,21 @@ public class TaskThread {
             try {
                 runnable.run();
             } catch (Exception e) {
-                Log.d("task",e.toString());
+                Log.d("task", e.toString());
             }
         };
         sMainHandler.post(run);
     }
 
-    public static void onThread(final Runnable runnable){
-        if(isMainThread()){
-            new Thread(runnable).start();
-        }else{
-            runnable.run();
-        }
+    public static void initThread() {
+        executorService = Executors.newFixedThreadPool(20);
+    }
+
+    public static void onThread(final Runnable runnable) {
+        executorService.execute(runnable);
 
     }
+
     public static boolean isMainThread() {
         return Looper.getMainLooper() == Looper.myLooper();
     }
