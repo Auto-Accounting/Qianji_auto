@@ -161,7 +161,7 @@ public class RegularCenter {
                 billInfo.setRawAccount2(strs[4]);
                 billInfo.setFee(strs[6]);
                 billInfo.setTimeStamp(DateUtils.getAnyTime(strs[7]));
-                billInfo.setAuto(strs[8].equals("0"));
+                billInfo.setAuto(strs[8].equals("1"));
                 taskResult.onEnd(billInfo);
             } else {
                 Log.i("js执行结果为NULL");
