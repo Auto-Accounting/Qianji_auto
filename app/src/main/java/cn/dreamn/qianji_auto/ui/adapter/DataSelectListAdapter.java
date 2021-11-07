@@ -27,6 +27,11 @@ public class DataSelectListAdapter extends ArrayAdapter {
     }
 
     @Override
+    public int getCount() {
+        return this.assets.length;
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         Asset asset = assets[position];

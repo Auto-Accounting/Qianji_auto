@@ -64,7 +64,7 @@ public class Assets {
 
     public static void getAllAccount(TaskThread.TaskResult taskResult) {
         TaskThread.onThread(() -> {
-            Asset[] assets = Db.db.AssetDao().getAll(0, 500);
+            Asset[] assets = Db.db.AssetDao().getAll(0, 200);
             taskResult.onEnd(assets);
         });
     }
@@ -144,7 +144,7 @@ public class Assets {
             @Override
             public void handleMessage(Message msg) {
                 Asset[] assets = (Asset[]) msg.obj;
-                if(assets==null){
+                if (assets == null || assets.length == 0) {
                     ToastUtils.show(R.string.no_assets);
                     return;
                 }
@@ -160,7 +160,7 @@ public class Assets {
                     }
                 }
                 dialog.title(null,title);
-                dialog.cornerRadius(15f,null);
+                dialog.cornerRadius(15f, null);
                 DialogCustomViewExtKt.customView(dialog, null, textEntryView,
                         false, true, false, false);
                 dialog.show();
@@ -170,11 +170,10 @@ public class Assets {
                 });
             }
         };
-
-        getAllAccount(asset -> {
-            HandlerUtil.send(mHandler, asset, 0);
+        TaskThread.onThread(() -> {
+            Asset[] assets = Db.db.AssetDao().getAll(0, 200);
+            HandlerUtil.send(mHandler, assets, 0);
         });
-
 
     }
 
