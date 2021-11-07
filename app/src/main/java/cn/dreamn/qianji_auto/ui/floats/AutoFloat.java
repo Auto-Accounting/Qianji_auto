@@ -107,6 +107,9 @@ public class AutoFloat {
     private LinearLayout ll_remark;
     private TextView tv_remark;
 
+    private TextView textView_account1;
+    private TextView textView_account2;
+
     private Button button_fail;
 
     private Button button_next;
@@ -391,6 +394,17 @@ public class AutoFloat {
         tv_money.setText(BillTools.getCustomBill(billInfo));
         tv_money.setTextColor(BillTools.getColor(getContext(), billInfo));
 
+        if (billInfo.getType().equals(BillInfo.TYPE_INCOME)) {
+            textView_account1.setText("收入账户");
+        } else if (billInfo.getType().equals(BillInfo.TYPE_PAY)) {
+            textView_account1.setText("支出账户");
+        } else if (billInfo.getType().equals(BillInfo.TYPE_PAYMENT_REFUND)) {
+            textView_account1.setText("转出账户");
+            textView_account1.setText("转入账户");
+        } else if (billInfo.getType().equals(BillInfo.TYPE_CREDIT_CARD_PAYMENT)) {
+            textView_account1.setText("付款账户");
+            textView_account2.setText("还入账户");
+        }
 
         if (billInfo.getType().equals(BillInfo.TYPE_INCOME) || billInfo.getType().equals(BillInfo.TYPE_PAY) || billInfo.getType().equals(BillInfo.TYPE_PAYMENT_REFUND)) {
             ll_account2.setVisibility(View.GONE);
@@ -501,7 +515,8 @@ public class AutoFloat {
         tv_remark = mView.findViewById(R.id.tv_remark);
         button_fail = mView.findViewById(R.id.button_last);
         button_next = mView.findViewById(R.id.button_next);
-
+        textView_account1 = mView.findViewById(R.id.textView_account1);
+        textView_account2 = mView.findViewById(R.id.textView_account2);
     }
 
 

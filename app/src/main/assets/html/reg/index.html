@@ -214,6 +214,7 @@
                 }else if(type==="notice"){
                     $("title").html("通知规则编辑")
                 }
+                setArea($("#type").val());
             },
             setSelect: function (dom, data) {
                 const jq = layui.$("input[name=" + dom + "]");
@@ -287,25 +288,18 @@
             webview.selectReg(dom, JSON.stringify(regexData));
         });
 
-       /* layui.$(".clearfix a").on('click',function () {
-            const reg = layui.$(this).data("reg");
-            console.log(reg,layui.$("#regex_input").html(),layui.$("#regex_input").val())
-            $("#regex_input").val(layui.$("#regex_input").val()+reg);
-         //   location.reload();
-        })
-*/
         function setArea(type){
             layui.$(".account2_area").css("display", "block");
             layui.$(".fee_area").css("display", "block");
-            if (type === "支出") {
+            if (type === "0") {
                 layui.$(".account1").html("支出账户");
                 layui.$(".account2_area").css("display", "none");
                 layui.$(".fee_area").css("display", "none");
-            } else if (type === "收入") {
+            } else if (type === "1") {
                 layui.$(".account1").html("收入账户");
                 layui.$(".account2_area").css("display", "none");
                 layui.$(".fee_area").css("display", "none");
-            } else if (type === "转账") {
+            } else if (type === "2") {
                 layui.$(".account1").html("转出账户");
                 layui.$(".account2").html("转入账户");
             } else {

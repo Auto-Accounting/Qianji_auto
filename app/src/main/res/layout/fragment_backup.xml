@@ -115,7 +115,7 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/textView16"
+                    android:id="@+id/textView_account1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/webdav_passwd"
@@ -126,7 +126,7 @@
                     android:id="@+id/site_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textView16"
+                    android:layout_below="@+id/textView_account1"
                     android:layout_marginTop="10dp"
                     android:maxLength="20"
                     android:text="@string/webdav_passwd"
