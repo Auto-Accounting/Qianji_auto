@@ -44,6 +44,7 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Helper.Assets;
+import cn.dreamn.qianji_auto.data.database.Table.Asset;
 import cn.dreamn.qianji_auto.ui.adapter.MapListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.IconView;
@@ -133,9 +134,9 @@ public class MainMapFragment extends BaseFragment {
                 @Override
                 public void input(String data) {
                     Assets.showAssetSelect(getContext(), getString(R.string.assert_choose), false, obj -> {
-                        Bundle asset2s = (Bundle) obj;
+                        Asset asset2s = (Asset) obj;
                         TaskThread.onThread(() -> {
-                            Db.db.AssetMapDao().add(data, asset2s.getString("name"));
+                            Db.db.AssetMapDao().add(data, asset2s.name);
                             HandlerUtil.send(mHandler, getString(R.string.add_success), HANDLE_REFRESH);
                         });
                     });
