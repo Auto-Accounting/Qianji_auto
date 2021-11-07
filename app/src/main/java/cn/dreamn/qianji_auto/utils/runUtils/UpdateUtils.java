@@ -18,7 +18,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
-import cn.dreamn.qianji_auto.utils.task.RunBody;
+
 
 public class UpdateUtils {
 
@@ -32,9 +32,9 @@ public class UpdateUtils {
                     update.onNoUpdate();
                     return;
                 }
-                RunBody runBody = (RunBody) msg.obj;
-                if (runBody == null) return;
-                runBody.run(context, null);
+                Runnable runnable = (Runnable) msg.obj;
+                if (runnable == null) return;
+                runnable.run();
             }
         };
         checkAndroidUpdate(context, handler);
@@ -62,7 +62,7 @@ public class UpdateUtils {
                         Log.i("线程context已被销毁！");
                         return;
                     }
-                    RunBody runBody = (context1, task) -> BottomArea.msg(context1, context1.getString(R.string.new_version) + jsonObject1.getString("version"), jsonObject1.getString("log"), context1.getString(R.string.update_go), context1.getString(R.string.update_cancel), new BottomArea.MsgCallback() {
+                    Runnable runnable = () -> BottomArea.msgAuto(context, context.getString(R.string.new_version) + jsonObject1.getString("version"), jsonObject1.getString("log"), context.getString(R.string.update_go), context.getString(R.string.update_cancel), new BottomArea.MsgCallback() {
                         @Override
                         public void cancel() {
                             MMKV mmkv1 = MMKV.defaultMMKV();
@@ -71,11 +71,11 @@ public class UpdateUtils {
 
                         @Override
                         public void sure() {
-                            Tool.goUrl(context1, jsonObject1.getString("download"));
+                            Tool.goUrl(context, jsonObject1.getString("download"));
 
                         }
                     });
-                    HandlerUtil.send(handler, runBody, 0);
+                    HandlerUtil.send(handler, runnable, 0);
                 } else {
                     HandlerUtil.send(handler, -1);
                 }

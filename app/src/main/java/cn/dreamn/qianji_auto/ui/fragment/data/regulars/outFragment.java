@@ -22,7 +22,6 @@ import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
 import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -67,8 +66,6 @@ import cn.dreamn.qianji_auto.utils.runUtils.AutoBillWeb;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
-import cn.dreamn.qianji_auto.utils.task.ConsumptionTask;
-import cn.dreamn.qianji_auto.utils.task.RunBody;
 
 
 @Page(name = "APP规则页面", anim = CoreAnim.slide)
@@ -506,7 +503,10 @@ public class outFragment extends BaseFragment {
                             return;
                         }
                         JSONObject jsonObject1 = jsonObject.getJSONObject(getLastType());
-
+                        if (jsonObject1 == null) {
+                            HandlerUtil.send(mHandler, HANDLE_ERR);
+                            return;
+                        }
                         List<Bundle> bundleList = new ArrayList<>();
                         if (type.equals("app") || type.equals("notice") || type.equals("sms")) {
                             for (Map.Entry<String, Object> stringObjectEntry : jsonObject1.entrySet()) {
@@ -524,6 +524,10 @@ public class outFragment extends BaseFragment {
                         } else if (type.equals("category") || type.equals("app_detail") || type.equals("notice_detail") || type.equals("sms_detail")) {
                             if (app != null) {
                                 jsonObject1 = jsonObject1.getJSONObject(app);
+                            }
+                            if (jsonObject1 == null) {
+                                HandlerUtil.send(mHandler, HANDLE_ERR);
+                                return;
                             }
                             //分类
                             for (Map.Entry<String, Object> stringObjectEntry : jsonObject1.entrySet()) {
@@ -553,9 +557,9 @@ public class outFragment extends BaseFragment {
             });
         } else {
 
-            RunBody runBody = new RunBody() {
+            Runnable runnable = new Runnable() {
                 @Override
-                public void run(Context context, ConsumptionTask task) {
+                public void run() {
                     TaskThread.onThread(() -> {
                         Regular[] regulars;
                         if (type.equals("notice") || type.equals("app")) {
@@ -588,7 +592,7 @@ public class outFragment extends BaseFragment {
                 AutoBillWeb.getList(getContext(), new AutoBillWeb.WebCallback() {
                     @Override
                     public void onFailure() {
-                        runBody.run(null, null);
+                        runnable.run();
                     }
 
                     @Override
@@ -599,7 +603,7 @@ public class outFragment extends BaseFragment {
                             jsonObject = JSON.parseObject(data);
                         } catch (Exception e) {
                             Log.d("解析JSON失败：" + data);
-                            runBody.run(null, null);
+                            runnable.run();
                             //   HandlerUtil.send(mHandler, HANDLE_ERR);
                             return;
                         }
@@ -607,7 +611,7 @@ public class outFragment extends BaseFragment {
 
                         if (!jsonObject.containsKey(getLastType())) {
                             Log.d("JSON不包含数据：" + data);
-                            runBody.run(null, null);
+                            runnable.run();
                             //    HandlerUtil.send(mHandler, HANDLE_ERR);
                             return;
                         }
@@ -619,11 +623,11 @@ public class outFragment extends BaseFragment {
                         //  Log.i(app);
                         //更新文件加上
                         cAdapter.setUpdateJSON(jsonObject1, isWeb);
-                        runBody.run(null, null);
+                        runnable.run();
                     }
                 });
             } else {
-                runBody.run(null, null);
+                runnable.run();
             }
 
 

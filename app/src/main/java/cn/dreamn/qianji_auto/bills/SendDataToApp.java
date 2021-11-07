@@ -33,6 +33,7 @@ import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.data.data.RegularCenter;
 import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Helper.AutoBills;
+import cn.dreamn.qianji_auto.data.database.Table.AutoBill;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
@@ -40,6 +41,7 @@ import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.ui.utils.ScreenUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
 public class SendDataToApp {
@@ -140,6 +142,7 @@ public class SendDataToApp {
 
     public static void goApp(Context context, BillInfo billInfo) {
         TaskThread.onThread(() -> {
+            //设置为已记录
             Db.db.AutoBillDao().update(billInfo.toString());
         });
         MMKV mmkv = MMKV.defaultMMKV();
@@ -199,7 +202,24 @@ public class SendDataToApp {
             } else {
                 Log.i(TAG, "半自动模式->发出记账通知");
                 //通知处理
-                //   Tool.notice(context1, context1.getString(R.string.notice_name), "￥" + billInfo.getMoney() + " - " + billInfo.getRemark(), billInfo);
+                Handler handler = new Handler(Looper.getMainLooper()) {
+                    @Override
+                    public void handleMessage(@NonNull Message msg) {
+                        int count = (int) msg.obj;
+                        Tool.notice(context1, context1.getString(R.string.notice_name), "您有" + count + "条账单待记录");
+
+                    }
+                };
+
+                TaskThread.onThread(() -> {
+                    AutoBill[] autoBills = Db.db.AutoBillDao().getNoRecord();
+                    if (autoBills == null || autoBills.length == 0) {
+                        Log.i("异常：数据为0走不到这个流程！");
+                        return;
+                    }
+                    HandlerUtil.send(handler, autoBills.length);
+                });
+
             }
         } else {
             Log.i(TAG, "当前处于前台状态");

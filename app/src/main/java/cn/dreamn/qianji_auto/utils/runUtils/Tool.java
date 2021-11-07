@@ -30,7 +30,6 @@ import java.util.Random;
 import java.util.Set;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.core.broadcast.NotificationClickReceiver;
 import cn.dreamn.qianji_auto.data.local.FileUtils;
 
@@ -67,15 +66,13 @@ public class Tool {
         }
     }
 
-    public static void notice(Context context, String title, String content, BillInfo billInfo) {
+    public static void notice(Context context, String title, String content) {
         Log.d("发送记账通知");
         Notification mNotification;
         NotificationManager mNotificationManager;
         mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        Intent intent =new Intent (context, NotificationClickReceiver.class);
-        intent.putExtra("billinfo",billInfo.toString());
-        PendingIntent pendingIntent =PendingIntent.getBroadcast(context, 0, intent, 0);
+        Intent intent = new Intent(context, NotificationClickReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("1",
                     "记账通知", NotificationManager.IMPORTANCE_HIGH);
@@ -107,7 +104,7 @@ public class Tool {
 
         }
 
-        mNotificationManager.notify((int) (Math.random() * 1000), mNotification);
+        mNotificationManager.notify(86922, mNotification);
 
     }
 

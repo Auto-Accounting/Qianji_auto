@@ -52,6 +52,7 @@ public interface AutoBillDao {
     @Query("SELECT * FROM autobill WHERE isRecord=0 order by CAST(date as double),id desc")
     AutoBill[] getNoRecord();
 
+
     @Query("DELETE FROM autobill")
     void delAll();
 
