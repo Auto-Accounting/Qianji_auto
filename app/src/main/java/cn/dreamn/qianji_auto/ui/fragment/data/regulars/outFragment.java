@@ -237,23 +237,23 @@ public class outFragment extends BaseFragment {
 
         if (!isWeb) {
             action_cate.setOnClickListener(v -> {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("identify", getLastType());
+                jsonObject.put("dataId", "");
+                jsonObject.put("id", "");
+                jsonObject.put("version", "0");
                 if (type.equals("category")) {
                     BottomArea.list(getContext(), getString(R.string.select_edit), Arrays.asList(getString(R.string.edit_default), getString(R.string.edit_js)), index -> {
                         switch (index) {
                             case 0:
-                                WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/index.html");
+                                WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/index.html", jsonObject.toJSONString());
                                 break;
                             case 1:
-                                WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/js.html");
+                                WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/cate/js.html", jsonObject.toJSONString());
                                 break;
                         }
                     });
                 } else {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("identify", getLastType());
-                    jsonObject.put("dataId", "");
-                    jsonObject.put("id", "");
-                    jsonObject.put("version", "0");
                     if (app != null && !app.equals("")) {
                         jsonObject.put("regular_app", app);
                     }
