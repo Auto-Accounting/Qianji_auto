@@ -83,7 +83,14 @@ public class BillInfo {
     }
 
     public static BillInfo parse(String url) {
-        Uri mUri = Uri.parse(url);
+        Uri mUri;
+        try {
+            mUri = Uri.parse(url);
+        } catch (Throwable e) {
+            e.printStackTrace();
+            Log.i("数据有误：" + url);
+            return new BillInfo();
+        }
         BillInfo billInfo = new BillInfo();
         // 获得所有参数 key
         Set<String> params = mUri.getQueryParameterNames();

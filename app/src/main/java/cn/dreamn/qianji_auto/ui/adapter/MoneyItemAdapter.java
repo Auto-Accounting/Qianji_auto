@@ -32,7 +32,7 @@ public class MoneyItemAdapter extends BaseAdapter {
         TextView remark= holder.findViewById(R.id.remark);
         TextView paytools= holder.findViewById(R.id.paytools);
 
-        BillInfo billInfo=BillInfo.parse(item.getString("billinfo"));
+        BillInfo billInfo = BillInfo.parse(item.getString("billInfo"));
         sort.setText(billInfo.getCateName());
         date.setText(billInfo.getTime());
         money.setText(BillTools.getCustomBill(billInfo));

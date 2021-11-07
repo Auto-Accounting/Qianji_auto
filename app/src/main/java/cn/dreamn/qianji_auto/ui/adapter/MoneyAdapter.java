@@ -12,7 +12,6 @@ import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
@@ -33,7 +32,6 @@ public class MoneyAdapter extends BaseAdapter {
 
     @Override
     public SmartRecyclerAdapter<Bundle> refresh(Collection<Bundle> collection) {
-        List<Bundle> list = (List<Bundle>) collection;
         return super.refresh(collection);
     }
 

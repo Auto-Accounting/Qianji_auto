@@ -54,6 +54,7 @@ import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
@@ -155,7 +156,6 @@ public class MoneyFragment extends BaseFragment {
                         haspMap.put(autoBill.date, bundles);
                     }
 
-                    new Bundle();
                     Bundle bundle = Tool.class2Bundle(autoBill);
                     assert bundles != null;
                     bundles.add(bundle);
@@ -182,6 +182,8 @@ public class MoneyFragment extends BaseFragment {
 
                 list = bundles;
 
+                //  Log.d(list.toString());
+
                 HandlerUtil.send(mHandler, HANDLE_OK);
             }
         });
@@ -189,7 +191,8 @@ public class MoneyFragment extends BaseFragment {
 
     @SuppressLint("CheckResult")
     private void OnItemClickListen(Bundle bundle, int i) {
-        BillInfo billInfo = BillInfo.parse(bundle.getString("billinfo"));
+        Log.d(bundle.toString());
+        BillInfo billInfo = BillInfo.parse(bundle.getString("billInfo"));
         BottomArea.list(getContext(), getString(R.string.select_function), Arrays.asList(getString(R.string.money_send), getString(R.string.money_del), getString(R.string.money_copy)), new BottomArea.ListCallback() {
             @Override
             public void onSelect(int position) {
