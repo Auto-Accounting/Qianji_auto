@@ -202,11 +202,13 @@
 
         webviewCallback = {
             setData: function (data,type) {
-                if(data==""||data==null||type==""||type==null)return;
+                if(data===""||data==null||type===""||type==null)return;
+                console.log(data,type)
                 //设置自动保存
+                common.restoreFromData("form",baseFamily.decrypt(data,"base16"));
                 common.restore("form", "auto_reg_"+type);
                 common.autoSave("form",  "auto_reg_"+type);
-                common.restoreFromData("form",baseFamily.decrypt(data,"base16"));
+
                 if(type==="sms"){
                     $("title").html("短信规则编辑")
                 }else if(type==="app"){
@@ -269,7 +271,7 @@
 
         layui.$("#save").on("click", function (e) {
             webview.saveReg(getJs(), JSON.stringify(form.val("form")))
-            common.cleanSave("auto_reg");
+            common.cleanSave("auto_reg_"+$("#type").val());
         });
 
         layui.$("#test").on("click", function (e) {
