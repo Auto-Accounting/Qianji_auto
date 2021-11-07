@@ -28,8 +28,8 @@
     <form action="" class="layui-form layui-form-pane" id="form" lay-filter="form">
         <input autocomplete="off" class="layui-input" name="id" style="display: none" type="text"
                value="">
-        <input autocomplete="off" class="layui-input" name="identify" style="display: none"
-               type="text" value="">
+        <input autocomplete="off" class="layui-input" id="identify" name="identify"
+               style="display: none" type="text" value="">
         <input autocomplete="off" class="layui-input" name="dataId" style="display: none"
                type="text" value="">
         <input autocomplete="off" class="layui-input" name="version" style="display: none"
@@ -205,8 +205,8 @@
                 if(data===""||data==null||type===""||type==null)return;
                 console.log(data,type)
                 //设置自动保存
-                common.restoreFromData("form",baseFamily.decrypt(data,"base16"));
                 common.restore("form", "auto_reg_"+type);
+                common.restoreFromData("form",baseFamily.decrypt(data,"base16"));
                 common.autoSave("form",  "auto_reg_"+type);
 
                 if(type==="sms"){
@@ -271,7 +271,7 @@
 
         layui.$("#save").on("click", function (e) {
             webview.saveReg(getJs(), JSON.stringify(form.val("form")))
-            common.cleanSave("auto_reg_"+$("#type").val());
+            common.cleanSave("auto_reg_"+$("#identify").val());
         });
 
         layui.$("#test").on("click", function (e) {

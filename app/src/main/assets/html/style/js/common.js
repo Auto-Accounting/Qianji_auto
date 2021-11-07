@@ -49,7 +49,6 @@ layui.define('form', function (exports) {
         },
         restoreFromData: function (dom, data,editor) {
             let res = JSON.parse(data);
-            //console.log("数据恢复");
             if (res != null) {
               //  console.log(res);
                 if(editor!==undefined){

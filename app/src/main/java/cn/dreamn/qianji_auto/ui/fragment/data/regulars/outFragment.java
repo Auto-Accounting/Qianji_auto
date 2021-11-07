@@ -251,6 +251,9 @@ public class outFragment extends BaseFragment {
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("identify", getLastType());
+                    jsonObject.put("dataId", "");
+                    jsonObject.put("id", "");
+                    jsonObject.put("version", "0");
                     if (app != null && !app.equals("")) {
                         jsonObject.put("regular_app", app);
                     }
