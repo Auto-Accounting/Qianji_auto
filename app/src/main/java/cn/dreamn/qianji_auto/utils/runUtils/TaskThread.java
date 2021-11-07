@@ -59,8 +59,8 @@ public class TaskThread {
         sMainHandler.post(run);
     }
 
-    public static void initThread() {
-        executorService = Executors.newFixedThreadPool(20);
+    public static void initThread(int count) {
+        executorService = Executors.newFixedThreadPool(count);
     }
 
     public static void onThread(final Runnable runnable) {

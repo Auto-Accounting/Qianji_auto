@@ -107,7 +107,7 @@ public class App extends Application {
     }
 
     private void initTasker() {
-        TaskThread.initThread();
+        TaskThread.initThread(20);
     }
 
     @Override
