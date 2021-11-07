@@ -199,7 +199,7 @@ public class SendDataToApp {
             } else {
                 Log.i(TAG, "半自动模式->发出记账通知");
                 //通知处理
-                //  Tool.notice(context1, context1.getString(R.string.notice_name), "￥" + billInfo.getMoney() + " - " + billInfo.getRemark(), billInfo);
+                //   Tool.notice(context1, context1.getString(R.string.notice_name), "￥" + billInfo.getMoney() + " - " + billInfo.getRemark(), billInfo);
             }
         } else {
             Log.i(TAG, "当前处于前台状态");

@@ -189,11 +189,24 @@ public class AppFragment extends BaseFragment {
                     } else if (position == 1) {
 
                         JSONObject jsonObject = new JSONObject();
+
                         jsonObject.put("type", "0");
-                        jsonObject.put("name", getString(R.string.reg_create));
-                        jsonObject.put("text", item.getString("rawData"));
-                        jsonObject.put("regular", item.getString("rawData"));
-                        jsonObject.put("fromApp", item.getString("fromApp"));
+                        jsonObject.put("id", "");
+                        jsonObject.put("dataId", Tool.getRandomString(32));
+                        jsonObject.put("version", "0");
+                        jsonObject.put("account_name1", "");
+                        jsonObject.put("account_name2", "");
+                        jsonObject.put("money", "");
+                        jsonObject.put("fee", "");
+                        jsonObject.put("shopName", "");
+                        jsonObject.put("shopRemark", "");
+                        jsonObject.put("time", "");
+                        jsonObject.put("auto", "0");
+                        jsonObject.put("regular_app", item.getString("fromApp"));
+                        jsonObject.put("regular_remark", "");
+                        jsonObject.put("regular_name", getString(R.string.reg_create));
+                        jsonObject.put("str_input", item.getString("rawData"));
+                        jsonObject.put("regex_input", item.getString("rawData"));
                         jsonObject.put("identify", getType());
                         WebViewFragment.openUrl(baseFragment, "file:///android_asset/html/reg/index.html", jsonObject.toJSONString());
                     } else if (position == 2) {

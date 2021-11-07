@@ -29,6 +29,21 @@ public class g extends c {
                 if (i + 1 < list.size()) {
                     a2.setShopRemark(list.get(i + 1));
                 }
+
+                if (i + 2 < list.size()) {
+                    String ss = list.get(i + 2);
+                    String m = replace(ss);
+                    if (this.isMoney(m)) {
+                        setMoney(a2, m);
+                        a2.setType(BillInfo.TYPE_INCOME);
+                    } else if (ss.startsWith("已领取0") && ss.contains("个，共")) {
+                        m = ss.substring(ss.lastIndexOf("/") + 1, ss.length() - 1);
+                        if (this.isMoney(m)) {
+                            setMoney(a2, m);
+                        }
+                    }
+
+                }
             } else if (!s.contains("红包金额") && !s.contains("元")) {
                 StringBuilder sb = new StringBuilder();
                 String s2;
@@ -85,7 +100,7 @@ public class g extends c {
                 }
             } else {
                 final int index3 = s.indexOf("元");
-                Log.i("s:" + index3);
+                Log.i("ss:" + index3);
                 if (index3 > 4) {
 
                     final String replace3 = s.substring(0, index3).replace("红包金额", "").replace(",", "");

@@ -217,7 +217,7 @@ public class h extends c {
                     a5.setShopRemark("微信转账");
                 }
                 if (a5.getAccountName().equals("")) {
-                    a5.setShopRemark("微信");
+                    a5.setAccountName("微信");
                 }
                 f6.c = a5.getShopRemark();
                 f6.d = a5;

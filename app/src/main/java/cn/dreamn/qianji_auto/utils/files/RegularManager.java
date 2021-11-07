@@ -175,7 +175,7 @@ public class RegularManager {
 
                 String reg = ";try{pattern=/%s/;if(pattern.test(a)){var array=pattern.exec(a);var remark='%s',account='%s',type='%s',money='%s',shopName='%s',account2='%s',fee='%s',time='%s';for(var i=array.length-1;i>=1;i--){var rep=\"$\"+i.toString();var repStr=array[i];remark=remark.replace(rep,repStr);account=account.replace(rep,repStr);type=type.replace(rep,repStr);money=money.replace(rep,repStr);shopName=shopName.replace(rep,repStr);account2=account2.replace(rep,repStr);fee=fee.replace(rep,repStr);time=time.replace(rep,repStr)}return remark+'##'+account+'##'+type+'##'+money+'##'+account2+'##'+shopName+'##'+fee+'##'+time+'##%s'}}catch(e){console.log(e)};";
 
-                regular = String.format(reg, jsonObject.getString("regular"), jsonObject3.getString("shopRemark"), jsonObject3.getString("account1"), jsonObject3.getString("type"), jsonObject3.getString("money"), jsonObject3.getString("shopName"), jsonObject3.getString("account2"), jsonObject3.getString("fee"), jsonObject3.getString("time"), jsonObject3.getString("auto"));
+                regular = String.format(reg, jsonObject.getString("regular"), jsonObject3.getString("shopRemark"), jsonObject3.getString("account_name1"), jsonObject3.getString("type"), jsonObject3.getString("money"), jsonObject3.getString("shopName"), jsonObject3.getString("account_name2"), jsonObject3.getString("fee"), jsonObject3.getString("time"), jsonObject3.getString("auto"));
 
             } else {
 
