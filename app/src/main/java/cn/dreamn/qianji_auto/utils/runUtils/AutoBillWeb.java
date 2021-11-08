@@ -27,6 +27,9 @@ public class AutoBillWeb {
                 callback.onSuccessful(response);
                 return;
             }
+        } else {
+            mCache.clear();
+            //清空缓存
         }
         MMKV mmkv = MMKV.defaultMMKV();
         String baseUrl;
@@ -67,7 +70,7 @@ public class AutoBillWeb {
 
                 Log.i("自动记账:Web", "Path：" + url + "\nBase:" + baseUrl + "\nResult:" + string + "\n");
                 if (response.code() == 200 && response.isSuccessful()) {
-                    mCache.put(url, string);
+                    mCache.put(url, string, ACache.TIME_HOUR);
                     callback.onSuccessful(string);
                 } else {
                     callback.onFailure();
