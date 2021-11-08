@@ -38,17 +38,18 @@ public class Notice extends AndroidBase {
                     }
                 });
             } catch (Throwable e3) {
-                try {
-                    XposedHelpers.findAndHookMethod(NotificationManager.class, "notifyAsPackage", String.class, String.class, int.class, Notification.class, new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            detailNotice((Notification) param.args[3], (String) param.args[0]);
-                        }
-                    });
-                } catch (Throwable e2) {
 
-                }
             }
+
+        }
+        try {
+            XposedHelpers.findAndHookMethod(NotificationManager.class, "notifyAsPackage", String.class, String.class, int.class, Notification.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    detailNotice((Notification) param.args[3], (String) param.args[0]);
+                }
+            });
+        } catch (Throwable e2) {
 
         }
 
