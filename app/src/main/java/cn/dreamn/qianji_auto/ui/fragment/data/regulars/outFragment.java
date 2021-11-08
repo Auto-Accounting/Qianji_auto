@@ -305,6 +305,10 @@ public class outFragment extends BaseFragment {
         Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
+                if (getContext() == null) {
+                    popToBack();
+                    return;
+                }
                 RegularManager.restoreFromData(getContext(), getName(), getLastType(), (String) msg.obj, code -> {
                 });
             }

@@ -19,6 +19,10 @@ import okhttp3.Response;
 public class AutoBillWeb {
 
     public static void getWebData(String url, Context mContext, WebCallback callback) {
+        if (mContext == null) {
+            callback.onFailure();
+            return;
+        }
         //web访问增加缓存
         ACache mCache = ACache.get(mContext);
         if (!AppStatus.isDebug()) {
@@ -93,6 +97,7 @@ public class AutoBillWeb {
     }
 
     public static void getById(String dataId, Context mContext, WebCallback callback) {
+
         String addUrl = "/regulars/" + dataId + ".json";
         getWebData(addUrl, mContext, callback);
     }
