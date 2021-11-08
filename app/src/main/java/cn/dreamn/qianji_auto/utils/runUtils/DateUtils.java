@@ -76,33 +76,40 @@ public class DateUtils {
             } else {
                 String format = "";
                 String[] t2;
-                boolean needYear = true;
-                String yearType = "-";
-                if (time.contains("年")) {
-                    needYear = false;
-                }
-                if (time.contains("月")) {
-                    format += "yyyy年MM月";
-                    yearType = "年";
-                }
+                time = time.replace("号", "日");
                 if (time.contains("日")) {
-                    format += "dd日";
-                }
-                if (time.contains("-")) {
-                    t2 = time.split("-");
-                    yearType = "-";
-                    if (t2.length == 3) {
-                        needYear = false;
+                    format += "yyyy年MM月dd日";
+                    String[] strings = time.split("日");
+                    String t3 = strings[0];
+                    if (!t3.contains("月")) {
+                        String month = getTime("MM");
+                        t3 = month + "月" + t3;
                     }
+                    if (!t3.contains("年")) {
+                        String year = getTime("yyyy");
+                        t3 = year + "年" + t3;
+                    }
+                    time = t3 + "日" + strings[1];
+                } else if (time.contains("-")) {
                     format += "yyyy-MM-dd";
-                } else if (time.contains("/")) {
-                    t2 = time.split("/");
-                    yearType = "/";
-                    if (t2.length == 3) {
-                        needYear = false;
+                    String[] strings = time.split("-");
+                    if (strings.length == 2) {
+                        time = getTime("yyyy-") + time;
                     }
+                } else if (time.contains("/")) {
                     format += "yyyy/MM/dd";
+                    String[] strings = time.split("/");
+                    if (strings.length == 2) {
+                        time = getTime("yyyy/") + time;
+                    }
                 }
+
+
+                if (!format.contains("dd")) {
+                    format = "yyyy-MM-dd";
+                    time = getTime("yyyy-MM-dd ") + time;
+                }
+
 
                 if (time.contains(" ")) {
                     format += " ";
@@ -126,18 +133,12 @@ public class DateUtils {
                     format += "ss秒";
                 }
 
-                if (needYear) {
-                    time = getTime("yyyy") + yearType + time;
-                }
-
-                Log.i("Time原始数据：" + time + "计算格式化数据:" + format);
-                if (format.equals("")) throw new Throwable("not useful date");
+                System.out.println("Time原始数据：" + time + "计算格式化数据:" + format);
                 t = dateToStamp(time, format);
             }
         } catch (Throwable e) {
             t = dateToStamp(getTime("yyyy-MM-dd HH:mm:ss"), "yyyy-MM-dd HH:mm:ss");
         }
-
         return t;
     }
 
