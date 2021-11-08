@@ -100,6 +100,9 @@ public class RegularManager {
         TaskThread.onThread(() -> {
             for (int i = 0; i < array.size(); i++) {
                 JSONObject jsonObject1 = array.getJSONObject(i);
+                if (jsonObject1 != null && jsonObject1.toJSONString().contains("data://string?")) {
+                    continue;
+                }
 
                 if (jsonObject1.containsKey("tableList")) {
                     //老版本转换
