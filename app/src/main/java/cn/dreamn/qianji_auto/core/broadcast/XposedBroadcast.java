@@ -70,7 +70,7 @@ public class XposedBroadcast extends BroadcastReceiver {
                 }
             };
 
-            RegularCenter.getInstance("app").run(app, data, null, new TaskThread.TaskResult() {
+            RegularCenter.getInstance(identify).run(app, data, null, new TaskThread.TaskResult() {
                 @Override
                 public void onEnd(Object obj) {
                     BillInfo billInfo = (BillInfo) obj;
