@@ -614,8 +614,8 @@ public class outFragment extends BaseFragment {
                         Regular[] regulars;
                         if (type.equals("notice") || type.equals("app")) {
                             regulars = Db.db.RegularDao().loadApps(getLastType());
-                        } else if (app == null) {
-                            regulars = Db.db.RegularDao().load(getLastType(), "", 0, 200);
+                        } else if (app == null || app.equals("")) {
+                            regulars = Db.db.RegularDao().load(getLastType(), 0, 200);
                         } else {
                             regulars = Db.db.RegularDao().load(getLastType(), app, 0, 200);
                         }
