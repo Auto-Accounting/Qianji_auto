@@ -115,7 +115,10 @@ public class RegularCenter {
     }
 
     public void run(String app, String data, String addJs, TaskThread.TaskResult taskResult) {
+        data = data.replace("'", "\\'");
+        String finalData = data;
         TaskThread.onThread(() -> {
+
             Regular[] regulars = Db.db.RegularDao().loadUse(type, app, 0, 200);
             StringBuilder dataList = new StringBuilder();
             //  String reg = ";try{pattern=/%s/;if(pattern.test(a)){var array=pattern.exec(a);var remark='%s',account='%s',type='%s',money='%s',shopName='%s',account2='%s',fee='%s',time='%s';for(var i=array.length-1;i>=1;i--){var rep=\"$\"+i.toString();var repStr=array[i];remark=remark.replace(rep,repStr);account=account.replace(rep,repStr);type=type.replace(rep,repStr);money=money.replace(rep,repStr);shopName=shopName.replace(rep,repStr);account2=account2.replace(rep,repStr);fee=fee.replace(rep,repStr);time=time.replace(rep,repStr)}return remark+'##'+account+'##'+type+'##'+money+'##'+account2+'##'+shopName+'##'+fee+'##'+time+'##%s'}}catch(e){console.log(e)};";
@@ -135,7 +138,7 @@ public class RegularCenter {
 
             String js = ";function getData(a){a=(a.replace(/\\n/g,\"\\\\n\"));var b,account,type,money,shopName,account2,fee,time;%s return b+'##'+account+'##'+type+'##'+money+'##'+account2+'##'+shopName+'##'+fee+'##'+time+'##0'};;getData('%s')";
 
-            String testJs = String.format(js, dataList.toString(), data);
+            String testJs = String.format(js, dataList.toString(), finalData);
 
             //获得所有Js
             String result = "";
