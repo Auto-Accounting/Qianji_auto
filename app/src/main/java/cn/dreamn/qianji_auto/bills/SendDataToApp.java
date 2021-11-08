@@ -22,6 +22,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -37,6 +38,7 @@ import cn.dreamn.qianji_auto.data.database.Table.AutoBill;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloat;
 import cn.dreamn.qianji_auto.ui.floats.AutoFloatTip;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.ui.utils.ScreenUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -155,6 +157,21 @@ public class SendDataToApp {
         Handler mHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
+                if (msg.what == 1) {
+                    BottomArea.msg(context, "记住本次分类", "检测到您的选择的分类与自动分类的结果不一致（" + msg.obj + "），是否为您生成新分类规则？", "生成", "取消", new BottomArea.MsgCallback() {
+                        @Override
+                        public void cancel() {
+
+                        }
+
+                        @Override
+                        public void sure() {
+                            RegularCenter.setCateJs(billInfo, billInfo.getCateName());
+                            Toast.makeText(context, "生成成功！", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
                 Log.i(TAG, "前往记账app2");
                 AppManager.sendToApp(context, billInfo);
 
@@ -162,20 +179,25 @@ public class SendDataToApp {
         };
 
         TaskThread.onThread(() -> {
+            int id = billInfo.getId();
+            if (id != 0) {
+                Db.db.AutoBillDao().update(id, billInfo.toString());
+            }
             RegularCenter
                     .getInstance("category")
                     .run(billInfo, null, obj -> {
                         String cate = (String) obj;
+                        String setCate = billInfo.getCateName();
                         Log.i("再次获取cate:" + cate + "数据： " + billInfo.toString());
-                        if (cate.equals("NotFound")) {
-                            if (mmkv.getBoolean("auto_sort", false)) {
-                                RegularCenter.setCateJs(billInfo, billInfo.getCateName());
-                            }
-                        }
-                        int id = billInfo.getId();
+                        if (mmkv.getBoolean("auto_sort", false)) {
+                            if (cate.equals("NotFound")) {
+                                RegularCenter.setCateJs(billInfo, setCate);
 
-                        if (id != 0) {
-                            Db.db.AutoBillDao().update(id, billInfo.toString());
+                            } else if (!cate.equals(setCate)) {
+
+                                HandlerUtil.send(mHandler, cate + "→" + setCate, 1);
+                                return;
+                            }
                         }
                         HandlerUtil.send(mHandler, 0);
                     });
