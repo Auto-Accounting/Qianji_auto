@@ -175,7 +175,7 @@ public class Utils {
      */
 
     public boolean isDebug() {
-        return !readDataByApp("ankio", "debug").equals("");
+        return readDataByBoolean("app", "debug");
     }
 
     /**
@@ -184,7 +184,7 @@ public class Utils {
      * @param msg 日志数据
      */
     public void log(String msg) {
-        log(msg, false);
+        log(msg, true);
     }
 
     /**
@@ -215,9 +215,16 @@ public class Utils {
         sendBroadcast(SEND_LOG_ACTION, bundle);
     }
 
+    public Boolean readDataByBoolean(String app, String name) {
+        MultiprocessSharedPreferences.setAuthority("cn.dreamn.qianji_auto.provider");
+        SharedPreferences data = MultiprocessSharedPreferences.getSharedPreferences(getContext(), app, Context.MODE_PRIVATE);
+        return data.getBoolean(name, false);
+    }
+
     public String readDataByApp(String app, String name) {
         MultiprocessSharedPreferences.setAuthority("cn.dreamn.qianji_auto.provider");
         SharedPreferences data = MultiprocessSharedPreferences.getSharedPreferences(getContext(), app, Context.MODE_PRIVATE);
+
         return data.getString(name, "");
     }
 
