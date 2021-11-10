@@ -13,18 +13,18 @@
 <body>
 <div style="padding: 15px;">
     <form action="" class="layui-form layui-form-pane" id="form" lay-filter="form">
-        <input autocomplete="off" class="layui-input" name="id" style="display: none" type="text"
-               value="">
-        <input autocomplete="off" class="layui-input" name="dataId" style="display: none"
+        <input autocomplete="off" class="layui-input" id="id" name="id" style="display: none"
                type="text" value="">
-        <input autocomplete="off" class="layui-input" name="version" style="display: none"
-               type="text" value="1">
+        <input autocomplete="off" class="layui-input" id="dataId" name="dataId"
+               style="display: none" type="text" value="">
+        <input autocomplete="off" class="layui-input" id="version" name="version"
+               style="display: none" type="text" value="1">
 
         <div class="label-title">规则名称</div>
-        <input autocomplete="off" class="layui-input" name="regular_name" placeholder="分类规则名称"
-               type="text">
+        <input autocomplete="off" class="layui-input" id="regular_name" name="regular_name"
+               placeholder="分类规则名称" type="text">
         <div class="label-title">规则说明</div>
-        <textarea class="layui-textarea" name="regular_remark"
+        <textarea class="layui-textarea" id="regular_remark" name="regular_remark"
                   placeholder="使用注意事项、作者信息等..."></textarea>
 
         <div class="label-title">时间范围</div>
@@ -42,34 +42,39 @@
         <div class="label-title">金额满足条件</div>
 
         <div class="float-parent" style="position: relative;">
-            <select class="float-div" lay-filter="condition_money_max" name="regular_money1_link">
+            <select class="float-div" id="regular_money1_link" lay-filter="condition_money_max"
+                    name="regular_money1_link">
                 <option selected="" value="=">等于</option>
                 <option value=">=">大于等于</option>
                 <option value="<=">小于等于</option>
             </select>
-            <input autocomplete="off" class="layui-input" name="regular_money1" placeholder="不需要请留空"
+            <input autocomplete="off" class="layui-input" id="regular_money1" name="regular_money1"
+                   placeholder="不需要请留空"
                    style="padding-left: 95px" type="number">
 
         </div>
         <div class="float-parent" style="position: relative;margin-top: 5px">
-            <select class="float-div" lay-filter="condition_money_min" name="regular_money2_link">
+            <select class="float-div" id="regular_money2_link" lay-filter="condition_money_min"
+                    name="regular_money2_link">
                 <option selected="" value="=">等于</option>
                 <option value=">=">大于等于</option>
                 <option value="<=">小于等于</option>
             </select>
-            <input autocomplete="off" class="layui-input" name="regular_money2" placeholder="不需要请留空"
+            <input autocomplete="off" class="layui-input" id="regular_money2" name="regular_money2"
+                   placeholder="不需要请留空"
                    style="padding-left: 95px" type="number">
 
         </div>
 
         <div class="label-title">商户名称满足条件</div>
         <div class="float-parent" style="position: relative;">
-            <select class="float-div" lay-filter="condition_shopName" name="regular_shopName_link">
+            <select class="float-div" id="regular_shopName_link" lay-filter="condition_shopName"
+                    name="regular_shopName_link">
                 <option selected="" value="包含">包含</option>
                 <option value="正则匹配">正则匹配</option>
             </select>
-            <input autocomplete="off" class="layui-input" name="regular_shopName"
-                   placeholder="不需要请留空"
+            <input autocomplete="off" class="layui-input" id="regular_shopName"
+                   name="regular_shopName" placeholder="不需要请留空"
                    style="padding-left: 95px" type="text">
 
         </div>
@@ -77,7 +82,7 @@
         <div class="label-title">商户备注满足条件</div>
 
         <div class="float-parent" style="position: relative;margin-bottom: 10px">
-            <select class="float-div" lay-filter="condition_shopRemark"
+            <select class="float-div" id="regular_shopRemark_link" lay-filter="condition_shopRemark"
                     name="regular_shopRemark_link">
                 <option selected="" value="包含">包含</option>
                 <option value="正则匹配">正则匹配</option>
@@ -91,7 +96,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label title">消费类型为</label>
             <div class="layui-input-block line">
-                <select lay-filter="type" name="regular_type">
+                <select id="regular_type" lay-filter="type" name="regular_type">
                     <option selected="" value="支出">支出</option>
                     <option value="收入">收入</option>
                     <option value="报销">报销</option>
