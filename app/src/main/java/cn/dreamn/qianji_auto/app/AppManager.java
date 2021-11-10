@@ -46,7 +46,6 @@ public class AppManager {
         for (IApp iApp : AppList.getInstance().getList()) {
             if (iApp.getPackPageName().equals(app)) {
                 iApp.sendToApp(context, billInfo);
-
                 break;
             }
         }

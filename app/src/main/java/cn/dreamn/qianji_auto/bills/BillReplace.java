@@ -28,6 +28,9 @@ public class BillReplace {
                             billInfo.setBookName(BookNames.getDefault());//设置自动记账的账本名
                         }
 
+                        if (billInfo.getRawAccount() == null || billInfo.getRawAccount().equals("null")) {
+                            billInfo.setRawAccount(billInfo.getFromApp());
+                        }
                         Assets.getMap(billInfo.getRawAccount(), mapName -> {
                             billInfo.setAccountName((String) mapName);
                             Assets.getMap(billInfo.getRawAccount2(), mapName2 -> {

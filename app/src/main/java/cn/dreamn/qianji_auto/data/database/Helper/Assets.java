@@ -100,7 +100,7 @@ public class Assets {
 
     public static void getMap(String assetName, TaskThread.TaskResult taskResult) {
         TaskThread.onThread(() -> {
-            if (assetName == null || assetName.equals("")) {
+            if (assetName == null || assetName.equals("") || assetName.equals("null") || assetName.equals("undefined")) {
                 taskResult.onEnd("");
                 return;
             }
