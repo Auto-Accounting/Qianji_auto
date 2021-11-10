@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.Build;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -73,6 +75,49 @@ public class BottomArea {
                 false, true, false, false);
 
         dialog.cornerRadius(15f, null);
+
+        dialog.show();
+    }
+
+    //底部信息，带有开关
+    static public void msg(Context context, String title, String msg, String rightName, String leftName, boolean isFloat, MsgCallback callback) {
+        LayoutInflater factory = LayoutInflater.from(context);
+        final View textEntryView = factory.inflate(R.layout.include_list_msg, null);
+        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+        MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
+        dialog.title(null, title);
+
+        TextView textView_body = textEntryView.findViewById(R.id.textView_body);
+        textView_body.setText(msg);
+
+
+        Button button_next = textEntryView.findViewById(R.id.button_next);
+        Button button_last = textEntryView.findViewById(R.id.button_last);
+        button_next.setText(rightName);
+        button_next.setOnClickListener(v -> {
+            callback.sure();
+            dialog.dismiss();
+        });
+        button_last.setText(leftName);
+        button_last.setOnClickListener(v -> {
+            callback.cancel();
+            dialog.dismiss();
+        });
+
+        DialogCustomViewExtKt.customView(dialog, null, textEntryView,
+                false, true, false, false);
+
+        dialog.cornerRadius(15f, null);
+
+        if (isFloat) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
+            } else {
+                dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+            }
+        }
+
+
         dialog.show();
     }
 
