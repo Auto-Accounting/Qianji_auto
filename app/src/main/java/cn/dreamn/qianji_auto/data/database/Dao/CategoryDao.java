@@ -51,5 +51,6 @@ public interface CategoryDao {
 
     @Query("DELETE  FROM Category")
     void clean();
+
 }
 

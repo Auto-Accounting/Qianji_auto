@@ -17,6 +17,7 @@ import com.tencent.mmkv.MMKV;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.data.database.Db;
+import cn.dreamn.qianji_auto.data.database.Table.Category;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -161,6 +162,10 @@ public class QianJi implements IApp {
                     sort = "500";
                 }
                 String self = self_id;
+
+                Category[] category1 = Db.db.CategoryDao().getByName(name, type, book_id);
+
+                if (category1 != null && category1.length > 0) continue;
 
                 Db.db.CategoryDao().add(name, icon, level, type, self, parent_id, book_id, sort);
 
