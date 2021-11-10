@@ -170,7 +170,7 @@ public class AutoBills {
 
 
     public void dismiss() {
-        dialog.dismiss();
+        clear();
 
     }
 
