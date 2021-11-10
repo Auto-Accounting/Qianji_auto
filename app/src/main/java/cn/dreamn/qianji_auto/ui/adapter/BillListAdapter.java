@@ -27,6 +27,7 @@ public class BillListAdapter extends ArrayAdapter {
 
     public void setAutoBills(List<AutoBill> autoBills) {
         this.autoBills = autoBills;
+        // notify();
         notifyDataSetChanged();
     }
 

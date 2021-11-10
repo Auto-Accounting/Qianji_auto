@@ -46,6 +46,7 @@ import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.IconView;
 import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
+import cn.dreamn.qianji_auto.ui.floats.AutoBills;
 import cn.dreamn.qianji_auto.ui.fragment.about.AboutFragment;
 import cn.dreamn.qianji_auto.ui.fragment.about.BackUpFragment;
 import cn.dreamn.qianji_auto.ui.fragment.base.MainMapFragment;
@@ -333,6 +334,12 @@ public class MainFragment extends BaseFragment {
         });
         rl_bill.setOnClickListener(v -> {
             openNewPage(MoneyFragment.class);
+        });
+
+        rl_bill.setOnLongClickListener(v -> {
+            AutoBills autoBills = new AutoBills(getContext());
+            autoBills.show();
+            return false;
         });
         rl_bill_check.setOnClickListener(v -> {
             ToastUtils.show(R.string.wait);

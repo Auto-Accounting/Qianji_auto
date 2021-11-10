@@ -27,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.ContextThemeWrapper;
@@ -35,7 +36,6 @@ import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
-import com.tencent.mmkv.MMKV;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,37 +98,38 @@ public class AutoBills {
         mView = factory.inflate(R.layout.float_autobill, null);
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
         dialog = new MaterialDialog(context, bottomSheet);
-        // dialog.cancelable(false);
+        dialog.cancelable(false);
         ListView listView = mView.findViewById(R.id.list_view);
+        TextView tv_close = mView.findViewById(R.id.tv_close);
+        tv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
         billListAdapter = new BillListAdapter(context, R.layout.float_autobill, null);
         listView.setAdapter(billListAdapter);
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
             try {
                 AutoBill autoBill = autoBills.get(position);
-
-
                 BillInfo billInfo = BillInfo.parse(autoBill.billInfo);
-                MMKV mmkv = MMKV.defaultMMKV();
-                switch (mmkv.getString("notice_click_window", "edit")) {
-                    case "edit":
-                        SendDataToApp.showFloatByAlert(context, billInfo);
-                        break;
-                    case "record":
-                        SendDataToApp.goApp(context, billInfo);
-                        break;
-                    case "close":
-                        break;
-                }
+                billInfo.setId(autoBill.id);
+                SendDataToApp.end(context, billInfo);
                 autoBills.remove(position);
+                TaskThread.onThread(() -> {
+                    //设置为已记录
+                    Db.db.AutoBillDao().update(billInfo.getId());
+                });
                 if (autoBills.size() <= 0) {
                     dismiss();
+                } else {
+                    billListAdapter.setAutoBills(autoBills);
                 }
-                billListAdapter.setAutoBills(autoBills);
+
             } catch (Throwable e) {
                 Log.i("发生了错误" + e.toString());
             }
-            dialog.dismiss();
         });
     }
 
@@ -139,8 +140,9 @@ public class AutoBills {
 
     private void initData() {
         Log.i("初始化窗口");
-        initListener();
         setData();
+        initListener();
+
     }
 
 
@@ -181,6 +183,7 @@ public class AutoBills {
             dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
         }
         dialog.cornerRadius(15f, null);
+
         dialog.show();
 
     }

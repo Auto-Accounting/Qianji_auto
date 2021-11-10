@@ -14,7 +14,5 @@ public class NotificationClickReceiver extends BroadcastReceiver {
 
         AutoBills autoBills = new AutoBills(context);
         autoBills.show();
-
-
     }
 }

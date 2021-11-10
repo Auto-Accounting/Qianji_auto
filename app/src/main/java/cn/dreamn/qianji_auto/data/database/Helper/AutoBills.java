@@ -27,8 +27,9 @@ public class AutoBills {
 
     public static void add(BillInfo billInfo) {
         TaskThread.onThread(() -> {
-            Db.db.AutoBillDao().add(billInfo.toString());
-            AutoBill[] autoBills = Db.db.AutoBillDao().getLast();
+            String bill = billInfo.toString();
+            Db.db.AutoBillDao().add(bill);
+            AutoBill[] autoBills = Db.db.AutoBillDao().getLast(bill);
             if (autoBills != null && autoBills.length != 0) {
                 billInfo.setId(autoBills[0].id);
             }

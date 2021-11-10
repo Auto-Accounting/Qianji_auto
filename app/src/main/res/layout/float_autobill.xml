@@ -18,8 +18,20 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="center|left"
                 android:text="点击列表账单记账"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:text="关闭"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />

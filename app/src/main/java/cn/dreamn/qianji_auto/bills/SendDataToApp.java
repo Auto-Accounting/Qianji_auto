@@ -110,7 +110,7 @@ public class SendDataToApp {
             //自适应大小
             String str = BillTools.getCustomBill(billInfo);
 
-            int minLength = str.length() * 20;
+            int minLength = str.length() * 25;
 
             autoFloatTip.setWindowManagerParams(ScreenUtils.getScreenWidth(context), ScreenUtils.getScreenHeight(context) / 2 - 100, 380 + minLength, 150);
 
@@ -145,7 +145,7 @@ public class SendDataToApp {
     public static void goApp(Context context, BillInfo billInfo) {
         TaskThread.onThread(() -> {
             //设置为已记录
-            Db.db.AutoBillDao().update(billInfo.toString());
+            Db.db.AutoBillDao().update(billInfo.getId());
         });
         MMKV mmkv = MMKV.defaultMMKV();
         if (!mmkv.getBoolean("auto_style", true)) {
@@ -285,7 +285,10 @@ public class SendDataToApp {
                 goApp(context, billInfo);
                 break;
             case "close":
-
+                TaskThread.onThread(() -> {
+                    //设置为已记录
+                    Db.db.AutoBillDao().update(billInfo.getId());
+                });
                 break;
         }
     }

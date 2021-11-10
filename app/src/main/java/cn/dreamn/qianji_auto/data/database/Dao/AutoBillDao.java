@@ -28,8 +28,8 @@ public interface AutoBillDao {
     @Query("SELECT * FROM autobill order by CAST(date as double),id desc limit :from,:to")
     AutoBill[] getAll(int from, int to);
 
-    @Query("SELECT * FROM autobill order by id desc limit 1")
-    AutoBill[] getLast();
+    @Query("SELECT * FROM autobill where billInfo=:bill order by id desc limit 1")
+    AutoBill[] getLast(String bill);
 
     @Query("SELECT * FROM autobill WHERE id=:id")
     AutoBill[] get(int id);
@@ -46,8 +46,8 @@ public interface AutoBillDao {
     @Query("UPDATE autobill SET billInfo=:billInfo WHERE id=:id")
     void update(int id, String billInfo);
 
-    @Query("UPDATE autobill SET isRecord=1 WHERE billInfo=:billInfo AND isRecord=0")
-    void update(String billInfo);
+    @Query("UPDATE autobill SET isRecord=1 WHERE id=:id AND isRecord=0")
+    void update(int id);
 
     @Query("SELECT * FROM autobill WHERE isRecord=0 order by CAST(date as double),id desc")
     AutoBill[] getNoRecord();
