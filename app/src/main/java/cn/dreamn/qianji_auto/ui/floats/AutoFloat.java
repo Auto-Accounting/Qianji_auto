@@ -149,7 +149,9 @@ public class AutoFloat {
         LayoutInflater factory = LayoutInflater.from(ctx);
         mView = factory.inflate(R.layout.float_edit, null);
         BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+
         dialog = new MaterialDialog(context, bottomSheet);
+
         dialog.cancelable(false);
     }
 
@@ -394,14 +396,14 @@ public class AutoFloat {
         tv_money.setText(BillTools.getCustomBill(billInfo));
         tv_money.setTextColor(BillTools.getColor(getContext(), billInfo));
 
-        if (billInfo.getType(true).equals(BillInfo.TYPE_INCOME)) {
+        if (billInfo.getType().equals(BillInfo.TYPE_INCOME)) {
             textView_account1.setText("收入账户");
-        } else if (billInfo.getType(true).equals(BillInfo.TYPE_PAY)) {
+        } else if (billInfo.getType().equals(BillInfo.TYPE_PAY) || billInfo.getType().equals(BillInfo.TYPE_PAYMENT_REFUND)) {
             textView_account1.setText("支出账户");
-        } else if (billInfo.getType(true).equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)) {
+        } else if (billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)) {
             textView_account1.setText("转出账户");
-            textView_account1.setText("转入账户");
-        } else if (billInfo.getType(true).equals(BillInfo.TYPE_CREDIT_CARD_PAYMENT)) {
+            textView_account2.setText("转入账户");
+        } else if (billInfo.getType().equals(BillInfo.TYPE_CREDIT_CARD_PAYMENT)) {
             textView_account1.setText("付款账户");
             textView_account2.setText("还入账户");
         }
