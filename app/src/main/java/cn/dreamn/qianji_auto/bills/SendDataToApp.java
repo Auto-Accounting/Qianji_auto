@@ -239,7 +239,7 @@ public class SendDataToApp {
                         Log.i("异常：数据为0走不到这个流程！");
                         return;
                     }
-                    HandlerUtil.send(handler, autoBills.length);
+                    HandlerUtil.send(handler, autoBills.length, 0);
                 });
 
             }
