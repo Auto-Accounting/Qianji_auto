@@ -101,9 +101,6 @@ public class CateItemListAdapter extends BaseAdapter {
         }
 
 
-        Log.d("item", item.toString());
-        Log.d("item", jsonObject.toString());
-
         String version = item.getString("version");
         if (version == null || version.equals("")) {
             return;

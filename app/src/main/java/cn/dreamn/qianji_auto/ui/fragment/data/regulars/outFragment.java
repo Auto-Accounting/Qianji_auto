@@ -310,6 +310,7 @@ public class outFragment extends BaseFragment {
                     return;
                 }
                 RegularManager.restoreFromData(getContext(), getName(), getLastType(), (String) msg.obj, code -> {
+                HandlerUtil.send(mHandler, HANDLE_REFRESH);
                 });
             }
         };
