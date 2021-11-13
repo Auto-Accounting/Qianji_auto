@@ -9,7 +9,6 @@ import com.tencent.mmkv.MMKV;
 import java.io.IOException;
 import java.util.Objects;
 
-import cn.dreamn.qianji_auto.setting.AppStatus;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -25,7 +24,8 @@ public class AutoBillWeb {
         }
         //web访问增加缓存
         ACache mCache = ACache.get(mContext);
-        if (!AppStatus.isDebug()) {
+        mCache.clear();
+      /*  if (!AppStatus.isDebug()) {
             String response = mCache.getAsString(url);
             if (response != null) {
                 callback.onSuccessful(response);
@@ -34,7 +34,7 @@ public class AutoBillWeb {
         } else {
             mCache.clear();
             //清空缓存
-        }
+        }*/
         MMKV mmkv = MMKV.defaultMMKV();
         String baseUrl;
         String baseUrlName = mmkv.getString("baseUrlName", "ghProxy");
