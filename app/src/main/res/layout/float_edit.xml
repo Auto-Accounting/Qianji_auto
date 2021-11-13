@@ -46,7 +46,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
-                    android:text="&#xe63c;"
+                    android:text="&#xe662;"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -98,7 +98,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
-                    android:text="&#xe621;"
+                    android:text="&#xe65d;"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -150,7 +150,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
-                    android:text="&#xe610;"
+                    android:text="&#xe67f;"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -204,7 +204,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
-                    android:text="&#xe6a0;"
+                    android:text="&#xe666;"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -277,7 +277,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
-                    android:text="&#xe6a7;"
+                    android:text="&#xe66c;"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -460,7 +460,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
-                    android:text="&#xe62c;"
+                    android:text="&#xe658;"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
@@ -513,7 +513,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
-                    android:text="&#xe63b;"
+                    android:text="&#xe64c;"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 

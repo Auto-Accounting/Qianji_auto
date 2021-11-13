@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         app:backgroundColor="@color/background_white"
         app:left_color="@color/black"
-        app:left_icon="&#xe62e;"
+        app:left_icon="&#xe652;"
         app:title_color="@color/black"
         app:title_text="开发人员">
 
@@ -85,7 +85,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
-                    android:text="&#xe62d;"
+                    android:text="&#xe644;"
                     android:textColor="@color/gray"
                     android:textSize="18sp" />
             </RelativeLayout>
@@ -141,7 +141,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
-                    android:text="&#xe62d;"
+                    android:text="&#xe644;"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     android:visibility="invisible" />
@@ -197,7 +197,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
-                    android:text="&#xe62d;"
+                    android:text="&#xe644;"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     android:visibility="invisible" />
@@ -255,7 +255,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
-                    android:text="&#xe62d;"
+                    android:text="&#xe644;"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     android:visibility="invisible" />
@@ -313,7 +313,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
-                    android:text="&#xe62d;"
+                    android:text="&#xe644;"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     android:visibility="invisible" />
@@ -371,7 +371,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="15dp"
-                    android:text="&#xe62d;"
+                    android:text="&#xe644;"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     android:visibility="invisible" />

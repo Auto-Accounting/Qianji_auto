@@ -63,7 +63,7 @@ public class SuperText extends RelativeLayout {
     public void setSelect(boolean isSelected){
         if(isSelected){
             icon_isOk.setTextColor(getResources().getColor(R.color.succeed));
-            icon_isOk.setFont("&#xe626;");
+            icon_isOk.setFont("&#xe668;");
         }else{
             icon_isOk.setFont("");
         }

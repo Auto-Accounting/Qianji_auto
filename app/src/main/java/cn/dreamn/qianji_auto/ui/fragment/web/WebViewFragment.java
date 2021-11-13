@@ -188,7 +188,7 @@ public class WebViewFragment extends BaseFragment {
         String url = getUrl();
         String data = getData();
         if (!url.startsWith("file:///android_asset/")) {
-            title_bar.setRightIcon("&#xe60c;", 16);
+            title_bar.setRightIcon("&#xe646;", 16);
             title_bar.setRightIconOnClickListener(v -> {
                 //创建弹出式菜单对象（最低版本11）
                 PopupMenu popup = new PopupMenu(getContext(), v);//第二个参数是绑定的那个view

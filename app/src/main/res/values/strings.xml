@@ -1,439 +1,423 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" translatable="false">
     <!--图标数据-->
-    <string name="icon_caozuorizhi1">&#xe63e;</string>
-    <string name="icon_qidong1">&#xe63f;</string>
-    <string name="icon_chaoqiangshengdian1">&#xe63d;</string>
-    <string name="icon_qian">&#xe63c;</string>
-    <string name="icon_beizhu1">&#xe63b;</string>
-    <string name="icon_QQ1">&#xe636;</string>
-    <string name="icon_weixin1">&#xe634;</string>
-    <string name="icon_bi">&#xe630;</string>
-    <string name="icon_shipinjiaocheng1">&#xe633;</string>
-    <string name="icon_banzidong1">&#xe631;</string>
-    <string name="icon_qidong2">&#xe62f;</string>
-    <string name="icon_youjiantou11">&#xe62d;</string>
-    <string name="icon_zuojiantou11">&#xe62e;</string>
-    <string name="icon_fuzhu1">&#xe625;</string>
-    <string name="icon_daojishi">&#xe62a;</string>
-    <string name="icon_danchuang1">&#xe61f;</string>
-    <string name="icon_liebiao1">&#xe629;</string>
-    <string name="icon_yunshanfu1">&#xe627;</string>
-    <string name="icon_cha1">&#xe628;</string>
-    <string name="icon_gou">&#xe626;</string>
-    <string name="icon_dianchi1">&#xe624;</string>
-    <string name="icon_shanchu1">&#xe623;</string>
-    <string name="icon_renminbi">&#xe621;</string>
-    <string name="icon_tianchong2">&#xe622;</string>
-    <string name="icon_zuojiantou1">&#xe61a;</string>
-    <string name="icon_youjiantou1">&#xe620;</string>
-    <string name="icon_shouji">&#xe617;</string>
-    <string name="icon_jiaocheng">&#xe615;</string>
-    <string name="icon_gengduo11">&#xe614;</string>
-    <string name="icon_gengduo1">&#xe60c;</string>
-    <string name="icon_gantan">&#xe60e;</string>
-    <string name="icon_zidong">&#xe6d9;</string>
-    <string name="icon_suoding">&#xe654;</string>
-    <string name="icon_ziyuan212">&#xe727;</string>
-    <string name="icon_leixing">&#xe6a0;</string>
-    <string name="icon_time">&#xe62c;</string>
-    <string name="icon_xiugai">&#xe650;</string>
-    <string name="icon_cuowu">&#xe6b3;</string>
-    <string name="icon_duizhangdan">&#xe62b;</string>
-    <string name="icon_zhifubao">&#xe60f;</string>
-    <string name="icon_yiwen">&#xe606;</string>
-    <string name="icon_daoru">&#xe639;</string>
-    <string name="icon_daochu">&#xe638;</string>
-    <string name="icon_pifu">&#xe635;</string>
-    <string name="icon_fenlei">&#xe6a7;</string>
-    <string name="icon_tongzhi">&#xe61d;</string>
-    <string name="icon_home">&#xe647;</string>
-    <string name="icon_icon_test">&#xe61e;</string>
-    <string name="icon_weizhi">&#xe69d;</string>
-    <string name="icon_duanxin">&#xe61c;</string>
-    <string name="icon_chenggong">&#xe637;</string>
-    <string name="icon_jiaoliu">&#xe60a;</string>
-    <string name="icon_yingshe">&#xe612;</string>
-    <string name="icon_wuzhangaisheshi">&#xe668;</string>
-    <string name="icon_APP">&#xe716;</string>
-    <string name="icon_chaojizhangben">&#xe610;</string>
-    <string name="icon_dashang">&#xe806;</string>
-    <string name="icon_tiaojie">&#xebf1;</string>
-    <string name="icon_banben">&#xe6d8;</string>
-    <string name="icon_xiazai">&#xe74b;</string>
-    <string name="icon_xuanfuchuang">&#xe603;</string>
-    <string name="icon_shujuguanli">&#xe6b2;</string>
-    <string name="icon_xitongmoxingchajian">&#xe65c;</string>
-    <string name="icon_zuijinliulan">&#xe666;</string>
-    <string name="icon_shangchuan">&#xe605;</string>
-    <string name="icon_github">&#xe885;</string>
-    <string name="icon_wode_guanyuwomen">&#xe646;</string>
-    <string name="icon_setting">&#xe632;</string>
-    <string name="icon_gongxian">&#xe609;</string>
-    <string name="icon_zuozhe">&#xe6c5;</string>
-    <string name="icon_huifu">&#xe63a;</string>
-    <string name="icon_sync">&#xe68e;</string>
-    <string name="icon_dianji">&#xe7bc;</string>
+    <string name="icon_caozuorizhi1" translatable="false">&#xe67b;</string>
+    <string name="icon_qidong1" translatable="false">&#xe659;</string>
+    <string name="icon_chaoqiangshengdian1" translatable="false">&#xe67c;</string>
+    <string name="icon_qian" translatable="false">&#xe662;</string>
+    <string name="icon_beizhu1" translatable="false">&#xe64c;</string>
+    <string name="icon_QQ1" translatable="false">&#xe661;</string>
+    <string name="icon_weixin1" translatable="false">&#xe665;</string>
+    <string name="icon_bi" translatable="false">&#xe65d;</string>
+    <string name="icon_shipinjiaocheng1" translatable="false">&#xe659;</string>
+    <string name="icon_banzidong1" translatable="false">&#xe683;</string>
+    <string name="icon_qidong2" translatable="false">&#xe660;</string>
+    <string name="icon_youjiantou11" translatable="false">&#xe644;</string>
+    <string name="icon_zuojiantou11" translatable="false">&#xe652;</string>
+    <string name="icon_fuzhu1" translatable="false">&#xe66e;</string>
+    <string name="icon_daojishi" translatable="false">&#xe676;</string>
+    <string name="icon_danchuang1" translatable="false">&#xe672;</string>
+    <string name="icon_liebiao1" translatable="false">&#xe63d;</string>
+    <string name="icon_yunshanfu1" translatable="false">&#xe648;</string>
+    <string name="icon_cha1" translatable="false">&#xe681;</string>
+    <string name="icon_gou" translatable="false">&#xe668;</string>
+    <string name="icon_dianchi1" translatable="false">&#xe66d;</string>
+    <string name="icon_shanchu1" translatable="false">&#xe65e;</string>
+    <string name="icon_renminbi" translatable="false">&#xe65d;</string>
+    <string name="icon_tianchong2" translatable="false">&#xe65a;</string>
+
+
+    <string name="icon_jiaocheng" translatable="false">&#xe663;</string>
+    <string name="icon_gengduo11" translatable="false">&#xe677;</string>
+    <string name="icon_gengduo1" translatable="false">&#xe646;</string>
+
+    <string name="icon_zidong" translatable="false">&#xe643;</string>
+    <string name="icon_suoding" translatable="false">&#xe657;</string>
+    <string name="icon_leixing" translatable="false">&#xe666;</string>
+    <string name="icon_time" translatable="false">&#xe658;</string>
+    <string name="icon_duizhangdan" translatable="false">&#xe67f;</string>
+    <string name="icon_daoru" translatable="false">&#xe673;</string>
+    <string name="icon_daochu" translatable="false">&#xe675;</string>
+    <string name="icon_pifu" translatable="false">&#xe67a;</string>
+    <string name="icon_fenlei" translatable="false">&#xe66c;</string>
+    <string name="icon_tongzhi" translatable="false">&#xe651;</string>
+    <string name="icon_icon_test" translatable="false">&#xe63c;</string>
+    <string name="icon_weizhi" translatable="false">&#xe63e;</string>
+    <string name="icon_duanxin" translatable="false">&#xe665;</string>
+    <string name="icon_chenggong" translatable="false">&#xe678;</string>
+    <string name="icon_yingshe" translatable="false">&#xe64a;</string>
+    <string name="icon_APP" translatable="false">&#xe684;</string>
+    <string name="icon_chaojizhangben" translatable="false">&#xe67f;</string>
+    <string name="icon_xiazai" translatable="false">&#xe655;</string>
+    <string name="icon_xuanfuchuang" translatable="false">&#xe672;</string>
+    <string name="icon_shujuguanli" translatable="false">&#xe653;</string>
+    <string name="icon_zuijinliulan" translatable="false">&#xe641;</string>
+    <string name="icon_github" translatable="false">&#xe670;</string>
+    <string name="icon_wode_guanyuwomen" translatable="false">&#xe656;</string>
+    <string name="icon_setting" translatable="false">&#xe65c;</string>
+    <string name="icon_huifu" translatable="false">&#xe667;</string>
+    <string name="icon_sync" translatable="false">&#xe66a;</string>
+    <string name="icon_dianji" translatable="false">&#xe671;</string>
     <!--自动记账-->
-    <string name="app_name">自动记账</string>
+    <string name="app_name" translatable="false">自动记账</string>
     <!--自动记账引导-->
-    <string name="app_title">自动记账 3.0</string>
-    <string name="app_desc">涅槃重生 王者归来</string>
-    <string name="app_help_go_setting">进入设置</string>
-    <string name="app_help_skip">跳过设置</string>
-    <string name="app_help_skip_last">上一步</string>
-    <string name="app_help_1_app_names">记账软件</string>
-    <string name="app_help_1_desc">自动记账支持多个记账软件，请选择您使用的软件。</string>
-    <string name="app_help_next">下一步</string>
-    <string name="helper_2_choose">已选择：%s</string>
-    <string name="helper_2_tip">暂不支持，敬请期待。</string>
-    <string name="app_help_2_work_mode">工作模式</string>
-    <string name="app_help_2_desc">自动记账支持无障碍与Xposed两种工作模式。</string>
-    <string name="app_help_2_tip">请授予自动记账以下权限</string>
-    <string name="app_help_3_async">数据同步</string>
-    <string name="app_help_3_tip">是否现在同步%s数据？</string>
-    <string name="app_help_3_tip2">数据已同步完成，是否需要重新同步？</string>
-    <string name="app_help_3_button_async">重新同步</string>
-    <string name="app_help_3_async_now">立即同步</string>
+    <string name="app_title" translatable="false">自动记账 3.0</string>
+    <string name="app_desc" translatable="false">涅槃重生 王者归来</string>
+    <string name="app_help_go_setting" translatable="false">进入设置</string>
+    <string name="app_help_skip" translatable="false">跳过设置</string>
+    <string name="app_help_skip_last" translatable="false">上一步</string>
+    <string name="app_help_1_app_names" translatable="false">记账软件</string>
+    <string name="app_help_1_desc" translatable="false">自动记账支持多个记账软件，请选择您使用的软件。</string>
+    <string name="app_help_next" translatable="false">下一步</string>
+    <string name="helper_2_choose" translatable="false">已选择：%s</string>
+    <string name="helper_2_tip" translatable="false">暂不支持，敬请期待。</string>
+    <string name="app_help_2_work_mode" translatable="false">工作模式</string>
+    <string name="app_help_2_desc" translatable="false">自动记账支持无障碍与Xposed两种工作模式。</string>
+    <string name="app_help_2_tip" translatable="false">请授予自动记账以下权限</string>
+    <string name="app_help_3_async" translatable="false">数据同步</string>
+    <string name="app_help_3_tip" translatable="false">是否现在同步%s数据？</string>
+    <string name="app_help_3_tip2" translatable="false">数据已同步完成，是否需要重新同步？</string>
+    <string name="app_help_3_button_async" translatable="false">重新同步</string>
+    <string name="app_help_3_async_now" translatable="false">立即同步</string>
 
-    <string name="githubUrl">https://github.com/dreamncn/Qianji_auto</string>
-    <string name="learnUrl"><![CDATA[https://doc.ankio.net/doc/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/#/]]></string>
-    <string name="biliUrl" tools:ignore="Typos"><![CDATA[https://player.bilibili.com/player.html?aid=289448844&bvid=BV1Hf4y147Yi&cid=303785417&page=1]]></string>
-    <string name="QQ_Group">165652170</string>
-    <string name="files_default_empty_text">这里空空如也</string>
+    <string name="githubUrl" translatable="false">https://github.com/dreamncn/Qianji_auto</string>
+    <string name="learnUrl" translatable="false"><![CDATA[https://doc.ankio.net/doc/%E8%87%AA%E5%8A%A8%E8%AE%B0%E8%B4%A6%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3/#/]]></string>
+    <string name="biliUrl" translatable="false" tools:ignore="Typos"><![CDATA[https://player.bilibili.com/player.html?aid=289448844&bvid=BV1Hf4y147Yi&cid=303785417&page=1]]></string>
+    <string name="QQ_Group" translatable="false">165652170</string>
+    <string name="files_default_empty_text" translatable="false">这里空空如也</string>
 
-    <string name="permission_helper_tip">点击【已下载的应用】-【自动记账】打开无障碍服务。</string>
-    <string name="permission_success">权限获取成功！</string>
-    <string name="permission_never">被永久拒绝授权，请手动授予相关权限！</string>
-    <string name="permission_fail">获取权限失败！</string>
-    <string name="permission_lock_tip">请进入多任务界面，手动锁定自动记账。</string>
-    <string name="permission_task">多任务状态：%s</string>
-    <string name="permission_task_show">显示</string>
-    <string name="permission_task_hide">隐藏</string>
-    <string name="permission_storage_tip">请手动授予权限。</string>
-    <string name="mode_select">请选择模式</string>
-    <string name="mode_xp">Xposed模式</string>
-    <string name="mode_helper">无障碍模式</string>
-    <string name="qianji_async_desc">🧚‍♀️你可以一键将钱迹中的「资产」、「账本」、「分类」等数据同步到自动记账，期间手机会跳转到钱迹，完成同步后将自动跳回本页面。 \n\n❗❗❗️ 同步前，请将钱迹从多任务页面划掉，确保开启所有权限，并将钱迹加入Xposed模块作用域中。</string>
-    <string name="qianji_async_no_support">钱迹只支持Xposed用户同步，无障碍用户需要手动配置。</string>
-    <string name="help_5_title">使用习惯</string>
-    <string name="help_5_desc">让自动记账更熟悉你。</string>
-    <string name="lineLay_none"> </string>
-    <string name="set_lazy_mode">懒人模式</string>
-    <string name="set_open">开启</string>
-    <string name="set_close">关闭</string>
-    <string name="set_front">亮屏情况下记账模式</string>
-    <string name="set_all">全自动记账</string>
-    <string name="set_half">半自动记账</string>
-    <string name="set_back">锁屏情况下记账模式</string>
-    <string name="set_default">默认账本</string>
-    <string name="set_remark">记账备注样式</string>
-    <string name="set_remark_default">[商户名]-[商户信息]</string>
-    <string name="set_sort">记住本次分类</string>
-    <string name="set_float_time">悬浮窗倒计时</string>
-    <string name="set_time">%s 秒</string>
-    <string name="set_float_click">悬浮窗点击</string>
-    <string name="set_click_book">直接记账</string>
-    <string name="set_click_double">弹出编辑面板</string>
-    <string name="set_click_close">关闭记账</string>
-    <string name="set_float_long_click">悬浮窗长按</string>
-    <string name="set_float_time_end">悬浮窗倒计时结束</string>
-    <string name="set_notice_click">通知点击</string>
-    <string name="set_float_style">弹窗样式</string>
-    <string name="set_auto">自动记账</string>
-    <string name="set_qianji">钱迹</string>
-    <string name="set_choose_book">请选择账本</string>
-    <string name="set_remark_tip">备注格式</string>
-    <string name="set_cancle">取消</string>
-    <string name="set_sure">确定</string>
-    <string name="time_error">请输入大于0的整数！</string>
-    <string name="help_6_into">进入自动记账</string>
-    <string name="help_6_title">恭喜你</string>
-    <string name="help_6_sub">完成所有设置</string>
-    <string name="help_6_tip">你可以前往帮助文档进一步了解自动记账。本软件为开源项目，可前往 GitHub 查看源码。</string>
-    <string name="main_base">基础设置</string>
-    <string name="book_input">请输入账本名称</string>
-    <string name="menu_setting">插件设置</string>
-    <string name="menu_manager">资产管理</string>
-    <string name="menu_map">资产映射</string>
-    <string name="menu_sort">分类管理</string>
-    <string name="menu_title_book">账单数据</string>
-    <string name="menu_data_async">数据同步</string>
-    <string name="menu_book_list">账单列表</string>
-    <string name="menu_book_check">账单核对</string>
-    <string name="menu_book_year">年度账单</string>
-    <string name="menu_log">日志数据</string>
-    <string name="menu_log_app">App数据</string>
-    <string name="menu_log_sms">短信列表</string>
-    <string name="menu_log_notice">通知列表</string>
-    <string name="menu_log_list">日志列表</string>
-    <string name="menu_regular">规则数据</string>
-    <string name="menu_reg_sort">自动分类</string>
-    <string name="menu_reg_app">App识别</string>
-    <string name="menu_reg_sms">短信识别</string>
-    <string name="menu_reg_notice">通知识别</string>
-    <string name="menu_others">其他</string>
-    <string name="menu_others_skin">皮肤</string>
-    <string name="menu_others_backup">备份恢复</string>
-    <string name="menu_others_teach">使用教程</string>
-    <string name="menu_others_video">视频教程</string>
-    <string name="menu_others_github">Github</string>
-    <string name="menu_others_about">关于</string>
-    <string name="assert_title">资产</string>
-    <string name="assert_book">账本</string>
-    <string name="assert_empty_info">资产都没有，还想记账？\n快去添加一个！</string>
-    <string name="main_loading">正在加载中…</string>
-    <string name="assert_input">请输入资产名称</string>
-    <string name="add_success">添加成功！</string>
-    <string name="assert_change">请选择操作（%s）</string>
-    <string name="del">删除</string>
-    <string name="change">修改</string>
-    <string name="assert_change_name">请修改资产名称</string>
-    <string name="assert_change_success">修改成功!</string>
-    <string name="del_title">删除确认</string>
-    <string name="assert_del_msg">确定要删除（%s）吗？</string>
-    <string name="del_success">删除成功!</string>
-    <string name="empty_book">你还没有任何账本哦！\n钱迹免费用户不需要添加账本。</string>
-    <string name="book_change">请修改账本名称</string>
-    <string name="no_map">你还没有进行任何资产映射！</string>
-    <string name="assert_choose">请选择资产</string>
-    <string name="assert_map_tip">实际使用资产 → 对应的记账App资产</string>
-    <string name="sort_out">支出</string>
-    <string name="sort_in">收入</string>
-    <string name="sort_empty">你的分类呢？这样记不了账的哦！\n赶紧添加一个吧！</string>
-    <string name="sort_input">请输入分类名称</string>
-    <string name="sort_failed">修改失败！可能该分类已存在！</string>
-    <string name="sort_edit">请编辑（%s-%s）</string>
-    <string name="sort_add_failed">添加失败！可能该分类已存在！</string>
-    <string name="sort_switch_book">切换账本（%s）</string>
-    <string name="sort_input_child">请输入子类名称</string>
-    <string name="sort_warn">⚠️警告</string>
-    <string name="sort_warn_tip">删除该分类后，其二级分类也将被删除。</string>
-    <string name="active_true">已激活（%s）</string>
-    <string name="active_false">未激活（%s）</string>
-    <string name="exit">再按一次退出程序!</string>
-    <string name="menu_send_log">发送完整日志</string>
-    <string name="menu_clean_log">清空日志</string>
-    <string name="menu_change_log">修改日志模式</string>
-    <string name="log_clean_title">清空确认</string>
-    <string name="log_clean_body">是否清空所有日志？</string>
-    <string name="log_clean_success">清除成功！</string>
-    <string name="log_no_log">不记录</string>
-    <string name="log_simple">简单日志</string>
-    <string name="log_more">详细日志</string>
-    <string name="log_mode">日志模式（%s）</string>
-    <string name="log_set_success">设置成功！</string>
-    <string name="log_cache_title">日志缓存</string>
-    <string name="log_cache_body">日志缓存有效期为24小时，如果有无法正常记账的情况请在24小时内反馈，24小时后日志会自动删除。\n\n 点击右上角可以进行日志反馈并切换日志记录模式。</string>
-    <string name="log_cache_know">我知道了</string>
-    <string name="log_cache_no_show">不再显示</string>
-    <string name="log_empty">没有日志！\n 点击右上角切换日志记录模式试试？</string>
-    <string name="log_null">日志空空如也~</string>
-    <string name="sms">短信</string>
-    <string name="notice">通知</string>
-    <string name="app">app</string>
-    <string name="notice_empty">空空如也~</string>
-    <string name="notice_del">删除</string>
-    <string name="notice_create">创建识别规则</string>
-    <string name="notice_choose">请选择操作</string>
-    <string name="reg_create">规则创建</string>
-    <string name="list_sms">短信列表</string>
-    <string name="list_sms_tip">捕获短信信息，用于从银行短信中获取交易信息。</string>
-    <string name="list_notice">通知列表</string>
-    <string name="list_notice_tip">捕获通知信息，用于从通知中获取交易信息。</string>
-    <string name="list_app">App数据列表</string>
-    <string name="list_app_tip">捕获App内部信息，用于从App中获取交易信息。</string>
-    <string name="notice_clean_body">确定清空列表中所有内容吗？</string>
-    <string name="frame_taichi">太极</string>
-    <string name="frame_bug">应用转生</string>
-    <string name="frame_edxposed">EdXposed</string>
-    <string name="frame_lsposed">LSPosed</string>
-    <string name="frame_lsposed_old">LSPosed旧版</string>
-    <string name="frame_xposed">Xposed</string>
-    <string name="frame_dreamn">梦境</string>
-    <string name="frame_others">其他框架</string>
-    <string name="frame_sandvxposed">SlimVXP</string>
-    <string name="frame_vx">VirtualXposed</string>
-    <string name="copied">已复制到剪切板！</string>
-    <string name="no_regular">你还没有任何%s规则！</string>
-    <string name="reg_select">请选择导出方案</string>
-    <string name="reg_down">导出至下载文件夹</string>
-    <string name="reg_share">分享</string>
-    <string name="local">本地</string>
-    <string name="could">云端</string>
-    <string name="auto">自动分类</string>
-    <string name="select_edit">请选择编辑方式</string>
-    <string name="edit_default">可视化编辑</string>
-    <string name="edit_js">JS编辑</string>
-    <string name="select_title">请选择自动记账%s规则配置文件</string>
-    <string name="select_check">选中</string>
-    <string name="error_permission">出错了，可能是权限未给全！</string>
-    <string name="data_loading">数据导入中…</string>
-    <string name="restore_failed">导入失败！</string>
-    <string name="restore_success">导入成功！</string>
-    <string name="set_error">该文件不是有效的%s配置数据文件</string>
-    <string name="restore_title">（%s配置）恢复提醒</string>
-    <string name="restore_body">是否覆盖原有数据（清空不保留）？</string>
-    <string name="yes">是</string>
-    <string name="no">否</string>
-    <string name="output">数据导出中…</string>
-    <string name="output_success">数据导出成功！</string>
-    <string name="share_title">请选择导出方案</string>
-    <string name="share_download">导出至下载文件夹</string>
-    <string name="share_share">分享</string>
-    <string name="share_clipboard">复制到剪切板</string>
-    <string name="output_clipboard">复制成功！</string>
-    <string name="auto_clean_body">是否清空所有自动分类规则？</string>
-    <string name="disable">禁用</string>
-    <string name="enable">启用</string>
-    <string name="upload_cloud">上传到云端</string>
-    <string name="edit_error">该规则使用js编辑，无法进行可视化编辑。</string>
-    <string name="could_title">上传至云端规则</string>
-    <string name="could_body">目前，上传规则需要手动在Github建立Issue。\n点击『去提交』后将复制规则到剪切板并打开浏览器提交Issue。</string>
-    <string name="regular_know">我知道了</string>
-    <string name="regular_upload">去提交</string>
-    <string name="github_issue_category">http://gitbot.ankio.net/submit/2</string>
-    <string name="deny_success">禁用成功</string>
-    <string name="enable_success">启用成功</string>
-    <string name="import_auto">导入至自动记账</string>
-    <string name="new_version">"新版本 "</string>
-    <string name="update_go">前去更新</string>
-    <string name="update_cancel">不想更新</string>
-    <string name="error_title">自动记账发生异常</string>
-    <string name="error_submit">发送错误报告</string>
-    <string name="error_restart">重启自动记账</string>
-    <string name="error_report_title">错误报告提交提醒</string>
-    <string name="error_report_msg">请点击【去提交】前往Github提交Issue。</string>
-    <string name="error_report_submit">去提交</string>
-    <string name="error_report_cancle">我知道了</string>
-    <string name="github_issue_error">https://github.com/dreamncn/Qianji_auto/issues</string>
-    <string name="reg_clean_body">是否清空所有%s规则</string>
-    <string name="github_issue_regular">https://github.com/dreamncn/Qianji_auto/issues</string>
-    <string name="could_empty">云端暂无任何%s规则</string>
-    <string name="remote_error">远程数据获取失败</string>
-    <string name="remote_zero">没有规则数据！</string>
-    <string name="remote_tip">请选择规则</string>
-    <string name="remote_download">下载规则</string>
-    <string name="remote_cancle">关闭</string>
-    <string name="remote_success">下载成功</string>
-    <string name="about_source">请选择加速站(%s)</string>
-    <string name="source_custom">自定义</string>
-    <string name="source_input">请输入自定义加速链接</string>
-    <string name="reg_error">该规则有误，无法查看。</string>
-    <string name="save_success">存储成功！</string>
-    <string name="change_success">修改成功！</string>
-    <string name="set_choose_category">请选择分类</string>
-    <string name="async_success">同步成功！</string>
-    <string name="update_wechat">微信适配文件已更新完毕！</string>
-    <string name="regular_test">测试规则</string>
-    <string name="regular_error">没有任何规则有效！</string>
-    <string name="js_error">JS脚本执行出错，建议前去日志查看错误信息。</string>
-    <string name="not_support">钱迹只支持已激活Xposed用户同步，无障碍用户需要手动配置。</string>
-    <string name="mode_helper_name">无障碍</string>
-    <string name="float_tip">请授予悬浮窗权限！</string>
-    <string name="notice_name">记账提醒</string>
-    <string name="book_success">记账成功！金额为 %s 。</string>
-    <string name="restore_not_auto">该配置文件非自动记账配置文件。</string>
-    <string name="restore_not_support">抱歉，该备份文件由低版本（%s）自动记账创建，无法恢复。如果强行恢复会导致闪退等问题，建议先降级到对应版本自动记账，进行恢复操作后再升级！</string>
-    <string name="restore_error">恢复时发生错误！</string>
-    <string name="wait">敬请期待！</string>
-    <string name="money_clean_title">历史账单清除</string>
-    <string name="money_clean_body">是否清除所有账单？</string>
-    <string name="select_function">请选择操作</string>
-    <string name="money_send">发起记账请求</string>
-    <string name="money_del">删除记录</string>
-    <string name="money_copy">复制为文本</string>
-    <string name="no_money">没有任何账单</string>
-    <string name="about_check_update">正在检测更新中,请稍候…</string>
-    <string name="about_check_no_update">暂无更新！</string>
-    <string name="version_stable">稳定版</string>
-    <string name="version_alpha">内部测试版</string>
-    <string name="version_beta">公开测试版</string>
-    <string name="check_version">检测版本（%s）</string>
-    <string name="qq_error">未安装手机QQ或者当前QQ不支持加群。</string>
-    <string name="app_version">3.0.0beta1</string>
-    <string name="update_log">更新日志</string>
-    <string name="update_lastest">已是最新版本</string>
-    <string name="check_update">版本更新</string>
-    <string name="github_fast">GitHub加速</string>
-    <string name="auto_coding">一起来完善自动记账</string>
-    <string name="auto_go_code">贡献代码</string>
-    <string name="dev_user_numbers">目前有6位</string>
-    <string name="dev_user">开发人员</string>
-    <string name="license">开源协议</string>
-    <string name="license_name">GPL3.0</string>
-    <string name="qqGroup">QQ交流群</string>
-    <string name="hp_tip">不给好评当心跑路</string>
-    <string name="hp_title">五星好评</string>
-    <string name="return_help_tip">重回引导页面</string>
-    <string name="return_help">引导页面</string>
-    <string name="_2021_ankio_all_rights_reserved">© 2021 Ankio All rights reserved.</string>
-    <string name="please_select">请选择WebDav平台</string>
-    <string name="TeraCloud">TeraCloud</string>
-    <string name="ct_pub">城通网盘公有云</string>
-    <string name="ct_pri">城通网盘私有云</string>
-    <string name="jgy">坚果云</string>
-    <string name="input_webdav">请输入WebDavUrl</string>
-    <string name="no_webdav">未输入WebDav网址！</string>
-    <string name="webdav_setting">WebDav配置</string>
-    <string name="webdav_site">WebDav网址</string>
-    <string name="webdav_user">WebDav用户名</string>
-    <string name="webdav_passwd">WebDav密码</string>
-    <string name="webdav_backup">备份</string>
-    <string name="backup_local">备份到本地</string>
-    <string name="backup_download_qianji">将会为您备份到/Download/Qianji/文件夹</string>
-    <string name="backup_webdav">备份到WebDav</string>
-    <string name="backup_webdav_tip">将会为您备份到WebDav</string>
-    <string name="webdav_restore">恢复</string>
-    <string name="restore_local">从本地恢复</string>
-    <string name="restore_webdav">从WebDav恢复</string>
-    <string name="webdav_name">请输入WebDav的账号</string>
-    <string name="no_account">未输入账号！</string>
-    <string name="no_passwd">未输入密码！</string>
-    <string name="backup_loading">数据备份中…</string>
-    <string name="backup_failed">备份失败！</string>
-    <string name="backup_success">备份成功！</string>
-    <string name="backup_success_tip">备份成功，备份文件到%s！</string>
-    <string name="select_backup">请选择备份文件</string>
-    <string name="set_select">选中</string>
-    <string name="restore_back_failed">恢复失败！</string>
-    <string name="restore_back_success">恢复成功！</string>
-    <string name="select_cloud">请选择恢复的云数据</string>
-    <string name="restore_tip">数据恢复中...</string>
-    <string name="set_app">记账App</string>
-    <string name="set_normal">基本配置</string>
-    <string name="set_mode">记账模式</string>
-    <string name="set_book">记账功能</string>
-    <string name="set_float">悬浮窗功能</string>
-    <string name="restore_auto">恢复配置</string>
-    <string name="restore_loading">数据恢复中...</string>
-    <string name="select_sort">请选择分类</string>
-    <string name="select_book">请选择账本</string>
-    <string name="select_account">请选择资产账户</string>
-    <string name="bx">报销</string>
-    <string name="n_bx">不报销</string>
-    <string name="select_type">请选择收支类型</string>
-    <string name="float_out">支出</string>
-    <string name="float_in">收入</string>
-    <string name="float_transfer">转账</string>
-    <string name="float_pay_for">信用还款</string>
-    <string name="select_remark">请输入备注信息</string>
-    <string name="input_money">请输入金额</string>
-    <string name="input_fee">请输入手续费</string>
-    <string name="no_assets">请先添加资产！</string>
-    <string name="search_tip">请输入搜索关键词</string>
-    <string name="restore_permission">未授予存储权限！</string>
-    <string name="category_error">请在【分类管理】中添加分类后再试！</string>
-    <string name="regular_copy">复制</string>
-    <string name="restore_error_2">恢复时发生错误！建议从文件管理器，选择文件打开！</string>
-    <string name="accessibility_inner_title">❤️自动记账-懒人模式❤️</string>
-    <string name="accessibility_inner_desc">自动记账无障碍模式,请不要Xposed模式同时开启。如果开启后未有自动记账运行通知，请重新开启。</string>
-    <string name="log_loading">日志加载中…</string>
-    <string name="input_data">请输入数据</string>
-    <string name="beta6Tip">您使用的是Beta7以下版本的规则，请重新编辑保存后再分享！</string>
-    <string name="debug_closed">已关闭调试模式。</string>
-    <string name="debug_opened">您已开启调试模式！</string>
-    <string name="debug_open">已开启调试模式！</string>
-    <string name="category">自动分类</string>
-    <string name="submit_regular">http://gitbot.ankio.net/submit/2</string>
-    <string name="edit">编辑</string>
+    <string name="permission_helper_tip" translatable="false">点击【已下载的应用】-【自动记账】打开无障碍服务。</string>
+    <string name="permission_success" translatable="false">权限获取成功！</string>
+    <string name="permission_never" translatable="false">被永久拒绝授权，请手动授予相关权限！</string>
+    <string name="permission_fail" translatable="false">获取权限失败！</string>
+    <string name="permission_lock_tip" translatable="false">请进入多任务界面，手动锁定自动记账。</string>
+    <string name="permission_task" translatable="false">多任务状态：%s</string>
+    <string name="permission_task_show" translatable="false">显示</string>
+    <string name="permission_task_hide" translatable="false">隐藏</string>
+    <string name="permission_storage_tip" translatable="false">请手动授予权限。</string>
+    <string name="mode_select" translatable="false">请选择模式</string>
+    <string name="mode_xp" translatable="false">Xposed模式</string>
+    <string name="mode_helper" translatable="false">无障碍模式</string>
+    <string name="qianji_async_desc" translatable="false">🧚‍♀️你可以一键将钱迹中的「资产」、「账本」、「分类」等数据同步到自动记账，期间手机会跳转到钱迹，完成同步后将自动跳回本页面。 \n\n❗❗❗️ 同步前，请将钱迹从多任务页面划掉，确保开启所有权限，并将钱迹加入Xposed模块作用域中。</string>
+    <string name="qianji_async_no_support" translatable="false">钱迹只支持Xposed用户同步，无障碍用户需要手动配置。</string>
+    <string name="help_5_title" translatable="false">使用习惯</string>
+    <string name="help_5_desc" translatable="false">让自动记账更熟悉你。</string>
+    <string name="lineLay_none" translatable="false"> </string>
+    <string name="set_lazy_mode" translatable="false">懒人模式</string>
+    <string name="set_open" translatable="false">开启</string>
+    <string name="set_close" translatable="false">关闭</string>
+    <string name="set_front" translatable="false">亮屏情况下记账模式</string>
+    <string name="set_all" translatable="false">全自动记账</string>
+    <string name="set_half" translatable="false">半自动记账</string>
+    <string name="set_back" translatable="false">锁屏情况下记账模式</string>
+    <string name="set_default" translatable="false">默认账本</string>
+    <string name="set_remark" translatable="false">记账备注样式</string>
+    <string name="set_remark_default" translatable="false">[商户名]-[商户信息]</string>
+    <string name="set_sort" translatable="false">记住本次分类</string>
+    <string name="set_float_time" translatable="false">悬浮窗倒计时</string>
+    <string name="set_time" translatable="false">%s 秒</string>
+    <string name="set_float_click" translatable="false">悬浮窗点击</string>
+    <string name="set_click_book" translatable="false">直接记账</string>
+    <string name="set_click_double" translatable="false">弹出编辑面板</string>
+    <string name="set_click_close" translatable="false">关闭记账</string>
+    <string name="set_float_long_click" translatable="false">悬浮窗长按</string>
+    <string name="set_float_time_end" translatable="false">悬浮窗倒计时结束</string>
+    <string name="set_notice_click" translatable="false">通知点击</string>
+    <string name="set_float_style" translatable="false">弹窗样式</string>
+    <string name="set_auto" translatable="false">自动记账</string>
+    <string name="set_qianji" translatable="false">钱迹</string>
+    <string name="set_choose_book" translatable="false">请选择账本</string>
+    <string name="set_remark_tip" translatable="false">备注格式</string>
+    <string name="set_cancle" translatable="false">取消</string>
+    <string name="set_sure" translatable="false">确定</string>
+    <string name="time_error" translatable="false">请输入大于0的整数！</string>
+    <string name="help_6_into" translatable="false">进入自动记账</string>
+    <string name="help_6_title" translatable="false">恭喜你</string>
+    <string name="help_6_sub" translatable="false">完成所有设置</string>
+    <string name="help_6_tip" translatable="false">你可以前往帮助文档进一步了解自动记账。本软件为开源项目，可前往 GitHub 查看源码。</string>
+    <string name="main_base" translatable="false">基础设置</string>
+    <string name="book_input" translatable="false">请输入账本名称</string>
+    <string name="menu_setting" translatable="false">插件设置</string>
+    <string name="menu_manager" translatable="false">资产管理</string>
+    <string name="menu_map" translatable="false">资产映射</string>
+    <string name="menu_sort" translatable="false">分类管理</string>
+    <string name="menu_title_book" translatable="false">账单数据</string>
+    <string name="menu_data_async" translatable="false">数据同步</string>
+    <string name="menu_book_list" translatable="false">账单列表</string>
+    <string name="menu_book_check" translatable="false">账单核对</string>
+    <string name="menu_book_year" translatable="false">年度账单</string>
+    <string name="menu_log" translatable="false">日志数据</string>
+    <string name="menu_log_app" translatable="false">App数据</string>
+    <string name="menu_log_sms" translatable="false">短信列表</string>
+    <string name="menu_log_notice" translatable="false">通知列表</string>
+    <string name="menu_log_list" translatable="false">日志列表</string>
+    <string name="menu_regular" translatable="false">规则数据</string>
+    <string name="menu_reg_sort" translatable="false">自动分类</string>
+    <string name="menu_reg_app" translatable="false">App识别</string>
+    <string name="menu_reg_sms" translatable="false">短信识别</string>
+    <string name="menu_reg_notice" translatable="false">通知识别</string>
+    <string name="menu_others" translatable="false">其他</string>
+    <string name="menu_others_skin" translatable="false">皮肤</string>
+    <string name="menu_others_backup" translatable="false">备份恢复</string>
+    <string name="menu_others_teach" translatable="false">使用教程</string>
+    <string name="menu_others_video" translatable="false">视频教程</string>
+    <string name="menu_others_github" translatable="false">Github</string>
+    <string name="menu_others_about" translatable="false">关于</string>
+    <string name="assert_title" translatable="false">资产</string>
+    <string name="assert_book" translatable="false">账本</string>
+    <string name="assert_empty_info" translatable="false">资产都没有，还想记账？\n快去添加一个！</string>
+    <string name="main_loading" translatable="false">正在加载中…</string>
+    <string name="assert_input" translatable="false">请输入资产名称</string>
+    <string name="add_success" translatable="false">添加成功！</string>
+    <string name="assert_change" translatable="false">请选择操作（%s）</string>
+    <string name="del" translatable="false">删除</string>
+    <string name="change" translatable="false">修改</string>
+    <string name="assert_change_name" translatable="false">请修改资产名称</string>
+    <string name="assert_change_success" translatable="false">修改成功!</string>
+    <string name="del_title" translatable="false">删除确认</string>
+    <string name="assert_del_msg" translatable="false">确定要删除（%s）吗？</string>
+    <string name="del_success" translatable="false">删除成功!</string>
+    <string name="empty_book" translatable="false">你还没有任何账本哦！\n钱迹免费用户不需要添加账本。</string>
+    <string name="book_change" translatable="false">请修改账本名称</string>
+    <string name="no_map" translatable="false">你还没有进行任何资产映射！</string>
+    <string name="assert_choose" translatable="false">请选择资产</string>
+    <string name="assert_map_tip" translatable="false">实际使用资产 → 对应的记账App资产</string>
+    <string name="sort_out" translatable="false">支出</string>
+    <string name="sort_in" translatable="false">收入</string>
+    <string name="sort_empty" translatable="false">你的分类呢？这样记不了账的哦！\n赶紧添加一个吧！</string>
+    <string name="sort_input" translatable="false">请输入分类名称</string>
+    <string name="sort_failed" translatable="false">修改失败！可能该分类已存在！</string>
+    <string name="sort_edit" translatable="false">请编辑（%s-%s）</string>
+    <string name="sort_add_failed" translatable="false">添加失败！可能该分类已存在！</string>
+    <string name="sort_switch_book" translatable="false">切换账本（%s）</string>
+    <string name="sort_input_child" translatable="false">请输入子类名称</string>
+    <string name="sort_warn" translatable="false">⚠️警告</string>
+    <string name="sort_warn_tip" translatable="false">删除该分类后，其二级分类也将被删除。</string>
+    <string name="active_true" translatable="false">已激活（%s）</string>
+    <string name="active_false" translatable="false">未激活（%s）</string>
+    <string name="exit" translatable="false">再按一次退出程序!</string>
+    <string name="menu_send_log" translatable="false">发送完整日志</string>
+    <string name="menu_clean_log" translatable="false">清空日志</string>
+    <string name="menu_change_log" translatable="false">修改日志模式</string>
+    <string name="log_clean_title" translatable="false">清空确认</string>
+    <string name="log_clean_body" translatable="false">是否清空所有日志？</string>
+    <string name="log_clean_success" translatable="false">清除成功！</string>
+    <string name="log_no_log" translatable="false">不记录</string>
+    <string name="log_simple" translatable="false">简单日志</string>
+    <string name="log_more" translatable="false">详细日志</string>
+    <string name="log_mode" translatable="false">日志模式（%s）</string>
+    <string name="log_set_success" translatable="false">设置成功！</string>
+    <string name="log_cache_title" translatable="false">日志缓存</string>
+    <string name="log_cache_body" translatable="false">日志缓存有效期为24小时，如果有无法正常记账的情况请在24小时内反馈，24小时后日志会自动删除。\n\n 点击右上角可以进行日志反馈并切换日志记录模式。</string>
+    <string name="log_cache_know" translatable="false">我知道了</string>
+    <string name="log_cache_no_show" translatable="false">不再显示</string>
+    <string name="log_empty" translatable="false">没有日志！\n 点击右上角切换日志记录模式试试？</string>
+    <string name="log_null" translatable="false">日志空空如也~</string>
+    <string name="sms" translatable="false">短信</string>
+    <string name="notice" translatable="false">通知</string>
+    <string name="app" translatable="false">app</string>
+    <string name="notice_empty" translatable="false">空空如也~</string>
+    <string name="notice_del" translatable="false">删除</string>
+    <string name="notice_create" translatable="false">创建识别规则</string>
+    <string name="notice_choose" translatable="false">请选择操作</string>
+    <string name="reg_create" translatable="false">规则创建</string>
+    <string name="list_sms" translatable="false">短信列表</string>
+    <string name="list_sms_tip" translatable="false">捕获短信信息，用于从银行短信中获取交易信息。</string>
+    <string name="list_notice" translatable="false">通知列表</string>
+    <string name="list_notice_tip" translatable="false">捕获通知信息，用于从通知中获取交易信息。</string>
+    <string name="list_app" translatable="false">App数据列表</string>
+    <string name="list_app_tip" translatable="false">捕获App内部信息，用于从App中获取交易信息。</string>
+    <string name="notice_clean_body" translatable="false">确定清空列表中所有内容吗？</string>
+    <string name="frame_taichi" translatable="false">太极</string>
+    <string name="frame_bug" translatable="false">应用转生</string>
+    <string name="frame_edxposed" translatable="false">EdXposed</string>
+    <string name="frame_lsposed" translatable="false">LSPosed</string>
+    <string name="frame_lsposed_old" translatable="false">LSPosed旧版</string>
+    <string name="frame_xposed" translatable="false">Xposed</string>
+    <string name="frame_dreamn" translatable="false">梦境</string>
+    <string name="frame_others" translatable="false">其他框架</string>
+    <string name="frame_sandvxposed" translatable="false">SlimVXP</string>
+    <string name="frame_vx" translatable="false">VirtualXposed</string>
+    <string name="copied" translatable="false">已复制到剪切板！</string>
+    <string name="no_regular" translatable="false">你还没有任何%s规则！</string>
+    <string name="reg_select" translatable="false">请选择导出方案</string>
+    <string name="reg_down" translatable="false">导出至下载文件夹</string>
+    <string name="reg_share" translatable="false">分享</string>
+    <string name="local" translatable="false">本地</string>
+    <string name="could" translatable="false">云端</string>
+    <string name="auto" translatable="false">自动分类</string>
+    <string name="select_edit" translatable="false">请选择编辑方式</string>
+    <string name="edit_default" translatable="false">可视化编辑</string>
+    <string name="edit_js" translatable="false">JS编辑</string>
+    <string name="select_title" translatable="false">请选择自动记账%s规则配置文件</string>
+    <string name="select_check" translatable="false">选中</string>
+    <string name="error_permission" translatable="false">出错了，可能是权限未给全！</string>
+    <string name="data_loading" translatable="false">数据导入中…</string>
+    <string name="restore_failed" translatable="false">导入失败！</string>
+    <string name="restore_success" translatable="false">导入成功！</string>
+    <string name="set_error" translatable="false">该文件不是有效的%s配置数据文件</string>
+    <string name="restore_title" translatable="false">（%s配置）恢复提醒</string>
+    <string name="restore_body" translatable="false">是否覆盖原有数据（清空不保留）？</string>
+    <string name="yes" translatable="false">是</string>
+    <string name="no" translatable="false">否</string>
+    <string name="output" translatable="false">数据导出中…</string>
+    <string name="output_success" translatable="false">数据导出成功！</string>
+    <string name="share_title" translatable="false">请选择导出方案</string>
+    <string name="share_download" translatable="false">导出至下载文件夹</string>
+    <string name="share_share" translatable="false">分享</string>
+    <string name="share_clipboard" translatable="false">复制到剪切板</string>
+    <string name="output_clipboard" translatable="false">复制成功！</string>
+    <string name="auto_clean_body" translatable="false">是否清空所有自动分类规则？</string>
+    <string name="disable" translatable="false">禁用</string>
+    <string name="enable" translatable="false">启用</string>
+    <string name="upload_cloud" translatable="false">上传到云端</string>
+    <string name="edit_error" translatable="false">该规则使用js编辑，无法进行可视化编辑。</string>
+    <string name="could_title" translatable="false">上传至云端规则</string>
+    <string name="could_body" translatable="false">目前，上传规则需要手动在Github建立Issue。\n点击『去提交』后将复制规则到剪切板并打开浏览器提交Issue。</string>
+    <string name="regular_know" translatable="false">我知道了</string>
+    <string name="regular_upload" translatable="false">去提交</string>
+    <string name="github_issue_category" translatable="false">http://gitbot.ankio.net/submit/2</string>
+    <string name="deny_success" translatable="false">禁用成功</string>
+    <string name="enable_success" translatable="false">启用成功</string>
+    <string name="import_auto" translatable="false">导入至自动记账</string>
+    <string name="new_version" translatable="false">"新版本 "</string>
+    <string name="update_go" translatable="false">前去更新</string>
+    <string name="update_cancel" translatable="false">不想更新</string>
+    <string name="error_title" translatable="false">自动记账发生异常</string>
+    <string name="error_submit" translatable="false">发送错误报告</string>
+    <string name="error_restart" translatable="false">重启自动记账</string>
+    <string name="error_report_title" translatable="false">错误报告提交提醒</string>
+    <string name="error_report_msg" translatable="false">请点击【去提交】前往Github提交Issue。</string>
+    <string name="error_report_submit" translatable="false">去提交</string>
+    <string name="error_report_cancle" translatable="false">我知道了</string>
+    <string name="github_issue_error" translatable="false">https://github.com/dreamncn/Qianji_auto/issues</string>
+    <string name="reg_clean_body" translatable="false">是否清空所有%s规则</string>
+    <string name="github_issue_regular" translatable="false">https://github.com/dreamncn/Qianji_auto/issues</string>
+    <string name="could_empty" translatable="false">云端暂无任何%s规则</string>
+    <string name="remote_error" translatable="false">远程数据获取失败</string>
+    <string name="remote_zero" translatable="false">没有规则数据！</string>
+    <string name="remote_tip" translatable="false">请选择规则</string>
+    <string name="remote_download" translatable="false">下载规则</string>
+    <string name="remote_cancle" translatable="false">关闭</string>
+    <string name="remote_success" translatable="false">下载成功</string>
+    <string name="about_source" translatable="false">请选择加速站(%s)</string>
+    <string name="source_custom" translatable="false">自定义</string>
+    <string name="source_input" translatable="false">请输入自定义加速链接</string>
+    <string name="reg_error" translatable="false">该规则有误，无法查看。</string>
+    <string name="save_success" translatable="false">存储成功！</string>
+    <string name="change_success" translatable="false">修改成功！</string>
+    <string name="set_choose_category" translatable="false">请选择分类</string>
+    <string name="async_success" translatable="false">同步成功！</string>
+    <string name="update_wechat" translatable="false">微信适配文件已更新完毕！</string>
+    <string name="regular_test" translatable="false">测试规则</string>
+    <string name="regular_error" translatable="false">没有任何规则有效！</string>
+    <string name="js_error" translatable="false">JS脚本执行出错，建议前去日志查看错误信息。</string>
+    <string name="not_support" translatable="false">钱迹只支持已激活Xposed用户同步，无障碍用户需要手动配置。</string>
+    <string name="mode_helper_name" translatable="false">无障碍</string>
+    <string name="float_tip" translatable="false">请授予悬浮窗权限！</string>
+    <string name="notice_name" translatable="false">记账提醒</string>
+    <string name="book_success" translatable="false">记账成功！金额为 %s 。</string>
+    <string name="restore_not_auto" translatable="false">该配置文件非自动记账配置文件。</string>
+    <string name="restore_not_support" translatable="false">抱歉，该备份文件由低版本（%s）自动记账创建，无法恢复。如果强行恢复会导致闪退等问题，建议先降级到对应版本自动记账，进行恢复操作后再升级！</string>
+    <string name="restore_error" translatable="false">恢复时发生错误！</string>
+    <string name="wait" translatable="false">敬请期待！</string>
+    <string name="money_clean_title" translatable="false">历史账单清除</string>
+    <string name="money_clean_body" translatable="false">是否清除所有账单？</string>
+    <string name="select_function" translatable="false">请选择操作</string>
+    <string name="money_send" translatable="false">发起记账请求</string>
+    <string name="money_del" translatable="false">删除记录</string>
+    <string name="money_copy" translatable="false">复制为文本</string>
+    <string name="no_money" translatable="false">没有任何账单</string>
+    <string name="about_check_update" translatable="false">正在检测更新中,请稍候…</string>
+    <string name="about_check_no_update" translatable="false">暂无更新！</string>
+    <string name="version_stable" translatable="false">稳定版</string>
+    <string name="version_alpha" translatable="false">内部测试版</string>
+    <string name="version_beta" translatable="false">公开测试版</string>
+    <string name="check_version" translatable="false">检测版本（%s）</string>
+    <string name="qq_error" translatable="false">未安装手机QQ或者当前QQ不支持加群。</string>
+    <string name="app_version" translatable="false">3.0.0beta1</string>
+    <string name="update_log" translatable="false">更新日志</string>
+    <string name="update_lastest" translatable="false">已是最新版本</string>
+    <string name="check_update" translatable="false">版本更新</string>
+    <string name="github_fast" translatable="false">GitHub加速</string>
+    <string name="auto_coding" translatable="false">一起来完善自动记账</string>
+    <string name="auto_go_code" translatable="false">贡献代码</string>
+    <string name="dev_user_numbers" translatable="false">目前有6位</string>
+    <string name="dev_user" translatable="false">开发人员</string>
+    <string name="license" translatable="false">开源协议</string>
+    <string name="license_name" translatable="false">GPL3.0</string>
+    <string name="qqGroup" translatable="false">QQ交流群</string>
+    <string name="hp_tip" translatable="false">不给好评当心跑路</string>
+    <string name="hp_title" translatable="false">五星好评</string>
+    <string name="return_help_tip" translatable="false">重回引导页面</string>
+    <string name="return_help" translatable="false">引导页面</string>
+    <string name="_2021_ankio_all_rights_reserved" translatable="false">© 2021 Ankio All rights reserved.</string>
+    <string name="please_select" translatable="false">请选择WebDav平台</string>
+    <string name="TeraCloud" translatable="false">TeraCloud</string>
+    <string name="ct_pub" translatable="false">城通网盘公有云</string>
+    <string name="ct_pri" translatable="false">城通网盘私有云</string>
+    <string name="jgy" translatable="false">坚果云</string>
+    <string name="input_webdav" translatable="false">请输入WebDavUrl</string>
+    <string name="no_webdav" translatable="false">未输入WebDav网址！</string>
+    <string name="webdav_setting" translatable="false">WebDav配置</string>
+    <string name="webdav_site" translatable="false">WebDav网址</string>
+    <string name="webdav_user" translatable="false">WebDav用户名</string>
+    <string name="webdav_passwd" translatable="false">WebDav密码</string>
+    <string name="webdav_backup" translatable="false">备份</string>
+    <string name="backup_local" translatable="false">备份到本地</string>
+    <string name="backup_download_qianji" translatable="false">将会为您备份到/Download/Qianji/文件夹</string>
+    <string name="backup_webdav" translatable="false">备份到WebDav</string>
+    <string name="backup_webdav_tip" translatable="false">将会为您备份到WebDav</string>
+    <string name="webdav_restore" translatable="false">恢复</string>
+    <string name="restore_local" translatable="false">从本地恢复</string>
+    <string name="restore_webdav" translatable="false">从WebDav恢复</string>
+    <string name="webdav_name" translatable="false">请输入WebDav的账号</string>
+    <string name="no_account" translatable="false">未输入账号！</string>
+    <string name="no_passwd" translatable="false">未输入密码！</string>
+    <string name="backup_loading" translatable="false">数据备份中…</string>
+    <string name="backup_failed" translatable="false">备份失败！</string>
+    <string name="backup_success" translatable="false">备份成功！</string>
+    <string name="backup_success_tip" translatable="false">备份成功，备份文件到%s！</string>
+    <string name="select_backup" translatable="false">请选择备份文件</string>
+    <string name="set_select" translatable="false">选中</string>
+    <string name="restore_back_failed" translatable="false">恢复失败！</string>
+    <string name="restore_back_success" translatable="false">恢复成功！</string>
+    <string name="select_cloud" translatable="false">请选择恢复的云数据</string>
+    <string name="restore_tip" translatable="false">数据恢复中...</string>
+    <string name="set_app" translatable="false">记账App</string>
+    <string name="set_normal" translatable="false">基本配置</string>
+    <string name="set_mode" translatable="false">记账模式</string>
+    <string name="set_book" translatable="false">记账功能</string>
+    <string name="set_float" translatable="false">悬浮窗功能</string>
+    <string name="restore_auto" translatable="false">恢复配置</string>
+    <string name="restore_loading" translatable="false">数据恢复中...</string>
+    <string name="select_sort" translatable="false">请选择分类</string>
+    <string name="select_book" translatable="false">请选择账本</string>
+    <string name="select_account" translatable="false">请选择资产账户</string>
+    <string name="bx" translatable="false">报销</string>
+    <string name="n_bx" translatable="false">不报销</string>
+    <string name="select_type" translatable="false">请选择收支类型</string>
+    <string name="float_out" translatable="false">支出</string>
+    <string name="float_in" translatable="false">收入</string>
+    <string name="float_transfer" translatable="false">转账</string>
+    <string name="float_pay_for" translatable="false">信用还款</string>
+    <string name="select_remark" translatable="false">请输入备注信息</string>
+    <string name="input_money" translatable="false">请输入金额</string>
+    <string name="input_fee" translatable="false">请输入手续费</string>
+    <string name="no_assets" translatable="false">请先添加资产！</string>
+    <string name="search_tip" translatable="false">请输入搜索关键词</string>
+    <string name="restore_permission" translatable="false">未授予存储权限！</string>
+    <string name="category_error" translatable="false">请在【分类管理】中添加分类后再试！</string>
+    <string name="regular_copy" translatable="false">复制</string>
+    <string name="restore_error_2" translatable="false">恢复时发生错误！建议从文件管理器，选择文件打开！</string>
+    <string name="accessibility_inner_title" translatable="false">❤️自动记账-无障碍模式❤️</string>
+    <string name="accessibility_inner_desc" translatable="false">自动记账无障碍模式,请不要Xposed模式同时开启。如果开启后未有自动记账运行通知，请重新开启。</string>
+    <string name="log_loading" translatable="false">日志加载中…</string>
+    <string name="input_data" translatable="false">请输入数据</string>
+    <string name="beta6Tip" translatable="false">您使用的是Beta7以下版本的规则，请重新编辑保存后再分享！</string>
+    <string name="debug_closed" translatable="false">已关闭调试模式。</string>
+    <string name="debug_opened" translatable="false">您已开启调试模式！</string>
+    <string name="debug_open" translatable="false">已开启调试模式！</string>
+    <string name="category" translatable="false">自动分类</string>
+    <string name="submit_regular" translatable="false">http://gitbot.ankio.net/submit/2</string>
+    <string name="edit" translatable="false">编辑</string>
 </resources>

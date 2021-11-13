@@ -77,7 +77,7 @@
 
         android:layout_marginEnd="15dp"
         android:gravity="center|center_horizontal"
-        android:text="&#xe62d;"
+        android:text="&#xe644;"
         android:textColor="@color/gray"
 
          />

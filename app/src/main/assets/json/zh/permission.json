@@ -3,25 +3,25 @@
     {
       "name": "存储",
       "sub": "备份恢复自动记账配置",
-      "icon": "&#xe6b2;",
+      "icon": "&#xe653;",
       "permission": 9
     },
     {
       "name": "自启动",
       "sub": "允许自动记账启动记账页面",
-      "icon": "&#xe62f;",
+      "icon": "&#xe660;",
       "permission": 4
     },
     {
       "name": "悬浮窗",
       "sub": "弹出悬浮窗口",
-      "icon": "&#xe603;",
+      "icon": "&#xe64b;",
       "permission": 3
     },
     {
       "name": "短信",
       "sub": "获取银行短信账单",
-      "icon": "&#xe61c;",
+      "icon": "&#xe665;",
       "permission": 2
     }
   ],
@@ -29,55 +29,55 @@
     {
       "name": "存储",
       "sub": "备份恢复自动记账配置",
-      "icon": "&#xe6b2;",
+      "icon": "&#xe653;",
       "permission": 9
     },
     {
       "name": "自启动",
       "sub": "允许自动记账启动记账页面",
-      "icon": "&#xe62f;",
+      "icon": "&#xe660;",
       "permission": 4
     },
     {
       "name": "悬浮窗",
       "sub": "弹出悬浮窗口",
-      "icon": "&#xe603;",
+      "icon": "&#xe64b;",
       "permission": 3
     },
     {
       "name": "短信",
       "sub": "获取银行短信账单",
-      "icon": "&#xe61c;",
+      "icon": "&#xe665;",
       "permission": 2
     },
     {
       "name": "辅助服务",
       "sub": "无障碍记账必须开启",
-      "icon": "&#xe625;",
+      "icon": "&#xe66e;",
       "permission": 1
     },
     {
       "name": "后台运行无限制",
       "sub": "无障碍记账保活",
-      "icon": "&#xe63d;",
+      "icon": "&#xe67c;",
       "permission": 5
     },
     {
       "name": "忽略电池优化",
       "sub": "无障碍记账保活",
-      "icon": "&#xe624;",
+      "icon": "&#xe66d;",
       "permission": 7
     },
     {
       "name": "多任务锁定",
       "sub": "无障碍记账保活",
-      "icon": "&#xe654;",
+      "icon": "&#xe657;",
       "permission": 6
     },
     {
       "name": "多任务隐藏",
       "sub": "无障碍记账保活",
-      "icon": "&#xe61f;",
+      "icon": "&#xe672;",
       "permission": 8
     }
   ]

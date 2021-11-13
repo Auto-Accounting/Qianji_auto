@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         app:backgroundColor="@color/background_white"
         app:left_color="@color/black"
-        app:left_icon="&#xe62e;"
+        app:left_icon="&#xe652;"
         app:right_color="@color/black"
-        app:right_icon="&#xe623;"
+        app:right_icon="&#xe65e;"
         app:title_color="@color/black"
         app:title_text="账单列表">
 

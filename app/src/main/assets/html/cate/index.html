@@ -232,10 +232,10 @@
             const shopRemarkLink = data.regular_shopRemark_link;
             if (shopRemark !== "") {
                 if (shopRemarkLink === "包含") {
-                    regularList += String.format("shopRemark.indexOf('%s')!=-1 && ", shopName);
+                    regularList += String.format("shopRemark.indexOf('%s')!=-1 && ", shopRemark);
 
                 } else if (shopRemarkLink === "正则匹配") {
-                    regularList += String.format("(/%s/g).test(shopRemark) && ", shopName);
+                    regularList += String.format("(/%s/g).test(shopRemark) && ", shopRemark);
                 }
             }
 

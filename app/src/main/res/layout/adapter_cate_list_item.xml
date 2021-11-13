@@ -97,7 +97,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
-            android:text="&#xe60c;" />
+            android:text="&#xe646;" />
     </RelativeLayout>
 
 </LinearLayout>
