@@ -22,6 +22,7 @@ import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_OK;
 import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -125,24 +126,23 @@ public class outFragment extends BaseFragment {
 
 
     private String getName() {
-        if (getContext() == null) {
+        Context context = getContext();
+        if (context == null || type == null) {
             popToBack();
             return "";
         }
         switch (type) {
             case "notice_detail":
-                if (isWeb) return "云 · 通知规则 · " + AppInfo.getName(getContext(), app);
-                return "通知规则 · " + AppInfo.getName(getContext(), app);
+                if (isWeb) return "云 · 通知规则 · " + AppInfo.getName(context, app);
+                return "通知规则 · " + AppInfo.getName(context, app);
             case "notice":
 
                 return getString(R.string.notice);
             case "app":
                 return getString(R.string.app);
             case "app_detail":
-                if (isWeb) return "云 · APP规则 · " + AppInfo.getName(getContext(), app);
-                return "APP规则 · " + AppInfo.getName(getContext(), app);
-
-
+                if (isWeb) return "云 · APP规则 · " + AppInfo.getName(context, app);
+                return "APP规则 · " + AppInfo.getName(context, app);
             case "sms":
                 return getString(R.string.sms);
             case "sms_detail":

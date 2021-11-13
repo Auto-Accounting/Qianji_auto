@@ -18,6 +18,27 @@ public class Notice extends AndroidBase {
 
     @Override
     public void hookFirst() {
+        //public void onNotificationPosted(StatusBarNotification sbn) {
+        //        // optional
+        //    }
+        /*try{
+            XposedHelpers.findAndHookMethod(NotificationListenerService.class, "onNotificationPosted", StatusBarNotification.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    StatusBarNotification statusBarNotification = (StatusBarNotification)param.args[0];
+                    
+                    utils.log( "open" + "-----" + statusBarNotification.getPackageName());
+                     utils.log(  "open" + "------" + statusBarNotification.getNotification().tickerText);
+                     utils.log(  "open" + "-----" + statusBarNotification.getNotification().extras.get("android.title"));
+                     utils.log(  "open" + "-----" + statusBarNotification.getNotification().extras.get("android.text"));
+
+                }
+            });
+        }catch (Exception e){
+            
+        }*/
+
         try {
             XposedHelpers.findAndHookMethod(NotificationManager.class, "notify"
                     , String.class, int.class, Notification.class
@@ -33,7 +54,7 @@ public class Notice extends AndroidBase {
             try {
                 XposedHelpers.findAndHookMethod(NotificationManager.class, "notify", int.class, Notification.class, new XC_MethodHook() {
                     @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                         detailNotice((Notification) param.args[1], null);
                     }
                 });
@@ -67,11 +88,7 @@ public class Notice extends AndroidBase {
             utils.log("通知数据：null", true);
             return;
         } else {
-            if (utils.isDebug())
-                utils.log("通知数据：" + bundle.toString());
-            else {
-                utils.log("通知数据：非调试模式");
-            }
+            if (utils.isDebug()) utils.log("通知数据：" + bundle.toString());
         }
         //空数据不要
         String title = bundle.get("android.title").toString();

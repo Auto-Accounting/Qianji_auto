@@ -218,8 +218,8 @@
             if (data.regular_money2 !== "")
                 regularList += String.format("money %s %s && ", data.regular_money2_link, data.regular_money2);
 
-            const shopName = layui.$("#regular_shopName").val();
-            const shopNameLink = layui.$("#regular_shopName_link").val();
+            const shopName = data.regular_shopName;
+            const shopNameLink = data.regular_shopName_link;
             if (shopName !== "") {
                 if (shopNameLink === "包含") {
                     regularList += String.format("shopName.indexOf('%s')!=-1 && ", shopName);
