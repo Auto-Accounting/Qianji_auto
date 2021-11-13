@@ -29,7 +29,7 @@ public class Data {
         if (isInit()) return;
         //释放初始化信息
         setDefaultApps(context);
-       // setDefaultRegulars(context);
+        setDefaultRegulars(context);
         MMKV mmkv = MMKV.defaultMMKV();
         mmkv.encode("InitCode", InitCode);
     }
