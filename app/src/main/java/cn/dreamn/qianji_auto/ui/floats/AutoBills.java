@@ -74,7 +74,7 @@ public class AutoBills {
                 dismiss();
             } else {
                 if (billListAdapter != null)
-                    billListAdapter.setAutoBills(autoBills);
+                    billListAdapter.addAll(autoBills);
 
             }
         }
@@ -126,7 +126,7 @@ public class AutoBills {
                 if (autoBills.size() <= 0) {
                     dismiss();
                 } else {
-                    billListAdapter.setAutoBills(autoBills);
+                    billListAdapter.remove(position);
                 }
 
             } catch (Throwable e) {
@@ -164,16 +164,10 @@ public class AutoBills {
     }
 
 
-    public void clear() {
-        //  super.clear();
-        mMainHandler.removeCallbacksAndMessages(null);
-        this.dismiss();
-    }
-
-
     public void dismiss() {
-        clear();
-
+        mMainHandler.removeCallbacksAndMessages(null);
+        if (dialog != null)
+            dialog.dismiss();
     }
 
     public void show() {

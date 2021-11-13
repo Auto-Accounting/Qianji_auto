@@ -17,29 +17,16 @@ import cn.dreamn.qianji_auto.data.database.Table.AutoBill;
 
 
 public class BillListAdapter extends ArrayAdapter {
-    List<AutoBill> autoBills;
+
 
     public BillListAdapter(Context context, int resource, List<AutoBill> autoBills) {
         super(context, resource);
-        this.autoBills = autoBills;
-        //   Log.d(jsonArray.toString());
     }
 
-    public void setAutoBills(List<AutoBill> autoBills) {
-        this.autoBills = autoBills;
-        // notify();
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public int getCount() {
-        if (autoBills == null) return 0;
-        return autoBills.size();
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        AutoBill autoBill = autoBills.get(position);
+        AutoBill autoBill = (AutoBill) getItem(position);
         View view = LayoutInflater.from(getContext()).inflate(R.layout.adapter_money_list_item_part, null, false);
 
         TextView sort = view.findViewById(R.id.sort);
