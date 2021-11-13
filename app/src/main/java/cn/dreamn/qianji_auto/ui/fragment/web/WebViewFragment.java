@@ -59,6 +59,7 @@ import cn.dreamn.qianji_auto.data.data.RegularCenter;
 import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.data.database.Helper.Categorys;
+import cn.dreamn.qianji_auto.setting.AppInfo;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LoadingDialog;
@@ -523,7 +524,7 @@ public class WebViewFragment extends BaseFragment {
                         @Override
                         public void handleMessage(@NonNull Message msg) {
                             BillInfo billInfo = (BillInfo) msg.obj;
-                            billInfo.setFromApp(app);
+                            billInfo.setFromApp(AppInfo.getName(getContext(), app));
                             SendDataToApp.callNoAdd(getContext(), billInfo);
                         }
                     };

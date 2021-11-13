@@ -53,6 +53,7 @@ import cn.dreamn.qianji_auto.bills.SendDataToApp;
 import cn.dreamn.qianji_auto.data.data.RegularCenter;
 import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Table.AppData;
+import cn.dreamn.qianji_auto.setting.AppInfo;
 import cn.dreamn.qianji_auto.ui.adapter.ItemListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
@@ -214,7 +215,8 @@ public class AppFragment extends BaseFragment {
                             @Override
                             public void handleMessage(@NonNull Message msg) {
                                 BillInfo billInfo = (BillInfo) msg.obj;
-                                billInfo.setFromApp(item.getString("fromApp"));
+                                billInfo.setFromApp(AppInfo.getName(getContext(), item.getString("fromApp")));
+                                //  billInfo.setFromApp(item.getString("fromApp"));
                                 SendDataToApp.callNoAdd(getContext(), billInfo);
                             }
                         };

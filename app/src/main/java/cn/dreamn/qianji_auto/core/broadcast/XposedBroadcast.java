@@ -33,6 +33,7 @@ import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
 import cn.dreamn.qianji_auto.data.data.RegularCenter;
 import cn.dreamn.qianji_auto.data.database.Db;
+import cn.dreamn.qianji_auto.setting.AppInfo;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
@@ -65,7 +66,9 @@ public class XposedBroadcast extends BroadcastReceiver {
                 @Override
                 public void handleMessage(@NonNull Message msg) {
                     BillInfo billInfo = (BillInfo) msg.obj;
-                    billInfo.setFromApp(app);
+                    billInfo.setFromApp(AppInfo.getName(context, app));
+
+                    //  billInfo.setFromApp(app);
                     SendDataToApp.call(context, billInfo);
                 }
             };

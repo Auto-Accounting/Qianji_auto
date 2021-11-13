@@ -28,6 +28,7 @@ import cn.dreamn.qianji_auto.core.helper.Inner.wechat.RedPackage;
 import cn.dreamn.qianji_auto.core.helper.Inner.wechat.Transerfer;
 import cn.dreamn.qianji_auto.data.data.RegularCenter;
 import cn.dreamn.qianji_auto.data.database.Db;
+import cn.dreamn.qianji_auto.setting.AppInfo;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
@@ -89,7 +90,8 @@ public class HelpService extends AccessibilityService {
                         @Override
                         public void handleMessage(@NonNull Message msg) {
                             BillInfo billInfo = (BillInfo) msg.obj;
-                            billInfo.setFromApp(packageName);
+
+                            billInfo.setFromApp(AppInfo.getName(getApplicationContext(), packageName));
                             SendDataToApp.call(getApplicationContext(), billInfo);
                         }
                     };

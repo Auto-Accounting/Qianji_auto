@@ -73,7 +73,7 @@ public class SMSBroadcast extends BroadcastReceiver {
                 @Override
                 public void handleMessage(@NonNull Message msg) {
                     BillInfo billInfo = (BillInfo) msg.obj;
-                    billInfo.setFromApp(finalUser);
+                    billInfo.setFromApp("短信");
                     SendDataToApp.call(context, billInfo);
                 }
             };

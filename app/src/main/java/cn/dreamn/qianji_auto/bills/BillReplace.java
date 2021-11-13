@@ -29,7 +29,12 @@ public class BillReplace {
                         }
 
                         if (billInfo.getRawAccount() == null || billInfo.getRawAccount().equals("null")) {
-                            billInfo.setRawAccount(billInfo.getFromApp());
+                            if (!billInfo.getFromApp().equals("短信")) {
+                                billInfo.setRawAccount(billInfo.getFromApp());
+                            } else {
+                                billInfo.setRawAccount("");
+                            }
+
                         }
                         Assets.getMap(billInfo.getRawAccount(), mapName -> {
                             billInfo.setAccountName((String) mapName);
