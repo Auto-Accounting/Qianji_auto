@@ -49,12 +49,20 @@ public class CateItemListAdapter extends BaseAdapter {
         TextView tv_update = (TextView) holder.findView(R.id.update);
         tv_title.setText(item.getString("name"));
         String des = item.getString("remark");
+        String reg = item.getString("regular");
+
         boolean isAuto = false;
         if (des != null) {
             if (des.startsWith("[自动生成]")) {
                 isAuto = true;
             }
             tv_des.setText(des);
+            if (reg != null) {
+                if (reg.contains("##1")) {
+                    isAuto = true;
+                }
+            }
+
         } else {
             icon_info.setVisibility(View.GONE);
             tv_des.setVisibility(View.GONE);
