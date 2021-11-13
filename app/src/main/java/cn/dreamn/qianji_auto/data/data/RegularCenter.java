@@ -87,6 +87,10 @@ public class RegularCenter {
             if (addJs != null) {
                 dataList.append(addJs);
             }
+            if (addJs == null && (regulars == null || regulars.length == 0)) {
+                taskResult.onEnd("NotFound");
+                return;
+            }
             for (Regular value : regulars) {
                 dataList.append(value.regular);
             }
@@ -122,6 +126,11 @@ public class RegularCenter {
             Regular[] regulars = Db.db.RegularDao().loadUse(type, app, 0, 200);
             StringBuilder dataList = new StringBuilder();
             //  String reg = ";try{pattern=/%s/;if(pattern.test(a)){var array=pattern.exec(a);var remark='%s',account='%s',type='%s',money='%s',shopName='%s',account2='%s',fee='%s',time='%s';for(var i=array.length-1;i>=1;i--){var rep=\"$\"+i.toString();var repStr=array[i];remark=remark.replace(rep,repStr);account=account.replace(rep,repStr);type=type.replace(rep,repStr);money=money.replace(rep,repStr);shopName=shopName.replace(rep,repStr);account2=account2.replace(rep,repStr);fee=fee.replace(rep,repStr);time=time.replace(rep,repStr)}return remark+'##'+account+'##'+type+'##'+money+'##'+account2+'##'+shopName+'##'+fee+'##'+time+'##%s'}}catch(e){console.log(e)};";
+
+            if (addJs == null && (regulars == null || regulars.length == 0)) {
+                taskResult.onEnd(null);
+                return;
+            }
             for (Regular value : regulars) {
                 //   JSONObject jsonObject = JSONObject.parseObject(value.data);
                 //  String j = String.format(reg, value.regular, jsonObject.getString("shopRemark"), jsonObject.getString("account1"), jsonObject.getString("type"), jsonObject.getString("money"), jsonObject.getString("shopName"), jsonObject.getString("account2"), jsonObject.getString("fee"), jsonObject.getString("time"), jsonObject.getString("auto"));
