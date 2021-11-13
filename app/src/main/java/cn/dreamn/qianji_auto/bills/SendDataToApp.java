@@ -42,6 +42,7 @@ import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.ui.utils.ScreenUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.utils.runUtils.RootUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
@@ -207,7 +208,7 @@ public class SendDataToApp {
 
     public static void run(Context context1, BillInfo billInfo) {
 
-        if (billInfo.isAuto()) {
+        if (billInfo.isAuto() && RootUtils.hasRootPermission()) {
             Log.i(TAG, "自动记录账单...");
             goApp(context1, billInfo);
             return;
@@ -218,7 +219,7 @@ public class SendDataToApp {
 
         if (isReception(context1)) {
             Log.i(TAG, "当前处于锁屏状态");
-            if (mmkv.getBoolean("autoIncome", false)) {
+            if (mmkv.getBoolean("autoIncome", false) && RootUtils.hasRootPermission()) {
                 Log.i(TAG, "全自动模式->直接对钱迹发起请求");
                 goApp(context1, billInfo);
             } else {
@@ -245,7 +246,7 @@ public class SendDataToApp {
             }
         } else {
             Log.i(TAG, "当前处于前台状态");
-            if (mmkv.getBoolean("autoPay", false)) {
+            if (mmkv.getBoolean("autoPay", false) && RootUtils.hasRootPermission()) {
                 Log.i(TAG, "全自动模式->直接对钱迹发起请求");
                 goApp(context1, billInfo);
 
