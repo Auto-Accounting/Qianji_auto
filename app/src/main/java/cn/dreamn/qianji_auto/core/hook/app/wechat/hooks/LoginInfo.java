@@ -44,11 +44,12 @@ public class LoginInfo {
     private static void loadRegularsFromWeb(Utils utils) {
         utils.log("正在请求微信适配数据~");
         String json = utils.readDataByApp("wechat", "red");
-        try {
-            JSONObject jsonObject = JSONObject.parseObject(json).getJSONObject("wechat");
 
-            if (jsonObject.containsKey(utils.getVerName())) {
-                String jsData = jsonObject.getJSONObject(utils.getVerName()).getJSONObject("red").toJSONString();
+        try {
+            JSONObject jsonObject = JSONObject.parseObject(json);
+            JSONObject jsonObject1 = jsonObject.getJSONObject("wechat");
+            if (jsonObject1.containsKey(utils.getVerName())) {
+                String jsData = jsonObject1.getJSONObject(utils.getVerName()).getJSONObject("red").toJSONString();
                 if (!utils.readData("red").equals(jsData)) {
                     utils.writeData("red", jsData);
                     utils.toast("自动记账：微信适配文件更新！");

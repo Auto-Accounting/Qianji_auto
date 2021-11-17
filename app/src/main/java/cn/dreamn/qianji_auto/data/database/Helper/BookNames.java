@@ -92,19 +92,19 @@ public class BookNames {
                     bundle.putString("cover", "http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
                 } else {
                     bundle.putString("cover", bookName.icon);
+                }
+                bundleArrayList.add(bundle);
             }
-            bundleArrayList.add(bundle);
-        }
 
 
-        if (bundleArrayList.size() == 0 && add) {
-            Bundle bundle = new Bundle();
-            bundle.putString("name", "默认账本");
-            bundle.putInt("id", -1);
-            bundle.putString("book_id", "-1");
-            bundle.putString("cover", "http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
-            bundleArrayList.add(bundle);
-        }
+            if (bundleArrayList.size() == 0 && add) {
+                Bundle bundle = new Bundle();
+                bundle.putString("name", "默认账本");
+                bundle.putInt("id", -1);
+                bundle.putString("book_id", "-1");
+                bundle.putString("cover", "http://res.qianjiapp.com/headerimages2/maarten-van-den-heuvel-7RyfX2BHoXU-unsplash.jpg!headerimages2");
+                bundleArrayList.add(bundle);
+            }
             taskResult.onEnd(bundleArrayList);
         });
 
@@ -135,18 +135,18 @@ public class BookNames {
                 BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
                 MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
 
-                dialog.cornerRadius(15f,null);
-                dialog.title(null,title);
+                dialog.cornerRadius(15f, null);
+                dialog.title(null, title);
 
                 DialogCustomViewExtKt.customView(dialog, null, textEntryView,
                         false, true, false, false);
-               if(isFloat){
-                   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                       dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
-                   } else {
-                       dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
-                   }
-               }
+                if (isFloat) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
+                    } else {
+                        dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+                    }
+                }
                 dialog.cancelable(false);
                 dialog.show();
 
@@ -155,15 +155,13 @@ public class BookNames {
                     taskResult.onEnd(books.get(position));
                     dialog.dismiss();
                 });
-               // dialog.setOnCancelListener(dialog1 -> getOne.onSelect(null));
+                // dialog.setOnCancelListener(dialog1 -> getOne.onSelect(null));
             }
         };
 
-        getAllIcon(true,books -> {
+        getAllIcon(true, books -> {
             HandlerUtil.send(mHandler, books, 0);
         });
-
-
 
 
     }

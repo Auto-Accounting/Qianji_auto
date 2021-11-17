@@ -34,8 +34,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.core.helper.Inner.HelpService;
 import cn.dreamn.qianji_auto.core.helper.base.ApiUtil;
+import cn.dreamn.qianji_auto.core.helper.star.AutoService;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 import kotlin.jvm.internal.Intrinsics;
@@ -84,7 +84,7 @@ public class AppStatus {
     }
 
     public static boolean defaultActive(Context context) {
-        return ApiUtil.isAccessibilityServiceOn(context, HelpService.class);
+        return ApiUtil.isAccessibilityServiceOn(context, AutoService.class);
 
         //return false;
     }

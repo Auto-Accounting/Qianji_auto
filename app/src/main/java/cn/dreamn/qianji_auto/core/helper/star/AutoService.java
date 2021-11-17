@@ -94,7 +94,6 @@ public class AutoService extends AccessibilityService {
 
     @Override  // android.app.Service
     public void onDestroy() {
-
         this.stopForeground(true);
         super.onDestroy();
     }

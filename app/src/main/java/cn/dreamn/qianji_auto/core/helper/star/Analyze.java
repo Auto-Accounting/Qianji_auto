@@ -16,7 +16,10 @@ import cn.dreamn.qianji_auto.core.helper.star.b6.e;
 import cn.dreamn.qianji_auto.core.helper.star.b6.f;
 import cn.dreamn.qianji_auto.core.helper.star.b6.g;
 import cn.dreamn.qianji_auto.core.helper.star.b6.h;
+import cn.dreamn.qianji_auto.setting.AppStatus;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 
 public class Analyze implements Runnable {
@@ -174,6 +177,25 @@ public class Analyze implements Runnable {
             List<String> nodeListInfo = AutoService.ergodicList(autoService, nodeInfo);
             AutoService.nodeList = new ArrayList<>();
             if (!isNullOrEmpty(nodeListInfo)) {
+
+                if (AppStatus.isDebug()) {
+                    String s = "Pacakge:" + packageName + "\nFlag:" + autoService.flag + "\n数据部分:" + nodeListInfo.toString();
+                    BottomArea.msg(autoService.getApplicationContext(), "当前数据抓取", s, "提交给作者", "关闭", true, new BottomArea.MsgCallback() {
+                        @Override
+                        public void cancel() {
+
+                        }
+
+                        @Override
+                        public void sure() {
+                            Tool.clipboard(autoService.getApplicationContext(), nodeListInfo.toString());
+                            Tool.goUrl(autoService.getApplicationContext(), "http://wpa.qq.com/msgrd?v=3&uin=573658513&site=qq&menu=yes");
+                        }
+                    });
+                    Log.i("无障碍调试数据：" + nodeListInfo.toString());
+                    return;
+                }
+
                 if (autoService.flag == FLAG_WECHAT_DETAIL_UI_2 && !h.isUseful(nodeListInfo)) {
                     Log.i("[auto]无效账单详情");
                     AutoService.clear(autoService);
@@ -342,7 +364,6 @@ public class Analyze implements Runnable {
                             if (v15 == null) {
                                 v15 = v0_8.m(nodeListInfo);
                             }
-
 
                         }
                     } else if (autoService.flag == FLAG_ALIPAY_PAY_UI) {
