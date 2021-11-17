@@ -4,6 +4,8 @@ package cn.dreamn.qianji_auto.core.helper.star;
 import android.content.Context;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.hjq.toast.ToastUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -180,7 +182,7 @@ public class Analyze implements Runnable {
 
                 if (AppStatus.isDebug()) {
                     String s = "Pacakge:" + packageName + "\nFlag:" + autoService.flag + "\n数据部分:" + nodeListInfo.toString();
-                    BottomArea.msg(autoService.getApplicationContext(), "当前数据抓取", s, "提交给作者", "关闭", true, new BottomArea.MsgCallback() {
+                    BottomArea.msg(autoService.getApplicationContext(), "当前数据抓取", s, "复制数据", "关闭", true, new BottomArea.MsgCallback() {
                         @Override
                         public void cancel() {
 
@@ -189,7 +191,8 @@ public class Analyze implements Runnable {
                         @Override
                         public void sure() {
                             Tool.clipboard(autoService.getApplicationContext(), nodeListInfo.toString());
-                            Tool.goUrl(autoService.getApplicationContext(), "http://wpa.qq.com/msgrd?v=3&uin=573658513&site=qq&menu=yes");
+                            ToastUtils.show("数据已复制，请私聊群主数据");
+                            //Tool.goUrl(autoService.getApplicationContext(), "http://wpa.qq.com/msgrd?v=3&uin=573658513&site=qq&menu=yes");
                         }
                     });
                     Log.i("无障碍调试数据：" + nodeListInfo.toString());
