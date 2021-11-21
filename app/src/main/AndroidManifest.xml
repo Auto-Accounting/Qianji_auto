@@ -6,10 +6,6 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <!--结束进程-->
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    <!-- 忽略电池优化 -->
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <!--【无障碍】 开机自启-->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!--短信读取-->
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
@@ -95,22 +91,6 @@
             android:resource="@array/xposed_scope" />
 
 
-        <!--无障碍需要的服务信息-->
-        <service android:name=".core.helper.AutoBillService" />
-        <service
-            android:name=".core.helper.star.AutoService"
-            android:description="@string/accessibility_inner_desc"
-            android:label="@string/accessibility_inner_title"
-            android:exported="false"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
-            <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService" />
-            </intent-filter>
-            <meta-data
-                android:name="android.accessibilityservice"
-                android:resource="@xml/accessibility_service_config_inner" />
-        </service>
-
         <!--对外提供文件分享-->
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -126,15 +106,6 @@
             android:name="cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences"
             android:authorities="cn.dreamn.qianji_auto.provider"
             android:exported="true" />
-
-        <!--无障碍开机启动广播-->
-        <receiver
-            android:name=".core.broadcast.BootBroadcast"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
         <!--短信读取广播-->
         <receiver
             android:name=".core.broadcast.SMSBroadcast"
@@ -144,6 +115,7 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
+
         <!--Xposed消息回调广播-->
         <receiver
             android:name=".core.broadcast.XposedBroadcast"
@@ -167,6 +139,16 @@
         <!-- 通知监听广播 -->
         <receiver android:name=".core.broadcast.NotificationClickReceiver" />
 
+        <!--通知读取服务-->
+        <service
+            android:name="cn.dreamn.qianji_auto.core.broadcast.NotificationMonitor"
+            android:exported="true"
+            android:label="@string/service_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
     </application>
 
 

@@ -86,7 +86,7 @@ public class ModeFragment extends BaseFragment {
     }
     private void setMode() {
         modeUtils = new ModeUtils(this, mode_list, mode_name, lv_permission);
-        modeUtils.setMode();
+      //  modeUtils.setMode();
     }
 
 

@@ -23,6 +23,12 @@
       "sub": "获取银行短信账单",
       "icon": "&#xe665;",
       "permission": 2
+    },
+    {
+      "name": "通知（虚拟框架）",
+      "sub": "虚拟框架类需要",
+      "icon": "&#xe651;",
+      "permission": 11
     }
   ],
   "helper": [

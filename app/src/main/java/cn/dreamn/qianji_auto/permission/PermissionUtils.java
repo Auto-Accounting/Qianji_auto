@@ -19,11 +19,13 @@ package cn.dreamn.qianji_auto.permission;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.text.TextUtils;
 
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
@@ -34,7 +36,7 @@ import com.tencent.mmkv.MMKV;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.R;
-import cn.dreamn.qianji_auto.setting.AppStatus;
+import cn.dreamn.qianji_auto.core.broadcast.NotificationMonitor;
 
 
 public class PermissionUtils {
@@ -50,7 +52,7 @@ public class PermissionUtils {
     public static final int Hide = 8;//多任务隐藏
     public static final int Storage = 9;//存储权限
     public static final int StorageReadExt = 10;//外部储存读取权限
-
+    public static final int Notice = 11;//外部储存读取权限
 
     private final Context mContext;
 
@@ -107,6 +109,16 @@ public class PermissionUtils {
                 ToastUtils.show(R.string.permission_storage_tip);
                 XXPermissions.startPermissionActivity(mContext, Permission.READ_EXTERNAL_STORAGE);
                 break;
+            case Notice:
+                try {
+                    Intent intent1;
+                    intent1 = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+                    mContext.startActivity(intent1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                NotificationMonitor.start(mContext);
+                break;
             default:
                 break;
         }
@@ -115,7 +127,7 @@ public class PermissionUtils {
     public String isGrant(int permission) {
         switch (permission) {
             case Assist:
-                return AppStatus.defaultActive(mContext) ? "1" : "0";
+                return "0";
             case Sms:
                 return XXPermissions.isGranted(mContext, Permission.RECEIVE_SMS) ? "1" : "0";
             case Float:
@@ -132,6 +144,8 @@ public class PermissionUtils {
                 return (XXPermissions.isGranted(mContext, Permission.MANAGE_EXTERNAL_STORAGE) && XXPermissions.isGranted(mContext, Permission.Group.STORAGE)) ? "1" : "0";
             case StorageReadExt:
                 return XXPermissions.isGranted(mContext, Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE) ? "1" : "0";
+            case Notice:
+                return isNotificationListenersEnabled() ? "1" : "0";
             default:
                 break;
 
@@ -177,6 +191,23 @@ public class PermissionUtils {
                 }
             }
         });
+    }
+
+    public boolean isNotificationListenersEnabled() {
+        String pkgName = mContext.getPackageName();
+        final String flat = Settings.Secure.getString(mContext.getContentResolver(), "enabled_notification_listeners");
+        if (!TextUtils.isEmpty(flat)) {
+            final String[] names = flat.split(":");
+            for (String name : names) {
+                final ComponentName cn = ComponentName.unflattenFromString(name);
+                if (cn != null) {
+                    if (TextUtils.equals(pkgName, cn.getPackageName())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 

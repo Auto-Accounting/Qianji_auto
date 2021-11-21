@@ -42,6 +42,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
                 android:layout_toStartOf="@+id/rightIcon"
+                android:text="Xposed"
                 android:textColor="@color/gray" />
 
             <TextView

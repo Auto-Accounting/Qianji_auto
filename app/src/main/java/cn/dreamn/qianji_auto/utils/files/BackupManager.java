@@ -66,15 +66,7 @@ public class BackupManager {
             //添加注释
             ZipUtils.zipFile(filename2, filename, jsonObject.toJSONString());
             Log.i("配置已备份到该路径", filename);
-            //删掉！
-            /*ConsumptionTask task=new ConsumptionTask();
-            task.taskNo=String.valueOf(App.index++);
-            task.runnable= (context1, task1) -> {
-                FileUtils.del(filename2);
-                App.lineUpTaskHelp.exOk(task1);
-            };
-            App.lineUpTaskHelp.addTask(task);*/
-            //  FileUtils.del(filename2);
+            //删掉
             return filename;
         } catch (Exception e) {
             Log.i("备份出错" + e.toString());
