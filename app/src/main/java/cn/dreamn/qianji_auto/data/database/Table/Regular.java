@@ -28,7 +28,7 @@ public class Regular {
     public String regular;//翻译后的规则
     public String name;//名称
     public String remark;//说明
-    public String identify;//category/sms/app/notice
+    public String identify;//category/sms/app/notice/helper
     public String app;//
     public String data;//规则在编辑页面中的数据
     public String dataId;//云端ID

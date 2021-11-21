@@ -35,7 +35,7 @@ import java.util.Objects;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.helper.base.ApiUtil;
-import cn.dreamn.qianji_auto.core.helper.star.AutoService;
+import cn.dreamn.qianji_auto.core.helper.inner.AutoService;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 import kotlin.jvm.internal.Intrinsics;

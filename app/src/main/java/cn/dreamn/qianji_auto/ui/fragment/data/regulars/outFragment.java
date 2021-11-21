@@ -120,7 +120,7 @@ public class outFragment extends BaseFragment {
         if (type.equals("notice_detail")) return "notice";
         if (type.equals("app_detail")) return "app";
         if (type.equals("sms_detail")) return "sms";
-
+        if (type.equals("helper_detail")) return "helper";
         return this.type;
     }
 
@@ -214,7 +214,7 @@ public class outFragment extends BaseFragment {
             popToBack();
             return false;
         }
-        return (type.equals("category") || (type.equals("sms") && !isWeb) || type.equals("notice_detail") || type.equals("app_detail") || type.equals("sms_detail"));
+        return (type.equals("category") || (type.equals("sms") && !isWeb) || type.equals("notice_detail") || type.equals("app_detail") || type.equals("helper_detail") || type.equals("sms_detail"));
     }
 
     private boolean isHasBar() {
@@ -222,7 +222,7 @@ public class outFragment extends BaseFragment {
             popToBack();
             return false;
         }
-        return (type.equals("category") || (type.equals("sms")) || type.equals("notice") || type.equals("app"));
+        return (type.equals("category") || (type.equals("sms")) || type.equals("notice") || type.equals("app") || type.equals("helper"));
     }
 
 
@@ -451,7 +451,8 @@ public class outFragment extends BaseFragment {
                                         @Override
                                         public void sure() {
                                             RegularManager.outputRegOne(getContext(), getName(), getLastType(), cate.getString("dataId"), cate.getString("version"), Tool.bundle2JSONObject(cate));
-                                            Tool.goUrl(getContext(), getString(R.string.submit_regular));
+                                            String name = cate.getString("name");
+                                            Tool.goUrl(getContext(), getString(R.string.submit_regular) + "?name=" + name);
 
                                         }
                                     });
@@ -522,6 +523,7 @@ public class outFragment extends BaseFragment {
         if (type.equals("notice")) return "notice_detail";
         if (type.equals("app")) return "app_detail";
         if (type.equals("sms")) return "sms_detail";
+        if (type.equals("helper")) return "helper_detail";
         return type;
     }
 
@@ -562,7 +564,7 @@ public class outFragment extends BaseFragment {
                             return;
                         }
                         List<Bundle> bundleList = new ArrayList<>();
-                        if (type.equals("app") || type.equals("notice") || type.equals("sms")) {
+                        if (type.equals("app") || type.equals("notice") || type.equals("sms") || type.equals("helper")) {
                             for (Map.Entry<String, Object> stringObjectEntry : jsonObject1.entrySet()) {
                                 String key = stringObjectEntry.getKey();
                                 JSONObject value = (JSONObject) stringObjectEntry.getValue();
@@ -575,7 +577,7 @@ public class outFragment extends BaseFragment {
                                 //bundle.putBoolean("install",false);//判断是否安装
                                 bundleList.add(bundle);
                             }
-                        } else if (type.equals("category") || type.equals("app_detail") || type.equals("notice_detail") || type.equals("sms_detail")) {
+                        } else if (type.equals("category") || type.equals("app_detail") || type.equals("notice_detail") || type.equals("sms_detail") || type.equals("helper_detail")) {
                             Log.i("当前App:" + app);
                             if (app != null && !app.equals("") && jsonObject1.containsKey(app)) {
                                 jsonObject1 = jsonObject1.getJSONObject(app);
@@ -617,7 +619,7 @@ public class outFragment extends BaseFragment {
                 public void run() {
                     TaskThread.onThread(() -> {
                         Regular[] regulars;
-                        if (type.equals("notice") || type.equals("app")) {
+                        if (type.equals("notice") || type.equals("app") || type.equals("helper")) {
                             regulars = Db.db.RegularDao().loadApps(getLastType());
                         } else if (app == null || app.equals("")) {
                             regulars = Db.db.RegularDao().load(getLastType(), 0, 200);

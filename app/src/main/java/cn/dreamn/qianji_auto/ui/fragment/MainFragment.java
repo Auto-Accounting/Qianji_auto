@@ -206,6 +206,14 @@ public class MainFragment extends BaseFragment {
 
                     }
                 });
+            } else if (str.endsWith(".backup_helper_ankio")) {
+                Log.i("file" + str);
+                RegularManager.restoreFromData(getContext(), "", "helper", FileUtils.get(str), new RegularManager.End() {
+                    @Override
+                    public void onFinish(int code) {
+
+                    }
+                });
             } else if (str.endsWith(".backup_sms_ankio")) {
                 RegularManager.restoreFromData(getContext(), "", "sms", FileUtils.get(str), new RegularManager.End() {
                     @Override
@@ -365,7 +373,13 @@ public class MainFragment extends BaseFragment {
             MainAutoLearnFragment.openWithType(this, "category");
         });
         rl_app.setOnClickListener(v -> {
-            MainAutoLearnFragment.openWithType(this, "app");
+            boolean isXp = AppStatus.isXposed();
+            if (isXp) {
+                MainAutoLearnFragment.openWithType(this, "app");
+            } else {
+                MainAutoLearnFragment.openWithType(this, "helper");
+            }
+
         });
         rl_sms.setOnClickListener(v -> {
             MainAutoLearnFragment.openWithType(this, "sms");

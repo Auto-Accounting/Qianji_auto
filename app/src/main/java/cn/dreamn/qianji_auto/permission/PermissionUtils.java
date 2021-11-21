@@ -37,6 +37,8 @@ import java.util.List;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.broadcast.NotificationMonitor;
+import cn.dreamn.qianji_auto.core.helper.base.ApiUtil;
+import cn.dreamn.qianji_auto.core.helper.inner.AutoService;
 
 
 public class PermissionUtils {
@@ -127,7 +129,7 @@ public class PermissionUtils {
     public String isGrant(int permission) {
         switch (permission) {
             case Assist:
-                return "0";
+                return ApiUtil.isAccessibilityServiceOn(mContext, AutoService.class) ? "1" : "0";
             case Sms:
                 return XXPermissions.isGranted(mContext, Permission.RECEIVE_SMS) ? "1" : "0";
             case Float:
