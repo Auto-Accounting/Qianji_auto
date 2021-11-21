@@ -20,6 +20,7 @@ package cn.dreamn.qianji_auto.core.hook.app.wechat;
 import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.LoginInfo;
 import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.Msg;
 import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.NickName;
+import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.OpenLog;
 import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.PayTools;
 import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.RedPackage;
 import cn.dreamn.qianji_auto.core.hook.app.wechat.hooks.Setting;
@@ -36,12 +37,13 @@ public class Wechat extends AppBase {
     @Override
     public void hookFirst() throws Error {
 
-        /* */
-      /*  try {
-            OpenLog.init(utils);
-        } catch (Throwable e) {
-            utils.log("微信 Log HookError " + e.toString());
-        }*/
+        if (utils.isDebug()) {
+            try {
+                OpenLog.init(utils);
+            } catch (Throwable e) {
+                utils.log("微信 Log HookError " + e.toString());
+            }
+        }
         try {
             LoginInfo.init(utils);
         } catch (Throwable e) {
