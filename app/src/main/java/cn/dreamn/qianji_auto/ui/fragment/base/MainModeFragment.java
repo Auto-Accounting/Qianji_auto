@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 
@@ -53,7 +54,7 @@ public class MainModeFragment extends BaseFragment {
     @Override
     protected void initViews() {
         modeUtils = new ModeUtils(this, mode_list, mode_name, lv_permission);
-       // modeUtils.setMode();
+        modeUtils.setMode();
     }
 
     @Override
@@ -64,8 +65,8 @@ public class MainModeFragment extends BaseFragment {
     @Override
     public void onResume() {
 
-        //  MMKV mmkv=MMKV.defaultMMKV();
-        modeUtils.setPermission("xposed");
+        MMKV mmkv = MMKV.defaultMMKV();
+        modeUtils.setPermission(mmkv.getString("helper_choose", "xposed"));
         super.onResume();
 
     }

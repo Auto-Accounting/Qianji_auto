@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="cn.dreamn.qianji_auto">
+    <!-- 忽略电池优化 -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <!--【无障碍】 开机自启-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!--后台运行服务-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <!--结束进程-->
@@ -138,7 +142,14 @@
 
         <!-- 通知监听广播 -->
         <receiver android:name=".core.broadcast.NotificationClickReceiver" />
-
+        <!--无障碍开机启动广播-->
+        <receiver
+            android:name=".core.broadcast.BootBroadcast"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
         <!--通知读取服务-->
         <service
             android:name="cn.dreamn.qianji_auto.core.broadcast.NotificationMonitor"
@@ -149,6 +160,22 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+        <!--无障碍需要的服务信息-->
+        <service android:name=".core.helper.AutoBillService" />
+        <service
+            android:name=".core.helper.star.AutoService"
+            android:description="@string/accessibility_inner_desc"
+            android:exported="false"
+            android:label="@string/accessibility_inner_title"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config_inner" />
+        </service>
+
     </application>
 
 
