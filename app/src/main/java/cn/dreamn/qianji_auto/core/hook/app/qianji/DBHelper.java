@@ -132,15 +132,20 @@ public class DBHelper {
         }
         Cursor cursor = db.rawQuery("select * from user_book ", null);
         JSONArray jsonArray = new JSONArray();
+        boolean has = false;
         while (cursor.moveToNext()) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", cursor.getString(cursor.getColumnIndex("BOOK_ID")));
-            jsonObject.put("name", cursor.getString(cursor.getColumnIndex("NAME")));
+            String name = cursor.getString(cursor.getColumnIndex("NAME"));
+            if (name.equals("默认账本")) {
+                has = true;
+            }
+            jsonObject.put("name", name);
             jsonObject.put("cover", cursor.getString(cursor.getColumnIndex("COVER")));
             jsonArray.add(jsonObject);
         }
         cursor.close();
-        if (!isVip) {//Vip会自动附加
+        if (!isVip && !has) {//非vip并且没有默认账本会自动附加
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", "-1");
             jsonObject.put("name", "默认账本");
