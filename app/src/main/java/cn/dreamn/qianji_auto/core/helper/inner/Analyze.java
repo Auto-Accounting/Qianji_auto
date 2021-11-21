@@ -198,7 +198,7 @@ public class Analyze implements Runnable {
                     return;
                 }
 
-                String s = "Package:" + packageName + ",Flag:" + autoService.flag + ",Data:" + nodeListInfo.toString();
+                String s = "Flag:" + autoService.flag + ",Data:" + nodeListInfo.toString();
 
                 String identify = "helper";
 

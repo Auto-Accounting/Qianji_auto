@@ -358,7 +358,12 @@ public class MainFragment extends BaseFragment {
             //TODO 4.0新增功能，年度账单，授权自动记账使用本地化分析功能（由JS实现，传入参数如data={}等），样式采用html。
         });
         rl_app_log.setOnClickListener(v -> {
-            AppFragment.openWithType(this, "app");
+            boolean isXp = AppStatus.isXposed();
+            if (isXp) {
+                AppFragment.openWithType(this, "app");
+            } else {
+                AppFragment.openWithType(this, "helper");
+            }
         });
         rl_sms_log.setOnClickListener(v -> {
             AppFragment.openWithType(this, "sms");

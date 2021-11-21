@@ -2,16 +2,12 @@ package cn.dreamn.qianji_auto.core.hook.android;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-
 import cn.dreamn.qianji_auto.core.hook.template.android.AndroidBase;
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedHelpers;
 
 public class Notice extends AndroidBase {
 
@@ -29,61 +25,7 @@ public class Notice extends AndroidBase {
         /**/
         // com.android.server.notification.NotificationManagerService
         // void enqueueNotificationInternal(final String pkg, final String opPkg, final int callingUid,final int callingPid, final String tag, final int id, final Notification notification,int incomingUserId) {
-        utils.log("Hook notice");
 
-        try {
-            NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);            // 得到系统的 sService
-            Method getService = NotificationManager.class.getDeclaredMethod("getService");
-            getService.setAccessible(true);
-            final Object sService = getService.invoke(notificationManager);
-
-            Class<?> iNotiMngClz = Class.forName("android.app.INotificationManager");            // 动态代理 INotificationManager
-            Object proxyNotiMng = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{iNotiMngClz}, new InvocationHandler() {
-                @Override
-                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                    // utils.log("invoke(). method:{}" + method);
-                    if (method.toString().contains("enqueueNotificationWithTag")) {
-                        //java.lang.String,java.lang.String,java.lang.String,int,android.app.Notification,int
-                        int index = 0;
-                        String pkg = null;
-                        Notification notification = null;
-                        if (args != null && args.length > 0) {
-                            for (Object arg : args) {
-
-                                if (arg != null) {
-                                    if (index == 0) {
-                                        pkg = (String) arg;
-                                        continue;
-                                    }
-                                    if (arg.getClass().toString().contains("Notification")) {
-                                        notification = (Notification) arg;
-                                        continue;
-                                    }
-                                }
-                                utils.log("type: " + (arg != null ? arg.getClass() : null) + "arg:" + arg);
-                                index++;
-                            }
-                            if (notification == null) {
-                                utils.log("通知为空");
-                            } else {
-                                detailNotice(notification, pkg);
-                            }
-
-
-                        }
-                    }
-                    // 操作交由 sService 处理，不拦截通知
-                    // return method.invoke(sService, args);
-                    // 拦截通知，什么也不做
-                    return method.invoke(sService, args);                 // 或者是根据通知的 Tag 和 ID 进行筛选
-                }
-            });            // 替换 sService
-            Field sServiceField = NotificationManager.class.getDeclaredField("sService");
-            sServiceField.setAccessible(true);
-            sServiceField.set(notificationManager, proxyNotiMng);
-        } catch (Exception e) {
-            utils.log("Hook NotificationManager failed!" + e);
-        }
      /*   try{
 
 
@@ -120,13 +62,13 @@ public class Notice extends AndroidBase {
             e.printStackTrace();
         }*/
 
-      /*  try {
+        try {
             XposedHelpers.findAndHookMethod(NotificationManager.class, "notify"
                     , String.class, int.class, Notification.class
                     , new XC_MethodHook() {
 
                         @Override
-                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                             detailNotice((Notification) param.args[2], null);
 
                         }
@@ -154,7 +96,7 @@ public class Notice extends AndroidBase {
         } catch (Throwable e2) {
 
         }
-*/
+
 
     }
 
