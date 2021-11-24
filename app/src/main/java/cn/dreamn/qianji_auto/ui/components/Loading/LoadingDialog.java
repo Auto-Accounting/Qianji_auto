@@ -15,7 +15,7 @@ public class LoadingDialog {
     Dialog mLoadingDialog;
 
     public LoadingDialog(Context context, String msg) {
-        if (!TaskThread.isMainThread()) return;
+        if (!TaskThread.isMainThread() || context == null) return;
         // 首先得到整个View
         View view = LayoutInflater.from(context).inflate(
                 R.layout.components_loading_dialog_view, null);
@@ -37,7 +37,7 @@ public class LoadingDialog {
     }
 
     public void show() {
-        if (!TaskThread.isMainThread()) return;
+        if (!TaskThread.isMainThread() || mLoadingDialog == null) return;
         mLoadingDialog.show();
         mLoadingView.startAnim();
     }

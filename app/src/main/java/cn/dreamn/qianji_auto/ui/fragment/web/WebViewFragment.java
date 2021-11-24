@@ -133,7 +133,8 @@ public class WebViewFragment extends BaseFragment {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            loadingDialog = new LoadingDialog(getContext(), "loading...");
+            loadingDialog = new LoadingDialog(getActivity(), "loading...");
+            loadingDialog.show();
             mTimer.put(url, System.currentTimeMillis());
           /*  if (url.equals(getUrl())) {
                 //   progressBar.setVisibility(View.GONE);
