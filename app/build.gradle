@@ -19,7 +19,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 31
         versionCode 163
-        versionName "涅槃 3.0.0 beta24"
+        versionName "涅槃 3.0.0 beta24"+releaseTimeMin()
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {

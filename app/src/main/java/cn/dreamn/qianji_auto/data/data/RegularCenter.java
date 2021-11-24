@@ -131,6 +131,12 @@ public class RegularCenter {
                 taskResult.onEnd(null);
                 return;
             }
+            if (addJs != null) {
+                Log.i(addJs);
+                // JSONObject jsonObject = JSONObject.parseObject(addJs);
+                // String j = String.format(reg, jsonObject.getString("regex_input"), jsonObject.getString("shopRemark"), jsonObject.getString("account_name1"), jsonObject.getString("type"), jsonObject.getString("money"), jsonObject.getString("shopName"), jsonObject.getString("account_name2"), jsonObject.getString("fee"), jsonObject.getString("time"), jsonObject.getString("auto"));
+                dataList.append(addJs);
+            }
             for (Regular value : regulars) {
                 //   JSONObject jsonObject = JSONObject.parseObject(value.data);
                 //  String j = String.format(reg, value.regular, jsonObject.getString("shopRemark"), jsonObject.getString("account1"), jsonObject.getString("type"), jsonObject.getString("money"), jsonObject.getString("shopName"), jsonObject.getString("account2"), jsonObject.getString("fee"), jsonObject.getString("time"), jsonObject.getString("auto"));
@@ -138,14 +144,98 @@ public class RegularCenter {
                 dataList.append(j);
             }
 
-            if (addJs != null) {
-                Log.i(addJs);
-                // JSONObject jsonObject = JSONObject.parseObject(addJs);
-                // String j = String.format(reg, jsonObject.getString("regex_input"), jsonObject.getString("shopRemark"), jsonObject.getString("account_name1"), jsonObject.getString("type"), jsonObject.getString("money"), jsonObject.getString("shopName"), jsonObject.getString("account_name2"), jsonObject.getString("fee"), jsonObject.getString("time"), jsonObject.getString("auto"));
-                dataList.append(addJs);
-            }
 
-            String js = ";function getData(a){a=(a.replace(/\\n/g,\"\\\\n\"));var b,account,type,money,shopName,account2,fee,time;%s return b+'##'+account+'##'+type+'##'+money+'##'+account2+'##'+shopName+'##'+fee+'##'+time+'##0'};;getData('%s')";
+            /**
+             function getData(a) {
+             function Calculate(array, value, symbol) {
+             if(typeof value != "string" ) return value;
+             var isNumber = (symbol != "$|");
+             if(symbol == "$|")value=value+"$|";
+             if (value.indexOf(symbol) != -1) {
+             var addList = value.split(symbol);
+             var result = 0;
+             var last = "";
+             for (var k = 0; k < addList.length; k++) {
+             try {
+             var repStr = addList[k];
+
+             if (addList[k].indexOf("$") != -1) {
+             var index = parseInt(addList[k].replace("$", ""));
+             if (index < array.length) {
+             if (isNumber) {
+             repStr = parseFloat(array[index].replace(",", ""));
+             } else repStr = array[index];
+             }
+             } else if (isNumber) {
+             repStr = parseFloat(addList[k].replace(",", ""));
+             }
+             if (result == 0) {
+             last = repStr;
+             result = last;
+             continue;
+             }
+             if (symbol == "$-") {
+             result = last - repStr;
+             } else if (symbol == "$+") {
+             result = last + repStr;
+             } else {
+             result = last || repStr;
+             }
+             last = result;
+
+             } catch(e) {
+             console.log(e);
+             }
+             }
+             return result;
+             } else {
+             return value;
+             }
+             }
+             function retData(array, ret) {
+             for (var i = array.length - 1; i >= 1; i--) {
+             var rep = '$' + i.toString();
+             var repStr = array[i];
+             while (ret.indexOf(rep) != -1) {
+             ret = ret.replace(rep, repStr);
+             }
+             }
+             return ret;
+             }
+             try {
+             pattern = /%s/;
+             //pattern = /date:(.*?),unit:元,goto:.*?&tradeNO=([\d_]+)&bizType=(TRADE|FASCORE|[DB]_TRANSFER|.*PAY|PUC_CHARGE),[^,]+,money:(\d+\.\d{2}),.*,title:(付款|自动扣款|转账|转入)成功,actions:\[.*\],content:\[(title:扣款说明：,content:.*?,)?(title:付款方式：,content:(.*?),)?(title:已用优惠：,content:.*?,)?title:(交易对象|对方账户|户号|申请人)：,content:(.*?),title:.{2}(说明|备注|理由)：,content:([^|]*).*?\],status:\5成功,amountTip:/
+             if (pattern.test(a)) {
+             var array = pattern.exec(a);
+             var ret = '%s##%s##%s##%s##%s##%s##%s##%s##%s';
+             //   var ret = '$1##$2$+$2$+666$-0.233##$3##$9$|$5##$5##$6##$7##$0##1';
+             // remark + '##' + account + '##' + type + '##' + money + '##' + account2 + '##' + shopName + '##' + fee + '##' + time + '##%s'
+             // $+ $- $|
+             var list = ret.split("##");
+             console.log(list, list.length);
+             for (var j = 0; j < list.length; j++) {
+             var value = list[j];
+             var plus = Calculate(array, value, "$+");
+             ret = ret.replace(value, plus);
+             var min = Calculate(array, plus, "$-");
+             ret = ret.replace(plus, min);
+             var xor = Calculate(array, min, "$|");
+             ret = ret.replace(min, xor);
+
+             }
+
+             return retData(array, ret);
+             }
+             } catch(e) {
+             console.log(e)
+             }
+             return 'undefind##undefind##undefind##undefind##undefind##undefind##undefind##undefind##0';
+             }
+             getData('%s');
+             //console.log(getData('date:10月06日,unit:元,goto:alipays://platformapi/startapp?appId=20000003&actionType=toBillDetails&tradeNO=20211006281036886905&bizType=PREAUTHPAY,ad:[],money:11.25,failTip:,infoTip:,title:付款成功,actions:[name:,url:,name:查看详情,url:alipays://platformapi/startapp?appId=20000003&actionType=toBillDetails&tradeNO=20211006281036886905&bizType=PREAUTHPAY],content:[title:付款方式：,content:花呗支付,title:交易对象：,content:众安在线财产保险股份有限公司,title:商品说明：,content:保险承保-好医保·住院医疗|21080382152307210961|期数|202110|续期交易付款],status:付款成功,amountTip:'));
+             */
+
+            String js = "function getData(a){function b(a,b,c){var d,e,f,g,h,i,j;if(\"string\"!=typeof b)return b;if(d=\"$|\"!=c,\"$|\"==c&&(b+=\"$|\"),-1!=b.indexOf(c)){for(e=b.split(c),f=0,g=\"\",h=0;h<e.length;h++)try{if(i=e[h],-1!=e[h].indexOf(\"$\")?(j=parseInt(e[h].replace(\"$\",\"\")),j<a.length&&(i=d?parseFloat(a[j].replace(\",\",\"\")):a[j])):d&&(i=parseFloat(e[h].replace(\",\",\"\"))),0==f){g=i,f=g;continue}f=\"$-\"==c?g-i:\"$+\"==c?g+i:g||i,g=f}catch(k){}return f}return b}function c(a,b){var c,d,e;for(c=a.length-1;c>=1;c--)for(d=\"$\"+c.toString(),e=a[c];-1!=b.indexOf(d);)b=b.replace(d,e);return b}%s return\"undefind##undefind##undefind##undefind##undefind##undefind##undefind##undefind##0\"}getData(\"%s\");";
 
             String testJs = String.format(js, dataList.toString(), finalData);
 
@@ -164,16 +254,17 @@ public class RegularCenter {
                     return;
                 }
                 BillInfo billInfo = new BillInfo();
-                Log.i(strs[0]);
+
                 billInfo.setShopRemark(strs[0]);
                 billInfo.setRawAccount(strs[1]);
                 billInfo.setType(strs[2]);
                 billInfo.setMoney(strs[3]);
-                billInfo.setShopAccount(strs[5]);
                 billInfo.setRawAccount2(strs[4]);
+                billInfo.setShopAccount(strs[5]);
                 billInfo.setFee(strs[6]);
                 billInfo.setTimeStamp(DateUtils.getAnyTime(strs[7]));
                 billInfo.setAuto(strs[8].equals("1"));
+                Log.i(billInfo.toString());
                 taskResult.onEnd(billInfo);
             } else {
                 Log.i("js执行结果为NULL");

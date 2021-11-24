@@ -37,7 +37,7 @@
 
         <div class="label-title">规则名称</div>
         <input autocomplete="off" class="layui-input" id="regular_name" name="regular_name"
-               placeholder="分类规则名称" type="text">
+               placeholder="规则名称" type="text">
         <div class="label-title">规则备注</div>
         <textarea class="layui-textarea" id="regular_remark" name="regular_remark"
                   placeholder="使用注意事项、作者信息等..."
@@ -215,6 +215,8 @@
                     $("title").html("app规则编辑")
                 }else if(type==="notice"){
                     $("title").html("通知规则编辑")
+                }else if(type==="helper"){
+                    $("title").html("无障碍规则编辑")
                 }
                 setArea($("#type").val());
             },
@@ -227,24 +229,27 @@
 
 
         function getJs() {
-            var data = ";try{pattern=/%s/;if(pattern.test(a)){var array=pattern.exec(a);var remark='%s',account='%s',type='%s',money='%s',shopName='%s',account2='%s',fee='%s',time='%s';for(var i=array.length-1;i>=1;i--){var rep=\"$\"+i.toString();var repStr=array[i];remark=remark.replace(rep,repStr);account=account.replace(rep,repStr);type=type.replace(rep,repStr);money=money.replace(rep,repStr);shopName=shopName.replace(rep,repStr);account2=account2.replace(rep,repStr);fee=fee.replace(rep,repStr);time=time.replace(rep,repStr)}return remark+'##'+account+'##'+type+'##'+money+'##'+account2+'##'+shopName+'##'+fee+'##'+time+'##%s'}}catch(e){console.log(e)};";
+            var data = ";var d,e,f,g,h,i,j,k;try{if(pattern=/%s/,pattern.test(a)){for(d=pattern.exec(a),e=\"%s##%s##%s##%s##%s##%s##%s##%s##%s\",f=e.split(\"##\"),g=0;g<f.length;g++)h=f[g],i=b(d,h,\"$+\"),e=e.replace(h,i),j=b(d,i,\"$-\"),e=e.replace(i,j),k=b(d,j,\"$|\"),e=e.replace(j,k);return c(d,e)}}catch(l){};";
 
+            var value = form.val("form");
+            console.log(JSON.stringify(value));
             //获取名称
-            if ($("#regular_name").val() === "") {
+            if (value.regular_name === "") {
                 webview.toast("规则名称不能为空");
                 return "";
             }
             //获取名称
 
-            if ($("#regex_input").val() === "") {
+            if (value.regex_input === "") {
                 webview.toast("正则不能为空");
                 return "";
             }
-            if ($("#str_input").val() === "") {
+            if (value.str_input === "") {
                 webview.toast("测试文本不能为空");
                 return "";
             }
-            data = String.format(data, $("#regex_input").val(), $("#shopRemark").val(),$("#account_name1").val(), $("#type").val(), $("#money").val(), $("#shopName").val(), $("#account_name2").val(), $("#fee").val(), $("#time").val(),$("#auto").val());
+            data = String.format(data, value.regex_input, value.shopRemark,value.account_name1, value.type, value.money,  value.account_name2, value.shopName,value.fee, value.time,value.auto);
+            console.log(data);
             return data;
         }
 

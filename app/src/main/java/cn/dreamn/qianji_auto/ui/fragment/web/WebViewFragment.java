@@ -501,12 +501,24 @@ public class WebViewFragment extends BaseFragment {
                     } else {
                         JSONArray jsonArray = JSONArray.parseArray(regex);
                         List<String> list = new ArrayList<>();
+                        list.add("【$+】加法运算符");
+                        list.add("【$-】减法运算符");
+                        list.add("【$|】或运算符");
                         for (int i = 1; i < jsonArray.size(); i++)
                             list.add("【$" + i + "】" + jsonArray.getString(i));
                         BottomArea.list(getContext(), "请选择数据", list, new BottomArea.ListCallback() {
                             @Override
                             public void onSelect(int position) {
-                                doJsFunction(String.format("webviewCallback.setSelect('%s','%s')", dom, "$" + (position + 1)));
+                                if (position == 0) {
+                                    doJsFunction(String.format("webviewCallback.setSelect('%s','%s')", dom, "$+"));
+                                } else if (position == 1) {
+                                    doJsFunction(String.format("webviewCallback.setSelect('%s','%s')", dom, "$-"));
+                                } else if (position == 2) {
+                                    doJsFunction(String.format("webviewCallback.setSelect('%s','%s')", dom, "$|"));
+                                } else {
+                                    doJsFunction(String.format("webviewCallback.setSelect('%s','%s')", dom, "$" + (position - 2)));
+                                }
+
                             }
                         });
                     }
