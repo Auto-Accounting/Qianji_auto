@@ -215,17 +215,23 @@ public class QianJi implements IApp {
 
         String url = "qianji://publicapi/addbill?&type=" + billInfo.getType(true) + "&money=" + billInfo.getMoney();
         MMKV mmkv = MMKV.defaultMMKV();
+        if (billInfo.getRemark() != null) {
+            url += "&remark=" + billInfo.getRemark();
+        }
         //懒人模式，自动分类
-        if (mmkv.getBoolean("lazy_mode", true) && !mmkv.getBoolean("auto_style", true)) {
-            return url + "&catechoose=1";
+        if (mmkv.getBoolean("lazy_mode", true)) {
+            if (!mmkv.getBoolean("need_cate", true)) {
+                return url + "&catechoose=0";
+            } else {
+                return url + "&catechoose=1";
+            }
+
         }
 
         if (billInfo.getTime() != null) {
             url += "&time=" + billInfo.getTime();
         }
-        if (billInfo.getRemark() != null) {
-            url += "&remark=" + billInfo.getRemark();
-        }
+
         if (billInfo.getCateName() != null) {
             url += "&catename=" + billInfo.getCateName();
         }
