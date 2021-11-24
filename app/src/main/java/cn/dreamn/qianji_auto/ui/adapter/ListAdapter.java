@@ -30,7 +30,7 @@ public class ListAdapter extends ArrayAdapter {
 
         JSONObject jsonObject = jsonArray.getJSONObject(position);
 
-        @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.components_supertext, null, false);
+        @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.adapter_list_item_3, null, false);
 
         IconView iconView = view.findViewById(R.id.icon_header);
         iconView.setFont(jsonObject.getString("icon"));
