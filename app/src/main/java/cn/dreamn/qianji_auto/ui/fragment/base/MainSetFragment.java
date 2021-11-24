@@ -67,6 +67,10 @@ public class MainSetFragment extends BaseFragment {
     TextView textView7;
     @BindView(R.id.textView8)
     TextView textView8;
+    @BindView(R.id.set_app)
+    LineLay set_app;
+    @BindView(R.id.set_need_cate)
+    LineLay set_need_cate;
 
     @Override
     protected int getLayoutId() {
@@ -77,7 +81,7 @@ public class MainSetFragment extends BaseFragment {
     @Override
     protected void initViews() {
         SettingUtils settingUtils = new SettingUtils(getContext());
-        settingUtils.init(set_lazy_mode,
+        settingUtils.init(set_app, set_need_cate, set_lazy_mode,
                 set_front,
                 set_back,
                 set_default,

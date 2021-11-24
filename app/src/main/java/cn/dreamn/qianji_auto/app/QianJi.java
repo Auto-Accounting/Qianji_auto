@@ -215,8 +215,8 @@ public class QianJi implements IApp {
 
         String url = "qianji://publicapi/addbill?&type=" + billInfo.getType(true) + "&money=" + billInfo.getMoney();
         MMKV mmkv = MMKV.defaultMMKV();
-        //懒人模式
-        if (mmkv.getBoolean("lazy_mode", true)) {
+        //懒人模式，自动分类
+        if (mmkv.getBoolean("lazy_mode", true) && !mmkv.getBoolean("auto_style", true)) {
             return url + "&catechoose=1";
         }
 

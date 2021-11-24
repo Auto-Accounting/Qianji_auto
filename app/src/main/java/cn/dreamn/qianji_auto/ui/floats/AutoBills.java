@@ -73,6 +73,8 @@ public class AutoBills {
                 ToastUtils.show("没有待记录的账单！");
                 dismiss();
             } else {
+                if (dialog != null)
+                    dialog.show();
                 if (billListAdapter != null)
                     billListAdapter.addAll(autoBills);
 
@@ -117,7 +119,7 @@ public class AutoBills {
                 AutoBill autoBill = autoBills.get(position);
                 BillInfo billInfo = BillInfo.parse(autoBill.billInfo);
                 billInfo.setId(autoBill.id);
-                SendDataToApp.end(context, billInfo);
+                SendDataToApp.notice(context, billInfo);
                 autoBills.remove(position);
                 TaskThread.onThread(() -> {
                     //设置为已记录
@@ -126,7 +128,7 @@ public class AutoBills {
                 if (autoBills.size() <= 0) {
                     dismiss();
                 } else {
-                    billListAdapter.remove(position);
+                    billListAdapter.remove(autoBill);
                 }
 
             } catch (Throwable e) {
@@ -141,10 +143,7 @@ public class AutoBills {
 
 
     private void initData() {
-        Log.i("初始化窗口");
-        setData();
         initListener();
-
     }
 
 
@@ -180,7 +179,7 @@ public class AutoBills {
         }
         dialog.cornerRadius(15f, null);
 
-        dialog.show();
+        setData();
 
     }
 

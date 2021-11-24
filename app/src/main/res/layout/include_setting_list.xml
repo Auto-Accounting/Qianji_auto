@@ -27,7 +27,7 @@
             android:id="@+id/set_app"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             app:line_title="@string/set_app"
             app:line_value="@string/set_qianji">
 
@@ -39,6 +39,15 @@
             android:layout_height="wrap_content"
             app:line_title="@string/set_lazy_mode"
             app:line_value="@string/set_close">
+
+        </cn.dreamn.qianji_auto.ui.components.LineLay>
+
+        <cn.dreamn.qianji_auto.ui.components.LineLay
+            android:id="@+id/set_need_cate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:line_title="@string/set_need_cate"
+            app:line_value="@string/set_need_cate_y">
 
         </cn.dreamn.qianji_auto.ui.components.LineLay>
 

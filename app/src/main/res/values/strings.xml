@@ -421,4 +421,7 @@
     <string name="submit_regular" translatable="false">http://gitbot.ankio.net/submit/2</string>
     <string name="edit" translatable="false">编辑</string>
     <string name="service_name">自动记账通知监听</string>
+    <string name="set_need_cate">分类功能</string>
+    <string name="set_need_cate_y">需要分类</string>
+    <string name="set_need_cate_n">不需要分类</string>
 </resources>

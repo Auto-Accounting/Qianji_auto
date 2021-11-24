@@ -2,6 +2,8 @@ package cn.dreamn.qianji_auto.bills;
 
 import android.os.Handler;
 
+import com.tencent.mmkv.MMKV;
+
 import cn.dreamn.qianji_auto.data.data.RegularCenter;
 import cn.dreamn.qianji_auto.data.database.Helper.Assets;
 import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
@@ -13,32 +15,40 @@ public class BillReplace {
 
     public static void addMoreInfo(Handler mHandler, BillInfo billInfo) {
 
+
         TaskThread.onThread(() -> {
-            RegularCenter
-                    .getInstance("category")
-                    .run(billInfo, null, obj -> {
-                        String cate = (String) obj;
-                        if (cate.equals("NotFound")) {
-                            billInfo.setCateName("其它");//设置自动分类
-                        } else {
-                            billInfo.setCateName(cate);//设置自动分类
-                        }
+            if (billInfo.getBookName().equals("") || billInfo.getBookName().equals("默认账本")) {
+                billInfo.setBookName(BookNames.getDefault());//设置自动记账的账本名
+            }
 
-                        if (billInfo.getBookName().equals("") || billInfo.getBookName().equals("默认账本")) {
-                            billInfo.setBookName(BookNames.getDefault());//设置自动记账的账本名
-                        }
+            if (billInfo.getRawAccount() == null || billInfo.getRawAccount().equals("null") || billInfo.getRawAccount().equals("undefined")) {
+                billInfo.setRawAccount("未识别资产（" + billInfo.getFromApp() + "）");
+            }
+            Assets.getMap(billInfo.getRawAccount(), mapName -> {
+                billInfo.setAccountName((String) mapName);
+                Assets.getMap(billInfo.getRawAccount2(), mapName2 -> {
+                    billInfo.setAccountName2((String) mapName2);
+                    MMKV mmkv = MMKV.defaultMMKV();
+                    if (mmkv.getBoolean("need_cate", true)) {
+                        RegularCenter
+                                .getInstance("category")
+                                .run(billInfo, null, obj -> {
+                                    String cate = (String) obj;
+                                    if (cate.equals("NotFound")) {
+                                        billInfo.setCateName("其它");//设置自动分类
+                                    } else {
+                                        billInfo.setCateName(cate);//设置自动分类
+                                    }
+                                    HandlerUtil.send(mHandler, billInfo, 2);
+                                });
+                    } else {
+                        billInfo.setCateName("其它");//设置自动分类
+                        HandlerUtil.send(mHandler, billInfo, 2);
+                    }
+                });
+            });
 
-                        if (billInfo.getRawAccount() == null || billInfo.getRawAccount().equals("null")) {
-                            billInfo.setRawAccount("未识别资产（" + billInfo.getFromApp() + "）");
-                        }
-                        Assets.getMap(billInfo.getRawAccount(), mapName -> {
-                            billInfo.setAccountName((String) mapName);
-                            Assets.getMap(billInfo.getRawAccount2(), mapName2 -> {
-                                billInfo.setAccountName2((String) mapName2);
-                                HandlerUtil.send(mHandler, billInfo, 2);
-                            });
-                        });
-                    });
+
         });
     }
 

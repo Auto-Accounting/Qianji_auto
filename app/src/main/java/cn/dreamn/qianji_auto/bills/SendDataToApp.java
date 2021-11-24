@@ -184,24 +184,29 @@ public class SendDataToApp {
             if (id != 0) {
                 Db.db.AutoBillDao().update(id, billInfo.toString());
             }
-            RegularCenter
-                    .getInstance("category")
-                    .run(billInfo, null, obj -> {
-                        String cate = (String) obj;
-                        String setCate = billInfo.getCateName();
-                        Log.i("再次获取cate:" + cate + "数据： " + billInfo.toString());
-                        if (mmkv.getBoolean("auto_sort", false)) {
-                            if (cate.equals("NotFound")) {
-                                RegularCenter.setCateJs(billInfo, setCate);
+            if (mmkv.getBoolean("need_cate", true)) {
+                RegularCenter
+                        .getInstance("category")
+                        .run(billInfo, null, obj -> {
+                            String cate = (String) obj;
+                            String setCate = billInfo.getCateName();
+                            Log.i("再次获取cate:" + cate + "数据： " + billInfo.toString());
+                            if (mmkv.getBoolean("auto_sort", false)) {
+                                if (cate.equals("NotFound")) {
+                                    RegularCenter.setCateJs(billInfo, setCate);
 
-                            } else if (!cate.equals(setCate)) {
+                                } else if (!cate.equals(setCate)) {
 
-                                HandlerUtil.send(mHandler, cate + "→" + setCate, 1);
-                                return;
+                                    HandlerUtil.send(mHandler, cate + "→" + setCate, 1);
+                                    return;
+                                }
                             }
-                        }
-                        HandlerUtil.send(mHandler, 0);
-                    });
+                            HandlerUtil.send(mHandler, 0);
+                        });
+            } else {
+                HandlerUtil.send(mHandler, 0);
+            }
+
         });
 
     }
@@ -219,7 +224,7 @@ public class SendDataToApp {
 
         if (isReception(context1)) {
             Log.i(TAG, "当前处于锁屏状态");
-            if (mmkv.getBoolean("autoIncome", false) && RootUtils.hasRootPermission()) {
+            if (mmkv.getBoolean("autoIncome", false)) {
                 Log.i(TAG, "全自动模式->直接对钱迹发起请求");
                 goApp(context1, billInfo);
             } else {
@@ -246,7 +251,7 @@ public class SendDataToApp {
             }
         } else {
             Log.i(TAG, "当前处于前台状态");
-            if (mmkv.getBoolean("autoPay", false) && RootUtils.hasRootPermission()) {
+            if (mmkv.getBoolean("autoPay", false)) {
                 Log.i(TAG, "全自动模式->直接对钱迹发起请求");
                 goApp(context1, billInfo);
 
@@ -279,6 +284,24 @@ public class SendDataToApp {
     public static void end(Context context, BillInfo billInfo) {
         MMKV mmkv = MMKV.defaultMMKV();
         switch (mmkv.getString("end_window", "edit")) {
+            case "edit":
+                showFloatByAlert(context, billInfo);
+                break;
+            case "record":
+                goApp(context, billInfo);
+                break;
+            case "close":
+                TaskThread.onThread(() -> {
+                    //设置为已记录
+                    Db.db.AutoBillDao().update(billInfo.getId());
+                });
+                break;
+        }
+    }
+
+    public static void notice(Context context, BillInfo billInfo) {
+        MMKV mmkv = MMKV.defaultMMKV();
+        switch (mmkv.getString("notice_click_window", "edit")) {
             case "edit":
                 showFloatByAlert(context, billInfo);
                 break;

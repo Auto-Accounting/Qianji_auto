@@ -73,6 +73,10 @@ public class SetFragment extends BaseFragment {
     TextView textView7;
     @BindView(R.id.textView8)
     TextView textView8;
+    @BindView(R.id.set_app)
+    LineLay set_app;
+    @BindView(R.id.set_need_cate)
+    LineLay set_need_cate;
 
     @Override
     protected int getLayoutId() {
@@ -84,7 +88,7 @@ public class SetFragment extends BaseFragment {
         MMKV mmkv = MMKV.defaultMMKV();
         mmkv.encode("helper_page", 4);
         SettingUtils settingUtils = new SettingUtils(getContext());
-        settingUtils.init(set_lazy_mode,
+        settingUtils.init(set_app, set_need_cate, set_lazy_mode,
                 set_front,
                 set_back,
                 set_default,

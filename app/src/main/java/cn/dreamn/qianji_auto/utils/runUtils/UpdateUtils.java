@@ -37,8 +37,14 @@ public class UpdateUtils {
                 runnable.run();
             }
         };
-        checkAndroidUpdate(context, handler);
-        checkXposedRegularUpdate(context);//不需要反馈给用户
+        try {
+            checkAndroidUpdate(context, handler);
+            checkXposedRegularUpdate(context);//不需要反馈给用户
+
+        } catch (Throwable e) {
+            Log.i("网络访问发生了错误！" + e.toString());
+            e.printStackTrace();
+        }
     }
 
 

@@ -316,18 +316,21 @@ public class AutoFloat {
         button_fail.setOnClickListener(v -> this.clear());
         chip_bx.setOnClickListener(v -> {
             billInfo2.setRrimbursement(chip_bx.getText().toString().equals(context.getString(R.string.n_bx)));
-            RegularCenter.getInstance("category").run(billInfo2, null, new TaskThread.TaskResult() {
-                @Override
-                public void onEnd(Object obj) {
-                    String cate = (String) obj;
-                    if (cate.equals("NotFound")) {
-                        billInfo2.setCateName("其它");//设置自动分类
-                    } else {
-                        billInfo2.setCateName(cate);//设置自动分类
+            MMKV mmkv = MMKV.defaultMMKV();
+            if (mmkv.getBoolean("need_cate", true)) {
+                RegularCenter.getInstance("category").run(billInfo2, null, new TaskThread.TaskResult() {
+                    @Override
+                    public void onEnd(Object obj) {
+                        String cate = (String) obj;
+                        if (cate.equals("NotFound")) {
+                            billInfo2.setCateName("其它");//设置自动分类
+                        } else {
+                            billInfo2.setCateName(cate);//设置自动分类
+                        }
+                        mMainHandler.sendEmptyMessage(0);
                     }
-                    mMainHandler.sendEmptyMessage(0);
-                }
-            });
+                });
+            }
 
         });
 
@@ -551,29 +554,11 @@ public class AutoFloat {
             ll_account2.setVisibility(View.GONE);
             ll_time.setVisibility(View.GONE);
         } else {
-            if (!mmkv.getBoolean("auto_style", true)) {
+            if (!mmkv.getBoolean("auto_style", true) || !mmkv.getBoolean("need_cate", true)) {
                 ll_category.setVisibility(View.GONE);
             }
 
-            if (mmkv.getBoolean("layout_money", false)) {
-                layout_money.setVisibility(View.GONE);
-            } else if (mmkv.getBoolean("ll_fee", false)) {
-                ll_fee.setVisibility(View.GONE);
-            } else if (mmkv.getBoolean("ll_book", false)) {
-                ll_book.setVisibility(View.GONE);
-            } else if (mmkv.getBoolean("ll_category", false)) {
-                ll_category.setVisibility(View.GONE);
-            } else if (mmkv.getBoolean("ll_type", false)) {
-                ll_type.setVisibility(View.GONE);
-            } else if (mmkv.getBoolean("ll_account1", false)) {
-                ll_account1.setVisibility(View.GONE);
-            } else if (mmkv.getBoolean("ll_account2", false)) {
-                ll_account2.setVisibility(View.GONE);
-            } else if (mmkv.getBoolean("ll_time", false)) {
-                ll_time.setVisibility(View.GONE);
-            } else if (mmkv.getBoolean("ll_remark", false)) {
-                ll_remark.setVisibility(View.GONE);
-            }
+
         }
 
 

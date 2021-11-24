@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 
 import java.io.IOException;
@@ -56,6 +57,11 @@ public class AutoBillWeb {
         }
 
         String fullUrl = baseUrl + url;
+
+        if (!fullUrl.startsWith("http")) {
+            ToastUtils.show("加速源错误！");
+            return;
+        }
 
         OkHttpClient okHttpClient = new OkHttpClient();
         final Request request = new Request.Builder().url(fullUrl).build();

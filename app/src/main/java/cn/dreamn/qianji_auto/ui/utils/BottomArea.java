@@ -251,7 +251,7 @@ public class BottomArea {
         dialog.title(null, title);
         dialog.cornerRadius(15f, null);
         ListView listView = textEntryView.findViewById(R.id.list_view);
-        ListArrayAdapter listAdapter = new ListArrayAdapter(context, R.layout.components_supertext, list);
+        ListArrayAdapter listAdapter = new ListArrayAdapter(context, R.layout.adapter_list_items2, list);
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener((parent, view, position, id) -> {
             listCallback.onSelect(position);

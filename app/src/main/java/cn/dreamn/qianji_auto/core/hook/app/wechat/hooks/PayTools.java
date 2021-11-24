@@ -41,7 +41,7 @@ public class PayTools {
                 String data = get.invoke(param.args[0]).toString();
                 utils.log("设置数据：" + data, true);
 
-                String[] empty = new String[]{"支付", "使用", "请", "待"};
+                String[] empty = new String[]{"支付", "使用", "请", "待", "识别", "失败"};
                 String[] cards = new String[]{"卡(", "零钱"};
                 String[] money = new String[]{"￥", "$"};
 

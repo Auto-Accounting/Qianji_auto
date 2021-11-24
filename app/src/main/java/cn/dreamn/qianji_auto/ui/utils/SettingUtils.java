@@ -11,6 +11,7 @@ import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.bills.Remark;
 import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.ui.components.LineLay;
@@ -19,6 +20,8 @@ import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 public class SettingUtils {
     Context mContext;
     MMKV mmkv;
+    LineLay set_app;
+    LineLay set_need_cate;
 
     LineLay set_lazy_mode;
     LineLay set_front;
@@ -46,6 +49,8 @@ public class SettingUtils {
     }
 
     public void init(
+            LineLay set_app,
+            LineLay set_need_cate,
             LineLay set_lazy_mode,
             LineLay set_front,
             LineLay set_back,
@@ -62,6 +67,8 @@ public class SettingUtils {
             TextView tv2,
             TextView tv3
     ) {
+        this.set_app = set_app;
+        this.set_need_cate = set_need_cate;
         this.set_lazy_mode = set_lazy_mode;
         this.set_front = set_front;
         this.set_back = set_back;
@@ -90,6 +97,18 @@ public class SettingUtils {
         set_lazy_mode.setOnClickListener(view -> {
             BottomArea.list(mContext, mContext.getString(R.string.set_lazy_mode), jsonArray.getJSONArray(0), position -> {
                 mmkv.encode("lazy_mode", position == 0);
+                initUi();
+            });
+        });
+        set_need_cate.setOnClickListener(view -> {
+            BottomArea.list(mContext, mContext.getString(R.string.set_need_cate), jsonArray.getJSONArray(7), position -> {
+                mmkv.encode("need_cate", position == 0);
+                initUi();
+            });
+        });
+        set_app.setOnClickListener(view -> {
+            BottomArea.list(mContext, mContext.getString(R.string.set_app), jsonArray.getJSONArray(6), position -> {
+                AppManager.setApp(jsonArray.getJSONArray(6).getJSONObject(position).getString("value"));
                 initUi();
             });
         });
@@ -240,7 +259,8 @@ public class SettingUtils {
 
     @SuppressLint("StringFormatMatches")
     private void initUi() {
-
+        set_app.setVisibility(View.VISIBLE);
+        set_need_cate.setVisibility(View.VISIBLE);
         if (mmkv.getBoolean("lazy_mode", true)) {
             set_lazy_mode.setValue(R.string.set_open);
 
@@ -275,6 +295,13 @@ public class SettingUtils {
             tv1.setVisibility(View.VISIBLE);
             tv2.setVisibility(View.VISIBLE);
             tv3.setVisibility(View.VISIBLE);
+        }
+        set_app.setValue(AppManager.getAppInfo(mContext).getString("appName"));
+
+        if (mmkv.getBoolean("need_cate", true)) {
+            set_need_cate.setValue(R.string.set_need_cate_y);
+        } else {
+            set_need_cate.setValue(R.string.set_need_cate_n);
         }
 
         if (mmkv.getBoolean("autoPay", false)) {
