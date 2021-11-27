@@ -139,6 +139,7 @@ public class MoneyFragment extends BaseFragment {
     private void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
         TaskThread.onThread(() -> {
+            Db.db.AutoBillDao().delLimit(200);
             AutoBill[] autoBills = Db.db.AutoBillDao().getAll(0, 200);
             if (autoBills.length == 0) {
                 HandlerUtil.send(mHandler, HANDLE_ERR);
