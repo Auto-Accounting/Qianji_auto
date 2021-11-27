@@ -50,8 +50,8 @@ public class AppInfo {
     }
 
     public static String getName(Context context, String pkg) {
-        PackageManager pm = context.getApplicationContext().getPackageManager();
         try {
+            PackageManager pm = context.getApplicationContext().getPackageManager();
             PackageInfo packageInfo = pm.getPackageInfo(pkg, 0);
             return packageInfo.applicationInfo.loadLabel(pm).toString();
         } catch (Throwable e) {
