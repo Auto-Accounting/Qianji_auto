@@ -82,18 +82,22 @@ public class RegularCenter {
     public void run(BillInfo billInfo, String addJs, TaskThread.TaskResult taskResult) {
         //执行分类
         TaskThread.onThread(() -> {
+
             StringBuilder dataList = new StringBuilder();
             Regular[] regulars = Db.db.RegularDao().loadUse(type, null, 0, 200);
-            if (addJs != null) {
-                dataList.append(addJs);
-            }
             if (addJs == null && (regulars == null || regulars.length == 0)) {
                 taskResult.onEnd("NotFound");
                 return;
             }
-            for (Regular value : regulars) {
-                dataList.append(value.regular);
+            if (addJs != null) {
+                dataList.append(addJs);
+            } else {
+                for (Regular value : regulars) {
+                    dataList.append(value.regular);
+                }
             }
+
+
             String jsInner = "const isInTimeInner=function(a,b,c,d){regT=/([01\\b]\\d|2[0-3]):([0-5]\\d)/;const e=a.match(regT),f=b.match(regT);if(null==e||null==f||e.length<3||f.length<3)return!1;const g=parseInt(e[1],10),h=parseInt(f[1],10),i=parseInt(e[2],10),j=parseInt(f[2],10);return g>h?c===g&&d>=i||c>g||h>c||c===h&&j>=d:h>g?c===g&&d>=i||c>g&&h>c||c===h&&j>=d:g===h?j>i?c===g&&d>=i&&j>=d:i>j?c===g&&d>=i||j>=d||c!==g:i===j&&d===i&&c===g:void 0};";
             String js = "function getCategory(shopName,shopRemark,type,hour,minute,money){%s  %s return 'NotFound';} getCategory('%s','%s','%s',%s,%s,'%s');";
 
@@ -136,12 +140,13 @@ public class RegularCenter {
                 // JSONObject jsonObject = JSONObject.parseObject(addJs);
                 // String j = String.format(reg, jsonObject.getString("regex_input"), jsonObject.getString("shopRemark"), jsonObject.getString("account_name1"), jsonObject.getString("type"), jsonObject.getString("money"), jsonObject.getString("shopName"), jsonObject.getString("account_name2"), jsonObject.getString("fee"), jsonObject.getString("time"), jsonObject.getString("auto"));
                 dataList.append(addJs);
-            }
-            for (Regular value : regulars) {
-                //   JSONObject jsonObject = JSONObject.parseObject(value.data);
-                //  String j = String.format(reg, value.regular, jsonObject.getString("shopRemark"), jsonObject.getString("account1"), jsonObject.getString("type"), jsonObject.getString("money"), jsonObject.getString("shopName"), jsonObject.getString("account2"), jsonObject.getString("fee"), jsonObject.getString("time"), jsonObject.getString("auto"));
-                String j = value.regular;
-                dataList.append(j);
+            } else {
+                for (Regular value : regulars) {
+                    //   JSONObject jsonObject = JSONObject.parseObject(value.data);
+                    //  String j = String.format(reg, value.regular, jsonObject.getString("shopRemark"), jsonObject.getString("account1"), jsonObject.getString("type"), jsonObject.getString("money"), jsonObject.getString("shopName"), jsonObject.getString("account2"), jsonObject.getString("fee"), jsonObject.getString("time"), jsonObject.getString("auto"));
+                    String j = value.regular;
+                    dataList.append(j);
+                }
             }
 
 
