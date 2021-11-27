@@ -50,7 +50,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="5dp"
-                android:maxLength="8"
                 android:text="-￥4.0"
                 android:textColor="@color/float_4"
                 android:textSize="12sp" />
