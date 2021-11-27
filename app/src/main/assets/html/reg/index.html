@@ -229,7 +229,7 @@
 
 
         function getJs() {
-            var data = ";var d,e,f,g,h,i,j,k;try{if(pattern=/%s/,pattern.test(a)){for(d=pattern.exec(a),e=\"%s##%s##%s##%s##%s##%s##%s##%s##%s\",f=e.split(\"##\"),g=0;g<f.length;g++)h=f[g],i=b(d,h,\"$+\"),e=e.replace(h,i),j=b(d,i,\"$-\"),e=e.replace(i,j),k=b(d,j,\"$|\"),e=e.replace(j,k);return c(d,e)}}catch(l){};";
+            var data = "var d,e,f,g,h,i;try{if(pattern.test(a)){for(d=pattern.exec(a),e=\"%s##%s##%s##%s##%s##%s##%s##%s##%s\",f=e.split(\"##\"),g=\"\",h=0;h<f.length;h++)i=f[h],g+=-1!=i.indexOf(\"$+\")?b(d,i,\"$+\")+\"##\":-1!=i.indexOf(\"$-\")?b(d,i,\"$-\")+\"##\":-1!=i.indexOf(\"$|\")?b(d,i,\"$|\")+\"##\":i+\"##\";return g=g.slice(0,g.length-2),c(d,g)}}catch(j){}";
 
             var value = form.val("form");
             console.log(JSON.stringify(value));
