@@ -132,7 +132,7 @@ public class BackupManager {
 
             JSONObject jsonObject = JSONObject.parseObject(comment);
 
-            if (jsonObject.getInteger("code") < 146) {
+            if (jsonObject.getInteger("code") < 160) {
                 return String.format(context.getString(R.string.restore_not_support), jsonObject.getString("name"));
             }
             String filename2 = context.getExternalCacheDir().getPath();
