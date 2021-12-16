@@ -107,16 +107,18 @@ public class Notice extends AndroidBase {
         utils.log("pkg:" + pkg + ",notification:" + notification.toString());
         Bundle bundle = notification.extras;
         if (bundle == null) {
-            utils.log("通知数据：describeContents->" + notification.describeContents(), true);
-            utils.log("通知数据：tickerText->" + notification.tickerText, true);
-            utils.log("通知数据：null", true);
+            utils.log("捕获到了通知数据，但是通知内容为空");
             return;
-        } else {
-            if (utils.isDebug()) utils.log("通知数据：" + bundle.toString());
+        }
+
+        String title = bundle.getString(Notification.EXTRA_TITLE);
+        String text = bundle.getString(Notification.EXTRA_TEXT);
+        if (title == null || text == null) {
+            utils.log("捕获到了通知数据，但是通知内容为空");
+            return;
         }
         //空数据不要
-        String title = bundle.get("android.title").toString();
-        String text = bundle.get("android.text").toString();
+
         ApplicationInfo applicationInfo = (ApplicationInfo) bundle.get("android.appInfo");
         if (aPackage == null)
             aPackage = applicationInfo.packageName;
