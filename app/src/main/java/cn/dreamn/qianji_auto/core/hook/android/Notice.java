@@ -110,7 +110,6 @@ public class Notice extends AndroidBase {
             utils.log("捕获到了通知数据，但是通知内容为空");
             return;
         }
-
         String title = bundle.getString(Notification.EXTRA_TITLE);
         String text = bundle.getString(Notification.EXTRA_TEXT);
         if (title == null || text == null) {
