@@ -183,8 +183,15 @@ public class Utils {
      *
      * @param msg 日志数据
      */
-    public void log(String msg) {
-        log(msg, true);
+    public void log(String... msg) {
+        StringBuilder m = new StringBuilder();
+        for (String mm : msg) {
+            m.append(mm).append(",");
+        }
+        if (!m.toString().equals("")) {
+            m = new StringBuilder(m.substring(0, m.length() - 1));
+        }
+        log(m.toString(), true);
     }
 
     /**

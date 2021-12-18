@@ -82,11 +82,11 @@ public class DBHelper {
     }
 
     @SuppressLint("Range")
-    public JSONArray getCategory() {
+    public JSONArray getCategory(String UserId) {
         if (!db.isOpen()) {
             openDb();
         }
-        Cursor cursor = db.rawQuery("select * from category ", null);
+        Cursor cursor = db.rawQuery("select * from category where USER_ID='" + UserId + "'", null);
         JSONArray jsonArray = new JSONArray();
         while (cursor.moveToNext()) {
             JSONObject jsonObject = new JSONObject();
@@ -106,11 +106,11 @@ public class DBHelper {
     }
 
     @SuppressLint("Range")
-    public JSONArray getAsset() {
+    public JSONArray getAsset(String UserId) {
         if (!db.isOpen()) {
             openDb();
         }
-        Cursor cursor = db.rawQuery("select * from user_asset where STATUS = 0 ", null);
+        Cursor cursor = db.rawQuery("select * from user_asset where STATUS = 0 and  USERID='" + UserId + "'", null);
         JSONArray jsonArray = new JSONArray();
         while (cursor.moveToNext()) {
             JSONObject jsonObject = new JSONObject();
@@ -126,11 +126,11 @@ public class DBHelper {
     }
 
     @SuppressLint("Range")
-    public JSONArray getUserBook(boolean isVip) {
+    public JSONArray getUserBook(boolean isVip, String UserId) {
         if (!db.isOpen()) {
             openDb();
         }
-        Cursor cursor = db.rawQuery("select * from user_book ", null);
+        Cursor cursor = db.rawQuery("select * from user_book where  USERID='" + UserId + "' or MEMBER_ID='" + UserId + "'", null);
         JSONArray jsonArray = new JSONArray();
         boolean has = false;
         while (cursor.moveToNext()) {
@@ -141,6 +141,7 @@ public class DBHelper {
                 has = true;
             }
             jsonObject.put("name", name);
+            jsonObject.put("userId", cursor.getString(cursor.getColumnIndex("USERID")));
             jsonObject.put("cover", cursor.getString(cursor.getColumnIndex("COVER")));
             jsonArray.add(jsonObject);
         }
@@ -157,11 +158,11 @@ public class DBHelper {
     }
 
     @SuppressLint("Range")
-    public JSONArray getBills() {
+    public JSONArray getBills(String type, String UserId) {
         if (!db.isOpen()) {
             openDb();
         }
-        Cursor cursor = db.rawQuery("select * from user_bill ", null);
+        Cursor cursor = db.rawQuery("select * from user_bill where TYPE='" + type + "' and USERID='" + UserId + "'", null);
         JSONArray jsonArray = new JSONArray();
         while (cursor.moveToNext()) {
             JSONObject jsonObject = new JSONObject();

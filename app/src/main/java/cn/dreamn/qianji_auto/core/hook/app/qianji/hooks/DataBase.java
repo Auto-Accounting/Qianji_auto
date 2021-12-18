@@ -22,9 +22,12 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
 import cn.dreamn.qianji_auto.core.hook.app.qianji.DBHelper;
@@ -71,10 +74,12 @@ public class DataBase {
                 Object object = getInstance.invoke(null);
                 //获取对象
                 Method IsVip = loginClass.getMethod("isVip");
-                boolean isVip;
-                isVip = (boolean) IsVip.invoke(object);
+                boolean isVip = (boolean) IsVip.invoke(object);
                 //获取最终的UID
                 utils.log("钱迹用户:" + (isVip ? "会员" : "非会员"));
+
+                Method getLoginUserID = loginClass.getMethod("getLoginUserID");
+                String userId = (String) getLoginUserID.invoke(object);
 
                 final boolean[] hooked = {false};
                 XposedHelpers.findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
@@ -90,14 +95,26 @@ public class DataBase {
                                 if (needAsync == null) {
                                     return;
                                 }
-                                utils.log("钱迹收到同步信号:" + intent.getStringExtra("needAsync"));
-
+                                utils.log("钱迹收到同步信号:开始从本地数据库提取数据");
+                                utils.log("用户ID:", userId);
                                 JSONObject jsonObject = new JSONObject();
-                                jsonObject.put("asset", dbHelper[0].getAsset());
-                                jsonObject.put("category", dbHelper[0].getCategory());
-                                jsonObject.put("userBook", dbHelper[0].getUserBook(isVip));
-                               // jsonObject.put("billInfo", dbHelper[0].getBills());
-
+                                JSONArray userBooks = dbHelper[0].getUserBook(isVip, userId);
+                                List<String> uids = new ArrayList<>();
+                                jsonObject.put("userBook", userBooks);
+                                JSONArray categorys = new JSONArray();
+                                JSONArray asset = new JSONArray();
+                                for (int i = 0; i < userBooks.size(); i++) {
+                                    JSONObject userBook = userBooks.getJSONObject(i);
+                                    String userId = userBook.getString("userId");
+                                    if (!uids.contains(userId)) {
+                                        uids.add(userId);
+                                        asset.addAll(dbHelper[0].getAsset(userId));
+                                        categorys.addAll(dbHelper[0].getCategory(userId));
+                                    }
+                                }
+                                jsonObject.put("asset", asset);
+                                jsonObject.put("category", categorys);
+                                // jsonObject.put("billInfo", dbHelper[0].getBills());
                                 utils.send2auto(jsonObject.toJSONString());
 
                                 Toast.makeText(utils.getContext(), "钱迹数据信息获取完毕，现在返回自动记账。", Toast.LENGTH_LONG).show();
