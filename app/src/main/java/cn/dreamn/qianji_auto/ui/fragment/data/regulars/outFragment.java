@@ -146,7 +146,7 @@ public class outFragment extends BaseFragment {
                 if (isWeb) return "云 · APP规则 · " + AppInfo.getName(context, app);
                 return "APP规则 · " + AppInfo.getName(context, app);
             case "helper":
-                return getString(R.string.app);
+                return "无障碍";
             case "helper_detail":
                 if (isWeb) return "云 · 无障碍规则 · " + AppInfo.getName(context, app);
                 return "无障碍规则 · " + AppInfo.getName(context, app);
