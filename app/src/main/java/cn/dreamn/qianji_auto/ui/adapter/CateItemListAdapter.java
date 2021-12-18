@@ -4,15 +4,23 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseAdapter;
 import cn.dreamn.qianji_auto.ui.components.IconView;
+import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
+import cn.dreamn.qianji_auto.utils.runUtils.AutoBillWeb;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 public class CateItemListAdapter extends BaseAdapter {
@@ -21,20 +29,18 @@ public class CateItemListAdapter extends BaseAdapter {
     private MoreClick moreClick;
     private UpdateClick updateClick;
     private ImportClick importClick;
-    private JSONObject jsonObject;
     private boolean isWeb = false;
+    private String type = "";
+    private String app = "";
 
-    public CateItemListAdapter(Context context) {
+    public CateItemListAdapter(Context context, boolean isWeb, String type, String app) {
         super(R.layout.adapter_cate_list_item);
         mContext = context;
-    }
-
-    public void setUpdateJSON(JSONObject jsonObject, boolean isWeb) {
-        // Log.i("cadapter","json数据："+jsonObject.toJSONString());
-        this.jsonObject = jsonObject;
         this.isWeb = isWeb;
-
+        this.type = type;
+        this.app = app;
     }
+
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
@@ -101,12 +107,6 @@ public class CateItemListAdapter extends BaseAdapter {
             });
             return;
         }
-        // Log.i("isweb=false");
-        //获取云端Id
-        if (jsonObject == null) {
-            Log.i("jsonObject=null");
-            return;
-        }
 
 
         String version = item.getString("version");
@@ -115,32 +115,35 @@ public class CateItemListAdapter extends BaseAdapter {
         }
         String name = item.getString("name");
 
-        JSONObject jsonObject1 = jsonObject.getJSONObject(dataId);
-        if (jsonObject1 == null) {
+        Handler mHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                JSONObject jsonObject1 = (JSONObject) msg.obj;
+                int serverVer = Integer.parseInt(jsonObject1.getString("version"));
+                int localVer = Integer.parseInt(version);
 
-            return;
-        }
-
-        int serverVer = Integer.parseInt(jsonObject1.getString("version"));
-        int localVer = Integer.parseInt(version);
-
-        if (serverVer > localVer) {
-            tv_update.setVisibility(View.VISIBLE);
-            String title = name + "[" + localVer + " → " + serverVer + "]";
-            String updateLog = jsonObject1.getString("log");
-            if (updateLog == null || updateLog.equals("")) updateLog = "无更新日志";
-            JSONObject js = new JSONObject();
-            js.put("title", title);
-            js.put("log", updateLog);
-            js.put("dataId", dataId);
-            js.put("name", jsonObject1.getString("name"));
-            tv_update.setOnClickListener(v -> {
-                if (updateClick != null)
-                    updateClick.onClick(js);
-            });
+                if (serverVer > localVer) {
+                    tv_update.setVisibility(View.VISIBLE);
+                    String title = name + "[" + localVer + " → " + serverVer + "]";
+                    String updateLog = jsonObject1.getString("log");
+                    if (updateLog == null || updateLog.equals("")) updateLog = "无更新日志";
+                    JSONObject js = new JSONObject();
+                    js.put("title", title);
+                    js.put("log", updateLog);
+                    js.put("dataId", dataId);
+                    js.put("name", jsonObject1.getString("name"));
+                    tv_update.setOnClickListener(v -> {
+                        if (updateClick != null)
+                            updateClick.onClick(js);
+                    });
 
 
-        }
+                }
+            }
+        };
+
+
+        loadData(mContext, type, app, dataId, (LoadCloudApp) jsonObject -> HandlerUtil.send(mHandler, jsonObject, 0));
 
 
     }
@@ -171,5 +174,52 @@ public class CateItemListAdapter extends BaseAdapter {
 
     public interface ImportClick {
         void onClick(String dataId);
+    }
+
+    private void loadData(Context context, String type, String app, String dataId, LoadCloudApp loadCloudApp) {
+        AutoBillWeb.getList(context, new AutoBillWeb.WebCallback() {
+            @Override
+            public void onFailure() {
+
+            }
+
+            @Override
+            public void onSuccessful(String data) {
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = JSON.parseObject(data);
+                } catch (Exception e) {
+                    Log.d("解析JSON失败：" + data);
+                    return;
+                }
+
+
+                if (!jsonObject.containsKey(type)) {
+                    Log.d("JSON不包含数据：" + data);
+                    return;
+                }
+                JSONObject jsonObject1 = jsonObject.getJSONObject(type);
+                //Log.i(jsonObject1.toJSONString());
+                if (app != null && !app.equals("")) {
+                    JSONObject jsonObject3 = jsonObject1.getJSONObject(app);
+                    if (jsonObject3 == null) {
+                        Log.d("Js3 null：" + app);
+                        return;
+                    }
+                    JSONObject jsonObject2 = jsonObject3.getJSONObject(dataId);
+                    if (jsonObject2 == null) {
+                        return;
+                    }
+
+                    loadCloudApp.onLoad(jsonObject2);
+                }
+
+            }
+        });
+    }
+
+    public interface LoadCloudApp {
+        void onLoad(JSONObject jsonObject);
     }
 }

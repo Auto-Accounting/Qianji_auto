@@ -358,7 +358,7 @@ public class outFragment extends BaseFragment {
         }
         if (isDataList()) {
             Log.i("dataList");
-            cAdapter = new CateItemListAdapter(getContext());
+            cAdapter = new CateItemListAdapter(getContext(), isWeb, getLastType(), app);
             recyclerView.setAdapter(cAdapter);
             if (isWeb) {
                 cAdapter.setOnItemClickListener(new SmartViewHolder.OnItemClickListener() {
@@ -633,82 +633,32 @@ public class outFragment extends BaseFragment {
             });
         } else {
 
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    TaskThread.onThread(() -> {
-                        Regular[] regulars;
-                        if (type.equals("notice") || type.equals("app") || type.equals("helper")) {
-                            regulars = Db.db.RegularDao().loadApps(getLastType());
-                        } else if (app == null || app.equals("")) {
-                            regulars = Db.db.RegularDao().load(getLastType(), 0, 200);
-                        } else {
-                            regulars = Db.db.RegularDao().load(getLastType(), app, 0, 200);
-                        }
-
-                        if (regulars.length == 0) {
-                            Log.d("规则长度为0");
-                            HandlerUtil.send(mHandler, HANDLE_ERR);
-                            return;
-                        }
-                        List<Bundle> bundleList = new ArrayList<>();
-                        int index = 0;
-                        for (Regular regular : regulars) {
-                            Bundle bundle = Tool.class2Bundle(regular);
-                            Db.db.RegularDao().setSort(regular.id, ++index);
-                            bundle.putInt("sort", ++index);
-                            bundleList.add(bundle);
-                        }
-                        list = bundleList;
-                        HandlerUtil.send(mHandler, HANDLE_OK);
-                    });
-
+            TaskThread.onThread(() -> {
+                Regular[] regulars;
+                if (type.equals("notice") || type.equals("app") || type.equals("helper")) {
+                    regulars = Db.db.RegularDao().loadApps(getLastType());
+                } else if (app == null || app.equals("")) {
+                    regulars = Db.db.RegularDao().load(getLastType(), 0, 200);
+                } else {
+                    regulars = Db.db.RegularDao().load(getLastType(), app, 0, 200);
                 }
-            };
 
-
-            if (isDataList()) {
-                AutoBillWeb.getList(getContext(), new AutoBillWeb.WebCallback() {
-                    @Override
-                    public void onFailure() {
-                        runnable.run();
-                    }
-
-                    @Override
-                    public void onSuccessful(String data) {
-                        JSONObject jsonObject = null;
-
-                        try {
-                            jsonObject = JSON.parseObject(data);
-                        } catch (Exception e) {
-                            Log.d("解析JSON失败：" + data);
-                            runnable.run();
-                            //   HandlerUtil.send(mHandler, HANDLE_ERR);
-                            return;
-                        }
-
-
-                        if (!jsonObject.containsKey(getLastType())) {
-                            Log.d("JSON不包含数据：" + data);
-                            runnable.run();
-                            //    HandlerUtil.send(mHandler, HANDLE_ERR);
-                            return;
-                        }
-                        JSONObject jsonObject1 = jsonObject.getJSONObject(getLastType());
-                        //Log.i(jsonObject1.toJSONString());
-                        if (app != null && !app.equals("")) {
-                            jsonObject1 = jsonObject1.getJSONObject(app);
-                        }
-                        //  Log.i(app);
-                        //更新文件加上
-                        cAdapter.setUpdateJSON(jsonObject1, isWeb);
-                        runnable.run();
-                    }
-                });
-            } else {
-                runnable.run();
-            }
-
+                if (regulars.length == 0) {
+                    Log.d("规则长度为0");
+                    HandlerUtil.send(mHandler, HANDLE_ERR);
+                    return;
+                }
+                List<Bundle> bundleList = new ArrayList<>();
+                int index = 0;
+                for (Regular regular : regulars) {
+                    Bundle bundle = Tool.class2Bundle(regular);
+                    Db.db.RegularDao().setSort(regular.id, ++index);
+                    bundle.putInt("sort", ++index);
+                    bundleList.add(bundle);
+                }
+                list = bundleList;
+                HandlerUtil.send(mHandler, HANDLE_OK);
+            });
 
         }
 
