@@ -58,11 +58,25 @@ public class Tool {
     public static void goToMarket(Context context, String packageName) {
         Uri uri = Uri.parse("market://details?id=" + packageName);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+
         try {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void goToCoolMarket(Context context, String packageName) {
+        Uri uri = Uri.parse("market://details?id=" + packageName);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        //跳转酷市场
+        intent.setClassName("com.coolapk.market", "com.coolapk.market.view.app.AppViewV8Activity");
+        try {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            goUrl(context, "https://www.coolapk.com/apk/" + packageName);
         }
     }
 

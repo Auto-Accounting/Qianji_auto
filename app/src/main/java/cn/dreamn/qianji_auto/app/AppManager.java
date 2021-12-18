@@ -3,6 +3,7 @@ package cn.dreamn.qianji_auto.app;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 
 import java.util.ArrayList;
@@ -10,24 +11,26 @@ import java.util.List;
 
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class AppManager {
     /**
      * 获取自动记账支持的所有APP
+     *
      * @return
      */
     public static Bundle[] getAllApps() {
-        try{
+        try {
             List<Bundle> mList = new ArrayList<>();
             for (IApp iApp : AppList.getInstance().getList()) {
-                Bundle bundle=new Bundle();
-                bundle.putString("appName",iApp.getAppName());
-                bundle.putString("appPackage",iApp.getPackPageName());
-                bundle.putInt("appIcon",iApp.getAppIcon());
+                Bundle bundle = new Bundle();
+                bundle.putString("appName", iApp.getAppName());
+                bundle.putString("appPackage", iApp.getPackPageName());
+                bundle.putInt("appIcon", iApp.getAppIcon());
                 mList.add(bundle);
             }
             return mList.toArray(new Bundle[0]);
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
 
         }
 
@@ -42,12 +45,16 @@ public class AppManager {
      */
     public static void sendToApp(Context context, BillInfo billInfo) {
         String app = getApp();
-        Log.i("发送给app" + app);
-        for (IApp iApp : AppList.getInstance().getList()) {
-            if (iApp.getPackPageName().equals(app)) {
-                iApp.sendToApp(context, billInfo);
-                break;
+        try {
+            for (IApp iApp : AppList.getInstance().getList()) {
+                if (iApp.getPackPageName().equals(app)) {
+                    iApp.sendToApp(context, billInfo);
+                    break;
+                }
             }
+        } catch (Exception e) {
+            Tool.goToCoolMarket(context, app);
+            ToastUtils.show("请下载对应的App");
         }
     }
 
@@ -59,12 +66,17 @@ public class AppManager {
         mmkv.encode("needAsync", true);//设置为同步
         String app = getApp();
         //   Log.i("选择的App",app);
-        for (IApp iApp : AppList.getInstance().getList()) {
-            // Log.i("遍历的App",iApp.getPackPageName());
-            if (iApp.getPackPageName().equals(app)) {
-                iApp.asyncDataBefore(context);
-                break;
+        try {
+            for (IApp iApp : AppList.getInstance().getList()) {
+                // Log.i("遍历的App",iApp.getPackPageName());
+                if (iApp.getPackPageName().equals(app)) {
+                    iApp.asyncDataBefore(context);
+                    break;
+                }
             }
+        } catch (Exception e) {
+            Tool.goToCoolMarket(context, app);
+            ToastUtils.show("请下载对应的App");
         }
 
     }
@@ -86,7 +98,7 @@ public class AppManager {
 
     }
 
-    public static void setApp(String appPackage){
+    public static void setApp(String appPackage) {
         MMKV mmkv = MMKV.defaultMMKV();
         mmkv.encode("bookApp", appPackage);
     }
