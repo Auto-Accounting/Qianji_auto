@@ -2,7 +2,7 @@ package cn.dreamn.qianji_auto.ui.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
@@ -22,7 +22,7 @@ public class BookListAdapter extends BaseAdapter {
     @Override
     protected void onBindViewHolder(SmartViewHolder holder, Bundle item, int position) {
 
-        RelativeLayout rl_bg = (RelativeLayout) holder.findView(R.id.rl_bg);
+        ImageView rl_bg = (ImageView) holder.findView(R.id.rl_bg);
 
         TextView item_title = (TextView) holder.findView(R.id.item_value);
 

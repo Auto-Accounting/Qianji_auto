@@ -9,9 +9,16 @@
 
 
     <RelativeLayout
-        android:id="@+id/rl_bg"
+
         android:layout_width="match_parent"
         android:layout_height="120dp">
+
+        <ImageView
+            android:id="@+id/rl_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/bg" />
 
         <View
             android:layout_width="wrap_content"
@@ -25,7 +32,6 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
 
-            android:layout_toEndOf="@+id/icon_header"
             android:text=""
             android:textColor="@color/background_white"
             android:textSize="18sp" />

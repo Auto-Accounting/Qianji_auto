@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class BookSelectListAdapter extends ArrayAdapter {
         Bundle bundle = books.get(position);
 
         @SuppressLint("ViewHolder") View view = LayoutInflater.from(getContext()).inflate(R.layout.adapter_book_item_select, null, false);
-        RelativeLayout rl_bg = view.findViewById(R.id.rl_bg);
+        ImageView rl_bg = view.findViewById(R.id.rl_bg);
 
         TextView item_title = view.findViewById(R.id.item_value);
 

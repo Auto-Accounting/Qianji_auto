@@ -113,10 +113,16 @@
                     app:cardElevation="0dp">
 
                     <RelativeLayout
-                        android:id="@+id/book_img"
+
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_timepicker">
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/book_img"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            app:srcCompat="@drawable/bg" />
 
                         <View
                             android:id="@+id/view_headImg"

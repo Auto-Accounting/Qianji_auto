@@ -25,6 +25,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -150,7 +151,7 @@ public class MainFragment extends BaseFragment {
     TextView app_log;
 
     @BindView(R.id.book_img)
-    RelativeLayout book_img;
+    ImageView book_img;
     @BindView(R.id.default_book)
     TextView default_book;
 

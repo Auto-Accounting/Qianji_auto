@@ -12,9 +12,16 @@
 
 
     <RelativeLayout
-        android:id="@+id/rl_bg"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/rl_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/bg" />
 
         <View
             android:layout_width="wrap_content"
