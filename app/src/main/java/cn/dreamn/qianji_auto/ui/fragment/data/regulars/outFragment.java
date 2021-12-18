@@ -92,6 +92,8 @@ public class outFragment extends BaseFragment {
     FloatingActionButton action_export;
     @BindView(R.id.action_delAll)
     FloatingActionButton action_delAll;
+    @BindView(R.id.view_hide)
+    View view_hide;
     private String type;
     private String app;
     Handler mHandler;
@@ -143,6 +145,11 @@ public class outFragment extends BaseFragment {
             case "app_detail":
                 if (isWeb) return "云 · APP规则 · " + AppInfo.getName(context, app);
                 return "APP规则 · " + AppInfo.getName(context, app);
+            case "helper":
+                return getString(R.string.app);
+            case "helper_detail":
+                if (isWeb) return "云 · 无障碍规则 · " + AppInfo.getName(context, app);
+                return "无障碍规则 · " + AppInfo.getName(context, app);
             case "sms":
                 return getString(R.string.sms);
             case "sms_detail":
@@ -230,12 +237,24 @@ public class outFragment extends BaseFragment {
     @Override
     protected void initListeners() {
         BaseFragment baseFragment = this;
+        view_hide.setVisibility(View.GONE);
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             loadFromData();
             refreshlayout.finishRefresh(0);//传入false表示刷新失败
         });
 
         if (!isWeb) {
+            floatingActionButton.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+                @Override
+                public void onMenuExpanded() {
+                    view_hide.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onMenuCollapsed() {
+                    view_hide.setVisibility(View.GONE);
+                }
+            });
             action_cate.setOnClickListener(v -> {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("identify", getLastType());
@@ -263,7 +282,6 @@ public class outFragment extends BaseFragment {
 
             });
             action_import.setOnClickListener(v -> {
-
                 RegularManager.importReg(getContext(), getName(), getLastType(), new RegularManager.End() {
                     @Override
                     public void onFinish(int code) {
@@ -516,6 +534,7 @@ public class outFragment extends BaseFragment {
         refreshLayout.setEnableRefresh(true);
         if (isWeb) {
             floatingActionButton.setVisibility(View.GONE);
+            view_hide.setVisibility(View.GONE);
         }
     }
 

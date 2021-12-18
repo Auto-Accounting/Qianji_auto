@@ -41,6 +41,12 @@
 
     </com.shehuan.statusview.StatusView>
 
+    <View
+        android:id="@+id/view_hide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_alpha25" />
+
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/multiple_actions_down"
         android:layout_width="wrap_content"
