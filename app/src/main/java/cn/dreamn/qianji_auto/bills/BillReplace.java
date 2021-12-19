@@ -22,7 +22,7 @@ public class BillReplace {
             }
 
             if (billInfo.getRawAccount() == null || billInfo.getRawAccount().equals("null") || billInfo.getRawAccount().equals("undefined")) {
-                billInfo.setRawAccount("未识别资产（" + billInfo.getFromApp() + "）");
+                billInfo.setRawAccount("无账户");
             }
             Assets.getMap(billInfo.getRawAccount(), mapName -> {
                 billInfo.setAccountName((String) mapName);

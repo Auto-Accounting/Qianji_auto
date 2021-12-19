@@ -244,10 +244,10 @@ public class QianJi implements IApp {
             url += "&bookname=" + billInfo.getBookName();
         }
 
-        if (billInfo.getAccountName() != null && !billInfo.getAccountName().equals("")) {
+        if (billInfo.getAccountName() != null && !billInfo.getAccountName().equals("") && !billInfo.getAccountName().equals("无账户")) {
             url += "&accountname=" + billInfo.getAccountName();
         }
-        if (billInfo.getAccountName2() != null && !billInfo.getAccountName2().equals("")) {
+        if (billInfo.getAccountName2() != null && !billInfo.getAccountName2().equals("") && !billInfo.getAccountName2().equals("无账户")) {
             url += "&accountname2=" + billInfo.getAccountName2();
         }
         if (billInfo.getFee() != null && !billInfo.getFee().equals("") && !billInfo.getFee().equals("0")) {

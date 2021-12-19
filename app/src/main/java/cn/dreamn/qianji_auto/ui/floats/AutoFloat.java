@@ -192,7 +192,7 @@ public class AutoFloat {
         });
         ll_account1.setOnClickListener(v -> {
             Log.i("账户1选择");
-            Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, obj1 -> {
+            Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, true, obj1 -> {
                 Asset asset = (Asset) obj1;
                 String asset1 = billInfo2.getAccountName();//原始资产
                 Assets.isInAsset(asset1, obj -> {
@@ -211,7 +211,7 @@ public class AutoFloat {
         });
         ll_account2.setOnClickListener(v -> {
             Log.i("账户2选择");
-            Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, obj1 -> {
+            Assets.showAssetSelect(getContext(), context.getString(R.string.select_account), true, true, obj1 -> {
                 Asset asset = (Asset) obj1;
                 String asset1 = billInfo2.getAccountName2();//原始资产
                 Assets.isInAsset(asset1, obj -> {

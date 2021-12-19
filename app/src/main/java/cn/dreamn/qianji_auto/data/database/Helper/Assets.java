@@ -101,7 +101,7 @@ public class Assets {
     public static void getMap(String assetName, TaskThread.TaskResult taskResult) {
         TaskThread.onThread(() -> {
             if (assetName == null || assetName.equals("") || assetName.equals("null") || assetName.equals("undefined")) {
-                taskResult.onEnd("");
+                taskResult.onEnd("无账户");
                 return;
             }
             // 正则匹配内容  需要在内容中以regex:开头
@@ -121,20 +121,18 @@ public class Assets {
             }
             AssetMap[] assetMaps = Db.db.AssetMapDao().get(assetName);
             if (assetMaps.length <= 0) {
-                taskResult.onEnd(assetName);
+                taskResult.onEnd("无账户");
                 return;
             }
             String mapName = assetMaps[0].mapName;
             if (mapName == null) {
-                taskResult.onEnd(assetName);
+                taskResult.onEnd("无账户");
             } else taskResult.onEnd(mapName);
         });
 
     }
 
-
-    public static void showAssetSelect(Context context, String title, boolean isFloat, TaskThread.TaskResult taskResult) {
-
+    public static void showAssetSelect(Context context, String title, boolean isFloat, boolean add, TaskThread.TaskResult taskResult) {
         LayoutInflater factory = LayoutInflater.from(context);
         final View textEntryView = factory.inflate(R.layout.include_list_data, null);
 
@@ -144,28 +142,41 @@ public class Assets {
             @Override
             public void handleMessage(Message msg) {
                 Asset[] assets = (Asset[]) msg.obj;
+                int length = 0;
+                if (assets != null) {
+                    length = assets.length;
+                }
+                if (add) {
+                    assets = new Asset[length + 1];
+                    assets[length] = new Asset();
+                    assets[length].icon = "https://pic.dreamn.cn/uPic/2021032022075916162492791616249279427UY2ok6支付.png";
+                    assets[length].id = -1;
+                    assets[length].name = "无账户";
+                    assets[length].sort = 0;
+                }
                 if (assets == null || assets.length == 0) {
                     ToastUtils.show(R.string.no_assets);
                     return;
                 }
-                DataSelectListAdapter adapter = new DataSelectListAdapter(context,assets);//listdata和str均可
+                DataSelectListAdapter adapter = new DataSelectListAdapter(context, assets);//listdata和str均可
                 list_view.setAdapter(adapter);
                 BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
                 MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
-                if(isFloat){
+                if (isFloat) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
                     } else {
                         dialog.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
                     }
                 }
-                dialog.title(null,title);
+                dialog.title(null, title);
                 dialog.cornerRadius(15f, null);
                 DialogCustomViewExtKt.customView(dialog, null, textEntryView,
                         false, true, false, false);
                 dialog.show();
+                Asset[] finalAssets = assets;
                 list_view.setOnItemClickListener((parent, view, position, id) -> {
-                    taskResult.onEnd(assets[position]);
+                    taskResult.onEnd(finalAssets[position]);
                     dialog.dismiss();
                 });
             }
@@ -174,6 +185,10 @@ public class Assets {
             Asset[] assets = Db.db.AssetDao().getAll(0, 200);
             HandlerUtil.send(mHandler, assets, 0);
         });
+
+    }
+    public static void showAssetSelect(Context context, String title, boolean isFloat, TaskThread.TaskResult taskResult) {
+        showAssetSelect(context, title, isFloat, false, taskResult);
 
     }
 

@@ -57,14 +57,14 @@ public class BillInfo {
 
     private String bookname = "默认账本";//账本名称，不填写则使用默认账本
 
-    private String accountname = "";//账单所属资产名称(或转账的转出账户）
+    private String accountname = "无账户";//账单所属资产名称(或转账的转出账户）
 
-    private String accountname2 = "";//转账或者还款的转入账户
+    private String accountname2 = "无账户";//转账或者还款的转入账户
 
     private String fromApp = "";//来源app
 
-    private String rawAccount = "";//没有替换的资产名
-    private String rawAccount2 = "";//没有替换的资产名
+    private String rawAccount = "无账户";//没有替换的资产名
+    private String rawAccount2 = "无账户";//没有替换的资产名
 
     private String shopAccount = "";//识别出来的收款账户
 
