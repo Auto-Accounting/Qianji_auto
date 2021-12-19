@@ -16,6 +16,7 @@ import com.tencent.mmkv.MMKV;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
+import cn.dreamn.qianji_auto.core.broadcast.AppBroadcast;
 import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Table.Category;
 import cn.dreamn.qianji_auto.setting.AppStatus;
@@ -103,9 +104,9 @@ public class QianJi implements IApp {
             Intent intent = new Intent();
             intent.setClassName("com.mutangtech.qianji", "com.mutangtech.qianji.ui.main.MainActivity");
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("needAsync", "true");
+            intent.putExtra("AutoSignal", AppBroadcast.BROADCAST_ASYNC);
             MMKV mmkv = MMKV.defaultMMKV();
-            mmkv.encode("needAsync", true);
+            mmkv.encode("AutoSignal", AppBroadcast.BROADCAST_ASYNC);
             Log.i("自动记账同步", "正在前往钱迹");
             context.startActivity(intent);
         } else {

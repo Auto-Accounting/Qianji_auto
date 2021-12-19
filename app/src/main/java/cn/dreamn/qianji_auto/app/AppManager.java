@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.dreamn.qianji_auto.bills.BillInfo;
+import cn.dreamn.qianji_auto.core.broadcast.AppBroadcast;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
@@ -63,7 +64,7 @@ public class AppManager {
      */
     public static void Async(Context context) {
         MMKV mmkv = MMKV.defaultMMKV();
-        mmkv.encode("needAsync", true);//设置为同步
+        mmkv.encode("AutoSignal", AppBroadcast.BROADCAST_ASYNC);//设置为同步
         String app = getApp();
         //   Log.i("选择的App",app);
         try {
@@ -86,7 +87,7 @@ public class AppManager {
      */
     public static void AsyncEnd(Context context, Bundle bundle) {
         MMKV mmkv = MMKV.defaultMMKV();
-        mmkv.encode("needAsync", false);//设置为未同步
+        mmkv.encode("AutoSignal", AppBroadcast.BROADCAST_NOTHING);//设置为未同步
         String app = getApp();
         for (IApp iApp : AppList.getInstance().getList()) {
             if (iApp.getPackPageName().equals(app)) {

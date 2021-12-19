@@ -29,6 +29,7 @@ import com.xuexiang.xpage.enums.CoreAnim;
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.app.AppManager;
+import cn.dreamn.qianji_auto.core.broadcast.AppBroadcast;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
@@ -102,7 +103,7 @@ public class AsyncFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         MMKV mmkv=MMKV.defaultMMKV();
-        if (mmkv.getBoolean("needAsync", false)) {
+        if (mmkv.getInt("AutoSignal", AppBroadcast.BROADCAST_NOTHING) == AppBroadcast.BROADCAST_NOTHING) {
             app_help_3_tip.setText(getString(R.string.app_help_3_tip2));
             button_async.setText(getString(R.string.app_help_3_button_async));
         }

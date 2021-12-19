@@ -29,6 +29,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.dreamn.qianji_auto.core.broadcast.AppBroadcast;
 import cn.dreamn.qianji_auto.core.hook.Utils;
 import cn.dreamn.qianji_auto.core.hook.app.qianji.DBHelper;
 import de.robv.android.xposed.XC_MethodHook;
@@ -91,8 +92,8 @@ public class DataBase {
                         if (activityClzName.contains("com.mutangtech.qianji.ui.main.MainActivity")) {
                             Intent intent = (Intent) XposedHelpers.callMethod(activity, "getIntent");
                             if (intent != null) {
-                                String needAsync = intent.getStringExtra("needAsync");
-                                if (needAsync == null) {
+                                int AutoSignal = intent.getIntExtra("AutoSignal", AppBroadcast.BROADCAST_NOTHING);
+                                if (AutoSignal == AppBroadcast.BROADCAST_NOTHING) {
                                     return;
                                 }
                                 utils.log("钱迹收到同步信号:开始从本地数据库提取数据");

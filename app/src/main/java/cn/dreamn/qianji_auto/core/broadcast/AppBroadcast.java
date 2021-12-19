@@ -29,21 +29,26 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 
 public class AppBroadcast extends BroadcastReceiver {
+    public static final int BROADCAST_ASYNC = 1;//同步信号
+    public static final int BROADCAST_GET_REI = 2;//获取报销账单
+    public static final int BROADCAST_GET_YEAR = 3;//获取同步账单
+    public static final int BROADCAST_NOTHING = 0;//获取同步账单
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         MMKV mmkv = MMKV.defaultMMKV();
         if (action == null) {
-            mmkv.encode("needAsync", false);
+            mmkv.encode("AutoSignal", BROADCAST_ASYNC);
             Log.d("action 为空");
             return;
         }
 
-        if (!mmkv.getBoolean("needAsync", false)) {
+        if (BROADCAST_ASYNC != mmkv.getInt("AutoSignal", BROADCAST_NOTHING)) {
             Log.d("不在接收同步的范围之内！");
             return;
         }
-        mmkv.encode("needAsync", false);
+        mmkv.encode("AutoSignal", BROADCAST_NOTHING);
         Bundle extData = intent.getExtras();
 
         if (extData == null) {

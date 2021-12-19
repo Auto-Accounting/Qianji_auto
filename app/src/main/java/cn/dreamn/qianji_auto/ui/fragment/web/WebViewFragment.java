@@ -217,11 +217,13 @@ public class WebViewFragment extends BaseFragment {
         webView.loadUrl(url);
         webView.setWebChromeClient(mWebChromeClient);
         webView.setWebViewClient(mWebViewClient);
+
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);//允许使用js
         webSettings.setDomStorageEnabled(true);// 打开本地缓存提供JS调用,至关重要
         webSettings.setAllowFileAccess(true);
         webSettings.setAppCacheEnabled(true);
+        webSettings.setMediaPlaybackRequiresUserGesture(false);
         if (AppStatus.isDebug()) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
@@ -664,7 +666,10 @@ public class WebViewFragment extends BaseFragment {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (webView.canGoBack())
                 webView.goBack();
-            else popToBack();
+            else {
+                webView.destroy();
+                popToBack();
+            }
         }
         return true;
     }
