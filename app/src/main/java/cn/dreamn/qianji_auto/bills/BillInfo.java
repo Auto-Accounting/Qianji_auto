@@ -37,8 +37,8 @@ public class BillInfo {
     public static String TYPE_INCOME = "1";//收入
     public static String TYPE_TRANSFER_ACCOUNTS = "2";//转账
     public static String TYPE_CREDIT_CARD_PAYMENT = "3";//信用卡还款
-    public static String TYPE_PAYMENT_REFUND = "5";//报销
-
+    public static String TYPE_PAYMENT_REFUND_OUT = "5";//支出报销
+    public static String TYPE_PAYMENT_REFUND_IN = "998";//收入报销(非官方)
     private String type = "0";//账单类型
     private String money = "0";//大于0
 
@@ -53,11 +53,14 @@ public class BillInfo {
 
     private String reimbursement = "false";//是否报销
 
+    private String billId = "-1";//服务器上的Id
     private String catechoose = "0";//type=0或1有效
 
     private String bookname = "默认账本";//账本名称，不填写则使用默认账本
 
     private String accountname = "无账户";//账单所属资产名称(或转账的转出账户）
+
+    private String accountId1 = "-1";
 
     private String accountname2 = "无账户";//转账或者还款的转入账户
 
@@ -127,8 +130,11 @@ public class BillInfo {
                 case "shopRemark":
                     billInfo.setShopRemark(value);
                     break;
-                case "reimbursement":
-                    billInfo.setRrimbursement(value.equals("true"));
+                case "reimbursement_in":
+                    billInfo.setReimbursement(value.equals("true"));
+                    break;
+                case "reimbursement_out":
+                    billInfo.setReimbursement(value.equals("true"));
                     break;
                 case "fromApp":
                     billInfo.setFromApp(value);
@@ -168,6 +174,34 @@ public class BillInfo {
 
     public void setId(int value) {
         id = value;
+    }
+
+    public static String getTypeId(String type) {
+        switch (type) {
+            case "收入":
+                return BillInfo.TYPE_INCOME;
+            case "转账":
+                return BillInfo.TYPE_TRANSFER_ACCOUNTS;
+            case "信用还款":
+                return BillInfo.TYPE_CREDIT_CARD_PAYMENT;
+            case "支出报销":
+                return BillInfo.TYPE_PAYMENT_REFUND_OUT;
+            case "收入报销":
+                return BillInfo.TYPE_PAYMENT_REFUND_IN;
+            default:
+                return BillInfo.TYPE_PAY;
+        }
+    }
+
+    public static String getTypeName(String type) {
+        if (type == null) return "支出";
+        if (type.equals(TYPE_PAY)) return "支出";
+        if (type.equals(TYPE_CREDIT_CARD_PAYMENT)) return "信用还款";
+        if (type.equals(TYPE_INCOME)) return "收入";
+        if (type.equals(TYPE_TRANSFER_ACCOUNTS)) return "转账";
+        if (type.equals(TYPE_PAYMENT_REFUND_OUT)) return "支出报销";
+        if (type.equals(TYPE_PAYMENT_REFUND_IN)) return "收入报销";
+        return "支出";
     }
 
     public boolean isAuto() {
@@ -222,37 +256,21 @@ public class BillInfo {
         return fromApp;
     }
 
-    public static String getTypeId(String type) {
-        switch (type) {
-            case "收入":
-                return BillInfo.TYPE_INCOME;
-            case "转账":
-                return BillInfo.TYPE_TRANSFER_ACCOUNTS;
-            case "信用还款":
-                return BillInfo.TYPE_CREDIT_CARD_PAYMENT;
-            case "报销":
-                return BillInfo.TYPE_PAYMENT_REFUND;
-            default:
-                return BillInfo.TYPE_PAY;
-        }
+    public String getAccountId1() {
+        return accountId1;
     }
 
-    public static String getTypeName(String type) {
-        if (type == null) return "支出";
-        if (type.equals(TYPE_PAY)) return "支出";
-        if (type.equals(TYPE_CREDIT_CARD_PAYMENT)) return "信用还款";
-        if (type.equals(TYPE_INCOME)) return "收入";
-        if (type.equals(TYPE_TRANSFER_ACCOUNTS)) return "转账";
-        if (type.equals(TYPE_PAYMENT_REFUND)) return "报销";
-        return "支出";
+    public void setAccountId1(String value) {
+        accountId1 = value;
     }
 
     public boolean getReimbursement() {
         return reimbursement != null && reimbursement.equals("true");
     }
 
-    public void setRrimbursement(boolean state) {
+    public void setReimbursement(boolean state) {
         reimbursement = (state ? "true" : "false");
+
     }
 
     public String getType() {
@@ -266,7 +284,8 @@ public class BillInfo {
     public String getType(Boolean real) {
         if (real) {
             String t = type;
-            if (getReimbursement()) t = TYPE_PAYMENT_REFUND;
+            if (getReimbursement() && type.equals(TYPE_PAY)) t = TYPE_PAYMENT_REFUND_OUT;
+            if (getReimbursement() && type.equals(TYPE_INCOME)) t = TYPE_PAYMENT_REFUND_IN;
             return t;
         } else return type;
     }
@@ -496,5 +515,11 @@ public class BillInfo {
 
     }
 
+    public String getBillId() {
+        return billId;
+    }
 
+    public void setBillId(String id) {
+        billId = id;
+    }
 }

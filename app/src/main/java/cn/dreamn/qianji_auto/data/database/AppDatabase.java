@@ -47,7 +47,7 @@ import cn.dreamn.qianji_auto.data.database.Table.Regular;
         AutoBill.class,
         Category.class,
         AppData.class,
-}, version = 14, exportSchema = false)
+}, version = 15, exportSchema = false)
 
 public abstract class AppDatabase extends RoomDatabase {
     public abstract LogDao LogDao();

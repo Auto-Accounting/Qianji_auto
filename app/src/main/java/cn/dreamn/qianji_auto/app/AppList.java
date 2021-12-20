@@ -12,11 +12,10 @@ public class AppList {
     public AppList() {
         mList.clear();
         mList.add(QianJi.getInstance());
-        //   mList.add(YiMu.getInstance());
-        //     mList.add(JiZhangYa.getInstance());
-        //   mList.add(YiYu.getInstance());
-        //   mList.add(YouZi.getInstance());
-        //  mList.add()
+        /*
+         * 请在此处新增你的记账app
+         * 相关文档请参考：
+         * */
 
     }
 

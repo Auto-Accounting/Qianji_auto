@@ -138,7 +138,7 @@ public class assertFragment extends BaseFragment {
                 @Override
                 public void input(String data) {
                     TaskThread.onThread(() -> {
-                        Db.db.AssetDao().add(data, "https://pic.dreamn.cn/uPic/2021032022075916162492791616249279427UY2ok6支付.png", 0);
+                        Db.db.AssetDao().add(data, "https://pic.dreamn.cn/uPic/2021032022075916162492791616249279427UY2ok6支付.png", 0, "-1");
                         HandlerUtil.send(mHandler, getString(R.string.add_success), HANDLE_REFRESH);
                     });
                 }

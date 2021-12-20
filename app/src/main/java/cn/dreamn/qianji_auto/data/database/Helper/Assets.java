@@ -56,11 +56,18 @@ public class Assets {
             Asset[] assets = Db.db.AssetDao().get(string);
             if (assets == null || assets.length == 0) {
                 taskResult.onEnd(false);
-            }
-            taskResult.onEnd(true);
+            } else taskResult.onEnd(true);
         });
     }
 
+    public static void getQid(String string, TaskThread.TaskResult taskResult) {
+        TaskThread.onThread(() -> {
+            Asset[] assets = Db.db.AssetDao().get(string);
+            if (assets == null || assets.length == 0) {
+                taskResult.onEnd("-1");
+            } else taskResult.onEnd(assets[0].qid);
+        });
+    }
 
     public static void getAllAccount(TaskThread.TaskResult taskResult) {
         TaskThread.onThread(() -> {
@@ -121,7 +128,7 @@ public class Assets {
             }
             AssetMap[] assetMaps = Db.db.AssetMapDao().get(assetName);
             if (assetMaps.length <= 0) {
-                taskResult.onEnd("无账户");
+                taskResult.onEnd(assetName);
                 return;
             }
             String mapName = assetMaps[0].mapName;
@@ -145,20 +152,24 @@ public class Assets {
                 int length = 0;
                 if (assets != null) {
                     length = assets.length;
+                } else {
+                    assets = new Asset[0];
                 }
                 if (add) {
-                    assets = new Asset[length + 1];
-                    assets[length] = new Asset();
-                    assets[length].icon = "https://pic.dreamn.cn/uPic/2021032022075916162492791616249279427UY2ok6支付.png";
-                    assets[length].id = -1;
-                    assets[length].name = "无账户";
-                    assets[length].sort = 0;
+                    Asset[] assets2 = java.util.Arrays.copyOf(assets, length + 1);
+                    assets2[length] = new Asset();
+                    assets2[length].icon = "https://pic.dreamn.cn/uPic/2021032022075916162492791616249279427UY2ok6支付.png";
+                    assets2[length].id = -1;
+                    assets2[length].name = "无账户";
+                    assets2[length].sort = 0;
+                    assets = assets2;
                 }
-                if (assets == null || assets.length == 0) {
+
+                if (assets.length == 0) {
                     ToastUtils.show(R.string.no_assets);
                     return;
                 }
-                DataSelectListAdapter adapter = new DataSelectListAdapter(context, assets);//listdata和str均可
+                DataSelectListAdapter adapter = new DataSelectListAdapter(context, assets);
                 list_view.setAdapter(adapter);
                 BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
                 MaterialDialog dialog = new MaterialDialog(context, bottomSheet);

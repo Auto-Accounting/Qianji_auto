@@ -3,8 +3,6 @@ package cn.dreamn.qianji_auto.core.hook.app.qianji.hooks;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 import android.content.Intent;
-import android.os.Looper;
-import android.widget.Toast;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
 import de.robv.android.xposed.XC_MethodHook;
@@ -20,7 +18,7 @@ public class AutoError {
                 String string = (String) param.args[0];
                 //钱迹弹出错误信息，转发给自动记账处理~
                 if (string != null) {
-                   // utils.sendString("钱迹错误：" + string);
+                    // utils.sendString("钱迹错误：" + string);
                     String url = getSolvedUrl(string);
                     Intent v0 = new Intent(utils.getContext(), WebViewActivity);
                     v0.putExtra("param_web_url", url);
@@ -29,9 +27,9 @@ public class AutoError {
                     utils.getContext().startActivity(v0);
                     //使用钱迹的WebView
                     //加载解决方案
-                    Looper.prepare();
-                    Toast.makeText(utils.getContext(), string + "\n发生了错误，正在为您加载解决方案！", Toast.LENGTH_LONG).show();
-                    Looper.loop();
+                    //    Looper.prepare();
+                    //     Toast.makeText(utils.getContext(), string + "\n发生了错误，正在为您加载解决方案！", Toast.LENGTH_LONG).show();
+                    //     Looper.loop();
                     utils.log("钱迹错误捕获： " + string, true);
                 }
 

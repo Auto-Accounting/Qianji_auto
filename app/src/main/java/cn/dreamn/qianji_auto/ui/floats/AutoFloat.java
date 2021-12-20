@@ -18,29 +18,38 @@
 package cn.dreamn.qianji_auto.ui.floats;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.textfield.TextInputEditText;
+import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 
 import net.ankio.timepicker.listener.OnTimeSelectListener;
@@ -49,9 +58,11 @@ import java.util.Arrays;
 import java.util.Date;
 
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.bills.BillInfo;
 import cn.dreamn.qianji_auto.bills.BillTools;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
+import cn.dreamn.qianji_auto.core.broadcast.AppBroadcast;
 import cn.dreamn.qianji_auto.data.data.RegularCenter;
 import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Helper.Assets;
@@ -59,6 +70,8 @@ import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.data.database.Helper.Categorys;
 import cn.dreamn.qianji_auto.data.database.Table.Asset;
 import cn.dreamn.qianji_auto.data.database.Table.BookName;
+import cn.dreamn.qianji_auto.setting.AppStatus;
+import cn.dreamn.qianji_auto.ui.adapter.BillReiAdapter;
 import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
@@ -107,6 +120,9 @@ public class AutoFloat {
     private LinearLayout ll_remark;
     private TextView tv_remark;
 
+    BroadcastReceiver broadcastReceiver;
+    private LinearLayout ll_bill;
+
     private TextView textView_account1;
     private TextView textView_account2;
 
@@ -118,6 +134,9 @@ public class AutoFloat {
     private BillInfo billInfo2;
 
     private String book_id = "-1";
+    private TextView tv_bill;
+    private JSONArray reiJsonArray;//等待报销的单子
+    private JSONObject reiJsonHash;//所有待记录的数据
     private final Handler mMainHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -205,6 +224,7 @@ public class AutoFloat {
                     }
                 });
                 billInfo2.setAccountName(asset.name);
+                billInfo2.setAccountId1(asset.qid);
                 mMainHandler.sendEmptyMessage(0);
             });
 
@@ -310,12 +330,22 @@ public class AutoFloat {
 
         });
         button_next.setOnClickListener(v -> {
+            ToastUtils.setGravity(Gravity.TOP);
+            if (reiJsonHash == null || reiJsonHash.size() == 0) {
+                ToastUtils.show("报销的账单不允许为空");
+                return;
+            }
+
             SendDataToApp.goApp(getContext(), billInfo2);
             this.clear();
         });
         button_fail.setOnClickListener(v -> this.clear());
         chip_bx.setOnClickListener(v -> {
-            billInfo2.setRrimbursement(chip_bx.getText().toString().equals(context.getString(R.string.n_bx)));
+
+            // billInfo2.setReimbursement(chip_bx.getText().toString().equals(context.getString(R.string.n_bx)));
+            //  mMainHandler.sendEmptyMessage(0);
+
+            billInfo2.setReimbursement(chip_bx.getText().toString().equals(context.getString(R.string.n_bx)));
             MMKV mmkv = MMKV.defaultMMKV();
             if (mmkv.getBoolean("need_cate", true)) {
                 RegularCenter.getInstance("category").run(billInfo2, null, new TaskThread.TaskResult() {
@@ -331,7 +361,76 @@ public class AutoFloat {
                     }
                 });
             }
+            //  }
+            //只有xp模式才有
+            //等待从钱迹的账单
 
+
+        });
+
+        ll_bill.setOnClickListener(new View.OnClickListener() {
+            //   @SuppressLint("SetTextI18n")
+            @Override
+            public void onClick(View v) {
+                if (reiJsonArray != null) {
+                    if (reiJsonArray.size() == 0) {
+                        ToastUtils.show("没有需要报销的账单！");
+                        return;
+                    }
+                    ContextThemeWrapper ctx = new ContextThemeWrapper(context, R.style.Theme_AppCompat_Light_NoActionBar);
+                    context = ctx;
+                    LayoutInflater factory = LayoutInflater.from(ctx);
+                    mView = factory.inflate(R.layout.float_autobill, null);
+                    BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+                    MaterialDialog dialog2 = new MaterialDialog(context, bottomSheet);
+                    dialog2.cancelable(false);
+                    ListView listView = mView.findViewById(R.id.list_view);
+                    TextView tv_close = mView.findViewById(R.id.tv_close);
+                    TextView tv_title = mView.findViewById(R.id.tv_title);
+                    tv_title.setText("请点击选择账单");
+                    tv_close.setText("完成");
+                    JSONObject jsonObjectHash = new JSONObject();
+                    tv_close.setOnClickListener(view -> {
+                        reiJsonHash = jsonObjectHash;
+                        tv_bill.setText("已选择" + jsonObjectHash.size() + "条账单");
+                        billInfo2.setExtraData(reiJsonHash.toJSONString());
+                        dialog2.dismiss();
+                    });
+                    BillReiAdapter billReiAdapter = new BillReiAdapter(context, R.layout.adapter_money_list_rei, reiJsonHash);
+                    listView.setAdapter(billReiAdapter);
+                    billReiAdapter.addAll(reiJsonArray);
+                    listView.setOnItemClickListener((parent, view, position, id) -> {
+                        try {
+                            if (reiJsonHash != null) {
+                                jsonObjectHash.putAll(reiJsonHash);
+                            }
+                            JSONObject jsonObject = reiJsonArray.getJSONObject(position);
+                            if (jsonObjectHash.containsKey(jsonObject.getString("id"))) {
+                                jsonObjectHash.remove(jsonObject.getString("id"));
+                                view.setBackgroundColor(getContext().getColor(R.color.white));
+                            } else {
+                                jsonObjectHash.put(jsonObject.getString("id"), jsonObject.getString("money"));
+                                view.setBackgroundColor(getContext().getColor(R.color.colorBlueAlpha25));
+                            }
+                        } catch (Throwable e) {
+                            Log.i("发生了错误" + e.toString());
+                        }
+                    });
+                    DialogCustomViewExtKt.customView(dialog2, null, mView,
+                            false, true, false, false);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        dialog2.getWindow().setType((WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY));
+                    } else {
+                        dialog2.getWindow().setType((WindowManager.LayoutParams.TYPE_SYSTEM_ALERT));
+                    }
+                    dialog2.cornerRadius(15f, null);
+                    dialog2.show();
+                } else {
+                    ToastUtils.setGravity(Gravity.TOP);
+                    ToastUtils.show("前往同步待记录账单");
+                    AppManager.Async(context, AppBroadcast.BROADCAST_GET_REI);
+                }
+            }
         });
 
 
@@ -379,6 +478,15 @@ public class AutoFloat {
 
     @SuppressLint("SetTextI18n")
     public void setData(BillInfo billInfo) {
+        ll_fee.setVisibility(View.VISIBLE);
+        ll_book.setVisibility(View.VISIBLE);
+        ll_category.setVisibility(View.VISIBLE);
+        ll_account1.setVisibility(View.VISIBLE);
+        ll_account2.setVisibility(View.VISIBLE);
+        ll_time.setVisibility(View.VISIBLE);
+        ll_remark.setVisibility(View.VISIBLE);
+        ll_type.setVisibility(View.VISIBLE);
+        ll_bill.setVisibility(View.VISIBLE);
 
         billInfo2 = billInfo;
 
@@ -388,7 +496,6 @@ public class AutoFloat {
         tv_book.setText(billInfo.getBookName());
         tv_category.setText(billInfo.getCateName());
         tv_type.setText(BillInfo.getTypeName(billInfo.getType()));
-        setCheckable(billInfo.getReimbursement());
         tv_account1.setText(billInfo.getAccountName());
         tv_account2.setText(billInfo.getAccountName2());
         tv_time.setText(billInfo.getTime());
@@ -401,7 +508,7 @@ public class AutoFloat {
 
         if (billInfo.getType().equals(BillInfo.TYPE_INCOME)) {
             textView_account1.setText("收入账户");
-        } else if (billInfo.getType().equals(BillInfo.TYPE_PAY) || billInfo.getType().equals(BillInfo.TYPE_PAYMENT_REFUND)) {
+        } else if (billInfo.getType().equals(BillInfo.TYPE_PAY)) {
             textView_account1.setText("支出账户");
         } else if (billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)) {
             textView_account1.setText("转出账户");
@@ -411,26 +518,30 @@ public class AutoFloat {
             textView_account2.setText("还入账户");
         }
 
-        if (billInfo.getType().equals(BillInfo.TYPE_INCOME) || billInfo.getType().equals(BillInfo.TYPE_PAY) || billInfo.getType().equals(BillInfo.TYPE_PAYMENT_REFUND)) {
+        if (billInfo.getType().equals(BillInfo.TYPE_INCOME) || billInfo.getType().equals(BillInfo.TYPE_PAY)) {
             ll_account2.setVisibility(View.GONE);
             ll_category.setVisibility(View.VISIBLE);
         } else {
             ll_account2.setVisibility(View.VISIBLE);
             ll_category.setVisibility(View.GONE);
         }
-        String type;
-        if (!billInfo.getType().equals(BillInfo.TYPE_PAY)) {
+        String type = "0";
+        ll_bill.setVisibility(View.GONE);
+        if (billInfo.getType().equals(BillInfo.TYPE_PAY)) {
+            chip_bx.setVisibility(View.VISIBLE);
+        } else if (billInfo.getType().equals(BillInfo.TYPE_INCOME) && AppStatus.isXposed()) {
+            chip_bx.setVisibility(View.VISIBLE);
+        } else {
             type = "1";
             chip_bx.setVisibility(View.INVISIBLE);
-        } else {
-            type = "0";
-            chip_bx.setVisibility(View.VISIBLE);
         }
+
         if (billInfo.getType().equals(BillInfo.TYPE_PAY) || billInfo.getType().equals(BillInfo.TYPE_INCOME)) {
             ll_fee.setVisibility(View.GONE);
         } else {
             ll_fee.setVisibility(View.VISIBLE);
         }
+        setCheckable(billInfo.getReimbursement());
 
         setVisible();
 
@@ -518,6 +629,8 @@ public class AutoFloat {
         tv_time = mView.findViewById(R.id.tv_time);
         ll_remark = mView.findViewById(R.id.ll_remark);
         tv_remark = mView.findViewById(R.id.tv_remark);
+        ll_bill = mView.findViewById(R.id.ll_bill);
+        tv_bill = mView.findViewById(R.id.tv_bill);
         button_fail = mView.findViewById(R.id.button_last);
         button_next = mView.findViewById(R.id.button_next);
         textView_account1 = mView.findViewById(R.id.textView_account1);
@@ -566,11 +679,36 @@ public class AutoFloat {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     public void setCheckable(boolean check) {
-        //TODO 4.0新增 报销,此处需修改
+
         if (check) {
             chip_bx.setText(context.getString(R.string.bx));
             chip_bx.setBackground(getContext().getDrawable(R.drawable.btn_normal_1));
             chip_bx.setTextColor(getContext().getColor(R.color.background_white));
+            if (billInfo2 != null && billInfo2.getType().equals(BillInfo.TYPE_INCOME) && AppStatus.isXposed()) {
+                ll_fee.setVisibility(View.GONE);
+                ll_book.setVisibility(View.GONE);
+                ll_category.setVisibility(View.GONE);
+                ll_account2.setVisibility(View.GONE);
+                ll_time.setVisibility(View.GONE);
+                ll_remark.setVisibility(View.GONE);
+                ll_bill.setVisibility(View.VISIBLE);
+                if (broadcastReceiver != null)
+                    LocalBroadcastManager.getInstance(context).unregisterReceiver(broadcastReceiver);
+                broadcastReceiver = new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        Bundle bundle = intent.getExtras();
+                        if (bundle == null) return;
+                        String json = bundle.getString("data");
+                        JSONObject jsonObject = JSONObject.parseObject(json);
+                        reiJsonArray = jsonObject.getJSONArray("bill");
+                        ToastUtils.setGravity(Gravity.TOP);
+                        ToastUtils.show("已同步报销账单数据！");
+                        ll_bill.callOnClick();
+                    }
+                };
+                LocalBroadcastManager.getInstance(context).registerReceiver(broadcastReceiver, new IntentFilter("net.ankio.auto.QIANJI_REI"));
+            }
         } else {
             chip_bx.setText(context.getString(R.string.n_bx));
             chip_bx.setBackground(getContext().getDrawable(R.drawable.btn_normal_2));

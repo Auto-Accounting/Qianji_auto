@@ -26,8 +26,13 @@ public class BillReplace {
             }
             Assets.getMap(billInfo.getRawAccount(), mapName -> {
                 billInfo.setAccountName((String) mapName);
+                // billInfo2.setAccountId1(asset.qid);
+                Assets.getQid((String) mapName, obj -> {
+                    billInfo.setAccountId1((String) obj);
+                });
                 Assets.getMap(billInfo.getRawAccount2(), mapName2 -> {
                     billInfo.setAccountName2((String) mapName2);
+
                     MMKV mmkv = MMKV.defaultMMKV();
                     if (mmkv.getBoolean("need_cate", true)) {
                         RegularCenter

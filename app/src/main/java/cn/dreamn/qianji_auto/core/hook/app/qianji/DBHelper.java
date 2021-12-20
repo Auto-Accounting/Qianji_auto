@@ -115,6 +115,7 @@ public class DBHelper {
         while (cursor.moveToNext()) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("sort", cursor.getInt(cursor.getColumnIndex("SORT")));
+            jsonObject.put("id", cursor.getInt(cursor.getColumnIndex("_ID")));
             jsonObject.put("name", cursor.getString(cursor.getColumnIndex("NAME")));
             jsonObject.put("icon", cursor.getString(cursor.getColumnIndex("ICON")));
             jsonObject.put("type", cursor.getString(cursor.getColumnIndex("TYPE")));
@@ -162,7 +163,7 @@ public class DBHelper {
         if (!db.isOpen()) {
             openDb();
         }
-        Cursor cursor = db.rawQuery("select * from user_bill where TYPE='" + type + "' and USERID='" + UserId + "'", null);
+        Cursor cursor = db.rawQuery("select * from user_bill where TYPE='" + type + "' and USERID='" + UserId + "' and EXTRA=null order by createtime desc", null);
         JSONArray jsonArray = new JSONArray();
         while (cursor.moveToNext()) {
             JSONObject jsonObject = new JSONObject();
@@ -170,6 +171,7 @@ public class DBHelper {
             jsonObject.put("remark", cursor.getString(cursor.getColumnIndex("REMARK")));
             jsonObject.put("money", cursor.getString(cursor.getColumnIndex("MONEY")));
             jsonObject.put("descinfo", cursor.getString(cursor.getColumnIndex("DESCINFO")));
+            jsonObject.put("createtime", cursor.getString(cursor.getColumnIndex("createtime")));
             jsonObject.put("type", cursor.getString(cursor.getColumnIndex("TYPE")));
             jsonArray.add(jsonObject);
         }

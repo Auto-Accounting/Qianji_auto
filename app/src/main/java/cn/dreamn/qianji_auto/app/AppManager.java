@@ -62,16 +62,16 @@ public class AppManager {
     /*
      * 进行数据同步
      */
-    public static void Async(Context context) {
+    public static void Async(Context context, int type) {
         MMKV mmkv = MMKV.defaultMMKV();
-        mmkv.encode("AutoSignal", AppBroadcast.BROADCAST_ASYNC);//设置为同步
+        mmkv.encode("AutoSignal", type);//设置为同步
         String app = getApp();
         //   Log.i("选择的App",app);
         try {
             for (IApp iApp : AppList.getInstance().getList()) {
                 // Log.i("遍历的App",iApp.getPackPageName());
                 if (iApp.getPackPageName().equals(app)) {
-                    iApp.asyncDataBefore(context);
+                    iApp.asyncDataBefore(context, type);
                     break;
                 }
             }
@@ -85,14 +85,14 @@ public class AppManager {
     /*
      * 进行数据同步
      */
-    public static void AsyncEnd(Context context, Bundle bundle) {
+    public static void AsyncEnd(Context context, Bundle bundle, int type) {
         MMKV mmkv = MMKV.defaultMMKV();
         mmkv.encode("AutoSignal", AppBroadcast.BROADCAST_NOTHING);//设置为未同步
         String app = getApp();
         for (IApp iApp : AppList.getInstance().getList()) {
             if (iApp.getPackPageName().equals(app)) {
                 Log.d("收到广播的同步消息");
-                iApp.asyncDataAfter(context, bundle);
+                iApp.asyncDataAfter(context, bundle, type);
                 break;
             }
         }
@@ -129,4 +129,10 @@ public class AppManager {
         bundle.putString("appAsync", "");
         return bundle;
     }
+
+    public static void rei(Context context) {
+
+    }
+
+
 }

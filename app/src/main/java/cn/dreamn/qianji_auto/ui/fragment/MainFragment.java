@@ -39,6 +39,7 @@ import butterknife.BindView;
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.app.AppManager;
+import cn.dreamn.qianji_auto.core.broadcast.AppBroadcast;
 import cn.dreamn.qianji_auto.data.data.Data;
 import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.data.local.FileUtils;
@@ -339,7 +340,7 @@ public class MainFragment extends BaseFragment {
         });
 
         rl_async.setOnClickListener(v -> {
-            AppManager.Async(getContext());
+            AppManager.Async(getContext(), AppBroadcast.BROADCAST_ASYNC);
         });
         rl_bill.setOnClickListener(v -> {
             openNewPage(MoneyFragment.class);

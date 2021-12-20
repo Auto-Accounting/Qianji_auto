@@ -94,7 +94,7 @@ public class AsyncFragment extends BaseFragment {
             openNewPage(SetFragment.class);
         });
         button_async.setOnClickListener(v->{
-            AppManager.Async(getContext());
+            AppManager.Async(getContext(), AppBroadcast.BROADCAST_ASYNC);
         });
     }
 

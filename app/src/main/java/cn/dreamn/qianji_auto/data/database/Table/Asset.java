@@ -25,6 +25,7 @@ public class Asset {
     //账户列表
     @PrimaryKey(autoGenerate = true)
     public int id;
+    public String qid;
     public String name;//账户名
     public String icon;//图标
     public int sort = 0;

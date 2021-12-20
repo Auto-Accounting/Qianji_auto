@@ -38,8 +38,8 @@ public interface AssetDao {
     void del(int id);
 
 
-    @Query("INSERT INTO Asset(name,icon,sort) values(:name,:icon,:sort)")
-    void add(String name, String icon, int sort);
+    @Query("INSERT INTO Asset(name,icon,sort,qid) values(:name,:icon,:sort,:qid)")
+    void add(String name, String icon, int sort, String qid);
 
     @Query("INSERT INTO Asset(name,icon,sort) values(:name,'',0)")
     void add(String name);

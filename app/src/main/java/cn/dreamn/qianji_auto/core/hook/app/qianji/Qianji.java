@@ -20,6 +20,7 @@ package cn.dreamn.qianji_auto.core.hook.app.qianji;
 import cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.AutoError;
 import cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.DataBase;
 import cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.LeftSide;
+import cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.Reimbursement;
 import cn.dreamn.qianji_auto.core.hook.app.qianji.hooks.Timeout;
 import cn.dreamn.qianji_auto.core.hook.template.app.AppBase;
 
@@ -53,6 +54,12 @@ public class Qianji extends AppBase {
             LeftSide.init(utils);
         } catch (Throwable e) {
             utils.log("钱迹 LeftSide HookError " + e.toString());
+        }
+
+        try {
+            Reimbursement.init(utils);
+        } catch (Throwable e) {
+            utils.log("钱迹 Reimbursement HookError " + e.toString());
         }
 
     }

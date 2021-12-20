@@ -433,10 +433,11 @@ public class WebViewFragment extends BaseFragment {
                 public void selectCategory(String type) {
                     switch (type) {
                         case "支出":
-                        case "报销":
+                        case "支出报销":
                             type = "0";
                             break;
                         case "收入":
+                        case "收入报销":
                             type = "1";
                             break;
                     }

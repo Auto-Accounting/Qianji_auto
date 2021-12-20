@@ -57,17 +57,19 @@ public interface IApp {
      *
      * @return
      */
-    void asyncDataBefore(Context context);
+    void asyncDataBefore(Context context, int type);
 
     /**
      * 同步数据(通过广播获取)
      *
      * @return
      */
-    void asyncDataAfter(Context context, Bundle billInfo);
+    void asyncDataAfter(Context context, Bundle data, int type);
 
     /**
      * 同步数据的说明性文字
      */
     String getAsyncDesc(Context context);
+
+
 }

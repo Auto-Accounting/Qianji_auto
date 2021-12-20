@@ -43,11 +43,13 @@ public class AppBroadcast extends BroadcastReceiver {
             Log.d("action 为空");
             return;
         }
-
-        if (BROADCAST_ASYNC != mmkv.getInt("AutoSignal", BROADCAST_NOTHING)) {
+        int single = mmkv.getInt("AutoSignal", BROADCAST_NOTHING);
+        if (BROADCAST_NOTHING == single) {
             Log.d("不在接收同步的范围之内！");
             return;
         }
+
+
         mmkv.encode("AutoSignal", BROADCAST_NOTHING);
         Bundle extData = intent.getExtras();
 
@@ -56,7 +58,8 @@ public class AppBroadcast extends BroadcastReceiver {
             return;
         }
         Log.d("收到数据");
-        AppManager.AsyncEnd(context, extData);
+        AppManager.AsyncEnd(context, extData, single);
+
         Log.i("钱迹数据同步完毕");
     }
 }

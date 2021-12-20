@@ -93,33 +93,41 @@ public class DataBase {
                             Intent intent = (Intent) XposedHelpers.callMethod(activity, "getIntent");
                             if (intent != null) {
                                 int AutoSignal = intent.getIntExtra("AutoSignal", AppBroadcast.BROADCAST_NOTHING);
-                                if (AutoSignal == AppBroadcast.BROADCAST_NOTHING) {
-                                    return;
-                                }
-                                utils.log("钱迹收到同步信号:开始从本地数据库提取数据");
-                                utils.log("用户ID:", userId);
-                                JSONObject jsonObject = new JSONObject();
-                                JSONArray userBooks = dbHelper[0].getUserBook(isVip, userId);
-                                List<String> uids = new ArrayList<>();
-                                jsonObject.put("userBook", userBooks);
-                                JSONArray categorys = new JSONArray();
-                                JSONArray asset = new JSONArray();
-                                for (int i = 0; i < userBooks.size(); i++) {
-                                    JSONObject userBook = userBooks.getJSONObject(i);
-                                    String userId = userBook.getString("userId");
-                                    if (!uids.contains(userId)) {
-                                        uids.add(userId);
-                                        asset.addAll(dbHelper[0].getAsset(userId));
-                                        categorys.addAll(dbHelper[0].getCategory(userId));
+                                if (AutoSignal == AppBroadcast.BROADCAST_ASYNC) {
+                                    utils.log("钱迹收到同步信号:开始从本地数据库提取数据");
+                                    utils.log("用户ID:", userId);
+                                    JSONObject jsonObject = new JSONObject();
+                                    JSONArray userBooks = dbHelper[0].getUserBook(isVip, userId);
+                                    List<String> uids = new ArrayList<>();
+                                    jsonObject.put("userBook", userBooks);
+                                    JSONArray categorys = new JSONArray();
+                                    JSONArray asset = new JSONArray();
+                                    for (int i = 0; i < userBooks.size(); i++) {
+                                        JSONObject userBook = userBooks.getJSONObject(i);
+                                        String userId = userBook.getString("userId");
+                                        if (!uids.contains(userId)) {
+                                            uids.add(userId);
+                                            asset.addAll(dbHelper[0].getAsset(userId));
+                                            categorys.addAll(dbHelper[0].getCategory(userId));
+                                        }
                                     }
-                                }
-                                jsonObject.put("asset", asset);
-                                jsonObject.put("category", categorys);
-                                // jsonObject.put("billInfo", dbHelper[0].getBills());
-                                utils.send2auto(jsonObject.toJSONString());
+                                    jsonObject.put("asset", asset);
+                                    jsonObject.put("category", categorys);
+                                    jsonObject.put("AutoSignal", AutoSignal);
+                                    // jsonObject.put("billInfo", dbHelper[0].getBills());
+                                    utils.send2auto(jsonObject.toJSONString());
 
-                                Toast.makeText(utils.getContext(), "钱迹数据信息获取完毕，现在返回自动记账。", Toast.LENGTH_LONG).show();
-                                XposedHelpers.callMethod(activity, "finishAndRemoveTask");
+                                    Toast.makeText(utils.getContext(), "钱迹数据信息获取完毕，现在返回自动记账。", Toast.LENGTH_LONG).show();
+                                    XposedHelpers.callMethod(activity, "finishAndRemoveTask");
+                                } else if (AutoSignal == AppBroadcast.BROADCAST_GET_REI) {
+                                    utils.log("钱迹收到信号:开始从本地数据库提取待报销账单");
+                                    JSONObject jsonObject = new JSONObject();
+                                    jsonObject.put("bill", dbHelper[0].getBills("5", userId));
+                                    jsonObject.put("AutoSignal", AutoSignal);
+                                    utils.send2auto(jsonObject.toJSONString());
+                                    Toast.makeText(utils.getContext(), "钱迹数据信息获取完毕，现在返回自动记账。", Toast.LENGTH_LONG).show();
+                                    XposedHelpers.callMethod(activity, "finishAndRemoveTask");
+                                }
 
 
                             } else {

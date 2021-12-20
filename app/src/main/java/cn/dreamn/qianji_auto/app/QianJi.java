@@ -1,22 +1,28 @@
 package cn.dreamn.qianji_auto.app;
 
+import static cn.dreamn.qianji_auto.core.broadcast.AppBroadcast.BROADCAST_ASYNC;
+import static cn.dreamn.qianji_auto.core.broadcast.AppBroadcast.BROADCAST_GET_REI;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Base64;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 
+import java.nio.charset.StandardCharsets;
+
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.bills.BillInfo;
-import cn.dreamn.qianji_auto.core.broadcast.AppBroadcast;
 import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Table.Category;
 import cn.dreamn.qianji_auto.setting.AppStatus;
@@ -95,7 +101,7 @@ public class QianJi implements IApp {
     }
 
     @Override
-    public void asyncDataBefore(Context context) {
+    public void asyncDataBefore(Context context, int type) {
         if (AppStatus.isXposed()) {
             Log.i("自动记账同步", "同步开始");
             RootUtils.exec(new String[]{"am force-stop com.mutangtech.qianji"});
@@ -104,9 +110,9 @@ public class QianJi implements IApp {
             Intent intent = new Intent();
             intent.setClassName("com.mutangtech.qianji", "com.mutangtech.qianji.ui.main.MainActivity");
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("AutoSignal", AppBroadcast.BROADCAST_ASYNC);
+            intent.putExtra("AutoSignal", type);
             MMKV mmkv = MMKV.defaultMMKV();
-            mmkv.encode("AutoSignal", AppBroadcast.BROADCAST_ASYNC);
+            mmkv.encode("AutoSignal", type);
             Log.i("自动记账同步", "正在前往钱迹");
             context.startActivity(intent);
         } else {
@@ -115,9 +121,7 @@ public class QianJi implements IApp {
     }
 
 
-    @Override
-    public void asyncDataAfter(Context context, Bundle extData) {
-        // ToastUtils.show("收到钱迹数据！正在后台同步中...");
+    private void doAsync(Context context, Bundle extData) {
         String json = extData.getString("data");
         JSONObject jsonObject = JSONObject.parseObject(json);
         JSONArray asset = jsonObject.getJSONArray("asset");
@@ -182,8 +186,7 @@ public class QianJi implements IApp {
                 JSONObject jsonObject1 = asset.getJSONObject(i);
                 if (jsonObject1.getString("type").equals("5"))
                     continue;
-                Db.db.AssetDao().add(jsonObject1.getString("name"), jsonObject1.getString("icon"), jsonObject1.getInteger("sort"));
-
+                Db.db.AssetDao().add(jsonObject1.getString("name"), jsonObject1.getString("icon"), jsonObject1.getInteger("sort"), jsonObject1.getString("accountnameId"));
             }
 
             Log.i("资产数据处理完毕");
@@ -206,8 +209,27 @@ public class QianJi implements IApp {
             HandlerUtil.send(mHandler, 0);
         });
 
+
+    }
+
+    private void doRei(Context context, Bundle extData) {
+        Intent intent = new Intent("net.ankio.auto.QIANJI_REI");
+        intent.putExtras(extData);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
+
+    @Override
+    public void asyncDataAfter(Context context, Bundle extData, int type) {
+        // ToastUtils.show("收到钱迹数据！正在后台同步中...");
+        switch (type) {
+            case BROADCAST_ASYNC:
+                doAsync(context, extData);
+                break;
+            case BROADCAST_GET_REI:
+                doRei(context, extData);
+                break;
+        }
         RootUtils.exec(new String[]{"am force-stop com.mutangtech.qianji"});
-        // TODO 4.0新增: 处理钱迹账单报销数据，并加入数据库，此处预留修改位。
 
     }
 
@@ -218,6 +240,12 @@ public class QianJi implements IApp {
         MMKV mmkv = MMKV.defaultMMKV();
         if (billInfo.getRemark() != null) {
             url += "&remark=" + billInfo.getRemark();
+        }
+        if (billInfo.getReimbursement() && billInfo.getType().equals(BillInfo.TYPE_INCOME)) {
+            url += "&data=" + new String(Base64.encode(billInfo.getExtraData().getBytes(StandardCharsets.UTF_8), Base64.URL_SAFE));
+            url += "&accountnameId=" + billInfo.getAccountId1();
+            // String data = new String(Base64.decode(uri.getQueryParameter("data"),Base64.URL_SAFE));
+
         }
         //懒人模式，自动分类
         if (mmkv.getBoolean("lazy_mode", true)) {

@@ -67,8 +67,6 @@ public class BillTools {
             return context.getColor(R.color.float_3);
         } else if (billInfo.getType().equals(BillInfo.TYPE_PAY)) {
             return context.getColor(R.color.float_4);
-        } else if (billInfo.getType().equals(BillInfo.TYPE_PAYMENT_REFUND)) {
-            return context.getColor(R.color.float_3);
         } else if (billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)) {
             return context.getColor(R.color.float_2);
         } else {
@@ -83,8 +81,6 @@ public class BillTools {
             return "- ￥" + billInfo.getMoney();
         } else if (billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)) {
             return "-> ￥" + billInfo.getMoney();
-        } else if (billInfo.getType().equals(BillInfo.TYPE_PAYMENT_REFUND)) {
-            return "+ ￥" + billInfo.getMoney();
         } else {
             return "- ￥" + billInfo.getMoney();
         }
