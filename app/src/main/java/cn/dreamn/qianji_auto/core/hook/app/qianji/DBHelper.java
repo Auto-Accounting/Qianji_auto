@@ -163,7 +163,7 @@ public class DBHelper {
         if (!db.isOpen()) {
             openDb();
         }
-        Cursor cursor = db.rawQuery("select * from user_bill where TYPE='" + type + "' and USERID='" + UserId + "' and EXTRA=null order by createtime desc", null);
+        Cursor cursor = db.rawQuery("select * from user_bill where TYPE='" + type + "' and USERID='" + UserId + "' and EXTRA IS NULL order by createtime desc", null);
         JSONArray jsonArray = new JSONArray();
         while (cursor.moveToNext()) {
             JSONObject jsonObject = new JSONObject();

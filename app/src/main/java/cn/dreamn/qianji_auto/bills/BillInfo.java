@@ -101,6 +101,13 @@ public class BillInfo {
             String value = mUri.getQueryParameter(param);
             switch (param) {
                 case "type":
+                    if (value.equals(BillInfo.TYPE_PAYMENT_REFUND_IN)) {
+                        value = BillInfo.TYPE_INCOME;
+                        billInfo.setReimbursement(true);
+                    } else if (value.equals(BillInfo.TYPE_PAYMENT_REFUND_OUT)) {
+                        value = BillInfo.TYPE_PAY;
+                        billInfo.setReimbursement(true);
+                    }
                     billInfo.setType(value);
                     break;
                 case "money":
@@ -130,10 +137,7 @@ public class BillInfo {
                 case "shopRemark":
                     billInfo.setShopRemark(value);
                     break;
-                case "reimbursement_in":
-                    billInfo.setReimbursement(value.equals("true"));
-                    break;
-                case "reimbursement_out":
+                case "reimbursement":
                     billInfo.setReimbursement(value.equals("true"));
                     break;
                 case "fromApp":
@@ -270,7 +274,6 @@ public class BillInfo {
 
     public void setReimbursement(boolean state) {
         reimbursement = (state ? "true" : "false");
-
     }
 
     public String getType() {
@@ -292,6 +295,7 @@ public class BillInfo {
 
     public void setType(String type) {
         this.type = type;
+
     }
 
     public String getMoney() {

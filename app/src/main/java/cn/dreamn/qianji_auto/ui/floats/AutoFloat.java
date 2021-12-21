@@ -509,7 +509,11 @@ public class AutoFloat {
         if (billInfo.getType().equals(BillInfo.TYPE_INCOME)) {
             textView_account1.setText("收入账户");
         } else if (billInfo.getType().equals(BillInfo.TYPE_PAY)) {
-            textView_account1.setText("支出账户");
+            if (billInfo.getReimbursement()) {
+                textView_account1.setText("报销账户");
+            } else {
+                textView_account1.setText("支出账户");
+            }
         } else if (billInfo.getType().equals(BillInfo.TYPE_TRANSFER_ACCOUNTS)) {
             textView_account1.setText("转出账户");
             textView_account2.setText("转入账户");

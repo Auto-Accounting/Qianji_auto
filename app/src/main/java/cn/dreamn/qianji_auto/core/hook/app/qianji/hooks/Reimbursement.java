@@ -81,7 +81,13 @@ public class Reimbursement {
                     Constructor cs = BxManagePresenterImpl.getConstructor(d);
                     Object BxManagePresenterImplObj = cs.newInstance(sObj);
                     doBaoXiao.invoke(BxManagePresenterImplObj, hashMap, accountId, total, time);
-                    XposedHelpers.callMethod(param.thisObject, "onSuccess");
+                    // param.args[3]=null;
+
+                    // XposedHelpers.callMethod(param.thisObject, "onSuccess");
+                    //  Looper.prepare();
+                    //   Toast.makeText(utils.getContext(),  "报销成功！", Toast.LENGTH_LONG).show();
+                    //   Looper.loop();
+                    //  XposedHelpers.callMethod(param.thisObject, "finishAndRemoveTask");
                     param.setThrowable(new Throwable("报销完成，后面不用管了~"));
                     //this.w0.doBaoXiao(hashMap, assetAccount != null ? assetAccount.getId().longValue() : -1, this.t0, j);
                 } catch (Exception e) {
