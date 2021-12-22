@@ -18,7 +18,7 @@ public class Lock {
     public static void init(Utils utils) throws ClassNotFoundException {
         XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
             @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            protected void afterHookedMethod(MethodHookParam param) {
                 String type = utils.readDataByApp("apps", "lock_qianji_style");
                 if (type.equals("1")) {
                     Activity activity = (Activity) param.thisObject;
