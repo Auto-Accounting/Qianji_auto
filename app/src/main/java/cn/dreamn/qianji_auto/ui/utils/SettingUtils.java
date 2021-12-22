@@ -2,6 +2,7 @@ package cn.dreamn.qianji_auto.ui.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -15,6 +16,8 @@ import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.bills.Remark;
 import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.ui.components.LineLay;
+import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
+import cn.dreamn.qianji_auto.utils.runUtils.SecurityAccess;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class SettingUtils {
@@ -35,6 +38,8 @@ public class SettingUtils {
     LineLay set_float_time_end;
     LineLay set_notice_click;
     LineLay set_float_style;
+    LineLay set_lock_style;
+    LineLay set_lock_qianji_style;
 
     TextView tv1;
     TextView tv2;
@@ -65,8 +70,12 @@ public class SettingUtils {
             LineLay set_float_style,
             TextView tv1,
             TextView tv2,
-            TextView tv3
+            TextView tv3,
+            LineLay set_lock_style,
+            LineLay set_lock_qianji_style
     ) {
+        this.set_lock_style = set_lock_style;
+        this.set_lock_qianji_style = set_lock_qianji_style;
         this.set_app = set_app;
         this.set_need_cate = set_need_cate;
         this.set_lazy_mode = set_lazy_mode;
@@ -254,6 +263,29 @@ public class SettingUtils {
         });
 
 
+        set_lock_style.setOnClickListener(view -> {
+            BottomArea.list(mContext, mContext.getString(R.string.set_float_style), jsonArray.getJSONArray(8), new BottomArea.ListCallback() {
+                @Override
+                public void onSelect(int position) {
+                    mmkv.encode("lock_style", position);
+                    initUi();
+                }
+            });
+        });
+        set_lock_qianji_style.setOnClickListener(view -> {
+            BottomArea.list(mContext, mContext.getString(R.string.set_float_style), jsonArray.getJSONArray(8), new BottomArea.ListCallback() {
+                @Override
+                public void onSelect(int position) {
+                    mmkv.encode("lock_qianji_style", position);
+
+                    SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(mContext, "apps", Context.MODE_PRIVATE);
+
+                    sharedPreferences.edit().putString("lock_qianji_style", String.valueOf(position)).apply();
+
+                    initUi();
+                }
+            });
+        });
     }
 
 
@@ -303,6 +335,19 @@ public class SettingUtils {
         } else {
             set_need_cate.setValue(R.string.set_need_cate_n);
         }
+
+        if (mmkv.getInt("lock_style", SecurityAccess.LOCK_NONE) == SecurityAccess.LOCK_NONE) {
+            set_lock_style.setValue(R.string.set_lock_no);
+        } else {
+            set_lock_style.setValue(R.string.set_lock);
+        }
+
+        if (mmkv.getInt("lock_qianji_style", SecurityAccess.LOCK_NONE) == SecurityAccess.LOCK_NONE) {
+            set_lock_qianji_style.setValue(R.string.set_lock_no);
+        } else {
+            set_lock_qianji_style.setValue(R.string.set_lock);
+        }
+
 
         if (mmkv.getBoolean("autoPay", false)) {
             set_front.setValue(R.string.set_all);

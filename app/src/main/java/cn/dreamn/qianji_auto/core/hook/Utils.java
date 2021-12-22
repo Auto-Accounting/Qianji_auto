@@ -175,7 +175,7 @@ public class Utils {
      */
 
     public boolean isDebug() {
-        return readDataByBoolean("app", "debug");
+        return readDataByBoolean("apps", "debug");
     }
 
     /**
@@ -226,6 +226,12 @@ public class Utils {
         MultiprocessSharedPreferences.setAuthority("cn.dreamn.qianji_auto.provider");
         SharedPreferences data = MultiprocessSharedPreferences.getSharedPreferences(getContext(), app, Context.MODE_PRIVATE);
         return data.getBoolean(name, false);
+    }
+
+    public void writeDataByData(String app, String name, String data) {
+        MultiprocessSharedPreferences.setAuthority("cn.dreamn.qianji_auto.provider");
+        SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(getContext(), app, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(name, data).apply();
     }
 
     public String readDataByApp(String app, String name) {

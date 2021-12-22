@@ -70,7 +70,7 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.UpdateUtils;
 
 
-@Page(name = "自动记账", anim = CoreAnim.zoom)
+@Page(name = "自动记账", anim = CoreAnim.fade)
 public class MainFragment extends BaseFragment {
 
     @BindView(R.id.title_bar)

@@ -424,4 +424,10 @@
     <string name="set_need_cate">分类功能</string>
     <string name="set_need_cate_y">需要分类</string>
     <string name="set_need_cate_n">不需要分类</string>
+    <string name="title_activity_lock">LockActivity</string>
+    <string name="set_lock_no">不需要密码验证</string>
+    <string name="set_lock">需要密码验证</string>
+    <string name="set_lock_title">密码锁定</string>
+    <string name="set_lock_title_qianji">钱迹密码锁定</string>
+
 </resources>

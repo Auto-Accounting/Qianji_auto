@@ -72,6 +72,12 @@ public class MainSetFragment extends BaseFragment {
     @BindView(R.id.set_need_cate)
     LineLay set_need_cate;
 
+    @BindView(R.id.set_lock)
+    LineLay set_lock;
+    @BindView(R.id.set_lock_qianji)
+    LineLay set_lock_qianji;
+
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_main_base_set;
@@ -92,7 +98,7 @@ public class MainSetFragment extends BaseFragment {
                 set_float_long_click,
                 set_float_time_end,
                 set_notice_click,
-                set_float_style, textView6, textView7, textView8);
+                set_float_style, textView6, textView7, textView8, set_lock, set_lock_qianji);
 
     }
 

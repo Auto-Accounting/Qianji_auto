@@ -34,6 +34,25 @@
         </cn.dreamn.qianji_auto.ui.components.LineLay>
 
         <cn.dreamn.qianji_auto.ui.components.LineLay
+            android:id="@+id/set_lock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:line_title="@string/set_lock_title"
+            app:line_value="@string/set_lock_no">
+
+
+        </cn.dreamn.qianji_auto.ui.components.LineLay>
+
+        <cn.dreamn.qianji_auto.ui.components.LineLay
+            android:id="@+id/set_lock_qianji"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:line_title="@string/set_lock_title_qianji"
+            app:line_value="@string/set_lock_no" />
+
+        <cn.dreamn.qianji_auto.ui.components.LineLay
             android:id="@+id/set_lazy_mode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

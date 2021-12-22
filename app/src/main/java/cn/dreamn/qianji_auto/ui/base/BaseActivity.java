@@ -3,7 +3,9 @@ package cn.dreamn.qianji_auto.ui.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.WindowManager;
 
+import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.base.XPageActivity;
 import com.xuexiang.xpage.base.XPageFragment;
 import com.xuexiang.xpage.core.CoreSwitchBean;
@@ -11,6 +13,7 @@ import com.xuexiang.xpage.core.CoreSwitchBean;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
+import cn.dreamn.qianji_auto.utils.runUtils.SecurityAccess;
 
 /**
  * 基础容器Activity
@@ -33,7 +36,10 @@ public class BaseActivity extends XPageActivity {
         initTheme(this);
         super.onCreate(savedInstanceState);
         mUnbinder = ButterKnife.bind(this);
-
+        MMKV mmkv = MMKV.defaultMMKV();
+        if (mmkv.getInt("lock_style", SecurityAccess.LOCK_NONE) != SecurityAccess.LOCK_NONE) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        }
 
     }
 
@@ -94,8 +100,6 @@ public class BaseActivity extends XPageActivity {
 
     @Override
     protected void onResume() {
-
         super.onResume();
-
     }
 }

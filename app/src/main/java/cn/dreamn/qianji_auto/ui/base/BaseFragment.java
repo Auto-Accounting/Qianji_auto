@@ -43,6 +43,7 @@ public abstract class BaseFragment extends XPageFragment {
     public long mExitTime;
     private final View titleBar = null;
 
+
     @Override
     protected void initPage() {
         initTitle();
@@ -76,16 +77,11 @@ public abstract class BaseFragment extends XPageFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
 
-    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -95,6 +91,7 @@ public abstract class BaseFragment extends XPageFragment {
     }
 
     //==============================页面跳转api===================================//
+
     /**
      * 打开一个新的页面
      *
@@ -273,9 +270,6 @@ public abstract class BaseFragment extends XPageFragment {
                 .setRequestCode(requestCode)
                 .open(this);
     }
-
-
-
 
 
 }

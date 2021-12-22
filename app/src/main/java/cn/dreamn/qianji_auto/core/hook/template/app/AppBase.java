@@ -94,8 +94,9 @@ public abstract class AppBase implements AppHooker {
             return;
         }
 
-        hookBefore();
+
         utils = new Utils(mContext, mAppClassLoader, getAppName(), getPackPageName());
+        hookBefore();
         TaskThread.onMain(100, () -> {
             XposedBridge.log(" 自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName());
         });

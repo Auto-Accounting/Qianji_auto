@@ -49,12 +49,12 @@ public class AppStatus {
     }
 
     public static boolean isDebug(Context context) {
-        SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(context, "app", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(context, "apps", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("debug", false);
     }
 
     public static void setDebug(Context context, boolean b) {
-        SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(context, "app", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(context, "apps", Context.MODE_PRIVATE);
         sharedPreferences.edit().putBoolean("debug", b).apply();
         MMKV mmkv = MMKV.defaultMMKV();
         mmkv.encode("debug", b);

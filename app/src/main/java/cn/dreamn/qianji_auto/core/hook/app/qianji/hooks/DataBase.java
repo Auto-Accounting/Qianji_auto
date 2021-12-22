@@ -119,6 +119,7 @@ public class DataBase {
 
                                     Toast.makeText(utils.getContext(), "钱迹数据信息获取完毕，现在返回自动记账。", Toast.LENGTH_LONG).show();
                                     XposedHelpers.callMethod(activity, "finishAndRemoveTask");
+
                                 } else if (AutoSignal == AppBroadcast.BROADCAST_GET_REI) {
                                     utils.log("钱迹收到信号:开始从本地数据库提取待报销账单");
                                     JSONObject jsonObject = new JSONObject();
@@ -129,9 +130,6 @@ public class DataBase {
                                     XposedHelpers.callMethod(activity, "finishAndRemoveTask");
                                 }
 
-
-                            } else {
-                                utils.log("intent获取失败");
                             }
                         }
                     }

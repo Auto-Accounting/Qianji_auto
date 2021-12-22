@@ -11,10 +11,17 @@ import cn.dreamn.qianji_auto.ui.fragment.MainFragment;
 
 
 public class MainActivity extends BaseActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        openMainPage();
+    }
+
+
+    public void openMainPage() {
+
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -26,14 +33,8 @@ public class MainActivity extends BaseActivity {
                 str = Uri.decode(uri.getEncodedPath());
             bundle.putString("url", str);
             openNewPage(MainFragment.class, bundle);
-        } else {
-            openMainPage();
+            return;
         }
-
-    }
-
-
-    private void openMainPage() {
         //MMKV检查
         MMKV mmkv = MMKV.defaultMMKV();
         if (mmkv.getInt("version", 2) != 3) {//不是3.0版本
@@ -51,5 +52,6 @@ public class MainActivity extends BaseActivity {
             openNewPage(MainFragment.class);
         }
     }
+
 
 }

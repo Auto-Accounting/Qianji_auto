@@ -3,44 +3,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="cn.dreamn.qianji_auto">
     <!-- 忽略电池优化 -->
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <!--【无障碍】 开机自启-->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <!--后台运行服务-->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <!--结束进程-->
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    <!--短信读取-->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" /> <!-- 【无障碍】 开机自启 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- 后台运行服务 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 结束进程 -->
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" /> <!-- 短信读取 -->
     <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <!--悬浮窗-->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <!--【安卓11新增】读取所有应用包名-->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" /> <!-- 悬浮窗 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 【安卓11新增】读取所有应用包名 -->
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
-        tools:ignore="QueryAllPackagesPermission" />
-    <!--【安卓11新增】管理所有文件权限-->
+        tools:ignore="QueryAllPackagesPermission" /> <!-- 【安卓11新增】管理所有文件权限 -->
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
-    <!--【安卓11以下】存储权限-->
+        tools:ignore="ScopedStorage" /> <!-- 【安卓11以下】存储权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--网络权限（检查更新等）-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 网络权限（检查更新等） -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:fullBackupContent="false"
         android:networkSecurityConfig="@xml/network_config"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Qianji_auto"
-        android:requestLegacyExternalStorage="true"
-        android:allowBackup="false"
         tools:targetApi="n">
+        <activity
+            android:name=".ui.activity.LockActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.ErrorActivity"
             android:launchMode="singleInstance" />
@@ -49,12 +43,14 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter
                 android:label="@string/import_auto"
                 tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="*/*" />
@@ -64,22 +60,20 @@
                 android:label="@string/restore_auto"
                 tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="*/*" />
                 <data android:pathPattern=".*\.auto.backup" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.base.BaseActivity" />
-        <!-- 今日头条屏幕适配 -->
+        <activity android:name=".ui.base.BaseActivity" /> <!-- 今日头条屏幕适配 -->
         <meta-data
             android:name="design_width_in_dp"
             android:value="360" />
         <meta-data
             android:name="design_height_in_dp"
-            android:value="640" />
-
-        <!--Xposed模块标识-->
+            android:value="640" /> <!-- Xposed模块标识 -->
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
@@ -89,13 +83,9 @@
         <meta-data
             android:name="xposedminversion"
             android:value="30" />
-
         <meta-data
             android:name="xposedscope"
-            android:resource="@array/xposed_scope" />
-
-
-        <!--对外提供文件分享-->
+            android:resource="@array/xposed_scope" /> <!-- 对外提供文件分享 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="cn.dreamn.qianji_auto.fileprovider"
@@ -104,13 +94,11 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider_paths" />
-        </provider>
-        <!--Xposed分享-->
+        </provider> <!-- Xposed分享 -->
         <provider
-            android:name="cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences"
+            android:name=".utils.runUtils.MultiprocessSharedPreferences"
             android:authorities="cn.dreamn.qianji_auto.provider"
-            android:exported="true" />
-        <!--短信读取广播-->
+            android:exported="true" /> <!-- 短信读取广播 -->
         <receiver
             android:name=".core.broadcast.SMSBroadcast"
             android:exported="true"
@@ -118,9 +106,7 @@
             <intent-filter android:priority="1000">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
-        </receiver>
-
-        <!--Xposed消息回调广播-->
+        </receiver> <!-- Xposed消息回调广播 -->
         <receiver
             android:name=".core.broadcast.XposedBroadcast"
             android:exported="true"
@@ -129,8 +115,7 @@
                 <action android:name="cn.dreamn.qianji_auto.XPOSED" />
                 <action android:name="cn.dreamn.qianji_auto.XPOSED_LOG" />
             </intent-filter>
-        </receiver>
-        <!--记账App数据交互广播-->
+        </receiver> <!-- 记账App数据交互广播 -->
         <receiver
             android:name=".core.broadcast.AppBroadcast"
             android:exported="true"
@@ -138,29 +123,24 @@
             <intent-filter>
                 <action android:name="cn.dreamn.qianji_auto.APP" />
             </intent-filter>
-        </receiver>
-
-        <!-- 通知监听广播 -->
-        <receiver android:name=".core.broadcast.NotificationClickReceiver" />
-        <!--无障碍开机启动广播-->
+        </receiver> <!-- 通知监听广播 -->
+        <receiver android:name=".core.broadcast.NotificationClickReceiver" /> <!-- 无障碍开机启动广播 -->
         <receiver
             android:name=".core.broadcast.BootBroadcast"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-        </receiver>
-        <!--通知读取服务-->
+        </receiver> <!-- 通知读取服务 -->
         <service
-            android:name="cn.dreamn.qianji_auto.core.broadcast.NotificationMonitor"
+            android:name=".core.broadcast.NotificationMonitor"
             android:exported="true"
             android:label="@string/service_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
-        </service>
-        <!--无障碍需要的服务信息-->
+        </service> <!-- 无障碍需要的服务信息 -->
         <service android:name=".core.helper.AutoBillService" />
         <service
             android:name=".core.helper.inner.AutoService"
@@ -171,12 +151,11 @@
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config_inner" />
         </service>
-
     </application>
-
 
 </manifest>

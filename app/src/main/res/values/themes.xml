@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="Theme.Qianji_auto.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Qianji_auto.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Qianji_auto.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
