@@ -2,6 +2,7 @@ package cn.dreamn.qianji_auto.app;
 
 import static cn.dreamn.qianji_auto.core.broadcast.AppBroadcast.BROADCAST_ASYNC;
 import static cn.dreamn.qianji_auto.core.broadcast.AppBroadcast.BROADCAST_GET_REI;
+import static cn.dreamn.qianji_auto.core.broadcast.AppBroadcast.BROADCAST_GET_YEAR;
 
 import android.content.Context;
 import android.content.Intent;
@@ -218,6 +219,12 @@ public class QianJi implements IApp {
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
+    private void doYear(Context context, Bundle extData) {
+        Intent intent = new Intent("net.ankio.auto.QIANJI_Year");
+        intent.putExtras(extData);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
+
     @Override
     public void asyncDataAfter(Context context, Bundle extData, int type) {
         // ToastUtils.show("收到钱迹数据！正在后台同步中...");
@@ -227,6 +234,9 @@ public class QianJi implements IApp {
                 break;
             case BROADCAST_GET_REI:
                 doRei(context, extData);
+                break;
+            case BROADCAST_GET_YEAR:
+                doYear(context, extData);
                 break;
         }
         RootUtils.exec(new String[]{"am force-stop com.mutangtech.qianji"});

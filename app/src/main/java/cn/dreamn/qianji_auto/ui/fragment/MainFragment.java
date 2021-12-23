@@ -17,12 +17,17 @@
 
 package cn.dreamn.qianji_auto.ui.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,6 +35,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.hjq.toast.ToastUtils;
 import com.xuexiang.xpage.annotation.Page;
@@ -62,6 +68,7 @@ import cn.dreamn.qianji_auto.ui.fragment.data.MoneyFragment;
 import cn.dreamn.qianji_auto.ui.fragment.data.regulars.MainAutoLearnFragment;
 import cn.dreamn.qianji_auto.ui.fragment.web.WebViewFragment;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
+import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.files.BackupManager;
 import cn.dreamn.qianji_auto.utils.files.RegularManager;
@@ -163,7 +170,7 @@ public class MainFragment extends BaseFragment {
     View view_headImg;
 
     LoadingDialog loadingDialog;
-
+    BroadcastReceiver broadcastReceiver;
     private void restore() {
         Bundle bundle = getArguments();
         setArguments(null);
@@ -356,7 +363,39 @@ public class MainFragment extends BaseFragment {
             //TODO 4.0新增功能，从支付宝微信等位置导出账单，再从钱迹导出账单，最后比对缺少的账单信息，进行高亮展示，由用户选择合并更新。
         });
         rl_year.setOnClickListener(v -> {
-            ToastUtils.show(R.string.wait);
+            loadingDialog = new LoadingDialog(getContext(), getString(R.string.wait_year));
+            BaseFragment fragment = this;
+            if (broadcastReceiver != null)
+                LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(broadcastReceiver);
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    Bundle bundle = intent.getExtras();
+                    if (bundle == null) return;
+                    String json = bundle.getString("data");
+                    if (loadingDialog != null) {
+                        loadingDialog.close();
+                    }
+                    String url = "https://auto.ankio.net/Year/2021/index.html?data=" + Uri.encode(json);
+                    Log.i("url", url);
+                    WebViewFragment.openUrl(fragment, url);
+                }
+            };
+            LocalBroadcastManager.getInstance(getContext()).registerReceiver(broadcastReceiver, new IntentFilter("net.ankio.auto.QIANJI_Year"));
+            BottomArea.msg(getContext(), "隐私提醒", "年度账单功能将从【钱迹】本地数据库读取数据，并在自动记账的前端JS中进行分析，数据不会上传至服务器，请放心使用。另外：由于是读取本地数据库，请把钱迹每个月的账单列表都打开（包括借入借出）以获得更准确的分析。", "开启年度账单", "关闭", new BottomArea.MsgCallback() {
+                @Override
+                public void cancel() {
+
+                }
+
+                @Override
+                public void sure() {
+                    loadingDialog.show();
+                    ToastUtils.setGravity(Gravity.TOP);
+                    ToastUtils.show("前往同步账单数据");
+                    AppManager.Async(getContext(), AppBroadcast.BROADCAST_GET_YEAR);
+                }
+            });
             //TODO 4.0新增功能，年度账单，授权自动记账使用本地化分析功能（由JS实现，传入参数如data={}等），样式采用html。
         });
         rl_app_log.setOnClickListener(v -> {

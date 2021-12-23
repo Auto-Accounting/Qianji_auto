@@ -32,6 +32,7 @@ public class Lock {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
                 String type = utils.readDataByApp("apps", "lock_qianji_style");
+
                 if (!type.equals("1")) {
                     return;
                 }
@@ -46,9 +47,9 @@ public class Lock {
                             bundle = intent.getExtras();
                         }
                         String isLock = utils.readDataByApp("apps", "lock_qianji_style_lock");
-
-                        if (isLock.equals("false")) return;
-                        if (isLock.equals("true") || isLock.equals("") || intent == null || bundle == null || bundle.size() == 0) {
+                        if (isLock.equals("false") || (bundle != null && bundle.size() != 0))
+                            return;
+                        if (isLock.equals("true") || isLock.equals("") || bundle == null || bundle.size() == 0) {
                             Intent intent1 = new Intent(activity, LockActivity.class);
                             utils.writeDataByData("apps", "lock_qianji_app", utils.getPackageName());
                             utils.writeDataByData("apps", "lock_qianji_lock", "true");

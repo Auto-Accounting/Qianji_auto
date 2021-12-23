@@ -46,6 +46,13 @@ public class DBHelper {
         isObj = true;
     }
 
+    public SQLiteDatabase getDb() {
+        if (db == null || !db.isOpen()) {
+            openDb();
+        }
+        return db;
+    }
+
     private void openDb() {
         isObj = false;
         utils.log("Qianji-Copy 开始复制文件", false);
@@ -178,6 +185,7 @@ public class DBHelper {
         cursor.close();
         return jsonArray;
     }
+
 
     @Override
     public void finalize() {

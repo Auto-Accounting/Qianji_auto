@@ -429,5 +429,6 @@
     <string name="set_lock">需要密码验证</string>
     <string name="set_lock_title">密码锁定</string>
     <string name="set_lock_title_qianji">钱迹密码锁定</string>
+    <string name="wait_year">正在等待钱迹账单数据</string>
 
 </resources>
