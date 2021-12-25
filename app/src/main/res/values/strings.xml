@@ -430,5 +430,8 @@
     <string name="set_lock_title">密码锁定</string>
     <string name="set_lock_title_qianji">钱迹密码锁定</string>
     <string name="wait_year">正在等待钱迹账单数据</string>
+    <string name="list_helper">无障碍数据列表</string>
+    <string name="list_helper_tip">无障碍捕获页面信息，提取交易内容。</string>
+    <string name="helper_not_support">无障碍用户不支持该功能。</string>
 
 </resources>

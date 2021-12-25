@@ -64,7 +64,7 @@ public class CateItemListAdapter extends BaseAdapter {
             }
             tv_des.setText(des);
             if (reg != null) {
-                if (reg.contains("##1")) {
+                if (reg.contains("+time+'##1'}}catch(e){console.log(e)};")) {
                     isAuto = true;
                 }
             }

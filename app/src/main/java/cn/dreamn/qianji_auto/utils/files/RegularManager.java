@@ -100,7 +100,8 @@ public class RegularManager {
         TaskThread.onThread(() -> {
             for (int i = 0; i < array.size(); i++) {
                 JSONObject jsonObject1 = array.getJSONObject(i);
-                if (jsonObject1 != null && jsonObject1.toJSONString().contains("data://string?")) {
+                if (jsonObject1 == null) break;
+                if (jsonObject1.toJSONString().contains("data://string?")) {
                     continue;
                 }
 
@@ -269,9 +270,9 @@ public class RegularManager {
         TaskThread.onThread(() -> {
             Regular[] regulars;
             if (app != null && !app.equals("")) {
-                regulars = Db.db.RegularDao().load(type, app, 0, 200);
+                regulars = Db.db.RegularDao().load(type, app, 0, 500);
             } else {
-                regulars = Db.db.RegularDao().load(type, 0, 200);
+                regulars = Db.db.RegularDao().load(type, 0, 500);
             }
             // Log.i("数据总量："+regulars.length);
             JSONArray jsonArray = new JSONArray();

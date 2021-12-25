@@ -15,6 +15,7 @@ import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.bills.Remark;
 import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
+import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.ui.components.LineLay;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 import cn.dreamn.qianji_auto.utils.runUtils.SecurityAccess;
@@ -93,6 +94,11 @@ public class SettingUtils {
         this.tv1 = tv1;
         this.tv2 = tv2;
         this.tv3 = tv3;
+
+        if (!AppStatus.isXposed()) {//无障碍不支持
+            set_lock_qianji_style.setVisibility(View.GONE);
+        }
+
         initUi();
         initListen();
     }

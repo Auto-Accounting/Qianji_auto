@@ -58,7 +58,7 @@ public class MainAutoLearnFragment extends BaseFragment {
     ViewPager viewPager;
 
     public static void openWithType(BaseFragment baseFragment, String type) {
-        //sms notice app
+        //sms notice app helper
         PageOption.to(MainAutoLearnFragment.class)
                 .setNewActivity(true)
                 .putString(KEY_DATA, type)

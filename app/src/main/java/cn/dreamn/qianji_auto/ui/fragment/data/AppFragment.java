@@ -145,6 +145,10 @@ public class AppFragment extends BaseFragment {
                 title_bar.setTitle(getString(R.string.list_app));
                 tv_tip.setText(getString(R.string.list_app_tip));
                 break;
+            case "helper":
+                title_bar.setTitle(getString(R.string.list_helper));
+                tv_tip.setText(getString(R.string.list_helper_tip));
+                break;
         }
 
 

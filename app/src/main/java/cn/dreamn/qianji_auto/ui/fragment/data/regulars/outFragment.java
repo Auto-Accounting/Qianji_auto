@@ -23,6 +23,7 @@ import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -138,7 +139,6 @@ public class outFragment extends BaseFragment {
                 if (isWeb) return "云 · 通知规则 · " + AppInfo.getName(context, app);
                 return "通知规则 · " + AppInfo.getName(context, app);
             case "notice":
-
                 return getString(R.string.notice);
             case "app":
                 return getString(R.string.app);
@@ -345,6 +345,7 @@ public class outFragment extends BaseFragment {
         });
     }
 
+
     private void initLayout() {
         BaseFragment baseFragment = this;
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -470,7 +471,7 @@ public class outFragment extends BaseFragment {
                                         public void sure() {
                                             RegularManager.outputRegOne(getContext(), getName(), getLastType(), cate.getString("dataId"), cate.getString("version"), Tool.bundle2JSONObject(cate));
                                             String name = cate.getString("name");
-                                            Tool.goUrl(getContext(), getString(R.string.submit_regular) + "?name=" + name);
+                                            Tool.goUrl(getContext(), getString(R.string.submit_regular) + "?name=" + Uri.encode(name));
 
                                         }
                                     });

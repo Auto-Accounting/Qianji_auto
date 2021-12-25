@@ -38,6 +38,7 @@ import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.hjq.toast.ToastUtils;
+import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 
@@ -72,6 +73,7 @@ import cn.dreamn.qianji_auto.ui.utils.BottomArea;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 import cn.dreamn.qianji_auto.utils.files.BackupManager;
 import cn.dreamn.qianji_auto.utils.files.RegularManager;
+import cn.dreamn.qianji_auto.utils.runUtils.DateUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.GlideLoadUtils;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.UpdateUtils;
@@ -299,6 +301,26 @@ public class MainFragment extends BaseFragment {
     }
 
 
+    private void setAction() {
+        if (!AppStatus.isXposed()) return;
+        MMKV mmkv = MMKV.defaultMMKV();
+        if (mmkv.getBoolean("yearBill", false))
+            return;
+        if (DateUtils.afterDay("yyyy-MM-dd", "2021-12-31")) {
+            mmkv.encode("yearBill", true);
+            BottomArea.msg(getContext(), "新年好", "您有一份来自2021年的年度账单，需要查看吗？", "需要", "关闭", new BottomArea.MsgCallback() {
+                @Override
+                public void cancel() {
+
+                }
+
+                @Override
+                public void sure() {
+                    rl_year.performClick();
+                }
+            });
+        }
+    }
 
     private void setActive() {
 
@@ -364,12 +386,21 @@ public class MainFragment extends BaseFragment {
             autoBills.show();
             return false;
         });
+
+
         rl_bill_check.setOnClickListener(v -> {
             ToastUtils.show(R.string.wait);
             //TODO 4.0新增功能，从支付宝微信等位置导出账单，再从钱迹导出账单，最后比对缺少的账单信息，进行高亮展示，由用户选择合并更新。
         });
         rl_year.setOnClickListener(v -> {
-
+            if (!DateUtils.afterDay("yyyy-MM-dd", "2021-12-31")) {
+                ToastUtils.show(R.string.wait);
+                return;
+            }
+            if (!AppStatus.isXposed()) {
+                ToastUtils.show(R.string.helper_not_support);
+                return;
+            }
             loadingDialog = new LoadingDialog(getContext(), getString(R.string.wait_year));
             BaseFragment fragment = this;
             if (broadcastReceiver != null)
@@ -405,8 +436,7 @@ public class MainFragment extends BaseFragment {
             });
         });
         rl_app_log.setOnClickListener(v -> {
-            boolean isXp = AppStatus.isXposed();
-            if (isXp) {
+            if (AppStatus.isXposed()) {
                 AppFragment.openWithType(this, "app");
             } else {
                 AppFragment.openWithType(this, "helper");
@@ -425,8 +455,7 @@ public class MainFragment extends BaseFragment {
             MainAutoLearnFragment.openWithType(this, "category");
         });
         rl_app.setOnClickListener(v -> {
-            boolean isXp = AppStatus.isXposed();
-            if (isXp) {
+            if (AppStatus.isXposed()) {
                 MainAutoLearnFragment.openWithType(this, "app");
             } else {
                 MainAutoLearnFragment.openWithType(this, "helper");

@@ -1,6 +1,8 @@
 package cn.dreamn.qianji_auto.utils.runUtils;
 
 
+import android.annotation.SuppressLint;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -145,6 +147,18 @@ public class DateUtils {
     public static String getTime(long t) {
         return getTime("yyyy-MM-dd HH:mm:ss", t);
     }
+
+    public static boolean afterDay(String s, String s1) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat(s);
+        try {
+            Date afterDay = simpleDateFormat.parse(s1);
+            Date now = new Date();
+            return now.after(afterDay);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
 }
 
