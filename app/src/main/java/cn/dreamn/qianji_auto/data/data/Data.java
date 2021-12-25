@@ -10,19 +10,12 @@ import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 import cn.dreamn.qianji_auto.utils.runUtils.Tool;
 
 public class Data {
-    static int InitCode = 2;//需要重新初始化的code
-    static int UpdateCode = 1;//需要升级的Code
+    static int InitCode = 3;//需要重新初始化的code
 
     static boolean isInit() {
         MMKV mmkv = MMKV.defaultMMKV();
         int code = mmkv.getInt("InitCode", 0);
         return code == InitCode;
-    }
-
-    static boolean isUpdate() {
-        MMKV mmkv = MMKV.defaultMMKV();
-        int code = mmkv.getInt("UpdateCode", 0);
-        return code == UpdateCode;
     }
 
     public static void init(Context context) {
@@ -32,6 +25,7 @@ public class Data {
         setDefaultRegulars(context);
         MMKV mmkv = MMKV.defaultMMKV();
         mmkv.encode("InitCode", InitCode);
+
     }
 
     static void setDefaultApps(Context context) {
@@ -42,26 +36,15 @@ public class Data {
     static void setDefaultRegulars(Context context) {
         String category = Tool.getAssert(context, "regulars/category.json", "regulars/category.json");
         String app_regular = Tool.getAssert(context, "regulars/app_regular.json", "regulars/app_regular.json");
-        RegularManager.restoreFromData(context, "", "category", category, new RegularManager.End() {
-            @Override
-            public void onFinish(int code) {
-                RegularManager.restoreFromData(context, "", "app", app_regular, new RegularManager.End() {
-                    @Override
-                    public void onFinish(int code) {
-
-                    }
-                });
-            }
+        String help_regular = Tool.getAssert(context, "regulars/helper_regular.json", "regulars/helper_regular.json");
+        RegularManager.restoreFromData(context, "", "category", category, code -> {
+        });
+        RegularManager.restoreFromData(context, "", "app", app_regular, code -> {
+        });
+        RegularManager.restoreFromData(context, "", "helper", help_regular, code -> {
         });
     }
 
 
-    static void update() {
-        update(UpdateCode);
-    }
 
-    static void update(int code) {
-        MMKV mmkv = MMKV.defaultMMKV();
-        mmkv.encode("UpdateCode", code);
-    }
 }

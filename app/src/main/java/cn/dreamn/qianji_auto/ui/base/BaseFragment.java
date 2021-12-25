@@ -35,6 +35,7 @@ import java.io.Serializable;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 
 
 public abstract class BaseFragment extends XPageFragment {
@@ -46,6 +47,7 @@ public abstract class BaseFragment extends XPageFragment {
 
     @Override
     protected void initPage() {
+        Log.init("自动记账:" + this.getClass().getSimpleName());
         initTitle();
         initViews();
         initListeners();

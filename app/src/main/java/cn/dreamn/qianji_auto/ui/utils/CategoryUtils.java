@@ -129,7 +129,7 @@ public class CategoryUtils {
     }
 
     public CategoryUtils(SwipeRecyclerView recyclerView, String book_id, String type, Context context, Boolean allowChange) {
-        Log.init("category");
+
         this.book_id = book_id;
         this.recyclerView = recyclerView;
         this.mAdapter = new CategoryAdapter(context, allowChange);

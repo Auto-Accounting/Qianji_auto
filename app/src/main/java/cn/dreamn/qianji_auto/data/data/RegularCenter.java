@@ -76,7 +76,7 @@ public class RegularCenter {
 
     private void setType(String type) {
         this.type = type;
-        Log.init("regular");
+
     }
 
     public void run(BillInfo billInfo, String addJs, TaskThread.TaskResult taskResult) {

@@ -65,7 +65,7 @@ public class Analyze implements Runnable {
         this.packageName = packageName;
         this.className = className;
         this.nodeInfo = nodeInfo;
-        Log.init("helper");
+
     }
 
     public static void goApp(Context context, BillInfo billInfo) {

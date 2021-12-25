@@ -239,7 +239,7 @@ public class Tool {
                     }
                 }
             } catch (Throwable e) {
-                Log.init("convert");
+
                 Log.d(e.toString());
             }
         }
@@ -279,7 +279,7 @@ public class Tool {
                     }
                 }
             } catch (Throwable e) {
-                Log.init("convert");
+
                 Log.d(e.toString());
             }
         }

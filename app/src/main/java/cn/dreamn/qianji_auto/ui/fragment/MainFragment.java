@@ -264,7 +264,8 @@ public class MainFragment extends BaseFragment {
         app_log.setText(BuildConfig.VERSION_NAME);
         UpdateUtils.checkUpdate(getContext(), () -> Log.i("无更新"));
         Data.init(getContext());
-        Log.init("自动记账:MainFragment");
+        setAction();
+
     }
 
 

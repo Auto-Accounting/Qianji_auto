@@ -23,7 +23,7 @@ import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
 public class UpdateUtils {
 
     public static void checkUpdate(Context context, Update update) {
-        Log.init("update");
+
         //任务监听启动
         Handler handler = new Handler(Looper.getMainLooper()) {
             @Override

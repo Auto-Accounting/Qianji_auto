@@ -185,7 +185,7 @@ public class WebViewFragment extends BaseFragment {
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void initViews() {
-        Log.init("webview");
+
         String url = getUrl();
         String data = getData();
         if (!url.startsWith("file:///android_asset/")) {

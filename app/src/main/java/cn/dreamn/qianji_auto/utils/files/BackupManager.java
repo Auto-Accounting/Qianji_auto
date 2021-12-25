@@ -36,7 +36,7 @@ public class BackupManager {
 
     public static void init(Context context) {
         CACHE_PATH = context.getExternalCacheDir().getPath() + "/";
-        Log.init("备份恢复");
+
     }
 
     @SuppressLint("SdCardPath")
