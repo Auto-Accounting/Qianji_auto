@@ -244,7 +244,8 @@ public class DataBase {
                                     int maxTime = 0;
                                     String maxPayTool = "";
                                     double maxMoney = 0.0d;
-                                    JSONObject jsonObject4 = new JSONObject();
+                                    //JSONObject jsonObject4 = new JSONObject();
+                                    JSONArray jsonArray4 = new JSONArray();
                                     while (cursor.moveToNext()) {
                                         int time = cursor.getInt(cursor.getColumnIndex("num"));
                                         double money = cursor.getDouble(cursor.getColumnIndex("money"));
@@ -258,9 +259,14 @@ public class DataBase {
                                             maxPayTool = payTool;
                                             maxMoney = money;
                                         }
-                                        jsonObject4.put(payTool, time);
+                                        JSONObject jsonObject5 = new JSONObject();
+                                        jsonObject5.put("num", time);
+                                        jsonObject5.put("money", money);
+                                        jsonObject5.put("payTool", payTool);
+                                        jsonArray4.add(jsonObject5);
+                                        // jsonObject4.put(payTool, time);
                                     }
-                                    jsonObject3.put("data", jsonObject4);
+                                    jsonObject3.put("data", jsonArray4);
                                     jsonObject3.put("maxPay", maxPayTool);
                                     jsonObject3.put("maxPayMoney", maxMoney);
                                     jsonObject3.put("maxNumber", maxTime);
@@ -291,7 +297,8 @@ public class DataBase {
                                         double money = cursor.getDouble(cursor.getColumnIndex("Money"));
                                         BigDecimal b = new BigDecimal(money);
                                         money = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                                        jsonArray.set(Integer.parseInt(month), money);
+                                        //  utils.log("month:"+month,"money:",String.valueOf(money));
+                                        jsonArray.set(Integer.parseInt(month) - 1, money);
                                     }
                                     jsonObject5.put("out", jsonArray);
                                     cursor.close();
@@ -308,7 +315,7 @@ public class DataBase {
                                         double money = cursor.getDouble(cursor.getColumnIndex("Money"));
                                         BigDecimal b = new BigDecimal(money);
                                         money = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                                        jsonArray2.set(Integer.parseInt(month), money);
+                                        jsonArray2.set(Integer.parseInt(month) - 1, money);
                                     }
                                     jsonObject5.put("in", jsonArray2);
                                     cursor.close();
@@ -328,8 +335,9 @@ public class DataBase {
                                     JSONObject jsonObject6 = new JSONObject();
                                     cursor = db.rawQuery("select SUM(MONEY) as money,category.NAME as cname  from user_bill,category where USERID='" + userId + "' and user_bill.type = 0 and strftime('%Y',createtime,'unixepoch','localtime')='2021' and user_bill.CATEGORY_ID=category._id GROUP BY CATEGORY_ID ORDER BY SUM(MONEY) DESC;", null);
 
-                                    JSONObject jsonObject7 = new JSONObject();
+
                                     int i = 0;
+                                    JSONArray jsonArray1 = new JSONArray();
                                     while (cursor.moveToNext()) {
                                         String name = cursor.getString(cursor.getColumnIndex("cname"));
                                         double money = cursor.getDouble(cursor.getColumnIndex("money"));
@@ -339,15 +347,18 @@ public class DataBase {
                                             jsonObject5.put("maxType", name);
                                             jsonObject5.put("maxMoney", money);
                                         }
-                                        jsonObject7.put(name, money);
+                                        JSONObject json = new JSONObject();
+                                        json.put("name", name);
+                                        json.put("money", money);
+                                        jsonArray1.add(json);
+
                                         i++;
                                     }
-                                    jsonObject6.put("maxPay", jsonObject7);
-
+                                    jsonObject6.put("maxPay", jsonArray1);
                                     cursor.close();
                                     cursor = db.rawQuery("select SUM(MONEY) as money,category.NAME as cname  from user_bill,category where USERID='" + userId + "' and user_bill.type = 1 and strftime('%Y',createtime,'unixepoch','localtime')='2021' and user_bill.CATEGORY_ID=category._id GROUP BY CATEGORY_ID ORDER BY SUM(MONEY) DESC;", null);
                                     i = 0;
-                                    JSONObject jsonObject8 = new JSONObject();
+                                    JSONArray jsonArray3 = new JSONArray();
                                     while (cursor.moveToNext()) {
                                         String name = cursor.getString(cursor.getColumnIndex("cname"));
                                         double money = cursor.getDouble(cursor.getColumnIndex("money"));
@@ -357,11 +368,14 @@ public class DataBase {
                                             jsonObject5.put("maxInType", name);
                                             jsonObject5.put("maxInMoney", money);
                                         }
-                                        jsonObject8.put(name, money);
+                                        JSONObject json = new JSONObject();
+                                        json.put("name", name);
+                                        json.put("money", money);
+                                        jsonArray3.add(json);
 
                                         i++;
                                     }
-                                    jsonObject6.put("maxIn", jsonObject8);
+                                    jsonObject6.put("maxIn", jsonArray3);
                                     jsonObjectBill.put("page6", jsonObject6);
                                     jsonObjectBill.put("page4", jsonObject5);
                                     cursor.close();
@@ -383,7 +397,7 @@ public class DataBase {
                                     double total = 0;
                                     while (cursor.moveToNext()) {
                                         String name = cursor.getString(cursor.getColumnIndex("DESCINFO"));
-                                        int totals = cursor.getInt(cursor.getColumnIndex("cname"));
+
                                         double money = cursor.getDouble(cursor.getColumnIndex("money"));
                                         BigDecimal b = new BigDecimal(money);
                                         money = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -392,7 +406,7 @@ public class DataBase {
                                             jsonObject9.put("outPeopleMoney", money);
                                         }
                                         total += money;
-
+                                        i++;
                                     }
                                     jsonObject9.put("outTotal", total);
                                     cursor.close();
@@ -402,7 +416,7 @@ public class DataBase {
                                     total = 0;
                                     while (cursor.moveToNext()) {
                                         String name = cursor.getString(cursor.getColumnIndex("DESCINFO"));
-                                        //  int totals = cursor.getInt(cursor.getColumnIndex("totals"));
+
                                         double money = cursor.getDouble(cursor.getColumnIndex("money"));
                                         BigDecimal b = new BigDecimal(money);
                                         money = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();

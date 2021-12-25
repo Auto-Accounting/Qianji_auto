@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+import java.lang.reflect.Method;
+
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.core.hook.Utils;
 import cn.dreamn.qianji_auto.ui.activity.LockActivity;
@@ -55,8 +57,16 @@ public class Lock {
                             utils.writeDataByData("apps", "lock_qianji_lock", "true");
                             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             LockActivity.doStartApplicationWithPackageName((Context) param.thisObject, BuildConfig.APPLICATION_ID, null);
-                        }
+                            try {
+                                Class<?> system = utils.getClassLoader().loadClass("java.lang.System");
+                                Method exit = system.getMethod("exit", int.class);
+                                exit.invoke(null, 0);
+                                //  System.exit(0);
+                            } catch (Exception ignored) {
 
+                            }
+
+                        }
                     }
 
                     @Override

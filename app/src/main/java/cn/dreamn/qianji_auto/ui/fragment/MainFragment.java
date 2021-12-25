@@ -242,6 +242,12 @@ public class MainFragment extends BaseFragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.fragment_main;
     }
@@ -363,6 +369,7 @@ public class MainFragment extends BaseFragment {
             //TODO 4.0新增功能，从支付宝微信等位置导出账单，再从钱迹导出账单，最后比对缺少的账单信息，进行高亮展示，由用户选择合并更新。
         });
         rl_year.setOnClickListener(v -> {
+
             loadingDialog = new LoadingDialog(getContext(), getString(R.string.wait_year));
             BaseFragment fragment = this;
             if (broadcastReceiver != null)
@@ -376,13 +383,13 @@ public class MainFragment extends BaseFragment {
                     if (loadingDialog != null) {
                         loadingDialog.close();
                     }
-                    String url = "https://auto.ankio.net/Year/2021/index.html?data=" + Uri.encode(json);
+                    String url = "https://auto.dreamn.cn/Year/2021/index.html?data=" + Uri.encode(json);
                     Log.i("url", url);
                     WebViewFragment.openUrl(fragment, url);
                 }
             };
             LocalBroadcastManager.getInstance(getContext()).registerReceiver(broadcastReceiver, new IntentFilter("net.ankio.auto.QIANJI_Year"));
-            BottomArea.msg(getContext(), "隐私提醒", "年度账单功能将从【钱迹】本地数据库读取数据，并在自动记账的前端JS中进行分析，数据不会上传至服务器，请放心使用。另外：由于是读取本地数据库，请把钱迹每个月的账单列表都打开（包括借入借出）以获得更准确的分析。", "开启年度账单", "关闭", new BottomArea.MsgCallback() {
+            BottomArea.msg(getContext(), "隐私提醒", "年度账单功能将从【钱迹】本地数据库读取数据，并在自动记账的前端JS中进行分析，数据不会上传至服务器，请放心使用。\n另外：由于是读取本地数据库，请把钱迹【每个月】的账单列表都打开（包括借入借出）以获得【更准确】的分析。", "开启年度账单", "关闭", new BottomArea.MsgCallback() {
                 @Override
                 public void cancel() {
 
@@ -396,7 +403,6 @@ public class MainFragment extends BaseFragment {
                     AppManager.Async(getContext(), AppBroadcast.BROADCAST_GET_YEAR);
                 }
             });
-            //TODO 4.0新增功能，年度账单，授权自动记账使用本地化分析功能（由JS实现，传入参数如data={}等），样式采用html。
         });
         rl_app_log.setOnClickListener(v -> {
             boolean isXp = AppStatus.isXposed();
