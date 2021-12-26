@@ -66,6 +66,7 @@ public abstract class hookBase implements iHooker {
                         super.afterHookedMethod(param);
                         mContext = (Context) param.args[0];
                         mAppClassLoader = mContext.getClassLoader();
+                        XposedBridge.log("已获取context");
                         runnable.run();
                     }
                 });
@@ -120,9 +121,10 @@ public abstract class hookBase implements iHooker {
 
     @Override
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) {
-        if (isInject(getClass().getName() + ".initZygote")) return;
+        //if (isInject(getClass().getName() + ".initZygote")) return;
         mContext = AndroidAppHelper.currentApplication();
         mAppClassLoader = getClass().getClassLoader();
+        XposedBridge.log("需要帮助寻找？" + (needHelpFindApplication() ? "true" : "false"));
         if (!needHelpFindApplication()) {
             initZygoteMainHook();
             return;

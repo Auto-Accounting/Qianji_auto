@@ -187,7 +187,7 @@ public class QianJi implements IApp {
                 JSONObject jsonObject1 = asset.getJSONObject(i);
                 if (jsonObject1.getString("type").equals("5"))
                     continue;
-                Db.db.AssetDao().add(jsonObject1.getString("name"), jsonObject1.getString("icon"), jsonObject1.getInteger("sort"), jsonObject1.getString("accountnameId"));
+                Db.db.AssetDao().add(jsonObject1.getString("name"), jsonObject1.getString("icon"), jsonObject1.getInteger("sort"), jsonObject1.getString("_ID"));
             }
 
             Log.i("资产数据处理完毕");

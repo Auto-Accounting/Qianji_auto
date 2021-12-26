@@ -14,19 +14,19 @@ import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class HookEntry implements IXposedHookLoadPackage, IXposedHookZygoteInit {
+public class HookMain implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
     private final List<hookBase> mHookList;
 
     {
         mHookList = new ArrayList<>();
-        mHookList.add(new Notice());
+
         mHookList.add(new QianjiAuto());
         mHookList.add(new Qianji());
         mHookList.add(new Wechat());
         mHookList.add(new Alipay());
         mHookList.add(new Sms());
-
+        mHookList.add(new Notice());
     }
 
     @Override

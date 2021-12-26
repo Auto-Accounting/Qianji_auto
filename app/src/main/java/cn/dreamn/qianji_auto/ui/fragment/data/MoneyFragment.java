@@ -215,7 +215,7 @@ public class MoneyFragment extends BaseFragment {
 
     private void copy(Bundle bundle) {
 
-        BillInfo billInfo = BillInfo.parse(bundle.getString("billinfo"));
+        BillInfo billInfo = BillInfo.parse(bundle.getString("billInfo"));
 
         Context mContext = getContext();
         Tool.clipboard(mContext, billInfo.toString());

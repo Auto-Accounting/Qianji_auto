@@ -5,30 +5,25 @@ import android.app.NotificationManager;
 import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 
-import cn.dreamn.qianji_auto.core.hook.Utils;
 import cn.dreamn.qianji_auto.core.hook.core.hookBase;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
-import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class Notice extends hookBase {
 
 
     @Override
-    public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        mAppClassLoader = lpparam.classLoader;
-        if (lpparam.packageName.equals(getPackPageName()) && lpparam.processName.equals(getPackPageName())) {
-            utils = new Utils(mContext, mAppClassLoader, getAppName(), getPackPageName());
-
-            hookLoadPackage();
-        }
+    public void hookLoadPackage() {
 
 
     }
 
     @Override
-    public void hookLoadPackage() {
+    public void hookInitZygoteMain() {
+        XposedBridge.log("主要不分");
         try {
+            XposedBridge.log("主要不分2");
             XposedHelpers.findAndHookMethod(NotificationManager.class, "notify"
                     , String.class, int.class, Notification.class
                     , new XC_MethodHook() {
@@ -61,12 +56,6 @@ public class Notice extends hookBase {
         } catch (Throwable e2) {
 
         }
-
-    }
-
-    @Override
-    public void hookInitZygoteMain() {
-
 
     }
 
