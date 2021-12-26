@@ -21,7 +21,6 @@ import android.app.AndroidAppHelper;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -133,7 +132,17 @@ public class Utils {
         intent.setPackage(BuildConfig.APPLICATION_ID);
         intent.putExtras(bundle);
         intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-        getContext().sendBroadcast(intent, null);
+        try {
+            if (mContext != null) {
+                getContext().sendBroadcast(intent, null);
+            } else {
+                XposedBridge.log("content为空，无法传递数据:" + bundle.toString());
+            }
+        } catch (Throwable e) {
+            XposedBridge.log("异常：" + e.toString());
+            XposedBridge.log("出现异常：" + bundle.toString());
+        }
+
     }
 
     private void sendBroadcast(String Action, Bundle bundle) {
@@ -148,8 +157,8 @@ public class Utils {
         try {
             verName = getContext().getPackageManager().
                     getPackageInfo(getContext().getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
+
         }
         return verName;
     }
@@ -164,8 +173,8 @@ public class Utils {
         try {
             verName = getContext().getPackageManager().
                     getPackageInfo(getContext().getPackageName(), 0).versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
+
         }
         return verName;
     }
@@ -201,7 +210,7 @@ public class Utils {
      * @param xp  是否输出到xposed
      */
     public void log(String msg, boolean xp) {
-        if (xp) XposedBridge.log("Ankio-" + appName + " -> " + msg);
+        XposedBridge.log("Ankio-" + appName + " -> " + msg);
         //发送到自动记账日志
         //  Log.i("Ankio-" + appName, msg);
         // 采用分段打印 四千字符分一段
@@ -278,6 +287,10 @@ public class Utils {
         bundle.putString("app_identify", identify);
         log("广播给自动记账：" + bundle.toString(), true);
         sendBroadcast(SEND_ACTION, bundle);
+    }
+
+    public void setContext(Context context) {
+        mContext = context;
     }
 }
 
