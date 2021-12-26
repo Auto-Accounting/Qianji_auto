@@ -307,7 +307,7 @@ public class MainFragment extends BaseFragment {
         MMKV mmkv = MMKV.defaultMMKV();
         if (mmkv.getBoolean("yearBill", false))
             return;
-        if (DateUtils.afterDay("yyyy-MM-dd", "2021-12-31")) {
+        if (DateUtils.afterDay("yyyy-MM-dd", "2021-12-01")) {
             mmkv.encode("yearBill", true);
             BottomArea.msg(getContext(), "新年好", "您有一份来自2021年的年度账单，需要查看吗？", "需要", "关闭", new BottomArea.MsgCallback() {
                 @Override
@@ -394,7 +394,7 @@ public class MainFragment extends BaseFragment {
             //TODO 4.0新增功能，从支付宝微信等位置导出账单，再从钱迹导出账单，最后比对缺少的账单信息，进行高亮展示，由用户选择合并更新。
         });
         rl_year.setOnClickListener(v -> {
-            if (!DateUtils.afterDay("yyyy-MM-dd", "2021-12-31")) {
+            if (!DateUtils.afterDay("yyyy-MM-dd", "2021-12-01")) {
                 ToastUtils.show(R.string.wait);
                 return;
             }
@@ -421,7 +421,7 @@ public class MainFragment extends BaseFragment {
                 }
             };
             LocalBroadcastManager.getInstance(getContext()).registerReceiver(broadcastReceiver, new IntentFilter("net.ankio.auto.QIANJI_Year"));
-            BottomArea.msg(getContext(), "隐私提醒", "年度账单功能将从【钱迹】本地数据库读取数据，并在自动记账的前端JS中进行分析，数据不会上传至服务器，请放心使用。\n另外：由于是读取本地数据库，请把钱迹【每个月】的账单列表都打开（包括借入借出）以获得【更准确】的分析。", "开启年度账单", "关闭", new BottomArea.MsgCallback() {
+            BottomArea.msg(getContext(), "隐私提醒", "年度账单功能将从【钱迹】本地数据库读取数据，并在自动记账的前端JS中进行分析，数据不会上传至服务器，请放心使用。\n\n另外：由于是读取本地数据库，请把钱迹【每个月】的账单列表都打开（包括借入借出）以获得【更准确】的分析。", "开启年度账单", "关闭", new BottomArea.MsgCallback() {
                 @Override
                 public void cancel() {
 

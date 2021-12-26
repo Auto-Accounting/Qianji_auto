@@ -1,9 +1,11 @@
 package cn.dreamn.qianji_auto.core.hook.hooks.notice;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.pm.ApplicationInfo;
+import android.os.Build;
 import android.os.Bundle;
+
+import java.util.Arrays;
 
 import cn.dreamn.qianji_auto.core.hook.core.hookBase;
 import de.robv.android.xposed.XC_MethodHook;
@@ -15,55 +17,45 @@ public class Notice extends hookBase {
 
     @Override
     public void hookLoadPackage() {
+        final Class<?> clazz = XposedHelpers.findClass(
+                "android.app.NotificationManager", utils.getClassLoader()
+        );
+        XposedHelpers.findAndHookMethod(clazz, "fixNotification", Notification.class,
+                new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        XposedBridge.log("methodHookParam.args: " + Arrays.toString(param.args));
+                        Notification a = (Notification) param.args[0];
+                        detailNotice(a);
 
+                    }
+                });
 
     }
 
     @Override
     public void hookInitZygoteMain() {
-        XposedBridge.log("主要不分");
-        try {
-            XposedBridge.log("主要不分2");
-            XposedHelpers.findAndHookMethod(NotificationManager.class, "notify"
-                    , String.class, int.class, Notification.class
-                    , new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-                            detailNotice((Notification) param.args[2]);
-
-                        }
-                    });
-        } catch (Throwable e) {
-            try {
-                XposedHelpers.findAndHookMethod(NotificationManager.class, "notify", int.class, Notification.class, new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-                        detailNotice((Notification) param.args[1]);
-                    }
-                });
-            } catch (Throwable e3) {
-
-            }
-
-        }
-        try {
-            XposedHelpers.findAndHookMethod(NotificationManager.class, "notifyAsPackage", String.class, String.class, int.class, Notification.class, new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    detailNotice((Notification) param.args[3]);
-                }
-            });
-        } catch (Throwable e2) {
-
-        }
-
     }
 
 
     private void detailNotice(Notification notification) {
         //获得包名
-        String aPackage;
+        String aPackage = null;
         utils.log("系统通知 notification:" + notification.toString());
+
+        if (Build.VERSION.SDK_INT >= 28) {
+            String ids = notification.getChannelId();
+            //mipush|com.campmobile.snowcamera|
+            if (ids != null) {
+                String[] idss = ids.split("\\|");
+                if (idss.length >= 2) {
+                    aPackage = idss[1];
+                }
+            }
+
+        }
+
         Bundle bundle = notification.extras;
         if (bundle == null) {
             utils.log("系统通知 捕获到了通知数据，但是通知内容（Bundle）为空");
@@ -78,7 +70,8 @@ public class Notice extends hookBase {
         //空数据不要
 
         ApplicationInfo applicationInfo = (ApplicationInfo) bundle.get("android.appInfo");
-        aPackage = applicationInfo.packageName;
+        if (aPackage == null)
+            aPackage = applicationInfo.packageName;
 
 
         //收到支付宝支付通知后,自动拉起支付宝
@@ -101,7 +94,7 @@ public class Notice extends hookBase {
 
     @Override
     public String getPackPageName() {
-        return "android";
+        return null;
     }
 
     @Override

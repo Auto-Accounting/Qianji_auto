@@ -13,6 +13,7 @@ import cn.dreamn.qianji_auto.core.hook.Utils;
 import cn.dreamn.qianji_auto.ui.activity.LockActivity;
 import cn.dreamn.qianji_auto.ui.utils.AppFrontBackHelper;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 public class Lock {
@@ -48,9 +49,21 @@ public class Lock {
                             bundle = intent.getExtras();
                             uri = intent.getData();
                         }
+                        if (bundle != null) {
+                            bundle.remove("profile");
+                        }
                         String isLock = utils.readDataByApp("apps", "lock_qianji_style_lock");
-                        if (isLock.equals("false") || uri != null || (bundle != null && bundle.size() != 0))
+                        XposedBridge.log("isLock：" + isLock);
+                        if (isLock.equals("false") || uri != null || (bundle != null && bundle.size() != 0)) {
+                            if (uri != null) {
+                                utils.log("uri：" + uri);
+                            }
+                            if (bundle != null) {
+                                utils.log("bundle：" + bundle);
+                            }
                             return;
+                        }
+
                         if (isLock.equals("true") || isLock.equals("") || uri == null || bundle == null || bundle.size() == 0) {
                             Intent intent1 = new Intent(activity, LockActivity.class);
                             utils.writeDataByData("apps", "lock_qianji_app", utils.getPackageName());

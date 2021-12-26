@@ -25,8 +25,8 @@ public class HookMain implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         mHookList.add(new Qianji());
         mHookList.add(new Wechat());
         mHookList.add(new Alipay());
-        mHookList.add(new Sms());
         mHookList.add(new Notice());
+        mHookList.add(new Sms());
     }
 
     @Override
@@ -36,6 +36,7 @@ public class HookMain implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         }
 
     }
+
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {

@@ -40,7 +40,8 @@ public abstract class hookBase implements iHooker {
     protected Context mContext = null;
     protected String TAG = "Auto-AppHook";
     protected Utils utils;
-
+    protected static int hookLoadPackage = 0;
+    protected static int hookZygoteMain = 0;
 
     private void hookMainInOtherAppContext(Runnable runnable, Boolean isInit) {
         Runnable findContext1 = new Runnable() {
@@ -66,7 +67,6 @@ public abstract class hookBase implements iHooker {
                         super.afterHookedMethod(param);
                         mContext = (Context) param.args[0];
                         mAppClassLoader = mContext.getClassLoader();
-                        XposedBridge.log("已获取context");
                         runnable.run();
                     }
                 });
@@ -86,7 +86,10 @@ public abstract class hookBase implements iHooker {
     }
 
 
-    public void initLoadPackage() {
+    public void initLoadPackage(String pkg) {
+        hookLoadPackage++;
+        if (isInject(getClass().getName() + ".initLoadPackage." + pkg) || hookLoadPackage != getHookIndex())
+            return;
 
         utils = new Utils(mContext, mAppClassLoader, getAppName(), getPackPageName());
         XposedBridge.log(" 自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName());
@@ -104,7 +107,7 @@ public abstract class hookBase implements iHooker {
 
     @Override
     public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (isInject(getClass().getName() + ".initLoadPackage")) return;
+
         String pkg = lpparam.packageName;
         String processName = lpparam.processName;
         if (getPackPageName() != null) {
@@ -113,18 +116,17 @@ public abstract class hookBase implements iHooker {
         mAppClassLoader = lpparam.classLoader;
         mContext = AndroidAppHelper.currentApplication();
         if (!needHelpFindApplication()) {
-            initLoadPackage();
+            initLoadPackage(pkg);
             return;
         }
-        hookMainInOtherAppContext(this::initLoadPackage, false);
+        hookMainInOtherAppContext(() -> initLoadPackage(pkg), false);
     }
 
     @Override
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) {
-        //if (isInject(getClass().getName() + ".initZygote")) return;
+
         mContext = AndroidAppHelper.currentApplication();
         mAppClassLoader = getClass().getClassLoader();
-        XposedBridge.log("需要帮助寻找？" + (needHelpFindApplication() ? "true" : "false"));
         if (!needHelpFindApplication()) {
             initZygoteMainHook();
             return;
@@ -133,6 +135,9 @@ public abstract class hookBase implements iHooker {
     }
 
     private void initZygoteMainHook() {
+        hookZygoteMain++;
+        if (isInject(getClass().getName() + ".initZygote") || hookZygoteMain != getHookIndex())
+            return;
         utils = new Utils(mContext, mAppClassLoader, getAppName(), "");
         try {
             hookInitZygoteMain();

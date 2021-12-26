@@ -26,7 +26,6 @@ public class Reimbursement {
             protected void afterHookedMethod(MethodHookParam param) {
                 int type = (int) param.args[0];
                 if (type == 998) {
-                    param.setResult(false);
                     Activity activity = (Activity) param.thisObject;
                     Intent intent = activity.getIntent();
                     if (intent != null) {
@@ -84,7 +83,7 @@ public class Reimbursement {
 
                                 // XposedHelpers.callMethod(param.thisObject, "onSuccess");
                                 Toast.makeText(utils.getContext(), "报销成功！", Toast.LENGTH_LONG).show();
-
+                                param.setResult(false);
                                 //  XposedHelpers.callMethod(activity, "finishAndRemoveTask");
                             } catch (Exception e) {
                                 e.printStackTrace();

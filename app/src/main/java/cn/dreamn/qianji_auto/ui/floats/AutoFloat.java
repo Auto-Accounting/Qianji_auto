@@ -331,7 +331,7 @@ public class AutoFloat {
         });
         button_next.setOnClickListener(v -> {
             ToastUtils.setGravity(Gravity.TOP);
-            if (reiJsonHash == null || reiJsonHash.size() == 0) {
+            if (billInfo2.getType().equals(BillInfo.TYPE_INCOME) && billInfo2.getReimbursement() && (reiJsonHash == null || reiJsonHash.size() == 0)) {
                 ToastUtils.show("报销的账单不允许为空");
                 return;
             }

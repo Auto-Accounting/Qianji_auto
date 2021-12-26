@@ -187,7 +187,7 @@ public class QianJi implements IApp {
                 JSONObject jsonObject1 = asset.getJSONObject(i);
                 if (jsonObject1.getString("type").equals("5"))
                     continue;
-                Db.db.AssetDao().add(jsonObject1.getString("name"), jsonObject1.getString("icon"), jsonObject1.getInteger("sort"), jsonObject1.getString("_ID"));
+                Db.db.AssetDao().add(jsonObject1.getString("name"), jsonObject1.getString("icon"), jsonObject1.getInteger("sort"), jsonObject1.getString("id"));
             }
 
             Log.i("资产数据处理完毕");
@@ -253,7 +253,8 @@ public class QianJi implements IApp {
         }
         if (billInfo.getReimbursement() && billInfo.getType().equals(BillInfo.TYPE_INCOME)) {
             url += "&data=" + new String(Base64.encode(billInfo.getExtraData().getBytes(StandardCharsets.UTF_8), Base64.URL_SAFE));
-            url += "&accountnameId=" + billInfo.getAccountId1();
+            if (billInfo.getAccountId1() != null)
+                url += "&accountnameId=" + billInfo.getAccountId1();
             // String data = new String(Base64.decode(uri.getQueryParameter("data"),Base64.URL_SAFE));
 
         }
