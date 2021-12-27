@@ -63,16 +63,23 @@ public class DataBase {
                 }
 
                 Class<?> loginClass = null;
-                try {
-                    loginClass = mAppClassLoader.loadClass("com.mutangtech.qianji.app.f.b");
-                } catch (Throwable e) {
+
+                String[] clazz = new String[]{
+                        "com.mutangtech.qianji.app.f.b",
+                        "com.mutangtech.qianji.app.c.b",
+                        "com.mutangtech.qianji.app.g.b",
+                };
+                for (String cls : clazz) {
                     try {
-                        loginClass = mAppClassLoader.loadClass("com.mutangtech.qianji.app.c.b");
-                    } catch (Throwable e2) {
-                        utils.log("钱迹加载类失败！");
+                        loginClass = mAppClassLoader.loadClass(cls);
+                        break;
+                    } catch (Throwable ignored) {
                     }
                 }
-                if (loginClass == null) return;
+                if (loginClass == null) {
+                    utils.log("钱迹未适配！");
+                    return;
+                }
                 //获取loginClass
                 Method getInstance = loginClass.getDeclaredMethod("getInstance");
                 //反射调用单例模式
