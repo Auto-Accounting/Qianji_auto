@@ -9,7 +9,6 @@ import android.widget.Toast;
 import java.lang.reflect.InvocationTargetException;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
-import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
@@ -25,8 +24,8 @@ public class AutoError {
                 if (string != null) {
                     if (string.contains("key=type;value=998") || string.contains("type=998")) {
                         Activity activity = (Activity) param.thisObject;
-                        TaskThread.onMain(2000, () -> XposedHelpers.callMethod(activity, "finishAndRemoveTask"));
-
+                        // TaskThread.onMain(2000, () -> XposedHelpers.callMethod(activity, "finishAndRemoveTask"));
+                        XposedHelpers.callMethod(activity, "finishAndRemoveTask");
                         //param.setThrowable(new Throwable("ooo"));
                         // XposedHelpers.callMethod(utils.getContext(), "finish");
                         return;

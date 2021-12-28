@@ -33,7 +33,7 @@ public class Sms extends hookBase {
 
     @Override
     public Integer getHookIndex() {
-        return 2;
+        return 1;
     }
 
     @Override

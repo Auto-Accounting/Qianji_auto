@@ -87,9 +87,14 @@ public abstract class hookBase implements iHooker {
 
 
     public void initLoadPackage(String pkg) {
-        hookLoadPackage++;
-        if (isInject(getClass().getName() + ".initLoadPackage." + pkg) || hookLoadPackage != getHookIndex())
-            return;
+        if (canUseCache()) {
+            if (isInject(getClass().getName() + ".initLoadPackage." + pkg))
+                return;
+        } else {
+            hookLoadPackage++;
+            if (hookLoadPackage != getHookIndex()) return;
+        }
+
 
         utils = new Utils(mContext, mAppClassLoader, getAppName(), getPackPageName());
         XposedBridge.log(" 自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName());
@@ -135,9 +140,15 @@ public abstract class hookBase implements iHooker {
     }
 
     private void initZygoteMainHook() {
-        hookZygoteMain++;
-        if (isInject(getClass().getName() + ".initZygote") || hookZygoteMain != getHookIndex())
-            return;
+        if (canUseCache()) {
+            if (isInject(getClass().getName() + ".initZygote"))
+                return;
+        } else {
+            hookZygoteMain++;
+            if (hookZygoteMain != getHookIndex()) return;
+        }
+
+
         utils = new Utils(mContext, mAppClassLoader, getAppName(), "");
         try {
             hookInitZygoteMain();
@@ -167,6 +178,15 @@ public abstract class hookBase implements iHooker {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private boolean canUseCache() {
+        try {
+            XposedHelpers.class.getDeclaredField("methodCache");
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }
