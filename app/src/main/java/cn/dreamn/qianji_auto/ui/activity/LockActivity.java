@@ -104,12 +104,13 @@ public class LockActivity extends BaseActivity {
     private void openMainPage() {
         if (app == null) {
             App.isLock = false;
-            Intent intent = new Intent(this, MainActivity.class);
+            finish();
+           /* Intent intent = new Intent(this, MainActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("unlock", "true");
             intent.putExtras(bundle);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            startActivity(intent);*/
         } else {
             SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(this, "apps", Context.MODE_PRIVATE);
             sharedPreferences.edit().putString("lock_qianji_style_lock", "false").apply();

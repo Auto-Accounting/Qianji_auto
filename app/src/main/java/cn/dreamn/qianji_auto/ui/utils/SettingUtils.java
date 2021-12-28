@@ -2,6 +2,7 @@ package cn.dreamn.qianji_auto.ui.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -11,11 +12,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.hjq.toast.ToastUtils;
 import com.tencent.mmkv.MMKV;
 
+import cn.dreamn.qianji_auto.App;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.app.AppManager;
 import cn.dreamn.qianji_auto.bills.Remark;
 import cn.dreamn.qianji_auto.data.database.Helper.BookNames;
 import cn.dreamn.qianji_auto.setting.AppStatus;
+import cn.dreamn.qianji_auto.ui.activity.LockActivity;
 import cn.dreamn.qianji_auto.ui.components.LineLay;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 import cn.dreamn.qianji_auto.utils.runUtils.SecurityAccess;
@@ -270,7 +273,13 @@ public class SettingUtils {
 
 
         set_lock_style.setOnClickListener(view -> {
-            BottomArea.list(mContext, mContext.getString(R.string.set_float_style), jsonArray.getJSONArray(8), new BottomArea.ListCallback() {
+            if (mmkv.getInt("lock_style", SecurityAccess.LOCK_NONE) != SecurityAccess.LOCK_NONE) {
+                App.isLock = true;
+                Intent intent1 = new Intent(mContext, LockActivity.class);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent1);
+            }
+            BottomArea.list(mContext, "", jsonArray.getJSONArray(8), new BottomArea.ListCallback() {
                 @Override
                 public void onSelect(int position) {
                     mmkv.encode("lock_style", position);
@@ -279,7 +288,13 @@ public class SettingUtils {
             });
         });
         set_lock_qianji_style.setOnClickListener(view -> {
-            BottomArea.list(mContext, mContext.getString(R.string.set_float_style), jsonArray.getJSONArray(8), new BottomArea.ListCallback() {
+            if (mmkv.getInt("lock_qianji_style", SecurityAccess.LOCK_NONE) != SecurityAccess.LOCK_NONE) {
+                App.isLock = true;
+                Intent intent1 = new Intent(mContext, LockActivity.class);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent1);
+            }
+            BottomArea.list(mContext, "", jsonArray.getJSONArray(8), new BottomArea.ListCallback() {
                 @Override
                 public void onSelect(int position) {
                     mmkv.encode("lock_qianji_style", position);

@@ -383,7 +383,7 @@ public class AutoFloat {
                     mView = factory.inflate(R.layout.float_autobill, null);
                     BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
                     MaterialDialog dialog2 = new MaterialDialog(context, bottomSheet);
-                    dialog2.cancelable(false);
+                    dialog2.cancelable(true);
                     ListView listView = mView.findViewById(R.id.list_view);
                     TextView tv_close = mView.findViewById(R.id.tv_close);
                     TextView tv_title = mView.findViewById(R.id.tv_title);

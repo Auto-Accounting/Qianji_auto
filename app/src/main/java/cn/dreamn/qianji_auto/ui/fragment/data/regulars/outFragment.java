@@ -548,6 +548,10 @@ public class outFragment extends BaseFragment {
     }
 
     public void loadFromData() {
+        if (type == null) {
+            popToBack();
+            return;
+        }
         if (statusView != null) statusView.showLoadingView();
         if (isWeb) {
             TaskThread.onThread(() -> {

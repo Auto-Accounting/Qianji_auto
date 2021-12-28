@@ -273,5 +273,10 @@ public abstract class BaseFragment extends XPageFragment {
                 .open(this);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
 
 }

@@ -14,8 +14,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         openMainPage();
     }
 
@@ -32,7 +30,7 @@ public class MainActivity extends BaseActivity {
             if (uri != null)
                 str = Uri.decode(uri.getEncodedPath());
             bundle.putString("url", str);
-            openNewPage(MainFragment.class, bundle);
+            openLastPage(bundle);
             return;
         }
         //MMKV检查
@@ -48,9 +46,13 @@ public class MainActivity extends BaseActivity {
                     "完成设置"
             };
             openPage(fragments[mmkv.getInt("helper_page", 0)]);
-        }else{
-            openNewPage(MainFragment.class);
+        } else {
+            openLastPage(null);
         }
+    }
+
+    private void openLastPage(Bundle data) {
+        openPage(MainFragment.class, data);
     }
 
 

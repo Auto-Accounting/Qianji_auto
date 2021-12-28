@@ -22,7 +22,6 @@ import cn.dreamn.qianji_auto.ui.base.BaseActivity;
 import cn.dreamn.qianji_auto.ui.theme.ThemeManager;
 import cn.dreamn.qianji_auto.ui.utils.AppFrontBackHelper;
 import cn.dreamn.qianji_auto.utils.runUtils.CrashUtils;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 import cn.dreamn.qianji_auto.utils.runUtils.SecurityAccess;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
@@ -87,7 +86,6 @@ public class App extends Application {
                     sharedPreferences.edit().putString("lock_qianji_app", null).apply();
                 }
 
-                Log.d("钱迹Lock", "app" + app);
                 if (isLock || intent == null || bundle == null || bundle.size() == 0) {
                     if (app != null || mmkv.getInt("lock_style", SecurityAccess.LOCK_NONE) != SecurityAccess.LOCK_NONE) {
                         Intent intent1 = new Intent(activity, LockActivity.class);
