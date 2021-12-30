@@ -14,9 +14,6 @@ public class Notice extends hookBase {
 
     @Override
     public void hookLoadPackage() {
-        final Class<?> clazz = XposedHelpers.findClass(
-                "android.app.NotificationManager", utils.getClassLoader()
-        );
         try {
             XposedHelpers.findAndHookMethod(NotificationManager.class, "notify"
                     , String.class, int.class, Notification.class
@@ -62,6 +59,22 @@ public class Notice extends hookBase {
     }
 
     private void detailNotice(Notification notification, String pkg) {
+        //去重
+        long t = System.currentTimeMillis();
+        String last = utils.readData("lastNotification");
+        String time = utils.readData("lastNotificationTime");
+        utils.writeData("lastNotification", notification.toString());
+        utils.writeData("lastNotificationTime", String.valueOf(t));
+
+        if (time.equals("")) {
+            time = "0";
+        }
+
+        if (last.equals(notification.toString())) {
+            if (t - Long.parseLong(time) <= 1000) {
+                return;
+            }
+        }
         //获得包名
         String aPackage = pkg;
         utils.log("系统通知 notification:" + notification.toString());
