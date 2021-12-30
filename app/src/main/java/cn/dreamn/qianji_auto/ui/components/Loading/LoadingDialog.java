@@ -45,8 +45,11 @@ public class LoadingDialog {
     public void close() {
         if (!TaskThread.isMainThread()) return;
         if (mLoadingDialog != null) {
-            mLoadingView.stopAnim();
-            mLoadingDialog.dismiss();
+            try {
+                mLoadingView.stopAnim();
+                mLoadingDialog.dismiss();
+            } catch (Exception e) {
+            }
             mLoadingDialog = null;
         }
     }
