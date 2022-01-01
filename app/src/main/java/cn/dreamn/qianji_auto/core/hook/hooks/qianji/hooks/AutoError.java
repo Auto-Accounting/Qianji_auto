@@ -23,6 +23,7 @@ public class AutoError {
                 String string = (String) param.args[0];
                 //钱迹弹出错误信息，转发给自动记账处理~
                 if (string != null) {
+                    utils.log("钱迹错误捕获： " + string, true);
                     if (string.contains("key=type;value=998")) {
                         Activity activity = (Activity) param.thisObject;
                         TaskThread.onMain(500, () -> XposedHelpers.callMethod(activity, "finishAndRemoveTask"));
@@ -31,7 +32,7 @@ public class AutoError {
                         // XposedHelpers.callMethod(utils.getContext(), "finish");
                         return;
                     }
-                    utils.log("钱迹错误捕获： " + string, true);
+
                     String url = getSolvedUrl(string);
                     Intent v0 = new Intent(utils.getContext(), WebViewActivity);
                     v0.putExtra("param_web_url", url);
