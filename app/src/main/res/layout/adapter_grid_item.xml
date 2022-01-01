@@ -33,7 +33,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="fitCenter"
-                android:src="@drawable/logo_jizhangya" />
+                android:src="@drawable/logo_qianji" />
 
             <TextView
                 android:id="@+id/item_text"

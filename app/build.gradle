@@ -18,8 +18,8 @@ android {
         applicationId "cn.dreamn.qianji_auto"
         minSdkVersion 24
         targetSdkVersion 31
-        versionCode 176
-        versionName "涅槃 3.2.1"
+        versionCode 177
+        versionName "涅槃 3.2.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {

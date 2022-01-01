@@ -114,7 +114,8 @@ public abstract class hookBase implements iHooker {
         if (getPackPageName() != null) {
             if (!pkg.equals(getPackPageName()) || !processName.equals(getPackPageName())) return;
         }
-        if (hookLoadPackage >= getHookIndex()) return;
+        // if (hookLoadPackage > getHookIndex()) return;
+
         mAppClassLoader = lpparam.classLoader;
         mContext = AndroidAppHelper.currentApplication();
         if (!needHelpFindApplication()) {
