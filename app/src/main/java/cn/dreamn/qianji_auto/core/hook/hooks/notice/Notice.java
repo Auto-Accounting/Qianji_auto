@@ -59,22 +59,7 @@ public class Notice extends hookBase {
     }
 
     private void detailNotice(Notification notification, String pkg) {
-        //去重
-        long t = System.currentTimeMillis();
-        String last = utils.readData("lastNotification");
-        String time = utils.readData("lastNotificationTime");
-        utils.writeData("lastNotification", notification.toString());
-        utils.writeData("lastNotificationTime", String.valueOf(t));
 
-        if (time.equals("")) {
-            time = "0";
-        }
-
-        if (last.equals(notification.toString())) {
-            if (t - Long.parseLong(time) <= 1000) {
-                return;
-            }
-        }
         //获得包名
         String aPackage = pkg;
         utils.log("系统通知 notification:" + notification.toString());
@@ -96,6 +81,24 @@ public class Notice extends hookBase {
             utils.log("系统通知 捕获到了通知数据，但是通知内容（Bundle）为空");
             return;
         }
+
+        //去重
+        long t = System.currentTimeMillis();
+        String last = utils.readData("lastNotification");
+        String time = utils.readData("lastNotificationTime");
+        utils.writeData("lastNotification", bundle.toString());
+        utils.writeData("lastNotificationTime", String.valueOf(t));
+
+        if (time.equals("")) {
+            time = "0";
+        }
+
+        if (last.equals(bundle.toString())) {
+            if (t - Long.parseLong(time) <= 1000) {
+                return;
+            }
+        }
+
         String title = bundle.getString(Notification.EXTRA_TITLE);
         String text = bundle.getString(Notification.EXTRA_TEXT);
         if (title == null || text == null) {

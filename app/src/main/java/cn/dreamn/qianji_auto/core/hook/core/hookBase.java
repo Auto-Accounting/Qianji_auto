@@ -87,13 +87,9 @@ public abstract class hookBase implements iHooker {
 
 
     public void initLoadPackage(String pkg) {
-        if (canUseCache()) {
-            if (isInject(getClass().getName() + ".initLoadPackage." + pkg))
-                return;
-        } else {
-            hookLoadPackage++;
-            if (hookLoadPackage != getHookIndex()) return;
-        }
+
+        hookLoadPackage++;
+        if (hookLoadPackage != getHookIndex()) return;
 
 
         utils = new Utils(mContext, mAppClassLoader, getAppName(), getPackPageName());
@@ -118,6 +114,7 @@ public abstract class hookBase implements iHooker {
         if (getPackPageName() != null) {
             if (!pkg.equals(getPackPageName()) || !processName.equals(getPackPageName())) return;
         }
+        if (hookLoadPackage >= getHookIndex()) return;
         mAppClassLoader = lpparam.classLoader;
         mContext = AndroidAppHelper.currentApplication();
         if (!needHelpFindApplication()) {
@@ -140,14 +137,8 @@ public abstract class hookBase implements iHooker {
     }
 
     private void initZygoteMainHook() {
-        if (canUseCache()) {
-            if (isInject(getClass().getName() + ".initZygote"))
-                return;
-        } else {
-            hookZygoteMain++;
-            if (hookZygoteMain != getHookIndex()) return;
-        }
-
+        hookZygoteMain++;
+        if (hookZygoteMain != getHookIndex()) return;
 
         utils = new Utils(mContext, mAppClassLoader, getAppName(), "");
         try {

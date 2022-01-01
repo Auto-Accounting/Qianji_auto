@@ -12,6 +12,7 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class LoginInfo {
     public static void init(Utils utils) {
+
         XposedHelpers.findAndHookMethod(XposedHelpers.findClass("com.tencent.mm.ui.LauncherUI", utils.getClassLoader()), "onCreate", Bundle.class, new XC_MethodHook() {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 SharedPreferences sharedPreferences = ((Activity) param.thisObject).getSharedPreferences("com.tencent.mm_preferences", 0);
