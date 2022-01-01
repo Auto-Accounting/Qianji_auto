@@ -26,15 +26,19 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class QianjiAuto extends hookBase {
 
+    static hookBase self = null;
+
+    public static hookBase getInstance() {
+        if (self == null)
+            self = new QianjiAuto();
+        return self;
+    }
+
     @Override
     public void hookLoadPackage() {
         XposedHelpers.findAndHookMethod("cn.dreamn.qianji_auto.setting.AppStatus", mAppClassLoader, "xposedActive", Context.class, XC_MethodReplacement.returnConstant(true));
     }
 
-    @Override
-    public void hookInitZygoteMain() {
-
-    }
 
     @Override
     public String getPackPageName() {
@@ -47,10 +51,6 @@ public class QianjiAuto extends hookBase {
     }
 
 
-    @Override
-    public Integer getHookIndex() {
-        return 2;
-    }
 
     @Override
     public boolean needHelpFindApplication() {

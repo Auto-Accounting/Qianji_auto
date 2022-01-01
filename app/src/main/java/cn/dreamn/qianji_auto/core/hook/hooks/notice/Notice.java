@@ -11,6 +11,13 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class Notice extends hookBase {
 
+    static hookBase self = null;
+
+    public static hookBase getInstance() {
+        if (self == null)
+            self = new Notice();
+        return self;
+    }
 
     @Override
     public void hookLoadPackage() {
@@ -50,9 +57,6 @@ public class Notice extends hookBase {
 
     }
 
-    @Override
-    public void hookInitZygoteMain() {
-    }
 
     private void detailNotice(Notification notification) {
         detailNotice(notification, null);
@@ -138,11 +142,6 @@ public class Notice extends hookBase {
     @Override
     public String getAppName() {
         return "系统通知";
-    }
-
-    @Override
-    public Integer getHookIndex() {
-        return 1;
     }
 
 

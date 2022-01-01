@@ -8,6 +8,14 @@ import cn.dreamn.qianji_auto.core.hook.hooks.sms.hooks.PermissionManagerServiceH
 import cn.dreamn.qianji_auto.core.hook.hooks.sms.hooks.PermissionManagerServiceHook30;
 
 public class Permission extends hookBase {
+    static hookBase self = null;
+
+    public static hookBase getInstance() {
+        if (self == null)
+            self = new Permission();
+        return self;
+    }
+
     @Override
     public void hookLoadPackage() {
 
@@ -21,10 +29,7 @@ public class Permission extends hookBase {
         }
     }
 
-    @Override
-    public void hookInitZygoteMain() {
 
-    }
 
     @Override
     public String getPackPageName() {
@@ -36,10 +41,6 @@ public class Permission extends hookBase {
         return "安卓权限";
     }
 
-    @Override
-    public Integer getHookIndex() {
-        return 1;
-    }
 
 
     @Override

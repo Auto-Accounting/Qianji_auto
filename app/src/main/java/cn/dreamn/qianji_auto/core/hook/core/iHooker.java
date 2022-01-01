@@ -17,7 +17,6 @@
 
 package cn.dreamn.qianji_auto.core.hook.core;
 
-import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public interface iHooker {
@@ -26,9 +25,6 @@ public interface iHooker {
 
     String getAppName();
 
-    Integer getHookIndex();
-
-    void initZygote(IXposedHookZygoteInit.StartupParam startupParam);
 
     void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam);
 

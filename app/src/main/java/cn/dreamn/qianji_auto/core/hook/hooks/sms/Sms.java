@@ -4,7 +4,13 @@ import cn.dreamn.qianji_auto.core.hook.core.hookBase;
 import cn.dreamn.qianji_auto.core.hook.hooks.sms.hooks.SmsIntent;
 
 public class Sms extends hookBase {
+    static hookBase self = null;
 
+    public static hookBase getInstance() {
+        if (self == null)
+            self = new Sms();
+        return self;
+    }
 
     @Override
     public void hookLoadPackage() {
@@ -16,10 +22,7 @@ public class Sms extends hookBase {
         }
     }
 
-    @Override
-    public void hookInitZygoteMain() {
 
-    }
 
     @Override
     public String getPackPageName() {
@@ -31,10 +34,6 @@ public class Sms extends hookBase {
         return "短信";
     }
 
-    @Override
-    public Integer getHookIndex() {
-        return 1;
-    }
 
     @Override
     public boolean needHelpFindApplication() {

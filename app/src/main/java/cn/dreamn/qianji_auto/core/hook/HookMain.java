@@ -8,33 +8,26 @@ import cn.dreamn.qianji_auto.core.hook.hooks.alipay.Alipay;
 import cn.dreamn.qianji_auto.core.hook.hooks.auto.QianjiAuto;
 import cn.dreamn.qianji_auto.core.hook.hooks.notice.Notice;
 import cn.dreamn.qianji_auto.core.hook.hooks.qianji.Qianji;
+import cn.dreamn.qianji_auto.core.hook.hooks.sms.Permission;
 import cn.dreamn.qianji_auto.core.hook.hooks.sms.Sms;
 import cn.dreamn.qianji_auto.core.hook.hooks.wechat.Wechat;
 import de.robv.android.xposed.IXposedHookLoadPackage;
-import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class HookMain implements IXposedHookLoadPackage, IXposedHookZygoteInit {
+public class HookMain implements IXposedHookLoadPackage {
 
     private final List<hookBase> mHookList;
 
     {
         mHookList = new ArrayList<>();
 
-        mHookList.add(new QianjiAuto());
-        mHookList.add(new Qianji());
-        mHookList.add(new Wechat());
-        mHookList.add(new Alipay());
-        mHookList.add(new Notice());
-        mHookList.add(new Sms());
-    }
-
-    @Override
-    public void initZygote(StartupParam startupParam) {
-        for (hookBase hook : mHookList) {
-            hook.initZygote(startupParam);
-        }
-
+        mHookList.add(QianjiAuto.getInstance());
+        mHookList.add(Qianji.getInstance());
+        mHookList.add(Alipay.getInstance());
+        mHookList.add(Wechat.getInstance());
+        mHookList.add(Sms.getInstance());
+        mHookList.add(Notice.getInstance());
+        mHookList.add(Permission.getInstance());
     }
 
 

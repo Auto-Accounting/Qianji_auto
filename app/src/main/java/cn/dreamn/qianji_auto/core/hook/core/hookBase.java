@@ -28,7 +28,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
-import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
@@ -40,10 +39,15 @@ public abstract class hookBase implements iHooker {
     protected Context mContext = null;
     protected String TAG = "Auto-AppHook";
     protected Utils utils;
-    protected static int hookLoadPackage = 0;
-    protected static int hookZygoteMain = 0;
 
-    private void hookMainInOtherAppContext(Runnable runnable, Boolean isInit) {
+    @Override
+    protected void finalize() throws Throwable {
+        mContext = null;
+        mAppClassLoader = null;
+        System.setProperty("AUTO_FULL_TAG_" + getClass().getSimpleName(), "false");
+    }
+
+    private void hookMainInOtherAppContext(Runnable runnable) {
         Runnable findContext1 = new Runnable() {
             @Override
             public void run() {
@@ -72,14 +76,10 @@ public abstract class hookBase implements iHooker {
                 });
             }
         };
-        if (isInit) {
+        try {
+            findContext1.run();
+        } catch (Throwable e) {
             findContext2.run();
-        } else {
-            try {
-                findContext1.run();
-            } catch (Throwable e) {
-                findContext2.run();
-            }
         }
 
 
@@ -87,11 +87,12 @@ public abstract class hookBase implements iHooker {
 
 
     public void initLoadPackage(String pkg) {
-
-        hookLoadPackage++;
-        if (hookLoadPackage != getHookIndex()) return;
-
-
+        if ("true".equals(System.getProperty("AUTO_FULL_TAG_" + getClass().getSimpleName()))) {
+            //  XposedBridge.log("不允许二次加载hook代码");
+            //I don't know... What happened?
+            return;
+        }
+        System.setProperty("AUTO_FULL_TAG_" + getClass().getSimpleName(), "true");
         utils = new Utils(mContext, mAppClassLoader, getAppName(), getPackPageName());
         XposedBridge.log(" 自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName());
         try {
@@ -104,13 +105,12 @@ public abstract class hookBase implements iHooker {
 
     public abstract void hookLoadPackage();
 
-    public abstract void hookInitZygoteMain();
-
     @Override
     public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
 
         String pkg = lpparam.packageName;
         String processName = lpparam.processName;
+        if (!lpparam.isFirstApplication) return;
         if (getPackPageName() != null) {
             if (!pkg.equals(getPackPageName()) || !processName.equals(getPackPageName())) return;
         }
@@ -122,32 +122,9 @@ public abstract class hookBase implements iHooker {
             initLoadPackage(pkg);
             return;
         }
-        hookMainInOtherAppContext(() -> initLoadPackage(pkg), false);
+        hookMainInOtherAppContext(() -> initLoadPackage(pkg));
     }
 
-    @Override
-    public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) {
-
-        mContext = AndroidAppHelper.currentApplication();
-        mAppClassLoader = getClass().getClassLoader();
-        if (!needHelpFindApplication()) {
-            initZygoteMainHook();
-            return;
-        }
-        hookMainInOtherAppContext(this::initZygoteMainHook, true);
-    }
-
-    private void initZygoteMainHook() {
-        hookZygoteMain++;
-        if (hookZygoteMain != getHookIndex()) return;
-
-        utils = new Utils(mContext, mAppClassLoader, getAppName(), "");
-        try {
-            hookInitZygoteMain();
-        } catch (Throwable e) {
-            utils.log("hook 出现严重错误！" + e.toString(), true);
-        }
-    }
 
     /**
      * 防止重复执行Hook代码

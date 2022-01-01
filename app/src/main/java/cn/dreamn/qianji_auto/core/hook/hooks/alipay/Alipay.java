@@ -25,6 +25,13 @@ import cn.dreamn.qianji_auto.core.hook.hooks.alipay.hooks.hookSetting;
 
 
 public class Alipay extends hookBase {
+    static hookBase self = null;
+
+    public static hookBase getInstance() {
+        if (self == null)
+            self = new Alipay();
+        return self;
+    }
 
     @Override
     public void hookLoadPackage() {
@@ -61,10 +68,7 @@ public class Alipay extends hookBase {
 
     }
 
-    @Override
-    public void hookInitZygoteMain() {
 
-    }
 
 
     @Override
@@ -77,10 +81,6 @@ public class Alipay extends hookBase {
         return "支付宝";
     }
 
-    @Override
-    public Integer getHookIndex() {
-        return 2;
-    }
 
     @Override
     public boolean needHelpFindApplication() {

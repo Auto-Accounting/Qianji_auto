@@ -26,7 +26,13 @@ import cn.dreamn.qianji_auto.core.hook.hooks.qianji.hooks.Reimbursement;
 import cn.dreamn.qianji_auto.core.hook.hooks.qianji.hooks.Timeout;
 
 public class Qianji extends hookBase {
+    static hookBase self = null;
 
+    public static hookBase getInstance() {
+        if (self == null)
+            self = new Qianji();
+        return self;
+    }
 
     @Override
     public void hookLoadPackage() {
@@ -65,10 +71,7 @@ public class Qianji extends hookBase {
 
     }
 
-    @Override
-    public void hookInitZygoteMain() {
 
-    }
 
     @Override
     public String getPackPageName() {
@@ -78,12 +81,6 @@ public class Qianji extends hookBase {
     @Override
     public String getAppName() {
         return "钱迹";
-    }
-
-
-    @Override
-    public Integer getHookIndex() {
-        return 2;
     }
 
     @Override

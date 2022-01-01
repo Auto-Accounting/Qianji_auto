@@ -27,6 +27,13 @@ import cn.dreamn.qianji_auto.core.hook.hooks.wechat.hooks.Setting;
 
 public class Wechat extends hookBase {
 
+    static hookBase self = null;
+
+    public static hookBase getInstance() {
+        if (self == null)
+            self = new Wechat();
+        return self;
+    }
 
     @Override
     public void hookLoadPackage() {
@@ -71,10 +78,7 @@ public class Wechat extends hookBase {
 
     }
 
-    @Override
-    public void hookInitZygoteMain() {
 
-    }
 
     @Override
     public String getPackPageName() {
@@ -87,10 +91,6 @@ public class Wechat extends hookBase {
     }
 
 
-    @Override
-    public Integer getHookIndex() {
-        return 2;
-    }
 
     @Override
     public boolean needHelpFindApplication() {
