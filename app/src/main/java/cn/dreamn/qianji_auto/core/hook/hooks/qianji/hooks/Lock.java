@@ -18,14 +18,15 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class Lock {
     public static void init(Utils utils) throws ClassNotFoundException {
+        String type = utils.readDataByApp("apps", "lock_qianji_style");
+        if (!type.equals("1")) {
+            return;
+        }
         XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                String type = utils.readDataByApp("apps", "lock_qianji_style");
                 Activity activity = (Activity) param.thisObject;
-                if (type.equals("1")) {
-                    activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-                }
+                activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
             }
 
 
@@ -33,10 +34,7 @@ public class Lock {
         XposedHelpers.findAndHookMethod(Application.class, "onCreate", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {
-                String type = utils.readDataByApp("apps", "lock_qianji_style");
-                if (!type.equals("1")) {
-                    return;
-                }
+
                 AppFrontBackHelper helper = new AppFrontBackHelper();
                 helper.register((Application) param.thisObject, new AppFrontBackHelper.OnAppStatusListener() {
                     @Override
