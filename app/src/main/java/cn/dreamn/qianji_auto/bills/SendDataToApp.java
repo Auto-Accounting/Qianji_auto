@@ -56,10 +56,10 @@ public class SendDataToApp {
         MMKV mmkv = MMKV.defaultMMKV();
         //去重
         long t = System.currentTimeMillis();
-        String last = mmkv.getString("lastNotification", "");
-        String time = mmkv.getString("lastNotificationTime", "");
-        mmkv.putString("lastNotification", billInfo.toString());
-        mmkv.putString("lastNotificationTime", String.valueOf(t));
+        String last = mmkv.getString("lastbillInfo", "");
+        String time = mmkv.getString("lastbillInfoTime", "");
+        mmkv.putString("lastbillInfo", billInfo.toString());
+        mmkv.putString("lastbillInfoTime", String.valueOf(t));
 
         if (time == null || time.equals("")) {
             time = "0";
