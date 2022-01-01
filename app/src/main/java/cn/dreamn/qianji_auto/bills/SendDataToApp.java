@@ -52,8 +52,25 @@ public class SendDataToApp {
     private static final String TAG = "记账流程";
 
     public static void call(Context context, BillInfo billInfo) {
-        Log.i(TAG, "当前进入记账流程");
-        Log.i("原始数据：" + billInfo.toString());
+        Log.i(TAG, "原始数据：" + billInfo.toString());
+        MMKV mmkv = MMKV.defaultMMKV();
+        //去重
+        long t = System.currentTimeMillis();
+        String last = mmkv.getString("lastNotification", "");
+        String time = mmkv.getString("lastNotificationTime", "");
+        mmkv.putString("lastNotification", billInfo.toString());
+        mmkv.putString("lastNotificationTime", String.valueOf(t));
+
+        if (time == null || time.equals("")) {
+            time = "0";
+        }
+
+        if (last != null && last.equals(billInfo.toString())) {
+            if (t - Long.parseLong(time) <= 1000) {
+                Log.i(TAG, "账单重复：" + billInfo.toString());
+                return;
+            }
+        }
 
         Handler mHandler = new Handler(Looper.getMainLooper()) {
             @Override
