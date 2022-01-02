@@ -92,9 +92,6 @@ public class Reimbursement {
                     }
 
                 }
-
-                // param.setResult((boolean) param.getResult() || type == 998);
-                // utils.log("type",String.valueOf(type),"hook方法1");
             }
         });
     }

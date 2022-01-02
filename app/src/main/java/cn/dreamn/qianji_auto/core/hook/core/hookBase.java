@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.text.TextUtils;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -36,13 +37,13 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public abstract class hookBase implements iHooker {
 
     protected ClassLoader mAppClassLoader;
-    protected Context mContext = null;
+    protected WeakReference<Context> mContext = new WeakReference<>(null);
     protected String TAG = "Auto-AppHook";
     protected Utils utils;
 
     @Override
     protected void finalize() throws Throwable {
-        mContext = null;
+        mContext = new WeakReference<>(null);
         mAppClassLoader = null;
         System.setProperty("AUTO_FULL_TAG_" + getClass().getSimpleName(), "false");
     }
@@ -55,8 +56,8 @@ public abstract class hookBase implements iHooker {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         super.afterHookedMethod(param);
-                        mContext = (Context) param.args[0];
-                        mAppClassLoader = mContext.getClassLoader();
+                        mContext = new WeakReference<>((Context) param.args[0]);
+                        mAppClassLoader = mContext.get().getClassLoader();
                         runnable.run();
                     }
                 });
@@ -69,8 +70,8 @@ public abstract class hookBase implements iHooker {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         super.afterHookedMethod(param);
-                        mContext = (Context) param.args[0];
-                        mAppClassLoader = mContext.getClassLoader();
+                        mContext = new WeakReference<>((Context) param.args[0]);
+                        mAppClassLoader = mContext.get().getClassLoader();
                         runnable.run();
                     }
                 });
@@ -93,7 +94,7 @@ public abstract class hookBase implements iHooker {
             return;
         }
         System.setProperty("AUTO_FULL_TAG_" + getClass().getSimpleName(), "true");
-        utils = new Utils(mContext, mAppClassLoader, getAppName(), getPackPageName());
+        utils = new Utils(mContext.get(), mAppClassLoader, getAppName(), getPackPageName());
         XposedBridge.log(" 自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName());
         try {
             hookLoadPackage();
@@ -117,7 +118,7 @@ public abstract class hookBase implements iHooker {
         // if (hookLoadPackage > getHookIndex()) return;
 
         mAppClassLoader = lpparam.classLoader;
-        mContext = AndroidAppHelper.currentApplication();
+        mContext = new WeakReference<>(AndroidAppHelper.currentApplication());
         if (!needHelpFindApplication()) {
             initLoadPackage(pkg);
             return;

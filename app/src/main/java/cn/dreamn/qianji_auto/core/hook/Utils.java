@@ -106,7 +106,7 @@ public class Utils {
     }
 
     public void sendString(String str) {
-        sendString(str, "app", null);
+        sendString(str, "app", getPackageName());
     }
 
     public void sendString(String str, String identify, String packageName) {
@@ -250,6 +250,23 @@ public class Utils {
         return data.getString(name, "");
     }
 
+    public void dumpFields(Object classObj, Class<?> dumpClass) {
+        log("开始获取对象中的属性值：" + dumpClass.getSimpleName());
+        try {
+            Field[] fields = dumpClass.getDeclaredFields();
+            for (Field field : fields) {
+                field.setAccessible(true);
+                log(field.getName(), String.valueOf(field.get(classObj)));
+            }
+            log("dump完成：");
+        } catch (Exception e) {
+            log("dump失败：", e.toString());
+        }
+    }
+
+    public void dumpFields(Object classObj) {
+        dumpFields(classObj, classObj.getClass());
+    }
 
     // 获取指定名称的类声明的类成员变量、类方法、内部类的信息
     public void dumpClass(Class<?> actions) {

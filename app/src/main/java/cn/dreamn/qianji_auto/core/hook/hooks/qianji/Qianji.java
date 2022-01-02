@@ -26,11 +26,8 @@ import cn.dreamn.qianji_auto.core.hook.hooks.qianji.hooks.Reimbursement;
 import cn.dreamn.qianji_auto.core.hook.hooks.qianji.hooks.Timeout;
 
 public class Qianji extends hookBase {
-    static hookBase self = null;
-
+    static final hookBase self = new Qianji();
     public static hookBase getInstance() {
-        if (self == null)
-            self = new Qianji();
         return self;
     }
 

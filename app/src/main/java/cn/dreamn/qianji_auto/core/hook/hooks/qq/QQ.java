@@ -2,14 +2,10 @@ package cn.dreamn.qianji_auto.core.hook.hooks.qq;
 
 import cn.dreamn.qianji_auto.core.hook.core.hookBase;
 import cn.dreamn.qianji_auto.core.hook.hooks.qq.hooks.Msg;
-import cn.dreamn.qianji_auto.core.hook.hooks.qq.hooks.QLog;
 
 public class QQ extends hookBase {
-    static hookBase self = null;
-
+    final static hookBase self = new QQ();
     public static hookBase getInstance() {
-        if (self == null)
-            self = new QQ();
         return self;
     }
 
@@ -21,7 +17,7 @@ public class QQ extends hookBase {
             utils.log("hook出错！" + e.toString());
         }
         try {
-            QLog.init(utils);
+            //  QLog.init(utils);
         } catch (Throwable e) {
             utils.log("hook出错！" + e.toString());
         }
