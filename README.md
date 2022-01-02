@@ -1,6 +1,6 @@
 
 <p align="center">
-<img src="https://cdn.jsdelivr.net/gh/dreamncn/picBed@master/uPic/2021_12_31_14_10_42_1640931042_1640931042780_PWT1aN.png" width=120 style="text-align:center">
+<img src="https://cdn.jsdelivr.net/gh/dreamncn/picBed@master/uPic/2022_01_02_21_04_42_1641128682_1641128682216_WVHsgT.png" width=120 style="text-align:center">
  <h1 align="center">自动记账</h1>
  <h3 align="center">🚀一款基于Xposed和无障碍的记账插件</h3>
 <p align="center">
