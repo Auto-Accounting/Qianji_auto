@@ -7,13 +7,12 @@ import static cn.dreamn.qianji_auto.ui.utils.HandlerUtil.HANDLE_REFRESH;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
@@ -27,12 +26,16 @@ import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import cn.dreamn.qianji_auto.R;
+import cn.dreamn.qianji_auto.setting.AppInfo;
 import cn.dreamn.qianji_auto.ui.adapter.AppListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
@@ -127,37 +130,52 @@ public class MonitorFragment extends BaseFragment implements TextWatcher {
 
     private void loadFromData() {
         if (statusView != null) statusView.showLoadingView();
-        TaskThread.onThread(() -> {
+        TaskThread.onThread(() -> getPkgList(getActivity()));
 
-            SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(getContext(), "apps", Context.MODE_PRIVATE);
-            String[] apps = sharedPreferences.getString("apps", "").split(",");
+    }
 
-            List<Bundle> checked = new ArrayList<Bundle>();
-            List<Bundle> packages = new ArrayList<Bundle>();
-            try {
-                List<PackageInfo> packageInfos = getActivity().getPackageManager().getInstalledPackages(PackageManager.GET_ACTIVITIES | PackageManager.GET_SERVICES);
-                for (PackageInfo info : packageInfos) {
-                    String pkg = info.packageName;
-                    String name = info.applicationInfo.loadLabel(getActivity().getPackageManager()).toString();
-                    if (!keyWord.equals("") && !name.contains(keyWord))
-                        continue;
-                    Bundle bundle = new Bundle();
-                    bundle.putString("name", name);
-                    bundle.putString("pkg", pkg);
-                    boolean check = isIn(apps, pkg);
-                    bundle.putBoolean("checked", check);
-                    if (check) {
-                        checked.add(bundle);
-                    } else packages.add(bundle);
+    private void getPkgList(Context context) {
+        SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(getContext(), "apps", Context.MODE_PRIVATE);
+        String[] apps = sharedPreferences.getString("apps", "").split(",");
+        List<Bundle> checked = new ArrayList<Bundle>();
+        List<Bundle> packages = new ArrayList<>();
+        try {
+            Process p = Runtime.getRuntime().exec("pm list packages");
+            InputStreamReader isr = new InputStreamReader(p.getInputStream(), StandardCharsets.UTF_8);
+            BufferedReader br = new BufferedReader(isr);
+            String line = br.readLine();
+            while (line != null) {
+                line = line.trim();
+                if (line.length() > 8) {
+                    String prefix = line.substring(0, 8);
+                    if (prefix.equalsIgnoreCase("package:")) {
+                        line = line.substring(8).trim();
+                        if (!TextUtils.isEmpty(line)) {
+                            if (!keyWord.equals("") && !line.contains(keyWord))
+                                continue;
+                            String name = AppInfo.getName(getActivity(), line);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("name", name);
+                            bundle.putString("pkg", line);
+                            boolean check = isIn(apps, line);
+                            bundle.putBoolean("checked", check);
+                            if (check) {
+                                checked.add(bundle);
+                            } else packages.add(bundle);
+                        }
+                    }
                 }
-                checked.addAll(packages);
-                list = checked;
-                HandlerUtil.send(mHandler, HANDLE_OK);
-            } catch (Throwable t) {
-                t.printStackTrace();
+                line = br.readLine();
             }
-        });
 
+            br.close();
+            p.destroy();
+            checked.addAll(packages);
+            list = checked;
+            HandlerUtil.send(mHandler, HANDLE_OK);
+        } catch (Throwable ignored) {
+
+        }
     }
 
     @Override

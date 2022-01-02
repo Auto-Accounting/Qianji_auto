@@ -49,6 +49,17 @@ public class AppInfo {
         return null;
     }
 
+    public static PackageInfo getPackageInfo(Context context, String pkg) {
+        try {
+            PackageManager pm = context.getApplicationContext().getPackageManager();
+            PackageInfo packageInfo = pm.getPackageInfo(pkg, 0);
+            return packageInfo;
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static String getName(Context context, String pkg) {
         try {
             PackageManager pm = context.getApplicationContext().getPackageManager();
