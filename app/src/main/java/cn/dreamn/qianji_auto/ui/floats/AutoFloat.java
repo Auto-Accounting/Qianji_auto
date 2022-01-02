@@ -495,6 +495,7 @@ public class AutoFloat {
 
         tv_book.setText(billInfo.getBookName());
         tv_category.setText(billInfo.getCateName());
+
         tv_type.setText(BillInfo.getTypeName(billInfo.getType()));
         tv_account1.setText(billInfo.getAccountName());
         tv_account2.setText(billInfo.getAccountName2());
