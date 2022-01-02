@@ -1,11 +1,16 @@
-# 自动记账
- 🚀一款基于Xposed和无障碍的记账插件
 
+<p align="center">
+<img src="https://cdn.jsdelivr.net/gh/dreamncn/picBed@master/uPic/2021_12_31_14_10_42_1640931042_1640931042780_PWT1aN.png" width=120 style="text-align:center">
+ <h1 align="center">自动记账</h1>
+ <h3 align="center">🚀一款基于Xposed和无障碍的记账插件</h3>
+<p align="center">
+<img src="https://img.shields.io/static/v1?label=framework&message=Xposed/无障碍&color=success&style=for-the-badge"/>
+ <img src="https://img.shields.io/static/v1?label=licenes&message=GPL3.0&color=important&style=for-the-badge"/>
+ <img src="https://img.shields.io/github/stars/dreamncn/Qianji_auto.svg?style=for-the-badge"/>
+ <img src="https://img.shields.io/static/v1?label=download&message=44K&color=9cf&style=for-the-badge"/>
+</p>
+</p>
 
-![](https://img.shields.io/static/v1?label=framework&message=Xposed/无障碍&color=success&style=for-the-badge)
-![](https://img.shields.io/static/v1?label=licenes&message=GPL3.0&color=important&style=for-the-badge)
-![](https://img.shields.io/github/stars/dreamncn/Qianji_auto.svg?style=for-the-badge)
-![](https://img.shields.io/static/v1?label=download&message=44K&color=9cf&style=for-the-badge)
 
 > 缘起
 > 
@@ -39,42 +44,25 @@
 > 
 > **自动记账：** 一款真正人性化的插件。
 
-----
-> 注意 
->
-> 1、自动记账是一款辅助记账软件，基于[钱迹](https://www.coolapk.com/apk/com.mutangtech.qianji)自动记账接口开发。因此本插件需搭配[钱迹](https://www.coolapk.com/apk/com.mutangtech.qianji)App使用。<br/>
->
-> 2、自动记账3.0版本中已经加入了对其他记账软件的支持，详情请参考[使用其他记账软件]()
 
-----
+ 注意 
 
-自动记账提供 **Xposed** 和 **无障碍** 两种模式。由于实现的原理差异，在功能上具有一定的差异，在条件允许的情况下，我们推荐使用**Xposed模式**，使用**虚拟框架**的用户在体验上略差于**Xposed**。
+ 1、自动记账是一款辅助记账软件，基于[钱迹](https://www.coolapk.com/apk/com.mutangtech.qianji)自动记账接口开发。因此本插件需搭配[钱迹](https://www.coolapk.com/apk/com.mutangtech.qianji)App使用。<br/>
+
+ 2、自动记账3.0版本中已经加入了对其他记账软件的支持，详情请参考[使用其他记账软件]()
 
 
-具体的对比如下:
 
-| 优点及缺点                                              | 无障碍                                    | Xposed                                |
-| ------------------------------------------------------- | ----------------------------------------- | ------------------------------------- |
-| **直接报销/退款，无需进入钱迹**                         | <font color="#ff7733">✘</font>            | <font color="#ff7733">✔</font>        |
-| **直接从钱迹拉取资产、分类数据**                        | <font color="#ff7733">✘</font>            | <font color="#44cc66">✔</font>        |
-| **微信、支付宝等账单识别**                              | <font color="#44cc66">✔</font>            | <font color="#44cc66">✔</font>        |
-| **通知以及短信监听识别**                                | <font color="#44cc66">✔</font>            | <font color="#44cc66">✔</font>        |
-| **后台扣费账单识别**                                    | <font color="#ff7733">✘</font>            | <font color="#44cc66">✔</font>        |
-| **账单信息读取**                                        | **<font color="#ff7733">不够精准</font>** | **<font color="#44cc66">精准</font>** |
-| **<font color="#ff7733">需要解锁BootLoader刷机</font>** | <font color="#44cc66">✘</font>            | <font color="#ff7733">✔</font>        |
-| **<font color="#ff7733">需要常驻后台</font>**           | <font color="#ff7733">✔</font>            | <font color="#44cc66">✘</font>        |
-
-
-## 文字教程
+## 📖 文字教程
 
 [点击开始教程](https://auto.ankio.net)
 
 
-## 视频教程
+## 📺 视频教程
 
 [点击开始视频教程](https://player.bilibili.com/player.html?aid=289448844&bvid=BV1Hf4y147Yi&cid=303785417&page=1)
 
-## 编译步骤
+## 🛠️ 编译步骤
 
 - 下载源代码到本地
 
@@ -86,13 +74,16 @@ git clone https://github.com/dreamncn/Qianji_auto
 
 - 点击菜单中 `Run` - `Build`
 
-## 下载
+## ⬇️ 下载
 
 - [酷安](https://www.coolapk.com/apk/cn.dreamn.qianji_auto)
 - [LSPosed仓库](https://github.com/Xposed-Modules-Repo/cn.dreamn.qianji_auto/releases/tag/v3.2.4)
 
 
+## 📝 License
 
+Copyright © 2022 [Ankio](https://www.ankio.net).<br />
+This project is [GPL3.0](https://github.com/dreamncn/Qianji_auto/blob/master/LICENSE) licensed.
 
 
 
