@@ -26,14 +26,11 @@ import cn.dreamn.qianji_auto.core.hook.hooks.wechat.hooks.RedPackage;
 import cn.dreamn.qianji_auto.core.hook.hooks.wechat.hooks.Setting;
 
 public class Wechat extends hookBase {
-
-    static hookBase self = null;
-
+    static final hookBase self = new Wechat();
     public static hookBase getInstance() {
-        if (self == null)
-            self = new Wechat();
         return self;
     }
+
 
     @Override
     public void hookLoadPackage() {

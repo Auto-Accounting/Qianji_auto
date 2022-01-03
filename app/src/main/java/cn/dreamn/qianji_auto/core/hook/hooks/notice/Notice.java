@@ -11,11 +11,9 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class Notice extends hookBase {
 
-    static hookBase self = null;
+    static final hookBase self = new Notice();
 
     public static hookBase getInstance() {
-        if (self == null)
-            self = new Notice();
         return self;
     }
 

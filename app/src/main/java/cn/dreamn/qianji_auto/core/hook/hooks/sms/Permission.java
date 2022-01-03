@@ -45,6 +45,6 @@ public class Permission extends hookBase {
 
     @Override
     public boolean needHelpFindApplication() {
-        return true;
+        return false;
     }
 }

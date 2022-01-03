@@ -25,11 +25,9 @@ import cn.dreamn.qianji_auto.core.hook.hooks.alipay.hooks.hookSetting;
 
 
 public class Alipay extends hookBase {
-    static hookBase self = null;
+    static final hookBase self = new Alipay();
 
     public static hookBase getInstance() {
-        if (self == null)
-            self = new Alipay();
         return self;
     }
 
