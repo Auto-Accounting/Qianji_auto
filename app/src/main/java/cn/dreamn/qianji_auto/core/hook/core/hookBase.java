@@ -45,7 +45,7 @@ public abstract class hookBase implements iHooker {
     protected void finalize() throws Throwable {
         mContext = new WeakReference<>(null);
         mAppClassLoader = null;
-        System.setProperty("AUTO_FULL_TAG_" + getClass().getSimpleName(), "false");
+        System.setProperty("AUTO_FULL_TAG_" + getClass().getName(), "false");
     }
 
     private void hookMainInOtherAppContext(Runnable runnable) {
@@ -88,12 +88,12 @@ public abstract class hookBase implements iHooker {
 
 
     public void initLoadPackage(String pkg) {
-        if ("true".equals(System.getProperty("AUTO_FULL_TAG_" + getClass().getSimpleName()))) {
+       /* if ("true".equals(System.getProperty("AUTO_FULL_TAG_" + getClass().getName()))) {
             //  XposedBridge.log("不允许二次加载hook代码");
             //I don't know... What happened?
             return;
-        }
-        System.setProperty("AUTO_FULL_TAG_" + getClass().getSimpleName(), "true");
+        }*/
+        System.setProperty("AUTO_FULL_TAG_" + getClass().getName(), "true");
         utils = new Utils(mContext.get(), mAppClassLoader, getAppName(), getPackPageName());
         XposedBridge.log(" 自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName());
         try {
