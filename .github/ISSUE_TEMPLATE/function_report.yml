@@ -1,0 +1,38 @@
+name: 💚 功能建议
+description: 欢迎提供优秀的建议
+labels: ['enhancement']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > 注意:不合的建议将被直接忽略
+
+ 
+  - type: textarea
+    id: description_function
+    attributes:
+      label: 描述建议
+      description: 清楚简洁地说明你的建议
+      placeholder: 我建议...
+    validations:
+      required: true
+
+  - type: textarea
+    id: step
+    attributes:
+      label: 该功能带来的好处或者优点
+      description: 说明这个功能可以干嘛，对这个项目有什么帮助？
+      placeholder: 比如说，提高性能。
+      render: bash
+    validations:
+      required: true
+  
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: 这不是重复的 issue
+      options:
+        - label: 我已经搜索了[现有 issue](https://github.com/dreamncn/Qianji_auto/issues)，以确保该功能尚未被报告。
+          required: true
