@@ -78,5 +78,5 @@ body:
     attributes:
       label: 这不是重复的 issue
       options:
-        - label: 我已经搜索了[现有 issue](https://github.com/ascotbe/Medusa/issues)，以确保该错误尚未被报告。
+        - label: 我已经搜索了[现有 issue](https://github.com/dreamncn/Qianji_auto/issues)，以确保该错误尚未被报告。
           required: true
