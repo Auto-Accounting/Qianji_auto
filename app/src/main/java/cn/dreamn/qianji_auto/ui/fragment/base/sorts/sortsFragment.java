@@ -152,6 +152,8 @@ public class sortsFragment extends BaseFragment {
     @SuppressLint("CheckResult")
     @Override
     protected void initListeners() {
+        // 点击浮层按钮时，view_hide就会变为visible，这时点击它，就会将浮层收起
+        view_hide.setOnClickListener(v -> multiple_actions_down.collapse());
         multiple_actions_down.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
             public void onMenuExpanded() {
