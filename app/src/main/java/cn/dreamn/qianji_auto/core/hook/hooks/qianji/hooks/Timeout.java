@@ -2,7 +2,6 @@ package cn.dreamn.qianji_auto.core.hook.hooks.qianji.hooks;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
 import de.robv.android.xposed.XC_MethodReplacement;
