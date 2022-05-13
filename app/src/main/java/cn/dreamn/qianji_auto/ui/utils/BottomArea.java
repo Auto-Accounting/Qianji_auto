@@ -172,7 +172,6 @@ public class BottomArea {
         });
     }
 
-    @SuppressLint("SetTextI18n")
     static public void input(Context context, String title, String msg, String rightName, String leftName, InputCallback inputCallback) {
         LayoutInflater factory = LayoutInflater.from(context);
         final View textEntryView = factory.inflate(R.layout.include_list_input, null);
