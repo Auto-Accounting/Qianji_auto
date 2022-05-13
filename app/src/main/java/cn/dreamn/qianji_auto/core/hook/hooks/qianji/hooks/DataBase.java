@@ -68,6 +68,7 @@ public class DataBase {
                         "com.mutangtech.qianji.app.f.b",
                         "com.mutangtech.qianji.app.c.b",
                         "com.mutangtech.qianji.app.g.b",
+                        "g6.b",                             // 钱迹3.2.1.4版本
                 };
                 for (String cls : clazz) {
                     try {

@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.core.hook.Utils;
@@ -23,8 +25,7 @@ import de.robv.android.xposed.XposedHelpers;
 public class LeftSide {
     public static void init(Utils utils) throws ClassNotFoundException {
         ClassLoader mAppClassLoader = utils.getClassLoader();
-        Class<?> MainDrawerLayout = mAppClassLoader.loadClass("com.mutangtech.qianji.ui.maindrawer.MainDrawerLayout");
-        XposedHelpers.findAndHookMethod(MainDrawerLayout, "a", new XC_MethodHook() {
+        XC_MethodHook methodHook = new XC_MethodHook() {
             @SuppressLint("SetTextI18n")
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -42,7 +43,24 @@ public class LeftSide {
                 assert linearLayout != null;
                 AddView(linearLayout, context);
             }
-        });
+        };
+
+        HashMap<String, String> clazz = new HashMap<>();
+        clazz.put("com.mutangtech.qianji.ui.maindrawer.MainDrawerLayout", "a");
+        clazz.put("com.mutangtech.qianji.ui.maindrawer.MainDrawerLayout", "h");  // 钱迹3.2.1.4版本
+
+        for (Map.Entry entry : clazz.entrySet()) {
+            String cls = (String) entry.getKey();
+            String method = (String) entry.getValue();
+
+            try {
+                utils.log("钱迹 LeftSide.init Hook<" + cls + "." + method + ">");
+                XposedHelpers.findAndHookMethod(cls, mAppClassLoader, method, methodHook);
+                break;
+            } catch (Exception e) {
+                utils.log("钱迹 LeftSide.init Hook <" + cls + "." + method + "> HookError " + e);
+            }
+        }
     }
 
     public static void AddView(LinearLayout linearLayout, Context context) {
