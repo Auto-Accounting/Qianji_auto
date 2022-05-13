@@ -85,5 +85,10 @@ public class Alipay extends hookBase {
         return true;
     }
 
+    @Override
+    public int hookIndex() {
+        return 1;
+    }
+
 
 }

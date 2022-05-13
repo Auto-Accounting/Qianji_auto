@@ -30,4 +30,6 @@ public interface iHooker {
 
     boolean needHelpFindApplication();
 
+    int hookIndex();
+
 }

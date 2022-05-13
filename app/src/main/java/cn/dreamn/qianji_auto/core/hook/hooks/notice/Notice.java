@@ -158,4 +158,9 @@ public class Notice extends hookBase {
         }
         return flag;
     }
+
+    @Override
+    public int hookIndex() {
+        return 1;
+    }
 }

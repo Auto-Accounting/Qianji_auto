@@ -41,12 +41,7 @@ public abstract class hookBase implements iHooker {
     protected String TAG = "Auto-AppHook";
     protected Utils utils;
 
-    @Override
-    protected void finalize() throws Throwable {
-        mContext = new WeakReference<>(null);
-        mAppClassLoader = null;
-        System.setProperty("AUTO_FULL_TAG_" + getClass().getName(), "false");
-    }
+
 
     private void hookMainInOtherAppContext(Runnable runnable) {
         Runnable findContext1 = new Runnable() {
@@ -88,16 +83,18 @@ public abstract class hookBase implements iHooker {
 
 
     public void initLoadPackage(String pkg) {
-       /* if ("true".equals(System.getProperty("AUTO_FULL_TAG_" + getClass().getName()))) {
-            //  XposedBridge.log("不允许二次加载hook代码");
+        String classInfo = "AUTO_FULL_TAG_" + pkg+getClass().getName();
+        if ("true".equals(System.getProperty(classInfo))) {
+              XposedBridge.log("不允许二次加载hook代码");
             //I don't know... What happened?
             return;
-        }*/
-        System.setProperty("AUTO_FULL_TAG_" + getClass().getName(), "true");
+        }
+        System.setProperty(classInfo, "true");
+
         utils = new Utils(mContext.get(), mAppClassLoader, getAppName(), getPackPageName());
         XposedBridge.log(" 自动记账加载成功！\n应用名称:" + utils.getAppName() + "  当前版本号:" + utils.getVerCode() + "  当前版本名：" + utils.getVerName());
         try {
-            hookLoadPackage();
+          hookLoadPackage();
         } catch (Error | Exception e) {
             utils.log("hook 出现严重错误！" + e.toString(), true);
         }
@@ -115,7 +112,6 @@ public abstract class hookBase implements iHooker {
         if (getPackPageName() != null) {
             if (!pkg.equals(getPackPageName()) || !processName.equals(getPackPageName())) return;
         }
-        // if (hookLoadPackage > getHookIndex()) return;
 
         mAppClassLoader = lpparam.classLoader;
         mContext = new WeakReference<>(AndroidAppHelper.currentApplication());

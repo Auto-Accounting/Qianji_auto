@@ -85,4 +85,8 @@ public class Qianji extends hookBase {
         return true;
     }
 
+    @Override
+    public int hookIndex() {
+        return 1;
+    }
 }

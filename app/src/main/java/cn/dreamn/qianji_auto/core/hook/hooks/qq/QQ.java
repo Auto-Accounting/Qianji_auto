@@ -47,4 +47,8 @@ public class QQ extends hookBase {
     public boolean needHelpFindApplication() {
         return true;
     }
+    @Override
+    public int hookIndex() {
+        return 1;
+    }
 }

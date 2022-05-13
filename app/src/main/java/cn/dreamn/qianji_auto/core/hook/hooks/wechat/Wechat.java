@@ -87,12 +87,13 @@ public class Wechat extends hookBase {
         return "微信";
     }
 
-
-
     @Override
     public boolean needHelpFindApplication() {
         return true;
     }
-
+    @Override
+    public int hookIndex() {
+        return 2;
+    }
 
 }
