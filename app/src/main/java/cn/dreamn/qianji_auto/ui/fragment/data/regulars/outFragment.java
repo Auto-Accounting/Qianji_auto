@@ -238,6 +238,8 @@ public class outFragment extends BaseFragment {
     protected void initListeners() {
         BaseFragment baseFragment = this;
         view_hide.setVisibility(View.GONE);
+        // 点击浮层按钮时，view_hide就会变为visible，这时点击它，就会将浮层收起
+        view_hide.setOnClickListener(v -> floatingActionButton.collapse());
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             loadFromData();
             refreshlayout.finishRefresh(0);//传入false表示刷新失败

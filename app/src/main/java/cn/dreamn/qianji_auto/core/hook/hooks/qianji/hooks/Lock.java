@@ -28,8 +28,6 @@ public class Lock {
                 Activity activity = (Activity) param.thisObject;
                 activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
             }
-
-
         });
         XposedHelpers.findAndHookMethod(Application.class, "onCreate", new XC_MethodHook() {
             @Override
