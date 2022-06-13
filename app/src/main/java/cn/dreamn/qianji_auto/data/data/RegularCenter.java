@@ -119,7 +119,7 @@ public class RegularCenter {
                 long elapsedTime = stopWatch.getSplitTime();
                 stopWatch.stop();
                 Log.i(String.format("自动分类结果：%s.耗时: %dms", result, elapsedTime));
-                if (elapsedTime >= 1) {
+                if (elapsedTime >= 2000) {
                     Log.i("自动分类执行时间超过2秒，请检查规则.");
                     ToastUtils.show("自动分类执行时间超过2秒，请检查规则.");
                     // 添加超时  为了充分展示Toast
