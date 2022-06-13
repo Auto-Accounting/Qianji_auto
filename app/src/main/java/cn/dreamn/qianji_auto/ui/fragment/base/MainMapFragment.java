@@ -130,18 +130,18 @@ public class MainMapFragment extends BaseFragment {
             refreshlayout.finishRefresh(0);
         });
         floatingActionButton.setOnClickListener(v -> {
-            BottomArea.input(getContext(), getString(R.string.assert_input), "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+
+            BottomArea.inputWithCheckBox(getContext(), getString(R.string.assert_change_name),"", getString(R.string.set_sure), getString(R.string.set_cancle), "正则模式", false, new BottomArea.InputWithCheckBoxCallback() {
                 @Override
-                public void input(String data) {
+                public void inputWithCheck(String data, boolean checked) {
                     Assets.showAssetSelect(getContext(), getString(R.string.assert_choose), false, obj -> {
                         Asset asset2s = (Asset) obj;
                         TaskThread.onThread(() -> {
-                            Db.db.AssetMapDao().add(data, asset2s.name);
+                            Db.db.AssetMapDao().add((checked ? "reg:" + data : data), asset2s.name);
                             HandlerUtil.send(mHandler, getString(R.string.add_success), HANDLE_REFRESH);
                         });
                     });
                 }
-
                 @Override
                 public void cancel() {
 
@@ -195,7 +195,6 @@ public class MainMapFragment extends BaseFragment {
                     });
                 });
             }
-
             @Override
             public void cancel() {
 
@@ -203,7 +202,8 @@ public class MainMapFragment extends BaseFragment {
         });
 
 
-    }
+        }
+
 
     private void del(Bundle assets) {
         BottomArea.msg(getContext(), getString(R.string.del_title), String.format(getString(R.string.assert_del_msg), assets.getString("name")), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.MsgCallback() {
