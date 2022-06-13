@@ -330,7 +330,7 @@ public class outFragment extends BaseFragment {
                     return;
                 }
                 RegularManager.restoreFromData(getContext(), getName(), getLastType(), (String) msg.obj, code -> {
-                    HandlerUtil.send(mHandler, HANDLE_REFRESH);
+                HandlerUtil.send(mHandler, HANDLE_REFRESH);
                 });
             }
         };
@@ -520,8 +520,9 @@ public class outFragment extends BaseFragment {
             cAdapter.setOnMoreClick(item -> {
                 BottomArea.msg(getContext(), item.getString("name"), item.getString("remark"));
             });
-        } else {
-            // 不是数据部分
+
+
+        } else {//不是数据部分
             rAdapter = new RemoteListAdapter(getContext(), isWeb);
             recyclerView.setAdapter(rAdapter);
             rAdapter.setOnItemClickListener((itemView, position) -> {
@@ -592,10 +593,6 @@ public class outFragment extends BaseFragment {
                         if (type.equals("app") || type.equals("notice") || type.equals("sms") || type.equals("helper")) {
                             for (Map.Entry<String, Object> stringObjectEntry : jsonObject1.entrySet()) {
                                 String key = stringObjectEntry.getKey();
-                                // 未安装app不再显示远程规则
-                                if (!AppInfo.isAppInstalled(getContext(), key) && (type.equals("app") || type.equals("notice"))) {
-                                    continue;
-                                }
                                 JSONObject value = (JSONObject) stringObjectEntry.getValue();
                                 Bundle bundle = new Bundle();
                                 bundle.putString("identify", getLastType());
@@ -661,19 +658,10 @@ public class outFragment extends BaseFragment {
                 List<Bundle> bundleList = new ArrayList<>();
                 int index = 0;
                 for (Regular regular : regulars) {
-                    // 未安装app不再显示本地规则
-                    if (!AppInfo.isAppInstalled(getContext(), regular.app) && (type.equals("app") || type.equals("notice"))) {
-                        continue;
-                    }
                     Bundle bundle = Tool.class2Bundle(regular);
                     Db.db.RegularDao().setSort(regular.id, ++index);
                     bundle.putInt("sort", ++index);
                     bundleList.add(bundle);
-                }
-                if (bundleList.size() == 0) {
-                    Log.d("已安装App数量为0");
-                    HandlerUtil.send(mHandler, HANDLE_ERR);
-                    return;
                 }
                 list = bundleList;
                 HandlerUtil.send(mHandler, HANDLE_OK);
