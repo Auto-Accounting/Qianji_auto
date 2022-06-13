@@ -26,11 +26,9 @@ import de.robv.android.xposed.XposedHelpers;
 
 public class QianjiAuto extends hookBase {
 
-    static hookBase self = null;
+    static final hookBase self = new QianjiAuto();
 
     public static hookBase getInstance() {
-        if (self == null)
-            self = new QianjiAuto();
         return self;
     }
 
@@ -55,6 +53,10 @@ public class QianjiAuto extends hookBase {
     @Override
     public boolean needHelpFindApplication() {
         return true;
+    }
+    @Override
+    public int hookIndex() {
+        return 1;
     }
 
 }

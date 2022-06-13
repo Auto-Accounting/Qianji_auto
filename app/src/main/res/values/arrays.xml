@@ -6,7 +6,7 @@
         <item>com.tencent.mm</item>
         <item>com.tencent.mobileqq</item>
         <item>com.eg.android.AlipayGphone</item>
-        <item>android</item>
+     <!--   <item>android</item>-->
         <item>com.android.phone</item>
         <item>com.xiaomi.xmsf</item>
     </string-array>
