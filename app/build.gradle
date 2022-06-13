@@ -124,7 +124,11 @@ dependencies {
     //内存泄漏监测leak,就需要加上这个依赖
     //  debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
     //rhino
-    implementation project(path: ':rhino-1.7.13')
+
+
+    implementation 'org.mozilla:rhino:1.7.13'
+
+
     //多状态组件
     implementation 'com.github.SheHuan:StatusView:1.0.5'
     //material-dialogs
