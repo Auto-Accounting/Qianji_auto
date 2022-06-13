@@ -135,9 +135,9 @@ public class CateItemListAdapter extends BaseAdapter {
                     tv_update.setOnClickListener(v -> {
                         if (updateClick != null){
                             updateClick.onClick(js);
-                            loadData(mContext, type, app, dataId, (LoadCloudApp) jsonObject -> HandlerUtil.send(this, jsonObject, 0));
                         }
-
+                        //点完就隐藏
+                        tv_update.setVisibility(View.GONE);
 
                     });
 
