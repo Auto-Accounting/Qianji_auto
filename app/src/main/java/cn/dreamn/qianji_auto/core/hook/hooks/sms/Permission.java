@@ -41,10 +41,13 @@ public class Permission extends hookBase {
         return "安卓权限";
     }
 
-
+    @Override
+    public int hookIndex() {
+        return 1;
+    }
 
     @Override
     public boolean needHelpFindApplication() {
-        return true;
+        return false;
     }
 }

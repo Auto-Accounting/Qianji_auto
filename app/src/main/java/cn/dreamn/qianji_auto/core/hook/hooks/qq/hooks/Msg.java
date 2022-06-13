@@ -45,6 +45,15 @@ public class Msg {
                             Pattern p = Pattern.compile("(\r?\n(\\s*\r?\n)+)");
                             Matcher m = p.matcher(data);
                             data = m.replaceAll("\n");
+
+
+                            //去重
+                            String last = utils.readData("lastQQ");
+                            utils.writeData("lastQQ", data);
+                            if (data.equals(last)) {
+                                utils.log("QQ重复账单");
+                                return;
+                            }
                             utils.sendString(data);
                         } else if (utils.isDebug()) {
                             utils.log(s);

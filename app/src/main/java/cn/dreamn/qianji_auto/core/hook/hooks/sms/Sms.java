@@ -4,13 +4,11 @@ import cn.dreamn.qianji_auto.core.hook.core.hookBase;
 import cn.dreamn.qianji_auto.core.hook.hooks.sms.hooks.SmsIntent;
 
 public class Sms extends hookBase {
-    static hookBase self = null;
-
+    static final hookBase self = new Sms();
     public static hookBase getInstance() {
-        if (self == null)
-            self = new Sms();
         return self;
     }
+
 
     @Override
     public void hookLoadPackage() {
@@ -39,6 +37,9 @@ public class Sms extends hookBase {
     public boolean needHelpFindApplication() {
         return true;
     }
-
+    @Override
+    public int hookIndex() {
+        return 1;
+    }
 
 }
