@@ -595,6 +595,12 @@ public class outFragment extends BaseFragment {
                         if (type.equals("app") || type.equals("notice") || type.equals("sms") || type.equals("helper")) {
                             for (Map.Entry<String, Object> stringObjectEntry : jsonObject1.entrySet()) {
 
+                                Context context = getContext();
+                                if (context == null || type == null) {
+                                    popToBack();
+                                    return;
+                                }
+
                                 String key = stringObjectEntry.getKey();
                                 // 未安装app不再显示远程规则
                                 if (!AppInfo.isAppInstalled(getContext(), key) && (type.equals("app") || type.equals("notice"))) {
@@ -666,7 +672,7 @@ public class outFragment extends BaseFragment {
                 int index = 0;
                 for (Regular regular : regulars) {
                     // 未安装app不再显示本地规则
-                    if (!AppInfo.isAppInstalled(getContext(), regular.app) && (type.equals("app") || type.equals("notice"))) {
+                    if ((type.equals("app") || type.equals("notice"))&&!AppInfo.isAppInstalled(getContext(), regular.app)) {
                         continue;
                     }
                     Bundle bundle = Tool.class2Bundle(regular);
