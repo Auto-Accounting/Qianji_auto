@@ -153,13 +153,14 @@ public class MainMapFragment extends BaseFragment {
     }
 
 
-    private void initLayout(){
-        mAdapter=new MapListAdapter(getContext());
+    private void initLayout() {
+        mAdapter = new MapListAdapter(getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this::OnItemClickListen);
         refreshLayout.setEnableRefresh(true);
     }
+
     @SuppressLint("CheckResult")
     private void OnItemClickListen(View view, int position) {
         if (list == null || position >= list.size()) return;
@@ -179,19 +180,20 @@ public class MainMapFragment extends BaseFragment {
             }
         });
     }
+
     @SuppressLint("CheckResult")
     private void change(Bundle assets) {
-        BottomArea.input(getContext(), getString(R.string.assert_change_name), assets.getString("name"), getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
+        String name = assets.getString("name");
+        BottomArea.inputWithCheckBox(getContext(), getString(R.string.assert_change_name), name.replaceAll("reg:", ""), getString(R.string.set_sure), getString(R.string.set_cancle), "正则模式", name.startsWith("reg:"), new BottomArea.InputWithCheckBoxCallback() {
             @Override
-            public void input(String data) {
+            public void inputWithCheck(String data, boolean checked) {
                 Assets.showAssetSelect(getContext(), getString(R.string.assert_choose), false, obj -> {
                     Asset asset2s = (Asset) obj;
                     TaskThread.onThread(() -> {
-                        Db.db.AssetMapDao().update(assets.getInt("id"), data, asset2s.name);
+                        Db.db.AssetMapDao().update(assets.getInt("id"), checked ? "reg:" + data : data, asset2s.name);
                         HandlerUtil.send(mHandler, getString(R.string.assert_change_success), HANDLE_REFRESH);
                     });
                 });
-
             }
 
             @Override

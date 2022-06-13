@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.alibaba.fastjson.JSONArray;
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
 
 import net.ankio.timepicker.builder.TimePickerBuilder;
@@ -178,7 +180,6 @@ public class BottomArea {
         dialog.title(null, title);
 
         TextInputEditText md_input_message = textEntryView.findViewById(R.id.md_input_message);
-
         md_input_message.setText(msg);
 
         Button button_next = textEntryView.findViewById(R.id.button_next);
@@ -187,6 +188,42 @@ public class BottomArea {
         button_last.setText(leftName);
         button_next.setOnClickListener(v2 -> {
             inputCallback.input(md_input_message.getText().toString());
+            dialog.dismiss();
+        });
+
+        button_last.setOnClickListener(v2 -> {
+            inputCallback.cancel();
+            dialog.dismiss();
+        });
+
+        DialogCustomViewExtKt.customView(dialog, null, textEntryView,
+                false, true, false, false);
+        dialog.cornerRadius(15f, null);
+        dialog.show();
+    }
+
+    @SuppressLint("SetTextI18n")
+    static public void inputWithCheckBox(Context context, String title, String msg, String rightName, String leftName, String checkBoxText, boolean checked, InputWithCheckBoxCallback inputCallback) {
+        LayoutInflater factory = LayoutInflater.from(context);
+        final View textEntryView = factory.inflate(R.layout.include_list_input, null);
+        BottomSheet bottomSheet = new BottomSheet(LayoutMode.WRAP_CONTENT);
+        MaterialDialog dialog = new MaterialDialog(context, bottomSheet);
+        dialog.title(null, title);
+
+        TextInputEditText md_input_message = textEntryView.findViewById(R.id.md_input_message);
+        md_input_message.setText(msg);
+
+        MaterialCheckBox checkbox = textEntryView.findViewById(R.id.md_checkbox_prompt);
+        checkbox.setVisibility(View.VISIBLE);
+        checkbox.setText(checkBoxText);
+        checkbox.setChecked(checked);
+
+        Button button_next = textEntryView.findViewById(R.id.button_next);
+        Button button_last = textEntryView.findViewById(R.id.button_last);
+        button_next.setText(rightName);
+        button_last.setText(leftName);
+        button_next.setOnClickListener(v2 -> {
+            inputCallback.inputWithCheck(md_input_message.getText().toString(), checkbox.isChecked());
             dialog.dismiss();
         });
 
@@ -311,6 +348,12 @@ public class BottomArea {
 
     public interface InputCallback {
         void input(String data);
+
+        void cancel();
+    }
+
+    public interface InputWithCheckBoxCallback {
+        void inputWithCheck(String data, boolean checked);
 
         void cancel();
     }
