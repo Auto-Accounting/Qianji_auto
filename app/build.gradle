@@ -18,8 +18,8 @@ android {
         applicationId "cn.dreamn.qianji_auto"
         minSdkVersion 24
         targetSdkVersion 31
-        versionCode 183
-        versionName "涅槃 3.2.8"
+        versionCode 181
+        versionName "涅槃 3.2.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -27,11 +27,9 @@ android {
         }
     }
 
-    def currentVersionCode = Math.random().toString().substring(2, 5)
 
     buildTypes {
         release {
-            //versionNameSuffix "-${currentVersionCode}"
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -43,8 +41,7 @@ android {
             }
         }
 
-        debug {
-            versionNameSuffix "-${currentVersionCode}"
+        debug{
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -60,7 +57,7 @@ android {
         viewBinding true
 
         //noinspection DataBindingWithoutKapt
-        // dataBinding = true
+       // dataBinding = true
     }
 }
 
@@ -122,19 +119,15 @@ dependencies {
     //noinspection GradleDependency
     testImplementation "androidx.room:room-testing:2.3.0"
     //内存泄漏监测leak,就需要加上这个依赖
-    //  debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+  //  debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
     //rhino
-
-
     implementation 'org.mozilla:rhino:1.7.13'
-
-
     //多状态组件
     implementation 'com.github.SheHuan:StatusView:1.0.5'
     //material-dialogs
     implementation 'com.afollestad.material-dialogs:core:3.3.0'
     //implementation 'com.afollestad.material-dialogs:color:3.3.0'
-    // implementation 'com.afollestad.material-dialogs:datetime:3.3.0'
+   // implementation 'com.afollestad.material-dialogs:datetime:3.3.0'
     //选择器
     //悬浮按钮
     implementation 'com.getbase:floatingactionbutton:1.10.1'
