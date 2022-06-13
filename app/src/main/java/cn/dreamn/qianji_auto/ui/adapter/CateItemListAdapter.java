@@ -133,8 +133,12 @@ public class CateItemListAdapter extends BaseAdapter {
                     js.put("dataId", dataId);
                     js.put("name", jsonObject1.getString("name"));
                     tv_update.setOnClickListener(v -> {
-                        if (updateClick != null)
+                        if (updateClick != null){
                             updateClick.onClick(js);
+                            loadData(mContext, type, app, dataId, (LoadCloudApp) jsonObject -> HandlerUtil.send(this, jsonObject, 0));
+                        }
+
+
                     });
 
 

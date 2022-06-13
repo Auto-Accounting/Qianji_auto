@@ -329,11 +329,13 @@ public class outFragment extends BaseFragment {
                     popToBack();
                     return;
                 }
+                if (statusView != null) statusView.showContentView();
                 RegularManager.restoreFromData(getContext(), getName(), getLastType(), (String) msg.obj, code -> {
                 HandlerUtil.send(mHandler, HANDLE_REFRESH);
                 });
             }
         };
+        if (statusView != null) statusView.showLoadingView();
         AutoBillWeb.getById(dataId, getContext(), new AutoBillWeb.WebCallback() {
             @Override
             public void onFailure() {
