@@ -4,7 +4,7 @@
  <h1 align="center">自动记账</h1>
  <h3 align="center">🚀一款基于Xposed和无障碍的记账插件</h3>
 <p align="center">
-<img src="https://img.shields.io/static/v1?label=framework&message=Xposed/无障碍&color=success&style=for-the-badge"/>
+<img src="https://img.shields.io/static/v1?label=framework&message=Xposed&color=success&style=for-the-badge"/>
  <img src="https://img.shields.io/static/v1?label=licenes&message=GPL3.0&color=important&style=for-the-badge"/>
  <img src="https://img.shields.io/github/stars/dreamncn/Qianji_auto.svg?style=for-the-badge"/>
  <img src="https://img.shields.io/static/v1?label=download&message=44K&color=9cf&style=for-the-badge"/>
