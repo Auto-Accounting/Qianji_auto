@@ -592,7 +592,12 @@ public class outFragment extends BaseFragment {
                         List<Bundle> bundleList = new ArrayList<>();
                         if (type.equals("app") || type.equals("notice") || type.equals("sms") || type.equals("helper")) {
                             for (Map.Entry<String, Object> stringObjectEntry : jsonObject1.entrySet()) {
+
                                 String key = stringObjectEntry.getKey();
+                                // 未安装app不再显示远程规则
+                                if (!AppInfo.isAppInstalled(getContext(), key) && (type.equals("app") || type.equals("notice"))) {
+                                    continue;
+                                }
                                 JSONObject value = (JSONObject) stringObjectEntry.getValue();
                                 Bundle bundle = new Bundle();
                                 bundle.putString("identify", getLastType());
@@ -658,10 +663,19 @@ public class outFragment extends BaseFragment {
                 List<Bundle> bundleList = new ArrayList<>();
                 int index = 0;
                 for (Regular regular : regulars) {
+                    // 未安装app不再显示本地规则
+                    if (!AppInfo.isAppInstalled(getContext(), regular.app) && (type.equals("app") || type.equals("notice"))) {
+                        continue;
+                    }
                     Bundle bundle = Tool.class2Bundle(regular);
                     Db.db.RegularDao().setSort(regular.id, ++index);
                     bundle.putInt("sort", ++index);
                     bundleList.add(bundle);
+                }
+                if (bundleList.size() == 0) {
+                    Log.d("已安装App数量为0");
+                    HandlerUtil.send(mHandler, HANDLE_ERR);
+                    return;
                 }
                 list = bundleList;
                 HandlerUtil.send(mHandler, HANDLE_OK);
