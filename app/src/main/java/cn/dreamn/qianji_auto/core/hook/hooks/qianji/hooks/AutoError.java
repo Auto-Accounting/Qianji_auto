@@ -73,8 +73,6 @@ public class AutoError {
 
     public static String getSolvedUrl(String problems) {
         String url = "https://auto.ankio.net/pages/2db3aa/#%E8%B5%84%E4%BA%A7%E8%AE%BE%E7%BD%AE%E9%94%99%E8%AF%AF";
-        // TODO 预计公测之后 根据不同错误信息给出解决方案地址，需要等文档到位。
-        // Log.i("自动记账同步","正在前往钱迹");
         if (problems.contains("bookname")) {
             url = "https://auto.ankio.net/pages/2db3aa/#%E8%B4%A6%E6%9C%AC%E8%AE%BE%E7%BD%AE%E9%94%99%E8%AF%AF";
         } else if (problems.contains("accountname")) {
