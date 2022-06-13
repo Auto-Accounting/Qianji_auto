@@ -1,11 +1,6 @@
 package cn.dreamn.qianji_auto.data.data;
 
-import android.annotation.SuppressLint;
-
 import com.alibaba.fastjson.JSONObject;
-import com.hjq.toast.ToastUtils;
-
-import org.apache.commons.lang3.time.StopWatch;
 
 import java.util.Arrays;
 
@@ -84,7 +79,6 @@ public class RegularCenter {
 
     }
 
-    @SuppressLint("DefaultLocale")
     public void run(BillInfo billInfo, String addJs, TaskThread.TaskResult taskResult) {
         //执行分类
         TaskThread.onThread(() -> {
@@ -114,19 +108,8 @@ public class RegularCenter {
             String testJs = String.format(js, jsInner, dataList.toString(), billInfo.getShopAccount(), billInfo.getShopRemark(), BillInfo.getTypeName(billInfo.getType()), hour, minute, billInfo.getMoney());
 
             try {
-                StopWatch stopWatch = new StopWatch();
-                stopWatch.start();
                 String result = JsEngine.run(testJs);
-                stopWatch.split();
-                long elapsedTime = stopWatch.getSplitTime();
-                stopWatch.stop();
-                Log.i(String.format("自动分类结果：%s.耗时: %dms", result, elapsedTime));
-                if (elapsedTime >= 2000) {
-                    Log.i("自动分类执行时间超过2秒，请检查规则.");
-                    ToastUtils.show("自动分类执行时间超过2秒，请检查规则.");
-                    // 添加超时  为了充分展示Toast
-                    Thread.sleep(3000);
-                }
+                Log.i("自动分类结果：" + result);
                 if (result.contains("Undefined")) {
                     taskResult.onEnd("NotFound");
                 } else taskResult.onEnd(result);
@@ -139,7 +122,6 @@ public class RegularCenter {
         });
     }
 
-    @SuppressLint("DefaultLocale")
     public void run(String app, String data, String addJs, TaskThread.TaskResult taskResult) {
         data = data.replace("'", "\\'");
         String finalData = data;
@@ -265,19 +247,7 @@ public class RegularCenter {
             //获得所有Js
             String result = "";
             try {
-                StopWatch stopWatch = new StopWatch();
-                stopWatch.start();
                 result = JsEngine.run(testJs);
-                stopWatch.split();
-                long elapsedTime = stopWatch.getSplitTime();
-                stopWatch.stop();
-                Log.i(String.format("%s 解析结果：%s.耗时: %dms", app, result, elapsedTime));
-                if (elapsedTime >= 2000) {
-                    Log.i(app + " App解析执行时间超过2秒，请检查规则.");
-                    ToastUtils.show(app + " App解析执行时间超过2秒，请检查规则.");
-                    // 添加超时  为了充分展示Toast
-                    Thread.sleep(3000);
-                }
             } catch (Throwable ex) {
                 Log.i("错误：" + ex.toString());
             }

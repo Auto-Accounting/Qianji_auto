@@ -130,13 +130,13 @@ public class MainMapFragment extends BaseFragment {
             refreshlayout.finishRefresh(0);
         });
         floatingActionButton.setOnClickListener(v -> {
-            BottomArea.inputWithCheckBox(getContext(), getString(R.string.assert_input), "", getString(R.string.set_sure), getString(R.string.set_cancle), "正则模式", false, new BottomArea.InputWithCheckBoxCallback() {
+            BottomArea.input(getContext(), getString(R.string.assert_input), "", getString(R.string.set_sure), getString(R.string.set_cancle), new BottomArea.InputCallback() {
                 @Override
-                public void inputWithCheck(String data, boolean checked) {
+                public void input(String data) {
                     Assets.showAssetSelect(getContext(), getString(R.string.assert_choose), false, obj -> {
                         Asset asset2s = (Asset) obj;
                         TaskThread.onThread(() -> {
-                            Db.db.AssetMapDao().add(checked ? "reg:" + data : data, asset2s.name);
+                            Db.db.AssetMapDao().add(data, asset2s.name);
                             HandlerUtil.send(mHandler, getString(R.string.add_success), HANDLE_REFRESH);
                         });
                     });
