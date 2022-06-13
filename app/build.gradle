@@ -27,7 +27,7 @@ android {
         }
     }
 
-
+    def currentVersionCode = Math.random().toString().substring(2, 5)
     buildTypes {
         release {
             minifyEnabled false
@@ -42,6 +42,7 @@ android {
         }
 
         debug{
+            versionNameSuffix "-${currentVersionCode}"
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
