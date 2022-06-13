@@ -132,7 +132,7 @@ public class AppInfo {
     /*
      * check the app is installed
      */
-    public static boolean isAppInstalled(Context context, String packagename) {
+    private static boolean isAppInstalled(Context context, String packagename) {
         PackageInfo packageInfo;
         try {
             packageInfo = context.getPackageManager().getPackageInfo(packagename, 0);
