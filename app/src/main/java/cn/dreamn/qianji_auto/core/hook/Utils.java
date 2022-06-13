@@ -127,6 +127,12 @@ public class Utils {
     }
 
     private void sendBroadcast(String Action, Bundle bundle, String packageName) {
+        //消息去重
+        if(readData("last").equals(bundle.getString("data", null))){
+            return;
+        }
+        writeData("last",bundle.getString("data", ""));
+
         bundle.putString("app_package", packageName);
         Intent intent = new Intent(Action);
         intent.setPackage(BuildConfig.APPLICATION_ID);
