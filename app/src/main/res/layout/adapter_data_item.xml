@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl"
     android:layout_width="match_parent"
     android:layout_height="60dp"
@@ -13,23 +14,50 @@
         android:id="@+id/icon_header"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-
-        android:layout_marginStart="15dp" />
-
-    <TextView
-        android:id="@+id/item_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
 
         android:layout_marginStart="15dp"
 
-        android:layout_toEndOf="@+id/icon_header"
-        android:text=""
-        android:textColor="@color/black"
-        android:textSize="14sp" />
+        app:layout_gravity="center_vertical"
 
-</RelativeLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/item_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:ellipsize="end"
+        android:maxLines="2"
+
+        app:layout_constraintLeft_toRightOf="@id/icon_header"
+        app:layout_constraintTop_toTopOf="@id/icon_header"
+        app:layout_constraintBottom_toTopOf="@id/item_package"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+
+    <TextView
+        android:id="@+id/item_package"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+
+        android:textColor="@color/gray"
+        android:textSize="12sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+
+        app:layout_constraintLeft_toRightOf="@id/icon_header"
+        app:layout_constraintBottom_toBottomOf="@id/icon_header"
+        app:layout_constraintTop_toBottomOf="@id/item_value"
+        app:layout_constraintRight_toRightOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
