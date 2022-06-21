@@ -40,6 +40,7 @@ import cn.dreamn.qianji_auto.ui.adapter.AppListAdapter;
 import cn.dreamn.qianji_auto.ui.base.BaseFragment;
 import cn.dreamn.qianji_auto.ui.components.Loading.LVCircularRing;
 import cn.dreamn.qianji_auto.ui.utils.HandlerUtil;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 
@@ -72,7 +73,7 @@ public class MonitorFragment extends BaseFragment implements TextWatcher {
                         if (statusView != null) statusView.showEmptyView();
                         break;
                     case HANDLE_OK:
-                        mAdapter.refresh(list);
+                        mAdapter.refresh(list, keyWord);
                         if (statusView != null) statusView.showContentView();
                         break;
                     case HANDLE_REFRESH:
@@ -145,15 +146,16 @@ public class MonitorFragment extends BaseFragment implements TextWatcher {
             BufferedReader br = new BufferedReader(isr);
             String line = br.readLine();
             while (line != null) {
+                Log.d("pm list packages: " + line);
                 line = line.trim();
                 if (line.length() > 8) {
                     String prefix = line.substring(0, 8);
                     if (prefix.equalsIgnoreCase("package:")) {
                         line = line.substring(8).trim();
                         if (!TextUtils.isEmpty(line)) {
-                            if (!keyWord.equals("") && !line.contains(keyWord))
-                                continue;
                             String name = AppInfo.getName(getActivity(), line);
+                            if (!keyWord.equals("") && !line.contains(keyWord) && !name.contains(keyWord))
+                                continue;
                             Bundle bundle = new Bundle();
                             bundle.putString("name", name);
                             bundle.putString("pkg", line);
