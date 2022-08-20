@@ -55,8 +55,7 @@ public class AutoError {
 
         HashMap<String, String> clazz = new HashMap<>();
         clazz.put("com.mutangtech.qianji.bill.auto.AddBillIntentAct", "a");
-        clazz.put("com.mutangtech.qianji.bill.auto.AddBillIntentAct", "t0");  // 钱迹3.2.1.4版本
-
+        clazz.put("com.mutangtech.qianji.bill.auto.AddBillIntentAct", "t0");  // 钱迹3.2.1.4 3.2.1.5 版本
         for (Map.Entry entry : clazz.entrySet()) {
             String cls = (String) entry.getKey();
             String method = (String) entry.getValue();

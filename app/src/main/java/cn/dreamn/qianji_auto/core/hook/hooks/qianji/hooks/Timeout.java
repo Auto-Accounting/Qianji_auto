@@ -13,6 +13,7 @@ public class Timeout {
         HashMap<String, String> clazz = new HashMap<>();
         clazz.put("com.mutangtech.qianji.a", "timeoutApp");
         clazz.put("c6.a", "timeoutApp");  // 钱迹3.2.1.4版本
+        clazz.put("e5.a", "timeoutApp");  // 钱迹3.2.1.5版本
 
         for (Map.Entry entry : clazz.entrySet()) {
             String cls = (String) entry.getKey();
