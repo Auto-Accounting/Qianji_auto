@@ -69,49 +69,33 @@ public class DataBase {
                         "com.mutangtech.qianji.app.c.b",
                         "com.mutangtech.qianji.app.g.b",
                         "g6.b",                             // 钱迹3.2.1.4版本
-                        "i5.b",                             // 钱迹3.2.1.5版本
                 };
-
-
-                String userId = "";
-                boolean isVip = false;
-                Object object = null;
                 for (String cls : clazz) {
                     try {
                         loginClass = mAppClassLoader.loadClass(cls);
-                        if (loginClass == null) {
-                            utils.log("钱迹未适配！");
-                            return;
-                        }
-                        //获取loginClass
-                        Method getInstance = loginClass.getDeclaredMethod("getInstance");
-                        //反射调用单例模式
-                        object = getInstance.invoke(null);
-                        //获取对象
-                        Method IsVip = loginClass.getMethod("isVip");
-                        isVip = (boolean) IsVip.invoke(object);
-                        // 获取 UID
-                        Method getLoginUserID = loginClass.getMethod("getLoginUserID");
-                        userId = (String) getLoginUserID.invoke(object);
                         break;
                     } catch (Throwable ignored) {
                     }
                 }
-
-                if (object == null) {
+                if (loginClass == null) {
                     utils.log("钱迹未适配！");
                     return;
                 }
-
+                //获取loginClass
+                Method getInstance = loginClass.getDeclaredMethod("getInstance");
+                //反射调用单例模式
+                Object object = getInstance.invoke(null);
+                //获取对象
+                Method IsVip = loginClass.getMethod("isVip");
+                boolean isVip = (boolean) IsVip.invoke(object);
                 //获取最终的UID
-                utils.log("钱迹UserID：" + userId + " " + (isVip ? "会员" : "非会员"));
+                utils.log("钱迹用户:" + (isVip ? "会员" : "非会员"));
+
+                Method getLoginUserID = loginClass.getMethod("getLoginUserID");
+                String userId = (String) getLoginUserID.invoke(object);
 
                 final boolean[] hooked = {false};
-                // 迷惑提示？？？一定要finalxxxx
                 Class<?> finalLoginClass = loginClass;
-                String finalUserId = userId;
-                boolean finalIsVip = isVip;
-                Object finalObject = object;
                 XposedHelpers.findAndHookMethod(Activity.class, "onResume", new XC_MethodHook() {
                     @SuppressLint("Range")
                     protected void beforeHookedMethod(MethodHookParam param) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -125,9 +109,9 @@ public class DataBase {
                                 int AutoSignal = intent.getIntExtra("AutoSignal", AppBroadcast.BROADCAST_NOTHING);
                                 if (AutoSignal == AppBroadcast.BROADCAST_ASYNC) {
                                     utils.log("钱迹收到同步信号:开始从本地数据库提取数据");
-                                    utils.log("用户ID:", finalUserId);
+                                    utils.log("用户ID:", userId);
                                     JSONObject jsonObject = new JSONObject();
-                                    JSONArray userBooks = dbHelper[0].getUserBook(finalIsVip, finalUserId);
+                                    JSONArray userBooks = dbHelper[0].getUserBook(isVip, userId);
                                     List<String> uids = new ArrayList<>();
                                     jsonObject.put("userBook", userBooks);
                                     JSONArray categorys = new JSONArray();
@@ -153,7 +137,7 @@ public class DataBase {
                                 } else if (AutoSignal == AppBroadcast.BROADCAST_GET_REI) {
                                     utils.log("钱迹收到信号:开始从本地数据库提取待报销账单");
                                     JSONObject jsonObject = new JSONObject();
-                                    jsonObject.put("bill", dbHelper[0].getBills("5", finalUserId));
+                                    jsonObject.put("bill", dbHelper[0].getBills("5", userId));
                                     jsonObject.put("AutoSignal", AutoSignal);
                                     utils.send2auto(jsonObject.toJSONString());
                                     Toast.makeText(utils.getContext(), "钱迹数据信息获取完毕，现在返回自动记账。", Toast.LENGTH_LONG).show();
@@ -163,7 +147,7 @@ public class DataBase {
                                     JSONObject jsonObject = new JSONObject();
                                     Class<?> User = mAppClassLoader.loadClass("com.mutangtech.qianji.data.model.User");
                                     Method getLoginUser = finalLoginClass.getMethod("getLoginUser");
-                                    Object UserData = getLoginUser.invoke(finalObject);
+                                    Object UserData = getLoginUser.invoke(object);
                                     Method getName = User.getMethod("getName");
                                     String userName = (String) getName.invoke(UserData);
                                     jsonObject.put("name", userName);
@@ -178,7 +162,7 @@ public class DataBase {
 
                                     JSONObject jsonObjectBill = new JSONObject();
                                     SQLiteDatabase db = dbHelper[0].getDb();
-                                    Cursor cursor = db.rawQuery("select sum(MONEY) as yearAll  from user_bill where USERID='" + finalUserId + "' and type = 0 and strftime('%Y',createtime,'unixepoch','localtime')='2021' limit 1", null);
+                                    Cursor cursor = db.rawQuery("select sum(MONEY) as yearAll  from user_bill where USERID='" + userId + "' and type = 0 and strftime('%Y',createtime,'unixepoch','localtime')='2021' limit 1", null);
                                     JSONObject jsonObject1 = new JSONObject();
                                     double outTotal = 0;
                                     double inTotal = 0;
@@ -190,7 +174,7 @@ public class DataBase {
                                     }
                                     cursor.close();
 
-                                    cursor = db.rawQuery("select count(_id) as yearAll  from user_bill where USERID='" + finalUserId + "' and type = 0 and strftime('%Y',createtime,'unixepoch','localtime')='2021' limit 1", null);
+                                    cursor = db.rawQuery("select count(_id) as yearAll  from user_bill where USERID='" + userId + "' and type = 0 and strftime('%Y',createtime,'unixepoch','localtime')='2021' limit 1", null);
                                     while (cursor.moveToNext()) {
                                         jsonObject1.put("yearTotal", cursor.getDouble(0));
                                     }
@@ -204,7 +188,7 @@ public class DataBase {
 //      "outMoney": 9000
 //    }
                                     JSONObject jsonObject12 = new JSONObject();
-                                    cursor = db.rawQuery("select sum(MONEY) as yearAll  from user_bill where USERID='" + finalUserId + "' and type = 1 and strftime('%Y',createtime,'unixepoch','localtime')='2021' limit 1", null);
+                                    cursor = db.rawQuery("select sum(MONEY) as yearAll  from user_bill where USERID='" + userId + "' and type = 1 and strftime('%Y',createtime,'unixepoch','localtime')='2021' limit 1", null);
                                     while (cursor.moveToNext()) {
                                         inTotal = cursor.getDouble(0);
                                         BigDecimal b = new BigDecimal(inTotal);
@@ -229,7 +213,7 @@ public class DataBase {
                                     //    },
                                     //select *,min(time(createtime, 'unixepoch', 'localtime','-4 hour')) ,datetime(createtime, 'unixepoch', 'localtime') from user_bill where USERID='200104405e109647c18e9' and type = 0 ;
                                     JSONObject jsonObject2 = new JSONObject();
-                                    cursor = db.rawQuery("select *,min(time(createtime, 'unixepoch', 'localtime','-4 hour')) ,datetime(createtime, 'unixepoch', 'localtime') as billtime  from user_bill where USERID='" + finalUserId + "' and type = 0 and strftime('%Y',createtime,'unixepoch','localtime')='2021'", null);
+                                    cursor = db.rawQuery("select *,min(time(createtime, 'unixepoch', 'localtime','-4 hour')) ,datetime(createtime, 'unixepoch', 'localtime') as billtime  from user_bill where USERID='" + userId + "' and type = 0 and strftime('%Y',createtime,'unixepoch','localtime')='2021'", null);
                                     while (cursor.moveToNext()) {
                                         String time = cursor.getString(cursor.getColumnIndex("billtime"));
                                         String[] t = time.split(" ");
@@ -240,7 +224,7 @@ public class DataBase {
                                         jsonObject2.put("earlyRemark", cursor.getString(cursor.getColumnIndex("REMARK")));
                                     }
                                     cursor.close();
-                                    cursor = db.rawQuery("select *,max(time(createtime, 'unixepoch', 'localtime','-4 hour')) ,datetime(createtime, 'unixepoch', 'localtime') as billtime  from user_bill where USERID='" + finalUserId + "' and type = 0 and strftime('%Y',createtime,'unixepoch','localtime')='2021'", null);
+                                    cursor = db.rawQuery("select *,max(time(createtime, 'unixepoch', 'localtime','-4 hour')) ,datetime(createtime, 'unixepoch', 'localtime') as billtime  from user_bill where USERID='" + userId + "' and type = 0 and strftime('%Y',createtime,'unixepoch','localtime')='2021'", null);
                                     while (cursor.moveToNext()) {
                                         String time = cursor.getString(cursor.getColumnIndex("billtime"));
                                         String[] t = time.split(" ");
@@ -264,7 +248,7 @@ public class DataBase {
                                     //      }
                                     //    },
                                     JSONObject jsonObject3 = new JSONObject();
-                                    cursor = db.rawQuery("select count(FROMACT) as num,FROMACT,sum(MONEY) as money   from user_bill where USERID='" + finalUserId + "' and type = 0 and strftime('%Y',createtime,'unixepoch','localtime')='2021' GROUP BY FROMACT ORDER BY count(FROMACT) DESC;", null);
+                                    cursor = db.rawQuery("select count(FROMACT) as num,FROMACT,sum(MONEY) as money   from user_bill where USERID='" + userId + "' and type = 0 and strftime('%Y',createtime,'unixepoch','localtime')='2021' GROUP BY FROMACT ORDER BY count(FROMACT) DESC;", null);
                                     int maxTime = 0;
                                     String maxPayTool = "";
                                     double maxMoney = 0.0d;
@@ -308,7 +292,7 @@ public class DataBase {
                                     //    },
 
                                     JSONObject jsonObject5 = new JSONObject();
-                                    cursor = db.rawQuery("select strftime('%m',createtime,'unixepoch','localtime') as Month,SUM(MONEY) as Money from user_bill where USERID='" + finalUserId + "' and user_bill.type = 0 and strftime('%Y',createtime,'unixepoch','localtime')='2021' GROUP BY strftime('%m',createtime,'unixepoch','localtime');", null);
+                                    cursor = db.rawQuery("select strftime('%m',createtime,'unixepoch','localtime') as Month,SUM(MONEY) as Money from user_bill where USERID='" + userId + "' and user_bill.type = 0 and strftime('%Y',createtime,'unixepoch','localtime')='2021' GROUP BY strftime('%m',createtime,'unixepoch','localtime');", null);
 
                                     // JSONObject jsonObject6 = new JSONObject();
                                     JSONArray jsonArray = new JSONArray();
@@ -328,7 +312,7 @@ public class DataBase {
                                     cursor.close();
 
 
-                                    cursor = db.rawQuery("select strftime('%m',createtime,'unixepoch','localtime') as Month,SUM(MONEY) as Money from user_bill where USERID='" + finalUserId + "' and user_bill.type = 1 and strftime('%Y',createtime,'unixepoch','localtime')='2021' GROUP BY strftime('%m',createtime,'unixepoch','localtime');", null);
+                                    cursor = db.rawQuery("select strftime('%m',createtime,'unixepoch','localtime') as Month,SUM(MONEY) as Money from user_bill where USERID='" + userId + "' and user_bill.type = 1 and strftime('%Y',createtime,'unixepoch','localtime')='2021' GROUP BY strftime('%m',createtime,'unixepoch','localtime');", null);
                                     // JSONObject jsonObject6 = new JSONObject();
                                     JSONArray jsonArray2 = new JSONArray();
                                     for (int i = 0; i < 12; i++) {
@@ -357,7 +341,7 @@ public class DataBase {
                                     //        "炒股3":5
                                     //      }
                                     JSONObject jsonObject6 = new JSONObject();
-                                    cursor = db.rawQuery("select SUM(MONEY) as money,category.NAME as cname  from user_bill,category where USERID='" + finalUserId + "' and user_bill.type = 0 and strftime('%Y',createtime,'unixepoch','localtime')='2021' and user_bill.CATEGORY_ID=category._id GROUP BY CATEGORY_ID ORDER BY SUM(MONEY) DESC;", null);
+                                    cursor = db.rawQuery("select SUM(MONEY) as money,category.NAME as cname  from user_bill,category where USERID='" + userId + "' and user_bill.type = 0 and strftime('%Y',createtime,'unixepoch','localtime')='2021' and user_bill.CATEGORY_ID=category._id GROUP BY CATEGORY_ID ORDER BY SUM(MONEY) DESC;", null);
 
 
                                     int i = 0;
@@ -380,7 +364,7 @@ public class DataBase {
                                     }
                                     jsonObject6.put("maxPay", jsonArray1);
                                     cursor.close();
-                                    cursor = db.rawQuery("select SUM(MONEY) as money,category.NAME as cname  from user_bill,category where USERID='" + finalUserId + "' and user_bill.type = 1 and strftime('%Y',createtime,'unixepoch','localtime')='2021' and user_bill.CATEGORY_ID=category._id GROUP BY CATEGORY_ID ORDER BY SUM(MONEY) DESC;", null);
+                                    cursor = db.rawQuery("select SUM(MONEY) as money,category.NAME as cname  from user_bill,category where USERID='" + userId + "' and user_bill.type = 1 and strftime('%Y',createtime,'unixepoch','localtime')='2021' and user_bill.CATEGORY_ID=category._id GROUP BY CATEGORY_ID ORDER BY SUM(MONEY) DESC;", null);
                                     i = 0;
                                     JSONArray jsonArray3 = new JSONArray();
                                     while (cursor.moveToNext()) {
@@ -415,7 +399,7 @@ public class DataBase {
                                     //      "inPeopleMoney": 66
                                     //    },
 
-                                    cursor = db.rawQuery("select COUNT(MONEY)as totals,SUM(MONEY)as money,DESCINFO  from user_bill where USERID='" + finalUserId + "' and user_bill.type = 7  and strftime('%Y',createtime,'unixepoch','localtime')='2021' GROUP BY DESCINFO ORDER BY SUM(MONEY) DESC;", null);
+                                    cursor = db.rawQuery("select COUNT(MONEY)as totals,SUM(MONEY)as money,DESCINFO  from user_bill where USERID='" + userId + "' and user_bill.type = 7  and strftime('%Y',createtime,'unixepoch','localtime')='2021' GROUP BY DESCINFO ORDER BY SUM(MONEY) DESC;", null);
                                     JSONObject jsonObject9 = new JSONObject();
                                     i = 0;
                                     double total = 0;
@@ -435,7 +419,7 @@ public class DataBase {
                                     jsonObject9.put("outTotal", total);
                                     cursor.close();
 
-                                    cursor = db.rawQuery("select COUNT(MONEY)as totals,SUM(MONEY)as money,DESCINFO  from user_bill where USERID='" + finalUserId + "' and user_bill.type = 6  and strftime('%Y',createtime,'unixepoch','localtime')='2021' GROUP BY DESCINFO ORDER BY SUM(MONEY) DESC;", null);
+                                    cursor = db.rawQuery("select COUNT(MONEY)as totals,SUM(MONEY)as money,DESCINFO  from user_bill where USERID='" + userId + "' and user_bill.type = 6  and strftime('%Y',createtime,'unixepoch','localtime')='2021' GROUP BY DESCINFO ORDER BY SUM(MONEY) DESC;", null);
                                     i = 0;
                                     total = 0;
                                     while (cursor.moveToNext()) {
