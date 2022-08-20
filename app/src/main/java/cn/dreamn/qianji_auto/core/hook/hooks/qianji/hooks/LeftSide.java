@@ -45,21 +45,15 @@ public class LeftSide {
             }
         };
 
-        HashMap<String, String> clazz = new HashMap<>();
-        clazz.put("com.mutangtech.qianji.ui.maindrawer.MainDrawerLayout", "a");
-        clazz.put("com.mutangtech.qianji.ui.maindrawer.MainDrawerLayout", "h");  // 钱迹3.2.1.4版本
+        String cls ="com.mutangtech.qianji.ui.maindrawer.MainDrawerLayout";
+        String method = "refreshAccount";
 
-        for (Map.Entry entry : clazz.entrySet()) {
-            String cls = (String) entry.getKey();
-            String method = (String) entry.getValue();
+        try {
+            utils.log("钱迹 LeftSide.init Hook<" + cls + "." + method + ">");
+            XposedHelpers.findAndHookMethod(cls, mAppClassLoader, method, methodHook);
 
-            try {
-                utils.log("钱迹 LeftSide.init Hook<" + cls + "." + method + ">");
-                XposedHelpers.findAndHookMethod(cls, mAppClassLoader, method, methodHook);
-                break;
-            } catch (Exception e) {
-                utils.log("钱迹 LeftSide.init Hook <" + cls + "." + method + "> HookError " + e);
-            }
+        } catch (Exception e) {
+            utils.log("钱迹 LeftSide.init Hook <" + cls + "." + method + "> HookError " + e);
         }
     }
 

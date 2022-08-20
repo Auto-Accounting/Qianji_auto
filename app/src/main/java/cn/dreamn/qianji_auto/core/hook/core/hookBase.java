@@ -104,7 +104,7 @@ public abstract class hookBase implements iHooker {
 
     }
 
-    public abstract void hookLoadPackage();
+    public abstract void hookLoadPackage() throws ClassNotFoundException;
 
     @Override
     public void onLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {

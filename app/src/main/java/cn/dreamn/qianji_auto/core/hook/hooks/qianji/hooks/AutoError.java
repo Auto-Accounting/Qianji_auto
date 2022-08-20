@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONArray;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +18,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class AutoError {
-    public static void init(Utils utils) throws ClassNotFoundException {
+    public static void init(Utils utils, JSONArray jsonArray) throws ClassNotFoundException {
         ClassLoader mAppClassLoader = utils.getClassLoader();
         Class<?> AutoTaskLog = mAppClassLoader.loadClass("com.mutangtech.qianji.data.model.AutoTaskLog");
         Class<?> WebViewActivity = mAppClassLoader.loadClass("com.mutangtech.qianji.ui.webview.WebViewActivity");
@@ -53,21 +55,15 @@ public class AutoError {
             }
         };
 
-        HashMap<String, String> clazz = new HashMap<>();
-        clazz.put("com.mutangtech.qianji.bill.auto.AddBillIntentAct", "a");
-        clazz.put("com.mutangtech.qianji.bill.auto.AddBillIntentAct", "t0");  // 钱迹3.2.1.4版本
 
-        for (Map.Entry entry : clazz.entrySet()) {
-            String cls = (String) entry.getKey();
-            String method = (String) entry.getValue();
+        String cls =jsonArray.getString(0);
+        String method = jsonArray.getString(1);
 
-            try {
-                utils.log("钱迹 AutoError.init Hook<" + cls + "." + method + "> ");
-                XposedHelpers.findAndHookMethod(cls, mAppClassLoader, method, String.class, AutoTaskLog, methodHook);
-                break;
-            } catch (Exception e) {
-                utils.log("钱迹 AutoError.init Hook <" + cls + "." + method + "> HookError " + e);
-            }
+        try {
+            utils.log("钱迹 AutoError.init Hook<" + cls + "." + method + "> ");
+            XposedHelpers.findAndHookMethod(cls, mAppClassLoader, method, String.class, AutoTaskLog, methodHook);
+        } catch (Exception e) {
+            utils.log("钱迹 AutoError.init Hook <" + cls + "." + method + "> HookError " + e);
         }
     }
 

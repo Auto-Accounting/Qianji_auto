@@ -315,5 +315,12 @@ public class Utils {
     public void setContext(Context context) {
         mContext = context;
     }
+
+    public void restart() {
+        final Intent intent = getContext().getPackageManager().getLaunchIntentForPackage(getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        getContext().startActivity(intent);
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
 }
 

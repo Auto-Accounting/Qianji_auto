@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+
 
 import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -91,7 +93,6 @@ public class BottomArea {
 
         TextView textView_body = textEntryView.findViewById(R.id.textView_body);
         textView_body.setText(msg);
-
 
         Button button_next = textEntryView.findViewById(R.id.button_next);
         Button button_last = textEntryView.findViewById(R.id.button_last);

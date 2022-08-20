@@ -7,10 +7,14 @@ import android.net.Uri;
 import android.util.Base64;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Proxy;
 import java.util.HashMap;
 
 import cn.dreamn.qianji_auto.core.hook.Utils;
@@ -19,10 +23,10 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class Reimbursement {
-    public static void init(Utils utils) throws ClassNotFoundException {
+    public static void init(Utils utils, JSONArray jsonArray) throws ClassNotFoundException {
         ClassLoader mAppClassLoader = utils.getClassLoader();
         //增加报销校验
-        XposedHelpers.findAndHookMethod("com.mutangtech.qianji.bill.auto.AddBillIntentAct", mAppClassLoader, "e", int.class, new XC_MethodHook() {
+        XposedHelpers.findAndHookMethod("com.mutangtech.qianji.bill.auto.AddBillIntentAct", mAppClassLoader, jsonArray.getString(1), int.class, new XC_MethodHook() {
             protected void afterHookedMethod(MethodHookParam param) {
                 int type = (int) param.args[0];
                 if (type == 998) {
@@ -73,17 +77,44 @@ public class Reimbursement {
                                 //hashMap
                                 //HashMap<Long, Double> hashMap, long j, double d2, long j2
                                 Method doBaoXiao = BxManagePresenterImpl.getMethod("doBaoXiao", HashMap.class, long.class, double.class, long.class);
-                                Class<?> s = mAppClassLoader.loadClass("com.mutangtech.qianji.bill.baoxiao.s");
-                                Object sObj = s.newInstance();
-                                Class<?> d = mAppClassLoader.loadClass("com.mutangtech.qianji.bill.baoxiao.r");
-                                Constructor<?> cs = BxManagePresenterImpl.getConstructor(d);
-                                Object BxManagePresenterImplObj = cs.newInstance(sObj);
-                                doBaoXiao.invoke(BxManagePresenterImplObj, hashMap, accountId, total, time);
-                                // param.args[3]=null;
+                                Constructor<?>[] constructors = BxManagePresenterImpl.getConstructors();
+                                for (Constructor<?> c : constructors) {
+                                    //第一个，获取参数
+                                    Class<?>[] parameterTypes =  c.getParameterTypes();
+                                    if(parameterTypes.length==1){
+                                        Class<?> p = parameterTypes[0];
 
-                                // XposedHelpers.callMethod(param.thisObject, "onSuccess");
-                                Toast.makeText(utils.getContext(), "报销成功！", Toast.LENGTH_LONG).show();
-                                param.setResult(false);
+                                        class MyInvocationHandler implements InvocationHandler{
+                                            public Object invoke(Object proxy, Method method, Object[] args)
+                                            {
+                                                return  null;
+                                            }
+                                        }
+
+                                        InvocationHandler handler = new MyInvocationHandler();
+                                        Object proxy =  Proxy.newProxyInstance(
+                                                p.getClassLoader(),
+                                                new Class[] {p},
+                                                handler);
+
+                                        //  Class<?> s = mAppClassLoader.loadClass("com.mutangtech.qianji.bill.baoxiao.s");
+                                        //   Object sObj = s.newInstance();
+                                        //  Class<?> d = mAppClassLoader.loadClass("com.mutangtech.qianji.bill.baoxiao.r");
+                                       // Constructor<?> cs = BxManagePresenterImpl.getConstructor(d);
+                                        Object BxManagePresenterImplObj = c.newInstance(proxy);
+                                        //Object BxManagePresenterImplObj = BxManagePresenterImpl.newInstance();
+                                        doBaoXiao.invoke(BxManagePresenterImplObj, hashMap, accountId, total, time);
+                                        // param.args[3]=null;
+
+                                        // XposedHelpers.callMethod(param.thisObject, "onSuccess");
+                                        Toast.makeText(utils.getContext(), "报销成功！", Toast.LENGTH_LONG).show();
+                                        param.setResult(false);
+                                        break;
+                                    }
+
+
+                                 }
+
                                 //  XposedHelpers.callMethod(activity, "finishAndRemoveTask");
                             } catch (Exception e) {
                                 e.printStackTrace();

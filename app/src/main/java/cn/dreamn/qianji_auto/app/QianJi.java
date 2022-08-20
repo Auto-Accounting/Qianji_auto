@@ -105,6 +105,7 @@ public class QianJi implements IApp {
     public void asyncDataBefore(Context context, int type) {
         if (AppStatus.isXposed()) {
             Log.i("自动记账同步", "同步开始");
+
             RootUtils.exec(new String[]{"am force-stop com.mutangtech.qianji"});
             //杀死其他应用
             //  Tool.stopApp(context,"com.mutangtech.qianji");
@@ -214,12 +215,14 @@ public class QianJi implements IApp {
     }
 
     private void doRei(Context context, Bundle extData) {
+        RootUtils.exec(new String[]{"am force-stop com.mutangtech.qianji"});
         Intent intent = new Intent("net.ankio.auto.QIANJI_REI");
         intent.putExtras(extData);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
     private void doYear(Context context, Bundle extData) {
+        RootUtils.exec(new String[]{"am force-stop com.mutangtech.qianji"});
         Intent intent = new Intent("net.ankio.auto.QIANJI_Year");
         intent.putExtras(extData);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);

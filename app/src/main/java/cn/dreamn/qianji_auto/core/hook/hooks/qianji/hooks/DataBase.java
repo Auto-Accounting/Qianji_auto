@@ -42,7 +42,7 @@ import de.robv.android.xposed.XposedHelpers;
 public class DataBase {
     private static SQLiteDatabase db = null;
 
-    public static void init(Utils utils) {
+    public static void init(Utils utils,JSONArray jsonArray) {
         utils.log("自动记账同步：钱迹初始化", false);
         ClassLoader mAppClassLoader = utils.getClassLoader();
         XposedHelpers.findAndHookConstructor("com.mutangtech.qianji.data.model.DaoMaster", mAppClassLoader, SQLiteDatabase.class, new XC_MethodHook() {
@@ -64,18 +64,9 @@ public class DataBase {
 
                 Class<?> loginClass = null;
 
-                String[] clazz = new String[]{
-                        "com.mutangtech.qianji.app.f.b",
-                        "com.mutangtech.qianji.app.c.b",
-                        "com.mutangtech.qianji.app.g.b",
-                        "g6.b",                             // 钱迹3.2.1.4版本
-                };
-                for (String cls : clazz) {
-                    try {
-                        loginClass = mAppClassLoader.loadClass(cls);
-                        break;
-                    } catch (Throwable ignored) {
-                    }
+                try {
+                    loginClass = mAppClassLoader.loadClass(jsonArray.getString(0));
+                } catch (Throwable ignored) {
                 }
                 if (loginClass == null) {
                     utils.log("钱迹未适配！");
