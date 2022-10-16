@@ -42,13 +42,13 @@ public class Wechat extends hookBase {
                 utils.log("微信 Log HookError " + e.toString());
             }
         }*/
-        try {
+       /** try {
             LoginInfo.init(utils);
         } catch (Throwable e) {
             utils.log("微信 LoginInfo HookError " + e.toString());
-        }
+        }**/
         try {
-            Setting.init(utils);
+           Setting.init(utils);
         } catch (Throwable e) {
             utils.log("微信 Settings HookError " + e.toString());
         }
@@ -93,7 +93,7 @@ public class Wechat extends hookBase {
     }
     @Override
     public int hookIndex() {
-        return 2;
+        return 1;
     }
 
 }

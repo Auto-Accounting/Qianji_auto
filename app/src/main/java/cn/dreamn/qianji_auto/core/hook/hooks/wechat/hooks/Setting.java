@@ -41,16 +41,12 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class Setting {
-    public static void init(Utils utils) {
-        XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
+    public static void init(Utils utils) throws ClassNotFoundException {
+        Class<?> setting = utils.getClassLoader().loadClass("com.tencent.mm.plugin.setting.ui.setting.SettingsUI");
+        XposedHelpers.findAndHookMethod(setting, "onCreate", Bundle.class, new XC_MethodHook() {
             protected void beforeHookedMethod(MethodHookParam param) throws IllegalAccessException {
                 Activity activity = (Activity) param.thisObject;
-                final String activityClzName = activity.getClass().getName();
-                if (activityClzName.contains("com.tencent.mm.plugin.setting.ui.setting.SettingsUI")) {
-                    TaskThread.onMain(100, () -> doSettingsMenuInject(activity, utils));
-
-
-                }
+                TaskThread.onMain(100, () -> doSettingsMenuInject(activity, utils));
             }
         });
     }
@@ -59,7 +55,7 @@ public class Setting {
     private static void doSettingsMenuInject(Activity activity, Utils utils) {
         Context mContext = utils.getContext();
         ListView itemView = (ListView) ViewUtil.findViewByName(activity, "android", "list");
-        if (ViewUtil.findViewByText(itemView, "自动记账") != null) {
+        if (ViewUtil.findViewByText(itemView, "💰    自动记账") != null) {
             return;
         }
 
@@ -68,7 +64,7 @@ public class Setting {
         LinearLayout settingsItemRootLLayout = new LinearLayout(activity);
         settingsItemRootLLayout.setOrientation(LinearLayout.VERTICAL);
         settingsItemRootLLayout.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        settingsItemRootLLayout.setPadding(0, ScreenUtils.dip2px(activity, 20), 0, 0);
+        settingsItemRootLLayout.setPadding(0, 0, 0, 0);
 
         LinearLayout settingsItemLinearLayout = new LinearLayout(activity);
         settingsItemLinearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -94,7 +90,7 @@ public class Setting {
 
         TextView itemNameText = new TextView(activity);
         itemNameText.setTextColor(isDarkMode ? 0xFFD3D3D3 : 0xFF353535);
-        itemNameText.setText("自动记账");
+        itemNameText.setText("💰    自动记账");
         itemNameText.setGravity(Gravity.CENTER_VERTICAL);
         itemNameText.setPadding(ScreenUtils.dip2px(activity, 16), 0, 0, 0);
         itemNameText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
@@ -118,6 +114,6 @@ public class Setting {
         settingsItemRootLLayout.addView(settingsItemLinearLayout);
         settingsItemRootLLayout.setTag(BuildConfig.APPLICATION_ID);
 
-        itemView.addHeaderView(settingsItemRootLLayout);
+        itemView.addFooterView(settingsItemRootLLayout);
     }
 }
