@@ -26,13 +26,16 @@ import android.text.TextUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import de.robv.android.xposed.XposedBridge;
 
 
 public class AppInfo {
@@ -90,44 +93,7 @@ public class AppInfo {
     }
 
 
-    private static boolean method_pm(String targets) {
-        Set<String> packages = new HashSet<>();
-        try {
-            java.lang.Process p = Runtime.getRuntime().exec("pm list packages");
-            BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream(), StandardCharsets.UTF_8));
-            String line;
-            while ((line = br.readLine()) != null) {
-                line = line.trim();
-                if (line.length() > 8) {
-                    String prefix = line.substring(0, 8);
-                    if (prefix.equalsIgnoreCase("package:")) {
-                        line = line.substring(8).trim();
-                        if (!TextUtils.isEmpty(line))
-                            packages.add(line);
-                    }
-                }
-            }
-            br.close();
-            p.destroy();
-        } catch (Exception e) {
-            Log.d("install", targets + " Error " + e.toString());
-        }
-        if (packages.isEmpty()) packages = null;
-        //    Log.d("install",packages.toString());
-        return findPackages(packages, targets);
-    }
 
-
-    private static boolean findPackages(Set<String> packages, String targets) {
-        if (packages == null) return false;
-        for (String name : packages) {
-            //   Log.d("install","name "+name+" packages " +targets);
-            if (name.contains(targets))
-                return true;
-        }
-
-        return false;
-    }
 
     /*
      * check the app is installed
@@ -146,65 +112,18 @@ public class AppInfo {
         return packageInfo != null;
     }
 
-    //判断是否安装某个框架
-    public static String getFrameWork(Context context) {
-        String farmework = "";//判断加载的框架
-        String[] appName =
-                {
-                        "taichi",
-                        "edxposed",
-                        "lsposed",
-                        "bug",
-                        "Dreamn",
-                        "xposed",
-                        "lsposed_old",
-                        "sandvxposed",
-                        "vx"
-                };
-        String[] appPackage = {
-                "me.weishu.exp",
-                "org.meowcat.edxposed.manager",
-                "org.lsposed.manager",
-                "com.bug.xposed",
-                "top.canyie.dreamland.manager",
-                "de.robv.android.xposed.installer",
-                "io.github.lsposed.manager",
-                "io.virtualapp.sandvxposed",
-                "io.va.exposed64"
-        };
-
-        for (int i = 0; i < appName.length; i++) {
-            if (method_pm(appPackage[i])) {
-                farmework = appName[i];
-                break;
-            }
-        }
-
-        switch (farmework) {
-
-            case "taichi":
-                return context.getResources().getString(R.string.frame_taichi);
-            case "bug":
-                return context.getResources().getString(R.string.frame_bug);
-            case "edxposed":
-                return context.getResources().getString(R.string.frame_edxposed);
-            case "lsposed":
-                return context.getResources().getString(R.string.frame_lsposed);
-            case "lsposed_old":
-                return context.getResources().getString(R.string.frame_lsposed_old);
-            case "xposed":
-                return context.getResources().getString(R.string.frame_xposed);
-            case "Dreamn":
-                return context.getResources().getString(R.string.frame_dreamn);
-            case "sandvxposed":
-                return context.getResources().getString(R.string.frame_sandvxposed);
-            case "vx":
-                return context.getResources().getString(R.string.frame_vx);
-            default:
-                return context.getResources().getString(R.string.frame_others);
+    public static String getFrameWork() {
+        Class<XposedBridge> cls = XposedBridge.class;
+        try {
+            Field field = cls.getDeclaredField("TAG");
+            field.setAccessible(true);
+            return Objects.requireNonNull(field.get(null)).toString().replace( "Bridge","")
+                    .replace("-","")
+                    .trim();
+        } catch (IllegalAccessException | NoSuchFieldException e) {
+            return "Unknown";
         }
     }
-
     /**
      * 获取当前app version code
      */

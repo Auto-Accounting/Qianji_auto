@@ -31,6 +31,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 import cn.dreamn.qianji_auto.R;
@@ -80,7 +81,7 @@ public class AppStatus {
     public static String getFrameWork(Context context) {
         if (getActiveMode().equals("helper")) {
             return context.getString(R.string.mode_helper_name);
-        } else return AppInfo.getFrameWork(context);
+        } else return AppInfo.getFrameWork();
     }
 
     public static boolean defaultActive(Context context) {
@@ -91,45 +92,14 @@ public class AppStatus {
 
     public static boolean xposedActive(Context context) {
 
-        String frame = AppInfo.getFrameWork(context);
-        if (frame.equals(context.getString(R.string.frame_taichi)))
+        String frame = AppInfo.getFrameWork();
+        if (frame.toLowerCase(Locale.ROOT).equals(context.getString(R.string.frame_taichi)))
             return taichiActive(context);
-        if (frame.equals(context.getString(R.string.frame_bug)))
-            return bugActive(context);
+        if (frame.toLowerCase(Locale.ROOT).equals(context.getString(R.string.frame_lspatch)))
+            return true;
         return false;
     }
 
-    private static boolean bugActive(Context context) {
-        Intrinsics.checkParameterIsNotNull(context, "context");
-
-        try {
-            Context appContext = context.createPackageContext("com.bug.xposed", Context.CONTEXT_IGNORE_SECURITY | Context.CONTEXT_INCLUDE_CODE);
-            File mods = appContext.getFileStreamPath("mods");
-            Intrinsics.checkExpressionValueIsNotNull(appContext, "appContext");
-            Class<?> bugSerializeClass = appContext.getClassLoader().loadClass("com.bug.utils.BugSerialize");
-            Class<?> modClass = appContext.getClassLoader().loadClass("com.bug.xposed.ModConfig$Mod");
-            Method deserialize = bugSerializeClass.getDeclaredMethod("deserialize", InputStream.class);
-            Intrinsics.checkExpressionValueIsNotNull(mods, "mods");
-            FileInputStream fileInputStream = new FileInputStream(mods);
-            Object array = deserialize.invoke(null, fileInputStream);
-            if (array == null) {
-                throw new Exception("null cannot be cast to non-null type kotlin.collections.ArrayList<*> /* = java.util.ArrayList<*> */");
-            }
-
-            ArrayList list = (ArrayList) array;
-
-            for (Object mod : list) {
-                if (Intrinsics.areEqual(modClass.getMethod("getPkg").invoke(mod), AppInfo.getAppPackage())) {
-                    return true;
-                }
-            }
-        } catch (Throwable e) {
-            Log.d("应用转生获取应用状态失败！" + e.toString());
-            //e.printStackTrace();
-        }
-
-        return false;
-    }
 
     private static boolean taichiActive(Context context) {
 
