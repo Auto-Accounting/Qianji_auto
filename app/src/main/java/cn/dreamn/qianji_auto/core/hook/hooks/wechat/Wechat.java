@@ -48,7 +48,7 @@ public class Wechat extends hookBase {
             utils.log("微信 LoginInfo HookError " + e.toString());
         }**/
         try {
-           Setting.init(utils);
+           //Setting.init(utils);
         } catch (Throwable e) {
             utils.log("微信 Settings HookError " + e.toString());
         }

@@ -37,6 +37,7 @@ public class QianJi implements IApp {
     private static QianJi qianJi;
     static long time = 0;
     public static QianJi getInstance(){
+        
         if(qianJi==null)
             qianJi=new QianJi();
         return qianJi;
