@@ -70,6 +70,15 @@
 
         </cn.dreamn.qianji_auto.ui.components.LineLay>
 
+        <cn.dreamn.qianji_auto.ui.components.LineLay
+            android:id="@+id/set_show_qianji_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:line_title="@string/set_show_qianji_result"
+            app:line_value="@string/set_open">
+
+        </cn.dreamn.qianji_auto.ui.components.LineLay>
+
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"

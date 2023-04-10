@@ -424,6 +424,7 @@
     <string name="set_need_cate">分类功能</string>
     <string name="set_need_cate_y">需要分类</string>
     <string name="set_need_cate_n">不需要分类</string>
+    <string name="set_show_qianji_result">记账后显示钱迹记账结果</string>
     <string name="title_activity_lock">LockActivity</string>
     <string name="set_lock_no">不需要密码验证</string>
     <string name="set_lock">需要密码验证</string>

@@ -31,6 +31,7 @@ public class SettingUtils {
     LineLay set_need_cate;
 
     LineLay set_lazy_mode;
+    LineLay set_show_qianji_result;
     LineLay set_front;
     LineLay set_back;
     LineLay set_default;
@@ -61,6 +62,7 @@ public class SettingUtils {
             LineLay set_app,
             LineLay set_need_cate,
             LineLay set_lazy_mode,
+            LineLay set_show_qianji_result,
             LineLay set_front,
             LineLay set_back,
             LineLay set_default,
@@ -83,6 +85,7 @@ public class SettingUtils {
         this.set_app = set_app;
         this.set_need_cate = set_need_cate;
         this.set_lazy_mode = set_lazy_mode;
+        this.set_show_qianji_result = set_show_qianji_result;
         this.set_front = set_front;
         this.set_back = set_back;
         this.set_default = set_default;
@@ -115,6 +118,12 @@ public class SettingUtils {
         set_lazy_mode.setOnClickListener(view -> {
             BottomArea.list(mContext, mContext.getString(R.string.set_lazy_mode), jsonArray.getJSONArray(0), position -> {
                 mmkv.encode("lazy_mode", position == 0);
+                initUi();
+            });
+        });
+        set_show_qianji_result.setOnClickListener(view -> {
+            BottomArea.list(mContext, mContext.getString(R.string.set_show_qianji_result), jsonArray.getJSONArray(9), position -> {
+                mmkv.encode("show_qianji_result", position == 0);
                 initUi();
             });
         });
@@ -350,6 +359,12 @@ public class SettingUtils {
             tv3.setVisibility(View.VISIBLE);
         }
         set_app.setValue(AppManager.getAppInfo(mContext).getString("appName"));
+
+        if (mmkv.getBoolean("show_qianji_result", true)) {
+            set_show_qianji_result.setValue(R.string.set_open);
+        } else {
+            set_show_qianji_result.setValue(R.string.set_close);
+        }
 
         if (mmkv.getBoolean("need_cate", true)) {
             set_need_cate.setValue(R.string.set_need_cate_y);
