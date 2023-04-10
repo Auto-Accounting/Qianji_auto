@@ -31,6 +31,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import cn.dreamn.qianji_auto.BuildConfig;
+import cn.dreamn.qianji_auto.bills.BillTools;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 
@@ -110,6 +111,8 @@ public class Utils {
     }
 
     public void sendString(String str, String identify, String packageName) {
+        //不包含金额信息的数据不转发
+        if(!BillTools.hasMoney(str))return;
         Bundle bundle = new Bundle();
         bundle.putString("data", str);
         bundle.putString("app_identify", identify);

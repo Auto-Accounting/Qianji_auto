@@ -31,6 +31,7 @@ import android.telephony.SmsMessage;
 import androidx.annotation.NonNull;
 
 import cn.dreamn.qianji_auto.bills.BillInfo;
+import cn.dreamn.qianji_auto.bills.BillTools;
 import cn.dreamn.qianji_auto.bills.SendDataToApp;
 import cn.dreamn.qianji_auto.data.data.RegularCenter;
 import cn.dreamn.qianji_auto.data.database.Db;
@@ -67,6 +68,7 @@ public class SMSBroadcast extends BroadcastReceiver {
                 msg2.append(msg.getDisplayMessageBody());
             }
             String data = msg2.toString().replace("\r", "").replace("\n", "n");
+            if(!BillTools.hasMoney(data))return;
             String finalUser = user;
             TaskThread.onThread(() -> Db.db.AppDataDao().add(data, "sms", finalUser));
             Handler mHandler = new Handler(Looper.getMainLooper()) {

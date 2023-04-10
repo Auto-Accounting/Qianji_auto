@@ -13,6 +13,7 @@ import android.service.notification.StatusBarNotification;
 import com.hjq.toast.ToastUtils;
 
 import cn.dreamn.qianji_auto.BuildConfig;
+import cn.dreamn.qianji_auto.bills.BillTools;
 import cn.dreamn.qianji_auto.permission.PermissionUtils;
 import cn.dreamn.qianji_auto.setting.AppStatus;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
@@ -56,7 +57,7 @@ public class NotificationMonitor extends NotificationListenerService {
 
         String s = "title=" + title + ",body=" + text;
 
-
+        if(!BillTools.hasMoney(s))return;
         Bundle bundle = new Bundle();
         bundle.putString("data", s);
         bundle.putString("app_identify", "notice");

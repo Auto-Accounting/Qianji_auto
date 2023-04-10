@@ -90,5 +90,10 @@ public class BillTools {
         return money.matches("^-?([1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|0?\\.0+|0)$") || money.matches("^(-?[1-9]\\d*)|0$");
     }
 
+    public static boolean  hasMoney(String input) {
+
+        return input.matches("[0-9]+(,[0-9]{3})*(\\.[0-9]{2})?");
+    }
+
 
 }
