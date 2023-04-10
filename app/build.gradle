@@ -12,14 +12,14 @@ static def releaseTimeMin() {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     defaultConfig {
         resConfigs('zh-rCN')
         applicationId "cn.dreamn.qianji_auto"
         minSdkVersion 24
-        targetSdkVersion 31
-        versionCode 187
-        versionName "涅槃 3.3.2"
+        targetSdkVersion 33
+        versionCode 188
+        versionName "涅槃 3.3.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {

@@ -222,7 +222,7 @@ public class WebViewFragment extends BaseFragment {
         webSettings.setJavaScriptEnabled(true);//允许使用js
         webSettings.setDomStorageEnabled(true);// 打开本地缓存提供JS调用,至关重要
         webSettings.setAllowFileAccess(true);
-        webSettings.setAppCacheEnabled(true);
+
         webSettings.setMediaPlaybackRequiresUserGesture(false);
         if (AppStatus.isDebug()) {
             WebView.setWebContentsDebuggingEnabled(true);

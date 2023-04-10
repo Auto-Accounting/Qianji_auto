@@ -19,9 +19,13 @@ package cn.dreamn.qianji_auto.core.hook.hooks.auto;
 
 import android.content.Context;
 
+import java.lang.reflect.Field;
+import java.util.Objects;
+
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.core.hook.core.hookBase;
 import de.robv.android.xposed.XC_MethodReplacement;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 public class QianjiAuto extends hookBase {
@@ -32,8 +36,25 @@ public class QianjiAuto extends hookBase {
         return self;
     }
 
+    public static String getFrameWork() {
+
+
+        try {
+            Class<?> cls =  XposedBridge.class;
+            android.util.Log.d("Appingo", String.valueOf(cls));
+            Field field = cls.getDeclaredField("TAG");
+            field.setAccessible(true);
+            return Objects.requireNonNull(field.get(null)).toString().replace( "Bridge","")
+                    .replace("-","")
+                    .trim();
+        } catch (IllegalAccessException | NoSuchFieldException  e) {
+            return "Unknown";
+        }
+    }
     @Override
     public void hookLoadPackage() {
+        XposedHelpers.findAndHookMethod("cn.dreamn.qianji_auto.setting.AppInfo", mAppClassLoader, "getFrameWork", XC_MethodReplacement.returnConstant(getFrameWork()));
+
         XposedHelpers.findAndHookMethod("cn.dreamn.qianji_auto.setting.AppStatus", mAppClassLoader, "xposedActive", Context.class, XC_MethodReplacement.returnConstant(true));
     }
 

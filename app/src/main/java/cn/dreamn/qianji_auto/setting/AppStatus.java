@@ -92,6 +92,7 @@ public class AppStatus {
 
     public static boolean xposedActive(Context context) {
 
+
         String frame = AppInfo.getFrameWork();
         if (frame.toLowerCase(Locale.ROOT).equals(context.getString(R.string.frame_taichi)))
             return taichiActive(context);

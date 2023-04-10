@@ -22,18 +22,11 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import java.nio.charset.StandardCharsets;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import cn.dreamn.qianji_auto.BuildConfig;
-import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import de.robv.android.xposed.XposedBridge;
 
@@ -113,16 +106,8 @@ public class AppInfo {
     }
 
     public static String getFrameWork() {
-        Class<XposedBridge> cls = XposedBridge.class;
-        try {
-            Field field = cls.getDeclaredField("TAG");
-            field.setAccessible(true);
-            return Objects.requireNonNull(field.get(null)).toString().replace( "Bridge","")
-                    .replace("-","")
-                    .trim();
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            return "Unknown";
-        }
+
+        return "Unknown";
     }
     /**
      * 获取当前app version code

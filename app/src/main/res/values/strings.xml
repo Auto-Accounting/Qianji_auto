@@ -227,8 +227,7 @@
     <string name="list_app" translatable="false">App数据列表</string>
     <string name="list_app_tip" translatable="false">捕获App内部信息，用于从App中获取交易信息。</string>
     <string name="notice_clean_body" translatable="false">确定清空列表中所有内容吗？</string>
-    <string name="frame_taichi" translatable="false">太极</string>
-    <string name="frame_bug" translatable="false">应用转生</string>
+    <string name="frame_taichi" translatable="false">taichi</string>
     <string name="frame_edxposed" translatable="false">EdXposed</string>
     <string name="frame_lsposed" translatable="false">LSPosed</string>
     <string name="frame_lsposed_old" translatable="false">LSPosed旧版</string>
@@ -434,5 +433,6 @@
     <string name="list_helper">无障碍数据列表</string>
     <string name="list_helper_tip">无障碍捕获页面信息，提取交易内容。</string>
     <string name="helper_not_support">无障碍用户不支持该功能。</string>
+    <string name="frame_lspatch">lspatch</string>
 
 </resources>
