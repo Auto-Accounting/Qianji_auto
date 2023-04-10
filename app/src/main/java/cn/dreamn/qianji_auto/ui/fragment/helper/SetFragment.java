@@ -44,6 +44,8 @@ public class SetFragment extends BaseFragment {
     TextView help_skip;
     @BindView(R.id.set_lazy_mode)
     LineLay set_lazy_mode;
+    @BindView(R.id.set_show_qianji_result)
+    LineLay set_show_qianji_result;
     @BindView(R.id.set_front)
     LineLay set_front;
     @BindView(R.id.set_back)
@@ -92,7 +94,7 @@ public class SetFragment extends BaseFragment {
         MMKV mmkv = MMKV.defaultMMKV();
         mmkv.encode("helper_page", 4);
         SettingUtils settingUtils = new SettingUtils(getContext());
-        settingUtils.init(set_app, set_need_cate, set_lazy_mode,
+        settingUtils.init(set_app, set_need_cate, set_lazy_mode, set_show_qianji_result,
                 set_front,
                 set_back,
                 set_default,
@@ -110,7 +112,7 @@ public class SetFragment extends BaseFragment {
 
 
 
-    
+
     @Override
     protected void initListeners() {
         help_skip_last.setOnClickListener(v->{

@@ -261,6 +261,14 @@ public class QianJi implements IApp {
             // String data = new String(Base64.decode(uri.getQueryParameter("data"),Base64.URL_SAFE));
 
         }
+
+        //显示钱迹记账结果
+        if (mmkv.getBoolean("show_qianji_result", true)) {
+            url += "&showresult=1";
+        } else {
+            url += "&showresult=0";
+        }
+
         //懒人模式，自动分类
         if (mmkv.getBoolean("lazy_mode", true)) {
             if (!mmkv.getBoolean("need_cate", true)) {
