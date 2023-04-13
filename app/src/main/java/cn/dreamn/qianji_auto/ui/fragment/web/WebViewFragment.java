@@ -483,7 +483,7 @@ public class WebViewFragment extends BaseFragment {
                 @JavascriptInterface
                 public void selectReg(String dom, String regex) {
                     if (dom.equals("regular_app")) {
-                        BottomArea.list(getContext(), "请选择APP", Arrays.asList("微信", "支付宝", "QQ"), new BottomArea.ListCallback() {
+                        BottomArea.list(getContext(), "请选择APP", Arrays.asList("微信", "支付宝", "QQ", "山大v卡通"), new BottomArea.ListCallback() {
                             @Override
                             public void onSelect(int position) {
                                 String pkg = "";
@@ -496,6 +496,9 @@ public class WebViewFragment extends BaseFragment {
                                         break;
                                     case 2:
                                         pkg = "com.tencent.mobileqq";
+                                        break;
+                                    case 3:
+                                        pkg = "com.synjones.xuepay.sdu";
                                         break;
                                 }
                                 doJsFunction(String.format("webviewCallback.setSelect('%s','%s')", dom, pkg));
