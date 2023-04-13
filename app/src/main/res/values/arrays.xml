@@ -9,5 +9,6 @@
      <!--   <item>android</item>-->
         <item>com.android.phone</item>
         <item>com.xiaomi.xmsf</item>
+        <item>com.synjones.xuepay.sdu</item>
     </string-array>
 </resources>
