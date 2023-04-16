@@ -30,7 +30,7 @@ public class Data {
 
     static void setDefaultApps(Context context) {
         SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(context, "apps", Context.MODE_PRIVATE);
-        sharedPreferences.edit().putString("apps", "com.tencent.mm,com.tencent.mobileqq,com.eg.android.AlipayGphone,com.jingdong.app.mall,com.unionpay").apply();
+        sharedPreferences.edit().putString("apps", "com.tencent.mm,com.tencent.mobileqq,com.eg.android.AlipayGphone,com.jingdong.app.mall,com.unionpay,com.synjones.xuepay.sdu").apply();
     }
 
     static void setDefaultRegulars(Context context) {
