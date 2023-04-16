@@ -8,5 +8,5 @@
     android:canRequestEnhancedWebAccessibility="true"
     android:description="@string/accessibility_inner_desc"
     android:notificationTimeout="100"
-    android:packageNames="com.tencent.mm,com.eg.android.AlipayGphone,com.unionpay,com.sankuai.meituan.takeoutnew,com.sankuai.meituan,com.jingdong.app.mall,com.jd.jrapp,com.xunmeng.pinduoduo"
+    android:packageNames="com.tencent.mm,com.eg.android.AlipayGphone,com.unionpay,com.sankuai.meituan.takeoutnew,com.sankuai.meituan,com.jingdong.app.mall,com.jd.jrapp,com.xunmeng.pinduoduo,com.synjones.xuepay.sdu"
     android:settingsActivity="cn.dreamn.qianji_auto.MainActivity" />
