@@ -1,0 +1,60 @@
+name: Release and Sync APK to Coolapk
+
+on:
+  push:
+    tags: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: ./
+
+      - name: Setup Java environment
+        uses: actions/setup-java@v2
+        with:
+          java-version: 1.8
+
+      - name: Build APK
+        run: ./gradlew assembleRelease
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.release.tag_name }}
+          release_name: ${{ github.event.release.tag_name }}
+          body: ${{ steps.release_notes.outputs.notes }}
+
+      - name: Generate Release Notes
+        id: release_notes
+        uses: actions/github-script@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          script: |
+            const { data } = await github.repos.compareCommits({
+              base: '${{ github.event.release.target_commitish }}',
+              head: '${{ github.event.release.tag_name }}'
+            });
+            let changes = [];
+            data.commits.forEach(commit => {
+              changes.push(`- ${commit.commit.message} ([${commit.sha.substring(0, 7)}](https://github.com/${{ github.repository }}/commit/${commit.sha}))`);
+            });
+            return {
+              notes: `## What's Changed\n\n${changes.join('\n')}`
+            }
+
+      - name: Upload APK to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: app/build/outputs/apk/release/app-release.apk
+          asset_name: app-release.apk
+          asset_content_type: application/vnd.android.package-archive

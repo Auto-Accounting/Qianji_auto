@@ -271,9 +271,9 @@ public class RegularCenter {
                 Log.i(String.format("%s 解析结果：%s.耗时: %dms", app, result, elapsedTime));
                 if (elapsedTime >= 2000) {
                     Log.i(app + " App解析执行时间超过2秒，请检查规则.");
-                    ToastUtils.show(app + " App解析执行时间超过2秒，请检查规则.");
+                  //  ToastUtils.show(app + " App解析执行时间超过2秒，请检查规则.");
                     // 添加超时  为了充分展示Toast
-                    Thread.sleep(3000);
+                 //   Thread.sleep(3000);
                 }
             } catch (Throwable ex) {
                 Log.i("错误：" + ex.toString());
