@@ -92,7 +92,8 @@ public class BillTools {
 
     public static boolean  hasMoney(String input) {
 
-        return input.matches(".*[0-9]+(?:,[0-9]{3})*(\\.[0-9]{2})?.*");
+        return true;
+      //  return input.matches(".*[0-9]+(?:,[0-9]{3})*(\\.[0-9]{2})?.*");
     }
 
 
