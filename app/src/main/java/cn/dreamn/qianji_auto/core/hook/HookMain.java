@@ -8,6 +8,7 @@ import cn.dreamn.qianji_auto.core.hook.hooks.alipay.Alipay;
 import cn.dreamn.qianji_auto.core.hook.hooks.auto.QianjiAuto;
 import cn.dreamn.qianji_auto.core.hook.hooks.notice.Notice;
 import cn.dreamn.qianji_auto.core.hook.hooks.qianji.Qianji;
+import cn.dreamn.qianji_auto.core.hook.hooks.wangc.Wangc;
 import cn.dreamn.qianji_auto.core.hook.hooks.qq.QQ;
 import cn.dreamn.qianji_auto.core.hook.hooks.sdu_pass.SDUPass;
 import cn.dreamn.qianji_auto.core.hook.hooks.sms.Sms;
@@ -24,6 +25,7 @@ public class HookMain implements IXposedHookLoadPackage {
 
         mHookList.add(QianjiAuto.getInstance());
         mHookList.add(Qianji.getInstance());
+        mHookList.add(Wangc.getInstance());
         mHookList.add(Alipay.getInstance());
         mHookList.add(Wechat.getInstance());
         mHookList.add(Sms.getInstance());

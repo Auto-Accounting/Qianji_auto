@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 
 import com.hjq.permissions.XXPermissions;
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.PageConfig;
 import com.xuexiang.xpage.config.AppPageConfig;
@@ -130,8 +130,8 @@ public class App extends Application {
     }
 
     private void initToast() {  // 初始化 Toast 框架
-        ToastUtils.init(this);
-        ToastUtils.setGravity(Gravity.BOTTOM, 0, 20);
+        Toaster.init(this);
+        Toaster.setGravity(Gravity.BOTTOM, 0, 20);
     }
 
     /**

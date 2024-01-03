@@ -30,7 +30,7 @@ import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 
 import java.util.ArrayList;
@@ -248,7 +248,7 @@ public class Categorys {
         categoryUtils.show();
         categoryUtils.refreshData(state -> {
             if(state==0) {
-                ToastUtils.show(R.string.category_error);
+                Toaster.show(R.string.category_error);
 
             }else{
 

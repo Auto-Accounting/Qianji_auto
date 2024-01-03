@@ -1,7 +1,7 @@
 package cn.dreamn.qianji_auto.utils.runUtils;
 
 
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -20,7 +20,7 @@ public class JsEngine {
             result = rhino.evaluateString(scope, jsCode, "JavaScript", 1, null);
         } catch (Throwable e) {
             Log.i("JS执行错误:" + e.toString() + " 错误代码:" + jsCode);
-            ToastUtils.show(R.string.js_error);
+            Toaster.show(R.string.js_error);
         } finally {
             Context.exit();
         }

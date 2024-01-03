@@ -20,7 +20,13 @@ package cn.dreamn.qianji_auto.data.database.Dao;
 import androidx.room.Dao;
 import androidx.room.Query;
 
+import java.util.concurrent.CompletableFuture;
+
+import cn.dreamn.qianji_auto.bills.BillInfo;
+import cn.dreamn.qianji_auto.data.database.Db;
 import cn.dreamn.qianji_auto.data.database.Table.Category;
+import cn.dreamn.qianji_auto.utils.runUtils.Log;
+import cn.dreamn.qianji_auto.utils.runUtils.TaskThread;
 
 
 @Dao
@@ -40,6 +46,9 @@ public interface CategoryDao {
     @Query("SELECT * FROM Category WHERE id=:id limit 1")
     Category[] get(int id);
 
+    @Query("SELECT * FROM Category WHERE self_id=:self_id limit 1")
+    Category[] get(String self_id);
+
     @Query("INSERT INTO Category(name,icon,level,type,self_id,parent_id,book_id,sort) values(:name,:icon,:level,:type,:self_id,:parent_id,:book_id,:sort)")
     void add(String name, String icon, String level, String type, String self_id, String parent_id, String book_id, String sort);
 
@@ -52,5 +61,18 @@ public interface CategoryDao {
     @Query("DELETE  FROM Category")
     void clean();
 
+    default CompletableFuture<String> getParentCategory(BillInfo billInfo) {
+        return CompletableFuture.supplyAsync(() -> {
+            String bookId = Db.db.BookNameDao().get(billInfo.getBookName())[0].book_id;
+            String parentId = getByName(billInfo.getCateName(), billInfo.getType(), bookId)[0].parent_id;
+            Category[] parentData = get(parentId);
+            if (parentData.length > 0) {
+                return parentData[0].name;
+            } else {
+                return billInfo.getCateName();
+            }
+
+        });
+    }
 }
 

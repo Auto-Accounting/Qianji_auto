@@ -3,6 +3,7 @@
     <string-array name="xposed_scope">
         <item>cn.dreamn.qianji_auto</item>
         <item>com.mutangtech.qianji</item>
+        <item>com.wangc.bill</item>
         <item>com.tencent.mm</item>
         <item>com.tencent.mobileqq</item>
         <item>com.eg.android.AlipayGphone</item>

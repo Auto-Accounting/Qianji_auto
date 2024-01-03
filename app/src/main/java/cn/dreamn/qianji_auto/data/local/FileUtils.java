@@ -78,6 +78,7 @@ public class FileUtils {
     public static boolean copyFile(String oldPath$Name, String newPath$Name) {
         try {
             File oldFile = new File(oldPath$Name);
+            File newFile = new File(newPath$Name);
             if (!oldFile.exists()) {
                 Log.i("--Method--", "copyFile:  oldFile not exist.");
                 return false;
@@ -96,7 +97,13 @@ public class FileUtils {
             */
 
             FileInputStream fileInputStream = new FileInputStream(oldPath$Name);
-            FileOutputStream fileOutputStream = new FileOutputStream(newPath$Name);
+            FileOutputStream fileOutputStream = new FileOutputStream(newFile);
+            File parentDir = newFile.getParentFile();
+            if (!parentDir.exists()) {
+                if (!parentDir.mkdirs()) {
+                    throw new IOException("Unable to create directory " + parentDir.getPath());
+                }
+            }
             byte[] buffer = new byte[1024];
             int byteRead;
             while (-1 != (byteRead = fileInputStream.read(buffer))) {

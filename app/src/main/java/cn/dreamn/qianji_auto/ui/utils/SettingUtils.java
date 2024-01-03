@@ -5,11 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONArray;
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.tencent.mmkv.MMKV;
 
 import cn.dreamn.qianji_auto.App;
@@ -199,7 +200,7 @@ public class SettingUtils {
                                     initUi();
 
                                 } catch (Throwable e) {
-                                    ToastUtils.show(R.string.time_error);
+                                    Toaster.show(R.string.time_error);
                                 }
                             }
 

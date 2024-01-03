@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.scwang.smartrefresh.layout.adapter.SmartViewHolder;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
@@ -82,7 +82,7 @@ public class MonitorFragment extends BaseFragment implements TextWatcher {
                 }
                 String d = (String) msg.obj;
                 if ((d != null && !d.equals("")))
-                    ToastUtils.show(d);
+                    Toaster.show(d);
             }
 
 

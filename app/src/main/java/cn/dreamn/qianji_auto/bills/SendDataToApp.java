@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.tencent.mmkv.MMKV;
 
 import cn.dreamn.qianji_auto.R;
@@ -135,7 +135,7 @@ public class SendDataToApp {
             autoFloatTip.show();
         } catch (Exception e) {
             Log.i(TAG, "请授予悬浮窗权限！" + e.toString());
-            ToastUtils.show(R.string.float_tip);
+            Toaster.show(R.string.float_tip);
             PermissionUtils permissionUtils = new PermissionUtils(context);
             permissionUtils.grant(PermissionUtils.Float);
         }
@@ -152,7 +152,7 @@ public class SendDataToApp {
 
         } catch (Exception e) {
             Log.i(TAG, "请授予悬浮窗权限！" + e.toString());
-            ToastUtils.show(R.string.float_tip);
+            Toaster.show(R.string.float_tip);
             PermissionUtils permissionUtils = new PermissionUtils(context);
             permissionUtils.grant(PermissionUtils.Float);
 

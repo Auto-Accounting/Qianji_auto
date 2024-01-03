@@ -30,7 +30,7 @@ import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
@@ -95,7 +95,7 @@ public class bookFragment extends BaseFragment {
                 }
                 String d = (String) msg.obj;
                 if ((d != null && !d.equals("")))
-                    ToastUtils.show(d);
+                    Toaster.show(d);
 
             }
         };

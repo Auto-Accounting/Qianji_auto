@@ -3,7 +3,7 @@ package cn.dreamn.qianji_auto.app;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.tencent.mmkv.MMKV;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public class AppManager {
             }
         } catch (Exception e) {
             Tool.goToCoolMarket(context, app);
-            ToastUtils.show("请下载对应的App");
+            Toaster.show("请下载对应的App");
         }
     }
 
@@ -77,7 +77,7 @@ public class AppManager {
             }
         } catch (Exception e) {
             Tool.goToCoolMarket(context, app);
-            ToastUtils.show("请下载对应的App");
+            Toaster.show("请下载对应的App");
         }
 
     }
@@ -99,6 +99,11 @@ public class AppManager {
 
     }
 
+    /**
+     * 设置自动记账的app
+     *
+     * @param appPackage
+     */
     public static void setApp(String appPackage) {
         MMKV mmkv = MMKV.defaultMMKV();
         mmkv.encode("bookApp", appPackage);

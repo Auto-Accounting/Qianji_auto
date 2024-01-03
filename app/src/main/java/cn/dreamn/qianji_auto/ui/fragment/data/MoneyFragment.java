@@ -30,7 +30,7 @@ import android.os.Message;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
@@ -100,7 +100,7 @@ public class MoneyFragment extends BaseFragment {
                 }
                 String d = (String) msg.obj;
                 if ((d != null && !d.equals("")))
-                    ToastUtils.show(d);
+                    Toaster.show(d);
             }
         };
         statusView.setEmptyView(R.layout.fragment_empty_view);
@@ -219,7 +219,7 @@ public class MoneyFragment extends BaseFragment {
 
         Context mContext = getContext();
         Tool.clipboard(mContext, billInfo.toString());
-        ToastUtils.show(R.string.copied);
+        Toaster.show(R.string.copied);
 
     }
 

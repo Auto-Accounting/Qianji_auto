@@ -32,7 +32,7 @@ import com.developer.filepicker.controller.DialogSelectionListener;
 import com.developer.filepicker.model.DialogConfigs;
 import com.developer.filepicker.model.DialogProperties;
 import com.developer.filepicker.view.FilePickerDialog;
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -110,7 +110,7 @@ public class BackUpFragment extends BaseFragment {
                                 @Override
                                 public void input(String data) {
                                     if (data.length() == 0) {
-                                        ToastUtils.show(R.string.no_webdav);
+                                        Toaster.show(R.string.no_webdav);
                                         return;
                                     }
                                     mmkv.encode("webdav_url", data);
@@ -137,7 +137,7 @@ public class BackUpFragment extends BaseFragment {
                 @Override
                 public void input(String data) {
                     if (data.length() == 0) {
-                        ToastUtils.show(R.string.no_account);
+                        Toaster.show(R.string.no_account);
                         return;
                     }
                     mmkv.encode("webdav_name", data);
@@ -155,7 +155,7 @@ public class BackUpFragment extends BaseFragment {
                 @Override
                 public void input(String data) {
                     if (data.length() == 0) {
-                        ToastUtils.show(R.string.no_passwd);
+                        Toaster.show(R.string.no_passwd);
                         return;
                     }
                     mmkv.encode("webdav_password", data);
@@ -180,9 +180,9 @@ public class BackUpFragment extends BaseFragment {
                         dialog.close();
                         if (msg.what == -1) {
                             //失败
-                            ToastUtils.show(R.string.backup_failed);
+                            Toaster.show(R.string.backup_failed);
                         } else {
-                            ToastUtils.show(R.string.backup_success);
+                            Toaster.show(R.string.backup_success);
                         }
 
                     }
@@ -206,9 +206,9 @@ public class BackUpFragment extends BaseFragment {
                     dialog.close();
                     if (msg.what == -1) {
                         //失败
-                        ToastUtils.show(R.string.backup_failed);
+                        Toaster.show(R.string.backup_failed);
                     } else {
-                        ToastUtils.show(String.format(getString(R.string.backup_success_tip), msg.obj));
+                        Toaster.show(String.format(getString(R.string.backup_success_tip), msg.obj));
                     }
                 }
             };
@@ -241,9 +241,9 @@ public class BackUpFragment extends BaseFragment {
 
                         if (msg.what == -1) {
                             //失败
-                            ToastUtils.show(R.string.restore_back_failed);
+                            Toaster.show(R.string.restore_back_failed);
                         } else {
-                            ToastUtils.show(R.string.restore_back_success);
+                            Toaster.show(R.string.restore_back_success);
                             Tool.restartApp(getActivity());
                         }
 
@@ -278,9 +278,9 @@ public class BackUpFragment extends BaseFragment {
                     dialog[0].close();
                     if (msg.what == -1) {
                         //失败
-                        ToastUtils.show(R.string.restore_back_failed);
+                        Toaster.show(R.string.restore_back_failed);
                     } else if (msg.what == 2) {
-                        ToastUtils.show(R.string.restore_back_success);
+                        Toaster.show(R.string.restore_back_success);
                         Tool.restartApp(getActivity());
 
                     } else {

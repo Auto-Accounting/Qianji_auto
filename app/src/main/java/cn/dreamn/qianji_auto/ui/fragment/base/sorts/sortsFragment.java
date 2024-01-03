@@ -30,7 +30,7 @@ import android.view.View;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.shehuan.statusview.StatusView;
@@ -130,7 +130,7 @@ public class sortsFragment extends BaseFragment {
                 }
                 String d = (String) msg.obj;
                 if ((d != null && !d.equals("")))
-                    ToastUtils.show(d);
+                    Toaster.show(d);
             }
         };
         setSwitchData();

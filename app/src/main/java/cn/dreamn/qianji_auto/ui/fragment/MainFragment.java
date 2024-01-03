@@ -37,7 +37,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -182,7 +182,7 @@ public class MainFragment extends BaseFragment {
             PermissionUtils permissionUtils = new PermissionUtils(getContext());
             permissionUtils.grant(PermissionUtils.Storage);
             if (permissionUtils.isGrant(PermissionUtils.Storage).equals("0")) {
-                ToastUtils.show(R.string.restore_permission);
+                Toaster.show(R.string.restore_permission);
                 return;
             }
             Log.i("恢复路径：" + str);
@@ -196,9 +196,9 @@ public class MainFragment extends BaseFragment {
                     public void handleMessage(@NonNull Message msg) {
                         loadingDialog.close();
                         if (msg.what == 0) {
-                            ToastUtils.show(R.string.restore_success);
+                            Toaster.show(R.string.restore_success);
                         } else {
-                            ToastUtils.show(R.string.restore_error);
+                            Toaster.show(R.string.restore_error);
                         }
                     }
                 });
@@ -277,7 +277,7 @@ public class MainFragment extends BaseFragment {
             restore();
         } catch (Throwable e) {
             Log.i("数据恢复过程中发生错误！" + e.toString());
-            ToastUtils.show(R.string.restore_error_2);
+            Toaster.show(R.string.restore_error_2);
         }
     }
 
@@ -390,16 +390,16 @@ public class MainFragment extends BaseFragment {
 
 
         rl_bill_check.setOnClickListener(v -> {
-            ToastUtils.show(R.string.wait);
+            Toaster.show(R.string.wait);
             //TODO 4.0新增功能，从支付宝微信等位置导出账单，再从钱迹导出账单，最后比对缺少的账单信息，进行高亮展示，由用户选择合并更新。
         });
         rl_year.setOnClickListener(v -> {
             if (!DateUtils.afterDay("yyyy-MM-dd", "2021-12-01")) {
-                ToastUtils.show(R.string.wait);
+                Toaster.show(R.string.wait);
                 return;
             }
             if (!AppStatus.isXposed()) {
-                ToastUtils.show(R.string.helper_not_support);
+                Toaster.show(R.string.helper_not_support);
                 return;
             }
             loadingDialog = new LoadingDialog(getContext(), getString(R.string.wait_year));
@@ -430,8 +430,8 @@ public class MainFragment extends BaseFragment {
                 @Override
                 public void sure() {
                     loadingDialog.show();
-                    ToastUtils.setGravity(Gravity.TOP);
-                    ToastUtils.show("前往同步账单数据");
+                    Toaster.setGravity(Gravity.TOP);
+                    Toaster.show("前往同步账单数据");
                     AppManager.Async(getContext(), AppBroadcast.BROADCAST_GET_YEAR);
                 }
             });
@@ -471,7 +471,7 @@ public class MainFragment extends BaseFragment {
         });
 
         rl_skin.setOnClickListener(v -> {
-            ToastUtils.show(R.string.wait);
+            Toaster.show(R.string.wait);
             //TODO 4.0新增功能：更换自动记账皮肤。
         });
         rl_backup.setOnClickListener(v -> {
@@ -492,7 +492,7 @@ public class MainFragment extends BaseFragment {
         debug_flag.setOnClickListener(v -> {
             AppStatus.setDebug(getContext(), false);
             debug_flag.setVisibility(View.GONE);
-            ToastUtils.show(R.string.debug_closed);
+            Toaster.show(R.string.debug_closed);
         });
 
     }
@@ -502,7 +502,7 @@ public class MainFragment extends BaseFragment {
 
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
                 //大于2000ms则认为是误操作，使用Toast进行提示
-                ToastUtils.show(getString(R.string.exit));
+                Toaster.show(getString(R.string.exit));
                 //并记录下本次点击“返回键”的时刻，以便下次进行判断
                 mExitTime = System.currentTimeMillis();
             } else {

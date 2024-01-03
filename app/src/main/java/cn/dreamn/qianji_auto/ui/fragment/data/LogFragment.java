@@ -28,7 +28,7 @@ import android.view.MenuInflater;
 
 import androidx.appcompat.widget.PopupMenu;
 
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -94,7 +94,7 @@ public class LogFragment extends BaseFragment {
                 }
                 String d = (String) msg.obj;
                 if ((d != null && !d.equals("")))
-                    ToastUtils.show(d);
+                    Toaster.show(d);
             }
         };
 
@@ -171,7 +171,7 @@ public class LogFragment extends BaseFragment {
                             @Override
                             public void onSelect(int position) {
                                 mmkv.encode("log_mode", position);
-                                ToastUtils.show(getString(R.string.log_set_success));
+                                Toaster.show(getString(R.string.log_set_success));
                             }
                         });
 
