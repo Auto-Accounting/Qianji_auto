@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.tencent.mmkv.MMKV;
 
 import cn.dreamn.qianji_auto.App;
@@ -103,7 +103,7 @@ public class UpdateUtils {
                 SharedPreferences sharedPreferences = MultiprocessSharedPreferences.getSharedPreferences(context, "wechat", Context.MODE_PRIVATE);
                 if (!sharedPreferences.getString("red", "").contains(data)) {
                     sharedPreferences.edit().putString("red", data).apply();
-                    ToastUtils.show(R.string.update_wechat);
+                    Toaster.show(R.string.update_wechat);
                     Log.d("微信适配文件已更新！");
                 }
 

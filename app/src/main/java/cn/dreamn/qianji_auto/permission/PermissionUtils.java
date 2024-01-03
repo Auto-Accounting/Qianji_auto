@@ -30,7 +30,7 @@ import android.text.TextUtils;
 import com.hjq.permissions.OnPermissionCallback;
 import com.hjq.permissions.Permission;
 import com.hjq.permissions.XXPermissions;
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.tencent.mmkv.MMKV;
 
 import java.util.List;
@@ -72,7 +72,7 @@ public class PermissionUtils {
                 intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
-                ToastUtils.show(R.string.permission_helper_tip);
+                Toaster.show(R.string.permission_helper_tip);
                 break;
             case Sms:
                 grantPermission(Permission.RECEIVE_SMS);
@@ -92,7 +92,7 @@ public class PermissionUtils {
                 mContext.startActivity(intent);
                 break;
             case Lock:
-                ToastUtils.show(R.string.permission_lock_tip);
+                Toaster.show(R.string.permission_lock_tip);
                 break;
             case Hide:
                 showTaskBar();
@@ -108,7 +108,7 @@ public class PermissionUtils {
                 grantPermission(Permission.MANAGE_EXTERNAL_STORAGE);
                 break;
             case StorageReadExt:
-                ToastUtils.show(R.string.permission_storage_tip);
+                Toaster.show(R.string.permission_storage_tip);
                 XXPermissions.startPermissionActivity(mContext, Permission.READ_EXTERNAL_STORAGE);
                 break;
             case Notice:
@@ -160,7 +160,7 @@ public class PermissionUtils {
         MMKV mmkv = MMKV.defaultMMKV();
         boolean isShow = mmkv.getBoolean("tasker_show", true);
         mmkv.encode("tasker_show", !isShow);
-        ToastUtils.show(String.format(mContext.getString(R.string.permission_task), (isShow ? mContext.getString(R.string.permission_task_show) : mContext.getString(R.string.permission_task_hide))));
+        Toaster.show(String.format(mContext.getString(R.string.permission_task), (isShow ? mContext.getString(R.string.permission_task_show) : mContext.getString(R.string.permission_task_hide))));
         ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
         if (am != null) {
             List<ActivityManager.AppTask> tasks;
@@ -179,17 +179,17 @@ public class PermissionUtils {
             @Override
             public void onGranted(List<String> permissions, boolean all) {
                 if (all) {
-                    ToastUtils.show(R.string.permission_success);
+                    Toaster.show(R.string.permission_success);
                 }
             }
 
             @Override
             public void onDenied(List<String> permissions, boolean never) {
                 if (never) {
-                    ToastUtils.show(R.string.permission_never);
+                    Toaster.show(R.string.permission_never);
                     XXPermissions.startPermissionActivity(mContext, permissions);
                 } else {
-                    ToastUtils.show(R.string.permission_fail);
+                    Toaster.show(R.string.permission_fail);
                 }
             }
         });

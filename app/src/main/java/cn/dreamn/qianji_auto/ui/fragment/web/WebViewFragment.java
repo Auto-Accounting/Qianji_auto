@@ -36,7 +36,7 @@ import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.core.PageOption;
@@ -202,7 +202,7 @@ public class WebViewFragment extends BaseFragment {
                     switch (item.getItemId()) {
                         case R.id.copy:
                             Tool.clipboard(getContext(), webView.getUrl());
-                            ToastUtils.show(R.string.copied);
+                            Toaster.show(R.string.copied);
                             break;
                         case R.id.web:
                             Tool.goUrl(getContext(), webView.getUrl());
@@ -272,14 +272,14 @@ public class WebViewFragment extends BaseFragment {
                                     Integer.parseInt(id), js, regular_name, jsonObject.toJSONString(), regular_remark, finalDataId, String.valueOf(finalVersion), "", "category"
                             );
                         }
-                        ToastUtils.show(R.string.save_success);
+                        Toaster.show(R.string.save_success);
                         popToBack();
                     });
                 }
 
                 @JavascriptInterface
                 public void toast(String msg) {
-                    ToastUtils.show(msg);
+                    Toaster.show(msg);
                 }
 
                 @JavascriptInterface
@@ -534,7 +534,7 @@ public class WebViewFragment extends BaseFragment {
 
                 @JavascriptInterface
                 public void toast(String msg) {
-                    ToastUtils.show(msg);
+                    Toaster.show(msg);
                 }
 
                 @JavascriptInterface
@@ -572,7 +572,7 @@ public class WebViewFragment extends BaseFragment {
 
                     String identify = jsonObject.getString("identify");
                     if (fromApp.equals("") && !identify.equals("sms")) {
-                        ToastUtils.show("请填写APP名称后再提交！");
+                        Toaster.show("请填写APP名称后再提交！");
                         return;
                     }
                     if (dataId.equals("")) {
@@ -592,7 +592,7 @@ public class WebViewFragment extends BaseFragment {
                             Db.db.RegularDao().add(
                                     js, name, jsonObject.toJSONString(), regular_remark, finalDataId, String.valueOf(finalVersion), fromApp, identify
                             );
-                            ToastUtils.show(R.string.save_success);
+                            Toaster.show(R.string.save_success);
                             popToBack();
                         });
 
@@ -600,7 +600,7 @@ public class WebViewFragment extends BaseFragment {
                         Db.db.RegularDao().update(
                                 Integer.parseInt(id), js, name, jsonObject.toJSONString(), regular_remark, dataId, String.valueOf(version), fromApp, identify
                         );
-                        ToastUtils.show(R.string.save_success);
+                        Toaster.show(R.string.save_success);
                         popToBack();
                     }
 

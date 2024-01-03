@@ -95,6 +95,12 @@
       "value": "com.mutangtech.qianji",
       "sub": "官方推荐",
       "icon": "&#xe662;"
+    },
+    {
+      "name": "一木记账",
+      "value": "com.wangc.bill",
+      "sub": "社区适配",
+      "icon": "&#xe662;"
     }
   ],
   [

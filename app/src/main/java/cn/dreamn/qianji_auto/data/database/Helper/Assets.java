@@ -32,7 +32,7 @@ import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -166,7 +166,7 @@ public class Assets {
                 }
 
                 if (assets.length == 0) {
-                    ToastUtils.show(R.string.no_assets);
+                    Toaster.show(R.string.no_assets);
                     return;
                 }
                 DataSelectListAdapter adapter = new DataSelectListAdapter(context, assets);

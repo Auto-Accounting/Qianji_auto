@@ -33,7 +33,10 @@ import cn.dreamn.qianji_auto.utils.runUtils.Log;
  */
 public class BillInfo {
 
+    /** 支出 */
     public static String TYPE_PAY = "0";//支出
+
+    /** 收入 */
     public static String TYPE_INCOME = "1";//收入
     public static String TYPE_TRANSFER_ACCOUNTS = "2";//转账
     public static String TYPE_CREDIT_CARD_PAYMENT = "3";//信用卡还款
@@ -268,6 +271,7 @@ public class BillInfo {
         accountId1 = value;
     }
 
+    /** 是否报销 */
     public boolean getReimbursement() {
         return reimbursement != null && reimbursement.equals("true");
     }
@@ -276,6 +280,7 @@ public class BillInfo {
         reimbursement = (state ? "true" : "false");
     }
 
+    /** 账单类型 */
     public String getType() {
         return type;
     }
@@ -298,6 +303,7 @@ public class BillInfo {
 
     }
 
+    /** 金额 */
     public String getMoney() {
         return this.money;
     }
@@ -330,6 +336,7 @@ public class BillInfo {
         this.time = DateUtils.stampToDate(time, "yyyy-MM-dd HH:mm:ss");
     }
 
+    /** 备注信息 */
     public String getRemark() {
         return remark;
     }
@@ -338,6 +345,7 @@ public class BillInfo {
         this.remark = remark;
     }
 
+    /** 分类名称 */
     public String getCateName() {
         return catename;
     }
@@ -346,6 +354,7 @@ public class BillInfo {
         this.catename = name;
     }
 
+    /** 分类选择 type=0或1有效 */
     public String getCateChoose() {
         return catechoose;
     }
@@ -359,6 +368,7 @@ public class BillInfo {
 
     }
 
+    /** 账本名称，不填写则使用默认账本 */
     public String getBookName() {
         return bookname;
     }
@@ -367,6 +377,7 @@ public class BillInfo {
         this.bookname = name;
     }
 
+    /** 账单所属资产名称(或转账的转出账户） */
     public String getAccountName() {
         return accountname;
     }
@@ -375,6 +386,7 @@ public class BillInfo {
         this.accountname = name;
     }
 
+    /** 转账或者还款的转入账户 */
     public String getAccountName2() {
         return accountname2;
     }

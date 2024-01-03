@@ -22,7 +22,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -84,7 +84,7 @@ public class AppFragment extends BaseFragment {
         app_list.setOnItemClickListener((parent, view, position, id) -> {
             String packageName = bundles[position].getString("appPackage");
             if (packageName == null) {
-                ToastUtils.show(R.string.helper_2_tip);
+                Toaster.show(R.string.helper_2_tip);
                 return;
             }
             setSelectName(bundles[position].getString("appName"));

@@ -60,6 +60,6 @@ public class AppBroadcast extends BroadcastReceiver {
         Log.d("收到数据");
         AppManager.AsyncEnd(context, extData, single);
 
-        Log.i("钱迹数据同步完毕");
+        Log.i("App数据同步完毕");
     }
 }

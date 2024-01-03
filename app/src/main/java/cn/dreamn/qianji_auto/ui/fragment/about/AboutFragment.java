@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.tencent.mmkv.MMKV;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -122,13 +122,13 @@ public class AboutFragment extends BaseFragment {
             LoadingDialog loadingDialog = new LoadingDialog(getContext(), getString(R.string.about_check_update));
             loadingDialog.show();
             //"正在检测更新中,请稍候"
-            // ToastUtils.show(R.string.about_check_update);
+            // Toaster.show(R.string.about_check_update);
             Handler mHandler = new Handler(Looper.getMainLooper()) {
                 @Override
                 public void handleMessage(@NonNull Message msg) {
                     loadingDialog.close();
                     if (msg.what == -1) {
-                        ToastUtils.show(R.string.about_check_no_update);
+                        Toaster.show(R.string.about_check_no_update);
                         return;
                     }
                     Runnable runnable = (Runnable) msg.obj;
@@ -160,7 +160,7 @@ public class AboutFragment extends BaseFragment {
                 public void onSelect(int position) {
                     String[] s = new String[]{"stable", "alpha", "beta"};
                     mmkv.encode("version_channel", s[position]);
-                    ToastUtils.show(R.string.log_set_success);
+                    Toaster.show(R.string.log_set_success);
                 }
             });
 
@@ -177,7 +177,7 @@ public class AboutFragment extends BaseFragment {
                 startActivity(intent);
             } catch (Exception e) {
                 // 未安装手Q或安装的版本不支持
-                ToastUtils.show(R.string.qq_error);
+                Toaster.show(R.string.qq_error);
             }
         });
         item_source.setOnClickListener(new View.OnClickListener() {
@@ -248,11 +248,11 @@ public class AboutFragment extends BaseFragment {
         if (SystemClock.uptimeMillis() - mHits[0] <= 1000) {//一秒内连续点击。
             mHits = null;    //这里说明一下，我们在进来以后需要还原状态，否则如果点击过快，第六次，第七次 都会不断进来触发该效果。重新开始计数即可
             if (AppStatus.isDebug(getContext())) {
-                ToastUtils.show(R.string.debug_opened);
+                Toaster.show(R.string.debug_opened);
                 return;
             }
             AppStatus.setDebug(getContext(), true);
-            ToastUtils.show(R.string.debug_open);
+            Toaster.show(R.string.debug_open);
         }
     }
 

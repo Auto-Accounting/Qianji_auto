@@ -47,7 +47,7 @@ public abstract class BaseFragment extends XPageFragment {
 
     @Override
     protected void initPage() {
-        Log.init("自动记账:" + this.getClass().getSimpleName());
+        //Log.init("自动记账:" + this.getClass().getSimpleName());
         initTitle();
         initViews();
         initListeners();

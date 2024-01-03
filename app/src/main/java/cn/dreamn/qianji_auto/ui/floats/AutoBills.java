@@ -36,7 +36,7 @@ import com.afollestad.materialdialogs.LayoutMode;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet;
 import com.afollestad.materialdialogs.customview.DialogCustomViewExtKt;
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -70,7 +70,7 @@ public class AutoBills {
         @Override
         public void handleMessage(@NonNull Message msg) {
             if (autoBills == null || autoBills.size() == 0) {
-                ToastUtils.show("没有待记录的账单！");
+                Toaster.show("没有待记录的账单！");
                 dismiss();
             } else {
                 if (dialog != null)

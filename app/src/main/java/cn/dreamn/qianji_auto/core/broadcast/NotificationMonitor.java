@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 
 import cn.dreamn.qianji_auto.BuildConfig;
 import cn.dreamn.qianji_auto.bills.BillTools;
@@ -29,7 +29,7 @@ public class NotificationMonitor extends NotificationListenerService {
 
             pm.setComponentEnabledSetting(new ComponentName(ctx, NotificationMonitor.class),
                     PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-            ToastUtils.show("通知监听服务已启动，请保持自动记账后台运行");
+            Toaster.show("通知监听服务已启动，请保持自动记账后台运行");
         }
     }
 

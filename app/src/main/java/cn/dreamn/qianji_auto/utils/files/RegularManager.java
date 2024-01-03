@@ -13,7 +13,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.developer.filepicker.model.DialogConfigs;
 import com.developer.filepicker.model.DialogProperties;
 import com.developer.filepicker.view.FilePickerDialog;
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 
 import java.util.Arrays;
 
@@ -58,7 +58,7 @@ public class RegularManager {
 
 
         } catch (Exception | Error e) {
-            ToastUtils.show(R.string.error_permission);
+            Toaster.show(R.string.error_permission);
             e.printStackTrace();
             Log.i("出错了，可能是权限未给全！" + e.toString());
         }
@@ -72,10 +72,10 @@ public class RegularManager {
                 loadDialog.close();
                 if (msg.what == -1) {
                     //失败
-                    ToastUtils.show(R.string.restore_failed);
+                    Toaster.show(R.string.restore_failed);
                 } else {
                     end.onFinish(msg.what);
-                    ToastUtils.show(R.string.restore_success);
+                    Toaster.show(R.string.restore_success);
                     //   Tool.restartApp((Activity) context);
                 }
 
@@ -85,7 +85,7 @@ public class RegularManager {
         String from = jsonObject.getString("from");
         Log.i("当前恢复类型：" + name + "  type:" + type + " from:" + from);
         if (from == null || !from.equals(type)) {
-            ToastUtils.show(String.format(context.getString(R.string.set_error), name));
+            Toaster.show(String.format(context.getString(R.string.set_error), name));
             return;
         }
         JSONArray jsonArray = jsonObject.getJSONArray("data");
@@ -264,7 +264,7 @@ public class RegularManager {
                         break;
                 }
                 loadDialog.close();
-                ToastUtils.show(R.string.output_success);
+                Toaster.show(R.string.output_success);
             }
         };
         TaskThread.onThread(() -> {
@@ -299,7 +299,7 @@ public class RegularManager {
             Tool.shareFile(context, context.getExternalCacheDir().getPath() + "/" + fileName);
         } else {
             Tool.clipboard(context, jsonObject.toJSONString());
-            ToastUtils.show(R.string.output_clipboard);
+            Toaster.show(R.string.output_clipboard);
         }
 
 

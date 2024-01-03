@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.tencent.mmkv.MMKV;
 
@@ -37,7 +38,6 @@ import java.util.Objects;
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.core.helper.base.ApiUtil;
 import cn.dreamn.qianji_auto.core.helper.inner.AutoService;
-import cn.dreamn.qianji_auto.utils.runUtils.Log;
 import cn.dreamn.qianji_auto.utils.runUtils.MultiprocessSharedPreferences;
 import kotlin.jvm.internal.Intrinsics;
 
@@ -74,8 +74,8 @@ public class AppStatus {
     }
 
     public static boolean isXposed() {
-        MMKV mmkv = MMKV.defaultMMKV();
-        return Objects.requireNonNull(mmkv.getString("helper_choose", "xposed")).equals("xposed");
+        String frame = AppInfo.getFrameWork();
+        return frame.toLowerCase(Locale.ROOT).equals("xposed") || frame.toLowerCase(Locale.ROOT).equals("lsposed");
     }
 
     public static String getFrameWork(Context context) {

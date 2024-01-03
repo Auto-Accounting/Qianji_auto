@@ -49,7 +49,7 @@ import com.afollestad.materialdialogs.list.DialogListExtKt;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.android.material.textfield.TextInputEditText;
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.tencent.mmkv.MMKV;
 
 import net.ankio.timepicker.listener.OnTimeSelectListener;
@@ -330,9 +330,9 @@ public class AutoFloat {
 
         });
         button_next.setOnClickListener(v -> {
-            ToastUtils.setGravity(Gravity.TOP);
+            Toaster.setGravity(Gravity.TOP);
             if (billInfo2.getType().equals(BillInfo.TYPE_INCOME) && billInfo2.getReimbursement() && (reiJsonHash == null || reiJsonHash.size() == 0)) {
-                ToastUtils.show("报销的账单不允许为空");
+                Toaster.show("报销的账单不允许为空");
                 return;
             }
 
@@ -374,7 +374,7 @@ public class AutoFloat {
             public void onClick(View v) {
                 if (reiJsonArray != null) {
                     if (reiJsonArray.size() == 0) {
-                        ToastUtils.show("没有需要报销的账单！");
+                        Toaster.show("没有需要报销的账单！");
                         return;
                     }
                     ContextThemeWrapper ctx = new ContextThemeWrapper(context, R.style.Theme_AppCompat_Light_NoActionBar);
@@ -426,8 +426,8 @@ public class AutoFloat {
                     dialog2.cornerRadius(15f, null);
                     dialog2.show();
                 } else {
-                    ToastUtils.setGravity(Gravity.TOP);
-                    ToastUtils.show("前往同步待记录账单");
+                    Toaster.setGravity(Gravity.TOP);
+                    Toaster.show("前往同步待记录账单");
                     AppManager.Async(context, AppBroadcast.BROADCAST_GET_REI);
                 }
             }
@@ -707,8 +707,8 @@ public class AutoFloat {
                         String json = bundle.getString("data");
                         JSONObject jsonObject = JSONObject.parseObject(json);
                         reiJsonArray = jsonObject.getJSONArray("bill");
-                        ToastUtils.setGravity(Gravity.TOP);
-                        ToastUtils.show("已同步报销账单数据！");
+                        Toaster.setGravity(Gravity.TOP);
+                        Toaster.show("已同步报销账单数据！");
                         ll_bill.callOnClick();
                     }
                 };

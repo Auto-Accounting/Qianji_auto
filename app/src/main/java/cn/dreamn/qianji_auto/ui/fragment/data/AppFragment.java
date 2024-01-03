@@ -34,7 +34,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.shehuan.statusview.StatusView;
 import com.xuexiang.xpage.annotation.Page;
@@ -129,7 +129,7 @@ public class AppFragment extends BaseFragment {
                 }
                 String d = (String) msg.obj;
                 if ((d != null && !d.equals("")))
-                    ToastUtils.show(d);
+                    Toaster.show(d);
             }
         };
         switch (getType()) {
@@ -230,13 +230,13 @@ public class AppFragment extends BaseFragment {
                             if (billInfo != null) {
                                 HandlerUtil.send(mHandler, billInfo, HANDLE_OK);
                             } else {
-                                ToastUtils.show(R.string.regular_error);
+                                Toaster.show(R.string.regular_error);
                             }
                         });
 
                     } else if (position == 3) {
                         Tool.clipboard(getContext(), item.getString("rawData"));
-                        ToastUtils.show(R.string.copied);
+                        Toaster.show(R.string.copied);
                     }
                 }
             });

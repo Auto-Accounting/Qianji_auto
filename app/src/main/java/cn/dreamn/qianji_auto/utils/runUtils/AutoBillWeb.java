@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 import com.tencent.mmkv.MMKV;
 
 import java.io.IOException;
@@ -59,7 +59,7 @@ public class AutoBillWeb {
         String fullUrl = baseUrl + url;
 
         if (!fullUrl.startsWith("http")) {
-            ToastUtils.show("加速源错误！");
+            Toaster.show("加速源错误！");
             return;
         }
 

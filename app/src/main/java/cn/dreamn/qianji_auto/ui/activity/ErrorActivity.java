@@ -23,7 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.hjq.toast.ToastUtils;
+import com.hjq.toast.Toaster;
 
 import cn.dreamn.qianji_auto.R;
 import cn.dreamn.qianji_auto.ui.base.BaseActivity;
@@ -67,7 +67,7 @@ public class ErrorActivity extends BaseActivity {
                         @Override
                         public void sure() {
                             Tool.clipboard(activity, errorInfo);
-                            ToastUtils.show(R.string.copied);
+                            Toaster.show(R.string.copied);
                             Tool.goUrl(context, getString(R.string.github_issue_error));
                             // Tool.restartApp(context);
                         }

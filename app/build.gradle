@@ -12,16 +12,15 @@ static def releaseTimeMin() {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 30
     defaultConfig {
         resConfigs('zh-rCN')
         applicationId "cn.dreamn.qianji_auto"
         minSdkVersion 24
         targetSdkVersion 33
         versionCode 190
-        versionName "涅槃 3.3.5"
+        versionName "涅槃 3.3.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
         ndk {
             setAbiFilters(['arm64-v8a'])
         }
@@ -96,8 +95,9 @@ dependencies {
     implementation 'com.yanzhenjie.recyclerview:x:1.3.2'
     //权限授权
     implementation 'com.github.getActivity:XXPermissions:11.5'
-    // 吐司框架：https://github.com/getActivity/ToastUtils
-    implementation 'com.github.getActivity:ToastUtils:9.5'
+    // 吐司框架：https://github.com/getActivity/Toaster
+    // 新地址: https://github.com/getActivity/Toaster
+    implementation 'com.github.getActivity:Toaster:12.6'
     //自定义imgview
     implementation "com.github.xiaofeidev:round:1.1.1"
 
